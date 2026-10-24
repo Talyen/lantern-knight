@@ -1,0 +1,13 @@
+{
+  "actual_source01_sha256": "1c79134212db7595c928a665ba4d595c8d06bf85f4b72f4c25b5a32909d5c154",
+  "actual_source08_sha256": "c4af94b19736aff8f59372017bfad32019de919a9a62965a2523efafa1171003",
+  "actual_source01_and08_are_distinct": true,
+  "actual_source08_preserved_as_file": "frames/08_READY.png",
+  "loop_final_phase": "08_READY",
+  "loop_final_phase_art_file": "frames/01_READY.png",
+  "loop_first_and_final_art_identical": true,
+  "closed_loop_unique_art_files_used": 7,
+  "closed_loop_phase_exposures": 8,
+  "all_eight_source_action_available": true,
+  "proof_scope": "Playback closure substitution only. It does not replace, overwrite or redefine source cel08."
+}

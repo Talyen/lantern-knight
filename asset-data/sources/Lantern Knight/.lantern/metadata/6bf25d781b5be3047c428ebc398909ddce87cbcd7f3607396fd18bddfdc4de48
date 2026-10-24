@@ -1,0 +1,138 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2297415,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "00c3910a453f0f63012e58f6922bca38c4465ff8550633cce124a036203a8512"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 22671527,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "1d3b247188106832216e41926887bbe455c7efb7a0207a773f29c398a33e04d7"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 7167458,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "c145422c0b66a789a584aeed8a315dd3bd1765478230ef0424ede5a4d06a8022"
+  },
+  "review_views/upper_hall_hero_context.png": {
+    "bytes": 1672986,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ddc79cf0fa05cb8c5aec1c6024c94863e3f190b7a23d63ca12d8a713fff19f51"
+  },
+  "review_views/lower_chamber_AI_display2p5x_ground.png": {
+    "bytes": 1630948,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "3d8145782bed7e7f698b21412bf590f6bbe171a2346bb1c03925cbd145d3f95f"
+  },
+  "review_views/central_hall_hero_context.png": {
+    "bytes": 1449604,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0e09947f343111d77ddb3f5dd4aafb46a2dfa9352b52c9b1347ca3742e8d9d02"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 1957389,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "a4449f0d0d4c6232a5d85216acd07f9878501b3789f95cac79b8204d7f16bfa9"
+  },
+  "review_views/lower_chamber_hero_context.png": {
+    "bytes": 1643781,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "95dd3500a4612958259909e1b6616d1e8bf9f5ff8a472c0b2a7bba66a385a054"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2300194,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "cbb84e7f116b89016836d1d1d076e88db2299b0ad9f0351c881f8a87a92c5375"
+  },
+  "review_views/central_hall_AI_display2p5x_ground.png": {
+    "bytes": 1437317,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "37b664bb6f5632ce5cd1b4dad12042f237fd4be01cb22680ae1ca355c7f4a9c2"
+  },
+  "review_views/upper_hall_AI_display2p5x_ground.png": {
+    "bytes": 1663101,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "28126f734e74b508fa0d9aa96c951da32d5f1dd3b193c00e9a6e92b370516920"
+  },
+  "ai_upscale/checks/column_and_floor_comparison.png": {
+    "bytes": 190990,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "efa931df9d182a45f11b7cc070579f9dfe4b550a8cac46fd1312db70b373599e"
+  },
+  "ai_upscale/checks/column_and_floor_native.png": {
+    "bytes": 66655,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "c1134023c6cf04f755022a32da604d329b54d0160dea76c0b170c1d19ecd085f"
+  },
+  "ai_upscale/checks/column_and_floor_untiled4x.png": {
+    "bytes": 560382,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "1384eada48dffe0935b6b8132037f9b3114f17189b75ff8a38f9109f7b569aaa"
+  },
+  "ai_upscale/checks/central_inlay_untiled4x.png": {
+    "bytes": 404297,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "bae2636c7a4889ed5f91c99fc592f037a2df944aed57ac9d35ff4529f1b9dd4c"
+  },
+  "ai_upscale/checks/central_inlay_native.png": {
+    "bytes": 58829,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "341acc1a64e77bc10ce971a4059a3b3464540b8e86fa5c486cfb6bedeef31f0f"
+  },
+  "ai_upscale/checks/central_inlay_comparison.png": {
+    "bytes": 119788,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "c3954939ca8dc4b4fa4c7b4ed5a35ca3f9eda7ed9f7d886dda4d96d2d88e4eb8"
+  }
+}

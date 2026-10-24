@@ -1,0 +1,209 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "enemy_id": "G6",
+  "enemy_name": "Ribcage Harpist",
+  "clip": "defeat",
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "pivot_top_left_px": [
+    512,
+    912
+  ],
+  "pivot_unity_normalized": [
+    0.5,
+    0.109375
+  ],
+  "facing": "left",
+  "body_height_reference_px": 800,
+  "scale_per_source_pixel": 1.2578616352201257,
+  "atlas": "Ribcage_Harpist_defeat_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frame_count": 6,
+  "duration_ms": 1200,
+  "loop": false,
+  "hold_last": true,
+  "interpolation": "stepped unique drawn cels; no crossfade",
+  "root_motion": "none",
+  "events": [],
+  "frames": [
+    {
+      "index": 0,
+      "file": "defeat_000.png",
+      "duration_ms": 130,
+      "start_ms": 0,
+      "phase": "knees buckle",
+      "source_bbox_px": [
+        94,
+        9,
+        438,
+        645
+      ],
+      "source_anchor_px": [
+        255.842,
+        645
+      ],
+      "bounds_px": [
+        309,
+        112,
+        741,
+        913
+      ],
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 1,
+      "file": "defeat_001.png",
+      "duration_ms": 170,
+      "start_ms": 130,
+      "phase": "one knee",
+      "source_bbox_px": [
+        561,
+        79,
+        987,
+        638
+      ],
+      "source_anchor_px": [
+        769.842,
+        638
+      ],
+      "bounds_px": [
+        249,
+        210,
+        785,
+        913
+      ],
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 2,
+      "file": "defeat_002.png",
+      "duration_ms": 200,
+      "start_ms": 300,
+      "phase": "hands down",
+      "source_bbox_px": [
+        1034,
+        153,
+        1506,
+        638
+      ],
+      "source_anchor_px": [
+        1275.842,
+        638
+      ],
+      "bounds_px": [
+        209,
+        303,
+        802,
+        913
+      ],
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 3,
+      "file": "defeat_003.png",
+      "duration_ms": 200,
+      "start_ms": 500,
+      "phase": "fall left",
+      "source_bbox_px": [
+        9,
+        718,
+        512,
+        996
+      ],
+      "source_anchor_px": [
+        254.842,
+        996
+      ],
+      "bounds_px": [
+        202,
+        563,
+        835,
+        912
+      ],
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 4,
+      "file": "defeat_004.png",
+      "duration_ms": 200,
+      "start_ms": 700,
+      "phase": "settle",
+      "source_bbox_px": [
+        502,
+        781,
+        1015,
+        994
+      ],
+      "source_anchor_px": [
+        765.842,
+        994
+      ],
+      "bounds_px": [
+        181,
+        644,
+        826,
+        913
+      ],
+      "atlas_rect_px": [
+        0,
+        1024,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 5,
+      "file": "defeat_005.png",
+      "duration_ms": 300,
+      "start_ms": 900,
+      "phase": "corpse hold",
+      "source_bbox_px": [
+        997,
+        805,
+        1529,
+        999
+      ],
+      "source_anchor_px": [
+        1265.842,
+        999
+      ],
+      "bounds_px": [
+        174,
+        668,
+        844,
+        912
+      ],
+      "atlas_rect_px": [
+        1024,
+        1024,
+        1024,
+        1024
+      ]
+    }
+  ]
+}

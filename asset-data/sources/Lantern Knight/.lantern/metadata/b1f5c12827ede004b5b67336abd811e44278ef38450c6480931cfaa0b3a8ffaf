@@ -1,0 +1,61 @@
+{
+  "name": "Grave Dust Bloom | Expanding pressure ring v3",
+  "durations_ms": [
+    20,
+    20,
+    30,
+    90,
+    60,
+    60,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    500
+  ],
+  "phases": [
+    "Gather",
+    "Onset",
+    "Strike",
+    "Peak",
+    "Pressure rolls",
+    "Crests split",
+    "Ring broadens",
+    "Periphery breaks",
+    "Dust banks",
+    "Thin powder sheets",
+    "Outer wisps",
+    "Peripheral grains",
+    "Last dust traces",
+    "Clear"
+  ],
+  "art_frames": 13,
+  "new_tail_frames": 9,
+  "clear_frames": 1,
+  "onset_ms": 70,
+  "peak_hold_ms": 90,
+  "tail_ms": 610,
+  "registration": "First four existing cels use one constant 0.9 scale and identical placement at [32, 7] on a640px canvas to match the new authored tail material scale. All nine new tail cels are exact418px uniform3x3 crops, placed identically at(111,111). No per-frame recentering, scaling, translation or fade; all tail motion is authored in imagegen cels.",
+  "opening_constant_scale": 0.9,
+  "opening_constant_placement": [
+    32,
+    7
+  ],
+  "tail_grid_cell": [
+    418,
+    418
+  ],
+  "tail_constant_placement": [
+    111,
+    111
+  ],
+  "canvas": [
+    640,
+    640
+  ],
+  "spritesheet_columns": 5,
+  "source_sheet": "tail_authored_sheet.png"
+}

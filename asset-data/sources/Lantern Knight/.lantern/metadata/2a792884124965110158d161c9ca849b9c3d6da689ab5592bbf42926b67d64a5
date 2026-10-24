@@ -1,0 +1,19 @@
+{
+  "old_neutral_native_height_px": 486,
+  "new_shared_ready_native_height_px": 416,
+  "new_ppu_relative_to_old": 0.8559670781893004,
+  "both_new_clips_same_ppu": true,
+  "example_old_ppu": 100,
+  "example_new_ppu": 85.59670781893004,
+  "alternative_renderer_scale_if_ppu_unchanged": 1.1682692307692308,
+  "apply_once": "Use newPPU=oldPPU*0.8559670781893004 for BOTH new clips and effects, OR use oldPPU and a single common renderer scale1.1682692307692308. Never both. No per-frame/per-clip fitting.",
+  "pivot_pixels_top_left": [
+    416,
+    584
+  ],
+  "additional_offset_pixels": [
+    0,
+    0
+  ],
+  "pose_caveat": "Height comparison is old hovering neutral robe silhouette versus new standing shared ready. Old robe extends8px below documented root; new near-foot contacts root. Height normalization preserves intended overall visual size, not old body proportions."
+}

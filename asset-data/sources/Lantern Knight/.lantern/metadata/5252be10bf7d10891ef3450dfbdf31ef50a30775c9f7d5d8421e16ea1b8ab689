@@ -1,0 +1,18 @@
+# Lantern floor v04: UNAPPROVED TRIAL
+
+This package contains the closest trial, not a passed style target or production-approved floor. Composition and hero readability improved, but faint mottling/gradients and some oversized ground details remain. Do not treat it as satisfying all locked style constraints.
+
+## Contents
+- candidate_native.png: untouched built-in image generation, 1536×1024 RGB, not upscaled.
+- candidate1_native_hero_composite.png: same floor plus original approved hero, 1536×1024 RGBA. Hero visible alpha crop resized to 68×160 pixels; bottom y=570, center x=749.
+- prompt_exact.txt: exact submitted first-generation prompt, containing the full locked style block verbatim.
+- LOCKED_STYLE_VERBATIM.txt: exact locked style source.
+- scale_composition_guide.png: deterministic 1536×1024 diagram used as a scale/layout reference, not final art.
+- guide_metadata.txt: guide scale details.
+- make_guide.py: reproduce guide with Pillow using relative paths.
+- make_hero_composite.py: reproduce original-hero composite with Pillow using relative paths.
+- references/ready_world_positive_X_DR_native.png: original approved hero reference, unchanged.
+
+Only the guide and original hero were generation references. No previous generated floor was used. Sunburst wording was retained, but the built-in tool has no model selector, so actual model selection is not verified. Camera elevation 35.264° and yaw 45° were requested, not geometrically enforced or verified. Image generation is ground-only; the hero context uses deterministic compositing of the original sprite.
+
+A second attempt and conventional cleanup failed review and are intentionally excluded. No more generations are planned. No approval or deployment implied.

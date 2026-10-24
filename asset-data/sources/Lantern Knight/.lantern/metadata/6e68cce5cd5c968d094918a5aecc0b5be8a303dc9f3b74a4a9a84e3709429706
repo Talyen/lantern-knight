@@ -1,0 +1,22 @@
+[
+  {
+    "clip": "weathered_satchel_open",
+    "first_equals_closed": true,
+    "last_equals_open": true
+  },
+  {
+    "clip": "burial_coffin_open",
+    "first_equals_closed": true,
+    "last_equals_open": true
+  },
+  {
+    "clip": "bowed_apothecary_cabinet_open",
+    "first_equals_closed": true,
+    "last_equals_open": true
+  },
+  {
+    "clip": "curved_spice_drawer_open",
+    "first_equals_closed": true,
+    "last_equals_open": true
+  }
+]

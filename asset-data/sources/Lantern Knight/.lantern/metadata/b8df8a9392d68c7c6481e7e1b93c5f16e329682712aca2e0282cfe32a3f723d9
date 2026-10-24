@@ -1,0 +1,21 @@
+LANTERN REVISION 02 — RESOURCE PICKUPS 03
+8 rebuilt clean-ink cutouts. All eight supersede their old IDs in pack_manifest.json.
+
+LANTERN REVISION 02 — EQUIPMENT, RESOURCES AND ALCHEMY
+
+Five complete coherent revised packs, 52 logical assets. Current coverage is recorded by supersession_map.json. Every rebuilt master is a fresh built-in image_gen result with the canonical C/RUST source used only as an aesthetic reference. No bitmap editing cascades, recoloring, geometric transformations or alpha thresholding were applied to masters. Canonical hero and all original packs are unchanged.
+
+ART DIRECTION
+Authored variable-width contour, broad connected dark ink masses, intentional material-specific silhouettes, restrained earth/slate/ivory colors. Six-flat-tone prompt treatment was adopted after early metal candidates drifted toward textured render shading. Rejected candidates and early gate experiments are excluded from assets folders; they remain under rejected_candidates and style_gate for provenance only. The intentionally good salt pouch is retained from the old pack.
+
+IMPORT LIMITATIONS
+These are static conceptual cutouts, not rigged assets or exact physical-scale renders. Requested orthographic camera elevation 35.2643897 degrees and azimuth 45 degrees is a generated approximation, not a calibrated projection. No exact camera conformity is certified. Ground-drop conventions vary by subject and item recognition. Set world scale and pivot per item after runtime review; do not assume identical pixel occupancy is identical physical scale. Long shafts, strings and chain links require runtime checks at real display size.
+
+ALPHA / PADDING
+PNG masters preserve native RGBA. The alpha QA reports both all-nonzero bounds and visible bounds (alpha greater than 127). Some images contain isolated alpha=1/255 edge pixels, invisible on light/dark review composites. These are documented, not silently removed. Do not derive sprite tight bounds solely from any-nonzero alpha. Create standardized transparent padded import copies separately; use visible bounds for packing with at least 8-16 px atlas extrusion/padding as appropriate to target mip/filter settings. Do not include review-sheet backgrounds in game assets. Validate dark contours on actual game floors.
+
+FILES
+Each pack: assets/*.png native masters; assets/*.json exact prompt, source identity and generation provenance; pack_manifest.json ID map, hashes and alpha metrics; review_sheet.jpg includes 64 px light/dark proxies; before_after.jpg supports art decisions. Top-level supersession_map.json is the authoritative old-ID-to-current-art map. Source_map.json and jobs.json record original scope; use exact sidecars rather than jobs.json for final prompts when a fresh retry changed treatment.
+
+REVIEW
+Every image is visually checked in a large overview and light/dark gameplay-size proxy, with selected high-resolution originals inspected. These are art-review checks, not in-engine validation. Sources are not uploaded by this worker.

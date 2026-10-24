@@ -1,0 +1,14 @@
+LANTERN / CLOCKWORK BEETLE / CLEAN INK REVISION 02 / r02b
+
+Three fresh source view drawings. Front, side-oblique and rear-oblique scuttle. Front idle, mandible attack and recoil. 30 fps authored source, 60 Hz preview by holding each pose twice. Alpha PNG tiers: 768 and 384. Each 384 atlas has 4-pixel transparent gutters.
+
+Anchor: (384,520) in the 768-pixel canvas, or (192,260) at 384. This is a fixed ground root, not an animated foot. Transparent art has no baked contact shadow. Reference gameplay framing is 13 m vertical at 1440p. Artwork was inspected enlarged and near 195 px wide.
+
+Read CAPABILITIES.txt before import: these are original-view 2D illustrations and view-specific cutout rigs, not exact 3D camera renders or arbitrary rotations. Exact target ground-grid math does not turn a hand-drawn source into calibrated geometry.
+
+Editable sources are explicit masks, preserved masters and Python/Pillow/NumPy/SciPy rig code. Each part is sampled from the same view master on every frame. No per-frame image generation. Six leg chains, fixed link lengths, source-art overlap at joints, stable body sockets, naturally hidden far feet. Front action clips retain planted contacts; scuttle requires matching actor travel as described in animation JSON.
+
+technical_reference contains the unchanged original calibrated Blender rigs and action files, for construction evidence only. Canonical C/RUST hero was not changed.
+
+R02B REPAIR
+Complete jaw contours now belong to their moving layers. Whole armor plates are assigned to one segment rather than split at proximity boundaries. Original shell paint is restored above limb joints, with small authored near-black socket/shaft underlaps beneath them. Disconnected source scraps are excluded at the source-part level. Masters are unchanged; all role coverage remains. See qa/r02b_validation.json. Independent chronological re-review passed the bounded art/registration repair gate; see qa/independent_review.txt. No engine/runtime certification is claimed.

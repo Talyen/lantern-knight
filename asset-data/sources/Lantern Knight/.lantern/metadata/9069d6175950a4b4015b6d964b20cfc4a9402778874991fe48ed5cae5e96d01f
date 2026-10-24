@@ -1,0 +1,23 @@
+{
+  "enemy": "Sepulcher Warden",
+  "ability": "graveguard_shove",
+  "status": "corrected",
+  "findings": [
+    "Aligned impact debris to hammer-head contact point rather than below the weapon."
+  ],
+  "checks": {
+    "actor_frames": 16,
+    "effect_frames": 8,
+    "actor_unique": 16,
+    "effect_unique": 8,
+    "no_edge_contact": true,
+    "all_nonempty": true,
+    "atlas_matches_frames": true,
+    "single_hit_count": 1,
+    "hit_time_ms": 1050,
+    "telegraph_ms": 1000,
+    "engine_tested": false
+  },
+  "evidence": "/workspace/shared/enemy_variety/physical/polish/graveguard_shove_before_after.jpg",
+  "review_method": "Inspected all actor cels at fixed registration, all effect cels, canonical ready comparison, and timed actor/effect composites across release, contact and recovery. Revised MP4 decoded for review."
+}

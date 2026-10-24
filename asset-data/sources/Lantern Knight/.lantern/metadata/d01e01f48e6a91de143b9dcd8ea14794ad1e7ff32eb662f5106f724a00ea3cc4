@@ -1,0 +1,63 @@
+{
+  "name": "Thorn Snare | Outward woody recoil v3",
+  "durations_ms": [
+    30,
+    30,
+    40,
+    70,
+    60,
+    60,
+    50,
+    50,
+    60,
+    60,
+    70,
+    70,
+    70,
+    500
+  ],
+  "phases": [
+    "Gather",
+    "Onset",
+    "Strike",
+    "Peak",
+    "Final grasp",
+    "Hooks peel",
+    "Bark splits",
+    "Roots spring outward",
+    "Arcs fracture",
+    "Wood splinters",
+    "Outer scraps",
+    "Settling bark",
+    "Last fragments",
+    "Clear"
+  ],
+  "art_frames": 13,
+  "new_tail_frames": 9,
+  "clear_frames": 1,
+  "onset_ms": 100,
+  "peak_hold_ms": 70,
+  "tail_ms": 550,
+  "registration": "First four existing cels use one constant0.660287 scale and placement(109,109). All nine new tail cels are exact418px uniform3x3 crops, converted by the SAME constant368/418 scale to368px and placed identically at(136,136). This common clip-scale conversion adds25px safe margin inside the original418px delivery area. No per-frame content centering, changing scale, translation or fade. All moving material is authored in the imagegen cels.",
+  "opening_constant_scale": 0.6602870813397129,
+  "opening_constant_placement": [
+    109,
+    109
+  ],
+  "tail_grid_cell": [
+    418,
+    418
+  ],
+  "tail_constant_placement": [
+    136,
+    136
+  ],
+  "canvas": [
+    640,
+    640
+  ],
+  "spritesheet_columns": 5,
+  "source_sheet": "tail_authored_sheet.png",
+  "tail_constant_scale": 0.8803827751196173,
+  "margin_correction": "Raw tail grid boundaries contain no substantive cut pixels(alpha>12); nearest wooden fragment ends2px before a divider. Identical uniform conversion of all nine tail cels creates a minimum26px substantive artwork margin within the original418px registration area. Opening adjusted by same constant factor."
+}

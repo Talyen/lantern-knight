@@ -1,0 +1,35 @@
+{
+  "asset": "graveyard",
+  "style_prompt_mode": "condensed_floor_specific_viewport_test",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-67e00989-670b-4dfc-b42d-74d981c8803f.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "style_verbatim_preserved": false,
+  "intended_hero_height_pixels": 160,
+  "scenery_at_margins": "allowed by latest user relaxation",
+  "sha256": "38b66a695101673b624c972412e951c95ec80a6e83bcec4972e315bc607cb3b2",
+  "upscaled": false,
+  "status": "promising viewport style sample; awaiting root/user selection",
+  "visual_review": {
+    "strengths": [
+      "calm smooth limestone faces and broad olive ground shapes",
+      "clean pen-contour illustration substantially closer to hero reference",
+      "open playable central ground",
+      "scenery confined mostly to edges"
+    ],
+    "caveats": [
+      "edge buildings, tombstones, trees and fences are baked in; tall occluders would need later separation",
+      "some broad tonal variation remains rather than strictly three quantized tones",
+      "160px hero scale is a prompt target, not a validated in-engine placement"
+    ]
+  }
+}

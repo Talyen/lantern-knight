@@ -1,0 +1,5 @@
+Ashen Shambler: six drawn movement cels and six grasp attack cels. Every individual cel inspected at640px. Design retains grey bald head, tunic/cuffs, rope belt, torn trousers and boots. Two arms and legs remain coherent. Motion is a small leading-foot shamble rather than clean symmetric gait; original generated stride did not cleanly alternate, disclosed for parent review. Strong anticipation and grasp apex/recovery. Fixed down-right facing. Translation-only estimated contact registration baked into cels, no per-frame rescale. Native sheet overlaps at one attack's fingers and row-boundary boot pixels removed with deterministic rectangular mask/crop. Alpha checked on light/dark composites. Camera elevation is visual target not calibrated geometry. No engine or realtime playback test claimed.
+
+Parent QA passed anatomy/motion. Tiny disconnected row-boundary flecks removed alpha-only by dropping native alpha connected components under160pixels; no redrawing.
+
+v02: restores final2native antialias/toe-edge rows below y511 in move00/01 and attack00/01/02. No pose/anatomy change; baseline otherwise retained.

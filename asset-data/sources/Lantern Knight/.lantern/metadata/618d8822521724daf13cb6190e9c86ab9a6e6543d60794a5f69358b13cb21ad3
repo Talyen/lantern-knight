@@ -1,0 +1,69 @@
+{
+  "title": "Graveyard Variant 01 | Processional Terrace Cemetery",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "central_processional_court",
+      "display_box": [
+        1125,
+        450,
+        2661,
+        1474
+      ],
+      "display_foot": [
+        2010,
+        918
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "lower_mausoleum_court",
+      "display_box": [
+        2225,
+        1475,
+        3761,
+        2499
+      ],
+      "display_foot": [
+        2950,
+        1998
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "upper_burial_terrace",
+      "display_box": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "display_foot": [
+        798,
+        338
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "curved_processional_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "lower_court_junction",
+      "source_xy": [
+        1120,
+        800
+      ]
+    }
+  ],
+  "scene_notes": [
+    "Fresh whole-map variant from text and canonical hero style reference only. No prior scenery generation references.",
+    "Native is original generated PNG, unchanged. Review preview uses conventional Lanczos solely to inspect scale and hero placement.",
+    "Scenery, shadows and height transitions baked. No collision, occlusion layers or engine validation."
+  ]
+}

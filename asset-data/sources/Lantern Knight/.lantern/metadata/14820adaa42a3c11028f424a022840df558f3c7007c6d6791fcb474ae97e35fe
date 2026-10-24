@@ -1,0 +1,127 @@
+{
+  "id": "lantern_hostile_faction_concept_04_censer_keeper",
+  "name": "Censer keeper",
+  "family": "02_hostile_faction_07",
+  "collection": "current_ink_revision02",
+  "canonical_status": "REBUILT \u2014 fresh ink drawing; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "1eO_JZboLNH7usYrvlens-TL72ncfrCTx",
+  "source_url": "https://drive.google.com/file/d/1eO_JZboLNH7usYrvlens-TL72ncfrCTx/view?usp=drivesdk",
+  "source_archive": "02_hostile_faction_07_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_hostile_faction_07_ink_revision02/packs/02_hostile_faction_07/assets/04_censer_keeper.png",
+  "source_sha256": "6665d22253e78bdb1acc1300ee58cfafae6dabb9f11a8bf8199f97b71ad19a05",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "slug": "censer_keeper_DR_states_extension",
+  "canvas_size": 832,
+  "pivot": [
+    426,
+    740
+  ],
+  "ppu": 280,
+  "ground_y": 740,
+  "notes": "Five newly drawn hit cels plus exact delivered baseline rest; redundant native compressed hit cel omitted because sheet edge clips its lantern. Six newly drawn defeat cels end in a clothed folded kneeling body and grounded staff/censer. Same832 canvas/pivot426,740/280PPU. Whole-clip downsampling hit .82/defeat .78. No upscaling or per-frame scaling. Native defeat final chain/hook repaired by deterministic rigid donor copy from preceding cel: source rectangle796,1090,831,1169 to1216,1085, width40 added to source working array, old target chain cleared. Native original remains unmodified. Complete connected components and baked registration.",
+  "clip_scale": {
+    "move": 0.88
+  },
+  "overscan_right": {
+    "attack": [
+      0,
+      0,
+      0,
+      150,
+      0,
+      0
+    ]
+  },
+  "baseline_dependency": "censer_keeper_runtime.zip, frozen DR move/attack baseline",
+  "clips": {
+    "hit": {
+      "component_ids": [
+        2,
+        1,
+        56,
+        55,
+        54
+      ],
+      "scale": 0.82,
+      "placements": [
+        [
+          217,
+          279
+        ],
+        [
+          197,
+          253
+        ],
+        [
+          200,
+          265
+        ],
+        [
+          223,
+          256
+        ],
+        [
+          229,
+          235
+        ]
+      ],
+      "holds": [
+        3,
+        6,
+        5,
+        5,
+        5,
+        10
+      ]
+    },
+    "defeat": {
+      "component_ids": [
+        1,
+        2,
+        5,
+        71,
+        79,
+        84
+      ],
+      "scale": 0.78,
+      "placements": [
+        [
+          276,
+          242
+        ],
+        [
+          261,
+          267
+        ],
+        [
+          258,
+          331
+        ],
+        [
+          261,
+          380
+        ],
+        [
+          268,
+          475
+        ],
+        [
+          263,
+          516
+        ]
+      ],
+      "holds": [
+        6,
+        7,
+        8,
+        8,
+        10,
+        30
+      ]
+    }
+  }
+}

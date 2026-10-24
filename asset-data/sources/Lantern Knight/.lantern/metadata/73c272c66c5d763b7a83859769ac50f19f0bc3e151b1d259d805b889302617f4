@@ -1,0 +1,156 @@
+{
+  "id": "masons_tool_chest",
+  "label": "Mason's travel tool chest",
+  "frame_count": 7,
+  "open_duration_ticks": 42,
+  "states": {
+    "idle": {
+      "frame": 0,
+      "hold": "until interaction"
+    },
+    "open": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "loop": false
+    },
+    "looted": {
+      "frame": 6,
+      "hold": "indefinite"
+    }
+  },
+  "events": [
+    {
+      "name": "loot_spawn",
+      "tick": 23,
+      "frame": 4,
+      "once_per_open": true,
+      "note": "Spawn loot in game; no loot pixels in asset."
+    }
+  ],
+  "hinge": {
+    "world_axis": "X",
+    "pivot_world": [
+      0,
+      0.44,
+      -0.32
+    ]
+  },
+  "atlas": {
+    "file": "runtime/masons_tool_chest/atlas_4x2.png",
+    "columns": 4,
+    "rows": 2,
+    "cell_px": [
+      1024,
+      1024
+    ],
+    "order": "row-major; final cell empty",
+    "padding_px": 0
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "runtime/masons_tool_chest/00.png",
+      "hold_ticks": 5,
+      "start_tick": 0,
+      "angle_degrees": 0,
+      "alpha_bounds_px": [
+        174,
+        444,
+        850,
+        988
+      ],
+      "sha256": "e8d420c0ba0ececcbfc488a484f807ae835fe9a81b666405703750dd8e020de3"
+    },
+    {
+      "index": 1,
+      "file": "runtime/masons_tool_chest/01.png",
+      "hold_ticks": 5,
+      "start_tick": 5,
+      "angle_degrees": 6.580000000000001,
+      "alpha_bounds_px": [
+        175,
+        441,
+        850,
+        988
+      ],
+      "sha256": "b11fbae7b74fead796116936c16f7373ee6c1ea7622421f4231e3007407c2821"
+    },
+    {
+      "index": 2,
+      "file": "runtime/masons_tool_chest/02.png",
+      "hold_ticks": 6,
+      "start_tick": 10,
+      "angle_degrees": 20.68,
+      "alpha_bounds_px": [
+        175,
+        438,
+        852,
+        988
+      ],
+      "sha256": "9c28a6cee2cb2326cb106ee03a98a97e67aa40b14ed16557dae992ad9ebde155"
+    },
+    {
+      "index": 3,
+      "file": "runtime/masons_tool_chest/03.png",
+      "hold_ticks": 7,
+      "start_tick": 16,
+      "angle_degrees": 35.72,
+      "alpha_bounds_px": [
+        175,
+        398,
+        854,
+        988
+      ],
+      "sha256": "1e0cffc1457b90c3a71e0236adff20023a7e78c3956190fee3e395d14d4fce74"
+    },
+    {
+      "index": 4,
+      "file": "runtime/masons_tool_chest/04.png",
+      "hold_ticks": 7,
+      "start_tick": 23,
+      "angle_degrees": 73.32000000000001,
+      "alpha_bounds_px": [
+        175,
+        255,
+        857,
+        988
+      ],
+      "sha256": "dbb175debb09b62c846f1a88b494508ac8e1000341efeb7fd27487e0bcb1e843"
+    },
+    {
+      "index": 5,
+      "file": "runtime/masons_tool_chest/05.png",
+      "hold_ticks": 5,
+      "start_tick": 30,
+      "angle_degrees": 97.76,
+      "alpha_bounds_px": [
+        175,
+        203,
+        884,
+        988
+      ],
+      "sha256": "25fa6196251ed3a1560433ea1966a2db8423d8fcc1fed19c3ea84bba9c937337"
+    },
+    {
+      "index": 6,
+      "file": "runtime/masons_tool_chest/06.png",
+      "hold_ticks": 7,
+      "start_tick": 35,
+      "angle_degrees": 94,
+      "alpha_bounds_px": [
+        175,
+        208,
+        871,
+        988
+      ],
+      "sha256": "f97ca57584e646225fc463186ff4e403763feccf637cfa5094ea406055b7a884"
+    }
+  ]
+}

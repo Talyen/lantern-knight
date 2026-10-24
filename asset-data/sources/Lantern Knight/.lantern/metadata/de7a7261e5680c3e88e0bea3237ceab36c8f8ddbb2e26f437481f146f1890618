@@ -1,0 +1,690 @@
+{
+  "idle": [
+    {
+      "source_bbox": [
+        21,
+        7,
+        512,
+        502
+      ],
+      "source_sheet": "idle_generated.png",
+      "place_xy": [
+        253,
+        171
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        613,
+        6,
+        1022,
+        498
+      ],
+      "source_sheet": "idle_generated.png",
+      "place_xy": [
+        333,
+        170
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1115,
+        7,
+        1522,
+        502
+      ],
+      "source_sheet": "idle_generated.png",
+      "place_xy": [
+        323,
+        171
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        84,
+        516,
+        525,
+        1007
+      ],
+      "source_sheet": "idle_generated.png",
+      "place_xy": [
+        316,
+        168
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        571,
+        516,
+        997,
+        1007
+      ],
+      "source_sheet": "idle_generated.png",
+      "place_xy": [
+        291,
+        168
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1040,
+        515,
+        1525,
+        1009
+      ],
+      "source_sheet": "idle_generated.png",
+      "place_xy": [
+        248,
+        167
+      ],
+      "scale": 1.0
+    }
+  ],
+  "move": [
+    {
+      "source_bbox": [
+        30,
+        4,
+        525,
+        487
+      ],
+      "source_sheet": "move_generated.png",
+      "place_xy": [
+        262,
+        168
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        530,
+        8,
+        1008,
+        497
+      ],
+      "source_sheet": "move_generated.png",
+      "place_xy": [
+        250,
+        172
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1044,
+        4,
+        1508,
+        493
+      ],
+      "source_sheet": "move_generated.png",
+      "place_xy": [
+        252,
+        168
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        35,
+        505,
+        539,
+        991
+      ],
+      "source_sheet": "move_generated.png",
+      "place_xy": [
+        267,
+        157
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        548,
+        505,
+        1030,
+        1000
+      ],
+      "source_sheet": "move_generated.png",
+      "place_xy": [
+        268,
+        157
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1028,
+        504,
+        1524,
+        999
+      ],
+      "source_sheet": "move_generated.png",
+      "place_xy": [
+        236,
+        156
+      ],
+      "scale": 1.0
+    }
+  ],
+  "basic_attack": [
+    {
+      "source_bbox": [
+        44,
+        4,
+        537,
+        498
+      ],
+      "source_sheet": "basic_attack_generated.png",
+      "place_xy": [
+        276,
+        168
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        574,
+        8,
+        1017,
+        500
+      ],
+      "source_sheet": "basic_attack_generated.png",
+      "place_xy": [
+        294,
+        172
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1072,
+        13,
+        1507,
+        499
+      ],
+      "source_sheet": "basic_attack_generated.png",
+      "place_xy": [
+        280,
+        177
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        17,
+        523,
+        574,
+        995
+      ],
+      "source_sheet": "basic_attack_generated.png",
+      "place_xy": [
+        249,
+        175
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        562,
+        518,
+        1067,
+        993
+      ],
+      "source_sheet": "basic_attack_generated.png",
+      "place_xy": [
+        282,
+        170
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1079,
+        514,
+        1533,
+        1000
+      ],
+      "source_sheet": "basic_attack_generated.png",
+      "place_xy": [
+        287,
+        166
+      ],
+      "scale": 1.0
+    }
+  ],
+  "signature_ability": [
+    {
+      "source_bbox": [
+        33,
+        14,
+        505,
+        498
+      ],
+      "source_sheet": "signature_ability_generated.png",
+      "place_xy": [
+        265,
+        178
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        506,
+        40,
+        1008,
+        513
+      ],
+      "source_sheet": "signature_ability_generated.png",
+      "place_xy": [
+        226,
+        204
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1025,
+        58,
+        1530,
+        499
+      ],
+      "source_sheet": "signature_ability_generated.png",
+      "place_xy": [
+        233,
+        222
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        19,
+        517,
+        533,
+        1003
+      ],
+      "source_sheet": "signature_ability_generated.png",
+      "place_xy": [
+        251,
+        169
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        540,
+        519,
+        1005,
+        997
+      ],
+      "source_sheet": "signature_ability_generated.png",
+      "place_xy": [
+        260,
+        171
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1055,
+        526,
+        1529,
+        1006
+      ],
+      "source_sheet": "signature_ability_generated.png",
+      "place_xy": [
+        263,
+        178
+      ],
+      "scale": 1.0
+    }
+  ],
+  "get_hit": [
+    {
+      "source_bbox": [
+        19,
+        12,
+        507,
+        489
+      ],
+      "source_sheet": "get_hit_generated.png",
+      "place_xy": [
+        251,
+        176
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        595,
+        13,
+        1021,
+        491
+      ],
+      "source_sheet": "get_hit_generated.png",
+      "place_xy": [
+        315,
+        177
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1033,
+        19,
+        1526,
+        488
+      ],
+      "source_sheet": "get_hit_generated.png",
+      "place_xy": [
+        241,
+        183
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        44,
+        519,
+        463,
+        998
+      ],
+      "source_sheet": "get_hit_generated.png",
+      "place_xy": [
+        276,
+        171
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        549,
+        524,
+        980,
+        996
+      ],
+      "source_sheet": "get_hit_generated.png",
+      "place_xy": [
+        269,
+        176
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1043,
+        520,
+        1514,
+        998
+      ],
+      "source_sheet": "get_hit_generated.png",
+      "place_xy": [
+        251,
+        172
+      ],
+      "scale": 1.0
+    }
+  ],
+  "defeat": [
+    {
+      "source_bbox": [
+        8,
+        8,
+        486,
+        513
+      ],
+      "source_sheet": "defeat_generated.png",
+      "place_xy": [
+        240,
+        172
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        503,
+        62,
+        1019,
+        511
+      ],
+      "source_sheet": "defeat_generated.png",
+      "place_xy": [
+        223,
+        226
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1052,
+        148,
+        1527,
+        516
+      ],
+      "source_sheet": "defeat_generated.png",
+      "place_xy": [
+        260,
+        312
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        16,
+        692,
+        504,
+        970
+      ],
+      "source_sheet": "defeat_generated.png",
+      "place_xy": [
+        248,
+        344
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        513,
+        627,
+        1037,
+        971
+      ],
+      "source_sheet": "defeat_generated.png",
+      "place_xy": [
+        233,
+        279
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1055,
+        697,
+        1531,
+        971
+      ],
+      "source_sheet": "defeat_generated.png",
+      "place_xy": [
+        263,
+        349
+      ],
+      "scale": 1.0
+    }
+  ],
+  "spawn": [
+    {
+      "source_bbox": [
+        36,
+        12,
+        483,
+        509
+      ],
+      "source_sheet": "spawn_generated.png",
+      "place_xy": [
+        268,
+        176
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        525,
+        11,
+        1002,
+        514
+      ],
+      "source_sheet": "spawn_generated.png",
+      "place_xy": [
+        245,
+        175
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1039,
+        16,
+        1505,
+        513
+      ],
+      "source_sheet": "spawn_generated.png",
+      "place_xy": [
+        247,
+        180
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        25,
+        521,
+        526,
+        993
+      ],
+      "source_sheet": "spawn_generated.png",
+      "place_xy": [
+        257,
+        173
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        554,
+        519,
+        1027,
+        1003
+      ],
+      "source_sheet": "spawn_generated.png",
+      "place_xy": [
+        274,
+        171
+      ],
+      "scale": 1.0
+    },
+    {
+      "source_bbox": [
+        1051,
+        520,
+        1514,
+        1002
+      ],
+      "source_sheet": "spawn_generated.png",
+      "place_xy": [
+        259,
+        172
+      ],
+      "scale": 1.0
+    }
+  ],
+  "signature_fx": [
+    {
+      "source_bbox": [
+        324,
+        166,
+        451,
+        275
+      ],
+      "source_sheet": "signature_fx_corrected.png",
+      "place_xy": [
+        359,
+        346
+      ],
+      "scale": 0.82
+    },
+    {
+      "source_bbox": [
+        741,
+        147,
+        902,
+        291
+      ],
+      "source_sheet": "signature_fx_corrected.png",
+      "place_xy": [
+        329,
+        327
+      ],
+      "scale": 0.82
+    },
+    {
+      "source_bbox": [
+        1015,
+        107,
+        1499,
+        380
+      ],
+      "source_sheet": "signature_fx_corrected.png",
+      "place_xy": [
+        62,
+        289
+      ],
+      "scale": 0.82
+    },
+    {
+      "source_bbox": [
+        23,
+        544,
+        477,
+        870
+      ],
+      "source_sheet": "signature_fx_corrected.png",
+      "place_xy": [
+        68,
+        242
+      ],
+      "scale": 0.82
+    },
+    {
+      "source_bbox": [
+        531,
+        546,
+        1011,
+        880
+      ],
+      "source_sheet": "signature_fx_corrected.png",
+      "place_xy": [
+        18,
+        246
+      ],
+      "scale": 0.82
+    },
+    {
+      "source_bbox": [
+        1088,
+        569,
+        1410,
+        877
+      ],
+      "source_sheet": "signature_fx_corrected.png",
+      "place_xy": [
+        28,
+        265
+      ],
+      "scale": 0.82
+    }
+  ]
+}

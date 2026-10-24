@@ -1,0 +1,24 @@
+{
+  "generation_tool": "built-in image_gen",
+  "reference": "original.png only; no generated draft edits",
+  "original_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+  "native_sha256": {
+    "defeat_native.png": "1a19404b97a097b7b5f6499c30848fc541132f3a6346577b2540982bf6c122c7",
+    "hit_native.png": "d0c1f71cfc04e552403fd6f0f11e5f5cd1e0c25813cf3d0715c907bf232448f1"
+  },
+  "postprocess": "Alpha connected-component isolation masks, crop and uniform non-upscaling plus translation-only registration.",
+  "native_dimensions": {
+    "defeat_native.png": [
+      1448,
+      1086
+    ],
+    "hit_native.png": [
+      1448,
+      1086
+    ]
+  },
+  "scale_by_clip": {
+    "hit": 1,
+    "defeat": 0.9869848156182213
+  }
+}

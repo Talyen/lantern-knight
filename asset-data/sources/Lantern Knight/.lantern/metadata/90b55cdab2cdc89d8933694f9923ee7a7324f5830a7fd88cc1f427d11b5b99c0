@@ -1,0 +1,8 @@
+{
+  "id": "canal_water_clean_ink_topdown",
+  "generator": "built-in imagegen",
+  "generation_source_id": "exec-1fa3d861-0db8-4849-b6c0-78db861046d6.png",
+  "operation": "fresh generation, no edit chain",
+  "original_sha256": "232521f42e30a7574993f0c29296fa57040280bce50f44b2530ec8d7e7edc638",
+  "projection": "source-native topdown applied to XZ plane at Y=-1 m, 12m repeat; illustrative surface source only, not a standalone environment asset release"
+}

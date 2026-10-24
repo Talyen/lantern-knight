@@ -1,0 +1,33 @@
+Use case: stylized-concept. Asset: production dark-fantasy painterly game VFX SOURCE SPRITE SHEET. Create ONE 1536x1024 transparent PNG, EXACT 6 columns by 4 rows = 24 equally sized SQUARE 256x256 cells, left-to-right then top-to-bottom. No drawn grid, text, labels or numbers. Every cell fixed camera and identical registration, all art contained inside its square with at least 26px transparent gutters. True alpha transparency, not opaque checkerboard. No characters, landscape, backdrop, UI, or floor patch.
+
+SUBJECT: DRY CINDER PRESSURE CONE. Tangible dry charcoal shards and cracked carbon flakes visibly gather into a compact pair of ribbed lung / bellows lobes near the LEFT origin. The object is charcoal and compressed ash, deliberately irregular and low. It gradually forms and inflates, then visibly compresses during its long windup. It punches one short low forward CONE of dry soot, grey pressure ripples and a few dim burnt-orange cinders to the RIGHT, exactly inside a widening ground telegraph. This is a material pressure discharge, NOT a generic flame fan, not magical rays, not a fireball, not a crystal or a flower. Ash-grey pressure has weight and direction. Charcoal silhouette remains dominant. Muted dark charcoal, dusty warm-grey ash, very restrained tiny rust-orange ember cracks. No neon or luminous outlines.
+
+FIXED CELL GEOMETRY: discharge origin = (.29,.60); far cone endpoint = (.70,.60). The SHORT cone is bounded by origin at (.29,.60), far upper edge (.71,.46), far lower edge (.71,.73), width expanding only to the right. The faint ground telegraph is an isometric dusty burnt-ochre wedge outline marking exactly this short forward cone footprint. Keep it stationary and identical throughout anticipation. Compact bellows gathers near x=.29 y=.54 and fits x=.18-.40, y=.37-.67 during windup. It must NEVER discharge before cel15. Every formation cel has physically progressing gathering, assembly, inflation or compression. The only impact is cel16 at the fixed far cone edge. Art fits x=.12-.85, y=.18-.84.
+
+EXACT 24 CEL PLAN:
+Row1 col1/cel1: nearly empty, only three dry charcoal crumbs near origin.
+1,2/cel2: five motes gather, first faint ground-wedge chalk dashes appear.
+1,3/cel3: eight charcoal flakes spiral tightly inward, first compact central ash seam.
+1,4/cel4: small cracked lower charcoal shell forms with visible gaps, initial left rib.
+1,5/cel5: second rib and partial right lobe materialize from distinct incoming flakes.
+1,6/cel6: two incomplete small lung-like bellows lobes take shape, many holes and open seams.
+Row2 col1/cel7: more ribs connect, lobes still separated and visibly building.
+2,2/cel8: charcoal bridge joins lobes, cracked shell two-thirds complete.
+2,3/cel9: last large shell pieces attach, tiny ember cracks, telegraph clearly fixes forward cone.
+2,4/cel10: full small pair of charcoal bellows lobes, still rough and cracked; begins inflating upward slightly.
+2,5/cel11: bellows swells wider and taller, charcoal ribs spread, dry dust drawn inward.
+2,6/cel12: fullest inflated lung shape, tiny dim ember seam; visibly poised, no discharge.
+Row3 col1/cel13: bellows begins pressing together and down, ash thickens between ribs, tension increases.
+3,2/cel14: maximum compact compression before release, carbon ribs nearly touching, wedge telegraph strong but muted, no outward particles yet.
+3,3/cel15: single fast short burst begins, bellows collapses and pushes a dense low ash leading front halfway down the marked cone; curved grey pressure ripples, charcoal crumbs driven right.
+3,4/cel16: SINGLE HARD PEAK CONTACT at far edge x=.70, the dry low pressure cone exactly fills the previously marked wedge, blunt curved leading pressure front, dense soot and a few dim warm cinders. No tall fire, no streaks reaching beyond the footprint.
+3,5/cel17: blast separates into two thin outward pressure ripples, cinders and charcoal flakes continue OUTWARD; bellows starts crumbling, no second blast.
+3,6/cel18: pressure front breaks into dispersed forward-moving ash, collapsed bellows separates into flakes.
+Row4 col1/cel19: broad but sparse outward dispersal of grey soot crumbs, no formed object, fading wedge.
+4,2/cel20: fewer scattered cinders and low drifting dust, plume entirely broken up.
+4,3/cel21: six small dull flakes and fading wisps.
+4,4/cel22: three tiny dying cinders, almost clear.
+4,5/cel23: one dim ember speck and one ash grain.
+4,6/cel24: ENTIRELY EMPTY transparent cell.
+
+Hand-painted grounded dark-fantasy material textures, pronounced rough charcoal volume and silhouette readable small. Fixed three-quarter top-down perspective. Transparent background. No text, grid, frame numbers, labels, ground rectangles, painted checkerboard, bright magical fan, flames, repeated discharge, reverse assembly or fully formed prop popping into frame.

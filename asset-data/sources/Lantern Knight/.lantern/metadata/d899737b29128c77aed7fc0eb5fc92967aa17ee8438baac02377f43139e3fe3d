@@ -1,0 +1,19 @@
+{
+  "scene": "highland_watchpost_retry",
+  "created_utc": "2026-10-09T17:03:51.756135+00:00",
+  "tool": "image_gen__imagegen",
+  "actual_parameters_file": "actual_parameters.json",
+  "source_tool_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-e8eab31b-8231-4038-a2fd-90d0255e1b9e.png",
+  "saved_native_output": "LANTERN_highland_watchpost_retry_Concept_1536x1024.png",
+  "output_sha256": "45b036f9e7e1d6e0a575720cfe3dea43a36c57f03fb351c69fbf28de8eaab867",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "reference_role": "canonical hero only, ink-style and scale reference; no environment input",
+  "reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "postprocessing": "None, byte-for-byte copy of native output",
+  "prompt_sha256": "872b4be322eb7cdca9f3875d07a28d446b8b59c01c3e5dda8e629d70adc9015e",
+  "backend_model_quality_seed": "not exposed by tool"
+}

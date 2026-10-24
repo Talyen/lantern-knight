@@ -1,0 +1,1365 @@
+[
+  {
+    "clip": "heal_activate",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      0,
+      352,
+      362
+    ],
+    "source_anchor_local": [
+      181,
+      230
+    ],
+    "offset": [
+      11,
+      -38,
+      363,
+      324
+    ],
+    "visible_bbox_alpha12": [
+      145,
+      146,
+      251,
+      239
+    ],
+    "sha256": "57f46176cc3c95b4953e83d88d04f9c4cb7b831be008150708e8ae39ea264602",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "heal_activate",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      352,
+      0,
+      730,
+      362
+    ],
+    "source_anchor_local": [
+      191,
+      230
+    ],
+    "offset": [
+      1,
+      -38,
+      379,
+      324
+    ],
+    "visible_bbox_alpha12": [
+      25,
+      84,
+      358,
+      292
+    ],
+    "sha256": "d9dca4e2c8fe34f07e9768609810ff115c86a6a9c46bc1bf6f955e08e35310ac",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "heal_activate",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      730,
+      0,
+      1072,
+      362
+    ],
+    "source_anchor_local": [
+      175,
+      230
+    ],
+    "offset": [
+      17,
+      -38,
+      359,
+      324
+    ],
+    "visible_bbox_alpha12": [
+      42,
+      62,
+      323,
+      285
+    ],
+    "sha256": "b197ba38880dc1568f3b068d73f78b4d12cd0295d61a8de94ef041457d2b6a9f",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "heal_activate",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      1072,
+      0,
+      1448,
+      362
+    ],
+    "source_anchor_local": [
+      195,
+      230
+    ],
+    "offset": [
+      -3,
+      -38,
+      373,
+      324
+    ],
+    "visible_bbox_alpha12": [
+      14,
+      26,
+      360,
+      298
+    ],
+    "sha256": "b4e31ff6c457ca1781e9502454a572a0dc46ee991e5bdabe35c79dd9f9b47100",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "heal_activate",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1448,
+      0,
+      1816,
+      362
+    ],
+    "source_anchor_local": [
+      181,
+      230
+    ],
+    "offset": [
+      11,
+      -38,
+      379,
+      324
+    ],
+    "visible_bbox_alpha12": [
+      26,
+      68,
+      363,
+      286
+    ],
+    "sha256": "d73ae6c425d3530672aee021d25539ee10ba2dd8c80e61c93ba2db5e5193ea4e",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "heal_activate",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1816,
+      0,
+      2172,
+      362
+    ],
+    "source_anchor_local": [
+      175,
+      230
+    ],
+    "offset": [
+      17,
+      -38,
+      373,
+      324
+    ],
+    "visible_bbox_alpha12": [
+      31,
+      98,
+      360,
+      282
+    ],
+    "sha256": "f6f2c8d6ba5e072910cbcb88b66a029024d46af282c3015e6cb2b787f25fc836",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "regeneration_loop",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      362,
+      376,
+      724
+    ],
+    "source_anchor_local": [
+      181,
+      180
+    ],
+    "offset": [
+      11,
+      12,
+      387,
+      374
+    ],
+    "visible_bbox_alpha12": [
+      48,
+      95,
+      350,
+      271
+    ],
+    "sha256": "3ee868bb5d13cf77302bdf99f5b039674bfc97e61e925cdc885c6a8448515c7d",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "regeneration_loop",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      376,
+      362,
+      730,
+      724
+    ],
+    "source_anchor_local": [
+      167,
+      180
+    ],
+    "offset": [
+      25,
+      12,
+      379,
+      374
+    ],
+    "visible_bbox_alpha12": [
+      54,
+      91,
+      348,
+      263
+    ],
+    "sha256": "2eb667d479169c1b4891c8b23157f788d509e46058c3c3ce6247c2e31155a394",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "regeneration_loop",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      730,
+      362,
+      1076,
+      724
+    ],
+    "source_anchor_local": [
+      175,
+      180
+    ],
+    "offset": [
+      17,
+      12,
+      363,
+      374
+    ],
+    "visible_bbox_alpha12": [
+      44,
+      77,
+      341,
+      295
+    ],
+    "sha256": "de9990147fcbd8907cb1f6e8b229f6af025dfaefc09392a8ec9ae5fe2923311b",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "regeneration_loop",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      1076,
+      362,
+      1454,
+      724
+    ],
+    "source_anchor_local": [
+      191,
+      180
+    ],
+    "offset": [
+      1,
+      12,
+      379,
+      374
+    ],
+    "visible_bbox_alpha12": [
+      33,
+      93,
+      341,
+      277
+    ],
+    "sha256": "b84e2abaa9f8057eed48a05918163c9597e53df5f16ee3826e3424ab4d53b374",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "regeneration_loop",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1454,
+      362,
+      1824,
+      724
+    ],
+    "source_anchor_local": [
+      175,
+      180
+    ],
+    "offset": [
+      17,
+      12,
+      387,
+      374
+    ],
+    "visible_bbox_alpha12": [
+      52,
+      111,
+      351,
+      277
+    ],
+    "sha256": "643e24a84ddf1ed16864532e2e8b1088b92e20adbb215b6f912caab51493ef21",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "regeneration_loop",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1824,
+      362,
+      2172,
+      724
+    ],
+    "source_anchor_local": [
+      167,
+      180
+    ],
+    "offset": [
+      25,
+      12,
+      373,
+      374
+    ],
+    "visible_bbox_alpha12": [
+      39,
+      96,
+      343,
+      271
+    ],
+    "sha256": "dda2dddcd2a0c69d18597ffed41cc7ca1cc1570ed398b5957ad47226a77f6ca7",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_form",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      0,
+      288,
+      296
+    ],
+    "source_anchor_local": [
+      148,
+      290
+    ],
+    "offset": [
+      44,
+      46,
+      332,
+      342
+    ],
+    "visible_bbox_alpha12": [
+      77,
+      234,
+      308,
+      332
+    ],
+    "sha256": "f7c7ef1b27b4edb0cbc72c9649321b92b0b20d5ec34e885a7a222d54f3c07d99",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_form",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      288,
+      0,
+      595,
+      296
+    ],
+    "source_anchor_local": [
+      156,
+      290
+    ],
+    "offset": [
+      36,
+      46,
+      343,
+      342
+    ],
+    "visible_bbox_alpha12": [
+      76,
+      150,
+      321,
+      337
+    ],
+    "sha256": "702624bdf050ee71182be968fe01c39628650dafc8b80381579ab1b8cd805416",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_form",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      595,
+      0,
+      893,
+      296
+    ],
+    "source_anchor_local": [
+      144,
+      290
+    ],
+    "offset": [
+      48,
+      46,
+      346,
+      342
+    ],
+    "visible_bbox_alpha12": [
+      74,
+      120,
+      322,
+      338
+    ],
+    "sha256": "3bfbacce14f9852937fc2c46a64d89319f1b36fa03c3e092887b109edf08829c",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_form",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      893,
+      0,
+      1183,
+      296
+    ],
+    "source_anchor_local": [
+      142,
+      290
+    ],
+    "offset": [
+      50,
+      46,
+      340,
+      342
+    ],
+    "visible_bbox_alpha12": [
+      71,
+      89,
+      327,
+      339
+    ],
+    "sha256": "ef1f85bf420e47a87fe31d1cd385dc99aa9a9bb532d423c4817032c87cf3acc4",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_form",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1183,
+      0,
+      1490,
+      296
+    ],
+    "source_anchor_local": [
+      147,
+      290
+    ],
+    "offset": [
+      45,
+      46,
+      352,
+      342
+    ],
+    "visible_bbox_alpha12": [
+      71,
+      81,
+      329,
+      341
+    ],
+    "sha256": "d423a5e576d6238684f7cdd351480174d10163e1172aaa12cd443381eddaec0a",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_form",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1490,
+      0,
+      1774,
+      296
+    ],
+    "source_anchor_local": [
+      136,
+      290
+    ],
+    "offset": [
+      56,
+      46,
+      340,
+      342
+    ],
+    "visible_bbox_alpha12": [
+      70,
+      81,
+      327,
+      341
+    ],
+    "sha256": "a101f1829781717ddf0425b516ac4e72e84a27917a89ce637e6561cf7c2e9568",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_hold",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      296,
+      298,
+      591
+    ],
+    "source_anchor_local": [
+      148,
+      287
+    ],
+    "offset": [
+      44,
+      49,
+      342,
+      344
+    ],
+    "visible_bbox_alpha12": [
+      67,
+      75,
+      326,
+      334
+    ],
+    "sha256": "6fca9e65aa2cc3c89cc229eae4fe69ad7de44463f13e4034d870666f45fd8938",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_hold",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      298,
+      296,
+      603,
+      591
+    ],
+    "source_anchor_local": [
+      146,
+      287
+    ],
+    "offset": [
+      46,
+      49,
+      351,
+      344
+    ],
+    "visible_bbox_alpha12": [
+      68,
+      75,
+      327,
+      334
+    ],
+    "sha256": "a7ec8eeb4c46164a3f16c96b345edbbf596cb11d4bf2f47afd73737895e573cc",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_hold",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      603,
+      296,
+      893,
+      591
+    ],
+    "source_anchor_local": [
+      136,
+      287
+    ],
+    "offset": [
+      56,
+      49,
+      346,
+      344
+    ],
+    "visible_bbox_alpha12": [
+      68,
+      75,
+      326,
+      334
+    ],
+    "sha256": "bcba989d3a2b24572d798d6cde45537261812ab74b35760ca7ffadc836139941",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_hold",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      893,
+      296,
+      1189,
+      591
+    ],
+    "source_anchor_local": [
+      142,
+      287
+    ],
+    "offset": [
+      50,
+      49,
+      346,
+      344
+    ],
+    "visible_bbox_alpha12": [
+      67,
+      75,
+      331,
+      334
+    ],
+    "sha256": "aef756a34738837c7d798c5a6fbe2b529094dc0e27870561200dace2e9de882f",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_hold",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1189,
+      296,
+      1488,
+      591
+    ],
+    "source_anchor_local": [
+      141,
+      287
+    ],
+    "offset": [
+      51,
+      49,
+      350,
+      344
+    ],
+    "visible_bbox_alpha12": [
+      67,
+      75,
+      328,
+      335
+    ],
+    "sha256": "17a388b09dbf09264979ed3ef3fbbd657fb37545c144fc7c2282abba93fcff30",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_hold",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1488,
+      296,
+      1774,
+      591
+    ],
+    "source_anchor_local": [
+      138,
+      287
+    ],
+    "offset": [
+      54,
+      49,
+      340,
+      344
+    ],
+    "visible_bbox_alpha12": [
+      68,
+      75,
+      326,
+      335
+    ],
+    "sha256": "4d986d5776416b6289eac4aa581cb659317b0f9e53c71f2a529d59d71b5a55a2",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_break",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      591,
+      298,
+      887
+    ],
+    "source_anchor_local": [
+      148,
+      279
+    ],
+    "offset": [
+      44,
+      57,
+      342,
+      353
+    ],
+    "visible_bbox_alpha12": [
+      67,
+      70,
+      325,
+      330
+    ],
+    "sha256": "972507bfe11c4b85ae5e6da1029439178fa49a9957562705e226b382b2506faa",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_break",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      298,
+      591,
+      605,
+      887
+    ],
+    "source_anchor_local": [
+      146,
+      279
+    ],
+    "offset": [
+      46,
+      57,
+      353,
+      353
+    ],
+    "visible_bbox_alpha12": [
+      66,
+      68,
+      335,
+      329
+    ],
+    "sha256": "66cec15ec0060880947476ae358c4a5434f0aaa0e1a26ecddb0efa8fcbde0e60",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_break",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      605,
+      591,
+      901,
+      887
+    ],
+    "source_anchor_local": [
+      134,
+      279
+    ],
+    "offset": [
+      58,
+      57,
+      354,
+      353
+    ],
+    "visible_bbox_alpha12": [
+      75,
+      71,
+      340,
+      330
+    ],
+    "sha256": "da9eb0bd308cca1622192fe14bf2a2da34e0a92716190652fa964096dd480fc1",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_break",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      901,
+      591,
+      1191,
+      887
+    ],
+    "source_anchor_local": [
+      134,
+      279
+    ],
+    "offset": [
+      58,
+      57,
+      348,
+      353
+    ],
+    "visible_bbox_alpha12": [
+      87,
+      76,
+      333,
+      326
+    ],
+    "sha256": "6e57094116a05ee0860a7fb1e91200e528ed95d026897a8b7b15a396b5f7be66",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_break",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1191,
+      591,
+      1482,
+      887
+    ],
+    "source_anchor_local": [
+      139,
+      279
+    ],
+    "offset": [
+      53,
+      57,
+      344,
+      353
+    ],
+    "visible_bbox_alpha12": [
+      96,
+      93,
+      321,
+      315
+    ],
+    "sha256": "eb228fcc81532052a0966eb826ee528c64a0807bf480b088290fe5ce62640613",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "shield_break",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1482,
+      591,
+      1774,
+      887
+    ],
+    "source_anchor_local": [
+      144,
+      279
+    ],
+    "offset": [
+      48,
+      57,
+      340,
+      353
+    ],
+    "visible_bbox_alpha12": [
+      93,
+      216,
+      305,
+      295
+    ],
+    "sha256": "0586123a79d8f78852894dcf1cf0b1537eda67e0f0fa20f24c40d539cc8e610e",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_apply",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      0,
+      296,
+      296
+    ],
+    "source_anchor_local": [
+      148,
+      192
+    ],
+    "offset": [
+      44,
+      0,
+      340,
+      296
+    ],
+    "visible_bbox_alpha12": [
+      70,
+      151,
+      320,
+      256
+    ],
+    "sha256": "aaba91c2c06f49fcf758ad80ebaa9e826233164c2311cdb1461edb631af084f6",
+    "canvas_edge_alpha_max": 1
+  },
+  {
+    "clip": "curse_apply",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      296,
+      0,
+      587,
+      296
+    ],
+    "source_anchor_local": [
+      148,
+      192
+    ],
+    "offset": [
+      44,
+      0,
+      335,
+      296
+    ],
+    "visible_bbox_alpha12": [
+      62,
+      129,
+      326,
+      270
+    ],
+    "sha256": "e24f3dc0e5b0b6a95ac758e2251c93aa4b93fecbeecd5219e6077d5b867b91cf",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_apply",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      587,
+      0,
+      891,
+      296
+    ],
+    "source_anchor_local": [
+      152,
+      192
+    ],
+    "offset": [
+      40,
+      0,
+      344,
+      296
+    ],
+    "visible_bbox_alpha12": [
+      50,
+      109,
+      330,
+      269
+    ],
+    "sha256": "a955953a28350d67505b9582d8fe3cc9533fc8343a89c098b10a32d97319b628",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_apply",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      891,
+      0,
+      1179,
+      296
+    ],
+    "source_anchor_local": [
+      144,
+      192
+    ],
+    "offset": [
+      48,
+      0,
+      336,
+      296
+    ],
+    "visible_bbox_alpha12": [
+      54,
+      117,
+      332,
+      274
+    ],
+    "sha256": "19a67717d045ed78257c80a88cb8d4e3caca9f4ddc501e1122b91f1f20faaf18",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_apply",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1179,
+      0,
+      1480,
+      296
+    ],
+    "source_anchor_local": [
+      151,
+      192
+    ],
+    "offset": [
+      41,
+      0,
+      342,
+      296
+    ],
+    "visible_bbox_alpha12": [
+      45,
+      83,
+      340,
+      292
+    ],
+    "sha256": "dde6db007264eb3895fac4ebdef336d4634d304186059f4e6ac62e6dd728c16e",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_apply",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1480,
+      0,
+      1774,
+      296
+    ],
+    "source_anchor_local": [
+      146,
+      192
+    ],
+    "offset": [
+      46,
+      0,
+      340,
+      296
+    ],
+    "visible_bbox_alpha12": [
+      50,
+      101,
+      331,
+      276
+    ],
+    "sha256": "f465d467c2f34626f312ae146c872b0760925d3b0b5efa6c8e88823e343d6b6b",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_hold",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      296,
+      298,
+      591
+    ],
+    "source_anchor_local": [
+      148,
+      154
+    ],
+    "offset": [
+      44,
+      38,
+      342,
+      333
+    ],
+    "visible_bbox_alpha12": [
+      56,
+      101,
+      334,
+      278
+    ],
+    "sha256": "af78e6feac9de627205df3782f2180677619a43bd427ce1522dda9238e5e9cd1",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_hold",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      298,
+      296,
+      587,
+      591
+    ],
+    "source_anchor_local": [
+      146,
+      154
+    ],
+    "offset": [
+      46,
+      38,
+      335,
+      333
+    ],
+    "visible_bbox_alpha12": [
+      55,
+      101,
+      331,
+      278
+    ],
+    "sha256": "e6238223eaccfa058f76b940cf6f6a1c7cc0c9581e31453dc63806cb1af03a12",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_hold",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      587,
+      296,
+      887,
+      591
+    ],
+    "source_anchor_local": [
+      152,
+      154
+    ],
+    "offset": [
+      40,
+      38,
+      340,
+      333
+    ],
+    "visible_bbox_alpha12": [
+      54,
+      98,
+      332,
+      278
+    ],
+    "sha256": "8285fdb67e7a11e58e7f0e865cde159a60bf9fe14aea0f0d346d0336d8ce3189",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_hold",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      887,
+      296,
+      1181,
+      591
+    ],
+    "source_anchor_local": [
+      148,
+      154
+    ],
+    "offset": [
+      44,
+      38,
+      338,
+      333
+    ],
+    "visible_bbox_alpha12": [
+      53,
+      102,
+      332,
+      278
+    ],
+    "sha256": "3eac6ac660def96b2aa152b4c786a7c7fbb7e61e0b5a9ccf0a6db82d5e4abb9d",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_hold",
+    "frame": 4,
+    "source_column": 4,
+    "source_crop": [
+      1181,
+      296,
+      1478,
+      591
+    ],
+    "source_anchor_local": [
+      149,
+      154
+    ],
+    "offset": [
+      43,
+      38,
+      340,
+      333
+    ],
+    "visible_bbox_alpha12": [
+      54,
+      104,
+      331,
+      278
+    ],
+    "sha256": "23608714eb704c025796203dce787f4cb13c07ae9d54f24ab069941b9e6095fd",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_hold",
+    "frame": 5,
+    "source_column": 5,
+    "source_crop": [
+      1478,
+      296,
+      1774,
+      591
+    ],
+    "source_anchor_local": [
+      148,
+      154
+    ],
+    "offset": [
+      44,
+      38,
+      340,
+      333
+    ],
+    "visible_bbox_alpha12": [
+      52,
+      101,
+      330,
+      282
+    ],
+    "sha256": "9987e43c33a72492c1eda5e80fd2c797e031002212d7152aab538f9ed3ecdc9c",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_release",
+    "frame": 0,
+    "source_column": 0,
+    "source_crop": [
+      0,
+      591,
+      296,
+      887
+    ],
+    "source_anchor_local": [
+      148,
+      122
+    ],
+    "offset": [
+      44,
+      70,
+      340,
+      366
+    ],
+    "visible_bbox_alpha12": [
+      60,
+      94,
+      331,
+      273
+    ],
+    "sha256": "0c7b145aa546420d4ee45505978c2f7a1db9ba58bca91d6e214661f4cd37ca3d",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_release",
+    "frame": 1,
+    "source_column": 1,
+    "source_crop": [
+      296,
+      591,
+      599,
+      887
+    ],
+    "source_anchor_local": [
+      148,
+      122
+    ],
+    "offset": [
+      44,
+      70,
+      347,
+      366
+    ],
+    "visible_bbox_alpha12": [
+      56,
+      92,
+      330,
+      267
+    ],
+    "sha256": "0cab0346792fc09a2d79d0dd2cdf54fd68fa194ef4f97dfb3856f7febbf6d569",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_release",
+    "frame": 2,
+    "source_column": 2,
+    "source_crop": [
+      599,
+      591,
+      879,
+      887
+    ],
+    "source_anchor_local": [
+      140,
+      122
+    ],
+    "offset": [
+      52,
+      70,
+      332,
+      366
+    ],
+    "visible_bbox_alpha12": [
+      66,
+      79,
+      318,
+      295
+    ],
+    "sha256": "b42c3ce70e6ddd17b7a275260e3325cb2ecbfdcb2972470235eb1fd4de11ff65",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_release",
+    "frame": 3,
+    "source_column": 3,
+    "source_crop": [
+      879,
+      591,
+      1183,
+      887
+    ],
+    "source_anchor_local": [
+      156,
+      122
+    ],
+    "offset": [
+      36,
+      70,
+      340,
+      366
+    ],
+    "visible_bbox_alpha12": [
+      60,
+      95,
+      329,
+      267
+    ],
+    "sha256": "30ac1adcc3f6d98636cc215304d635a3821f35ab027147c1901dbba910b965d2",
+    "canvas_edge_alpha_max": 0
+  },
+  {
+    "clip": "curse_release",
+    "frame": 4,
+    "source_column": 5,
+    "source_crop": [
+      1482,
+      591,
+      1774,
+      887
+    ],
+    "source_anchor_local": [
+      144,
+      122
+    ],
+    "offset": [
+      48,
+      70,
+      340,
+      366
+    ],
+    "visible_bbox_alpha12": [
+      100,
+      158,
+      281,
+      203
+    ],
+    "sha256": "dc59d5edf6bfbbf354439c87a4d26d1651918b9d6cbd15fd4db3955dc8181745",
+    "canvas_edge_alpha_max": 0
+  }
+]

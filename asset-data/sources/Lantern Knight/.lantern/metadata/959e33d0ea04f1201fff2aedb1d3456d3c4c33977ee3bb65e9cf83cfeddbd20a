@@ -1,0 +1,71 @@
+{
+  "title": "Keeper's Glade B | Canvas Camp",
+  "hero_source": "references/hero_original.png",
+  "views": [
+    {
+      "name": "tent_and_campfire",
+      "display_box": [
+        1200,
+        150,
+        2736,
+        1174
+      ],
+      "display_foot": [
+        2362,
+        1025
+      ],
+      "placement_note": "Visually selected clear ground; presentation-only placement with no engine navigation or collision validation."
+    },
+    {
+      "name": "western_expansion_alcove",
+      "display_box": [
+        88,
+        562,
+        1624,
+        1586
+      ],
+      "display_foot": [
+        800,
+        1100
+      ],
+      "placement_note": "Visually selected clear ground; presentation-only placement with no engine navigation or collision validation."
+    },
+    {
+      "name": "eastern_workshop_clearing",
+      "display_box": [
+        2250,
+        750,
+        3786,
+        1774
+      ],
+      "display_foot": [
+        3100,
+        1325
+      ],
+      "placement_note": "Visually selected clear ground; presentation-only placement with no engine navigation or collision validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "central_hedge_junction",
+      "source_xy": [
+        960,
+        480
+      ]
+    },
+    {
+      "name": "western_clearing_junction",
+      "source_xy": [
+        480,
+        640
+      ]
+    }
+  ],
+  "approved_reference_images": [
+    "references/selected_viewport_sample.png"
+  ],
+  "scene_notes": [
+    "Original fullscene exact generation prompt and metadata are preserved in exact_prompt.txt and metadata.json.",
+    "Baked scenery and reference hero previews only; no separated upgrade assets, collision, navigation, foreground occlusion or engine integration."
+  ]
+}

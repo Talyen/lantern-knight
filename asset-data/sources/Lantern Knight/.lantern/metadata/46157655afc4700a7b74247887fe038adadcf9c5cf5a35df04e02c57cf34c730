@@ -1,0 +1,401 @@
+{
+  "clip_id": "Lantern_Hero_selfheal_loop_UL_v01",
+  "family": "selfheal_loop",
+  "facing": "UL",
+  "producer": "animate_healing_interaction_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+  "equipment_contract": "Anatomical right sword, left lantern continuously held; healing/state changes external.",
+  "timing_source": "Original DR selfheal exact source holds",
+  "source_timing": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "timebase_hz": 60,
+  "loop": true,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "72b9de82a97ae95c302929f6313c202aa692195ed40c2c671b600053bc272545",
+      "native_size_px": [
+        614,
+        574
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "6bc4ef6f47c0b82aa412fc7177b0362393dfc755a0dae3d69ebbc23e904c4db5",
+      "source_sha256": "fd313858559f26d8b6caf01287066d55de2857bd48f729ddfdf51bed81593f44",
+      "crop_xyxy": [
+        640,
+        680,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        159,
+        157
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          144,
+          488
+        ],
+        "observation_xy": [
+          47,
+          179
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 0,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        179,
+        157,
+        480,
+        452
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "e38997103148d6aa43532318e98c1f743a403e32b1accb8b02b37d8c303f2f73",
+      "native_size_px": [
+        444,
+        444
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "d21590c9f5bffe7d083b4a00fa731c3e2422e4c0d8e4354f672548f15e74b1e8",
+      "source_sha256": "8011c29cd27e265a215b3c8e6c712811123b29b1c0ee4293ee2a64c9dec8d755",
+      "crop_xyxy": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        181,
+        179
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          89,
+          380
+        ],
+        "observation_xy": [
+          240,
+          191
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 15,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        181,
+        190,
+        474,
+        472
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "fd6cb1bac6f752eaa84d3bb40073c3543ca255335db835413d12972f8c05d87d",
+      "native_size_px": [
+        443,
+        444
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "a634b2481d5eaaff67ba535a0dd8826819bcd3130f899d70e69b4e0c2b94c525",
+      "source_sha256": "8011c29cd27e265a215b3c8e6c712811123b29b1c0ee4293ee2a64c9dec8d755",
+      "crop_xyxy": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        181,
+        179
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          89,
+          380
+        ],
+        "observation_xy": [
+          440,
+          191
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 30,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        201,
+        190,
+        473,
+        465
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "a7f0bb16df3e42cc7cd54c2d269beb1e19d0c46f195fda3912c23f75b212a065",
+      "native_size_px": [
+        443,
+        444
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "1b9789b8962f6a16d6ba8d577cc4df470b5d600016323c41574556d5ced0fffd",
+      "source_sha256": "8011c29cd27e265a215b3c8e6c712811123b29b1c0ee4293ee2a64c9dec8d755",
+      "crop_xyxy": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        181,
+        179
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          89,
+          380
+        ],
+        "observation_xy": [
+          640,
+          191
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 45,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        181,
+        189,
+        473,
+        462
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "5187328f67e02ef06419f66ae644750ea0224d6bf2d41575596d1f8514783f37",
+      "native_size_px": [
+        444,
+        443
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "812e7177608e6ddf40753fb9b41ba45bf1f3a192a3b1e6aac6ddadb7c883ab27",
+      "source_sha256": "8011c29cd27e265a215b3c8e6c712811123b29b1c0ee4293ee2a64c9dec8d755",
+      "crop_xyxy": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        181,
+        180
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          89,
+          379
+        ],
+        "observation_xy": [
+          840,
+          191
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 60,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        211,
+        180,
+        474,
+        453
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "ae0a44861a1647c906d1f81545aff51fa5b69e76adb62c76a43a23c65691e51c",
+      "native_size_px": [
+        443,
+        443
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "8faf72aa2c232efa084f488bf9ac8c53569f0833f2887dff300849243c4f541f",
+      "source_sha256": "8011c29cd27e265a215b3c8e6c712811123b29b1c0ee4293ee2a64c9dec8d755",
+      "crop_xyxy": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        181,
+        180
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          89,
+          379
+        ],
+        "observation_xy": [
+          1040,
+          191
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 75,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        181,
+        181,
+        473,
+        472
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "7f2bb8738d743c617e78137e5df35611b94eed45fc5b360b991e84021563d628",
+      "native_size_px": [
+        443,
+        443
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "f8e6aaceef13729f722c67b2ec05b62615d21b5a73bbca52e702fb4f12bb0cbb",
+      "source_sha256": "8011c29cd27e265a215b3c8e6c712811123b29b1c0ee4293ee2a64c9dec8d755",
+      "crop_xyxy": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        181,
+        180
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          89,
+          379
+        ],
+        "observation_xy": [
+          1240,
+          191
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 90,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        182,
+        185,
+        473,
+        453
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/00.png",
+      "native_sha256": "72b9de82a97ae95c302929f6313c202aa692195ed40c2c671b600053bc272545",
+      "native_size_px": [
+        614,
+        574
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "6bc4ef6f47c0b82aa412fc7177b0362393dfc755a0dae3d69ebbc23e904c4db5",
+      "source_sha256": "fd313858559f26d8b6caf01287066d55de2857bd48f729ddfdf51bed81593f44",
+      "crop_xyxy": [
+        640,
+        680,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        159,
+        157
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          144,
+          488
+        ],
+        "observation_xy": [
+          1447,
+          179
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Manual planted support-boot registration. Uniform source-sheet density matching based on head width/upper arm, preserving intentional descent/rise. Exact shared source boundary cels reuse identical crop/scale/translation across entry/loop/exit. L/U exit row boundaries corrected to preserve crowns and omit neighbor fragments.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 105,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        179,
+        157,
+        480,
+        452
+      ]
+    }
+  ],
+  "native_drawn_cels": 7,
+  "timeline_frame_count": 8,
+  "duration_ticks": 120,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "dc1208db85f40df1ec6e919445fc9daa4f72285dc2bece34dc5c1ae25b91850b"
+  }
+}

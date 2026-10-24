@@ -1,0 +1,44 @@
+{
+  "actor": "Masked Cultist",
+  "back_view_design_note": "Rear folds and occluded construction are inferred from the approved front identity; anatomical dagger/book/sash ownership is preserved.",
+  "attack_arc_note": "UL and UR use a higher away-directed slash than the front low slash, with shared event phase. Visual markers do not define engine damage.",
+  "extension_facings": [
+    "DL",
+    "UL",
+    "UR"
+  ],
+  "required_baseline": "masked_cultist_runtime.zip, DR baseline delivered separately and unchanged",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot": [
+    374,
+    555
+  ],
+  "estimated_ppu": 240,
+  "mirroring": false,
+  "clips_per_facing": [
+    "move",
+    "attack"
+  ],
+  "drawn_cels_per_clip": 6,
+  "DR_png_hashes": {
+    "attack_00.png": "27840f263487c278e92de4ffd03bb29f485515f7ffe0b633960695d494f0aae0",
+    "attack_01.png": "d6d8228d39bce9437ad6a773995c8a58797e68a0408da07a9c574683f5ebd9cc",
+    "attack_02.png": "7cbdffe66628f735b0cff5d731c6bc0d4eee80a3f4b39f5785b56a8925abbc8f",
+    "attack_03.png": "5a44495dcac3af53c6a6703229b07fee4d6b76387004e0f7784e6f5f7f069f2b",
+    "attack_04.png": "fd213b87b686aafe1a206974fc1683c17313feb55abbdaad0f5e8a658e34fb1d",
+    "attack_05.png": "b4e23c0ff5681c7e3bed4fa48e9e5a09ca73b12539a9dbe046d1d0f4d2f02ff9",
+    "attack_atlas.png": "b65d5dd540a9c96e0ed582d42aa73cb27614426fedd3422a3339ec70d620b216",
+    "idle_still.png": "89d804f8b4d5aa3f46b4983dc71cdac38a2dc80a846001d5c34d29bc39ed224c",
+    "move_00.png": "89d804f8b4d5aa3f46b4983dc71cdac38a2dc80a846001d5c34d29bc39ed224c",
+    "move_01.png": "2524f95feae8043252c5946f1da35d39cd8026142fbd281258200798fcb5dd75",
+    "move_02.png": "1a967eb154c446bb8093a72f88758e5abd191cecba52bd097de5afadfe010cda",
+    "move_03.png": "52222cbf689386aeba8e325c7293f047a5d9eacde15d5b09bca5cb8e99b305b1",
+    "move_04.png": "7a19891d840c4eaeca7f2fad3aab47df1e224fa253421914bcc37c5a4ddd223b",
+    "move_05.png": "98168400c8ffaf98fe781cd69e681e0acf73219619d6a30ca7cc8de9d6c87558",
+    "move_atlas.png": "8b857cfc233f64b3f65e08396f5ba9ef847d48584115cc62d029f8d22a04f51a"
+  },
+  "source_reference": "DR_reference included for portable comparison rebuild; runtime extension does not replace delivered DR"
+}

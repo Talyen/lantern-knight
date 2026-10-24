@@ -1,0 +1,9 @@
+{
+  "unique_drawn_frame_hashes": 16,
+  "final_alpha_max": 0,
+  "runtime_visible_edge_max": 0,
+  "source_cell_boundary_alpha_max": 2,
+  "source_edge_note": "Faint antialias/smoke at raw grid boundary is retained. Opaque material is fully inside each source cell.",
+  "padding_minimum_px": 99,
+  "all_frames_same_canvas": true
+}

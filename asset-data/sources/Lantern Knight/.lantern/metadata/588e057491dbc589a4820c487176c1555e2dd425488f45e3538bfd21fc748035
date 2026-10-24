@@ -1,0 +1,98 @@
+# Inkflame · Lantern loading animation
+
+A hand-painted line lantern assembled by a moving flame. Tapered amber brushwork,
+forged gothic scrolls, and three interleaved flame silhouettes on near-black.
+All artwork is authored vector geometry. There are no generated image plates,
+film-grain overlays, noise textures, fonts, logo, percentage, or progress bar.
+
+## Delivered media
+
+| File | Length | Frames | Format |
+|---|---:|---:|---|
+| `Inkflame_preview.mp4` | 8 seconds | 480 | 1920 × 1080, 60 fps |
+| `Inkflame_intro.mp4` | 2 seconds | 120 | 1920 × 1080, 60 fps |
+| `Inkflame_hold.mp4` | 4 seconds | 240 | 1920 × 1080, 60 fps |
+| `Inkflame_complete.mp4` | 2 seconds | 120 | 1920 × 1080, 60 fps |
+
+H.264, yuv420p, no audio, 16:9. The near-black background (`#090b10`) is baked into
+the videos; they are not alpha-channel videos. `poster.png` is a full-resolution
+still. `inkflame_master.svg` is editable vector artwork at hold time 0.7 seconds.
+`contact_sheet.jpg` is sampled from the final encoded preview, not a concept image.
+
+## Sequence and variable-duration use
+
+1. Play intro once.
+2. Loop hold for as long as needed.
+3. At the next complete 4-second hold-cycle boundary, play complete once.
+
+The preview is exactly intro → one hold → complete, with no transition effect.
+The standard phase clips join at phase zero. For pre-rendered video playback,
+finish the current hold cycle before taking the completion clip. This can defer
+the completion animation by up to four seconds. It avoids the visual jump that
+would result from splicing the completion clip to an arbitrary hold frame.
+No engine integration or loading-progress behavior is included.
+
+The source supports arbitrary-duration animation if a developer evaluates its
+continuous scene function. For a phase-matched immediate exit, the completion
+phase must inherit the current hold phase; do not assume the phase-zero video
+can exit seamlessly at every instant.
+
+## What actually moves
+
+- Intro reveals original cubic brush paths, with an independently moving flame
+  nib and a flame that rises from the bowl.
+- Hold continuously deforms the flame's outer, middle, and inner lobes with
+  different periodic harmonics. A few intentional ember commas rise and fade.
+  The iron brushwork has a restrained, approximately 1-pixel living curvature.
+- Completion erases the brush paths directionally and contracts the fire. A
+  final curved ember lifts away; the last quarter-second is deliberately dark.
+
+No camera zoom or source-image warping is used. Each frame is drawn at its own
+1/60-second timestamp; the animation is not upconverted from 24 or 30 fps.
+
+## Boundary conventions
+
+The renderer uses half-open frame intervals. Intro samples [0, 2), hold [0, 4),
+and complete [0, 2), all with a 1/60-second step. Do not append an extra duplicated
+endpoint frame. Mathematically:
+
+- `scene(2, 'intro') == scene(0, 'hold')`
+- `scene(4, 'hold') == scene(0, 'hold')`
+- `scene(4, 'hold') == scene(0, 'complete')`
+
+All three boundary comparisons were rendered at 1920 × 1080 and gave zero pixel
+difference. The last encoded hold frame is the time step *before* the seam,
+so it should differ slightly from the first frame, just as consecutive frames
+elsewhere in the cycle do. See `validation.json` for decoded frame and seam checks.
+
+## Source and rebuild
+
+`render.py` contains the original cubic trajectories, palette, tapered-stroke
+construction, animation timing, SVG export, and frame renderer. Nothing is
+fetched from the network. The renderer is deterministic.
+
+Reference environment: Python 3.11+, NumPy 2.3.5, Pillow 12.3.0, system libcairo,
+and ffmpeg 7.1.5. The supplied renderer calls Linux's `libcairo.so.2` directly.
+On another OS, adapt that library filename to the installed Cairo library.
+
+Rebuild all clips:
+
+```sh
+python render.py --all
+python verify.py
+```
+
+Build just one phase with `--segment intro`, `--segment hold`,
+`--segment complete`, or `--segment preview`. `--proof` regenerates the SVG,
+poster, and reduced-resolution proof. The full-resolution delivery uses `--all`.
+
+For colors, edit `BG`, `AMBER`, `GOLD`, `CREAM`, `RED`, and `DIM` near the top of
+`render.py`. Main ironwork is in `STROKES`; living fire is authored in `scene()`.
+The static SVG is a convenient independent vector-editing starting point.
+
+## Art direction and polish
+
+The initial clean proof was reviewed, then refined with a pointed flame-shaped
+finial, open forged scrollwork and vents, a fire seated in the bowl, and richer
+harmonic motion. The deliberate open ends and unequal brush weights preserve
+an expressive hand-drawn character. There are no third-party art assets.

@@ -1,0 +1,536 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "nature_01",
+  "title": "Lantern Nature - Illustrated Cutout Candidates",
+  "asset_count": 9,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "env_marsh_grass_01",
+      "name": "Marsh swordgrass",
+      "file": "assets/env_marsh_grass_01.png",
+      "prompt_file": "provenance/env_marsh_grass_01.prompt.txt",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "file_bytes": 781649,
+      "sha256": "bcf812fc65a3b5ff5ebae28b839e39e2c93906c611c2cef354c6bc54b7b2255d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        45,
+        19,
+        1318,
+        1127
+      ],
+      "alpha_at_least_16_bounds_px": [
+        177,
+        43,
+        1226,
+        1101
+      ],
+      "fully_transparent_pixel_fraction": 0.792995,
+      "fully_opaque_pixel_fraction": 0.001279,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.53,
+        0.86
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.39,
+          0.84
+        ],
+        [
+          0.53,
+          0.77
+        ],
+        [
+          0.67,
+          0.85
+        ],
+        [
+          0.53,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 128,
+      "qa_notes": "Foliage crown is somewhat front-biased.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_dead_thorn_tree_02",
+      "name": "Crooked dead tree",
+      "file": "assets/env_dead_thorn_tree_02.png",
+      "prompt_file": "provenance/env_dead_thorn_tree_02.prompt.txt",
+      "dimensions_px": [
+        1484,
+        1060
+      ],
+      "file_bytes": 457535,
+      "sha256": "fa5f9fbf2247658c5d1991cd90cc6bb5a3712cca7c3039bae26cde114823d33e",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        106,
+        60,
+        1381,
+        1036
+      ],
+      "alpha_at_least_16_bounds_px": [
+        328,
+        62,
+        1129,
+        996
+      ],
+      "fully_transparent_pixel_fraction": 0.83795,
+      "fully_opaque_pixel_fraction": 0.001026,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.83
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.31,
+          0.82
+        ],
+        [
+          0.49,
+          0.73
+        ],
+        [
+          0.72,
+          0.84
+        ],
+        [
+          0.5,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 160,
+      "qa_notes": "Single complete tree card; trunk/canopy splitting and occlusion are not authored.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_bramble_tangle_02",
+      "name": "Thorn snare loop",
+      "file": "assets/env_bramble_tangle_02.png",
+      "prompt_file": "provenance/env_bramble_tangle_02.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1170673,
+      "sha256": "50137072d10e91d01b99a67653c012692bb72815b1b96c5136f1e6ce3c650881",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        35,
+        1504,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        202,
+        153,
+        1483,
+        850
+      ],
+      "fully_transparent_pixel_fraction": 0.771324,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.62
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.19,
+          0.57
+        ],
+        [
+          0.5,
+          0.31
+        ],
+        [
+          0.84,
+          0.57
+        ],
+        [
+          0.53,
+          0.81
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 144,
+      "qa_notes": "Reads as a deliberate thorn snare loop rather than natural tangled undergrowth.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_somber_pine_01",
+      "name": "Somber pine",
+      "file": "assets/env_somber_pine_01.png",
+      "prompt_file": "provenance/env_somber_pine_01.prompt.txt",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "file_bytes": 1234188,
+      "sha256": "f22d8e14741e34077022e2033cf827f72674c52edab9e809b0348ca6f24c7972",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        63,
+        32,
+        994,
+        1464
+      ],
+      "alpha_at_least_16_bounds_px": [
+        219,
+        34,
+        890,
+        1459
+      ],
+      "fully_transparent_pixel_fraction": 0.744668,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.87
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.3,
+          0.87
+        ],
+        [
+          0.51,
+          0.81
+        ],
+        [
+          0.69,
+          0.88
+        ],
+        [
+          0.54,
+          0.95
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 300,
+      "qa_notes": "Single canopy/trunk card; tall-object sorting requires validation.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_fallen_log_01",
+      "name": "Hollow fallen log",
+      "file": "assets/env_fallen_log_01.png",
+      "prompt_file": "provenance/env_fallen_log_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1363015,
+      "sha256": "9ba022e0779142704ab2e9a4f75492a696d17d582c6031831e4d01d63172d5a1",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        60,
+        32,
+        1379,
+        1015
+      ],
+      "alpha_at_least_16_bounds_px": [
+        189,
+        97,
+        1377,
+        903
+      ],
+      "fully_transparent_pixel_fraction": 0.691326,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.59
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.15,
+          0.4
+        ],
+        [
+          0.31,
+          0.25
+        ],
+        [
+          0.87,
+          0.69
+        ],
+        [
+          0.72,
+          0.88
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Wide low obstacle; hollow visible end is painted, not physical geometry.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_exposed_roots_01",
+      "name": "Exposed root fan",
+      "file": "assets/env_exposed_roots_01.png",
+      "prompt_file": "provenance/env_exposed_roots_01.prompt.txt",
+      "dimensions_px": [
+        1448,
+        1086
+      ],
+      "file_bytes": 515227,
+      "sha256": "3ce10d69f881006025113a88352b851e0ee8cf1bf82fa7f6aecb655542b7154e",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        89,
+        21,
+        1420,
+        1046
+      ],
+      "alpha_at_least_16_bounds_px": [
+        103,
+        162,
+        1345,
+        970
+      ],
+      "fully_transparent_pixel_fraction": 0.797363,
+      "fully_opaque_pixel_fraction": 0.000956,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.59
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.09,
+          0.64
+        ],
+        [
+          0.42,
+          0.22
+        ],
+        [
+          0.88,
+          0.37
+        ],
+        [
+          0.92,
+          0.75
+        ],
+        [
+          0.61,
+          0.89
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 144,
+      "qa_notes": "Footprint is broad and irregular; suggested polygon is an illustration aid only.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_shelf_fungi_01",
+      "name": "Shelf fungi cluster",
+      "file": "assets/env_shelf_fungi_01.png",
+      "prompt_file": "provenance/env_shelf_fungi_01.prompt.txt",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "file_bytes": 701065,
+      "sha256": "daeb447d39e59119f67ddd42015f30473eb768bf45b7cd2bf6332d53d3fc92cb",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        21,
+        1293,
+        1050
+      ],
+      "alpha_at_least_16_bounds_px": [
+        161,
+        174,
+        1286,
+        982
+      ],
+      "fully_transparent_pixel_fraction": 0.705499,
+      "fully_opaque_pixel_fraction": 0.000865,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.76
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.29,
+          0.75
+        ],
+        [
+          0.46,
+          0.64
+        ],
+        [
+          0.67,
+          0.77
+        ],
+        [
+          0.55,
+          0.88
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 144,
+      "qa_notes": "Four connected caps form one compound prop, not four separate mushroom sprites.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_dead_reeds_01",
+      "name": "Dry marsh reeds",
+      "file": "assets/env_dead_reeds_01.png",
+      "prompt_file": "provenance/env_dead_reeds_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 605704,
+      "sha256": "2d4b0b3bfc0fbe7378690e32b37410607736a34ca980b6916bddd65f100f9b70",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        73,
+        21,
+        1262,
+        1199
+      ],
+      "alpha_at_least_16_bounds_px": [
+        274,
+        42,
+        1039,
+        1153
+      ],
+      "fully_transparent_pixel_fraction": 0.810787,
+      "fully_opaque_pixel_fraction": 0.000466,
+      "boundary_nonzero_alpha_pixel_count": 16,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.53,
+        0.85
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.4,
+          0.85
+        ],
+        [
+          0.52,
+          0.78
+        ],
+        [
+          0.65,
+          0.85
+        ],
+        [
+          0.53,
+          0.91
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 176,
+      "qa_notes": "A few low-alpha nonzero pixels touch canvas boundary; visible silhouette remains well inset.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_shadow_fern_01",
+      "name": "Shadow fern",
+      "file": "assets/env_shadow_fern_01.png",
+      "prompt_file": "provenance/env_shadow_fern_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1523281,
+      "sha256": "59e22ba7da2132c9f3433765b70128419c17c72a52194164d5171ad46a3b1b2b",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        32,
+        1524,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        122,
+        122,
+        1408,
+        922
+      ],
+      "fully_transparent_pixel_fraction": 0.69717,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 17,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.6
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.17,
+          0.61
+        ],
+        [
+          0.44,
+          0.35
+        ],
+        [
+          0.88,
+          0.57
+        ],
+        [
+          0.61,
+          0.87
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 144,
+      "qa_notes": "A few low-alpha nonzero pixels touch canvas boundary; visible silhouette remains well inset.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

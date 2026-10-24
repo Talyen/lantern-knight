@@ -1,0 +1,37 @@
+{
+  "asset": "observatory_A",
+  "title": "Observatory A | Roofless Celestial Ruins",
+  "source_file": "/workspace/scratch/1a83d58417d5/generated_images/exec-b2254724-472d-4ade-a61a-e8db113301cb.png",
+  "source_sha256": "b439bf3c0b2972f1871c5a2e61b9f599a4c63b2cb34e13497b4eb09effa33f6c",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_bytes_preserved": true,
+  "recovered_on_utc": "2026-10-09",
+  "generation_prompt_status": "Exact full-expansion generation prompt unavailable; no replacement invented.",
+  "generation_model_status": "Original full-expansion model/backend metadata unavailable.",
+  "generation_reference_parameter_status": "Original full-expansion reference arguments unavailable.",
+  "sample_prompt_scope": "Only the earlier selected viewport sample; not the full-expansion prompt.",
+  "sample_native_sha256": "71cee24b35b41b39c7816b12c3829fcfc2b1edb37d89ef3df602e85a0b4e292a",
+  "review_scale": {
+    "source_hero_equivalent_px": 64,
+    "raw4x_hero_equivalent_px": 256,
+    "display_scene_scale": 2.5,
+    "display_scene_dimensions": [
+      3840,
+      2560
+    ],
+    "review_hero_height_px": 160,
+    "viewport_dimensions": [
+      1536,
+      1024
+    ]
+  },
+  "upscale_method": "Restored official Real-ESRGAN x4plus anime 6B model using isolated NCNN CPU contextual tiles; 2x is Lanczos reduction of 4x output.",
+  "camera_geometry_validated": false,
+  "engine_integrated": false,
+  "collision_or_occlusion_masks_included": false,
+  "layered_source_available": false
+}

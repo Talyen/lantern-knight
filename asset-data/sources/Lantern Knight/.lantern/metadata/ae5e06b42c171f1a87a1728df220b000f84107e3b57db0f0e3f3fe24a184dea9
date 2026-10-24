@@ -1,0 +1,211 @@
+{
+  "name": "Mossfang Scavenger",
+  "identity_id": "GB01",
+  "original_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 300,
+  "facing": "southeast / screen lower-right",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Drawn visual approximation, not calibrated 3D geometry"
+  },
+  "mirroring": "Not approved: clothing detail is asymmetric; no mirrored clip supplied.",
+  "offsets": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+  "clips": {
+    "move": {
+      "loop": true,
+      "description": "One lead-foot scuttle-hop grouped as rest, compression, gathered passing, extension, extension follow-through, landing. Native drawing source order 0,1,4,2,5,3.",
+      "frames": [
+        {
+          "file": "move_00.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            60,
+            14,
+            530,
+            513
+          ],
+          "baked_translation": [
+            85,
+            41
+          ]
+        },
+        {
+          "file": "move_01.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            644,
+            41,
+            1018,
+            487
+          ],
+          "baked_translation": [
+            133,
+            94
+          ]
+        },
+        {
+          "file": "move_02.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            583,
+            521,
+            1010,
+            1010
+          ],
+          "baked_translation": [
+            107,
+            49
+          ]
+        },
+        {
+          "file": "move_03.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            1085,
+            17,
+            1524,
+            488
+          ],
+          "baked_translation": [
+            101,
+            62
+          ]
+        },
+        {
+          "file": "move_04.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            1075,
+            509,
+            1530,
+            1006
+          ],
+          "baked_translation": [
+            93,
+            39
+          ]
+        },
+        {
+          "file": "move_05.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            23,
+            514,
+            510,
+            1006
+          ],
+          "baked_translation": [
+            77,
+            48
+          ]
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "end": "hold last recovery cel until state transition",
+      "visual_event": {
+        "frame_index": 3,
+        "meaning": "Two-handed claw thrust maximum extension",
+        "not_gameplay_damage_guarantee": true
+      },
+      "frames": [
+        {
+          "file": "attack_00.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            85,
+            7,
+            485,
+            522
+          ],
+          "baked_translation": [
+            120,
+            25
+          ]
+        },
+        {
+          "file": "attack_01.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            597,
+            28,
+            944,
+            517
+          ],
+          "baked_translation": [
+            141,
+            51
+          ]
+        },
+        {
+          "file": "attack_02.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            1063,
+            2,
+            1511,
+            520
+          ],
+          "baked_translation": [
+            93,
+            22
+          ]
+        },
+        {
+          "file": "attack_03.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            49,
+            528,
+            599,
+            1001
+          ],
+          "baked_translation": [
+            63,
+            67
+          ]
+        },
+        {
+          "file": "attack_04.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            600,
+            515,
+            945,
+            1019
+          ],
+          "baked_translation": [
+            148,
+            36
+          ]
+        },
+        {
+          "file": "attack_05.png",
+          "hold_ticks_60hz": 12,
+          "source_box": [
+            1074,
+            520,
+            1475,
+            1026
+          ],
+          "baked_translation": [
+            120,
+            34
+          ]
+        }
+      ]
+    }
+  },
+  "idle": "First move cel only, not animated idle",
+  "qa_limits": "All cels visually inspected on light/dark; native timing preview encoded. No engine test or real-time playback claim."
+}

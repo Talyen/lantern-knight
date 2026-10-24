@@ -1,0 +1,53 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "ai_dimensions": [
+    6144,
+    4096
+  ],
+  "hero_visible_height": 160,
+  "views": [
+    {
+      "name": "entrance_court",
+      "source_box": [
+        128,
+        596,
+        512,
+        852
+      ],
+      "source_foot": [
+        300,
+        765
+      ]
+    },
+    {
+      "name": "central_court",
+      "source_box": [
+        632,
+        264,
+        1016,
+        520
+      ],
+      "source_foot": [
+        825,
+        420
+      ]
+    },
+    {
+      "name": "upper_court",
+      "source_box": [
+        1060,
+        44,
+        1444,
+        300
+      ],
+      "source_foot": [
+        1280,
+        180
+      ]
+    }
+  ],
+  "note": "One original map image, true model4x inference. Review crop contexts are original approved hero composited without AI regeneration. No engine test or geometric camera validation."
+}

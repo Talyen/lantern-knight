@@ -1,0 +1,10 @@
+DL RUN TEST — world+Z, fixed camera.7unique native drawings, one complete40tick/0.6667s stride at60Hz.
+
+Play seven frames in order with holds5,7,8,5,5,5,5ticks. The wrong-phase third drawing from the generated8-cell sheet is completely excluded. No duplicate endpoint/filler or mirrored frame. Larger2→4 spacing remains visible.
+
+Canvas1536x1024 RGBA, root768,892 top-left. Native1x pixels with common padding only. Atlas has8px gutters; use manifest rectangles. Right carrying arm was deliberately adapted from contact-aligned SwordAndShieldRun; body/legs/left arm remain TorchRun-derived. Sources and adaptation record supplied separately.
+
+Not engine validated. Boot detail varies, original blade lengths retained, foot/root anchors approximate. Contact flags are source toe-height proxies at retimed samplepoints.
+
+
+QA v02 2026-10-07: Restore calf cuff/straps/shading using bounded same-boot run04 interior texture transfer; reinforce toe-cap and instep leather seams with restrained subpixel strokes; preserve original alpha, silhouette and pose. Original changed frame, original manifest, and exact edit mask in qa_provenance. Timing, pivot, PPU and all other frames unchanged. Atlas and previews regenerated. Engine and realtime playback remain unverified.

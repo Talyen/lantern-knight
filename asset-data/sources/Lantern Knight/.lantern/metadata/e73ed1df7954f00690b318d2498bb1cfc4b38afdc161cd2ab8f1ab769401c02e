@@ -1,0 +1,1677 @@
+{
+  "category": "Equipment_Concepts",
+  "items": [
+    {
+      "id": "sexton_wrist_claws",
+      "label": "Sexton's Wrist Claws",
+      "category": "weapons",
+      "reference_extent_cm": 36,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "dc44b4f74ecda40edb60281cec9d3a8f00c2a6f0a725423ef1c220514a6f2527",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            220,
+            226,
+            292,
+            285
+          ],
+          "visible_extent": 72,
+          "source_resampling_factor": 0.05458680818802123,
+          "sha256": "a29fe3c5746a64da443dce0643106ba25b4717cf59cd1dd472cfa4a219392bc5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            109,
+            112,
+            147,
+            145
+          ],
+          "visible_extent": 38,
+          "source_resampling_factor": 0.027293404094010616,
+          "sha256": "89590e109099b3eb429c8be85c67b27f11419df22703d32518e852ae5d759bec",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            72,
+            480,
+            440
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.33965125094768767,
+          "sha256": "ed32cde801a86a3545f29768f0b1327e3d7b8a2cc4d9f2092e5bebb2fb6322f8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            18,
+            120,
+            110
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08491281273692192,
+          "sha256": "dbc54ee920e402f9d076f38932243cd5313a2c1035955570f37b21a94f908075",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            55
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04245640636846096,
+          "sha256": "429cf43d4be74a3c2f69396bf3ba87fe148090c766706163fbef81569c096871",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02122820318423048,
+          "sha256": "02efe2fbd20b89ca783c58c4526629733c0464d8e077efa2116583acd56f9997",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            229,
+            404,
+            283,
+            448
+          ],
+          "visible_extent": 54,
+          "source_resampling_factor": 0.04094010614101592,
+          "sha256": "3657c61db77341fea27705e9cf7e3b349a90816f2ba6bec9b8d1d817d72cfb6d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "weapons/sexton_wrist_claws/sexton_wrist_claws__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            229,
+            404,
+            283,
+            448
+          ],
+          "visible_extent": 54,
+          "source_resampling_factor": 0.04094010614101592,
+          "sha256": "3657c61db77341fea27705e9cf7e3b349a90816f2ba6bec9b8d1d817d72cfb6d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 54,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "cinderhide_sling",
+      "label": "Cinderhide Sling",
+      "category": "weapons",
+      "reference_extent_cm": 72,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "fb0c0da9d90474356d4cb6835fdbc26b9fe5b0e181c438fdc41c55628f5d6d46",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            184,
+            192,
+            328,
+            320
+          ],
+          "visible_extent": 144,
+          "source_resampling_factor": 0.12151898734177215,
+          "sha256": "a954d619241e4459c4bfae404a22706d3850614b916c98560a510b32ccdd8248",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            91,
+            94,
+            164,
+            161
+          ],
+          "visible_extent": 73,
+          "source_resampling_factor": 0.060759493670886074,
+          "sha256": "3dc59ed73f3711251bc4be4ac47a23bcea4dd5faf9d23821623c93fc7b7f1181",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            56,
+            480,
+            455
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3780590717299578,
+          "sha256": "cc605d063020189eac50f84a96ad2f33d0621f680f12bb712229ee5b285eefc3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            114
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09451476793248945,
+          "sha256": "124bd0ace95c19335e7e517e276906c80495f696a102e60f2e571814c995c5f4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04725738396624472,
+          "sha256": "5913bdb74a57588b5d190b46766b4b5c0e39b2c2149356ebe0bb1eccbe6cb8fb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02362869198312236,
+          "sha256": "12becc30aa7dd17d436421a05ba0333c5e52d463da21f839e51d41819faf6be3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            202,
+            352,
+            310,
+            448
+          ],
+          "visible_extent": 108,
+          "source_resampling_factor": 0.09113924050632911,
+          "sha256": "6fad61bc4caedaaaa30e0790c941c8df16ab7fb164446308366caaf20dc043d5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "weapons/cinderhide_sling/cinderhide_sling__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            202,
+            352,
+            310,
+            448
+          ],
+          "visible_extent": 108,
+          "source_resampling_factor": 0.09113924050632911,
+          "sha256": "6fad61bc4caedaaaa30e0790c941c8df16ab7fb164446308366caaf20dc043d5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 108,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "barrow_javelin_sheaf",
+      "label": "Barrow Javelin Sheaf",
+      "category": "weapons",
+      "reference_extent_cm": 125,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__full_native.png",
+          "dimensions": [
+            1295,
+            1214
+          ],
+          "sha256": "e045ecb6da7c71a2642d590d0496f9d15f1f7383459e223e9be5cfb0fed8d7f4",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            131,
+            136,
+            381,
+            375
+          ],
+          "visible_extent": 250,
+          "source_resampling_factor": 0.20128824476650564,
+          "sha256": "382e8f200ba32897c2a57fdd8efc79f2648cd0dba4a41eeb3fd0660cf382b074",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            65,
+            68,
+            191,
+            188
+          ],
+          "visible_extent": 126,
+          "source_resampling_factor": 0.10064412238325282,
+          "sha256": "c9320929eb1f4b5ce5fbfef026138933172b25a524a13efa8086eac5eb143671",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            42,
+            480,
+            470
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3607085346215781,
+          "sha256": "cc1a985cbc0b1f9aa06d163a23b25aa91c30638dd496a1177ac6738805ef910b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            117
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09017713365539452,
+          "sha256": "36489f1f8d9667045b9dfc6b26b87b4ce88b0355de15fc3c4990a4134cfcfa0e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04508856682769726,
+          "sha256": "8e1896bf439fdd9628b79552bfc61199ce36fd2198e827512f9caee482f448d3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02254428341384863,
+          "sha256": "8bbf2cd64d0de3bd71cf9cb3887b4d9c0f185d53cec36fd0e3335da50c89f035",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            162,
+            268,
+            350,
+            448
+          ],
+          "visible_extent": 188,
+          "source_resampling_factor": 0.15136876006441224,
+          "sha256": "7c3c731594ee481c2e9feff8221265833c411d187061813f1434af6b66588c89",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "weapons/barrow_javelin_sheaf/barrow_javelin_sheaf__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            162,
+            268,
+            350,
+            448
+          ],
+          "visible_extent": 188,
+          "source_resampling_factor": 0.15136876006441224,
+          "sha256": "7c3c731594ee481c2e9feff8221265833c411d187061813f1434af6b66588c89",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 188,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "gravewright_war_pick",
+      "label": "Gravewright War Pick",
+      "category": "weapons",
+      "reference_extent_cm": 65,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "f8d7f2d83a3a94377b5a4cb94d5dd74f26584860c7d5bf26d4198dc73ff23f89",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            191,
+            195,
+            321,
+            316
+          ],
+          "visible_extent": 130,
+          "source_resampling_factor": 0.10833333333333334,
+          "sha256": "e3db28c5ae13b091535b95639fe99159bf8cfa271c1ecabe4207eb3dbc6a1c75",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            93,
+            97,
+            161,
+            158
+          ],
+          "visible_extent": 68,
+          "source_resampling_factor": 0.05416666666666667,
+          "sha256": "4d9c56f148e64d40f6eaaeffef6d4d1eed7df4ef016e5ebcb9104e6080699fb1",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            47,
+            480,
+            465
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.37333333333333335,
+          "sha256": "669a6c547b07080132ea8363d205568ee95cf0d6b6f1a4b8cfdc64b5f35a3a60",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            11,
+            120,
+            116
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09333333333333334,
+          "sha256": "d6489a2c54b7e8662f18be3b6b417eaeab8030865b15e9f346be4e59d555f6bc",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            58
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04666666666666667,
+          "sha256": "1b1135d9c9e088df9546132a40ed4dc10a54ae0653bd9e6d3171a943ab6853a7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.023333333333333334,
+          "sha256": "f9a5e680abf1d5ee4493bcd3035a4e158e91d5c24ae5891df5fc2d033984e5d0",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            207,
+            357,
+            305,
+            448
+          ],
+          "visible_extent": 98,
+          "source_resampling_factor": 0.08166666666666667,
+          "sha256": "0e611e19e56e223012fbb15e06c5c8d3926999dfd7c0b1ebf760b39efd9a130a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "weapons/gravewright_war_pick/gravewright_war_pick__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            207,
+            357,
+            305,
+            448
+          ],
+          "visible_extent": 98,
+          "source_resampling_factor": 0.08166666666666667,
+          "sha256": "0e611e19e56e223012fbb15e06c5c8d3926999dfd7c0b1ebf760b39efd9a130a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "mourner_faceplate",
+      "label": "Mourner's Faceplate",
+      "category": "armor",
+      "reference_extent_cm": 28,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__full_native.png",
+          "dimensions": [
+            1216,
+            1294
+          ],
+          "sha256": "fff1b31e799c92b1e911be7fec3f5b2a87855ef590b805163cd82e397806e85e",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            232,
+            228,
+            280,
+            284
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.048068669527897,
+          "sha256": "a559d9414809eca6937efff2fa61d4054c2ddc021f68d0c7a644f1dc40b7232a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            114,
+            113,
+            141,
+            143
+          ],
+          "visible_extent": 30,
+          "source_resampling_factor": 0.0240343347639485,
+          "sha256": "b7d56a5c40e299b49e54611e66b432f473584ba8dd1fb84cecea8d2c5957081b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            62,
+            32,
+            449,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.384549356223176,
+          "sha256": "fcfc5fb2dd5b1a60401cb185f63f37245ba30b514ac7e8feb30703cebf95e4f7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            15,
+            8,
+            112,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.096137339055794,
+          "sha256": "2a3fe256ffb82ffe2092a9d1c511a77fc4312e395dccd9048e8942a94633faa1",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            56,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.048068669527897,
+          "sha256": "4583b61c396dd608f7b5661ad995b4261a4eb14da5d340492df1ed184403c21b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            28,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.0240343347639485,
+          "sha256": "99838cc8a6e0593631976596407ed7f2a719f1261126309c3330f6ec57837553",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            406,
+            274,
+            448
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.036051502145922745,
+          "sha256": "326db7749c6546d8d97508347e59b721a7f65edfcd27991f0ec0e7118622ba0e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "armor/mourner_faceplate/mourner_faceplate__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            406,
+            274,
+            448
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.036051502145922745,
+          "sha256": "326db7749c6546d8d97508347e59b721a7f65edfcd27991f0ec0e7118622ba0e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "briar_stag_cowl",
+      "label": "Briar-Stag Cowl",
+      "category": "armor",
+      "reference_extent_cm": 48,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "a412e83bafa4f7295b55f96c1058fbd28af3f9386c135a5b47acd64defe3611d",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            212,
+            208,
+            300,
+            304
+          ],
+          "visible_extent": 96,
+          "source_resampling_factor": 0.08226221079691516,
+          "sha256": "a731b2df827e97e35908e8fa45a0b67df5886a458ad2f8a5c5274678c489f744",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            105,
+            104,
+            151,
+            152
+          ],
+          "visible_extent": 48,
+          "source_resampling_factor": 0.04113110539845758,
+          "sha256": "f59829654f5dc4f632fe3fc0e65b437abee8cb15ae2ee70533820e8f2206ad21",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            50,
+            32,
+            461,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3838903170522708,
+          "sha256": "b356dfd4a1d9aa36903d06d57d0cf0578970697684616bbd9d9ca1d999da4dc5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            12,
+            8,
+            115,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0959725792630677,
+          "sha256": "5c972b412da44b2abd8334e8b82b1cf597fea8c5a4b9b9ae94468f33ab49affb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            57,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04798628963153385,
+          "sha256": "586293d7e5dacb422ca4b967460bfc91c5b5e93a808a5f61356555cf38126704",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.023993144815766924,
+          "sha256": "611a774ae1d8377bd6c2fbd2a9d39716fe101730f09c9b1c719e1a6191eba93f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            223,
+            376,
+            289,
+            448
+          ],
+          "visible_extent": 72,
+          "source_resampling_factor": 0.061696658097686374,
+          "sha256": "0cd3c65d39ecaa57430709d149107afc1bd6f82b6fcbacd95a97b47a232d6a1e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "armor/briar_stag_cowl/briar_stag_cowl__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            223,
+            376,
+            289,
+            448
+          ],
+          "visible_extent": 72,
+          "source_resampling_factor": 0.061696658097686374,
+          "sha256": "0cd3c65d39ecaa57430709d149107afc1bd6f82b6fcbacd95a97b47a232d6a1e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 72,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "throatward_gorget",
+      "label": "Throatward Gorget",
+      "category": "armor",
+      "reference_extent_cm": 34,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/throatward_gorget/throatward_gorget__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "67c8d0dbecf1b4cc7ea1cbc6ef4d8658e3bbf459e5f1cbce5fa4d20b2faeae23",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "armor/throatward_gorget/throatward_gorget__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            222,
+            228,
+            290,
+            283
+          ],
+          "visible_extent": 68,
+          "source_resampling_factor": 0.05680868838763575,
+          "sha256": "a6ec9b56eaf56ecbbdfa1a04db4209eb4855238569b9deffba4db66accd0d83c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "armor/throatward_gorget/throatward_gorget__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            111,
+            112,
+            147,
+            143
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.028404344193817876,
+          "sha256": "bbfa8414545df4e5541ca0f3a342d2fcdca3c90200691539eb3f2506dfe9f5de",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "armor/throatward_gorget/throatward_gorget__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            74,
+            480,
+            437
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3742690058479532,
+          "sha256": "0bbfc3db72dad7828ebd114bbf9a74e5977a10fb5ed4fb50542491e8f2fc2dac",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "armor/throatward_gorget/throatward_gorget__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            18,
+            120,
+            109
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0935672514619883,
+          "sha256": "d43ffbe320ec2ca8b2c55f457450b23edfae141caed457b07b8e5daaeb3a8ff8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "armor/throatward_gorget/throatward_gorget__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            54
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04678362573099415,
+          "sha256": "18fb3f71ad0bf63e8c33166a5e9e87afd4030c3a525d36011972653c78f5c324",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "armor/throatward_gorget/throatward_gorget__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.023391812865497075,
+          "sha256": "087701b7d3aaba16fe0524f220af36be2ea6f1e88f5ccb09921c6004fe4a4e71",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "armor/throatward_gorget/throatward_gorget__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            231,
+            407,
+            282,
+            448
+          ],
+          "visible_extent": 51,
+          "source_resampling_factor": 0.042606516290726815,
+          "sha256": "407fc2d1a05af7d09aba330f74c7bdffb5a13069b5bdb46cecbee38a33d91e37",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "armor/throatward_gorget/throatward_gorget__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            231,
+            407,
+            282,
+            448
+          ],
+          "visible_extent": 51,
+          "source_resampling_factor": 0.042606516290726815,
+          "sha256": "407fc2d1a05af7d09aba330f74c7bdffb5a13069b5bdb46cecbee38a33d91e37",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 51,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "ossuary_fauld",
+      "label": "Ossuary Fauld",
+      "category": "armor",
+      "reference_extent_cm": 47,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__full_native.png",
+          "dimensions": [
+            1304,
+            1206
+          ],
+          "sha256": "a36c3e0438958ea3bbdeead216011296212e1ad10fe5e1d13a8bc6903a20fb2c",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            209,
+            215,
+            303,
+            296
+          ],
+          "visible_extent": 94,
+          "source_resampling_factor": 0.07366771159874608,
+          "sha256": "3fd9a9b12ddd09b6c0ca749da29471d19be39eefd7c421af991d2260233336a3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            104,
+            105,
+            154,
+            150
+          ],
+          "visible_extent": 50,
+          "source_resampling_factor": 0.03683385579937304,
+          "sha256": "1103563a2f2382a41ca4af0340de20a54f87224ddd0b9f0632f759665c5682f2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            63,
+            480,
+            449
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3510971786833856,
+          "sha256": "6506240a98d82a5cfc974b7eef10382e73468466e4c98a7df6c164e404e08753",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            112
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0877742946708464,
+          "sha256": "9ed5316b43cdcd32f0962a3d657cbad1920aa4ef93137446097e824b4453819d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            56
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.0438871473354232,
+          "sha256": "ce6c7e97e1040ad5190a3eeb62116d758b25eb7f87a40c963152ecff60ce2c8b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.0219435736677116,
+          "sha256": "1a18b654897148e54cfcd509b7d5a0ba87c7009d772e7594b4cb1c2cf6e633f4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            221,
+            388,
+            291,
+            448
+          ],
+          "visible_extent": 70,
+          "source_resampling_factor": 0.054858934169279,
+          "sha256": "ca700f9aa8e6fda96c045ae5bc79201178e7c1eb6c96d6d60237c2ba530f8c31",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept generated via built-in imagegen; model selection not exposed."
+        },
+        "ground_scaled_512": {
+          "path": "armor/ossuary_fauld/ossuary_fauld__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            221,
+            388,
+            291,
+            448
+          ],
+          "visible_extent": 70,
+          "source_resampling_factor": 0.054858934169279,
+          "sha256": "ca700f9aa8e6fda96c045ae5bc79201178e7c1eb6c96d6d60237c2ba530f8c31",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 70,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    }
+  ]
+}

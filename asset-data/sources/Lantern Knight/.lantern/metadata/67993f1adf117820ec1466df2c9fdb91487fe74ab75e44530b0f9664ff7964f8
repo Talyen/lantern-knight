@@ -1,0 +1,38 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_bramble_tangle_02.png",
+    "new": "volume_01_nature/assets/env_bramble_tangle_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_dead_reeds_01.png",
+    "new": "volume_01_nature/assets/env_dead_reeds_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_dead_thorn_tree_02.png",
+    "new": "volume_01_nature/assets/env_dead_thorn_tree_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_exposed_roots_01.png",
+    "new": "volume_01_nature/assets/env_exposed_roots_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_fallen_log_01.png",
+    "new": "volume_01_nature/assets/env_fallen_log_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_marsh_grass_01.png",
+    "new": "volume_01_nature/assets/env_marsh_grass_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_shadow_fern_01.png",
+    "new": "volume_01_nature/assets/env_shadow_fern_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_shelf_fungi_01.png",
+    "new": "volume_01_nature/assets/env_shelf_fungi_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_01_nature/assets/env_somber_pine_01.png",
+    "new": "volume_01_nature/assets/env_somber_pine_01.png"
+  }
+]

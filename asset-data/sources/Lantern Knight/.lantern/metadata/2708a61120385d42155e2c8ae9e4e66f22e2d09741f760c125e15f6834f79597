@@ -1,0 +1,103 @@
+{
+  "schema": "lantern.complete_illustration_pack/2",
+  "pack_id": "06_location_concepts",
+  "version": "2.0",
+  "count": 4,
+  "images": [
+    {
+      "id": "01_ruined_lantern_warden_courtyard",
+      "title": "Ruined Lantern Warden Courtyard",
+      "file": "masters/01_ruined_lantern_warden_courtyard_r02c.png",
+      "prompt": "prompts/01_ruined_lantern_warden_courtyard_r02c.txt",
+      "status": "redrawn",
+      "sha256": "f9961bf7eb147b8ecc2f9077bb77859720cbf03006c8bcd35fe27a614f22503b",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "source_generation_id": "exec-649da1ab-84ed-4c12-a04e-30d2e87d8140.png",
+      "baseline_logical_id": "06_location_concepts/01_ruined_lantern_warden_courtyard_v2",
+      "baseline_source": "lantern_overnight/06_location_concepts/masters/01_ruined_lantern_warden_courtyard_v2.png",
+      "baseline_sha256": "101eb9924f0c3b951d11a2a786ba1be5cec9c0e1eeb511e156bb177a46f77209",
+      "source_pixels": "unchanged bytes; no edits or resize of selected master",
+      "camera": "approximate elevated illustration",
+      "style_reference": {
+        "role": "style-only reference for fresh scene generation; not an edit target",
+        "file": "source/style_reference/arch_crypt_door_01.png",
+        "original_path": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_crypt_door_01.png",
+        "sha256": "9f9c32cb2179b0d277a6cbd1401b44ad9fd652c175337a48e9feb02caa8db2d0"
+      }
+    },
+    {
+      "id": "02_drowned_chapel_crypt",
+      "title": "Drowned Chapel Crypt",
+      "file": "masters/02_drowned_chapel_crypt_v1.png",
+      "prompt": "prompts/02_drowned_chapel_crypt_v1.txt",
+      "status": "retained original",
+      "sha256": "190b08e4ff5dd20b21b01f5940ba8e0a510030e252ce50ff1e5c88263e58fab2",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "source_generation_id": "exec-7901ecee-5acb-48da-a275-a7fccc834be6.png",
+      "baseline_logical_id": "06_location_concepts/02_drowned_chapel_crypt_v1",
+      "baseline_source": "lantern_overnight/06_location_concepts/masters/02_drowned_chapel_crypt_v1.png",
+      "baseline_sha256": "190b08e4ff5dd20b21b01f5940ba8e0a510030e252ce50ff1e5c88263e58fab2",
+      "source_pixels": "unchanged bytes; no edits or resize of selected master",
+      "camera": "approximate elevated illustration"
+    },
+    {
+      "id": "03_abandoned_clockmaker_hall",
+      "title": "Abandoned Clockmaker Hall",
+      "file": "masters/03_abandoned_clockmaker_hall_r02c.png",
+      "prompt": "prompts/03_abandoned_clockmaker_hall_r02c.txt",
+      "status": "redrawn",
+      "sha256": "f7045df78aa4c55306e150ad0be0088de94209f97ac22d6264d286f6f853ca6b",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "source_generation_id": "exec-1518d04c-4817-42ce-ab12-9a87e0de07ae.png",
+      "baseline_logical_id": "06_location_concepts/03_abandoned_clockmaker_hall_v1",
+      "baseline_source": "lantern_overnight/06_location_concepts/masters/03_abandoned_clockmaker_hall_v1.png",
+      "baseline_sha256": "c189b9d0d7d2abb0efc1bf1877eae671c342b73de59a33d6b5b0bfc1e8fcacbd",
+      "source_pixels": "unchanged bytes; no edits or resize of selected master",
+      "camera": "approximate elevated illustration",
+      "style_reference": {
+        "role": "style-only reference for fresh scene generation; not an edit target",
+        "file": "source/style_reference/arch_crypt_door_01.png",
+        "original_path": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_crypt_door_01.png",
+        "sha256": "9f9c32cb2179b0d277a6cbd1401b44ad9fd652c175337a48e9feb02caa8db2d0"
+      }
+    },
+    {
+      "id": "04_blackwood_path_clearing",
+      "title": "Blackwood Path Clearing",
+      "file": "masters/04_blackwood_path_clearing_r02b.png",
+      "prompt": "prompts/04_blackwood_path_clearing_r02b.txt",
+      "status": "redrawn",
+      "sha256": "16a4c492e2d60667d39353ec474a4cead5a1927e20bacaa84e3998af8c1f010a",
+      "native_size": [
+        1672,
+        940
+      ],
+      "mode": "RGB",
+      "source_generation_id": "exec-0795c6b5-558e-47a5-ae14-bf476b5d2562.png",
+      "baseline_logical_id": "06_location_concepts/04_blackwood_path_clearing_v2",
+      "baseline_source": "lantern_overnight/06_location_concepts/masters/04_blackwood_path_clearing_v2.png",
+      "baseline_sha256": "2419070c063ad4c430e206b20112b12f4ade6f6141796f04ed624e0a4598c819",
+      "source_pixels": "unchanged bytes; no edits or resize of selected master",
+      "camera": "approximate elevated illustration"
+    }
+  ],
+  "method": "Fresh independent built-in imagegen for redrawn entries. Retained entries copied byte-for-byte. No image-edit cascades.",
+  "limitations": [
+    "Flattened opaque native PNG plates, not separated components or playable maps.",
+    "No mathematically calibrated camera, world scale, collision, navigation, occlusion, animation or parallax.",
+    "Native pixels are not upscaled. Contact sheets are layout previews only.",
+    "Canonical C/RUST protagonist absent and unchanged."
+  ]
+}

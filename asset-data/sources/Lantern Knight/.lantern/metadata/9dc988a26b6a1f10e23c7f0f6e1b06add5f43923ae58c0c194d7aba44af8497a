@@ -1,0 +1,39 @@
+{
+  "standing_reach_DR": {
+    "source": "standing_reach_DR_native_sheet.png",
+    "accepted_cels": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "pickup_kneel_DR": {
+    "transition_source": "pickup_kneel_DR_rejected_ground_drift_v2.png",
+    "accepted_transition_cels": [
+      1,
+      2
+    ],
+    "transition_note": "Only continuously gripped entry/return poses retained. Grounded source poses3\u20138 rejected for drift.",
+    "grounded_source": "pickup_grounded_DR_native_sheet.png",
+    "accepted_grounded_cels": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "rejected_grounded_cel3": "Generator omitted lantern. Discarded entirely.",
+    "grounded_sheet_row2_offset_px": [
+      0,
+      40
+    ],
+    "layout_correction": "One uniform grounded-sheet row2 translation preserves native pixels without part edits, resampling, or individual-pose recentering."
+  }
+}

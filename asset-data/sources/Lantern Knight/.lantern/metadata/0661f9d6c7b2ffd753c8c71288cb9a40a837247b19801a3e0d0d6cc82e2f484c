@@ -1,0 +1,7 @@
+drawing,start_tick,hold_ticks_60hz,phase
+1,0,3,Hit snap
+2,3,5,Accordion recoil
+3,8,8,Hands brace
+4,16,5,Drop and settle
+5,21,7,Pull forward
+6,28,10,Ready recovery

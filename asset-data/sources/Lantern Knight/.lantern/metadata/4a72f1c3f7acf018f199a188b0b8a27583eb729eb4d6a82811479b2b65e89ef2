@@ -1,0 +1,47 @@
+IMPORT REVISION v02 — 7 OCTOBER 2026
+
+MONK: locomotion PPU256; cast PPU209.8360655737705; both native pivot(320,500). Visual child scale(1,1,1). Cast sprite-local offset(+0.04296875,0,0) camera-facing units at proposed base256; locomotion(0,0,0). The cast PPU provides the entire1.22 relative scale. NEVER also multiply transform scale by1.22. This matches head/bell size more closely but standing/crouched pose differences remain. Monk death scale/registration are unchanged by this package.
+
+This import contract supersedes older uncalibrated import notes below; native canvas, pivot, drawings, source sheets, holds, atlases and encoded previews remain unchanged. New comparison JPG documents the correction; old MP4s show prior native placement and are labelled historical by this notice. Offset axes are camera-facing sprite-local X=screen right,Y=screen up,Z=0, measured in world-size units on that sprite plane. They are NOT world XZ or actor-root translation. Map onto the renderer screen-right/screen-up basis if its local axes differ. Apply only to the visual child, never actor root, collision body or gameplay motion. Source/export regeneration must reapply metadata/import_contract_v02.json to regenerated manifests; the legacy source builders alone emit the original v01 metadata. Do not treat legacy script output as v02 without this step. 256 PPU is a proposed reference convention, not permission to change existing actor world size. If approved current move/base PPU is B, retain B for move; Monk cast PPU=B/1.22 and offset(11/B,0,0); Crawler defeat PPU=B and offset(-106/B,-141/B,0) in declared sprite-local axes. Monk death stays at B with unchanged position. No additional per-frame resizing, actor scaling or root fitting. No seamless-transition or engine-validation claim.
+
+# Bellbound Monk CT02 — supernatural animation tests
+
+Two clean-ink, elevated three-quarter experiments for Lantern. These are native-resolution animation tests in one heading, not a rig or a completed multidirectional game implementation.
+
+## Motion
+
+- **Buoyant pendulum locomotion:** six drawings, 48 ticks at 60 Hz (0.8 seconds), looping. Short levitation, whole-body compression/puff, delayed robe swing and a heavy bell pendulum. Drawing holds: 8, 7, 10, 7, 6, 10 ticks.
+- **Concussive bell toll:** eight drawings, 72 ticks at 60 Hz (1.2 seconds), one-shot. Draw-in, loaded back-coil, sharp downward toll, broad stylized shockwave, recoil and heavy settle. Drawing holds: 8, 9, 12, 3, 6, 5, 12, 17 ticks. The attack's anticipation ends at tick29; the widest wave starts at tick32. These are animation timing cues, not implemented damage or collision events.
+
+The videos repeat clips for review. The cast's runtime loop flag is false. They are genuine 60 fps encoded previews using held drawings, not 60 unique drawings per second and not optical-flow interpolation. Locomotion video:192 encoded frames /3.2s. Cast video:216 encoded frames /3.6s.
+
+## Files
+
+- `runtime/locomotion/` and `runtime/cast/`: fourteen transparent PNG cels.
+- `runtime/*_atlas.png`: regular native-pixel atlases;3×2 locomotion and4×2 cast.
+- `runtime/animation_manifest.json`: timing, fixed pivot, source registration, source SHA-256, atlas layout and per-cel alpha bounds.
+- `previews/*_60hz.mp4`: ordered movement previews with a diagnostic fixed-origin crosshair and current drawing label.
+- `previews/*_ordered_contact.jpg`: every extracted drawing in playback order at common origin. Crosshairs and captions are review-only; runtime images have neither.
+- `source/*_native.png`: untouched generated sheets,1536×1024 locomotion and1774×887 cast.
+- `source/*.prompt.txt`: exact prompts, including user-requested wording “Sunburst 2.5.” Built-in image generation was used; the tool does not certify a specific backend model.
+- `source/references/`: original CT02 identity, original design prompt and exact game-camera guide/contract used as references.
+- `source/build_assets.py`: deterministic extraction, contact-sheet and60Hz preview assembly. Requires Pillow,NumPy andffmpeg; it does not generate artwork.
+- `qa/`: extraction validation, complete decoded-video hold validation and visual review notes.
+
+## Registration and native pixels
+
+Every runtime cel is640×576 with fixed root/pivot(320,500) measured from top-left. For an engine with bottom-left normalized pivots, use(0.5,0.1319444444). Empty padding is intentionally generous. The origins remain fixed; no cel is fitted to its subject or rescaled. Source grid origins were rounded to integer pixels for lossless registration. Cross-clip native scale is close but not a physically calibrated character height.
+
+Ownership crop boundaries sometimes move within empty source gutters because robe/bell or wave silhouettes extend past the nominal generated cell boundary. This does not move the drawing: all pixels are registered against fixed source grid anchors, not silhouette centers. Disconnected gold wave arcs in cast5–6 are retained. Validation confirms every nonzero alpha pixel in each cleaned source ownership region survives in its output cel; all cels have safe margins and no neighboring artwork.
+
+Source files are unchanged. Runtime processing clamps alpha≤16 to0 and alpha≥250 to255, retains intermediate antialiasing and does not repaint RGB, add pixels, scale, rotate, warp or upscale artwork.
+
+## Camera and limits
+
+The requested camera is orthographic elevation35.2643896828°, world azimuth45°, actor facing world+X / screen-down-right30°. The generated cels visibly expose hood crowns, shoulder tops, bell top planes and shoes. The painted projection is a visually audited approximation; prompts and reference diagrams do not prove exact geometric projection. No additional facings, mirrors, engine-scale capture or engine integration are included.
+
+All fourteen cels preserve a stout ochre-robed monk, charcoal cowl/cuffs/gloves, smooth blank oval brass mask, two hands and one large bell. Cloth and body volume deliberately squash and swell. Some cel-to-cel robe proportions and the small locomotion wrap-pop remain visible in this low-drawing-count test. The bell is visually coherent but not generated from one mechanically locked3D solid. Gold shockwaves remain baked into cast cels; they are not separate engine VFX. Lighting and hand overlap require a separate review before mirroring.
+
+## Review
+
+Each cel and its adjacent ordered transitions were visually reviewed. The elevated camera and creature-weighted motion read coherently; the bell grip and topology show no substantive extra-limb/prop failure. Independent review found no cel rejection. All408 decoded video frames were checked against their expected source drawing at the intended60Hz holds. This validates ordering/timing and excludes interpolated in-betweens; it does not certify production-ready motion or gameplay damage timing.

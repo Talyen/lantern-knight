@@ -1,0 +1,29 @@
+# Lantern 2.5D — Town Keepers 02
+
+An archivist turning a book page and a lantern keeper tending a wick. Each includes **six native work cels** and a **held native rest / talk-ready state**. These are single-view illustrated sprite stations, not directional character rigs.
+
+## Contents
+- `runtime/{archivist,lanternkeeper}`: twelve 512×512 straight-alpha PNG cels and two 1536×1024 atlases.
+- `manifest.json`: 60 Hz hold durations, atlas layout, PPU, pivots, work/talk-ready clips and impact events.
+- `preview`: checker contacts and a 12-second, 60 fps MP4 playback comparison.
+- `source`: two original built-in image generation outputs and their exact prompts.
+- `rebuild.py`: deterministic slicing, landmark registration, canonical lower-station compositing, transparent-dust cleanup, atlas packing and preview generation. Requires Python 3, Pillow, NumPy, SciPy and FFmpeg. Run `python rebuild.py` from this folder. No generative API is invoked by the rebuild.
+- `QA.json`: per-cel review and technical checks.
+
+## Import
+Use **256 pixels per unit**, full-rectangle 512×512 sprite cells, straight alpha, clamp wrapping, bilinear filtering, mipmaps off. Preserve transparent margins and the shared pivot; never trim/recenter each frame separately. The atlas has three columns and two rows. Row-major indices 0–5 are work. Talk-ready holds frame 5 for both NPCs; these are explicitly reused frames, not additional native cels. For Unity pivots, use `pivot_unity_normalized` in the manifest; JSON also provides top-left-origin pixel pivots. All duration values are integer 60 Hz ticks, not native drawing frame counts.
+
+Recommended integration: loop `work`; allow a request to acknowledge at its long rest pose (frame 5 for each NPC); hold `talk_ready` until interaction ends, then resume the work loop. The manifest marks work cel 3 as page-settle / wick-adjust. Keep world collision independent of drawn prop reach; no collision hull is provided.
+
+## Art and motion notes
+Native acting cels were generated with the built-in image tool. No tool-version/model identity is asserted. No synthetic interpolation, skeleton warping, artificial grain or frame-count inflation is used. Station registration uses fixed workstation features, not individual character bounding boxes. All source cels remain available for repainting.
+
+The camera target is orthographic elevation **35.2643897°**, azimuth **45°**. That is an art-direction specification rather than a measured 3D camera calibration. This kit matches a crafted dark-fantasy ink/cel look, with more material detail than a flat cel character.
+
+Lower desk/bench bases and planted feet are canonical and identical inside each clip. The moving upper region retains small native illustration differences. Talk-ready is the attentive final cel drawn as part of each original work sheet. This release prioritizes coherent workloops over extra animation variants.
+
+The PNG source may show brown hidden RGB when inspected by viewers that ignore alpha. Runtime clears fully transparent RGB and alpha dust below 8/255. Checker previews demonstrate actual composited edges. No brown backdrop is included in runtime.
+
+All six cels of each NPC receive the same 480/512 uniform scale and 16-pixel canvas padding after fixed-station registration. The manifest stores the resulting pivots. This avoids tight sprite margins without independent pose scaling.
+
+The archivist book markings are decorative texture, not readable prose or localization copy. The keeper flame is contained in the lantern glass and the lantern stays seated on the bench in every cel.

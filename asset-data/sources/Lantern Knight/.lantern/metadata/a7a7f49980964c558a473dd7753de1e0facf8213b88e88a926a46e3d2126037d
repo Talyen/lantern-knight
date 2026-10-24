@@ -1,0 +1,7 @@
+RUST RUN — 8 native drawings, one complete two-step cycle, 40 ticks / 0.6667 seconds at60Hz.
+
+Use frames/run_00.png through run_07.png in order, five ticks each, looping directly7→0. No duplicate terminal drawing. Canvas1536x1024 RGBA; root top-left768,892. Native sheet detail is preserved at1x; transparent padding only. The atlas has8px gutters and fixed cells, with rectangles in manifest.json.
+
+Source motion is Standing Torch Run Forward from the user-provided Mixamo library. The source has2.755m forward travel per cycle, approximately4.133m/s; these are source measurements, not tested game settings. Art is in place; choose world movement in the game. Contact flags are source toe-height proxies. Observed anchors have explicit uncertainty and are separate from guide coordinates.
+
+Review limitations: overlapping boots in cel5, deliberate raised lantern carry, dark glove-like left grip, approximately10percent blade-length variance, and approximate illustrated grounding. Exact camera and rigid prop contracts are reference geometry; the drawing has visual rather than mathematical projection approval. No engine validation claimed.

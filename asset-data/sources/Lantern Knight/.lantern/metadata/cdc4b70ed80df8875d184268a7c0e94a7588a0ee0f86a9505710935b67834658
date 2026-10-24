@@ -1,0 +1,914 @@
+{
+  "asset": "watch_lantern_transitions",
+  "version": "1.0",
+  "canvas_px": [
+    1536,
+    1536
+  ],
+  "ground_pivot_px": [
+    768,
+    1220
+  ],
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "source_density_px_per_m": 440,
+  "socket_px": [
+    741,
+    1113
+  ],
+  "effect_canvas_px": [
+    96,
+    160
+  ],
+  "effect_socket_pivot_px": [
+    48,
+    140
+  ],
+  "timebase_hz": 60,
+  "alpha": "straight RGBA; use alpha blending, not additive for smoke",
+  "atlas_filtering": "2px transparent gutters; clamp, no mipmaps recommended; native scale or downscale",
+  "clips": {
+    "ignite": {
+      "loop": false,
+      "playback": "hold each cel for integer duration_ticks, then transition once",
+      "duration_ticks": 36,
+      "duration_seconds": 0.6,
+      "terminal_state": "lit_loop_phase_0",
+      "frames": [
+        {
+          "frame": 0,
+          "name": "unlit",
+          "duration_ticks": 3,
+          "sprite": "frames/ignite/00_unlit.png",
+          "effect": "effects/ignite/00_unlit.png",
+          "registered_effect": "effects/ignite/00_unlit_registered.png",
+          "illumination": "effects/ignite/00_unlit_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": null,
+          "source_drawing": null,
+          "sha256": "14ae3cd79822c95a0f8a93f670bc270c1867a725e49af236dd2245e991719ebb",
+          "atlas_rect_px": [
+            2,
+            2,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            2,
+            2,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 1,
+          "name": "ember",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/01_ember.png",
+          "effect": "effects/ignite/01_ember.png",
+          "registered_effect": "effects/ignite/01_ember_registered.png",
+          "illumination": "effects/ignite/01_ember_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            45,
+            133,
+            51,
+            140
+          ],
+          "source_drawing": 0,
+          "sha256": "9ff30699cb9fc1a34795fdae197690600ad2d0ac8e708bbf3f2023316ca56792",
+          "atlas_rect_px": [
+            286,
+            2,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            102,
+            2,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 2,
+          "name": "catch",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/02_catch.png",
+          "effect": "effects/ignite/02_catch.png",
+          "registered_effect": "effects/ignite/02_catch_registered.png",
+          "illumination": "effects/ignite/02_catch_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            44,
+            125,
+            53,
+            140
+          ],
+          "source_drawing": 1,
+          "sha256": "34663f401d56c8b63d9a39e3b29fbb22cc5d144e4a3054d9f8a4d1b943b6cc48",
+          "atlas_rect_px": [
+            570,
+            2,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            202,
+            2,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 3,
+          "name": "split_catch",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/03_split_catch.png",
+          "effect": "effects/ignite/03_split_catch.png",
+          "registered_effect": "effects/ignite/03_split_catch_registered.png",
+          "illumination": "effects/ignite/03_split_catch_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            42,
+            117,
+            55,
+            140
+          ],
+          "source_drawing": 2,
+          "sha256": "e26292dc7446cafad0ebf4e8a7b446a4652ce5b3eda99963cc174d9c5c69cb9e",
+          "atlas_rect_px": [
+            854,
+            2,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            302,
+            2,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 4,
+          "name": "rise",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/04_rise.png",
+          "effect": "effects/ignite/04_rise.png",
+          "registered_effect": "effects/ignite/04_rise_registered.png",
+          "illumination": "effects/ignite/04_rise_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            40,
+            108,
+            56,
+            140
+          ],
+          "source_drawing": 3,
+          "sha256": "f1ba298f777bcfc4e515e3165d50309863c934118528425ec1a7e9d46c2802ca",
+          "atlas_rect_px": [
+            1138,
+            2,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            402,
+            2,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 5,
+          "name": "fork",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/05_fork.png",
+          "effect": "effects/ignite/05_fork.png",
+          "registered_effect": "effects/ignite/05_fork_registered.png",
+          "illumination": "effects/ignite/05_fork_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            37,
+            100,
+            59,
+            140
+          ],
+          "source_drawing": 4,
+          "sha256": "98e6789ede1fb82924b0a1ccdd5c2735dbe9276448f66a775b8deeb8fe5ca28e",
+          "atlas_rect_px": [
+            2,
+            446,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            2,
+            166,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 6,
+          "name": "overshoot",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/06_overshoot.png",
+          "effect": "effects/ignite/06_overshoot.png",
+          "registered_effect": "effects/ignite/06_overshoot_registered.png",
+          "illumination": "effects/ignite/06_overshoot_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            33,
+            80,
+            63,
+            140
+          ],
+          "source_drawing": 5,
+          "sha256": "e9464a7fabc61c035a20d9ad66271ef1c569fa6b99eca840855c1e530e458143",
+          "atlas_rect_px": [
+            286,
+            446,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            102,
+            166,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 7,
+          "name": "settle",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/07_settle.png",
+          "effect": "effects/ignite/07_settle.png",
+          "registered_effect": "effects/ignite/07_settle_registered.png",
+          "illumination": "effects/ignite/07_settle_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            34,
+            89,
+            62,
+            140
+          ],
+          "source_drawing": 6,
+          "sha256": "972a2bfcda5738df2106840577d030253635f184ccb9dbf49b83a50a739368ca",
+          "atlas_rect_px": [
+            570,
+            446,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            202,
+            166,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 8,
+          "name": "steady_shape",
+          "duration_ticks": 4,
+          "sprite": "frames/ignite/08_steady_shape.png",
+          "effect": "effects/ignite/08_steady_shape.png",
+          "registered_effect": "effects/ignite/08_steady_shape_registered.png",
+          "illumination": "effects/ignite/08_steady_shape_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            36,
+            94,
+            61,
+            140
+          ],
+          "source_drawing": 7,
+          "sha256": "a98112d9a513e035d438255882fb9b7fe26b5204093cdfe2b7c8203d036ab4db",
+          "atlas_rect_px": [
+            854,
+            446,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            302,
+            166,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 9,
+          "name": "lit_handoff",
+          "duration_ticks": 1,
+          "sprite": "frames/ignite/09_lit_handoff.png",
+          "effect": "effects/ignite/09_lit_handoff.png",
+          "registered_effect": "effects/ignite/09_lit_handoff_registered.png",
+          "illumination": "effects/ignite/09_lit_handoff_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            33,
+            94,
+            58,
+            140
+          ],
+          "source_drawing": "lit",
+          "sha256": "1f7ec4d1d6c135316f202440f8b63be7c6471447dcd1faffa07aea235d5b7485",
+          "atlas_rect_px": [
+            1138,
+            446,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            402,
+            166,
+            96,
+            160
+          ]
+        }
+      ]
+    },
+    "extinguish": {
+      "loop": false,
+      "playback": "hold each cel for integer duration_ticks, then transition once",
+      "duration_ticks": 53,
+      "duration_seconds": 0.8833333333333333,
+      "terminal_state": "unlit_static",
+      "frames": [
+        {
+          "frame": 0,
+          "name": "lit_handoff",
+          "duration_ticks": 1,
+          "sprite": "frames/extinguish/00_lit_handoff.png",
+          "effect": "effects/extinguish/00_lit_handoff.png",
+          "registered_effect": "effects/extinguish/00_lit_handoff_registered.png",
+          "illumination": "effects/extinguish/00_lit_handoff_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            33,
+            94,
+            58,
+            140
+          ],
+          "source_drawing": "lit",
+          "sha256": "1f7ec4d1d6c135316f202440f8b63be7c6471447dcd1faffa07aea235d5b7485",
+          "atlas_rect_px": [
+            2,
+            890,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            2,
+            330,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 1,
+          "name": "dip",
+          "duration_ticks": 4,
+          "sprite": "frames/extinguish/01_dip.png",
+          "effect": "effects/extinguish/01_dip.png",
+          "registered_effect": "effects/extinguish/01_dip_registered.png",
+          "illumination": "effects/extinguish/01_dip_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            36,
+            106,
+            60,
+            140
+          ],
+          "source_drawing": 8,
+          "sha256": "c61c0a9dbba39a1650245861a49e45469a19c793e879a45d6b505820aec55a1e",
+          "atlas_rect_px": [
+            286,
+            890,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            102,
+            330,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 2,
+          "name": "gutter",
+          "duration_ticks": 4,
+          "sprite": "frames/extinguish/02_gutter.png",
+          "effect": "effects/extinguish/02_gutter.png",
+          "registered_effect": "effects/extinguish/02_gutter_registered.png",
+          "illumination": "effects/extinguish/02_gutter_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            34,
+            119,
+            62,
+            140
+          ],
+          "source_drawing": 9,
+          "sha256": "1b9357c8d65e9d6c4d0039a76a6a480d29aaaf5bae8c54437b543f8205242f59",
+          "atlas_rect_px": [
+            570,
+            890,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            202,
+            330,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 3,
+          "name": "ember_smoke",
+          "duration_ticks": 5,
+          "sprite": "frames/extinguish/03_ember_smoke.png",
+          "effect": "effects/extinguish/03_ember_smoke.png",
+          "registered_effect": "effects/extinguish/03_ember_smoke_registered.png",
+          "illumination": "effects/extinguish/03_ember_smoke_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            39,
+            100,
+            58,
+            140
+          ],
+          "source_drawing": 10,
+          "sha256": "42f321d85a4375d5aee9abceb155a1f166a64d45a0ef7074917a8997093d601c",
+          "atlas_rect_px": [
+            854,
+            890,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            302,
+            330,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 4,
+          "name": "puff",
+          "duration_ticks": 6,
+          "sprite": "frames/extinguish/04_puff.png",
+          "effect": "effects/extinguish/04_puff.png",
+          "registered_effect": "effects/extinguish/04_puff_registered.png",
+          "illumination": "effects/extinguish/04_puff_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            34,
+            93,
+            62,
+            137
+          ],
+          "source_drawing": 11,
+          "sha256": "0c1eba91fbb83143c73b9cc6365a11cbfff32775c5313e73b23cdfed2249ea3f",
+          "atlas_rect_px": [
+            1138,
+            890,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            402,
+            330,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 5,
+          "name": "coil",
+          "duration_ticks": 7,
+          "sprite": "frames/extinguish/05_coil.png",
+          "effect": "effects/extinguish/05_coil.png",
+          "registered_effect": "effects/extinguish/05_coil_registered.png",
+          "illumination": "effects/extinguish/05_coil_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            37,
+            75,
+            60,
+            133
+          ],
+          "source_drawing": 12,
+          "sha256": "d733476caf63811b5a30b7ceb9876eaad0ed2c687f305440707140514b334b81",
+          "atlas_rect_px": [
+            2,
+            1334,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            2,
+            494,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 6,
+          "name": "lift",
+          "duration_ticks": 8,
+          "sprite": "frames/extinguish/06_lift.png",
+          "effect": "effects/extinguish/06_lift.png",
+          "registered_effect": "effects/extinguish/06_lift_registered.png",
+          "illumination": "effects/extinguish/06_lift_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            37,
+            66,
+            59,
+            124
+          ],
+          "source_drawing": 13,
+          "sha256": "d6f4fa44bdb1af713848cec4e90915f62a077f252325352ab40af91287aed468",
+          "atlas_rect_px": [
+            286,
+            1334,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            102,
+            494,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 7,
+          "name": "wisps",
+          "duration_ticks": 8,
+          "sprite": "frames/extinguish/07_wisps.png",
+          "effect": "effects/extinguish/07_wisps.png",
+          "registered_effect": "effects/extinguish/07_wisps_registered.png",
+          "illumination": "effects/extinguish/07_wisps_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            38,
+            66,
+            59,
+            115
+          ],
+          "source_drawing": 14,
+          "sha256": "30c426c8381c767effab6b554917005fdabbd5e69597ce078f1d5d71d446c407",
+          "atlas_rect_px": [
+            570,
+            1334,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            202,
+            494,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 8,
+          "name": "last_wisp",
+          "duration_ticks": 9,
+          "sprite": "frames/extinguish/08_last_wisp.png",
+          "effect": "effects/extinguish/08_last_wisp.png",
+          "registered_effect": "effects/extinguish/08_last_wisp_registered.png",
+          "illumination": "effects/extinguish/08_last_wisp_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": [
+            42,
+            66,
+            55,
+            106
+          ],
+          "source_drawing": 15,
+          "sha256": "b7ab4540b1c5cd486b2967c3a328c51cf81e4101aef3025ef5731d60e825e42c",
+          "atlas_rect_px": [
+            854,
+            1334,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            302,
+            494,
+            96,
+            160
+          ]
+        },
+        {
+          "frame": 9,
+          "name": "clear",
+          "duration_ticks": 1,
+          "sprite": "frames/extinguish/09_clear.png",
+          "effect": "effects/extinguish/09_clear.png",
+          "registered_effect": "effects/extinguish/09_clear_registered.png",
+          "illumination": "effects/extinguish/09_clear_illumination.png",
+          "bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "effect_bounds_px": null,
+          "source_drawing": null,
+          "sha256": "14ae3cd79822c95a0f8a93f670bc270c1867a725e49af236dd2245e991719ebb",
+          "atlas_rect_px": [
+            1138,
+            1334,
+            280,
+            440
+          ],
+          "atlas_trim_origin_px": [
+            632,
+            848
+          ],
+          "atlas_pivot_px": [
+            136,
+            372
+          ],
+          "effect_atlas_rect_px": [
+            402,
+            494,
+            96,
+            160
+          ]
+        }
+      ]
+    }
+  },
+  "notes": [
+    "Eight independently illustrated effect cels per transition, plus exact boundary state cels.",
+    "Reusable effect layers are unoccluded; fixture-specific exported effects are pane-clipped.",
+    "Original lit flicker loop not rebuilt. Ignite terminal equals original static lit / loop phase zero; extinguish begins there.",
+    "For seamless exit from a running flicker, finish its cycle to phase zero before extinguish.",
+    "Illustrated fixed-view camera calibration retained; no engine integration or engine validation performed."
+  ],
+  "atlases": {
+    "fixture": "atlas/fixture_transitions.png",
+    "effects": "atlas/reusable_effects.png"
+  }
+}

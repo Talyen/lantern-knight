@@ -1,0 +1,21 @@
+Lantern Knight — Ideal Campfire
+Twenty unique illustrated cels, 1024 × 1024 transparent RGBA.
+
+Start with preview.webp or three_cycles.webp. Contact sheet and seam strip are review aids.
+Duration: 140 ticks at 60 Hz = 2.333333 seconds. Each drawing holds seven ticks. WebP uses 116/117 ms integer approximations totaling 2333 ms.
+
+Import frames/ as the authoritative complete animation, or use atlases/ and metadata.json. Three atlas pages are 3096 × 3096, with 4-pixel transparent perimeter around each 1024-pixel cell. Pivot is normalized (0.5, 0.875), measured from top left. Use straight-alpha blending and clamp texture wrap.
+
+The source art was drawn with built-in imagegen at native 1329 × 1183. Master copies are retained in masters/. Runtime images are padded to a 1536-square working canvas, then downsampled to 1024; they are not AI-upscaled or claimed as higher-detail originals.
+
+Art construction: low open three-log fuel arrangement, visible ember bed, irregular stone ring, and drawn fire integrated around foreground and background fuel. Every cel is authored artwork, not a generic flame warp, crossfade, or ping-pong sequence. Source material landmarks are registered before assembly. The outer-rim base remains stationary. Localized inward lighting is measured from the authored source lighting and transferred onto that fixed base; outer faces stay dark.
+
+Layer reconstruction order, normal straight-alpha compositing:
+1. illumination_frames/frame_NN.png
+2. rear_interior_frames/frame_NN.png
+3. front_interior_frames/frame_NN.png
+The split layers contain authored fire plus some lit material fragments, preserving the artistically integrated roots and occlusion. They are deliberately not advertised as pure isolated flame VFX. Recomposition matches the complete frame pixels exactly. unlit.png is the matching off-state.
+
+lighting_preview.webp isolates the fixed illuminated base. Small light variations are intentional. No floating one-frame sparks are retained. qa.json records uniqueness, margins, layer recomposition, and transition metrics. Metrics supplement visual review; they do not alone prove a perfect loop.
+
+The near-right exposed log end-grain is locked to the original hero geometry through a narrow material mask, with source-measured lighting retained. This mask excludes flame tongues.

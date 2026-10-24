@@ -1,0 +1,765 @@
+{
+  "pack": "Lantern Generic Loot",
+  "version": 1,
+  "ticks_per_second": 60,
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "note": "art direction target, not mathematically camera-rendered"
+  },
+  "alpha": "straight RGBA",
+  "atlas": {
+    "file": "runtime/loot_atlas.png",
+    "size": [
+      1560,
+      1040
+    ],
+    "cell": [
+      256,
+      256
+    ],
+    "gutter": 4,
+    "filter": "bilinear",
+    "mipmaps": false
+  },
+  "rarity": {
+    "base_items": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "uniques": [
+      207,
+      173,
+      108,
+      255
+    ],
+    "note": "Apply color to effects at runtime. Drops are generic grayscale material silhouettes; no rarity ladder."
+  },
+  "categories": [
+    "wrapped_equipment_bundle",
+    "small_relic_parcel",
+    "coin_pouch"
+  ],
+  "animations": {
+    "landing": {
+      "frames": 6,
+      "loop": false,
+      "layer": "behind_drop",
+      "total_ticks": 24,
+      "terminal": {
+        "at_tick": 24,
+        "action": "disable_renderer",
+        "clear_sprite": true,
+        "hold_last_frame": false
+      }
+    },
+    "glint": {
+      "frames": 6,
+      "loop": true,
+      "layer": "above_drop",
+      "total_ticks": 90,
+      "attach_offset_px": [
+        0,
+        -84
+      ]
+    },
+    "collection": {
+      "frames": 6,
+      "loop": false,
+      "layer": "above_drop",
+      "total_ticks": 24,
+      "hide_drop_on_tick": 3,
+      "terminal": {
+        "at_tick": 24,
+        "action": "disable_renderer",
+        "clear_sprite": true,
+        "hold_last_frame": false
+      }
+    }
+  },
+  "scale_guidance": "Runtime frames are 256px with 200px approximate bundle width. Start world footprint 0.6-0.9m; tune to hero. Uniformly scale all members of an effect, never fit each frame independently. No upscaling used.",
+  "frames": {
+    "drops_00": {
+      "file": "runtime/drops_00.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": null,
+      "persistent": true,
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "source_anchor": [
+        390,
+        588
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        23,
+        59,
+        233,
+        229
+      ],
+      "atlas_rect": [
+        2,
+        2,
+        256,
+        256
+      ]
+    },
+    "drops_01": {
+      "file": "runtime/drops_01.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": null,
+      "persistent": true,
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "source_anchor": [
+        1115,
+        579
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        42,
+        71,
+        214,
+        228
+      ],
+      "atlas_rect": [
+        262,
+        2,
+        256,
+        256
+      ]
+    },
+    "drops_02": {
+      "file": "runtime/drops_02.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": null,
+      "persistent": true,
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "source_anchor": [
+        1849,
+        583
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        45,
+        67,
+        210,
+        228
+      ],
+      "atlas_rect": [
+        522,
+        2,
+        256,
+        256
+      ]
+    },
+    "landing_00": {
+      "file": "runtime/landing_00.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 3,
+      "persistent": false,
+      "source_rect": [
+        0,
+        130,
+        300,
+        550
+      ],
+      "source_anchor": [
+        146,
+        485
+      ],
+      "source_to_runtime_scale": 0.55,
+      "alpha_bbox": [
+        79,
+        198,
+        177,
+        229
+      ],
+      "atlas_rect": [
+        2,
+        262,
+        256,
+        256
+      ]
+    },
+    "landing_01": {
+      "file": "runtime/landing_01.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 3,
+      "persistent": false,
+      "source_rect": [
+        300,
+        130,
+        650,
+        550
+      ],
+      "source_anchor": [
+        506,
+        485
+      ],
+      "source_to_runtime_scale": 0.55,
+      "alpha_bbox": [
+        71,
+        134,
+        185,
+        229
+      ],
+      "atlas_rect": [
+        262,
+        262,
+        256,
+        256
+      ]
+    },
+    "landing_02": {
+      "file": "runtime/landing_02.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 4,
+      "persistent": false,
+      "source_rect": [
+        650,
+        130,
+        1040,
+        550
+      ],
+      "source_anchor": [
+        865,
+        495
+      ],
+      "source_to_runtime_scale": 0.55,
+      "alpha_bbox": [
+        58,
+        49,
+        200,
+        232
+      ],
+      "atlas_rect": [
+        522,
+        262,
+        256,
+        256
+      ]
+    },
+    "landing_03": {
+      "file": "runtime/landing_03.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 4,
+      "persistent": false,
+      "source_rect": [
+        1040,
+        130,
+        1510,
+        550
+      ],
+      "source_anchor": [
+        1275,
+        485
+      ],
+      "source_to_runtime_scale": 0.55,
+      "alpha_bbox": [
+        32,
+        160,
+        225,
+        235
+      ],
+      "atlas_rect": [
+        782,
+        262,
+        256,
+        256
+      ]
+    },
+    "landing_04": {
+      "file": "runtime/landing_04.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        1510,
+        130,
+        1820,
+        550
+      ],
+      "source_anchor": [
+        1670,
+        485
+      ],
+      "source_to_runtime_scale": 0.55,
+      "alpha_bbox": [
+        72,
+        170,
+        186,
+        227
+      ],
+      "atlas_rect": [
+        1042,
+        262,
+        256,
+        256
+      ]
+    },
+    "landing_05": {
+      "file": "runtime/landing_05.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        1820,
+        130,
+        2043,
+        550
+      ],
+      "source_anchor": [
+        1940,
+        485
+      ],
+      "source_to_runtime_scale": 0.55,
+      "alpha_bbox": [
+        111,
+        197,
+        153,
+        229
+      ],
+      "atlas_rect": [
+        1302,
+        262,
+        256,
+        256
+      ]
+    },
+    "glint_00": {
+      "file": "runtime/glint_00.png",
+      "pivot_px": [
+        128,
+        128
+      ],
+      "duration_ticks": 24,
+      "persistent": false,
+      "source_rect": [
+        0,
+        180,
+        362,
+        550
+      ],
+      "source_anchor": [
+        183,
+        357
+      ],
+      "source_to_runtime_scale": 0.25,
+      "alpha_bbox": [
+        123,
+        124,
+        132,
+        132
+      ],
+      "atlas_rect": [
+        2,
+        522,
+        256,
+        256
+      ]
+    },
+    "glint_01": {
+      "file": "runtime/glint_01.png",
+      "pivot_px": [
+        128,
+        128
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        362,
+        180,
+        724,
+        550
+      ],
+      "source_anchor": [
+        533,
+        357
+      ],
+      "source_to_runtime_scale": 0.25,
+      "alpha_bbox": [
+        115,
+        117,
+        140,
+        139
+      ],
+      "atlas_rect": [
+        262,
+        522,
+        256,
+        256
+      ]
+    },
+    "glint_02": {
+      "file": "runtime/glint_02.png",
+      "pivot_px": [
+        128,
+        128
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        724,
+        180,
+        1086,
+        550
+      ],
+      "source_anchor": [
+        895,
+        357
+      ],
+      "source_to_runtime_scale": 0.25,
+      "alpha_bbox": [
+        111,
+        110,
+        145,
+        147
+      ],
+      "atlas_rect": [
+        522,
+        522,
+        256,
+        256
+      ]
+    },
+    "glint_03": {
+      "file": "runtime/glint_03.png",
+      "pivot_px": [
+        128,
+        128
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        1086,
+        180,
+        1448,
+        550
+      ],
+      "source_anchor": [
+        1264,
+        357
+      ],
+      "source_to_runtime_scale": 0.25,
+      "alpha_bbox": [
+        105,
+        97,
+        151,
+        161
+      ],
+      "atlas_rect": [
+        782,
+        522,
+        256,
+        256
+      ]
+    },
+    "glint_04": {
+      "file": "runtime/glint_04.png",
+      "pivot_px": [
+        128,
+        128
+      ],
+      "duration_ticks": 6,
+      "persistent": false,
+      "source_rect": [
+        1448,
+        180,
+        1810,
+        550
+      ],
+      "source_anchor": [
+        1620,
+        357
+      ],
+      "source_to_runtime_scale": 0.25,
+      "alpha_bbox": [
+        116,
+        114,
+        144,
+        140
+      ],
+      "atlas_rect": [
+        1042,
+        522,
+        256,
+        256
+      ]
+    },
+    "glint_05": {
+      "file": "runtime/glint_05.png",
+      "pivot_px": [
+        128,
+        128
+      ],
+      "duration_ticks": 45,
+      "persistent": false,
+      "source_rect": [
+        1810,
+        180,
+        2172,
+        550
+      ],
+      "source_anchor": [
+        1989,
+        357
+      ],
+      "source_to_runtime_scale": 0.25,
+      "alpha_bbox": [
+        124,
+        124,
+        132,
+        132
+      ],
+      "atlas_rect": [
+        1302,
+        522,
+        256,
+        256
+      ]
+    },
+    "collection_00": {
+      "file": "runtime/collection_00.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 3,
+      "persistent": false,
+      "source_rect": [
+        0,
+        0,
+        362,
+        724
+      ],
+      "source_anchor": [
+        166,
+        658
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        92,
+        152,
+        164,
+        228
+      ],
+      "atlas_rect": [
+        2,
+        782,
+        256,
+        256
+      ]
+    },
+    "collection_01": {
+      "file": "runtime/collection_01.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 3,
+      "persistent": false,
+      "source_rect": [
+        362,
+        0,
+        724,
+        724
+      ],
+      "source_anchor": [
+        537,
+        658
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        78,
+        105,
+        179,
+        228
+      ],
+      "atlas_rect": [
+        262,
+        782,
+        256,
+        256
+      ]
+    },
+    "collection_02": {
+      "file": "runtime/collection_02.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 4,
+      "persistent": false,
+      "source_rect": [
+        724,
+        0,
+        1086,
+        724
+      ],
+      "source_anchor": [
+        904,
+        658
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        77,
+        11,
+        180,
+        227
+      ],
+      "atlas_rect": [
+        522,
+        782,
+        256,
+        256
+      ]
+    },
+    "collection_03": {
+      "file": "runtime/collection_03.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 4,
+      "persistent": false,
+      "source_rect": [
+        1086,
+        0,
+        1448,
+        724
+      ],
+      "source_anchor": [
+        1297,
+        658
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        80,
+        48,
+        168,
+        226
+      ],
+      "atlas_rect": [
+        782,
+        782,
+        256,
+        256
+      ]
+    },
+    "collection_04": {
+      "file": "runtime/collection_04.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        1448,
+        0,
+        1810,
+        724
+      ],
+      "source_anchor": [
+        1654,
+        658
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        119,
+        65,
+        138,
+        133
+      ],
+      "atlas_rect": [
+        1042,
+        782,
+        256,
+        256
+      ]
+    },
+    "collection_05": {
+      "file": "runtime/collection_05.png",
+      "pivot_px": [
+        128,
+        224
+      ],
+      "duration_ticks": 5,
+      "persistent": false,
+      "source_rect": [
+        1810,
+        0,
+        2172,
+        724
+      ],
+      "source_anchor": [
+        2007,
+        658
+      ],
+      "source_to_runtime_scale": 0.35,
+      "alpha_bbox": [
+        122,
+        41,
+        134,
+        68
+      ],
+      "atlas_rect": [
+        1302,
+        782,
+        256,
+        256
+      ]
+    }
+  },
+  "render_mapping": {
+    "primitive": "upright_camera_facing_sprite_card",
+    "pivot_attachment": "world_ground_position",
+    "ground_ellipse": "perspective_baked_into_card_art",
+    "apply_secondary_isometric_projection": false,
+    "horizontal_ground_decal": false
+  }
+}

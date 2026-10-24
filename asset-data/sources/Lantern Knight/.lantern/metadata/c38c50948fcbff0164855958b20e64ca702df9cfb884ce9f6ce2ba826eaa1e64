@@ -1,0 +1,77 @@
+{
+  "revision": "v02_import",
+  "status": "Import metadata correction; native drawings unchanged; engine review pending",
+  "clips": {
+    "locomotion": {
+      "pixels_per_unit": 256,
+      "visual_child_local_scale": [
+        1,
+        1,
+        1
+      ],
+      "visual_child_local_offset_units": [
+        0,
+        0,
+        0
+      ],
+      "offset_axes": {
+        "plane": "camera-facing sprite-local plane",
+        "x": "screen right",
+        "y": "screen up",
+        "z": "zero, no depth displacement",
+        "mapping": "Offsets are renderer-local world-size units on the camera-facing sprite plane, NOT world XZ and NOT actor-root translation. If renderer local axes differ, map these X/Y values to its screen-right/screen-up basis before applying to the visual child."
+      },
+      "base_ppu_status": "256 is a proposed reference convention, not authority to change existing actor world size.",
+      "preserve_existing_world_size": "Let B be current approved move/base PPU. Keep move at B. Set clip PPU=B/equivalent_reference_pixel_scale. Set visual child offset=(offset_reference_px.x/B,-offset_reference_px.y/B,0) on declared sprite-local axes. Do not rescale actor root/collider.",
+      "equivalent_reference_pixel_scale": 1,
+      "equivalent_offset_reference_px": [
+        0,
+        0
+      ]
+    },
+    "cast": {
+      "revision": "2026-10-07_import_v02",
+      "native_canvas_px": [
+        640,
+        576
+      ],
+      "native_pivot_top_left_px": [
+        320,
+        500
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.13194444444444445
+      ],
+      "reference_move_ppu": 256,
+      "pixels_per_unit": 209.8360655737705,
+      "visual_child_local_scale": [
+        1,
+        1,
+        1
+      ],
+      "visual_child_local_offset_units": [
+        0.04296875,
+        0,
+        0
+      ],
+      "equivalent_reference_pixel_scale": 1.22,
+      "equivalent_offset_reference_px": [
+        11,
+        0
+      ],
+      "apply_once": "PPU already supplies 1.22 relative scale. Keep visual child scale at1. Apply local position once. Do not change actor root/collider scale.",
+      "residual": "Standing cast and crouched locomotion differ in pose and cloth shape; transition is not seamless or engine validated.",
+      "offset_axes": {
+        "plane": "camera-facing sprite-local plane",
+        "x": "screen right",
+        "y": "screen up",
+        "z": "zero, no depth displacement",
+        "mapping": "Offsets are renderer-local world-size units on the camera-facing sprite plane, NOT world XZ and NOT actor-root translation. If renderer local axes differ, map these X/Y values to its screen-right/screen-up basis before applying to the visual child."
+      },
+      "base_ppu_status": "256 is a proposed reference convention, not authority to change existing actor world size.",
+      "preserve_existing_world_size": "Let B be current approved move/base PPU. Keep move at B. Set clip PPU=B/equivalent_reference_pixel_scale. Set visual child offset=(offset_reference_px.x/B,-offset_reference_px.y/B,0) on declared sprite-local axes. Do not rescale actor root/collider."
+    }
+  },
+  "root_canvas_convention": "640x576 native cells, pivot top-left(320,500), normalized bottom-left(0.5,0.1319444444). Actor root stays fixed; only visual child/import PPU changes per clip."
+}

@@ -1,0 +1,40 @@
+{
+  "id": "ZB01",
+  "new_clips": {
+    "DL": [
+      "move",
+      "attack"
+    ],
+    "UL": [
+      "move",
+      "attack"
+    ],
+    "UR": [
+      "move",
+      "attack"
+    ]
+  },
+  "required_baseline": {
+    "direction": "DR",
+    "canonical_revision": "ZB01_v02",
+    "package": "ZB01_runtime.zip",
+    "library_file_id": "libfile_32e51c3799cc81918a592e003dd763d3",
+    "library_version": 1,
+    "sha256": "3886eb516d0e33314e48fc8f938f89f07ccda9dc61de508911cc23bc9d289bc5",
+    "unchanged": true,
+    "proof": "All 15 runtime PNG bytes match exact canonical archive"
+  },
+  "missing_clips": [],
+  "canonical_original_sha256": "c2e8f5cfd33e745e414aa0a93047d18cd51baf283d10478864dbdba6f8a9c631",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    320,
+    520
+  ],
+  "estimated_pixels_per_unit": 256,
+  "timing": "60Hz integer holds copied from canonical DR",
+  "mirror_policy": "No mirrored runtime cels. Deterministic mirrored references used only as heading guides for new drawings."
+}

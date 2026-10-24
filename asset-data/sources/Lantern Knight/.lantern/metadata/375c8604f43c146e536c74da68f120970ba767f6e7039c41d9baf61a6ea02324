@@ -1,0 +1,448 @@
+{
+  "enemy": "Shroud Wisp",
+  "ability": "Death",
+  "version": 1,
+  "actor": {
+    "canvas": [
+      384,
+      384
+    ],
+    "source_canvas": [
+      384,
+      384
+    ],
+    "pivot_top_left": [
+      192,
+      355
+    ],
+    "source_pivot_top_left": [
+      192,
+      355
+    ],
+    "atlas": "shroud_wisp_death_actor_atlas.png",
+    "atlas_columns": 4,
+    "atlas_gutter": 4,
+    "frame_count": 14,
+    "frame_durations_ms": [
+      100,
+      130,
+      110,
+      110,
+      120,
+      130,
+      140,
+      150,
+      160,
+      170,
+      180,
+      200,
+      220,
+      200
+    ],
+    "end_behavior": "hide",
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "4px transparent gutters; clamp sample UVs to frame or import individual PNGs."
+    }
+  },
+  "rects": [
+    {
+      "frame": 0,
+      "file": "frames/shroud_wisp_death_000.png",
+      "rect": [
+        4,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 100
+    },
+    {
+      "frame": 1,
+      "file": "frames/shroud_wisp_death_001.png",
+      "rect": [
+        396,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 130
+    },
+    {
+      "frame": 2,
+      "file": "frames/shroud_wisp_death_002.png",
+      "rect": [
+        788,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 110
+    },
+    {
+      "frame": 3,
+      "file": "frames/shroud_wisp_death_003.png",
+      "rect": [
+        1180,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 110
+    },
+    {
+      "frame": 4,
+      "file": "frames/shroud_wisp_death_004.png",
+      "rect": [
+        4,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 120
+    },
+    {
+      "frame": 5,
+      "file": "frames/shroud_wisp_death_005.png",
+      "rect": [
+        396,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 130
+    },
+    {
+      "frame": 6,
+      "file": "frames/shroud_wisp_death_006.png",
+      "rect": [
+        788,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 140
+    },
+    {
+      "frame": 7,
+      "file": "frames/shroud_wisp_death_007.png",
+      "rect": [
+        1180,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 150
+    },
+    {
+      "frame": 8,
+      "file": "frames/shroud_wisp_death_008.png",
+      "rect": [
+        4,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 160
+    },
+    {
+      "frame": 9,
+      "file": "frames/shroud_wisp_death_009.png",
+      "rect": [
+        396,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 170
+    },
+    {
+      "frame": 10,
+      "file": "frames/shroud_wisp_death_010.png",
+      "rect": [
+        788,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 180
+    },
+    {
+      "frame": 11,
+      "file": "frames/shroud_wisp_death_011.png",
+      "rect": [
+        1180,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 200
+    },
+    {
+      "frame": 12,
+      "file": "frames/shroud_wisp_death_012.png",
+      "rect": [
+        4,
+        1180,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 220
+    },
+    {
+      "frame": 13,
+      "file": "frames/shroud_wisp_death_013.png",
+      "rect": [
+        396,
+        1180,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        355
+      ],
+      "duration_ms": 200
+    }
+  ],
+  "timing": {
+    "loop": false,
+    "total_ms": 2120,
+    "damage_event_count": 0
+  },
+  "art": {
+    "method": "Built-in image generation, 12 newly illustrated cels; code only extraction, alpha-preserving resampling, registration and assembly. Exact canonical baseline endpoint. No procedural artwork.",
+    "native_sheet_size": [
+      1448,
+      1086
+    ],
+    "requested_model": "gpt-image-2.5-sunburst (preference only; tool does not expose model selection)",
+    "registration": [
+      {
+        "source_bbox": [
+          77,
+          8,
+          342,
+          411
+        ],
+        "translation": [
+          109,
+          6
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          396,
+          19,
+          692,
+          409
+        ],
+        "translation": [
+          74,
+          15
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          782,
+          80,
+          1043,
+          411
+        ],
+        "translation": [
+          93,
+          64
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          1139,
+          113,
+          1423,
+          390
+        ],
+        "translation": [
+          89,
+          90
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          17,
+          420,
+          355,
+          777
+        ],
+        "translation": [
+          61,
+          93
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          384,
+          422,
+          712,
+          780
+        ],
+        "translation": [
+          65,
+          95
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          738,
+          467,
+          1061,
+          766
+        ],
+        "translation": [
+          58,
+          131
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          1112,
+          514,
+          1432,
+          766
+        ],
+        "translation": [
+          68,
+          168
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          38,
+          837,
+          339,
+          1075
+        ],
+        "translation": [
+          77,
+          104
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          456,
+          861,
+          656,
+          1013
+        ],
+        "translation": [
+          122,
+          123
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          879,
+          920,
+          972,
+          1035
+        ],
+        "translation": [
+          171,
+          170
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          1258,
+          958,
+          1317,
+          1015
+        ],
+        "translation": [
+          185,
+          200
+        ],
+        "scale": 0.8
+      }
+    ],
+    "source": "source/native_cels.png",
+    "ppu": "Preserve existing runtime PPU; no new PPU assumption.",
+    "reference_drive_file_id": "1aS2ekGc14n5X5XJW5KSNOF5EPRstqzaq"
+  },
+  "qa": {
+    "engine_tested": false,
+    "visually_reviewed": true,
+    "rgba_alpha_preserved": true,
+    "canvas_edges_transparent": true,
+    "atlas_crops_match_frames": true,
+    "exact_canonical_start": true,
+    "notes": [
+      "Native source art and final contact sheets inspected.",
+      "Mechanical collapse ground registration fixed at y334; Wisp row registration compensates source sheet layout without per-frame scaling.",
+      "No new PPU or engine integration assumed."
+    ]
+  }
+}

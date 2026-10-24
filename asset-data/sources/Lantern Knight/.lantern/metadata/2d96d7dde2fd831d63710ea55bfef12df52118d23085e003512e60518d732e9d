@@ -1,0 +1,72 @@
+{
+  "scene_number": 3,
+  "scene": "Crypt",
+  "prop": "a small wooden chest",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    140,
+    160,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold final frame indefinitely",
+  "native_canvas": [
+    640,
+    640
+  ],
+  "native_anchor": [
+    320,
+    560
+  ],
+  "runtime_scale": 0.19519519519519518,
+  "runtime_anchor": [
+    62,
+    109
+  ],
+  "placement_on_1536_scene": [
+    710,
+    550
+  ],
+  "source_boxes": [
+    [
+      111,
+      93,
+      445,
+      458
+    ],
+    [
+      99,
+      89,
+      432,
+      458
+    ],
+    [
+      88,
+      86,
+      426,
+      456
+    ],
+    [
+      106,
+      42,
+      450,
+      454
+    ],
+    [
+      79,
+      15,
+      433,
+      454
+    ],
+    [
+      71,
+      26,
+      418,
+      453
+    ]
+  ],
+  "source_master_url": "https://drive.google.com/file/d/1GNNw9t5IfOdjUkRREI8ki7Gq6J4ZD8Eo/view?usp=drivesdk"
+}

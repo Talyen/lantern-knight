@@ -1,0 +1,13 @@
+{
+  "actor": "CT01 Waxmask Acolyte",
+  "generation": "Built-in imagegen. Six independent fresh clip sheets using exact original as identity reference and simple geometric heading guide as pose-only reference. No generated-draft edits, no image mirroring. Prompts request Sunburst 2.5; exposed tool does not confirm backend selection.",
+  "identity_reference_sha256": "cca39f1b1224262370d5b751c09384f685447c7c2447c370584fb0bcdc3734ef",
+  "native_sheets": {
+    "DL_move.png": "27640d03186e549aae53d043104a106f4e10f569efac6f61e9ea53b1114a4f23",
+    "UR_move.png": "ab92456ea144f71073d02bdd5053d9564c0b0e9e3f74188a2c8f8dcf2ed86737",
+    "UL_move.png": "9925d1f1c1ea93fd2b5c6e764eea5a1e937b7b1a426dd8c1f1b184da6fcd2c1f",
+    "DL_attack.png": "f48a1fc6310d620413fca97711122b2fb1cfd1ba81fb494dfd53c3790fde8b0d",
+    "UL_attack.png": "8ce2fa0d8eb6ade90a6d31b2c14d90a2eabf183eac9f333adba904f1d17a0208",
+    "UR_attack.png": "37e0cd7edb991b756cfe52b4b4a72394cb865f0c6b2f0a3d7ca250450ce410a1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "mode": "Built-in imagegen; one fresh sheet, no edits or retries",
+  "source": "lantern_hero_core_animations_01/run_UR_lowcarry_trial_01/source/UR_lowcarry8_native.png",
+  "sha256": "901ec1981c68fcb8d214c013cade35f34feb3ee560084d31f18aafdcb3eb1674",
+  "native_size": [
+    1774,
+    887
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "prompt_file": "prompts/UR_lowcarry8_fresh.txt",
+  "prompt_suffix": "Keep a readable pocket of transparent empty space between the low lantern and torso wherever the guide permits; do not merge lamp into coat or lift the hand to reveal it.",
+  "references": [
+    "guides/lowcarry_guide_sheet.png",
+    "reference/UR_costume_only_no_props.png",
+    "reference/canonical_face_identity_only.png"
+  ],
+  "backend_claim": "No model/backend identity asserted; Sunburst2.5 was a prompt phrase."
+}

@@ -1,0 +1,291 @@
+{
+  "name": "Mosswell Slime",
+  "identity_id": "SL01",
+  "original_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 320,
+  "baseline_reference": "baseline_animation.json; baseline_DR_move_00.png",
+  "facing": "DR / screen lower-right",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Hand-drawn approximation, not calibrated geometry"
+  },
+  "atlas_gutter_pixels_per_side": 4,
+  "offsets": "All registration is baked. No runtime offset. World actor position independent.",
+  "clips": {
+    "hit": {
+      "loop": false,
+      "frames": [
+        {
+          "file": "hit_00.png",
+          "hold_ticks_60hz": 3,
+          "source_box": [
+            15,
+            123,
+            499,
+            466
+          ],
+          "baked_translation": [
+            90,
+            214
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_01.png",
+          "hold_ticks_60hz": 4,
+          "source_box": [
+            510,
+            152,
+            968,
+            463
+          ],
+          "baked_translation": [
+            103,
+            245
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_02.png",
+          "hold_ticks_60hz": 4,
+          "source_box": [
+            988,
+            150,
+            1431,
+            458
+          ],
+          "baked_translation": [
+            110,
+            247
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_03.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            47,
+            547,
+            464,
+            991
+          ],
+          "baked_translation": [
+            122,
+            118
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_04.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            496,
+            670,
+            953,
+            989
+          ],
+          "baked_translation": [
+            103,
+            237
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_05.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            966,
+            683,
+            1439,
+            1017
+          ],
+          "baked_translation": [
+            96,
+            223
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ],
+      "end": "return to compatible baseline rest",
+      "events": [
+        {
+          "frame_index": 1,
+          "name": "recoil_visual",
+          "visual_only": true
+        }
+      ]
+    },
+    "defeat": {
+      "loop": false,
+      "frames": [
+        {
+          "file": "defeat_00.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            10,
+            143,
+            496,
+            519
+          ],
+          "baked_translation": [
+            90,
+            184
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_01.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            506,
+            215,
+            971,
+            520
+          ],
+          "baked_translation": [
+            100,
+            251
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_02.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            987,
+            271,
+            1438,
+            518
+          ],
+          "baked_translation": [
+            107,
+            306
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_03.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            24,
+            735,
+            489,
+            961
+          ],
+          "baked_translation": [
+            100,
+            326
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_04.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            506,
+            766,
+            978,
+            961
+          ],
+          "baked_translation": [
+            97,
+            356
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_05.png",
+          "hold_ticks_60hz": 18,
+          "source_box": [
+            988,
+            781,
+            1429,
+            964
+          ],
+          "baked_translation": [
+            112,
+            367
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ],
+      "end": "hold final cel indefinitely until state transition",
+      "events": [
+        {
+          "frame_index": 5,
+          "name": "inert_visual",
+          "visual_only": true
+        }
+      ]
+    }
+  }
+}

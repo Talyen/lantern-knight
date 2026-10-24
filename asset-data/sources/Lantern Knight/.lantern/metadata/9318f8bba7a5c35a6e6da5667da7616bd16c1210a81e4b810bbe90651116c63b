@@ -1,0 +1,530 @@
+[
+  {
+    "old_id": "lantern_concept_item_01_oathsteel_sword",
+    "name": "Oathsteel sword",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/01_oathsteel_sword.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/01_oathsteel_sword.png",
+    "disposition": "rebuild",
+    "sha256": "7269d0a273bfd6290b1eb46587923230dffb259e577181bc3ae3cd965c85742f",
+    "original_sha256": "4fe4b64277b16ee1fed327cceb8c7536cbbcceec6d7a90d37f648c04ebda7886",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        97,
+        52,
+        1210,
+        1212
+      ],
+      "visible_bbox_alpha_gt127": [
+        185,
+        115,
+        1158,
+        1147
+      ],
+      "transparent_pixel_fraction": 0.9244605460294204,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/01_oathsteel_sword.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_02_cinder_hook_axe",
+    "name": "Cinder hook axe",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/02_cinder_hook_axe.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/02_cinder_hook_axe.png",
+    "disposition": "rebuild",
+    "sha256": "a1be6f2b228ea4f6ff2e585bf15075029027d6e17341c4af6164c13d5d6d1769",
+    "original_sha256": "6f57027fa72a394b6adeb0792d8cf5a497cd6f0b9334eb01a7157504a0f2e376",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        135,
+        74,
+        1196,
+        1212
+      ],
+      "visible_bbox_alpha_gt127": [
+        139,
+        77,
+        1154,
+        1178
+      ],
+      "transparent_pixel_fraction": 0.8387749313838461,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/02_cinder_hook_axe.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_03_thorn_recurve_bow",
+    "name": "Thorn recurve bow",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/03_thorn_recurve_bow.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/03_thorn_recurve_bow.png",
+    "disposition": "rebuild",
+    "sha256": "c91f6b5e166553e2deeae8053c89191249bbe61e8be154dcde002d625ab638ea",
+    "original_sha256": "468363cbf866f82462efe3dcb07d9d8c44c7709283b6019788457bd29ada9e1e",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        41,
+        49,
+        1210,
+        1208
+      ],
+      "visible_bbox_alpha_gt127": [
+        107,
+        58,
+        1177,
+        1196
+      ],
+      "transparent_pixel_fraction": 0.9045586817558613,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/03_thorn_recurve_bow.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_04_moon_ring_staff",
+    "name": "Moon-ring staff",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/04_moon_ring_staff.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/04_moon_ring_staff.png",
+    "disposition": "rebuild",
+    "sha256": "8d1f554bff74b200c0a19a0d5f63db9453fe71270791850939cecb8e8f5256dd",
+    "original_sha256": "bb6b226fe88d48170e32fd555c2ec148f121be1ba55aaec949425d1a2d9b180a",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        97,
+        43,
+        1230,
+        1214
+      ],
+      "visible_bbox_alpha_gt127": [
+        267,
+        47,
+        1006,
+        1195
+      ],
+      "transparent_pixel_fraction": 0.9316083270376899,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/04_moon_ring_staff.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_05_bellhead_mace",
+    "name": "Bellhead mace",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/05_bellhead_mace.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/05_bellhead_mace.png",
+    "disposition": "rebuild",
+    "sha256": "0ce96c4641afab7b58174fbb07d5411e664c0124ed04280864a879358b662a4b",
+    "original_sha256": "3fd313e6a7d9790803a81fd940ce9d1ba58ae7dce6b86ffae8394cb27bc3f8db",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        57,
+        51,
+        1138,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        148,
+        54,
+        1094,
+        1185
+      ],
+      "transparent_pixel_fraction": 0.7896689127487415,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 4
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/05_bellhead_mace.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_06_ritual_dagger",
+    "name": "Ritual dagger",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/06_ritual_dagger.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/06_ritual_dagger.png",
+    "disposition": "rebuild",
+    "sha256": "f550238131d864ce0907aa87ebf26d05c042360b3325903342806fa236f806bf",
+    "original_sha256": "3efb8f0048d11d37cdd5597ccbecf42e356731d7a74e609df9b86217174b47c5",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        61,
+        53,
+        1220,
+        1227
+      ],
+      "visible_bbox_alpha_gt127": [
+        67,
+        86,
+        1215,
+        1207
+      ],
+      "transparent_pixel_fraction": 0.8088750766287911,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/06_ritual_dagger.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_07_rook_crossbow",
+    "name": "Rook crossbow",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/07_rook_crossbow.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/07_rook_crossbow.png",
+    "disposition": "rebuild",
+    "sha256": "1945caa5d7978b877ef64ef89dd5e023483d928690b60fb73ccf3e5c2e9f1766",
+    "original_sha256": "22ee271663aea281111adf9e958bdc7b78f20e1fbe680e6dcc81dd7d1083d024",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        21,
+        21,
+        1218,
+        1182
+      ],
+      "visible_bbox_alpha_gt127": [
+        127,
+        182,
+        1212,
+        950
+      ],
+      "transparent_pixel_fraction": 0.7890762319747462,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/07_rook_crossbow.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_08_vigil_kite_shield",
+    "name": "Vigil kite shield",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/08_vigil_kite_shield.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/08_vigil_kite_shield.png",
+    "disposition": "rebuild",
+    "sha256": "42a00d396b666ebf652785860a9ecd6a2bf9f308a5e50a4ab6ec826d8daab6b0",
+    "original_sha256": "b6e9021f6e3126bb40dab926a2d777195f8673728a72350705ad4eb0b438e85c",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        111,
+        78,
+        1058,
+        1214
+      ],
+      "visible_bbox_alpha_gt127": [
+        291,
+        81,
+        936,
+        1171
+      ],
+      "transparent_pixel_fraction": 0.7313356430077659,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/08_vigil_kite_shield.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_09_mourning_medallion",
+    "name": "Mourning medallion",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/09_mourning_medallion.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/09_mourning_medallion.png",
+    "disposition": "rebuild",
+    "sha256": "8925c4efb75ec763648337f4cb7d1ea3695c4c72225f225b292083ed3914de93",
+    "original_sha256": "dc99d7ff671babb31529772eb8fcb21c3c1f6785bb9298f823bd630b56516a57",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        89,
+        53,
+        1202,
+        1212
+      ],
+      "visible_bbox_alpha_gt127": [
+        184,
+        112,
+        1197,
+        1123
+      ],
+      "transparent_pixel_fraction": 0.7427695489266882,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/09_mourning_medallion.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_10_crimson_restorative",
+    "name": "Crimson restorative",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/10_crimson_restorative.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/10_crimson_restorative.png",
+    "disposition": "rebuild",
+    "sha256": "13ca881ce3a665eb61afe482a349d88e28a12894552c7b54731f51fc42153a24",
+    "original_sha256": "419ace925f952f047078fedd9ec1903624f6928e294c85a1f8908bf9a5019e0d",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        105,
+        47,
+        1057,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        253,
+        109,
+        1002,
+        1129
+      ],
+      "transparent_pixel_fraction": 0.6702907951334041,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 4
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/10_crimson_restorative.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_11_marsh_antidote",
+    "name": "Marsh antidote",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/11_marsh_antidote.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/11_marsh_antidote.png",
+    "disposition": "rebuild",
+    "sha256": "89e94e160a3a5d92ab0c4fe9e37aec3b538f98361c4be442a4ac3f4a1c1b232a",
+    "original_sha256": "64ed3e0c527e1199370e133935c76c4a0a2778161784025fb9fb6275f0e80c1e",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        33,
+        56,
+        1200,
+        1230
+      ],
+      "visible_bbox_alpha_gt127": [
+        306,
+        59,
+        985,
+        1190
+      ],
+      "transparent_pixel_fraction": 0.6637802095495372,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/11_marsh_antidote.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_12_coin_purse",
+    "name": "Coin purse",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/12_coin_purse.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/12_coin_purse.png",
+    "disposition": "rebuild",
+    "sha256": "84022edfb3a4c9fde3a90ba2b220be281d683a0cc438e3134b53a43a4dc241e3",
+    "original_sha256": "8dab6e93dbee81179b75a9a1347e55b2482f0f52d08974daf6fa856250791adf",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        51,
+        1240,
+        1214
+      ],
+      "visible_bbox_alpha_gt127": [
+        122,
+        205,
+        1219,
+        1053
+      ],
+      "transparent_pixel_fraction": 0.6698348379285171,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 29
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/12_coin_purse.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_13_sealed_scroll",
+    "name": "Sealed scroll",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/13_sealed_scroll.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/13_sealed_scroll.png",
+    "disposition": "rebuild",
+    "sha256": "c92842630f95a3d0935e5a4d003e514d68ded42948913fe761abf653aeb34662",
+    "original_sha256": "3d69584d92914f3ada4f208e00cc53e223f737c357fc27c04b043beb6804575e",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        25,
+        21,
+        1210,
+        1198
+      ],
+      "visible_bbox_alpha_gt127": [
+        92,
+        243,
+        1163,
+        1009
+      ],
+      "transparent_pixel_fraction": 0.7543605279691907,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/13_sealed_scroll.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_14_ossuary_key",
+    "name": "Ossuary key",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/14_ossuary_key.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/14_ossuary_key.png",
+    "disposition": "rebuild",
+    "sha256": "556623f0f0dfc10487c8eea70dc889c44864fbaf39c33c6c683bb27d76417879",
+    "original_sha256": "4782d6c996743a0a61c0a8634b0c98c8b91f4672994bf49c8f7a7a728615867d",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        97,
+        52,
+        1147,
+        1182
+      ],
+      "visible_bbox_alpha_gt127": [
+        118,
+        173,
+        1143,
+        1098
+      ],
+      "transparent_pixel_fraction": 0.8486292031368838,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/14_ossuary_key.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_15_ember_signet_ring",
+    "name": "Ember signet ring",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/15_ember_signet_ring.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/15_ember_signet_ring.png",
+    "disposition": "rebuild",
+    "sha256": "0f47b2830a2c7db97bf39ab8a125c3def5e9afde7dde4b02dd1ebb0bfeab90f4",
+    "original_sha256": "62d1e8d428a03ef0202166a2a1ea8cba5b8b1990ccc7f914823e062e7434c618",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        57,
+        49,
+        1202,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        233,
+        180,
+        1045,
+        1074
+      ],
+      "transparent_pixel_fraction": 0.6967770121257908,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 8
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/15_ember_signet_ring.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_concept_item_16_lockbound_grimoire",
+    "name": "Lockbound grimoire",
+    "pack": "Lantern - Equipment and Loot Concepts 01",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/16_lockbound_grimoire.png",
+    "image": "lantern_revision_02/equipment/equipment_loot_01/assets/16_lockbound_grimoire.png",
+    "disposition": "rebuild",
+    "sha256": "a94148ef041a3b280dbb1cc0b49dcf33c55dc0103dfb1e51d4279455ac12d665",
+    "original_sha256": "f98cced479134b0e5b802ae098da4af904767d779c145938950068296a519b35",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        0,
+        1200,
+        1238
+      ],
+      "visible_bbox_alpha_gt127": [
+        83,
+        109,
+        1196,
+        1158
+      ],
+      "transparent_pixel_fraction": 0.5431493224870207,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 9
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/equipment_loot_01/assets/16_lockbound_grimoire.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  }
+]

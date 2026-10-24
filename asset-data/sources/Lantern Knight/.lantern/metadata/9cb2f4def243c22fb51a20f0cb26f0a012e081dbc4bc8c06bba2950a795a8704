@@ -1,0 +1,43 @@
+HALO-VEIL CANTOR (CT04) — LANTERN ANIMATION TESTS
+MOTION CONCEPT / CAMERA UNRESOLVED
+
+Status
+This pack is suitable for reviewing supernatural motion, silhouette, pacing and identity. It is not gameplay-view-ready. The required view is orthographic elevation 35.2643897 degrees, world azimuth 45 degrees, heading world +X / screen down-right. The generated art still reads nearer a frontal portrait despite the camera guide and a fresh camera/margin retry. Do not mistake prompt angle numbers for a verified projection.
+
+Animations
+- drift_veil_breath: six distinct drawings, 70 ticks at 60 Hz (1.1667 seconds). A gentle hover with expanding/closing veils, small drift and subtle halo/orb lag.
+- resonant_spell: six distinct drawings, 90 ticks at 60 Hz (1.5 seconds). Rest, inward gathering, release, expanded tilted halo and angular ivory flare, ringing recoil, settle. Six drawings were chosen instead of the initial eight to protect the broad flare's silhouette and gutters.
+- Two black hands, one brass orb and one coherent brass halo retained. The spell deliberately expands and tips that one halo; this is an intentional magical transformation.
+
+Files
+- frames/: 12 transparent 640x640 PNG frames, six per clip
+- atlases/: two transparent 1920x1280 PNG atlases in 3-column x 2-row order
+- previews/*_60hz.mp4: real 60 fps H.264 review videos with repeated drawing holds, no interpolation, morphing or tweening
+- previews/<clip>/cel_XX.png: native-size single-drawing review cards
+- contact_boards/*_ordered_contact.jpg: ordered review boards, with status and hold labels
+- metadata/animation_manifest.json: exact source windows, native-grid transforms, timings, atlas rectangles and provisional pivot
+- metadata/timing.csv: drawing holds at 60 Hz
+- metadata/qa_report.json: native-pixel preservation and clipping checks, identity and camera limitations
+- source/: exact prompts, untouched generated sources, original identity/camera references and reproducible extraction script
+
+Native extraction and registration
+All accepted generated sheets are 1448x1086 RGBA. Native pixels are preserved exactly. No frame is resized, mirrored, auto-fitted or independently recentered. Wide cels are isolated with generous non-overlapping source windows; they are placed using one fixed 1448/3 by 543-pixel source grid and the same output offset. The entire source alpha-positive pixel count is preserved exactly in the six extracted frames. All accepted source edges and output frame edges are clear of alpha >16.
+
+Canvas/pivot
+Every sprite frame is 640x640. Provisional review pivot is (328,595) from the top-left, normalized Unity-style bottom-left pivot (0.5125,0.0703125). This fixed canvas anchor is provided for playback; generated pose placement and apparent scale variation remain visible. No final world scale, collisions, hit events, sockets or gameplay camera calibration are asserted.
+
+Timing
+Drift hold ticks: 12,10,12,14,10,12. Preview repeats four times: 280 video frames, 4.6667 seconds.
+Spell hold ticks: 20,14,8,14,10,24. Preview repeats three times: 270 video frames, 4.5 seconds. In use, play the spell once then return to a resting/hover state.
+
+Provenance
+Built-in image_gen used. Prompts include the user-requested words “Sunburst 2.5”. The tool does not expose a backend selection control or proof of which model served the request; no actual backend selection is claimed. All sheets are fresh generations from the original character reference and the deterministic camera guide, never an edit cascade.
+Drift v01 was rejected for top-edge halo clipping and insufficient elevation. Drift v02 fixes complete silhouettes but does not solve the camera, and is retained only as a motion concept. Spell v01 is retained as a motion concept. No further drift generation or spell retry was used.
+
+Review
+Both source sheets and all ordered cels were inspected. Independent review confirmed the spell's one orb / one halo / two hands, coherent gather-offer-flare-recoil-settle sequence and no stray legs or feet. The floating orb in peak spell drawing 4 is preserved in extraction.
+
+Packaging
+halo_veil_cantor_runtime_concept.zip contains the playback/examination files. The filename's “runtime” means extracted technical layout only, not production or camera approval.
+halo_veil_cantor_source.zip contains original generations, prompts, references and processing source.
+Each ZIP is under 19 MB.

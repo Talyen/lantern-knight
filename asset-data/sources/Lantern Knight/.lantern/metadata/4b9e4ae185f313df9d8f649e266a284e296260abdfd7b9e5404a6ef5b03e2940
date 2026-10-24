@@ -1,0 +1,144 @@
+{
+  "name": "strapped_saddle_panniers",
+  "revision": "generic_empty_opening",
+  "animation": "open_and_settle",
+  "canvas": [
+    640,
+    800
+  ],
+  "pivot_pixels": [
+    320,
+    750
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.9375
+  ],
+  "loop": false,
+  "frame_count": 7,
+  "durations_ms": [
+    350,
+    90,
+    100,
+    110,
+    120,
+    140,
+    700
+  ],
+  "total_ms": 1610,
+  "terminal_state": "strapped_saddle_panniers_open_empty.png",
+  "initial_state": "strapped_saddle_panniers_closed.png",
+  "atlas": "strapped_saddle_panniers_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frames": [
+    {
+      "file": "frames/strapped_saddle_panniers_00.png",
+      "rect": [
+        0,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 350
+    },
+    {
+      "file": "frames/strapped_saddle_panniers_01.png",
+      "rect": [
+        640,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 90
+    },
+    {
+      "file": "frames/strapped_saddle_panniers_02.png",
+      "rect": [
+        1280,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/strapped_saddle_panniers_03.png",
+      "rect": [
+        1920,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 110
+    },
+    {
+      "file": "frames/strapped_saddle_panniers_04.png",
+      "rect": [
+        0,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 120
+    },
+    {
+      "file": "frames/strapped_saddle_panniers_05.png",
+      "rect": [
+        640,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 140
+    },
+    {
+      "file": "frames/strapped_saddle_panniers_06.png",
+      "rect": [
+        1280,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 700
+    }
+  ],
+  "source": "Content-free opening poses edited with image_gen; extraction phase removed. No procedural pose tweening. Original endpoint pixels retained exactly.",
+  "registration": [
+    {
+      "scale": 1.0,
+      "offset": [
+        0,
+        1
+      ],
+      "correlation": 0.8848139515737509
+    },
+    {
+      "scale": 1.005,
+      "offset": [
+        0,
+        -1
+      ],
+      "correlation": 0.8800434436171207
+    },
+    {
+      "scale": 1.02,
+      "offset": [
+        -3,
+        0
+      ],
+      "correlation": 0.8888927466099436
+    },
+    {
+      "scale": 1.01,
+      "offset": [
+        0,
+        -1
+      ],
+      "correlation": 0.8779371523724043
+    }
+  ],
+  "loot_visuals": "none; interiors are empty/dark throughout"
+}

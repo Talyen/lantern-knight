@@ -1,0 +1,1677 @@
+{
+  "category": "Reagents",
+  "items": [
+    {
+      "id": "cinder_cured_heart",
+      "label": "Cinder-Cured Heart",
+      "category": "materials",
+      "reference_extent_cm": 20,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__full_native.png",
+          "dimensions": [
+            1199,
+            1312
+          ],
+          "sha256": "8a175ee17ca4c06751b03298f777fc9c68e251b2d21bcb4351fb6ba1023e3520",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            242,
+            236,
+            270,
+            276
+          ],
+          "visible_extent": 40,
+          "source_resampling_factor": 0.03110419906687403,
+          "sha256": "03f4147a70cb52ec90c2b22782f759a8c91d397a1e98f367bca65cef4617e4ad",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            118,
+            136,
+            138
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.015552099533437015,
+          "sha256": "ddbe6b0e38d2d40dfecffd75f199acfae2bdd8aa67eb06ba6469df8877481703",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            96,
+            32,
+            415,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3483670295489891,
+          "sha256": "7f3038227e2659d4eca90d65e3fa8096f73347558ed585204971036202ed449a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            24,
+            8,
+            104,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08709175738724728,
+          "sha256": "2f4d4251a2183168c56ce5b7aaa847adea33bf96be53092f22e654be9c32047f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            12,
+            4,
+            52,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04354587869362364,
+          "sha256": "9f30c6831ac848b1940feeadcbebf278c46d7152478144ef1f374b6e84acb689",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            6,
+            2,
+            26,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02177293934681182,
+          "sha256": "eaf38e11ed5063b10e5dde039141536352313f71a28d5db027e34fb743c7482c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            418,
+            267,
+            448
+          ],
+          "visible_extent": 30,
+          "source_resampling_factor": 0.02332814930015552,
+          "sha256": "abbc5479b37032fb35b933652a193c1c4f8674587ae4f116c694fd78242f5dac",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/cinder_cured_heart/cinder_cured_heart__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            418,
+            267,
+            448
+          ],
+          "visible_extent": 30,
+          "source_resampling_factor": 0.02332814930015552,
+          "sha256": "abbc5479b37032fb35b933652a193c1c4f8674587ae4f116c694fd78242f5dac",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 30,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "clouded_watcher_eye",
+      "label": "Clouded Watcher Eye",
+      "category": "materials",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "92fccceca3e238d3d01f8b81437354f2064c8c74776d3a79eeff53d4f47b42c8",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            244,
+            268,
+            268
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.02181818181818182,
+          "sha256": "38f1ccc811a06cd0ed99b1752a31dab8d7b9d089137ab41e6d5017094585fd41",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            122,
+            122,
+            135,
+            135
+          ],
+          "visible_extent": 13,
+          "source_resampling_factor": 0.01090909090909091,
+          "sha256": "3300bd01897eb94f505e56ed7354c43cfb22c3f279485dad9ad6de64951e1c28",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            36,
+            32,
+            475,
+            479
+          ],
+          "visible_extent": 447,
+          "source_resampling_factor": 0.4072727272727273,
+          "sha256": "fefada3cf1549c3041038ef621737c05b71011e2b33f246a511e542799439535",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            9,
+            8,
+            119,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.10181818181818182,
+          "sha256": "48508c44582278d8887ae0818c28117bd31b80b98cfaddf7b82000b9b017ff9a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.05090909090909091,
+          "sha256": "0defe6da7ecf14e9e1b9bb32ada201a3560e3e0cb60c251a006a05820c693080",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.025454545454545455,
+          "sha256": "50c2da2abe585324a35b3824773c1efd9c17e0cca44abf805ff2d756486b11c9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            247,
+            430,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.016363636363636365,
+          "sha256": "fa12f0000d6e484de03b5b8da73390ab06147bdf89ce6ee549c91e241f994975",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/clouded_watcher_eye/clouded_watcher_eye__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            247,
+            430,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.016363636363636365,
+          "sha256": "fa12f0000d6e484de03b5b8da73390ab06147bdf89ce6ee549c91e241f994975",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "grave_moth_cocoon",
+      "label": "Grave-Moth Cocoon",
+      "category": "materials",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "a21fe3436fa70938302bb41badcbe542f5c67df2d2ad42dc9972aa9c5e2eca3a",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            241,
+            274,
+            271
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.02702702702702703,
+          "sha256": "24cdffb6c6709b3716fabdfdd179782f63cc72b8cac01194211ae80b06c4385f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            118,
+            120,
+            138,
+            138
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.013513513513513514,
+          "sha256": "40a110d63fccac4c9ef564ad5f33b991b62e87ebbd466f52d64db92cbe092643",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            70,
+            480,
+            442
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.33633633633633636,
+          "sha256": "74134ff948d8bf3060ca529e30ff36890b9462dbdf4510bc4857207bc4f4e1cd",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            17,
+            120,
+            110
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08408408408408409,
+          "sha256": "402938c48ef722981fa5c2a876cc5af45c6883cef2e375231677dc4f4fbca07b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            55
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.042042042042042045,
+          "sha256": "5dfd9510fadd92755c0eae805e9a0c20f71ae19f138cbb2a4249fcd587a47a09",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.021021021021021023,
+          "sha256": "4dfd955aea8613600808256ba3bb0a7a1da32e78968fea7aafea47a32df07c8f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            243,
+            426,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "source_resampling_factor": 0.02027027027027027,
+          "sha256": "9abfb84229abdc03b6647d8d7a728a648311bd7e830001b55d5bc045812f8ead",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/grave_moth_cocoon/grave_moth_cocoon__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            243,
+            426,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "source_resampling_factor": 0.02027027027027027,
+          "sha256": "9abfb84229abdc03b6647d8d7a728a648311bd7e830001b55d5bc045812f8ead",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "blackfen_scent_gland",
+      "label": "Blackfen Scent Gland",
+      "category": "materials",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "28d359cf8f13f896a43b319565c2252e337e5d5fc6c8459cd748714f0d85c5a0",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            241,
+            272,
+            270
+          ],
+          "visible_extent": 32,
+          "source_resampling_factor": 0.026981450252951095,
+          "sha256": "28095e1fa6d5df0d9fab4145f16ebf1e816dd1c1d5b8d9c924a40bc5695e0fb2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            118,
+            137,
+            136
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.013490725126475547,
+          "sha256": "031b1f4497c9a6b5d14d87e463b93a666043d625386870a3f0e305dab57ecc58",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            50,
+            480,
+            461
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3777403035413153,
+          "sha256": "ba7fc0ba2319805f389a76ba94dfb3e749aab6a6f651c10872e532e8e64b0f6d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            115
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09443507588532883,
+          "sha256": "a3ae391e03ba600ba4b0c029481dac890344c236d2bebc4f3b60a5a053b7522a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            57
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.047217537942664416,
+          "sha256": "53bd1e96706103fecb512f3e0b5876dd9b5fefe08dd7c4d067c83b85c6174c6a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.023608768971332208,
+          "sha256": "90a3cbbee8eeca2f710593abd469aa92c209fb43c66e1b487832f621ac48370c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            426,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.02023608768971332,
+          "sha256": "04e38af47b5a06d65530e555191ffcf0b57a92d2c018dc1ac53e2760b084df1e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/blackfen_scent_gland/blackfen_scent_gland__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            426,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.02023608768971332,
+          "sha256": "04e38af47b5a06d65530e555191ffcf0b57a92d2c018dc1ac53e2760b084df1e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "briar_antler_root",
+      "label": "Briar Antler Root",
+      "category": "materials",
+      "reference_extent_cm": 24,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/briar_antler_root/briar_antler_root__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "7acf508992f2f41255d121e79c6266ee92009ca73ddb2b82634e4fa60430dab8",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/briar_antler_root/briar_antler_root__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            232,
+            232,
+            280,
+            279
+          ],
+          "visible_extent": 48,
+          "source_resampling_factor": 0.04304932735426009,
+          "sha256": "ce202be3cdf436b8896b7efa619e983b02715fa734bf503196b2c548d0ae82ef",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/briar_antler_root/briar_antler_root__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            115,
+            116,
+            141,
+            141
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.021524663677130046,
+          "sha256": "4e0c524fa52f36cd6612738fabfe93c55e7a2ee45e96f049ebeb25c2d8c9e388",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/briar_antler_root/briar_antler_root__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            34,
+            480,
+            477
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.40179372197309415,
+          "sha256": "c03b29e1965ae34adf21edffe1146fdb88d47fcde4062c0d0ce4872e268dc3e9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/briar_antler_root/briar_antler_root__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            120,
+            119
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.10044843049327354,
+          "sha256": "b05616a77e74a94ed32494c798f6b061aa4dbdd616c1b7be260a57783164b62a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/briar_antler_root/briar_antler_root__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.05022421524663677,
+          "sha256": "3a8e68fb41b84ec1eb809c931f04cca1de83d767673d2620b9942c1b148f51ba",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/briar_antler_root/briar_antler_root__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.025112107623318385,
+          "sha256": "4d1b85284dd193ec716634a31102a403da547467c450dad023aa80a4a62849fe",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/briar_antler_root/briar_antler_root__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            412,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.03228699551569507,
+          "sha256": "ad0b61d028f0e62274991c91c98197c44fe6970568c52bd4a6416496ee1cef2e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/briar_antler_root/briar_antler_root__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            412,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.03228699551569507,
+          "sha256": "ad0b61d028f0e62274991c91c98197c44fe6970568c52bd4a6416496ee1cef2e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 36,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "duskwing_membrane",
+      "label": "Duskwing Membrane",
+      "category": "materials",
+      "reference_extent_cm": 32,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__full_native.png",
+          "dimensions": [
+            1377,
+            1142
+          ],
+          "sha256": "4fda0d4542f3f8f4d663aa524d8cad2346eb186b3129ef9d2828a60b528ef0aa",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            224,
+            224,
+            288,
+            287
+          ],
+          "visible_extent": 64,
+          "source_resampling_factor": 0.0570409982174688,
+          "sha256": "48d183cf06e7420ec9536ebced3e678d7896506feefd8a8322b98997c492b860",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            111,
+            111,
+            145,
+            146
+          ],
+          "visible_extent": 35,
+          "source_resampling_factor": 0.0285204991087344,
+          "sha256": "44ac8dc6f0bc41993993ab3dd6dfdbde5424ecdffc2b7551badf1000c5c6ea32",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            35,
+            480,
+            476
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.39928698752228164,
+          "sha256": "4616d7b4ec8639340f4798ebd21c78706fda5cde793f45dc98942f8b70157b6b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            119
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09982174688057041,
+          "sha256": "c4470b9de0c439a6169ffc58c22d25f0b20b365daa99526d93456ad0ea0065b4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.049910873440285206,
+          "sha256": "d93bfabb897affa71a25b7fdb132e86737a118108367998814b9b09540923435",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.024955436720142603,
+          "sha256": "93da02dc7ec80ce0858042f1774777d5b1b12b51404c7139ee1ba050ba8e8ce8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            232,
+            401,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "source_resampling_factor": 0.0427807486631016,
+          "sha256": "72436d53c211199be1f4f68a0c610e99db4cf921ae1dc790a7cde49ad7eea073",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/duskwing_membrane/duskwing_membrane__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            232,
+            401,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "source_resampling_factor": 0.0427807486631016,
+          "sha256": "72436d53c211199be1f4f68a0c610e99db4cf921ae1dc790a7cde49ad7eea073",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "burrower_carapace",
+      "label": "Burrower Carapace",
+      "category": "materials",
+      "reference_extent_cm": 28,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/burrower_carapace/burrower_carapace__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "dc2514411e0c51bb0bba509c4cafb139bed03b4b1cbc463d673e2d01666a4176",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/burrower_carapace/burrower_carapace__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            228,
+            232,
+            284,
+            280
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04490777866880513,
+          "sha256": "ab0f8341ce030a8876d097db033a91ee42c395a195917cd30fddf8e58dada7c2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/burrower_carapace/burrower_carapace__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            113,
+            115,
+            144,
+            140
+          ],
+          "visible_extent": 31,
+          "source_resampling_factor": 0.022453889334402566,
+          "sha256": "1bbb8369186d639a5b93fcc69dc5f908ddef59816fb6c2cdeb344f0155329b81",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/burrower_carapace/burrower_carapace__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            65,
+            480,
+            446
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.35926222935044105,
+          "sha256": "5ea6428d0c8ce34826387b7aac070184018db4427347a2e84d6a57bd71310279",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/burrower_carapace/burrower_carapace__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            111
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08981555733761026,
+          "sha256": "29f9b8c4385212fe95a98f0f567b1a642faa22220836d111ea17f357cc1804ae",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/burrower_carapace/burrower_carapace__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            56
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04490777866880513,
+          "sha256": "a37061f014432f5da4cfe85e67d2463c3dec2dcdb1d4c74d6ef3d5c4861cee8e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/burrower_carapace/burrower_carapace__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.022453889334402566,
+          "sha256": "ca561ae4f41cf70f375430fa757689c829b46dd0194b1b64357937fbc8681336",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/burrower_carapace/burrower_carapace__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            235,
+            412,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.03368083400160385,
+          "sha256": "6981adf3c25a994c56a0eff43e3b7fd5a5dfa54f6fb72d41edbdb82c90cffb3d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/burrower_carapace/burrower_carapace__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            235,
+            412,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.03368083400160385,
+          "sha256": "6981adf3c25a994c56a0eff43e3b7fd5a5dfa54f6fb72d41edbdb82c90cffb3d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "gravesilt_spiral_fossil",
+      "label": "Gravesilt Spiral Fossil",
+      "category": "materials",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "34fcab50d2f6b8727017ce92186287d036054ac9e5e88670cc737a27b1639914",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            234,
+            235,
+            278,
+            276
+          ],
+          "visible_extent": 44,
+          "source_resampling_factor": 0.036154478225143796,
+          "sha256": "173fc847fe420e59f5a1cc00eb617377c786f2c7c8ea66b52c48a960e2f5870a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            116,
+            115,
+            140,
+            140
+          ],
+          "visible_extent": 25,
+          "source_resampling_factor": 0.018077239112571898,
+          "sha256": "e13e50de9e836a7027b04d0e99d2e1dc2c8c44df446aa46316351fafd188540f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            48,
+            480,
+            464
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.36811832374691866,
+          "sha256": "3d26e28cf48f18fdc0bcf732c33eef66ca471de0763ab8ca172df114519e7f56",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            116
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09202958093672967,
+          "sha256": "355de5c31579c92325719fb2b621ce298ab6841ec80f58ff95002cd3d9ac9745",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            58
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04601479046836483,
+          "sha256": "406a6c3750fcd10dde9f7173c214c43084d74f277baf32b64a332188313c086b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.023007395234182416,
+          "sha256": "118c4a22e72e0ab307ba896eef6082a63af9fd0c08f5624adc18f427b3ea2f90",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            417,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "source_resampling_factor": 0.027115858668857847,
+          "sha256": "402a07c84224e3ae76e4f29c70afc07f9d2f4f0990812b035d8a30ed89d4ad2b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original concept; individual built-in image_gen generation followed by individual style-refinement edit, 2026-10-16. Model identity not verified."
+        },
+        "ground_scaled_512": {
+          "path": "materials/gravesilt_spiral_fossil/gravesilt_spiral_fossil__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            417,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "source_resampling_factor": 0.027115858668857847,
+          "sha256": "402a07c84224e3ae76e4f29c70afc07f9d2f4f0990812b035d8a30ed89d4ad2b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    }
+  ]
+}

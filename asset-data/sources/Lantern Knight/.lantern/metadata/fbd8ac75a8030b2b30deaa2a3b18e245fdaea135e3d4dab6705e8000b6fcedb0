@@ -1,0 +1,17 @@
+LANTERNKNIGHT ITEM LIBRARY — FINAL REVIEW
+
+Passed visual and technical review on 2026-10-13.
+
+64 distinct item designs: 27 exact reused drop-art designs and 37 new designs.
+320 RGBA production images. No clipped alpha or opaque outer borders.
+All 64 measured inventory silhouette extents exactly match max(16, round(2 × reference extent in cm)).
+All common inventory images are centered within half a pixel.
+Compact inventory sprites have exact 4px transparent gutters and identical artwork to the common-canvas sprites.
+All 256px thumbnails exactly match the 50-percent common-canvas resample.
+Native masters preserve the approved pixels without upscaling.
+The source bundle rebuild reproduces all 320 PNGs byte-for-byte.
+No duplicate native images or accidental duplicate item designs found.
+Five category/source ZIP archives pass CRC checks and contain the intended assets.
+Six delivery boards clearly distinguish shared physical-scale previews from inspection close-ups.
+
+Scope: still-art and packaging validation. No game-engine runtime integration was performed.

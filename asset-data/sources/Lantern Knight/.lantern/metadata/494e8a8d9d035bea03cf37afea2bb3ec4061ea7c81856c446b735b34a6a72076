@@ -1,0 +1,492 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "crypt_01",
+  "title": "Lantern Crypt & Funerary - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264389682754654,
+    "requested_azimuth_degrees": 45,
+    "requested_vertical_span_m": 13,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "common_world_scale_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual anchor estimate, not runtime registration",
+    "footprint": "manually reviewed visual envelope in normalized image coordinates; never collision geometry"
+  },
+  "provenance": {
+    "method": "six fresh built-in imagegen generations plus two recovered unchanged earlier generated masters",
+    "exact_prompt_count": 6,
+    "original_prompt_unavailable_count": 2,
+    "recovered_notes": "The recovered bier and ossuary cabinet have source filenames and hashes but no preserved original exact prompt. Their short descriptions are explicitly reconstructed briefs, not exact prompts.",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "hero": "Canonical C / RUST hero unchanged; no hero generation, rigging or engine work"
+  },
+  "limitations": [
+    "No calibrated camera bake, common world scale, runtime-tested sprite, animation, collision, depth split or layered source is supplied.",
+    "13m vertical span is a requested scene context, not a measured conversion for these images.",
+    "Several subjects are new forms within existing tomb/table/furniture families, not wholly novel semantic categories. No registered state pairing is claimed.",
+    "Two recovered masters lack original exact prompts; all six newly generated masters have exact prompts.",
+    "Wall-mounted objects have null ground footprints. All anchors are provisional semantic estimates.",
+    "Generated alpha and boundary residue are measured below; original pixels are unchanged."
+  ],
+  "assets": [
+    {
+      "id": "crypt_low_wooden_bier_01",
+      "name": "Low wooden bier",
+      "file": "assets/crypt_low_wooden_bier_01.png",
+      "prompt_file": null,
+      "provenance_note_file": "provenance/crypt_low_wooden_bier_01.provenance.txt",
+      "prompt_status": "recovered_original_prompt_unavailable",
+      "original_source_file": "generated_images/exec-25988a74-b2c3-4bd7-a8d1-9c00a5224822.png",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1154083,
+      "sha256": "4aa81794a2cbb5073c74252aa6bb564f2bcff1e8dda7907865c298440ef12259",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        21,
+        1472,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        68,
+        102,
+        1467,
+        940
+      ],
+      "fully_transparent_pixel_fraction": 0.724489,
+      "fully_opaque_pixel_fraction": 0.0,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.266742,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.508783,
+        0.721562
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.171784,
+          0.353301
+        ],
+        [
+          0.372161,
+          0.230547
+        ],
+        [
+          0.873105,
+          0.73793
+        ],
+        [
+          0.645404,
+          0.909785
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Empty static platform and carrying handles form a single card. No carrying animation, body, weight-bearing surface or collision is supplied.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_wall_ossuary_cabinet_01",
+      "name": "Wall ossuary cabinet",
+      "file": "assets/crypt_wall_ossuary_cabinet_01.png",
+      "prompt_file": null,
+      "provenance_note_file": "provenance/crypt_wall_ossuary_cabinet_01.provenance.txt",
+      "prompt_status": "recovered_original_prompt_unavailable",
+      "original_source_file": "generated_images/exec-4fb63325-9793-44c2-bf32-889b1d1e6111.png",
+      "dimensions_px": [
+        1213,
+        1296
+      ],
+      "file_bytes": 773720,
+      "sha256": "fd56e6b70fa88618955a33e5705a56a62ae17215ef276384065adb424c64c436",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        73,
+        966,
+        1272
+      ],
+      "alpha_at_least_16_bounds_px": [
+        323,
+        76,
+        887,
+        1233
+      ],
+      "fully_transparent_pixel_fraction": 0.681648,
+      "fully_opaque_pixel_fraction": 0.000516,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.311717,
+      "boundary_nonzero_alpha_pixel_count": 6,
+      "maximum_boundary_alpha": 1,
+      "anchor_type": "wall_mount_visual_estimate",
+      "pivot_normalized": [
+        0.638252,
+        0.496088
+      ],
+      "footprint_polygon_normalized": null,
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 220,
+      "qa_notes": "Provisional rear wall anchor. Three sealed compartment fronts are painted into one static card; not separate drawers or opening states.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_urn_niche_stack_01",
+      "name": "Two-urn niche stack",
+      "file": "assets/crypt_urn_niche_stack_01.png",
+      "prompt_file": "provenance/crypt_urn_niche_stack_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-bd948ecb-5264-4489-a189-e235589c1400.png",
+      "dimensions_px": [
+        1275,
+        1234
+      ],
+      "file_bytes": 942553,
+      "sha256": "14c90e26b0f9f8532592bbd44f354444e2c91281066b746a93a0c631e484615c",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        136,
+        60,
+        1180,
+        1209
+      ],
+      "alpha_at_least_16_bounds_px": [
+        248,
+        62,
+        1051,
+        1206
+      ],
+      "fully_transparent_pixel_fraction": 0.539311,
+      "fully_opaque_pixel_fraction": 0.000425,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.452226,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.51571,
+        0.83825
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.213404,
+          0.791896
+        ],
+        [
+          0.534604,
+          0.671378
+        ],
+        [
+          0.80542,
+          0.84752
+        ],
+        [
+          0.51571,
+          0.968039
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "A single compound frame with two urns. Recess backs are painted dark interiors, not transparent holes. No removable urns or architectural snapping fit.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_blank_memorial_plaque_01",
+      "name": "Blank memorial plaque",
+      "file": "assets/crypt_blank_memorial_plaque_01.png",
+      "prompt_file": "provenance/crypt_blank_memorial_plaque_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-858617df-5796-4475-b6c4-d9764750de51.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 739924,
+      "sha256": "9067b34cdba974c4f2403c19129b5c6b4bdaada38375aa6aa0979e75dfa487f0",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        89,
+        49,
+        1256,
+        1088
+      ],
+      "alpha_at_least_16_bounds_px": [
+        318,
+        148,
+        1087,
+        1077
+      ],
+      "fully_transparent_pixel_fraction": 0.660286,
+      "fully_opaque_pixel_fraction": 0.000371,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.333037,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "wall_mount_visual_estimate",
+      "pivot_normalized": [
+        0.517858,
+        0.173799
+      ],
+      "footprint_polygon_normalized": null,
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Mounting anchor estimates the top hanging-tab center. Blank face is not a text/UI surface; wall plane and physical mount are not calibrated.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_leaning_sarcophagus_lid_01",
+      "name": "Leaning carved lid",
+      "file": "assets/crypt_leaning_sarcophagus_lid_01.png",
+      "prompt_file": "provenance/crypt_leaning_sarcophagus_lid_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-21a1d6fa-d3bf-425c-9dd5-2018a832dfe6.png",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "file_bytes": 1268459,
+      "sha256": "ddc908425432be31a1948f0bca4d090d5f196f32773670eeb0b2aa156a969d92",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        73,
+        120,
+        895,
+        1463
+      ],
+      "alpha_at_least_16_bounds_px": [
+        173,
+        122,
+        892,
+        1436
+      ],
+      "fully_transparent_pixel_fraction": 0.614693,
+      "fully_opaque_pixel_fraction": 0.0,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.379169,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_edge_visual_estimate",
+      "pivot_normalized": [
+        0.37959,
+        0.857904
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.182988,
+          0.806576
+        ],
+        [
+          0.386611,
+          0.83224
+        ],
+        [
+          0.541084,
+          0.909232
+        ],
+        [
+          0.456826,
+          0.934896
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 220,
+      "qa_notes": "Detached decorative lid-family form. Its leaning support is not depicted or solved. Requires a separately supplied wall or support and must not be staged as self-standing; do not infer balance, a matching sarcophagus, or an open/closed state.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_funeral_cloth_stand_01",
+      "name": "Funeral cloth stand",
+      "file": "assets/crypt_funeral_cloth_stand_01.png",
+      "prompt_file": "provenance/crypt_funeral_cloth_stand_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-e95d1217-8cd6-4f70-b256-e4c839afb54c.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 662754,
+      "sha256": "417e0c61b63e8b802f35dc8eadf1b65e77edddd58b79b3140ba9aa9ecdad9043",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        12,
+        1274,
+        1175
+      ],
+      "alpha_at_least_16_bounds_px": [
+        99,
+        130,
+        1237,
+        1117
+      ],
+      "fully_transparent_pixel_fraction": 0.671865,
+      "fully_opaque_pixel_fraction": 0.000592,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.317237,
+      "boundary_nonzero_alpha_pixel_count": 25,
+      "maximum_boundary_alpha": 1,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.526494,
+        0.758741
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.101479,
+          0.816364
+        ],
+        [
+          0.69997,
+          0.585872
+        ],
+        [
+          0.934162,
+          0.651726
+        ],
+        [
+          0.344345,
+          0.93161
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 180,
+      "qa_notes": "Cloth and trestle are one static compound prop; alpha openings under and around the cloth must remain open. No cloth motion or independent cloth piece.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_restrained_bone_pile_01",
+      "name": "Restrained dry bone pile",
+      "file": "assets/crypt_restrained_bone_pile_01.png",
+      "prompt_file": "provenance/crypt_restrained_bone_pile_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-0ced59ba-2054-4600-8f52-be8271efc82d.png",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1155893,
+      "sha256": "8aa157ea86e7d1710b9513d8b4308e127662ad56a27abfd2c2100c933578dcf5",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1436,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        316,
+        187,
+        1198,
+        862
+      ],
+      "fully_transparent_pixel_fraction": 0.779143,
+      "fully_opaque_pixel_fraction": 0.0,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.211558,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.498581,
+        0.677002
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.222956,
+          0.545166
+        ],
+        [
+          0.441159,
+          0.466064
+        ],
+        [
+          0.774206,
+          0.690186
+        ],
+        [
+          0.73401,
+          0.835205
+        ],
+        [
+          0.326315,
+          0.749512
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 130,
+      "qa_notes": "Non-graphic dry funerary remains with no flesh or blood. Simplified anatomy; parts form one static card and are not separate bone pickups.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "crypt_stone_offering_table_01",
+      "name": "Stone offering table",
+      "file": "assets/crypt_stone_offering_table_01.png",
+      "prompt_file": "provenance/crypt_stone_offering_table_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-6372e97b-91c2-4a40-9514-a4eb47150c00.png",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1221449,
+      "sha256": "4c0ba73932224c216530bcc8e5947a1818cc1e17d223541afa4a592faba24a60",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        71,
+        94,
+        1308,
+        984
+      ],
+      "alpha_at_least_16_bounds_px": [
+        232,
+        97,
+        1304,
+        947
+      ],
+      "fully_transparent_pixel_fraction": 0.654896,
+      "fully_opaque_pixel_fraction": 0.0,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.338673,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.5,
+        0.758789
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.206875,
+          0.634277
+        ],
+        [
+          0.444167,
+          0.45166
+        ],
+        [
+          0.779167,
+          0.700684
+        ],
+        [
+          0.451146,
+          0.908203
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 160,
+      "qa_notes": "Simple table-family variant with a shallow dish painted into the same card. No offering interaction, dish separation, altar animation or usable platform is provided.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

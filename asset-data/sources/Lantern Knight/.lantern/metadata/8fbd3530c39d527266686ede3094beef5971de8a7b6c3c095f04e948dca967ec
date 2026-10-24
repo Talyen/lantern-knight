@@ -1,0 +1,47 @@
+{
+  "release": "r02b",
+  "rgba_files_checked": 357,
+  "errors": [],
+  "components": {
+    "idle": {
+      "frames_scanned": 48,
+      "maximum_components_ge_4_pixels": 1,
+      "largest_secondary_alpha_component_area_px": 0
+    },
+    "mandible_attack": {
+      "frames_scanned": 30,
+      "maximum_components_ge_4_pixels": 1,
+      "largest_secondary_alpha_component_area_px": 2
+    },
+    "recoil": {
+      "frames_scanned": 24,
+      "maximum_components_ge_4_pixels": 1,
+      "largest_secondary_alpha_component_area_px": 2
+    },
+    "scuttle_front": {
+      "frames_scanned": 24,
+      "maximum_components_ge_4_pixels": 1,
+      "largest_secondary_alpha_component_area_px": 2
+    },
+    "scuttle_rear": {
+      "frames_scanned": 24,
+      "maximum_components_ge_4_pixels": 1,
+      "largest_secondary_alpha_component_area_px": 1
+    },
+    "scuttle_side": {
+      "frames_scanned": 24,
+      "maximum_components_ge_4_pixels": 1,
+      "largest_secondary_alpha_component_area_px": 0
+    }
+  },
+  "frames_with_secondary_component_at_least_4px": [],
+  "raw_master_files_byte_identical_to_r02a": true,
+  "source_master_hashes": {
+    "beetle_front_master.png": "d4cf1f4da17b4c48e87bbc58000b3107190c83dfe96935442663794cce4d97a3",
+    "beetle_additional_views_master.png": "239ea240edc69571005b1082eacd6204ab32309d9b7fd1eeaae4331721b9570d",
+    "beetle_side_master.png": "9c5cec12e063e783b28818a0738322178ccdabb2d2ab2d3bfe2e1c144ebc1889",
+    "beetle_rear_master.png": "65918812595485225e1615bf4d4da891cec18605a11c6521edb559e45f2058cd"
+  },
+  "prior_frozen_r02a_zip_sha256": "02dc2ecabfefa55e9b2bd8381fd677a9f3b4a695d2dcbf8a4a27ec0df9648e93",
+  "inspection_scope": "All published frame alpha/components checked. Independent chronological review of all 174 frames passed the bounded art/registration repair gate; see independent_review.txt. No universal runtime certification."
+}

@@ -1,0 +1,17 @@
+{
+  "ruined_craftsman_forge/ruined_craftsman_forge_native_1536x1024.png": "fa2925e6c77ce276c6cf87106318f9b1c44880ca7ee37c45978e9ab3902ed5d2",
+  "ruined_craftsman_forge/ruined_craftsman_forge_hero160_context_1.png": "fc9cd867422150090683a1a3d360f6c5356d696e299700c1533ecf9bf5395e27",
+  "ruined_craftsman_forge/ruined_craftsman_forge_hero160_context_2.png": "21e6e61fd8b2b0b52ccba57877e3f01ff2a8e283760e899c77bcddc6fc20da1f",
+  "ruined_craftsman_forge/ruined_craftsman_forge_hero160_context_3.png": "374756d0e60f79c881e7d3f625136dcda269bb2c8774a6c6c39b65b4356c19d2",
+  "ruined_craftsman_forge/ruined_craftsman_forge_overview.jpg": "278fafa7704fd58605539acb2ed32e5090f75e3ee17c522dc13ced0668c81037",
+  "ruined_craftsman_forge/exact_generation_prompt.txt": "a7c7dd6bcdee519e599255d35d1e9f3baa7c091af0ef507bf22fc3ba9c13cfec",
+  "ruined_craftsman_forge/exact_generation_record.json": "699ad528d71e9fe334c925566ee3a81af2d97e18bfe15673d808d4ec9416a731",
+  "ruined_craftsman_forge/approved_style_prompt.txt": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "ruined_craftsman_forge/canonical_hero.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "ruined_craftsman_forge/upscale_model_provenance.json": "46a517061dc080cb9aa5c1542e79bbde4454199ec1cc6ed74aec58e3a41609f9",
+  "ruined_craftsman_forge/metadata.json": "c63b364500d8f31d6b349527f8475040cb70230329228f04be0bb32471a0260b",
+  "ruined_craftsman_forge/README.txt": "ce94b9c741531e56f68c10f2547dadd7f57eb305c99c91ec5be9959fc61b4bb5",
+  "ruined_craftsman_forge/ai_upscale/run_metadata.json": "dddb57528598a84253085cca393fbc5a4d9d5371f4b68930820eae5fae6a4d98",
+  "ruined_craftsman_forge/ai_upscale/checks/seam_metrics.json": "70186d64f22bf47bbeb98181a129f3a9bbf7233ea59baee5d5e83b4f41386f4b",
+  "build_final.py": "0a1df85698273523b437e8870e5bb98d5fd43d1398476b5af843fd30e98bede7"
+}

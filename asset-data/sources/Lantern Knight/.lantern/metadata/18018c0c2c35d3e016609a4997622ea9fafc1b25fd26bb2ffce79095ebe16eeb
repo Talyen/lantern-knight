@@ -1,0 +1,2 @@
+Candlebone Rib Lane
+Experimental enemy attack. 23 image-generated cels plus clear terminal. 980ms evolving telegraph,40ms strike,one90ms contact,420ms outward recovery. 512x384 transparent frames and4x6atlas. MP4 shows3cycles. No engine changes. See timing_manifest for source crop registration and timing. Generated source,prompt,andprovenance retained.

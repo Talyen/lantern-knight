@@ -1,0 +1,10 @@
+Lantern Village: A/B/C native viewport sample source kit
+
+Each variant contains the preserved 1536x1024 native scene, exact generation prompt, provenance metadata, and a presentation-only hero160 composite.
+
+Rebuild: install Pillow, then run python review/build_contexts.py village
+All image input paths are relative and the original transparent hero is bundled. Pillow and a system font are the only runtime dependencies; the script falls back to Pillow default text if DejaVu is unavailable.
+
+Hero compositing is deterministic raster compositing, with Lanczos hero resize and a small added grounding shadow. Native scenes are untouched; no full-map expansion, AI upscale or generated repainting is included. The comparison sheet downscales presentation previews.
+
+No camera geometry, collision, engine scale or occlusion validation is claimed. Scenery is baked into these viewport art-direction samples.

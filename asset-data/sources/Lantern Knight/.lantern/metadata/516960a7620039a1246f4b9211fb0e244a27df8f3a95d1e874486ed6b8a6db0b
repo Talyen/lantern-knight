@@ -1,0 +1,61 @@
+{
+  "name": "moths",
+  "version": "1.0",
+  "source": "Fresh built-in image generation from selected original only; no generated draft used as a reference.",
+  "art_direction": "Sunburst 2.5",
+  "camera": {
+    "elevation_degrees": 35.264,
+    "projection": "orthographic art direction; illustrative raster, not calibrated geometry"
+  },
+  "native_cell_size": [
+    640,
+    640
+  ],
+  "native_generation_size": [
+    1536,
+    1024
+  ],
+  "resampling": "none; native pixel crop and integer registration only",
+  "atlas": {
+    "file": "atlas.png",
+    "columns": 3,
+    "rows": 2,
+    "padding_inside_cells": true
+  },
+  "pivot_pixels_top_left": [
+    320,
+    320
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.5
+  ],
+  "timing_hz": 60,
+  "clip": {
+    "name": "flutter",
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "holds_ticks": [
+      3,
+      2,
+      2,
+      2,
+      2,
+      3
+    ],
+    "loop": true
+  },
+  "suggested_display_width_pixels": 32,
+  "recommended_idle_variation": {
+    "note": "Continuous flutter; vary phase per instance. Optional orbit/position movement belongs to engine transform, not these baked flutter cels."
+  },
+  "alpha": "Straight RGBA. Native coverage retained; <8/255 dust removed; zero-alpha RGB cleared.",
+  "registration_offsets": [],
+  "canonical_static_region": null
+}

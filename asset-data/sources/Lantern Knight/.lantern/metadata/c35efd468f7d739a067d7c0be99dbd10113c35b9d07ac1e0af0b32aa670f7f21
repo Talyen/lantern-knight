@@ -1,0 +1,474 @@
+{
+  "name": "death_ash",
+  "title": "Death ash collapse",
+  "canvas": [
+    512,
+    512
+  ],
+  "pivot_pixels": [
+    256,
+    400
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.78125
+  ],
+  "alpha": "straight RGBA; only alpha values below 8 zeroed for clean empty background; remaining antialias preserved",
+  "color_space": "sRGB",
+  "atlas": {
+    "filename": "atlas.png",
+    "columns": 6,
+    "rows": 4,
+    "cell": [
+      512,
+      512
+    ]
+  },
+  "frame_count": 24,
+  "visible_cels": 23,
+  "duration_ms": [
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    65,
+    200
+  ],
+  "duration_total_ms": 1695,
+  "playback": "one_shot",
+  "idle_loop_frames": [],
+  "events": [],
+  "frame_provenance": [
+    {
+      "source": "approved",
+      "source_cel": 0
+    },
+    {
+      "source": "transition",
+      "source_cel": 0
+    },
+    {
+      "source": "approved",
+      "source_cel": 1
+    },
+    {
+      "source": "transition",
+      "source_cel": 1
+    },
+    {
+      "source": "approved",
+      "source_cel": 2
+    },
+    {
+      "source": "transition",
+      "source_cel": 2
+    },
+    {
+      "source": "approved",
+      "source_cel": 3
+    },
+    {
+      "source": "transition",
+      "source_cel": 3
+    },
+    {
+      "source": "approved",
+      "source_cel": 4
+    },
+    {
+      "source": "transition",
+      "source_cel": 4
+    },
+    {
+      "source": "approved",
+      "source_cel": 5
+    },
+    {
+      "source": "transition",
+      "source_cel": 5
+    },
+    {
+      "source": "approved",
+      "source_cel": 6
+    },
+    {
+      "source": "transition",
+      "source_cel": 6
+    },
+    {
+      "source": "approved",
+      "source_cel": 7
+    },
+    {
+      "source": "transition",
+      "source_cel": 7
+    },
+    {
+      "source": "approved",
+      "source_cel": 8
+    },
+    {
+      "source": "transition",
+      "source_cel": 8
+    },
+    {
+      "source": "approved",
+      "source_cel": 9
+    },
+    {
+      "source": "transition",
+      "source_cel": 9
+    },
+    {
+      "source": "approved",
+      "source_cel": 10
+    },
+    {
+      "source": "transition",
+      "source_cel": 10
+    },
+    {
+      "source": "transition",
+      "source_cel": 11
+    },
+    {
+      "source": "transparent_terminal"
+    }
+  ],
+  "approved_source_extraction": [
+    {
+      "cell": 0,
+      "crop": [
+        0,
+        0,
+        362,
+        430
+      ],
+      "paste": [
+        70,
+        33
+      ]
+    },
+    {
+      "cell": 1,
+      "crop": [
+        362,
+        0,
+        724,
+        430
+      ],
+      "paste": [
+        73,
+        8
+      ]
+    },
+    {
+      "cell": 2,
+      "crop": [
+        724,
+        0,
+        1086,
+        430
+      ],
+      "paste": [
+        74,
+        2
+      ]
+    },
+    {
+      "cell": 3,
+      "crop": [
+        1086,
+        0,
+        1448,
+        430
+      ],
+      "paste": [
+        76,
+        3
+      ]
+    },
+    {
+      "cell": 4,
+      "crop": [
+        0,
+        430,
+        362,
+        778
+      ],
+      "paste": [
+        68,
+        100
+      ]
+    },
+    {
+      "cell": 5,
+      "crop": [
+        362,
+        430,
+        724,
+        778
+      ],
+      "paste": [
+        67,
+        98
+      ]
+    },
+    {
+      "cell": 6,
+      "crop": [
+        724,
+        430,
+        1086,
+        778
+      ],
+      "paste": [
+        74,
+        97
+      ]
+    },
+    {
+      "cell": 7,
+      "crop": [
+        1086,
+        430,
+        1448,
+        778
+      ],
+      "paste": [
+        77,
+        101
+      ]
+    },
+    {
+      "cell": 8,
+      "crop": [
+        0,
+        778,
+        362,
+        1086
+      ],
+      "paste": [
+        66,
+        144
+      ]
+    },
+    {
+      "cell": 9,
+      "crop": [
+        362,
+        778,
+        724,
+        1086
+      ],
+      "paste": [
+        70,
+        152
+      ]
+    },
+    {
+      "cell": 10,
+      "crop": [
+        724,
+        778,
+        1086,
+        1086
+      ],
+      "paste": [
+        71,
+        157
+      ]
+    },
+    {
+      "cell": 11,
+      "crop": [
+        1086,
+        778,
+        1448,
+        1086
+      ],
+      "paste": [
+        75,
+        102
+      ]
+    }
+  ],
+  "transition_source_extraction": [
+    {
+      "cell": 0,
+      "crop": [
+        0,
+        0,
+        362,
+        440
+      ],
+      "paste": [
+        64,
+        28
+      ]
+    },
+    {
+      "cell": 1,
+      "crop": [
+        362,
+        0,
+        724,
+        440
+      ],
+      "paste": [
+        73,
+        -12
+      ]
+    },
+    {
+      "cell": 2,
+      "crop": [
+        724,
+        0,
+        1086,
+        440
+      ],
+      "paste": [
+        63,
+        -17
+      ]
+    },
+    {
+      "cell": 3,
+      "crop": [
+        1086,
+        0,
+        1448,
+        440
+      ],
+      "paste": [
+        70,
+        -18
+      ]
+    },
+    {
+      "cell": 4,
+      "crop": [
+        0,
+        440,
+        362,
+        785
+      ],
+      "paste": [
+        60,
+        100
+      ]
+    },
+    {
+      "cell": 5,
+      "crop": [
+        362,
+        440,
+        724,
+        785
+      ],
+      "paste": [
+        56,
+        95
+      ]
+    },
+    {
+      "cell": 6,
+      "crop": [
+        724,
+        440,
+        1086,
+        785
+      ],
+      "paste": [
+        67,
+        93
+      ]
+    },
+    {
+      "cell": 7,
+      "crop": [
+        1086,
+        440,
+        1448,
+        785
+      ],
+      "paste": [
+        78,
+        94
+      ]
+    },
+    {
+      "cell": 8,
+      "crop": [
+        0,
+        785,
+        362,
+        1086
+      ],
+      "paste": [
+        57,
+        151
+      ]
+    },
+    {
+      "cell": 9,
+      "crop": [
+        362,
+        785,
+        724,
+        1086
+      ],
+      "paste": [
+        83,
+        154
+      ]
+    },
+    {
+      "cell": 10,
+      "crop": [
+        724,
+        785,
+        1086,
+        1086
+      ],
+      "paste": [
+        108,
+        158
+      ]
+    },
+    {
+      "cell": 11,
+      "crop": [
+        1086,
+        785,
+        1448,
+        1086
+      ],
+      "paste": [
+        130,
+        158
+      ]
+    }
+  ],
+  "native_detail": "Generated source pixels are cropped and padded without upscaling. 512px is the sprite canvas, not a native 512px-per-cel generation claim.",
+  "version": "full_v1"
+}

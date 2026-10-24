@@ -1,0 +1,661 @@
+{
+  "id": "lightning_fork",
+  "family": "lightning_fork",
+  "source_fps": 30,
+  "preview_fps": 60,
+  "frame_count": 30,
+  "duration_seconds": 1.0,
+  "loop": false,
+  "canvas": [
+    640,
+    560
+  ],
+  "pivot": [
+    320,
+    386
+  ],
+  "alpha": "straight",
+  "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+  "world_density_px_per_metre": 112,
+  "preview_interpolation": "none; each source drawing repeats twice",
+  "frames": [
+    {
+      "frame": 0,
+      "atlas": "atlases/00.png",
+      "rect": [
+        6,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 1,
+      "atlas": "atlases/00.png",
+      "rect": [
+        234,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 2,
+      "atlas": "atlases/00.png",
+      "rect": [
+        462,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 3,
+      "atlas": "atlases/00.png",
+      "rect": [
+        690,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 4,
+      "atlas": "atlases/00.png",
+      "rect": [
+        918,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 5,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1146,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 6,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1374,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 7,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1602,
+        6,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 8,
+      "atlas": "atlases/00.png",
+      "rect": [
+        6,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 9,
+      "atlas": "atlases/00.png",
+      "rect": [
+        234,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 10,
+      "atlas": "atlases/00.png",
+      "rect": [
+        462,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 11,
+      "atlas": "atlases/00.png",
+      "rect": [
+        690,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 12,
+      "atlas": "atlases/00.png",
+      "rect": [
+        918,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 13,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1146,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 14,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1374,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 15,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1602,
+        293,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 16,
+      "atlas": "atlases/00.png",
+      "rect": [
+        6,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 17,
+      "atlas": "atlases/00.png",
+      "rect": [
+        234,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 18,
+      "atlas": "atlases/00.png",
+      "rect": [
+        462,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 19,
+      "atlas": "atlases/00.png",
+      "rect": [
+        690,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 20,
+      "atlas": "atlases/00.png",
+      "rect": [
+        918,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 21,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1146,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 22,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1374,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 23,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1602,
+        580,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 24,
+      "atlas": "atlases/00.png",
+      "rect": [
+        6,
+        867,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 25,
+      "atlas": "atlases/00.png",
+      "rect": [
+        234,
+        867,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 26,
+      "atlas": "atlases/00.png",
+      "rect": [
+        462,
+        867,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 27,
+      "atlas": "atlases/00.png",
+      "rect": [
+        690,
+        867,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 28,
+      "atlas": "atlases/00.png",
+      "rect": [
+        918,
+        867,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    },
+    {
+      "frame": 29,
+      "atlas": "atlases/00.png",
+      "rect": [
+        1146,
+        867,
+        216,
+        275
+      ],
+      "source_rect": [
+        211,
+        144,
+        427,
+        419
+      ],
+      "pivot_in_rect": [
+        109,
+        242
+      ],
+      "duration_seconds": 0.03333333333333333
+    }
+  ],
+  "atlas": {
+    "gutter_px": 6,
+    "extrusion_px": 2,
+    "max_size": 2048,
+    "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+    "rotation": false,
+    "trim": "one union crop shared across all frames; original canvas and pivot retained"
+  }
+}

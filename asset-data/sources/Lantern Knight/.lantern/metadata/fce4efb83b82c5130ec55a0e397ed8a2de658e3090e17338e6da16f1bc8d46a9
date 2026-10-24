@@ -1,0 +1,574 @@
+{
+  "prior_package": "lantern_overnight/05_occult_effects/occult_pack_v1",
+  "prior_camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 35.264389682754654,
+    "azimuthDegrees": 45.0,
+    "azimuthConvention": "from +Z toward +X",
+    "worldAxes": "right-handed XZ ground +Y vertical",
+    "sourcePixelsPerWorldMetre": 112.0,
+    "imageOrigin": "top_left",
+    "sourceCanvasPx": [
+      512,
+      448
+    ],
+    "rootPivotPx": [
+      256,
+      286
+    ],
+    "screenRight": [
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "screenUp": [
+      -0.4082482904638631,
+      0.816496580927726,
+      -0.4082482904638631
+    ],
+    "matrixConvention": "basis row dot world; image y negates screen-up; multiply by density then add pivot",
+    "initialGameVerticalSpanMetres": 13
+  },
+  "prior_source_fps": 30,
+  "clips": {
+    "spectral_bolt_launch": {
+      "id": "spectral_bolt_launch",
+      "family": "spectral_bolt",
+      "label": "Spectral bolt / launch",
+      "loop": false,
+      "space": "screen_billboard",
+      "axis": "screen +X",
+      "description": "A pinched crescent gathers, splits into two carved streamers, and snaps into the launch axis.",
+      "frameCount": 24,
+      "sourceFPS": 30,
+      "durationSeconds": 0.8,
+      "durationRational": [
+        24,
+        30
+      ],
+      "atlas": "atlases/spectral_bolt_launch.png",
+      "atlasSizePx": [
+        1290,
+        280
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "spectral_bolt_flight": {
+      "id": "spectral_bolt_flight",
+      "family": "spectral_bolt",
+      "label": "Spectral bolt / flight",
+      "loop": true,
+      "space": "screen_billboard",
+      "axis": "screen +X",
+      "description": "Fixed emitter projectile silhouette with two periodic tapering tails. Translation is external.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/spectral_bolt_flight.png",
+      "atlasSizePx": [
+        1026,
+        265
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "spectral_bolt_impact": {
+      "id": "spectral_bolt_impact",
+      "family": "spectral_bolt",
+      "label": "Spectral bolt / impact",
+      "loop": false,
+      "space": "screen_billboard",
+      "axis": "unoriented",
+      "description": "A compact lance core opens into a broken crescent and six directionally staged shards.",
+      "frameCount": 24,
+      "sourceFPS": 30,
+      "durationSeconds": 0.8,
+      "durationRational": [
+        24,
+        30
+      ],
+      "atlas": "atlases/spectral_bolt_impact.png",
+      "atlasSizePx": [
+        1068,
+        608
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "thorn_eruption": {
+      "id": "thorn_eruption",
+      "family": "thorn_eruption",
+      "label": "Thorn eruption",
+      "loop": false,
+      "space": "projected_world",
+      "axis": "radial on XZ",
+      "description": "Five asymmetric hooked thorns push from a ground fissure, hold a dangerous silhouette, then sink.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/thorn_eruption.png",
+      "atlasSizePx": [
+        984,
+        1085
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "ink_shadow_burst": {
+      "id": "ink_shadow_burst",
+      "family": "ink_shadow_burst",
+      "label": "Ink shadow burst",
+      "loop": false,
+      "space": "screen_billboard",
+      "axis": "unoriented",
+      "description": "An angular void knot unfolds into five hooked dark lobes. Small pale cuts preserve silhouette on dark ground.",
+      "frameCount": 24,
+      "sourceFPS": 30,
+      "durationSeconds": 0.8,
+      "durationRational": [
+        24,
+        30
+      ],
+      "atlas": "atlases/ink_shadow_burst.png",
+      "atlasSizePx": [
+        1278,
+        824
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "ritual_circle_activation": {
+      "id": "ritual_circle_activation",
+      "family": "ritual_circle_activation",
+      "label": "Ritual circle activation",
+      "loop": false,
+      "space": "projected_world",
+      "axis": "radial on XZ",
+      "description": "Broken ground rings trace around six simple glyph stations, then a central eye lifts and the drawing drains away.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/ritual_circle_activation.png",
+      "atlasSizePx": [
+        1326,
+        685
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "cursed_chain_strike": {
+      "id": "cursed_chain_strike",
+      "family": "cursed_chain_strike",
+      "label": "Cursed chain strike",
+      "loop": false,
+      "space": "projected_world",
+      "axis": "world +X (single authored direction)",
+      "description": "A six-link chain unfurls toward a hooked spear head; alternating link planes give solid interlock.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/cursed_chain_strike.png",
+      "atlasSizePx": [
+        1176,
+        590
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "pale_ghost_flame": {
+      "id": "pale_ghost_flame",
+      "family": "pale_ghost_flame",
+      "label": "Pale ghost flame",
+      "loop": true,
+      "space": "screen_billboard",
+      "axis": "screen up",
+      "description": "A broad hollow, three-pronged spirit flame turns around a dark almond void, without an ambient-lamp silhouette.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/pale_ghost_flame.png",
+      "atlasSizePx": [
+        606,
+        620
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "lightning_fork": {
+      "id": "lightning_fork",
+      "family": "lightning_fork",
+      "label": "Lightning fork",
+      "loop": false,
+      "space": "projected_world",
+      "axis": "vertical +Y with ground branches",
+      "description": "A sharply kinked descending bolt lands in a three-way root fork. Two authored return strokes then clear.",
+      "frameCount": 24,
+      "sourceFPS": 30,
+      "durationSeconds": 0.8,
+      "durationRational": [
+        24,
+        30
+      ],
+      "atlas": "atlases/lightning_fork.png",
+      "atlasSizePx": [
+        888,
+        1028
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "cold_shard_burst": {
+      "id": "cold_shard_burst",
+      "family": "cold_shard_burst",
+      "label": "Cold shard burst",
+      "loop": false,
+      "space": "projected_world",
+      "axis": "radial on XZ",
+      "description": "Six faceted ice blades lift on staggered ballistic trajectories and leave compact broken frost arcs.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/cold_shard_burst.png",
+      "atlasSizePx": [
+        1482,
+        1010
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "soul_leech_ribbon": {
+      "id": "soul_leech_ribbon",
+      "family": "soul_leech_ribbon",
+      "label": "Soul-leech ribbon",
+      "loop": true,
+      "space": "screen_billboard",
+      "axis": "screen +X, two fixed sockets",
+      "description": "A bloodless bone-teal ribbon flows between two fixed sockets, with traveling narrow knots and a reverse edge filament.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/soul_leech_ribbon.png",
+      "atlasSizePx": [
+        1446,
+        380
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "summoning_vortex": {
+      "id": "summoning_vortex",
+      "family": "summoning_vortex",
+      "label": "Summoning vortex",
+      "loop": true,
+      "space": "projected_world",
+      "axis": "vertical +Y above XZ",
+      "description": "Three wide interrupted helix ribbons orbit a hollow column, rising and narrowing around an open center.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/summoning_vortex.png",
+      "atlasSizePx": [
+        1026,
+        950
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "poison_mist_puff": {
+      "id": "poison_mist_puff",
+      "family": "poison_mist_puff",
+      "label": "Poison mist puff",
+      "loop": false,
+      "space": "screen_billboard",
+      "axis": "screen up",
+      "description": "Four deliberately lobed vapor masses unfold outward, overlap in transparent olive layers, and disperse as curled tips.",
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/poison_mist_puff.png",
+      "atlasSizePx": [
+        1122,
+        640
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    },
+    "ward_break": {
+      "id": "ward_break",
+      "family": "ward_break",
+      "label": "Ward break",
+      "loop": false,
+      "space": "screen_billboard",
+      "axis": "facing camera",
+      "description": "A pointed shield ward flashes its seam; five separate shield sectors part on individual trajectories and disappear.",
+      "frameCount": 24,
+      "sourceFPS": 30,
+      "durationSeconds": 0.8,
+      "durationRational": [
+        24,
+        30
+      ],
+      "atlas": "atlases/ward_break.png",
+      "atlasSizePx": [
+        1116,
+        780
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter origin; ground effects root is XZ y=0; billboards root is marked emitter or local anchor",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; visual candidate only"
+    }
+  },
+  "changes_in_revision_02": {
+    "art": "original native vector illustration, no old frames transformed",
+    "canvas": "640x560 replaces 512x448; root pivot (320,386) replaces (256,286)",
+    "timing": "per-clip lengths intentionally re-authored; see each timing.json. Consumers must use revised manifest, not assume prior frame counts.",
+    "projection": "world-anchored ground and fixed roots retained; effect body contours and material trajectories are authored screen-space rather than literal 3D geometry. Original world-axis descriptions below are historical contracts, not new exact-camera claims.",
+    "engine": "no runtime code or engine integration supplied"
+  }
+}

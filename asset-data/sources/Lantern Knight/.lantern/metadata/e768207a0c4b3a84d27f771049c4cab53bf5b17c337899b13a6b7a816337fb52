@@ -1,0 +1,1284 @@
+{
+  "actor": "Shroud Crawler",
+  "identity": "ZB04",
+  "reference_sha256": "ab4d67f1de815498ceb2751ce42d248bdfa57914a153740e9cf110cf861b03b8",
+  "extension_only": true,
+  "baseline_unchanged": true,
+  "tick_rate": 60,
+  "canvas": [
+    768,
+    768
+  ],
+  "camera": {
+    "elevation_target": 35.2643897,
+    "note": "Artist target; not calibrated 3D geometry"
+  },
+  "native_size_policy": "No resize, mirror, tween, rotation or per-cel bounding-box normalization. Ownership alpha cleaning only.",
+  "root_motion": "World actor transform separate; fixed heading registration baked into PNG; no runtime offsets.",
+  "estimated_ppu": {
+    "DR_baseline": 240,
+    "DL": 265,
+    "UL": 270,
+    "UR": 270
+  },
+  "scale_note": "Baseline provides no explicit PPU. DR uses estimated240. Native-art density DL265 UL270 UR270 matches projected identity scale without resizing pixels. Engine world size remains tunable.",
+  "clips": {
+    "DL_move": {
+      "facing": "DL",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        10,
+        7,
+        5,
+        10,
+        7,
+        5
+      ],
+      "total_ticks": 44,
+      "frames": [
+        {
+          "file": "DL_move_01.png",
+          "source_component_id": 1,
+          "source_bounds": [
+            13,
+            12,
+            499,
+            507
+          ],
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            206,
+            126,
+            690,
+            617
+          ]
+        },
+        {
+          "file": "DL_move_02.png",
+          "source_component_id": 2,
+          "source_bounds": [
+            586,
+            12,
+            1010,
+            489
+          ],
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            267,
+            126,
+            688,
+            600
+          ]
+        },
+        {
+          "file": "DL_move_03.png",
+          "source_component_id": 3,
+          "source_bounds": [
+            1078,
+            33,
+            1508,
+            482
+          ],
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            248,
+            146,
+            675,
+            592
+          ]
+        },
+        {
+          "file": "DL_move_04.png",
+          "source_component_id": 4,
+          "source_bounds": [
+            17,
+            523,
+            497,
+            1020
+          ],
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            211,
+            124,
+            688,
+            619
+          ]
+        },
+        {
+          "file": "DL_move_05.png",
+          "source_component_id": 5,
+          "source_bounds": [
+            573,
+            526,
+            1011,
+            971
+          ],
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            255,
+            127,
+            690,
+            570
+          ]
+        },
+        {
+          "file": "DL_move_06.png",
+          "source_component_id": 6,
+          "source_bounds": [
+            1081,
+            540,
+            1513,
+            996
+          ],
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            251,
+            142,
+            679,
+            595
+          ]
+        }
+      ],
+      "atlas": "DL_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        420
+      ],
+      "estimated_ppu": 265,
+      "event": null,
+      "end": "loop"
+    },
+    "DL_attack": {
+      "facing": "DL",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        10
+      ],
+      "total_ticks": 50,
+      "frames": [
+        {
+          "file": "DL_attack_01.png",
+          "source_component_id": 2,
+          "source_bounds": [
+            35,
+            31,
+            506,
+            503
+          ],
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            227,
+            145,
+            697,
+            614
+          ]
+        },
+        {
+          "file": "DL_attack_02.png",
+          "source_component_id": 3,
+          "source_bounds": [
+            653,
+            39,
+            999,
+            455
+          ],
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            334,
+            152,
+            678,
+            566
+          ]
+        },
+        {
+          "file": "DL_attack_03.png",
+          "source_component_id": 1,
+          "source_bounds": [
+            1107,
+            29,
+            1503,
+            483
+          ],
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            276,
+            143,
+            670,
+            594
+          ]
+        },
+        {
+          "file": "DL_attack_04.png",
+          "source_component_id": 5,
+          "source_bounds": [
+            32,
+            509,
+            520,
+            992
+          ],
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            225,
+            110,
+            711,
+            591
+          ]
+        },
+        {
+          "file": "DL_attack_05.png",
+          "source_component_id": 6,
+          "source_bounds": [
+            522,
+            518,
+            1022,
+            996
+          ],
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            203,
+            120,
+            701,
+            595
+          ]
+        },
+        {
+          "file": "DL_attack_06.png",
+          "source_component_id": 4,
+          "source_bounds": [
+            1061,
+            500,
+            1511,
+            994
+          ],
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "native_offset": [
+            192,
+            112
+          ],
+          "visible_bounds": [
+            230,
+            102,
+            678,
+            592
+          ]
+        }
+      ],
+      "atlas": "DL_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        420
+      ],
+      "estimated_ppu": 265,
+      "event": {
+        "name": "visual_pounce_reference",
+        "frame_index_zero_based": 3,
+        "tick": 30,
+        "damage_guarantee": false
+      },
+      "end": "hold final cel then transition to compatible rest"
+    },
+    "UL_move": {
+      "facing": "UL",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        10,
+        7,
+        5,
+        10,
+        7,
+        5
+      ],
+      "total_ticks": 44,
+      "frames": [
+        {
+          "file": "UL_move_01.png",
+          "source_component_id": 1,
+          "source_bounds": [
+            54,
+            64,
+            540,
+            498
+          ],
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            183,
+            306,
+            667,
+            737
+          ]
+        },
+        {
+          "file": "UL_move_02.png",
+          "source_component_id": 3,
+          "source_bounds": [
+            576,
+            110,
+            1022,
+            497
+          ],
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            193,
+            351,
+            637,
+            736
+          ]
+        },
+        {
+          "file": "UL_move_03.png",
+          "source_component_id": 2,
+          "source_bounds": [
+            1055,
+            108,
+            1506,
+            500
+          ],
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            160,
+            350,
+            609,
+            738
+          ]
+        },
+        {
+          "file": "UL_move_04.png",
+          "source_component_id": 4,
+          "source_bounds": [
+            78,
+            538,
+            539,
+            970
+          ],
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            207,
+            267,
+            666,
+            696
+          ]
+        },
+        {
+          "file": "UL_move_05.png",
+          "source_component_id": 5,
+          "source_bounds": [
+            584,
+            564,
+            1026,
+            967
+          ],
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            201,
+            293,
+            640,
+            694
+          ]
+        },
+        {
+          "file": "UL_move_06.png",
+          "source_component_id": 6,
+          "source_bounds": [
+            1079,
+            566,
+            1514,
+            971
+          ],
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            184,
+            295,
+            618,
+            698
+          ]
+        }
+      ],
+      "atlas": "UL_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        420
+      ],
+      "estimated_ppu": 270,
+      "event": null,
+      "end": "loop"
+    },
+    "UL_attack": {
+      "facing": "UL",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        10
+      ],
+      "total_ticks": 50,
+      "frames": [
+        {
+          "file": "UL_attack_01.png",
+          "source_component_id": 2,
+          "source_bounds": [
+            37,
+            99,
+            545,
+            480
+          ],
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            166,
+            340,
+            671,
+            719
+          ]
+        },
+        {
+          "file": "UL_attack_02.png",
+          "source_component_id": 3,
+          "source_bounds": [
+            562,
+            117,
+            1007,
+            479
+          ],
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            179,
+            358,
+            622,
+            717
+          ]
+        },
+        {
+          "file": "UL_attack_03.png",
+          "source_component_id": 1,
+          "source_bounds": [
+            1044,
+            53,
+            1506,
+            482
+          ],
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            149,
+            295,
+            608,
+            721
+          ]
+        },
+        {
+          "file": "UL_attack_04.png",
+          "source_component_id": 4,
+          "source_bounds": [
+            32,
+            517,
+            574,
+            971
+          ],
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            161,
+            246,
+            701,
+            698
+          ]
+        },
+        {
+          "file": "UL_attack_05.png",
+          "source_component_id": 5,
+          "source_bounds": [
+            514,
+            572,
+            1011,
+            971
+          ],
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            131,
+            301,
+            625,
+            698
+          ]
+        },
+        {
+          "file": "UL_attack_06.png",
+          "source_component_id": 6,
+          "source_bounds": [
+            1007,
+            593,
+            1506,
+            963
+          ],
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "native_offset": [
+            128,
+            240
+          ],
+          "visible_bounds": [
+            112,
+            322,
+            609,
+            690
+          ]
+        }
+      ],
+      "atlas": "UL_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        420
+      ],
+      "estimated_ppu": 270,
+      "event": {
+        "name": "visual_pounce_reference",
+        "frame_index_zero_based": 3,
+        "tick": 30,
+        "damage_guarantee": false
+      },
+      "end": "hold final cel then transition to compatible rest"
+    },
+    "UR_move": {
+      "facing": "UR",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        10,
+        7,
+        5,
+        10,
+        7,
+        5
+      ],
+      "total_ticks": 44,
+      "frames": [
+        {
+          "file": "UR_move_01.png",
+          "source_component_id": 1,
+          "source_bounds": [
+            42,
+            14,
+            569,
+            491
+          ],
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            60,
+            256,
+            584,
+            730
+          ]
+        },
+        {
+          "file": "UR_move_02.png",
+          "source_component_id": 3,
+          "source_bounds": [
+            554,
+            76,
+            998,
+            491
+          ],
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            59,
+            317,
+            501,
+            730
+          ]
+        },
+        {
+          "file": "UR_move_03.png",
+          "source_component_id": 2,
+          "source_bounds": [
+            1041,
+            75,
+            1510,
+            491
+          ],
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            34,
+            316,
+            501,
+            730
+          ]
+        },
+        {
+          "file": "UR_move_04.png",
+          "source_component_id": 4,
+          "source_bounds": [
+            44,
+            515,
+            532,
+            998
+          ],
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            61,
+            244,
+            547,
+            725
+          ]
+        },
+        {
+          "file": "UR_move_05.png",
+          "source_component_id": 6,
+          "source_bounds": [
+            554,
+            582,
+            979,
+            998
+          ],
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            59,
+            311,
+            482,
+            725
+          ]
+        },
+        {
+          "file": "UR_move_06.png",
+          "source_component_id": 5,
+          "source_bounds": [
+            1045,
+            579,
+            1510,
+            998
+          ],
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            38,
+            308,
+            500,
+            725
+          ]
+        }
+      ],
+      "atlas": "UR_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        420
+      ],
+      "estimated_ppu": 270,
+      "event": null,
+      "end": "loop"
+    },
+    "UR_attack": {
+      "facing": "UR",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        10
+      ],
+      "total_ticks": 50,
+      "frames": [
+        {
+          "file": "UR_attack_01.png",
+          "source_component_id": 3,
+          "source_bounds": [
+            75,
+            95,
+            543,
+            488
+          ],
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            92,
+            336,
+            558,
+            726
+          ]
+        },
+        {
+          "file": "UR_attack_02.png",
+          "source_component_id": 2,
+          "source_bounds": [
+            593,
+            80,
+            1017,
+            486
+          ],
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            98,
+            321,
+            519,
+            725
+          ]
+        },
+        {
+          "file": "UR_attack_03.png",
+          "source_component_id": 1,
+          "source_bounds": [
+            1076,
+            60,
+            1478,
+            487
+          ],
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            70,
+            302,
+            468,
+            725
+          ]
+        },
+        {
+          "file": "UR_attack_04.png",
+          "source_component_id": 4,
+          "source_bounds": [
+            57,
+            524,
+            591,
+            986
+          ],
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            74,
+            254,
+            606,
+            713
+          ]
+        },
+        {
+          "file": "UR_attack_05.png",
+          "source_component_id": 6,
+          "source_bounds": [
+            567,
+            537,
+            1037,
+            986
+          ],
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            72,
+            267,
+            540,
+            713
+          ]
+        },
+        {
+          "file": "UR_attack_06.png",
+          "source_component_id": 7,
+          "source_bounds": [
+            1050,
+            621,
+            1503,
+            986
+          ],
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "native_offset": [
+            16,
+            240
+          ],
+          "visible_bounds": [
+            43,
+            351,
+            494,
+            713
+          ]
+        }
+      ],
+      "atlas": "UR_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        420
+      ],
+      "estimated_ppu": 270,
+      "event": {
+        "name": "visual_pounce_reference",
+        "frame_index_zero_based": 3,
+        "tick": 30,
+        "damage_guarantee": false
+      },
+      "end": "hold final cel then transition to compatible rest"
+    }
+  }
+}

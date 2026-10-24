@@ -1,0 +1,61 @@
+# LanternKnight: 64 Item Icons and Thumbnails
+
+First broad production library, version 1.0. Includes 64 distinct item designs: 14 weapons/ammunition, 10 armor pieces, 6 accessories, 10 consumables, 1 currency pickup, 9 materials, 3 runes, 7 gems and 4 quest objects. All 27 existing loot designs are reused directly from their approved source cels. The 37 additional item designs were generated individually with the built-in image generator in the same muted, ink-edged painted style.
+
+## Start here
+
+- `inventory_scaled_tight/`: Recommended compact inventory sprites. These already preserve relative size. Draw at native dimensions, or apply ONE shared scale to every item.
+- `inventory_512/`: The same scaled objects centered on a shared 512 × 512 transparent comparison canvas. Use when a common image canvas is helpful.
+- `thumbnails_256/`: Exact half-size renditions of the common canvas. The axe remains larger than the belt, ring and gem.
+- `masters_native/`: Cropped native source pixels, preserved without upscaling, with a 4px transparent gutter. Use for future resolutions or editing.
+- `detail_512/`: Close-up inspection images. These may fit the item into a 512px canvas for readability. They are NOT the default inventory or thumbnail images.
+- `manifest.json`: IDs, categories, reference sizes, actual pixel dimensions, pivots, legibility boosts, source provenance, paths and optional footprint hints.
+- `item_catalog.csv`: Flat 64-item catalog.
+- `boards/`: Scale check previews; their labels/backgrounds are not baked into production PNGs.
+
+## One coherent size system
+
+At the 512px reference resolution, one art-direction reference centimeter equals two pixels along the item's longest visible bounding axis. The reference dimensions describe the depicted arrangement, such as a belt loop or folded cloak, rather than its fully stretched material length. They are consistent size estimates, not measurements from calibrated 3D models.
+
+Examples:
+
+| Item | Reference extent | Inventory extent | Thumbnail extent |
+|---|---:|---:|---:|
+| Ashwood spear | 220 cm | 440 px | 220 px |
+| Greatsword | 160 cm | 320 px | 160 px |
+| Iron sword | 110 cm | 220 px | 110 px |
+| Iron axe | 75 cm | 150 px | 75 px |
+| Belt loop | 45 cm | 90 px | 45 px |
+| Healing potion | 16 cm | 32 px | 16 px |
+| Ruby | 3.2 cm | 16 px | 8 px |
+| Ring | 3 cm | 16 px | 8 px |
+
+Small items below 8 reference cm receive a documented 16px longest-axis legibility floor at the reference resolution. This is the only scale exception. Every item's exact boost is listed in the manifest. Without that floor, a ring would become six pixels in the 512px reference image. Even with the floor the axe is over nine times the gem/ring's longest axis.
+
+Do not independently fit each item to the same rectangle. That would erase the requested physical scale difference. For compact inventory layout, use `inventory_scaled_tight/` and honor its pixel dimensions. If uniformly reducing the whole library, reduce all item dimensions together. The 256px common thumbnails already preserve this relationship. Avoid collapsing them into 32px common slots; the smallest objects would become too small to inspect. Show `detail_512/` when the player inspects an item instead.
+
+## Layout metadata
+
+Suggested footprints such as axe/sword 2 × 3, armor 2 × 3, belt 2 × 1, gem/ring 1 × 1 are optional layout hints. This library does not impose a grid-inventory mechanic. Footprints are not instructions to stretch or equal-fit the art. Center pivots are normalized (0.5, 0.5); tight scaled sprites have a 4px transparent gutter on every side.
+
+## Pixel format and integration
+
+Production images are RGBA PNGs with genuine straight alpha. There are no baked slots, backgrounds, rarity borders, text, ground shadows or loot glints. Physical liquid and gem colors are part of the item materials. Add hover/rarity effects separately at runtime.
+
+Preserve aspect ratio, use a single common sizing multiplier, and avoid automatic trimming combined with arbitrary per-icon scale. Normal color/sRGB import is appropriate for the painted colors. Filtering and compression should be chosen for the actual game's target display; inspect small gems before enabling lossy texture compression. No engine project was modified or runtime-tested as part of this still-art library.
+
+## Delivery bundles
+
+1. Weapons and ammunition: 14 items.
+2. Armor and accessories: 16 items.
+3. Consumables, currency and quest items: 15 items.
+4. Materials, runes and gems: 19 items.
+5. Source and rebuild: native sources, individual generation prompts, extraction/scaling script, complete manifest/catalog and six proof boards.
+
+Each category bundle includes all five PNG renditions for its items, the shared guide, and complete metadata. Items outside that bundle are listed in the shared manifest so consumers can use stable IDs across the complete library.
+
+## Scope and provenance
+
+This is a broad 64-item baseline, not a claim to cover every possible future item in the game. Existing healing potion, coin pile, sword, breastplate, eight equipment items, eight material/rune items and seven gems retain their approved drop-art designs. Their still art is cropped from the original native cel sheets or approved native rest crops, not enlarged runtime drop sprites. Source generation prompts and a provenance record accompany the rebuild bundle.
+
+All transformations after generation are deterministic extraction, transparent padding, proportional downsampling and preview layout. Native masters are untouched. Runtime/detail framing ignores near-invisible source dust outside the alpha >= 4 bounding box, while preserving alpha values inside it. Inventory images are measured after resampling so their visible nonzero-alpha longest axis exactly matches the declared pixel extent. No rendered item was stretched or replaced by a placeholder. Inspection images never upscale native art.

@@ -1,0 +1,350 @@
+{
+  "status": "technical checks passed; parent visual review passed",
+  "drawn_unique_hash_count": 16,
+  "drawn_cel_count": 16,
+  "clear_final_alpha_max": 0,
+  "all_canvas_edges_zero_alpha": true,
+  "all_source_crops_preserve_exact_rgba_pixels": true,
+  "apng_exact_all_rgba_match": true,
+  "apng_visible_rgba_and_all_alpha_match": true,
+  "single_impact_event": true,
+  "damage_occurs_only_at_frame": 8,
+  "timing_sum_ms": 1700,
+  "canvas_px": [
+    1024,
+    768
+  ],
+  "frame_sha256": [
+    "883ea21435b1b82dd48e4025bfb48dffd53e66d8c95e3f1d37b6e2363aa6f7dd",
+    "eb038c7f87db0d8f0b347cd00e231479ca2dcb983e7d77ada24a8007d1e0d820",
+    "b7259df63dd0d43baa6d92e612e1b7f2a2e6a611f1115d0b18074ec251df09ac",
+    "3e87b15c8b143362a81514a934fc8c811760031b62938b9bf870b91a5af83111",
+    "bda31bb624af5766f010da0e0fc85d8875fed2661e4d71ec86f03a4f121bca52",
+    "d664e7b6938f6c80c18faee0d8db171f1f2902dbae8969ee5f150a16e827f0a2",
+    "9cc83c685e6284d10d57c0e7d39a97eef7dfd9d42a19e5e838ed25aafbe4129d",
+    "8b77deab77cb9b092019c88b8bb854620b765b681327a6d7afaf38a89f257499",
+    "c992ac15ac9689bc30e198e89760363c5e815ad6edc8631ea6fb7cfd5c308647",
+    "770d892e70f0b75ba3a8c0bd7a00063967a796af9f54b093c7ff822d7cedb2aa",
+    "e3a3e402e44d69de3ff488db30138dcfd9a8a7e74089f3355652bc283de8c8ce",
+    "76d60e778428343f2d4063374c0b55f0d077481c62b9b4bdcacc01a70a2dd473",
+    "5540169a6c534c9a97ac56f2b8e3217a381169d681fc65d995598cb7f1af736c",
+    "f5c639f444ac1dd462eb39d73c64a597bba2a48278592a8838f7890ddf78c99a",
+    "4a2e987b9fc169381e4aed78ab3c5d0fe49017281f507fedf1ce0f6fd2130379",
+    "2735ef17364142eb6a56cc02bd0010c84f384b7f456c5948e5afa84b86ca20e5",
+    "4bd7227ae468226eebda7f0ab55e6fe61fcf57ba0c57e5f8e434b7f98bcec728"
+  ],
+  "frames": [
+    {
+      "frame": 0,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        207,
+        272,
+        814,
+        623
+      ],
+      "nonzero_alpha_bounds_px": [
+        192,
+        90,
+        819,
+        696
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 107253
+    },
+    {
+      "frame": 1,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        206,
+        272,
+        813,
+        624
+      ],
+      "nonzero_alpha_bounds_px": [
+        196,
+        86,
+        823,
+        696
+      ],
+      "source_crop_edge_alpha_max": 2,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 173654
+    },
+    {
+      "frame": 2,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        211,
+        242,
+        812,
+        608
+      ],
+      "nonzero_alpha_bounds_px": [
+        192,
+        129,
+        819,
+        756
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 175624
+    },
+    {
+      "frame": 3,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        210,
+        210,
+        813,
+        611
+      ],
+      "nonzero_alpha_bounds_px": [
+        196,
+        130,
+        823,
+        756
+      ],
+      "source_crop_edge_alpha_max": 2,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 189469
+    },
+    {
+      "frame": 4,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        203,
+        235,
+        817,
+        622
+      ],
+      "nonzero_alpha_bounds_px": [
+        192,
+        62,
+        819,
+        683
+      ],
+      "source_crop_edge_alpha_max": 2,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 180437
+    },
+    {
+      "frame": 5,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        205,
+        212,
+        816,
+        631
+      ],
+      "nonzero_alpha_bounds_px": [
+        200,
+        71,
+        827,
+        683
+      ],
+      "source_crop_edge_alpha_max": 2,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 185738
+    },
+    {
+      "frame": 6,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        208,
+        203,
+        816,
+        619
+      ],
+      "nonzero_alpha_bounds_px": [
+        192,
+        108,
+        819,
+        734
+      ],
+      "source_crop_edge_alpha_max": 3,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 187590
+    },
+    {
+      "frame": 7,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        208,
+        190,
+        802,
+        614
+      ],
+      "nonzero_alpha_bounds_px": [
+        200,
+        111,
+        823,
+        734
+      ],
+      "source_crop_edge_alpha_max": 3,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 182378
+    },
+    {
+      "frame": 8,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        200,
+        164,
+        818,
+        632
+      ],
+      "nonzero_alpha_bounds_px": [
+        188,
+        58,
+        821,
+        676
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 208129
+    },
+    {
+      "frame": 9,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        212,
+        149,
+        815,
+        647
+      ],
+      "nonzero_alpha_bounds_px": [
+        208,
+        49,
+        817,
+        676
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 222416
+    },
+    {
+      "frame": 10,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        212,
+        154,
+        812,
+        628
+      ],
+      "nonzero_alpha_bounds_px": [
+        188,
+        99,
+        815,
+        726
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 200760
+    },
+    {
+      "frame": 11,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        220,
+        155,
+        812,
+        628
+      ],
+      "nonzero_alpha_bounds_px": [
+        202,
+        99,
+        819,
+        726
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 147174
+    },
+    {
+      "frame": 12,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        207,
+        111,
+        813,
+        650
+      ],
+      "nonzero_alpha_bounds_px": [
+        188,
+        64,
+        815,
+        676
+      ],
+      "source_crop_edge_alpha_max": 2,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 227113
+    },
+    {
+      "frame": 13,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        228,
+        136,
+        810,
+        638
+      ],
+      "nonzero_alpha_bounds_px": [
+        202,
+        66,
+        815,
+        676
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 136703
+    },
+    {
+      "frame": 14,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        242,
+        230,
+        807,
+        615
+      ],
+      "nonzero_alpha_bounds_px": [
+        188,
+        99,
+        815,
+        726
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 35010
+    },
+    {
+      "frame": 15,
+      "source_pixel_copy_verified": true,
+      "visible_alpha16_bounds_px": [
+        349,
+        256,
+        728,
+        598
+      ],
+      "nonzero_alpha_bounds_px": [
+        202,
+        99,
+        811,
+        726
+      ],
+      "source_crop_edge_alpha_max": 1,
+      "canvas_edge_alpha_max": 0,
+      "nonzero_alpha_pixel_count": 13030
+    }
+  ],
+  "notes": [
+    "Alpha >=16 is used only to inspect visible bounds and locate source separators; export alpha is never thresholded.",
+    "Review contact thumbnails are reduced for readability; frame PNGs, atlas and APNG are native-pixel exports.",
+    "MP4 presents native canvas pixels at authored speed, twice; repeated encoded frames are holds, not new drawings.",
+    "A true transparent outer gutter protects every runtime frame; no visible art is cropped."
+  ],
+  "packaging_note": "The MP4 preview is a separate companion deliverable, omitted only from the ZIP to keep native lossless assets below 20 MB.",
+  "parent_visual_review_passed": true
+}

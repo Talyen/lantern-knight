@@ -1,0 +1,9 @@
+Lantern Knight — getup_DR
+
+Separate 42-tick nonfatal getup: grounded, sit, kneel, push up, return to lowcarry ready. Invulnerability is a gameplay decision, not encoded as an assumed grant.
+
+6 distinct drawn cels; 60 Hz timing. Anatomical right hand = sword; left = lantern. No mirroring. Native RGBA pixels, fixed 896 x 704 padded frame canvas, fixed pivot (506, 518). No AI upscale or per-cel fit.
+
+Use animation JSON for exact durations, atlas rectangles, pivot, PPU and events. Point sampling is optional; use normal alpha blending and prevent atlas bleed. Source art has antialiased ink edges. Preview is a compressed non-alpha presentation only.
+
+Runtime status: art checked; Unity/game-engine integration not tested. PPU, floor and root registration remain approximate. Review cross-clip transitions and gameplay collision before shipping.

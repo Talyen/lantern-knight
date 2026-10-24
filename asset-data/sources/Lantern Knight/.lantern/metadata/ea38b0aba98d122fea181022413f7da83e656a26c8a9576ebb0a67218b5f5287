@@ -1,0 +1,15 @@
+{
+  "method": "One global similarity fit (uniform scale+translation, no rotation) from exact guide points to32 approximate observed image landmarks. No per-frame transform. Used only to estimate one common cell pivot; artwork pixels remain native size.",
+  "guide_to_art_common_scale": 1.0181194322203864,
+  "guide_to_art_translation": [
+    5.522480141111373,
+    -42.746025108451136
+  ],
+  "estimated_common_art_root": [
+    217.75674806896419,
+    359.38206149153024
+  ],
+  "median_landmark_residual_px": 29.673670430540618,
+  "max_landmark_residual_px": 55.20686458653629,
+  "note": "Approximate pivot calibration, not exact ground/contact validation. Guide bone head midpoint vs drawn head center is imperfect."
+}

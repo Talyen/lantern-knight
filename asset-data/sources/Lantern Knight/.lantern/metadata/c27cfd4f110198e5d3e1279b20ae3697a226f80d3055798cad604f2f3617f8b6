@@ -1,0 +1,21 @@
+{
+  "id": "spectral_bolt_flight",
+  "family": "spectral_bolt",
+  "source_fps": 30,
+  "preview_fps": 60,
+  "frame_count": 36,
+  "duration_seconds": 1.2,
+  "loop": true,
+  "canvas": [
+    640,
+    560
+  ],
+  "pivot": [
+    320,
+    386
+  ],
+  "alpha": "straight",
+  "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+  "world_density_px_per_metre": 112,
+  "preview_interpolation": "none; each source drawing repeats twice"
+}

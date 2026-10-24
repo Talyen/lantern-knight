@@ -1,0 +1,184 @@
+{
+  "uniform_padding_px": 64,
+  "native_frame_canvas": [
+    640,
+    640
+  ],
+  "method": "A single common integer translation [0,+24] applied to every native cel in row 2. Row 1 unchanged. No X adjustment, scaling, individual-centering, warp, alpha edit or generated art.",
+  "reason": "Three stable anchors independently indicate approximately 24px lower-row layout offset relative to exact guide hover phases. Shared design offsets cancel when comparing row residual medians.",
+  "guide_to_output_nominal_dimensions_ratio": 0.8888888888888888,
+  "anchors": {
+    "halo_apex": {
+      "raw_y": [
+        96,
+        93,
+        82,
+        62,
+        68,
+        68
+      ],
+      "guide_y": [
+        103.69368185835494,
+        101.33055930946544,
+        96.60431421168646,
+        94.24119166279696,
+        96.60431421168643,
+        101.33055930946544
+      ],
+      "method": "Native outer halo apex alpha>127, same material feature for all cels.",
+      "residual_y": [
+        -7.693681858354935,
+        -8.330559309465443,
+        -14.604314211686457,
+        -32.241191662796965,
+        -28.60431421168643,
+        -33.33055930946544
+      ],
+      "inferred_lower_row_correction_y": 23.910632353331522,
+      "corrected_y": [
+        96,
+        93,
+        82,
+        86,
+        92,
+        92
+      ]
+    },
+    "hood_crown": {
+      "raw_y": [
+        146,
+        143,
+        134,
+        113,
+        117,
+        117
+      ],
+      "guide_y": [
+        149.68617979782812,
+        147.32305724893865,
+        142.5968121511596,
+        140.23368960227015,
+        142.5968121511596,
+        147.32305724893865
+      ],
+      "method": "Hand-inspected top hood vertex; +/-2px tolerance.",
+      "residual_y": [
+        -3.6861797978281174,
+        -4.323057248938653,
+        -8.596812151159611,
+        -27.233689602270147,
+        -25.59681215115961,
+        -30.323057248938653
+      ],
+      "inferred_lower_row_correction_y": 22.910632353331494,
+      "corrected_y": [
+        146,
+        143,
+        134,
+        137,
+        141,
+        141
+      ]
+    },
+    "near_shoulder_fitting": {
+      "raw_y": [
+        245,
+        240,
+        235,
+        211,
+        212,
+        213
+      ],
+      "guide_y": [
+        258.5814215777357,
+        256.2182990288462,
+        251.49205393106723,
+        249.1289313821777,
+        251.49205393106723,
+        256.2182990288462
+      ],
+      "method": "Hand-inspected small brass disk centers, +/-2px tolerance. Guide shoulder center is a consistently offset attachment proxy, so row residual differences cancel the constant design offset.",
+      "residual_y": [
+        -13.581421577735682,
+        -16.218299028846218,
+        -16.492053931067232,
+        -38.12893138217771,
+        -39.49205393106723,
+        -43.21829902884622
+      ],
+      "inferred_lower_row_correction_y": 23.273754902221015,
+      "corrected_y": [
+        245,
+        240,
+        235,
+        235,
+        236,
+        237
+      ]
+    }
+  },
+  "chosen_translation_xy": [
+    0,
+    24
+  ],
+  "native_pixel_checks": [
+    {
+      "cel": 1,
+      "translation_xy": [
+        0,
+        0
+      ],
+      "native_pixel_content_unchanged": true,
+      "nonzero_alpha_clipping": false
+    },
+    {
+      "cel": 2,
+      "translation_xy": [
+        0,
+        0
+      ],
+      "native_pixel_content_unchanged": true,
+      "nonzero_alpha_clipping": false
+    },
+    {
+      "cel": 3,
+      "translation_xy": [
+        0,
+        0
+      ],
+      "native_pixel_content_unchanged": true,
+      "nonzero_alpha_clipping": false
+    },
+    {
+      "cel": 4,
+      "translation_xy": [
+        0,
+        24
+      ],
+      "native_pixel_content_unchanged": true,
+      "nonzero_alpha_clipping": false
+    },
+    {
+      "cel": 5,
+      "translation_xy": [
+        0,
+        24
+      ],
+      "native_pixel_content_unchanged": true,
+      "nonzero_alpha_clipping": false
+    },
+    {
+      "cel": 6,
+      "translation_xy": [
+        0,
+        24
+      ],
+      "native_pixel_content_unchanged": true,
+      "nonzero_alpha_clipping": false
+    }
+  ],
+  "residual_motion": "Halo apex raw cel6->1 jump28px becomes4px; guide expects2.36px. Remaining ~1.64px at this anchor is left intact. Other pose/shape differences remain; not mathematically seamless.",
+  "status": "Improved camera and defensible traditional row registration; candidate only pending parent review.",
+  "source_preserved": "/workspace/scratch/1a83d58417d5/lantern_enemy_animations_20261007/halo_veil_cantor_camera_trial_01/source/camera_trial_01_native.png",
+  "raw_preview_preserved": "/workspace/scratch/1a83d58417d5/lantern_enemy_animations_20261007/halo_veil_cantor_camera_trial_01/previews/cantor_camera_trial_01_native_60hz.mp4"
+}

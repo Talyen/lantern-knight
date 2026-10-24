@@ -1,0 +1,60 @@
+LANTERN — EIGHT-DIRECTION RUN TEST DELTA
+
+Adds native D/U/L/R run to the existing DR/DL/UL/UR run tests. Idle and combat remain FOUR-direction. No engine/repository integration, production acceptance or exact illustrated-contact certification is claimed.
+
+1. IMPORT
+Use the separately supplied runtime archives listed below. This small delta contains metadata and review media only; it does not replace or duplicate older runtime archives. Keep each archive in a distinct heading folder because filenames overlap.
+Use padded PNGs with the canvas/pivot below and ONE approximate PPU per clip at unchanged actor transform scale. Alternatively use the atlas and its package slicing contract. Do not combine both offsets. Do not add another per-frame stabilization, bounding-box fit, root-motion displacement or compensating transform scale. No mirroring. Controller movement applies once.
+Pivots below are top-left pixel coordinates; the machine manifest also supplies bottom-left and normalized pivots. PPU values are visual starting estimates (roughly ±15–20%), not engine calibration.
+
+U: world XYZ [-0.7071067811865476, 0, -0.7071067811865476]; [768, 768] px; pivot [384, 640]; PPU 240; 8 drawings.
+  Holds: [5, 5, 5, 5, 5, 5, 5, 5]; starts: [0, 5, 10, 15, 20, 25, 30, 35]; source samples: [0, 5, 10, 15, 20, 25, 30, 35]
+  Frame files: frames/run_00.png, frames/run_01.png, frames/run_02.png, frames/run_03.png, frames/run_04.png, frames/run_05.png, frames/run_06.png, frames/run_07.png
+  Lantern_run_U_native8_runtime_test_v01.zip — https://drive.google.com/file/d/1DaqMDyPBJqGlIevtr-mkFGLci4GmUhX8/view?usp=drivesdk
+  Lantern_run_U_native8_source_companion_v01.zip — https://drive.google.com/file/d/17ZOXZEoJa3y9_2umaMXaYfN1l7us5Kop/view?usp=drivesdk
+UR: world XYZ [0, 0, -1]; [1536, 1024] px; pivot [768, 892]; PPU 235; 8 drawings.
+  Holds: [5, 5, 5, 5, 5, 5, 5, 5]; starts: [0, 5, 10, 15, 20, 25, 30, 35]; source samples: [0, 5, 10, 15, 20, 25, 30, 35]
+  Frame files: frames/run_00.png, frames/run_01.png, frames/run_02.png, frames/run_03.png, frames/run_04.png, frames/run_05.png, frames/run_06.png, frames/run_07.png
+  rust_run_UR_lowcarry8_native_runtime_test_v01.zip — https://drive.google.com/file/d/1nwp6Rs4hT3HSUNrlcMzeSRo8XkTYe5vk/view?usp=drivesdk
+  rust_run_UR_lowcarry8_source_companion_v01.zip — https://drive.google.com/file/d/1xyvAVVSf9PtRxQ4l0swc1xYmzqNYKhDX/view?usp=drivesdk
+R: world XYZ [0.7071067811865476, 0, -0.7071067811865476]; [768, 768] px; pivot [384, 640]; PPU 260; 8 drawings.
+  Holds: [5, 5, 5, 5, 5, 5, 5, 5]; starts: [0, 5, 10, 15, 20, 25, 30, 35]; source samples: [0, 5, 10, 15, 20, 25, 30, 35]
+  Frame files: frames/run_00.png, frames/run_01.png, frames/run_02.png, frames/run_03.png, frames/run_04.png, frames/run_05.png, frames/run_06.png, frames/run_07.png
+  Lantern_Run_R_Native_Runtime_Test_v03.zip — https://drive.google.com/file/d/1Q1T-ihNnFXKjBIMNEpDXAG6NR-TNxPBM/view?usp=drivesdk
+  Lantern_Run_R_Source_Companion_v03.zip — https://drive.google.com/file/d/1_rEXoyJCrOOm50SRq9NUJ1LehYaDDmci/view?usp=drivesdk
+DR: world XYZ [1, 0, 0]; [1536, 1024] px; pivot [768, 892]; PPU 275; 8 drawings.
+  Holds: [5, 5, 5, 5, 5, 5, 5, 5]; starts: [0, 5, 10, 15, 20, 25, 30, 35]; source samples: [0, 5, 10, 15, 20, 25, 30, 35]
+  Frame files: frames/run_00.png, frames/run_01.png, frames/run_02.png, frames/run_03.png, frames/run_04.png, frames/run_05.png, frames/run_06.png, frames/run_07.png
+  rust_run_mixamo8_runtime_test_v01.zip — https://drive.google.com/file/d/1yrnCMmDb1Rfs4gqqIpi4r4GLepHiQcUN/view
+D: world XYZ [0.7071067811865476, 0, 0.7071067811865476]; [768, 768] px; pivot [384, 640]; PPU 280; 6 drawings.
+  Holds: [10, 5, 5, 5, 5, 10]; starts: [0, 10, 15, 20, 25, 30]; source samples: [0, 5, 10, 15, 20, 35]
+  Frame files: frames/D_run_00.png, frames/D_run_01.png, frames/D_run_02.png, frames/D_run_03.png, frames/D_run_04.png, frames/D_run_05.png
+  Lantern_Run_D_6cel_Runtime_Test.zip — https://drive.google.com/file/d/1OzPD46y4KkGLJnJ3DBc6zdj8WP3SDqin/view?usp=drivesdk
+  Lantern_Run_D_6cel_Source_Rebuild.zip — https://drive.google.com/file/d/18LqIN4kWm-LnMCblHCAQ5vbIg_qy77KM/view?usp=drivesdk
+DL: world XYZ [0, 0, 1]; [1536, 1024] px; pivot [768, 892]; PPU 320; 7 drawings.
+  Holds: [5, 7, 8, 5, 5, 5, 5]; starts: [0, 5, 12, 20, 25, 30, 35]; source samples: [0, 5, 15, 20, 25, 30, 35]
+  Frame files: frames/run_00.png, frames/run_01.png, frames/run_02.png, frames/run_03.png, frames/run_04.png, frames/run_05.png, frames/run_06.png
+  rust_run_DL_mixamo7_runtime_test_v01.zip — https://drive.google.com/file/d/186zAw8ADWGggZH3MIHZBXT8DrN-E7jpF/view?usp=drivesdk
+L: world XYZ [-0.7071067811865476, 0, 0.7071067811865476]; [768, 768] px; pivot [384, 640]; PPU 285; 8 drawings.
+  Holds: [5, 5, 5, 5, 5, 5, 5, 5]; starts: [0, 5, 10, 15, 20, 25, 30, 35]; source samples: [0, 5, 10, 15, 20, 25, 30, 35]
+  Frame files: frames/run_L_00.png, frames/run_L_01.png, frames/run_L_02.png, frames/run_L_03.png, frames/run_L_04.png, frames/run_L_05.png, frames/run_L_06.png, frames/run_L_07.png
+  lantern_run_L_runtime_v01.zip — https://drive.google.com/file/d/1IqBlNcv6gOWWgoTyZZZ8P5jjXOPoBx2v/view?usp=drivesdk
+  lantern_run_L_source_v01.zip — https://drive.google.com/file/d/1DDK6llySvu8YPVmaRNW7FCq18F-sRcdt/view?usp=drivesdk
+UL: world XYZ [-1, 0, 0]; [1536, 1024] px; pivot [768, 892]; PPU 295; 8 drawings.
+  Holds: [5, 5, 5, 5, 5, 5, 5, 5]; starts: [0, 5, 10, 15, 20, 25, 30, 35]; source samples: [0, 5, 10, 15, 20, 25, 30, 35]
+  Frame files: frames/run_00.png, frames/run_01.png, frames/run_02.png, frames/run_03.png, frames/run_04.png, frames/run_05.png, frames/run_06.png, frames/run_07.png
+  rust_run_UL_mixamo8_runtime_test_v01.zip — https://drive.google.com/file/d/1PMPVBJsAHpNCrTYRXIRGEiXSsmM6bXu3/view?usp=drivesdk
+
+2. TIMING AND DIRECTION CHANGES
+All clips loop over 40 ticks at 60 Hz (2/3 second). Eight-cel clips hold [5,5,5,5,5,5,5,5] ticks. Original DL7 keeps holds [5,7,8,5,5,5,5], starts [0,5,12,20,25,30,35], and source samples [0,5,15,20,25,30,35]. Do not invent an eighth DL drawing.
+D uses the drawing count, start ticks and holds listed above; any reduced-cel retiming is not exact source-phase alignment. Do not synthesize removed drawings. D has reduced right-leg articulation; spot-check its loop and turns in gameplay before adopting it.
+Preserve normalized cycle time on heading changes. Compute q=(elapsed_seconds*60)%40 and select the destination clip frame whose start_tick <= q < start_tick+hold. Never copy the old drawing index and never reset the clock when turning. Keep a fractional accumulator rather than relying on engine frame rate.
+New source-guide samples were checked at ticks 0,5,10,15,20,25,30,35, with tick40 excluded as the duplicate loop endpoint. Proxy source events: right release6, left contact14, left release25, right contact33. These are joint-guide proxies, NOT verified painted sole contacts or permission to foot-lock sprites.
+
+3. REVIEW MEDIA AND LIMITS
+Run_Eightway_Compass.png: all eight headings at cycle tick0. Run_Eightway_Contact.png: eight common timeline samples per heading; DL can reuse a cel at adjacent samples.
+Run_Eightway_DirectionSwitch_60Hz.mp4: 60Hz output, continuous cycle, heading switch every47ticks, clockwise then reverse. One fixed display scale derived from each clip PPU and stored pivot; no per-frame silhouette fitting. The baseline marks the stored actor root, not a universal ground-contact line. Ground-plane depth projects feet above/below this line; that alone does not prove floating.
+Old DR/UL elevated lantern carry, DL arm variation, new low carry, body scale, vertical registration and drawn phase differences remain visible. The preview intentionally exposes those transitions. U has restrained upper-body motion. R includes producer-baked integer pelvis stabilization; do not apply it again. Existing diagonal assets remain byte-unchanged. L includes documented alpha-only cleanup of three external sword fragments.
+
+4. FILES AND VERIFICATION
+run_eightway_delta_manifest.json contains exact per-frame paths, archive/frame hashes, normalized world headings, timing, pivots and density estimates. SHA256SUMS.json covers this handoff. Old runtime/archive hashes were rechecked against the initial recovered reference snapshot. All package ZIP CRCs were tested. This additive handoff does not overwrite the four-direction index or older archives.

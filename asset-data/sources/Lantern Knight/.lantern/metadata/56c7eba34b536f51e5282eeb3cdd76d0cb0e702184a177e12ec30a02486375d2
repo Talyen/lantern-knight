@@ -1,0 +1,6 @@
+Candle Procession Wraith / Tallow Drop / Polish revision 02
+Explicit actor/effect atlas filenames and sampler/ending metadata; kit and loose JSON match.
+Uniform strike-page registration removes position/size snap at source-ready return.
+Hardened wax settles for 250 ms then fades for 250 ms and clears. Optional persistent residue disabled; no extra damage event.
+Original visual design retained. Exact ready endpoint retained. No engine changes or gameplay certification.
+One damage event at 1075 ms. Tell ends 1020 ms.

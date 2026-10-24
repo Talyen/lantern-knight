@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "garden_broad_cattails_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_broad_cattails_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_broad_cattails_01.png",
+    "sha256": "5e42b206d45037ed40a79f925c3a975d3c1e729cfeeb2f679cf5fc7f8ad7b791",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_broad_cattails_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      17,
+      24,
+      1504,
+      1008
+    ],
+    "alpha_bounds_ge128": [
+      133,
+      84,
+      1436,
+      963
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.87246,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "garden_crooked_orchard_tree_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_crooked_orchard_tree_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_crooked_orchard_tree_01.png",
+    "sha256": "c7b5e70351c2d6e56cd7744c2367a64fa76956f054e797d7ca8266ae1efb0c73",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/garden_crooked_orchard_tree_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      21,
+      1280,
+      1121
+    ],
+    "alpha_bounds_ge128": [
+      94,
+      94,
+      1234,
+      1119
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95809,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-b4af0ae9-8cd8-4480-bbcb-ce3fc0ac6f9f.png"
+  },
+  {
+    "asset_id": "garden_fallen_root_ball_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_fallen_root_ball_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_fallen_root_ball_01.png",
+    "sha256": "2beef54264fab48b51c6699d668b716c8d341d5ef5f0a7da7d73272de1f6959d",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_fallen_root_ball_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      89,
+      54,
+      1234,
+      1136
+    ],
+    "alpha_bounds_ge128": [
+      137,
+      99,
+      1230,
+      1133
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96844,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "garden_hollow_stump_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_hollow_stump_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_hollow_stump_01.png",
+    "sha256": "aae5fa0d8f76dba2587651ddefc3423e167bc3ed3b61a9e91321f89b76c5eb28",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_hollow_stump_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      35,
+      1436,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      191,
+      90,
+      1372,
+      965
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97224,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "garden_pollarded_willow_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_pollarded_willow_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_pollarded_willow_01.png",
+    "sha256": "5f7e505c0eca5fb625d733540af6717e3826b038af85bcc63daba58d98ecdcfc",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_pollarded_willow_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      25,
+      35,
+      1270,
+      1134
+    ],
+    "alpha_bounds_ge128": [
+      91,
+      88,
+      1242,
+      1113
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.92991,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "garden_tangled_hedge_gap_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_tangled_hedge_gap_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_tangled_hedge_gap_01.png",
+    "sha256": "ef12f83fd7849d9320181d637c801429385adc5b790ad87f86339944139e7e47",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_tangled_hedge_gap_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      17,
+      1522,
+      1006
+    ],
+    "alpha_bounds_ge128": [
+      102,
+      89,
+      1482,
+      925
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.93467,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "garden_thorn_vine_planter_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_thorn_vine_planter_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_thorn_vine_planter_01.png",
+    "sha256": "8c291823251f2a3a8eca3558bfc289114df3f8520db0078512e3ded2d62ec575",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_thorn_vine_planter_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      25,
+      1466,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      295,
+      144,
+      1373,
+      923
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9718,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "garden_water_lilies_01",
+    "pack": "volume_11_garden",
+    "path": "assets/garden_water_lilies_01.png",
+    "original_path": "lantern_environment_candidates/volume_11_garden/assets/garden_water_lilies_01.png",
+    "sha256": "bf5e10b3c6c54127ef11cc5492dffe9cb0648e885bfb6a460b96a474b39db7fc",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/garden_water_lilies_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      35,
+      1452,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      142,
+      189,
+      1394,
+      836
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97505,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  }
+]

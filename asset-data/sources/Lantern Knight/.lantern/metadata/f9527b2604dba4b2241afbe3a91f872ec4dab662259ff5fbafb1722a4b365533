@@ -1,0 +1,64 @@
+# Lantern character revision 02
+
+56 complete character/creature assets in 10 revised packs: 30 fresh drawings replace 23 rebuild verdicts and 7 high-value selective repairs; 26 originals are retained byte-for-byte. No protagonist redesign.
+
+## What is included
+- packs/: complete revised selections, assets retain original filenames and IDs. Each pack has manifest and light/dark contact sheets plus 180px maximum-dimension gameplay proxies.
+- source/: untouched native fresh generation outputs, including two rejected first gate attempts.
+- prompts/: exact text for each fresh built-in generation.
+- provenance.json: generation paths, prompt paths and selection status.
+- selection.json and supersession_map.json: stable old-ID to selected art mappings.
+- qa_report.json: integrity, grip/anatomy and implementation caveats.
+- gate/: before/after and batch review composites; preview files only.
+
+## Pack deltas
+
+### 02_archetypes_06
+Rebuilt (2): Armored grave spider, Walking fungal pod.
+Retained (4): Skeletal archer, Hooded plague alchemist, Ragged axe brigand, Floating torn spellbook.
+
+### 02_cave_creatures_09
+Rebuilt (6): Plated tunnel slug, Long-neck stone lizard, Root crab, Eyeless cave bird, Thornback burrower, Hovering broken mask.
+Retained (0): none.
+
+### 02_creatures_03
+Rebuilt (2): Rootbound sentry, Rat marshal.
+Retained (1): Moth oracle.
+
+### 02_elites_05
+Rebuilt (4): Ash stag, Drowned armored crab, Cathedral automaton, Root-entangled stone saint.
+Retained (2): Bell-bearing pilgrim, Candle-procession wraith.
+
+### 02_enemies
+Rebuilt (3): Iron revenant, Gargoyle, Clockwork penitent.
+Retained (5): Gaunt graveworker, Skeleton halberdier, Masked cultist, Shadowhound, Swamp witch.
+
+### 02_enemies_02
+Rebuilt (2): Mirror duelist, Furnace imp.
+Retained (3): Drowned mariner, Bell widow, Raven magistrate.
+
+### 02_hostile_faction_07
+Rebuilt (6): Shield bearer, Crossbow scout, Hook carrier, Censer keeper, Knife fighter, Bell-hammer bearer.
+Retained (0): none.
+
+### 02_nonhumanoid_04
+Rebuilt (4): Vault crawler, Crypt bat, Ironback boar, Orbit warden.
+Retained (0): none.
+
+### 02_townsfolk_01
+Rebuilt (1): Clockwork tinker.
+Retained (5): Foundry smith, Roadside herbalist, River ferryman, Court astrologer, Key steward.
+
+### 02_uncanny_fauna_08
+Rebuilt (0): none.
+Retained (6): Lean marsh hound, Carrion raven, Antlerless cave doe, Armored toad, Long-limbed bog lizard, Small root mimic.
+
+## Scope and limitations
+All images are static original design candidates, not animation frames, rigged models or production-calibrated bakes. Requested 35.2643897-degree elevation / 45-degree azimuth is an approximate concept view. Mirror duelist is shallower than target. The grave spider shows seven clear tips with the fourth far leg occluded by its abdomen/rear grouping. Fine crossbow strings, bird feet, root tips and penitent limbs need actual runtime-scale testing.
+
+Native RGBA pixels and alpha are preserved. Hidden color under transparent alpha can look like a halo in some viewers; use the supplied composited sheets. Some native frames have very narrow clear margins despite prompt instructions.
+
+All retained assets are explicitly marked; selective repair candidates not selected were deliberately kept rather than silently claimed as rebuilt. No item/equipment assets are included in this character-only delivery.
+
+## Padded import derivatives
+30 fresh selected images also have separate import_padded/ derivatives. These only extend the canvas with transparent pixels to at least 96 pixels of visible clearance on each side. Native source and selected pack files remain unchanged. padded_import_manifest.json records integer source offset, exact native/padded canvas and visible bounds, and provisional ground-pivot coordinate shifts. Every embedded native RGBA rectangle was compared byte-for-byte after decoding. No resampling, alpha cleanup, cropping or recoloring was used.

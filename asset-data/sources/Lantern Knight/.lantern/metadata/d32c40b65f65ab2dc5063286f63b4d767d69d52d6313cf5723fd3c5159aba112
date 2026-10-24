@@ -1,0 +1,146 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 3328559,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "76ec238e699d416108727c00653fff1aa6fdf83f3cfd9aa8e4687809e3c60c4c"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 36344061,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "8eeb3a10ac6f83a2ece6fa1ce09646f8660869a0d645f323b20b71b99b5d4f48"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 10951048,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "770787603b3ae401b16f8a56ef635e39c564bb3a24944907c5abc1efdac44f32"
+  },
+  "review_views/lower_district_hero_context.png": {
+    "bytes": 2484841,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "d47b175d8b1db6903a1ae6a8f1a69e1cd3b783c9d974adce79447e8add2c173b"
+  },
+  "review_views/main_square_AI_display2p5x_ground.png": {
+    "bytes": 2509403,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "668c1011f10142fe3d0b1a6e3fb5242db90c7e965f63780ff83b7991a68ac62e"
+  },
+  "review_views/gameplay_contact_sheet.png": {
+    "bytes": 1144145,
+    "size": [
+      1536,
+      399
+    ],
+    "sha256": "e3f3adba3ee3f42f8d04af4df75c645a505bc669204fc7adf0f4251e89653f1b"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 2707586,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "1673fc5b2ead083af79cff81fba490cc9563c4418e01950381427c5bcc345e29"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 3329605,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "204dda6610479895792214f09e37434fe5a2cd98576c42c0e46ce381a3cb0c7e"
+  },
+  "review_views/lower_district_AI_display2p5x_ground.png": {
+    "bytes": 2477237,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ed4bedd53dcf386f0eb3e95d2f7a657f1c676d28aa89f856bf66b0f8ed1d6147"
+  },
+  "review_views/main_square_hero_context.png": {
+    "bytes": 2518445,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "23398c9f1a3d0d49e39a5e7a6fcbd49efda12c84268cc13cde597da5ba050a01"
+  },
+  "review_views/forge_approach_hero_context.png": {
+    "bytes": 2601312,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "5f238105289da2b3b3b3d86b2e8ea67cbd726c64698f0c3977ed36edd7b37010"
+  },
+  "review_views/forge_approach_AI_display2p5x_ground.png": {
+    "bytes": 2591463,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "f61966b5b19f785a55ef297d93cd0fdfbf5e3fd8091be47350db4aee69507823"
+  },
+  "ai_upscale/checks/district_road_edge_native.png": {
+    "bytes": 87007,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "22965bc1d206e9c3c3dbe58450ed7cf18e95f4fe8807e94bb950baf2b669fec6"
+  },
+  "ai_upscale/checks/workshop_edge_native.png": {
+    "bytes": 84126,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "b4e903396fd0dff56089e16678d7b9df9e476f9395c88b34177b2b921d84c8d5"
+  },
+  "ai_upscale/checks/district_road_edge_untiled4x.png": {
+    "bytes": 889202,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "26d69678fb8b8246a39e6fd204c584b0f3dd39024972f1d83930ef642316fd47"
+  },
+  "ai_upscale/checks/district_road_edge_comparison.png": {
+    "bytes": 272670,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "20a2426ec2ce76c78071ed44d33d753d7f7c473ee6457c141c4667f30bc2f739"
+  },
+  "ai_upscale/checks/workshop_edge_comparison.png": {
+    "bytes": 244829,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "e0eeb3edb4807f0a1b03f86409439fea198a82ff9ea19c887f82075501796c9d"
+  },
+  "ai_upscale/checks/workshop_edge_untiled4x.png": {
+    "bytes": 836467,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "2acbb2994fcb06ca5461f454303301e40ee7f1c9235cc4e6a46fb19b6fc2b132"
+  }
+}

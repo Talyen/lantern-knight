@@ -1,0 +1,20 @@
+{
+  "native/03_half_turn.png": "64854ce9e79cc0929c3283eefba7cf5b671997a9c8f5e9cb7c947eb853d1a2cc",
+  "native/05_firm_press.png": "472a815ba0711d70b1511f3c1be7b32511b6713f9d28a2dc0368e43f0f4acf57",
+  "native/00_ready.png": "b7010607d51cfeb7906942252ab3af8d7f1d95ccd06a90fc509fd4140f6e7e4d",
+  "native/04_half_press.png": "364cadab4bad52b2214265a86ba4fc879f99585f2a6b722cd02a9ede3c2a5293",
+  "native/02_quarter_press.png": "c12ec41d2bcb9db8dedba2d1c6843f99589044568e2eb46837df766ad4f8905e",
+  "native/06_settling.png": "058ee564ad7b21e0ac7f453cb4c9d93d9b0144b7090adddc3192032c78854603",
+  "native/01_turn_start.png": "6d2f6fd992fdbcf40606f4b1a1954674b7a3535c58efe6b9fe2da3ad90e9ffc8",
+  "native/07_compressed_hold.png": "d20342c90cab11fce4566e43db3f44ec353b9f86e2a5a0c14ca694a8eea15398",
+  "runtime/03_half_turn.png": "e2f26a5e751a184262e1bfd7edece2c6b82aa0ede799f85b051297c257a086ee",
+  "runtime/05_firm_press.png": "627336a757b1fe9bd22a813f42ffba35bdba633bb3cfdaf049c84145de6c8879",
+  "runtime/00_ready.png": "850f8d08007a16fad23f70d03e3b22c2a56580def70a176c6e71b7dcdd564df2",
+  "runtime/04_half_press.png": "8d1710e67aeef96843abeb57fabd8638cec1c3fe1c17c5aa15917d753ca696b0",
+  "runtime/02_quarter_press.png": "8e02a9e034ef4a7a54d59500d862fb410ea39a77525a7405ab9260cf319eb208",
+  "runtime/06_settling.png": "cfe9cab980bebfaf6b8339931e877adba6ffc88f357524e6eaf3ce8f42f3596a",
+  "runtime/01_turn_start.png": "3d6580f94a7b6c460bc0cd3f84c107993327670e9c349f42d1d7ef5dc9ebfe2f",
+  "runtime/07_compressed_hold.png": "7a34189f07cadefd5cecd866ead8b347c0a799fd610af99c90c707b5a3c87d6e",
+  "states/end.png": "d20342c90cab11fce4566e43db3f44ec353b9f86e2a5a0c14ca694a8eea15398",
+  "states/start.png": "b7010607d51cfeb7906942252ab3af8d7f1d95ccd06a90fc509fd4140f6e7e4d"
+}

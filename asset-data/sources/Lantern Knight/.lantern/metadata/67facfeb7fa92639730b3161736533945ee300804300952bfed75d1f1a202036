@@ -1,0 +1,282 @@
+{
+  "clip": "predatory_pounce",
+  "loop": false,
+  "source": "source/attack_v01_native.png",
+  "source_size_px": [
+    1536,
+    1024
+  ],
+  "source_sha256": "7432122653f4f11dba2bf79dc8cdee1c365e6ad9645bd1641a79b88d634511d7",
+  "native_canvas_px": [
+    768,
+    768
+  ],
+  "fixed_pivot_top_left_px": [
+    448,
+    488
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5833333333333334,
+    0.36458333333333337
+  ],
+  "atlas": "atlas/predatory_pounce_DR_atlas.png",
+  "atlas_grid": [
+    3,
+    2
+  ],
+  "unique_drawings": 6,
+  "tick_rate": 60,
+  "total_ticks": 50,
+  "duration_seconds": 0.8333333333333334,
+  "frame_hold_ticks": [
+    8,
+    10,
+    12,
+    3,
+    7,
+    10
+  ],
+  "events": {
+    "anticipation_start_tick": 8,
+    "maximum_coil_start_tick": 18,
+    "launch_start_tick": 30,
+    "impact_start_tick": 33,
+    "recovery_start_tick": 40
+  },
+  "root_motion": "Visual in-place test. No per-frame root fitting or engine translation is baked. Pounce displacement is retained in its native cell. Engine travel/attack distance is a future tuning parameter.",
+  "extraction": "Six connected-figure masks isolate ownership including fingers outside nominal grid gutters; uniform512cell origins plus128padding yield768canvas. Alpha\u226416\u21920 and alpha\u2265250\u2192255. RGB unchanged. No resize, mirroring, warp, tween, or centering.",
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/predatory_pounce/predatory_pounce_DR_01.png",
+      "phase": "Threatening ready",
+      "hold_ticks_60hz": 8,
+      "start_tick": 0,
+      "end_tick_exclusive": 8,
+      "source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_component_bounds_px": [
+        75,
+        66,
+        537,
+        481
+      ],
+      "exported_visible_bounds_px": [
+        203,
+        194,
+        665,
+        609
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "c122add3ee18a7b01fa2cc294c1c7d8af669d767003e3cfe4bca0a78c8d79e65"
+    },
+    {
+      "index": 2,
+      "file": "frames/predatory_pounce/predatory_pounce_DR_02.png",
+      "phase": "Gather / compress",
+      "hold_ticks_60hz": 10,
+      "start_tick": 8,
+      "end_tick_exclusive": 18,
+      "source_cell_origin_px": [
+        512,
+        0
+      ],
+      "source_component_bounds_px": [
+        617,
+        86,
+        954,
+        472
+      ],
+      "exported_visible_bounds_px": [
+        233,
+        214,
+        570,
+        600
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "b221b6050deab89389fc378e3402cc1a1f1e2bc3919faca556c5665e1fc75fe4"
+    },
+    {
+      "index": 3,
+      "file": "frames/predatory_pounce/predatory_pounce_DR_03.png",
+      "phase": "Coiled lift",
+      "hold_ticks_60hz": 12,
+      "start_tick": 18,
+      "end_tick_exclusive": 30,
+      "source_cell_origin_px": [
+        1024,
+        0
+      ],
+      "source_component_bounds_px": [
+        1086,
+        37,
+        1468,
+        466
+      ],
+      "exported_visible_bounds_px": [
+        190,
+        165,
+        572,
+        594
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "9a29a8eb229cfe9576c712ed2983ea64b193efb5f71ff86d4a082c5b03502a7a"
+    },
+    {
+      "index": 4,
+      "file": "frames/predatory_pounce/predatory_pounce_DR_04.png",
+      "phase": "Pounce / paired reach",
+      "hold_ticks_60hz": 3,
+      "start_tick": 30,
+      "end_tick_exclusive": 33,
+      "source_cell_origin_px": [
+        0,
+        512
+      ],
+      "source_component_bounds_px": [
+        61,
+        556,
+        578,
+        946
+      ],
+      "exported_visible_bounds_px": [
+        189,
+        172,
+        706,
+        562
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "0716a1ec589813b4a9eb048da7d129366bb36a32d2af9e899110cb09b3246c1d"
+    },
+    {
+      "index": 5,
+      "file": "frames/predatory_pounce/predatory_pounce_DR_05.png",
+      "phase": "Impact / cloth recoil",
+      "hold_ticks_60hz": 7,
+      "start_tick": 33,
+      "end_tick_exclusive": 40,
+      "source_cell_origin_px": [
+        512,
+        512
+      ],
+      "source_component_bounds_px": [
+        596,
+        522,
+        1016,
+        962
+      ],
+      "exported_visible_bounds_px": [
+        212,
+        138,
+        632,
+        578
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "8bdee33add39a4e0e4f26aaaf46c38d856e16b577b06f278b030375b1c27390d"
+    },
+    {
+      "index": 6,
+      "file": "frames/predatory_pounce/predatory_pounce_DR_06.png",
+      "phase": "Recover",
+      "hold_ticks_60hz": 10,
+      "start_tick": 40,
+      "end_tick_exclusive": 50,
+      "source_cell_origin_px": [
+        1024,
+        512
+      ],
+      "source_component_bounds_px": [
+        1067,
+        554,
+        1510,
+        964
+      ],
+      "exported_visible_bounds_px": [
+        171,
+        170,
+        614,
+        580
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "f672f2573291b332e6f8e981b6b593be2ed5f2f96dad36bfc8aae0da2f949a95"
+    }
+  ],
+  "tick_to_drawing_1based": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6
+  ]
+}

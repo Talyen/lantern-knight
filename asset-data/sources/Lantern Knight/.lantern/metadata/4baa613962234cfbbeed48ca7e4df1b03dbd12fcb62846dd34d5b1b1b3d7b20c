@@ -1,0 +1,646 @@
+{
+  "schema": "lantern.vfx.flipbook.v1",
+  "name": "Penitent's Lash",
+  "slug": "penitents_lash",
+  "role": "enemy",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "alpha": "straight RGBA",
+  "loop": false,
+  "drawn_cels": 16,
+  "clear_cels": 1,
+  "duration_ms": 1530,
+  "timing_is": "art prototype; not engine balance",
+  "atlas": {
+    "file": "penitents_lash_atlas.png",
+    "size_px": [
+      2048,
+      2560
+    ],
+    "cell_px": [
+      512,
+      512
+    ],
+    "columns": 4,
+    "rows": 5
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/penitents_lash_00.png",
+      "start_ms": 0,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/penitents_lash_01.png",
+      "start_ms": 120,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/penitents_lash_02.png",
+      "start_ms": 240,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/penitents_lash_03.png",
+      "start_ms": 360,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/penitents_lash_04.png",
+      "start_ms": 480,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/penitents_lash_05.png",
+      "start_ms": 600,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/penitents_lash_06.png",
+      "start_ms": 720,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/penitents_lash_07.png",
+      "start_ms": 840,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/penitents_lash_08.png",
+      "start_ms": 960,
+      "duration_ms": 50,
+      "phase": "committed strike",
+      "atlas_rect_px": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/penitents_lash_09.png",
+      "start_ms": 1010,
+      "duration_ms": 80,
+      "phase": "single impact",
+      "atlas_rect_px": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/penitents_lash_10.png",
+      "start_ms": 1090,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/penitents_lash_11.png",
+      "start_ms": 1150,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 12,
+      "file": "frames/penitents_lash_12.png",
+      "start_ms": 1210,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 13,
+      "file": "frames/penitents_lash_13.png",
+      "start_ms": 1270,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 14,
+      "file": "frames/penitents_lash_14.png",
+      "start_ms": 1330,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 15,
+      "file": "frames/penitents_lash_15.png",
+      "start_ms": 1390,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    },
+    {
+      "index": 16,
+      "file": "frames/penitents_lash_16.png",
+      "start_ms": 1450,
+      "duration_ms": 80,
+      "phase": "clear",
+      "atlas_rect_px": [
+        0,
+        2048,
+        512,
+        512
+      ],
+      "pivot_px": [
+        100,
+        275
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0,
+      "frame_index": 0
+    },
+    {
+      "name": "commit",
+      "time_ms": 960,
+      "frame_index": 8
+    },
+    {
+      "name": "impact",
+      "time_ms": 1010,
+      "frame_index": 9,
+      "hit_count": 1
+    },
+    {
+      "name": "clear",
+      "time_ms": 1450,
+      "frame_index": 16
+    }
+  ],
+  "target_guide": {
+    "kind": "endpoint",
+    "center_px": [
+      435,
+      276
+    ],
+    "radius_px": 32
+  },
+  "target_guide_note": "Approximate authoring guide. Verify against gameplay collision; no in-engine integration performed.",
+  "transform_support": {
+    "mirror_horizontal": true,
+    "mirror_vertical": false,
+    "mirror_rule": "For each point, x_new = 512 - x; mirror pivot, target, lane and sprite together.",
+    "rotation_note": "Free rotation about pivot is valid for this suspended directional tendril; rotate target and lane with the sprite."
+  },
+  "source": {
+    "file": "source_sheet_v2.png",
+    "native_size_px": [
+      1774,
+      887
+    ],
+    "grid": [
+      4,
+      4
+    ],
+    "crop_and_pad_only": true,
+    "no_per_frame_autofit": true,
+    "cell_extraction": [
+      {
+        "frame": 0,
+        "source_rect": [
+          0,
+          0,
+          444,
+          222
+        ],
+        "nominal_cell_origin": [
+          0,
+          0
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 1,
+        "source_rect": [
+          444,
+          0,
+          887,
+          222
+        ],
+        "nominal_cell_origin": [
+          444,
+          0
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 2,
+        "source_rect": [
+          887,
+          0,
+          1330,
+          222
+        ],
+        "nominal_cell_origin": [
+          887,
+          0
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 3,
+        "source_rect": [
+          1330,
+          0,
+          1774,
+          222
+        ],
+        "nominal_cell_origin": [
+          1330,
+          0
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 4,
+        "source_rect": [
+          0,
+          222,
+          444,
+          444
+        ],
+        "nominal_cell_origin": [
+          0,
+          222
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 5,
+        "source_rect": [
+          444,
+          222,
+          887,
+          444
+        ],
+        "nominal_cell_origin": [
+          444,
+          222
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 6,
+        "source_rect": [
+          887,
+          222,
+          1330,
+          444
+        ],
+        "nominal_cell_origin": [
+          887,
+          222
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 7,
+        "source_rect": [
+          1330,
+          222,
+          1774,
+          444
+        ],
+        "nominal_cell_origin": [
+          1330,
+          222
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 8,
+        "source_rect": [
+          0,
+          444,
+          444,
+          665
+        ],
+        "nominal_cell_origin": [
+          0,
+          444
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 9,
+        "source_rect": [
+          444,
+          444,
+          887,
+          665
+        ],
+        "nominal_cell_origin": [
+          444,
+          444
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 10,
+        "source_rect": [
+          887,
+          444,
+          1330,
+          665
+        ],
+        "nominal_cell_origin": [
+          887,
+          444
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 11,
+        "source_rect": [
+          1330,
+          444,
+          1774,
+          665
+        ],
+        "nominal_cell_origin": [
+          1330,
+          444
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 12,
+        "source_rect": [
+          0,
+          665,
+          444,
+          887
+        ],
+        "nominal_cell_origin": [
+          0,
+          665
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 13,
+        "source_rect": [
+          444,
+          665,
+          887,
+          887
+        ],
+        "nominal_cell_origin": [
+          444,
+          665
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 14,
+        "source_rect": [
+          887,
+          665,
+          1330,
+          887
+        ],
+        "nominal_cell_origin": [
+          887,
+          665
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      },
+      {
+        "frame": 15,
+        "source_rect": [
+          1330,
+          665,
+          1774,
+          887
+        ],
+        "nominal_cell_origin": [
+          1330,
+          665
+        ],
+        "native_destination_offset": [
+          34,
+          145
+        ]
+      }
+    ],
+    "generation": "Built-in image generation, sixteen genuinely redrawn chronological cels. No tweening, static transforms or texture-based fake animation."
+  }
+}

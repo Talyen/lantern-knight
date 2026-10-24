@@ -1,0 +1,72 @@
+{
+  "scene_number": 7,
+  "scene": "Forest Gathering/Full Scene A / Variant",
+  "prop": "a lidded wicker basket",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    140,
+    160,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold final frame indefinitely",
+  "native_canvas": [
+    640,
+    640
+  ],
+  "native_anchor": [
+    320,
+    560
+  ],
+  "runtime_scale": 0.1927710843373494,
+  "runtime_anchor": [
+    62,
+    108
+  ],
+  "placement_on_1536_scene": [
+    960,
+    690
+  ],
+  "source_boxes": [
+    [
+      87,
+      160,
+      419,
+      432
+    ],
+    [
+      91,
+      160,
+      423,
+      432
+    ],
+    [
+      98,
+      155,
+      426,
+      431
+    ],
+    [
+      88,
+      128,
+      416,
+      440
+    ],
+    [
+      90,
+      55,
+      426,
+      440
+    ],
+    [
+      102,
+      58,
+      434,
+      439
+    ]
+  ],
+  "source_master_url": "https://drive.google.com/file/d/19cNclbyC1GVRc16fWj9zV4YC94soV7e8/view?usp=drivesdk"
+}

@@ -1,0 +1,89 @@
+{
+  "concept": "Lantern: Ruined Beacon, polished",
+  "clips": {
+    "Intro": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "120",
+      "duration": "2.000000",
+      "size": "348087"
+    },
+    "Hold": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "240",
+      "duration": "4.000000",
+      "size": "765125"
+    },
+    "Complete": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "120",
+      "duration": "2.000000",
+      "size": "333662"
+    },
+    "Preview": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "480",
+      "duration": "8.000000",
+      "size": "1405740"
+    },
+    "Title": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "540",
+      "duration": "9.000000",
+      "size": "1721018"
+    }
+  },
+  "source": {
+    "intro_endpoint_equals_hold_start": true,
+    "hold_endpoint_equals_hold_start": true,
+    "completion_start_equals_hold_endpoint": true,
+    "source_rebuild_pngs_created": true,
+    "master_svg_matches_source": true,
+    "title_svg_matches_source": true,
+    "no_raster_or_live_text_in_master": true,
+    "completion_ends_solid_charcoal": true
+  },
+  "decoded": {
+    "hold_frames": 240,
+    "hold_unique_frames": 240,
+    "hold_duplicate_adjacent_frames": 0,
+    "hold_adjacent_difference_mean": 0.23364605371173955,
+    "hold_adjacent_difference_max": 0.3679269552230835,
+    "hold_last_to_first_difference": 0.44394803047180176,
+    "intro_to_hold_difference": 0.4943132698535919,
+    "hold_to_complete_difference": 0.44394803047180176,
+    "lantern_and_flame_temporal_variation": 18.896106719970703,
+    "raven_wings_temporal_variation": 10.50046157836914,
+    "rope_tail_temporal_variation": 4.829633712768555,
+    "cloud_temporal_variation": 4.3867387771606445
+  },
+  "title": {
+    "text": "Lantern",
+    "outlined_glyph_count": 7,
+    "all_letters_settled_seconds": 3.62,
+    "entire_title_settled_seconds": 4.75,
+    "settled_hold_seconds": 4.25,
+    "exact_vector_overlay_stable_during_final_hold": true,
+    "decoded_final_letter_region_max_frame_difference": 0.1314644068479538,
+    "actual_assembly_frame_difference": 16.742467880249023
+  }
+}

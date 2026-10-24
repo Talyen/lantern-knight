@@ -1,0 +1,27 @@
+{
+  "status": "Locally corrected TEST candidate; pending root review and gameplay validation",
+  "methods": "Bounded traditional edits only; unchanged alpha, canvas, pivot, PPU, pose and timelines",
+  "cases": [
+    {
+      "case": "UL_bracer",
+      "changed_pixels": 485,
+      "alpha_identical": true,
+      "outside_mask_identical": true,
+      "runtime": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Runtime_v01/clips/world_negative_X/action_frames/raw_02.png",
+      "source_sheet": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Source_Companion_v01/clips/world_negative_X/source/eight_action_native_v02.png",
+      "native": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Source_Companion_v01/clips/world_negative_X/native_cels/cel_02_native.png",
+      "atlas": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Runtime_v01/clips/world_negative_X/action_atlas_native_4x2.png"
+    },
+    {
+      "case": "DL_patch",
+      "changed_pixels": 302,
+      "alpha_identical": true,
+      "outside_mask_identical": true,
+      "runtime": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Runtime_v01/clips/world_positive_Z/action_frames/raw_05.png",
+      "source_sheet": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Source_Companion_v01/clips/world_positive_Z/source/eight_action_native_v01.png",
+      "native": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Source_Companion_v01/clips/world_positive_Z/native_cels/cel_05_native.png",
+      "atlas": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Sweep_Four_Headings_Runtime_v01/clips/world_positive_Z/action_atlas_native_4x2.png"
+    }
+  ],
+  "original_archives_retained": true
+}

@@ -1,0 +1,11 @@
+{
+  "samples": 240,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "test": "Raven overdraw intersecting animated lantern silhouette mask",
+  "maximum_changed_pixels": 0,
+  "affected_frames": [],
+  "lantern_pixels_outside_aperture_max": 0
+}

@@ -1,0 +1,120 @@
+{
+  "status": "passed",
+  "generated_unique_runtime_cels": 12,
+  "state_endpoint_pixel_equality": true,
+  "frame_canvas": [
+    768,
+    640
+  ],
+  "pivot": [
+    384,
+    480
+  ],
+  "atlas_frame_equality": true,
+  "frame_bounds_clear": true,
+  "preview_decoded_frame_order": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "preview_timing_error_ms": [
+    0.0,
+    6.67,
+    -13.33,
+    1.67,
+    1.67,
+    -3.33,
+    13.33,
+    -8.33,
+    -1.67,
+    5.0,
+    -3.33,
+    0.0
+  ],
+  "bounds": [
+    [
+      172,
+      183,
+      592,
+      490
+    ],
+    [
+      174,
+      183,
+      595,
+      490
+    ],
+    [
+      176,
+      183,
+      597,
+      490
+    ],
+    [
+      173,
+      180,
+      594,
+      490
+    ],
+    [
+      177,
+      167,
+      607,
+      491
+    ],
+    [
+      175,
+      141,
+      598,
+      491
+    ],
+    [
+      167,
+      125,
+      614,
+      493
+    ],
+    [
+      151,
+      183,
+      613,
+      490
+    ],
+    [
+      131,
+      201,
+      619,
+      491
+    ],
+    [
+      145,
+      214,
+      628,
+      487
+    ],
+    [
+      139,
+      249,
+      619,
+      487
+    ],
+    [
+      132,
+      263,
+      621,
+      487
+    ]
+  ],
+  "contents_review": "All stills and generated cels inspected: no loot, food, coins, gems, liquid or inventory items; visible empty dark cavities and material fragments only.",
+  "visual_review": "Source pages and registered contact sheets inspected; generated page-two spacing repairs for jar and carboy compensated with a fixed 1.25 page-scale. Background alpha retained, sub-8 numerical alpha cleared. Ground contact alignment checked across entire clip.",
+  "limits": "Hand-drawn illustrated perspective is approximate; no engine import or gameplay test performed."
+}

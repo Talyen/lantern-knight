@@ -1,0 +1,390 @@
+{
+  "character": "Gallows Gardener",
+  "clip": "rootfx",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_px": [
+    360,
+    530
+  ],
+  "pivot_normalized": [
+    0.5625,
+    0.828125
+  ],
+  "facing": "three-quarter screen-left",
+  "loop": false,
+  "duration_ms": 1140,
+  "frames": [
+    {
+      "file": "frames/rootfx_000.png",
+      "atlas_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_a.png",
+        "source_cel": 1,
+        "source_bbox": [
+          44,
+          322,
+          501,
+          493
+        ],
+        "source_anchor": [
+          272.5,
+          493.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_001.png",
+      "atlas_rect": [
+        640,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_a.png",
+        "source_cel": 2,
+        "source_bbox": [
+          538,
+          285,
+          1018,
+          502
+        ],
+        "source_anchor": [
+          778.0,
+          502.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_002.png",
+      "atlas_rect": [
+        1280,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_a.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1057,
+          190,
+          1501,
+          509
+        ],
+        "source_anchor": [
+          1279.0,
+          509.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_003.png",
+      "atlas_rect": [
+        1920,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_a.png",
+        "source_cel": 4,
+        "source_bbox": [
+          55,
+          595,
+          491,
+          971
+        ],
+        "source_anchor": [
+          273.0,
+          971.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_004.png",
+      "atlas_rect": [
+        0,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 80,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_a.png",
+        "source_cel": 5,
+        "source_bbox": [
+          582,
+          571,
+          1000,
+          965
+        ],
+        "source_anchor": [
+          791.0,
+          965.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_005.png",
+      "atlas_rect": [
+        640,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 80,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_a.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1076,
+          538,
+          1486,
+          982
+        ],
+        "source_anchor": [
+          1281.0,
+          982.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_006.png",
+      "atlas_rect": [
+        1280,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 80,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_b.png",
+        "source_cel": 1,
+        "source_bbox": [
+          52,
+          95,
+          523,
+          554
+        ],
+        "source_anchor": [
+          287.5,
+          554.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_007.png",
+      "atlas_rect": [
+        1920,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_b.png",
+        "source_cel": 2,
+        "source_bbox": [
+          592,
+          99,
+          965,
+          540
+        ],
+        "source_anchor": [
+          778.5,
+          540.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_008.png",
+      "atlas_rect": [
+        0,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_b.png",
+        "source_cel": 3,
+        "source_bbox": [
+          994,
+          81,
+          1505,
+          541
+        ],
+        "source_anchor": [
+          1249.5,
+          541.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_009.png",
+      "atlas_rect": [
+        640,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_b.png",
+        "source_cel": 4,
+        "source_bbox": [
+          21,
+          638,
+          551,
+          992
+        ],
+        "source_anchor": [
+          286.0,
+          992.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_010.png",
+      "atlas_rect": [
+        1280,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_b.png",
+        "source_cel": 5,
+        "source_bbox": [
+          570,
+          671,
+          1050,
+          965
+        ],
+        "source_anchor": [
+          810.0,
+          965.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_011.png",
+      "atlas_rect": [
+        1920,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/rootfx_b.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1070,
+          774,
+          1517,
+          971
+        ],
+        "source_anchor": [
+          1293.5,
+          971.0
+        ],
+        "downsample": 0.48
+      }
+    },
+    {
+      "file": "frames/rootfx_012.png",
+      "atlas_rect": [
+        0,
+        1920,
+        640,
+        640
+      ],
+      "duration_ms": 80,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "empty_endpoint"
+      }
+    }
+  ],
+  "events": [],
+  "atlas": "rootfx_atlas.png",
+  "source_resolution": "native imagegen 1536x1024; six drawn cels per source; runtime downsample only",
+  "root_motion": "in-place; no engine behavior added"
+}

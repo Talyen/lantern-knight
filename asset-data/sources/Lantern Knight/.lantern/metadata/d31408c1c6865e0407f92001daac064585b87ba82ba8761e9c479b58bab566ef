@@ -1,0 +1,223 @@
+{
+  "id": "R0",
+  "status": "ROOT_APPROVED_FROZEN_2026-10-06",
+  "selected_candidate": "v03",
+  "decision": "Preserve accepted walk near-profile view and neutral transition baseline. Motion extremes may open/coil far more strongly. Never replace this image silently.",
+  "files": {
+    "registered_png": "lantern_hero_core_animations_01/shared_states/R0_ready.png",
+    "native_png": "lantern_hero_core_animations_01/shared_states/R0_ready_native.png",
+    "prompt": "lantern_hero_core_animations_01/shared_states/R0_prompt.txt"
+  },
+  "sha256": {
+    "registered_png": "2e85ff568d88562191303a1bdeabed01c20e4f0d59e10f4484409c4c94756681",
+    "native_png": "7c80d5a6294851e4d1691e494d26c971faab24cc51b56f6d48a7b807274be917"
+  },
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "root_px_top_left": [
+    512,
+    892
+  ],
+  "root_px_bottom_left": [
+    512,
+    132
+  ],
+  "root_normalized_bottom_left": [
+    0.5,
+    0.12890625
+  ],
+  "old_canvas_px": [
+    512,
+    640
+  ],
+  "old_root_px": [
+    256,
+    572
+  ],
+  "padding_transform": [
+    256,
+    320
+  ],
+  "source_to_import": {
+    "uniform_scale": 0.4300847457627119,
+    "rational_scale": [
+      203,
+      472
+    ],
+    "integer_translation_px": [
+      255,
+      367
+    ],
+    "method": "One uniform affine resample of entire native drawing; bicubic; original alpha retained; no bounding-box fitting or part transforms.",
+    "source_size_px": [
+      1122,
+      1402
+    ],
+    "ruler": "Accepted O03 hair-top y82 to front-buckle y285 =203px. R0 v03 native hair-top y128 to front-buckle y600 =472px.",
+    "root_mapping_error_px": [
+      0.191,
+      -0.297
+    ]
+  },
+  "support_plan_override": {
+    "near_anatomical_right": "Rearward and closest to viewer; carries sword with short black wrist wrap.",
+    "far_anatomical_left": "Forward and farther from viewer; carries lantern with long brown bracer.",
+    "old_provisional_N0_F0": "Replaced by actual R0 contacts below. Do not force right-lead stance or old coordinates.",
+    "planted_idle_rule": "Register from foot support. Preserve natural pelvis/head motion; no head-lock or per-frame scale fitting."
+  },
+  "native_landmarks_px": {
+    "root_projection": [
+      598,
+      1220
+    ],
+    "pelvis_center_estimate": [
+      594,
+      702
+    ],
+    "front_buckle": [
+      606,
+      600
+    ],
+    "hair_top": [
+      562,
+      128
+    ],
+    "near_right_heel": [
+      421,
+      1270
+    ],
+    "near_right_sole": [
+      515,
+      1300
+    ],
+    "near_right_toe": [
+      565,
+      1288
+    ],
+    "far_left_heel": [
+      632,
+      1145
+    ],
+    "far_left_sole": [
+      734,
+      1161
+    ],
+    "far_left_toe": [
+      779,
+      1151
+    ],
+    "sword_grip": [
+      485,
+      777
+    ],
+    "sword_guard_center": [
+      492,
+      795
+    ],
+    "sword_tip": [
+      803,
+      1200
+    ],
+    "lantern_grip": [
+      699,
+      704
+    ],
+    "lantern_handle_top": [
+      707,
+      727
+    ],
+    "lantern_housing_center": [
+      735,
+      821
+    ],
+    "lantern_housing_bottom": [
+      752,
+      892
+    ]
+  },
+  "registered_landmarks_px": {
+    "root_projection": [
+      512.191,
+      891.703
+    ],
+    "pelvis_center_estimate": [
+      510.47,
+      668.919
+    ],
+    "front_buckle": [
+      515.631,
+      625.051
+    ],
+    "hair_top": [
+      496.708,
+      422.051
+    ],
+    "near_right_heel": [
+      436.066,
+      913.208
+    ],
+    "near_right_sole": [
+      476.494,
+      926.11
+    ],
+    "near_right_toe": [
+      497.998,
+      920.949
+    ],
+    "far_left_heel": [
+      526.814,
+      859.447
+    ],
+    "far_left_sole": [
+      570.682,
+      866.328
+    ],
+    "far_left_toe": [
+      590.036,
+      862.028
+    ],
+    "sword_grip": [
+      463.591,
+      701.176
+    ],
+    "sword_guard_center": [
+      466.602,
+      708.917
+    ],
+    "sword_tip": [
+      600.358,
+      883.102
+    ],
+    "lantern_grip": [
+      555.629,
+      669.78
+    ],
+    "lantern_handle_top": [
+      559.07,
+      679.672
+    ],
+    "lantern_housing_center": [
+      571.112,
+      720.1
+    ],
+    "lantern_housing_bottom": [
+      578.424,
+      750.636
+    ]
+  },
+  "landmark_caveat": "Manually observed 2D support/prop landmarks, not calibrated3D geometry. Source root is an estimated pelvis-ground projection; tiny subpixel mapping error is due whole-drawing integer translation.",
+  "identity": {
+    "right_near": "Sword, short black wrist wrap, plain sleeve/skirt",
+    "left_far": "Lantern, long brown bracer, far-side sleeve/lower-coat patches may be occluded"
+  },
+  "camera": "Accepted slightly down-right near-profile illustrated view; 35.264 elevation45az13m are uncalibrated target values.",
+  "future_source_scale_rule": "Root permits one documented uniform native-to-import scale per coherent source sheet, all drawings on that sheet sharing it. Never independently fit frames or distort anatomy.",
+  "generation": {
+    "method": "Built-in image generation",
+    "model_prompt_preference": "Sunburst2.5(gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  "gate_remaining": "1024 canvas provisional until widest/highest/terminal poses are tested; if enlargement is needed, apply same transparent offset to every clip and keep R0 artwork unchanged."
+}

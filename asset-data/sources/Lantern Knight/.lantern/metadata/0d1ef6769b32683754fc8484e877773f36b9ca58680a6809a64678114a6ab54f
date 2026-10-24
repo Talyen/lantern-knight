@@ -1,0 +1,58 @@
+{
+  "source_and_extraction": {
+    "drift_veil_breath": {
+      "source_dimensions": [
+        1448,
+        1086
+      ],
+      "source_sha256": "0ee76001f5101d658b58f014bb41a41f172d2598470708511e36b411c0ac933f",
+      "source_visible_outer_edge_pixels_gt16": 0,
+      "native_alpha_positive_pixels": 510525,
+      "extracted_alpha_positive_pixels": 510525,
+      "all_source_pixels_preserved_exactly": true,
+      "no_frame_border_contacts": true
+    },
+    "resonant_spell": {
+      "source_dimensions": [
+        1448,
+        1086
+      ],
+      "source_sha256": "3467f19380f7dc00b114310d315bcc75b3ca4693d40b675858c5312dfc03604e",
+      "source_visible_outer_edge_pixels_gt16": 0,
+      "native_alpha_positive_pixels": 491185,
+      "extracted_alpha_positive_pixels": 491185,
+      "all_source_pixels_preserved_exactly": true,
+      "no_frame_border_contacts": true
+    }
+  },
+  "manual_audit": {
+    "identity": "Ivory pointed floating robe, two small ivory eyes in black void face, one brass halo and one brass orb, two black hands retained. No legs or feet.",
+    "drift": "All six ordered source cels inspected: breathing sleeve expansion, rising/drifting silhouette and settling closure read. Halo/orb lag is subtle; camera remains unresolved.",
+    "spell": "All six ordered source cels inspected: orb gathers under hood, forward release, deliberate halo expansion/tipping and angular cloth flare, recoil and settle. Exactly two hands retained at peak; expanded halo is deliberate magical transformation.",
+    "limitations": [
+      "Camera not solved by one fresh drift retry.",
+      "Six spell drawings selected instead of eight for wider flare clearance with parent approval.",
+      "The generator varies apparent scale and placement slightly; fixed native-grid extraction preserves this rather than hiding it through per-frame fitting.",
+      "Sources have small native alpha edge artifacts; visible character pixels were not retouched."
+    ]
+  },
+  "independent_review": "Spell: coherent 1 orb / 1 halo / 2 hands across all six cels, legible gather-offer-expanded-halo/robe-star-recoil-settle; no stray limbs or feet. Deliberate halo transformation accepted. Camera remains unresolved.",
+  "video_validation": {
+    "resonant_spell_60hz.mp4": {
+      "width": 640,
+      "height": 720,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "4.500000",
+      "nb_frames": "270"
+    },
+    "drift_veil_breath_60hz.mp4": {
+      "width": 640,
+      "height": 720,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "4.666667",
+      "nb_frames": "280"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "intro_hold_boundary_max_abs": 0.0,
+  "loop_wrap_max_abs": 0.0,
+  "hold_completion_boundary_max_abs": 0.0,
+  "fps": 60,
+  "dimensions": [
+    1920,
+    1080
+  ]
+}

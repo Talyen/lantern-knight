@@ -1,0 +1,58 @@
+{
+  "result": "PASS",
+  "version": "final_after_UL_eye_alpha_repair",
+  "portable_source_zip_extracted_without_old_workspace_dependencies": true,
+  "all_runtime_pngs_byte_identical": {
+    "DL": {
+      "move_05.png": true,
+      "attack_00.png": true,
+      "attack_02.png": true,
+      "idle_still.png": true,
+      "move_atlas.png": true,
+      "attack_04.png": true,
+      "attack_03.png": true,
+      "move_00.png": true,
+      "move_03.png": true,
+      "move_01.png": true,
+      "attack_05.png": true,
+      "move_04.png": true,
+      "move_02.png": true,
+      "attack_01.png": true,
+      "attack_atlas.png": true
+    },
+    "UL": {
+      "move_05.png": true,
+      "attack_00.png": true,
+      "attack_02.png": true,
+      "idle_still.png": true,
+      "move_atlas.png": true,
+      "attack_04.png": true,
+      "attack_03.png": true,
+      "move_00.png": true,
+      "move_03.png": true,
+      "move_01.png": true,
+      "attack_05.png": true,
+      "move_04.png": true,
+      "move_02.png": true,
+      "attack_01.png": true,
+      "attack_atlas.png": true
+    },
+    "UR": {
+      "move_05.png": true,
+      "attack_00.png": true,
+      "attack_02.png": true,
+      "idle_still.png": true,
+      "move_atlas.png": true,
+      "attack_04.png": true,
+      "attack_03.png": true,
+      "move_00.png": true,
+      "move_03.png": true,
+      "move_01.png": true,
+      "attack_05.png": true,
+      "move_04.png": true,
+      "move_02.png": true,
+      "attack_01.png": true,
+      "attack_atlas.png": true
+    }
+  }
+}

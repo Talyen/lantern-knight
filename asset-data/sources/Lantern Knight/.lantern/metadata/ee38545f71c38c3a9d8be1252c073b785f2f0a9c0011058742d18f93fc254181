@@ -1,0 +1,454 @@
+{
+  "name": "funeral_streamer",
+  "role": "enemy",
+  "grid": [
+    4,
+    6
+  ],
+  "canvas": [
+    512,
+    384
+  ],
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_scale": 1.1483253588516746,
+  "source_padding": [
+    76.0,
+    72.0
+  ],
+  "telegraph_ms": 980,
+  "strike_ms": 40,
+  "impact_start_ms": 1020,
+  "contact_ms": 90,
+  "recovery_ms": 420,
+  "clear_hold_ms": 350,
+  "duration_ms": 1880,
+  "frames": [
+    {
+      "cel": 1,
+      "source_box": [
+        4,
+        4,
+        288,
+        192
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        81,
+        77
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 2,
+      "source_box": [
+        327,
+        4,
+        608,
+        192
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        92,
+        77
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 3,
+      "source_box": [
+        646,
+        4,
+        928,
+        192
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        98,
+        77
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 4,
+      "source_box": [
+        966,
+        4,
+        1250,
+        192
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        105,
+        77
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 5,
+      "source_box": [
+        4,
+        219,
+        288,
+        404
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        81,
+        83
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 6,
+      "source_box": [
+        327,
+        219,
+        608,
+        404
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        92,
+        83
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 7,
+      "source_box": [
+        646,
+        219,
+        928,
+        404
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        98,
+        83
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 8,
+      "source_box": [
+        966,
+        219,
+        1250,
+        404
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        105,
+        83
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 9,
+      "source_box": [
+        4,
+        430,
+        288,
+        615
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        81,
+        86
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 10,
+      "source_box": [
+        327,
+        430,
+        608,
+        615
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        92,
+        86
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 11,
+      "source_box": [
+        646,
+        430,
+        928,
+        615
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        98,
+        86
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 12,
+      "source_box": [
+        966,
+        430,
+        1250,
+        615
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        105,
+        86
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 13,
+      "source_box": [
+        4,
+        640,
+        288,
+        826
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        81,
+        87
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 14,
+      "source_box": [
+        327,
+        640,
+        608,
+        826
+      ],
+      "source_boundary_alpha_pixels": 3,
+      "paste": [
+        92,
+        87
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 15,
+      "source_box": [
+        646,
+        640,
+        928,
+        826
+      ],
+      "source_boundary_alpha_pixels": 8,
+      "paste": [
+        98,
+        87
+      ],
+      "duration_ms": 40,
+      "phase": "strike",
+      "damage_event": false
+    },
+    {
+      "cel": 16,
+      "source_box": [
+        966,
+        640,
+        1250,
+        826
+      ],
+      "source_boundary_alpha_pixels": 17,
+      "paste": [
+        105,
+        87
+      ],
+      "duration_ms": 90,
+      "phase": "impact",
+      "damage_event": true
+    },
+    {
+      "cel": 17,
+      "source_box": [
+        4,
+        851,
+        288,
+        1035
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        81,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 18,
+      "source_box": [
+        327,
+        851,
+        608,
+        1035
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        92,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 19,
+      "source_box": [
+        646,
+        851,
+        928,
+        1035
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        98,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 20,
+      "source_box": [
+        966,
+        851,
+        1250,
+        1035
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        105,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 21,
+      "source_box": [
+        4,
+        1060,
+        288,
+        1250
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        81,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 22,
+      "source_box": [
+        327,
+        1060,
+        608,
+        1250
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        92,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 23,
+      "source_box": [
+        646,
+        1060,
+        928,
+        1250
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        98,
+        89
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 24,
+      "source_box": [
+        966,
+        1060,
+        1250,
+        1250
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        105,
+        89
+      ],
+      "duration_ms": 350,
+      "phase": "clear",
+      "damage_event": false
+    }
+  ],
+  "registration": "Fixed nominal 4x6 source grid; crop offsets compensated, no per-frame recentering.",
+  "assembly": "Only crops, one uniform scale, fixed placement; no synthetic motion, morphing or fade. Final all-zero cel.",
+  "coordinates_note": "Art direction only, not engine collision integration",
+  "preview_cycles": 3,
+  "source_sha256": "29bb960377e3d5abd0879dffe547cd86f72a1e414aea9399bf679e2e73a126ee",
+  "art_direction_guide_normalized_source_cell": {
+    "pivot": [
+      0.15,
+      0.58
+    ],
+    "target": [
+      0.8,
+      0.58
+    ],
+    "footprint": "thin horizontal lane"
+  }
+}

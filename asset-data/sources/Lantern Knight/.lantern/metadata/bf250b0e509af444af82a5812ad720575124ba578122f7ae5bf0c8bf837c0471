@@ -1,0 +1,1 @@
+Build scripts document executed operations in the revision workspace. They expect the prior baseline packages in sibling enemies/extracted for provenance copying. They are reproducibility records, not engine scripts. No runtime code is required.

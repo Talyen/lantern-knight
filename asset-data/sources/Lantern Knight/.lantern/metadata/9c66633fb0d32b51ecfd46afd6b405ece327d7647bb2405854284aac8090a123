@@ -1,0 +1,20 @@
+{
+  "forest_gathering/A/native.png": "db385d67c1cfacd779af034c204bec77df8dabe85bfab3bddf22ef3319ac0a3e",
+  "forest_gathering/A/exact_prompt.txt": "24f60fac9f34fd35b6fedc1e496742313d242297c3a3b4f9f2bdbefa3c0a790d",
+  "forest_gathering/A/metadata.json": "36de280519ffd5a33895dad5ac047236c99cf232b7ecc9ef4764882226eab9f1",
+  "forest_gathering/A/hero_context_metadata.json": "12f16eca3568bd32b03a9d524d7031ea1a0060a49d690ddf8467906f2e3ddeb3",
+  "forest_gathering/B/native.png": "de08a9134949ede1ab584932c5c8fd52cd2f8422ee615cc91e8ce6ebb8b85e88",
+  "forest_gathering/B/exact_prompt.txt": "6d3d97139e67a684e29817bc0c7af727216d080794d2c85cabf26e3de7e9b04c",
+  "forest_gathering/B/metadata.json": "7ac5f4a3a854d43c9484d11236843672794c9d1ccd3f57eabeb621a1fdb85ded",
+  "forest_gathering/B/hero_context_metadata.json": "4b1fe0cff61cce554e5851590d413f737a315136f29f78578adc08063ee8580c",
+  "forest_gathering/C/native.png": "e934f257928102576c6cce25ff98c1be4708228d3ba1c8a1883016e4a65b485a",
+  "forest_gathering/C/exact_prompt.txt": "63f83d8fe2443ffefac152bc367b943c8a6d94f4213bbf6f15545f9e77594b64",
+  "forest_gathering/C/metadata.json": "9305a07d7bcf3992c653ce8798adcde5abd9da2a59c6c8b7a6fdd6c2a88d0752",
+  "forest_gathering/C/hero_context_metadata.json": "b3c6ccdb36f49d2f4ed26b138043d9dc20b6315eb7c2b408394271477dc3566d",
+  "forest_gathering/hero_placements.json": "d00ecd5a2aa3d7f6b5e5a97c5edbfefa1ed808b6276993ffc987afd778aafc5d",
+  "forest_gathering/review_summary.json": "5fcc523e7c7e3efd79b9ec24b05d32c6f0764aaec8a18a164103ca1832f08319",
+  "forest_gathering/ABC_hero_comparison.png": "ce1d3ebc66264cbbeb44294ed933fbf3bd4f2bf8682849145c34726b9d2249f7",
+  "review/build_contexts.py": "fcd25e260050784ce9f722462c2ef076dfd4637b0bd7b4285170e59d23f4aa36",
+  "review/package_theme.py": "ff2db93c466803e43d88bca0029c8d53eeaad2540aa43ec885949fb92aa3ad3e",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

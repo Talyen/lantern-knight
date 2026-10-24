@@ -1,0 +1,15 @@
+{
+  "source": "native_floor.png",
+  "hero": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "hero_visible_height": 160,
+  "hero_foot": [
+    788,
+    590
+  ],
+  "processing": "Original source at native scale, original approved hero composited with Lanczos resize and small grounding shadow. No generated repainting.",
+  "scope": "Viewport art-direction test, not whole map; engine occlusion and collision untested."
+}

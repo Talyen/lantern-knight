@@ -1,0 +1,7 @@
+Lantern Knight: facing D, travelling R
+
+Extract this archive as-is. Its unique locomotion_face_D_move_R/ folder keeps this clip separate from every other animation. Keep the folder intact.
+
+source/native contains the eight selected original cels. runtime/frames contains the resampled game-ready cels. manifest.json provides timing, pivot, approximate pixels per unit and editable per-cel transforms. The cycle is 40 ticks at 60 Hz, with eight drawings held for five ticks each. Maintain cycle phase when switching directions; do not mirror the sword and lantern hands.
+
+This is visually reviewed runtime-test artwork. Scale and ground registration remain approximate; exact foot locking and engine integration have not been certified. All essential source pixels and actual transform settings are retained. This packaging revision changes organization only, not the selected artwork.

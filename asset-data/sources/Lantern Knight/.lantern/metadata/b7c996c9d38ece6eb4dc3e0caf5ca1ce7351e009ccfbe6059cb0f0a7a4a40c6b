@@ -1,0 +1,19 @@
+{
+  "scene": "woodland_C",
+  "created_utc": "2026-10-09T16:48:45.973681+00:00",
+  "tool": "image_gen__imagegen",
+  "actual_parameters_file": "actual_parameters.json",
+  "source_tool_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-a6a1b01d-f518-4630-a5ac-54419a4889db.png",
+  "saved_native_output": "LANTERN_Woodland_C_Recovered_Short_Recipe_1536x1024.png",
+  "output_sha256": "bbdac6fdffed7220437d7d241fa8b7bd0103f87db843f4c6bec0cb4e0a0ec19c",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "image_reference_role": "Canonical hero only: ink-style and physical-scale reference; no environment image reference or edit chain",
+  "reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "postprocessing": "None; byte-for-byte copy of native output",
+  "model_size_quality_seed": "No selectable fields exposed. 1536x1024 requested in prompt and verified on output; actual backend not exposed.",
+  "prompt_sha256": "1fba0bfc1821700ff32ead410094f38b833ea5485435ee5c69a14f635525fb0c"
+}

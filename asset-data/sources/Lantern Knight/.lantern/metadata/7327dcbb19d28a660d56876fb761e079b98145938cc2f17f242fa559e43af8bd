@@ -1,0 +1,58 @@
+[
+  {
+    "oldID": "hanging_banner",
+    "newID": "hanging_banner",
+    "status": "repaired",
+    "oldSourceFrames": 30,
+    "newSourceFrames": 60,
+    "timingChange": true
+  },
+  {
+    "oldID": "loose_papers",
+    "newID": "loose_papers",
+    "status": "repaired",
+    "oldSourceFrames": 30,
+    "newSourceFrames": 60,
+    "timingChange": true
+  },
+  {
+    "oldID": "reeds_sway",
+    "newID": "reeds_sway",
+    "status": "repaired",
+    "oldSourceFrames": 30,
+    "newSourceFrames": 60,
+    "timingChange": true
+  },
+  {
+    "oldID": "dripping_water",
+    "newID": "dripping_water",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "chimney_puff",
+    "newID": "chimney_puff",
+    "status": "repaired",
+    "oldSourceFrames": 30,
+    "newSourceFrames": 60,
+    "timingChange": true
+  },
+  {
+    "oldID": "dust_fall",
+    "newID": "dust_fall",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "fluttering_moth",
+    "newID": "fluttering_moth",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "water_glint",
+    "newID": "water_glint",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  }
+]

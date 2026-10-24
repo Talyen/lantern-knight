@@ -1,0 +1,128 @@
+[
+  {
+    "clip": "astrolabe",
+    "frames": 120,
+    "atlas_cells_equal_source_rgba": true
+  },
+  {
+    "clip": "bubble_chamber",
+    "frames": 60,
+    "atlas_cells_equal_source_rgba": true
+  },
+  {
+    "clip": "exposed_gear_pair",
+    "frames": 240,
+    "atlas_cells_equal_source_rgba": true
+  },
+  {
+    "clip": "pulley_chain_sway",
+    "frames": 60,
+    "atlas_cells_equal_source_rgba": true
+  },
+  {
+    "clip": "tower_bell",
+    "frames": 60,
+    "atlas_cells_equal_source_rgba": true
+  },
+  {
+    "clip": "waterwheel",
+    "frames": 240,
+    "atlas_cells_equal_source_rgba": true
+  },
+  {
+    "part": "astrolabe_base",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "astrolabe_middle",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "astrolabe_outer",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "astrolabe_shaft",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bell_v03_body",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bell_v03_clapper",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bell_v03_wall_corbel",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bubble_chamber_bubble",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bubble_chamber_lid",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bubble_chamber_meniscus",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "bubble_chamber_vessel",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "exposed_gear_pair_back",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "exposed_gear_pair_cap",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "exposed_gear_pair_large",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "exposed_gear_pair_small",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "pulley_chain_sway_block",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "pulley_chain_sway_link_edge",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "pulley_chain_sway_link_front",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "pulley_chain_sway_mount",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "pulley_chain_sway_wheel",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "waterwheel_paddle",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "waterwheel_rim",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "waterwheel_spoke",
+    "atlas_cell_equal_source_rgba": true
+  },
+  {
+    "part": "waterwheel_support",
+    "atlas_cell_equal_source_rgba": true
+  }
+]

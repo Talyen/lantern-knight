@@ -1,0 +1,53 @@
+{
+  "method": "Manual rigid/structural landmark estimates on native640px coordinate grids, not silhouette auto-fitting. All poses retain native pixels; previews only are resampled to simulate importer.",
+  "hover01": {
+    "crown": [
+      307,
+      210
+    ],
+    "veil_tip": [
+      310,
+      530
+    ],
+    "halo_bounds_approx": [
+      218,
+      160,
+      357,
+      325
+    ],
+    "orb_diameter_approx": 43,
+    "mask_width_approx": 39
+  },
+  "spell01": {
+    "crown": [
+      327,
+      190
+    ],
+    "veil_tip": [
+      329,
+      560
+    ],
+    "halo_bounds_approx": [
+      226,
+      122,
+      380,
+      318
+    ],
+    "orb_diameter_approx": 45,
+    "mask_width_approx": 43
+  },
+  "inferred_ratios_hover_over_spell": {
+    "halo_width": 0.9025974025974026,
+    "halo_height": 0.8418367346938775,
+    "crown_to_tip": 0.8648648648648649,
+    "mask_width": 0.9069767441860465,
+    "orb_diameter": 0.9555555555555556
+  },
+  "chosen_scale": 0.87,
+  "chosen_offset_reference_px": [
+    -18,
+    -34
+  ],
+  "reason": "Rigid halo/face and cowl-to-tail structure support an approximately0.85\u20130.91 common reduction. Choose0.87 and align crown/halo, not moving hands. Orb differs mildly (~9% smaller after correction); spell carries it lower and unfolds fabric, so do not force its position to hover.",
+  "remaining": "Eye shape/fabric fold style differs, and return6 has modest residual bob/pose difference. User authorized compact design; these small styling differences are not a mandate to regenerate."
+}

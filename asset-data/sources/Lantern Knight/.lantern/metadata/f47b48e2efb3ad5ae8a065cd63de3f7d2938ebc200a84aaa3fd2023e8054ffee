@@ -1,0 +1,92 @@
+{
+  "asset": "desecrated_chapel",
+  "selected_variant": "C",
+  "style_prompt_mode": "approved condensed ink recipe; selected crimson sanctuary atmosphere; whole-scene framing",
+  "method": "built-in image_gen; one fresh whole-scene generation using selected viewport and original hero as references",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-48184a71-f4c0-4eff-b369-7be6306e7bf3.png",
+  "reference_images": [
+    "/workspace/shared/lantern_next_scene_samples_oct09/chapel/C/native.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "prompt_path": "/workspace/shared/lantern_selected_full_scenes_oct09/chapel_C/exact_prompt.txt",
+  "intended_hero_height_pixels_native": 64,
+  "native_ground_coverage_target_relative_to_viewport": {
+    "linear_width": 2.5,
+    "linear_height": 2.5,
+    "geometrically_validated": false
+  },
+  "proposed_upscale": {
+    "method": "separate free AI upscaler worker after root review",
+    "factor": 4,
+    "target_dimensions": [
+      6144,
+      4096
+    ],
+    "hero_height_pixels_in_4x_asset": 256,
+    "executed": false
+  },
+  "proposed_display": {
+    "scene_scale_relative_to_native": 2.5,
+    "hero_height_pixels": 160,
+    "effective_scene_dimensions": [
+      3840,
+      2560
+    ],
+    "executed": false
+  },
+  "camera_requested": {
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "projection": "orthographic isometric",
+    "geometrically_verified": false
+  },
+  "hero_baked_in": false,
+  "water_observed": false,
+  "scenery": "allowed throughout; tall baked occluders not separated",
+  "sha256": "3c7925f25bc53fe8c2cab8c2c0667585fc18d7fc84baaaf4a9f5d4db48b89d8f",
+  "upscaled": false,
+  "edited": false,
+  "fresh_generation_attempt": 1,
+  "status": "one native candidate; clean style and selected atmosphere retained; pending root approval and independent hero64-scale review",
+  "visual_review": {
+    "strengths": [
+      "Selected C charcoal stone, crimson hangings, ragged central carpet and warm candle accents retained",
+      "Wider whole-scene composition with long nave, upper side circulation, pew clusters and connected side spaces",
+      "Quiet clean stone faces and deliberate ink contours remain readable",
+      "Furniture visibly smaller than viewport sample; substantially more navigable ground",
+      "No water or baked hero"
+    ],
+    "caveats": [
+      "Requested 2.5x linear ground coverage and hero64 physical scale are not precisely established",
+      "Top and bottom perimeter use cutaway backdrop rather than literal all-canvas floor",
+      "Some candle gradients remain beyond literal three-flat-tone rendering",
+      "Tall columns, wall remnants and hanging chandelier are baked occluders",
+      "Requested camera geometry is not validated; not engine integrated"
+    ],
+    "suggested_hero_feet_native": [
+      675,
+      505
+    ],
+    "alternate_hero_feet_native": [
+      [
+        417,
+        346
+      ],
+      [
+        1113,
+        523
+      ],
+      [
+        896,
+        809
+      ]
+    ]
+  }
+}

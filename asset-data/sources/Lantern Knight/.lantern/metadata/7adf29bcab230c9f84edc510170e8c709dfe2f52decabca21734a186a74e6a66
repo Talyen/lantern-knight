@@ -1,0 +1,51 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_native.png",
+    "name": "initiation_chamber_A_variant01_native.png",
+    "size": 2099407,
+    "sha256": "b813dd79d5a4c23bbb994ef934ae1e350782057a0e3a303c76a7dad068aada25",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_AI4x_master_6144x4096.png",
+    "name": "initiation_chamber_A_variant01_AI4x_master_6144x4096.png",
+    "size": 12397369,
+    "sha256": "877f223055462fc26af8fd1febcb12856c0cf2d18621eeed761a1785923447ac",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_2x_3072x2048.png",
+    "name": "initiation_chamber_A_variant01_2x_3072x2048.png",
+    "size": 3931903,
+    "sha256": "aee3cfd089edffcbfbc460ef278826c70ba2a731b0d20d4cefef6439c833a84c",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_overview.png",
+    "name": "initiation_chamber_A_variant01_overview.png",
+    "size": 1325050,
+    "sha256": "e5504ac990c7b77efeb1907304e1245ce848c8ce686896c26e98b22f86aafd4c",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_central_ritual_floor_hero160.png",
+    "name": "initiation_chamber_A_variant01_central_ritual_floor_hero160.png",
+    "size": 874637,
+    "sha256": "e8ec5fd2fbd8c3ded9bcff596250c7d38bbb17b361ec99ff742cc57fd7c5138b",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_western_gallery_approach_hero160.png",
+    "name": "initiation_chamber_A_variant01_western_gallery_approach_hero160.png",
+    "size": 1017662,
+    "sha256": "cad1cad76f9297197c7b104e617c1032e5f0e95c455b37a4a0aae13f369bf551",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/initiation_chamber_A_variant01/initiation_chamber_A_variant01_raised_dais_approach_hero160.png",
+    "name": "initiation_chamber_A_variant01_raised_dais_approach_hero160.png",
+    "size": 1240024,
+    "sha256": "1572898b772e65e06cfd5617f077090f9e05394efbf58781d5702de3f324f7a8",
+    "library_artifact_type": "image"
+  }
+]

@@ -1,0 +1,16 @@
+CURRENT SOURCE COMPANION — QA v02 — UL run
+
+Use BUILD_CURRENT_RUNTIME_V02.py, not the historical guide-generation scripts, to reproduce the current runtime artwork.
+
+All original v01 files are preserved byte-for-byte. Raw source paintings remain under source/. The sparse QA patch is explicit and reproducible; no image generation or new full-frame resampling occurs during rebuild.
+
+Run with Python3, Pillow and NumPy:
+  python BUILD_CURRENT_RUNTIME_V02.py rebuilt_runtime_v02
+
+The build extracts the selected native cells, clears hidden RGB where alpha is zero, retains the earlier DL neighboring-cel exclusion where present, applies the exact replacement-pixel patch using its binary mask, and rebuilds the atlas. It asserts SHA-256 equality for EVERY frame and the atlas against the final current v02 runtime. Timing, frame order, pivot, alpha (except UL detached-fragment removal), pose and all other pixels stay unchanged.
+
+Patch: UL run03 only: remove 405-pixel disconnected neighboring-art fragment.
+
+The exact binary patch mask is qa_v02/exact_changed_pixel_mask.png. frame_patch_rgba.png contains replacement values; apply values wherever the mask is255 INCLUDING transparent values, never alpha-composite the patch. Soft authoring mask and original authoring script retained separately.
+
+The historical source scripts generate motion guides and may depend on original working files. They are provenance; they are NOT the current runtime build entrypoint. Previews are derived from current runtime frames; the source verification covers all native frames and atlas, not MP4 compression or engine playback.

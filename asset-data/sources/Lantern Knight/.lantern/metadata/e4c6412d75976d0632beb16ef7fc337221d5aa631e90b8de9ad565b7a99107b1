@@ -1,0 +1,284 @@
+{
+  "clip_id": "Lantern_Hero_death_D_v02_cropfix01",
+  "family": "death",
+  "facing": "D",
+  "producer": "fill_hero_core_combat_facings",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+  "equipment_contract": "Sword right, lantern left; no mirroring.",
+  "timing_source": "broader_audit_20261017/death_4directions/death_DR/clip.json",
+  "source_timing": [
+    4,
+    5,
+    5,
+    5,
+    7,
+    64
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "800ce0f2cbb86048ac8496cd3b89b236e41345d1e816c980720bd35e5b1bec42",
+      "native_size_px": [
+        526,
+        560
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "59e017bca9273eb07ba73a16450f1beeb89ccc98181abea68070c29b36c7810c",
+      "source_sha256": "e09beccfa8a8ffce80e31de2673ecf6b041579f3642c14a9ddaf344e3a22eb3e",
+      "crop_xyxy": [
+        0,
+        0,
+        526,
+        560
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        77,
+        87
+      ],
+      "observed_anchors": {
+        "fixed_cell_ground_origin_xy": [
+          256,
+          490
+        ]
+      },
+      "registration_note": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+      "equipment_state": "Sword anatomical right and lantern left retained during collapse.",
+      "start_tick": 0,
+      "hold_ticks": 4,
+      "runtime_alpha_bbox": [
+        77,
+        99,
+        444,
+        472
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "d5af245bfbf298c7853779de1c2a6c5be18d8e77c04db0b307df4ee36e109677",
+      "native_size_px": [
+        509,
+        560
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "f589fce4946d98dcefd2ca642acce0f158901462822afc3748b5a2dfb58ab213",
+      "source_sha256": "e09beccfa8a8ffce80e31de2673ecf6b041579f3642c14a9ddaf344e3a22eb3e",
+      "crop_xyxy": [
+        526,
+        0,
+        1035,
+        560
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        87,
+        87
+      ],
+      "observed_anchors": {
+        "fixed_cell_ground_origin_xy": [
+          256,
+          490
+        ]
+      },
+      "registration_note": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+      "equipment_state": "Sword anatomical right and lantern left retained during collapse.",
+      "start_tick": 4,
+      "hold_ticks": 5,
+      "runtime_alpha_bbox": [
+        89,
+        104,
+        443,
+        478
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "8ead4bf67893cc148f2f47e26a9bb6595f98575b67ba20d6cf611cd9034c805a",
+      "native_size_px": [
+        501,
+        560
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "aa2c949451059b5070900a27335cf284cc8fb2bbdcd8ea7b22ce82e08f3e0f15",
+      "source_sha256": "e09beccfa8a8ffce80e31de2673ecf6b041579f3642c14a9ddaf344e3a22eb3e",
+      "crop_xyxy": [
+        1035,
+        0,
+        1536,
+        560
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        84,
+        87
+      ],
+      "observed_anchors": {
+        "fixed_cell_ground_origin_xy": [
+          256,
+          490
+        ]
+      },
+      "registration_note": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+      "equipment_state": "Sword anatomical right and lantern left retained during collapse.",
+      "start_tick": 9,
+      "hold_ticks": 5,
+      "runtime_alpha_bbox": [
+        84,
+        125,
+        421,
+        469
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "46162be8b7f48dca5d35e68bf70c694efdbeb6723bf2bde7aad5d1747b28824b",
+      "native_size_px": [
+        526,
+        464
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "a64ca640398459a849d8348fa67742d5924a2ed886922b91fbd2315de3517292",
+      "source_sha256": "e09beccfa8a8ffce80e31de2673ecf6b041579f3642c14a9ddaf344e3a22eb3e",
+      "crop_xyxy": [
+        0,
+        560,
+        526,
+        1024
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        77,
+        121
+      ],
+      "observed_anchors": {
+        "fixed_cell_ground_origin_xy": [
+          256,
+          490
+        ]
+      },
+      "registration_note": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+      "equipment_state": "Sword anatomical right and lantern left retained during collapse.",
+      "start_tick": 14,
+      "hold_ticks": 5,
+      "runtime_alpha_bbox": [
+        98,
+        125,
+        445,
+        429
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "e9766f939a112f77bf5dfb4e0d01727cc3a245bdf6a083001dea002e2a4679a8",
+      "native_size_px": [
+        509,
+        464
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "4517859017abd799ff80ba688a09aa866981caada32486076d530e9f227282ba",
+      "source_sha256": "e09beccfa8a8ffce80e31de2673ecf6b041579f3642c14a9ddaf344e3a22eb3e",
+      "crop_xyxy": [
+        526,
+        560,
+        1035,
+        1024
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        87,
+        121
+      ],
+      "observed_anchors": {
+        "fixed_cell_ground_origin_xy": [
+          256,
+          490
+        ]
+      },
+      "registration_note": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+      "equipment_state": "Sword anatomical right and lantern left retained during collapse.",
+      "start_tick": 19,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        89,
+        121,
+        443,
+        415
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "08f6ea056635934f730367039cb079c65ca2046c2e8d6bd7c27c84b70320a8c0",
+      "native_size_px": [
+        501,
+        464
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "a191d2f9563340d1ec143f0c77d7d860743f3105de871374ea436fa8c932b430",
+      "source_sha256": "e09beccfa8a8ffce80e31de2673ecf6b041579f3642c14a9ddaf344e3a22eb3e",
+      "crop_xyxy": [
+        1035,
+        560,
+        1536,
+        1024
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        84,
+        121
+      ],
+      "observed_anchors": {
+        "fixed_cell_ground_origin_xy": [
+          256,
+          490
+        ]
+      },
+      "registration_note": "One fixed grid-relative ground origin and one clip-wide density. Initial standing body width establishes scale; authored collapse, descent and horizontal fall remain unchanged. No per-frame bottom alignment, recentering, or head-height fit. Native source contact displacement remains approximate. Rectangles use transparent gutters rather than mathematical grid edges; unchanged grid-relative registration.",
+      "equipment_state": "Sword anatomical right and lantern left retained during collapse.",
+      "start_tick": 26,
+      "hold_ticks": 64,
+      "runtime_alpha_bbox": [
+        84,
+        138,
+        425,
+        425
+      ]
+    }
+  ],
+  "terminal_hold": true,
+  "transition_policy": "Hold last cel indefinitely. Game owns reset or fade.",
+  "root_motion_note": "Authored whole-cell fall displacement preserved; no inferred game root motion.",
+  "native_drawn_cels": 6,
+  "timeline_frame_count": 6,
+  "duration_ticks": 90,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "a040447e5c29017a53c140ffee8a0d0d525eff3f2d1adb5b867b5cf8f32b14ea"
+  }
+}

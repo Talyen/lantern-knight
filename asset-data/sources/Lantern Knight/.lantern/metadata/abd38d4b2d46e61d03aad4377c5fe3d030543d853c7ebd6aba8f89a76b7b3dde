@@ -1,0 +1,229 @@
+{
+  "schema": "lantern.composed_scene_study/2",
+  "pack_id": "06_scene_studies/crypt_entry",
+  "version": "2.0",
+  "scene": "crypt_entry",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "vertical_span_metres": 13,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "target_world": [
+      0,
+      0,
+      0
+    ]
+  },
+  "unique_source_assets": 17,
+  "placed_cards": 25,
+  "canonical_hero": "not used or modified",
+  "source_format": "Editable JSON scene + deterministic Python mathematical orthographic compositor; not a Blender file or a game engine level.",
+  "reproduction": "python source/compose_scenes.py (Python 3 with Pillow and NumPy). Edit scene_layout.json for positions, scales, source pivots, world floor zones, light/shadow shapes and layer order.",
+  "source_assets": [
+    {
+      "id": "07_mossy_earth",
+      "file": "source/assets/07_mossy_earth.png",
+      "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/07_mossy_earth.png",
+      "sha256": "78121184f15f42ecacb33162a88237b964f16e26258e18e07a11665930fe92c1",
+      "size": [
+        1024,
+        1024
+      ],
+      "source_view": "top_down_material"
+    },
+    {
+      "id": "01_old_flagstone",
+      "file": "source/assets/01_old_flagstone.png",
+      "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/01_old_flagstone.png",
+      "sha256": "edef4cd4dbeec4b54f09c3d63b7bab9194427cd0327e374c5bf1da6b0642f571",
+      "size": [
+        1024,
+        1024
+      ],
+      "source_view": "top_down_material"
+    },
+    {
+      "id": "vegetation_tall_split_pine_01",
+      "file": "source/assets/vegetation_tall_split_pine_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png",
+      "sha256": "4f8bcbc8efc7bb9b03017693b42689575abf0f6ee039dc929926d0a5c1d5b4d1",
+      "size": [
+        1024,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "vegetation_windswept_yew_01",
+      "file": "source/assets/vegetation_windswept_yew_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_windswept_yew_01.png",
+      "sha256": "4e3120b24d7e03172ffa323484168fde2d8c37bbb27f9d154c4a59b6c8771607",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "vegetation_lightning_split_dead_trunk_01",
+      "file": "source/assets/vegetation_lightning_split_dead_trunk_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png",
+      "sha256": "b2e4bbee47a55eed9ed3be2fac752198f2a6072202b612dcd63f5790558e6102",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "arch_gothic_wall_01",
+      "file": "source/assets/arch_gothic_wall_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_gothic_wall_01.png",
+      "sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "arch_square_pillar_01",
+      "file": "source/assets/arch_square_pillar_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_square_pillar_01.png",
+      "sha256": "45f5b01af3064397a9ae557ffcaf3f460d245d9742b5f0f521ef9d6cb2d2da92",
+      "size": [
+        1024,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "landmark_mausoleum_entrance_01",
+      "file": "source/assets/landmark_mausoleum_entrance_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_08_landmarks/assets/landmark_mausoleum_entrance_01.png",
+      "sha256": "a3fe658f8f4fcfc3aad58acbf303876a4d40a0427fdff01957adbd8b65da8d0c",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "arch_stone_tomb_01",
+      "file": "source/assets/arch_stone_tomb_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_stone_tomb_01.png",
+      "sha256": "056a4b200fda0aecbb70faa99e56da674ad841b758ee80bd93270249abf84348",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "crypt_urn_niche_stack_01",
+      "file": "source/assets/crypt_urn_niche_stack_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_12_crypt/assets/crypt_urn_niche_stack_01.png",
+      "sha256": "14c90e26b0f9f8532592bbd44f354444e2c91281066b746a93a0c631e484615c",
+      "size": [
+        1275,
+        1234
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "env_masonry_rubble_01",
+      "file": "source/assets/env_masonry_rubble_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_04_terrain/assets/env_masonry_rubble_01.png",
+      "sha256": "f0e12d946c80ade772a09e28808632d88e92d6a262ab7197fbec3fea71928791",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "env_shadow_fern_01",
+      "file": "source/assets/env_shadow_fern_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_01_nature/assets/env_shadow_fern_01.png",
+      "sha256": "59e22ba7da2132c9f3433765b70128419c17c72a52194164d5171ad46a3b1b2b",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "env_leaning_gravestone_01",
+      "file": "source/assets/env_leaning_gravestone_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_04_terrain/assets/env_leaning_gravestone_01.png",
+      "sha256": "e0d92388a21459bfa5e0299e516ea1671a91061567ef5c1994227412ccbcf2e2",
+      "size": [
+        1024,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "watch_lantern_lit",
+      "file": "source/assets/watch_lantern_lit.png",
+      "original_source": "lantern_revision_02/03_lighting/png/watch_lantern_lit.png",
+      "sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+      "size": [
+        1536,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "arch_wall_corner_01",
+      "file": "source/assets/arch_wall_corner_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_wall_corner_01.png",
+      "sha256": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "vegetation_broad_hollow_oak_01",
+      "file": "source/assets/vegetation_broad_hollow_oak_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png",
+      "sha256": "b714b718998cf6bb5dda4474d8d378883941f06eac2f07ba34427a3a1976e0a2",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "vegetation_low_dense_juniper_01",
+      "file": "source/assets/vegetation_low_dense_juniper_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+      "sha256": "f47b3bb5398e0fbbfd60f992c541ec57a780c384e567354fef9f275d32cb262c",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    }
+  ],
+  "art_gate": "Parent approved revised visual scale and composition; source view remains approximate.",
+  "limitations": [
+    "Exact mathematical projection of world ground and billboard anchors. Generated source drawings remain approximately isometric.",
+    "Hand-authored scale, root pivots and material tints. Card layer order is presentation-only, not runtime sorting.",
+    "No collision, navigation, interior occlusion, engine integration or runtime performance validated.",
+    "Canonical C/RUST hero is absent; a 1.8m virtual ruler is checked numerically only.",
+    "Render shading and geometric contact pools are scene treatment. Source PNG bytes are copied without modification."
+  ],
+  "supersedes": "lantern_overnight/06_scene_studies/crypt_entry",
+  "representative": "renders/crypt_entry_1920x1080.png"
+}

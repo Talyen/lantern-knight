@@ -1,0 +1,13 @@
+{
+  "status": "Independent final visual and technical PASS; pending root release approval",
+  "native_cels": 36,
+  "review": "Fresh original-reference sheets; distinct DL front-left, UL/UR rear views. Native alpha and two-arm/two-hand dagger grip inspected; retained dry angular ground seal and shard attack. Rejected initial wrong-heading movement outside deliverables.",
+  "registration": "Manual foot-plane source anchors per cel in anchors.json. Only translations baked, no native scaling, no automatic bounding-box normalization.",
+  "timing": "48tick movement and72tick attack, matching existingDR total durations. Groundcontact frame2 at31ticks, shardrelease frame3 at36ticks. 60Hz integer holds.",
+  "same_world_scale": "DR PPU85.59670781893004 unchanged; DL101 UL99 UR98. Fourway previews only are downscaled.",
+  "rebuild": "Fresh sourceZIP extraction and build.py reproduced all42 runtime PNG SHA256 hashes exactly.",
+  "alpha": "36individual cels each have over4px transparent canvas margin. Native alpha cleaned <=16 removed >=245 made opaque, no color redraw.",
+  "limitations": "No engine integration or real-time playback test. Camera is35.264degree artist target, not3D calibration.",
+  "baseline": "Existing unifiedv03 DR runtime/source unchanged. Extension only; dependencies.json contains exact hashes/links.",
+  "independent_review": "All36 native and runtime cels passed: coherent identity/anatomy/headings, true rear views, dagger and hand continuity. Fourway PPU scale passed. All36 atlas crops byte-match individual cels. No border crop, alpha clean. Groundcontact31/shard36 timings checked."
+}

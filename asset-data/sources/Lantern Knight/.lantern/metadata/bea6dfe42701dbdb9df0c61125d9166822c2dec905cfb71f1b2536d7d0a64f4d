@@ -1,0 +1,424 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "occult_landmarks_01",
+  "title": "Lantern Occult Landmarks - Illustrated Cutout Candidates",
+  "asset_count": 6,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264389682754654,
+    "requested_azimuth_degrees": 45,
+    "requested_vertical_span_m": 13,
+    "achieved_view": "approximate_illustrated_three_quarter_with_some_front_bias",
+    "mathematically_calibrated": false,
+    "common_world_scale_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed semantic visual reference, not runtime registration",
+    "footprint": "manually reviewed visual support envelope, never collision or structural geometry",
+    "support_points": "provisional separated contact estimates for the shrine frame"
+  },
+  "provenance": {
+    "method": "six selected fresh built-in imagegen outputs, one original source per supplied master",
+    "exact_prompt_count": 6,
+    "original_prompt_unavailable_count": 0,
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "excluded_drafts": "Initial monolith01 and totem01 excluded for faceted surfaces; independently freshly generated02 outputs supplied. No iterative image editing or frame/state inflation.",
+    "motif_scope": "Original abstract motifs requested; no external franchise reference or readable rune alphabet intentionally used.",
+    "hero": "Canonical C / RUST hero unchanged; no hero generation, rigging or engine work"
+  },
+  "limitations": [
+    "All six are independent static illustrated candidates. Related altar, arch, monolith, root and totem forms are family variations, not guaranteed new semantic categories.",
+    "No calibrated camera bake, common world scale, runtime-tested sprite, collision, depth split, animation, physics or layered source is supplied.",
+    "13m vertical span is scene context only, not a measured pixel-to-world conversion.",
+    "Visible supports are illustrative plausibility, not structural engineering. The ring is not astronomically accurate, animated or a functional portal.",
+    "Carved recesses and inner sidewalls are painted relief; alpha openings are specifically identified per asset.",
+    "Shrine frame has separate provisional support points and a null ground footprint; preserve its opening.",
+    "Generated alpha and boundary residue are measured below; original pixels are unchanged."
+  ],
+  "assets": [
+    {
+      "id": "occult_root_bound_stone_face_01",
+      "name": "Root-bound stone face",
+      "file": "assets/occult_root_bound_stone_face_01.png",
+      "prompt_file": "provenance/occult_root_bound_stone_face_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-3c770d48-286d-4ed5-9ae0-fec91dfd2d0c.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 923238,
+      "sha256": "455895377579caf0a079c27b527d3d5775f44fa4c482a9d278cb79b81890e393",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        21,
+        1274,
+        1199
+      ],
+      "alpha_at_least_16_bounds_px": [
+        91,
+        37,
+        1247,
+        1161
+      ],
+      "minimum_visible_margin_px": 37,
+      "fully_transparent_pixel_fraction": 0.565425,
+      "fully_opaque_pixel_fraction": 0.000624,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.422448,
+      "boundary_nonzero_alpha_pixel_count": 31,
+      "maximum_boundary_alpha": 1,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.501098,
+        0.818315
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.113415,
+          0.752694
+        ],
+        [
+          0.501098,
+          0.6402
+        ],
+        [
+          0.915213,
+          0.790192
+        ],
+        [
+          0.70375,
+          0.865188
+        ],
+        [
+          0.501098,
+          0.968307
+        ],
+        [
+          0.25439,
+          0.902686
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 230,
+      "qa_notes": "Stone face fragment and supporting root mass are one compound landmark. No separate face/root layers, portrait likeness claim, growth motion, hidden terrain or structural loading analysis.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "occult_split_rune_monolith_02",
+      "name": "Split abstract monolith",
+      "file": "assets/occult_split_rune_monolith_02.png",
+      "prompt_file": "provenance/occult_split_rune_monolith_02.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-b732a69b-8e01-4411-9355-9e0628579a16.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 535879,
+      "sha256": "061d20066ab81851fb7b7ea5aa583857f7a0b1c87cc15d5fcbe4cc213bf6db37",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        91,
+        21,
+        1241,
+        1169
+      ],
+      "alpha_at_least_16_bounds_px": [
+        303,
+        53,
+        1030,
+        1167
+      ],
+      "minimum_visible_margin_px": 32,
+      "fully_transparent_pixel_fraction": 0.69967,
+      "fully_opaque_pixel_fraction": 0.000426,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.292659,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.519085,
+        0.8804
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.25311,
+          0.778198
+        ],
+        [
+          0.347309,
+          0.713161
+        ],
+        [
+          0.773979,
+          0.889691
+        ],
+        [
+          0.679779,
+          0.973311
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 230,
+      "qa_notes": "Split monolith-family form on a shared integral foot. Central cleft is alpha; abstract crescent/diagonal recesses are painted relief, not transparent holes or readable runes. No puzzle behavior or snapping.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "occult_thorn_iron_shrine_frame_01",
+      "name": "Thorn-wrapped shrine frame",
+      "file": "assets/occult_thorn_iron_shrine_frame_01.png",
+      "prompt_file": "provenance/occult_thorn_iron_shrine_frame_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-9e40b124-86ee-4a44-b749-5aa9a23b25f7.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 615373,
+      "sha256": "a841153ace93ceb5ca9567d2ae3bfe37768d6d9a143f8b5e775b60544fb08765",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        25,
+        38,
+        1288,
+        1169
+      ],
+      "alpha_at_least_16_bounds_px": [
+        291,
+        41,
+        1059,
+        1161
+      ],
+      "minimum_visible_margin_px": 38,
+      "fully_transparent_pixel_fraction": 0.798571,
+      "fully_opaque_pixel_fraction": 0.000421,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.182044,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "support_pair_reference_visual_estimate",
+      "pivot_normalized": [
+        0.520335,
+        0.874896
+      ],
+      "footprint_polygon_normalized": null,
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 250,
+      "qa_notes": "Freestanding iron arch-frame family form with two stone shoes and a clear alpha opening. Frame and thorn vine are one static card; separate foot references are provisional. Do not fill the opening with collision.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "support_points_normalized": [
+        [
+          0.338872,
+          0.926272
+        ],
+        [
+          0.690091,
+          0.809508
+        ]
+      ]
+    },
+    {
+      "id": "occult_clustered_wax_altar_01",
+      "name": "Clustered wax altar",
+      "file": "assets/occult_clustered_wax_altar_01.png",
+      "prompt_file": "provenance/occult_clustered_wax_altar_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-9f8d9943-6352-4a68-9499-e88c025bf5c4.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 921858,
+      "sha256": "b020a1f315ceb61d0f8d6022cb6a31f63025fa8318daa2da5eafa23924c4626e",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        28,
+        78,
+        1285,
+        1172
+      ],
+      "alpha_at_least_16_bounds_px": [
+        31,
+        80,
+        1283,
+        1170
+      ],
+      "minimum_visible_margin_px": 29,
+      "fully_transparent_pixel_fraction": 0.491147,
+      "fully_opaque_pixel_fraction": 0.000814,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.499387,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.500762,
+        0.83945
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.157226,
+          0.830359
+        ],
+        [
+          0.510305,
+          0.64854
+        ],
+        [
+          0.901555,
+          0.793995
+        ],
+        [
+          0.472134,
+          0.975813
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Altar-family variant with three large fused wax masses, not a set of small candle assets. Wax, altar and drips are painted together; no flame, melt animation, pickups or interactive ritual state.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "occult_tilted_astronomical_ring_01",
+      "name": "Supported tilted stone ring",
+      "file": "assets/occult_tilted_astronomical_ring_01.png",
+      "prompt_file": "provenance/occult_tilted_astronomical_ring_01.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-ee103981-2645-4f47-991a-e22aad652623.png",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 913636,
+      "sha256": "d25ec4ef72ffcc7a12c7462ff84f25b76f5157ec7b0559f9e0ceb3192e29e90c",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        23,
+        1208,
+        1175
+      ],
+      "alpha_at_least_16_bounds_px": [
+        151,
+        55,
+        1205,
+        1170
+      ],
+      "minimum_visible_margin_px": 29,
+      "fully_transparent_pixel_fraction": 0.643146,
+      "fully_opaque_pixel_fraction": 0.000544,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.343368,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.532835,
+        0.854921
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.131159,
+          0.71543
+        ],
+        [
+          0.436433,
+          0.566639
+        ],
+        [
+          0.910412,
+          0.827023
+        ],
+        [
+          0.661372,
+          0.975813
+        ],
+        [
+          0.299863,
+          0.808424
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 240,
+      "qa_notes": "The ring visibly meets two saddle supports joined by a low base beam. Plausible illustrated contact only, not structural engineering. Center aperture is alpha; broad recesses are painted relief. No astronomical accuracy, motion or portal function.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "occult_hollow_ritual_totem_02",
+      "name": "Hollow ritual totem",
+      "file": "assets/occult_hollow_ritual_totem_02.png",
+      "prompt_file": "provenance/occult_hollow_ritual_totem_02.prompt.txt",
+      "provenance_note_file": null,
+      "prompt_status": "exact_prompt_saved",
+      "original_source_file": "generated_images/exec-cd9aba76-147d-4ee5-92a5-cb2bfd7eca5b.png",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "file_bytes": 1178052,
+      "sha256": "294f6d48beacaa40538a91e50dca1b0c40acaa26b59901316b007676a6edd6e1",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        69,
+        19,
+        961,
+        1481
+      ],
+      "alpha_at_least_16_bounds_px": [
+        72,
+        49,
+        958,
+        1479
+      ],
+      "minimum_visible_margin_px": 49,
+      "fully_transparent_pixel_fraction": 0.663415,
+      "fully_opaque_pixel_fraction": 0.0,
+      "near_opaque_pixel_fraction_alpha_240_255": 0.324416,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "anchor_type": "ground_visual_estimate",
+      "pivot_normalized": [
+        0.511582,
+        0.832552
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.122227,
+          0.860482
+        ],
+        [
+          0.381797,
+          0.711523
+        ],
+        [
+          0.779805,
+          0.786003
+        ],
+        [
+          0.926895,
+          0.953581
+        ],
+        [
+          0.563496,
+          0.869792
+        ],
+        [
+          0.200098,
+          0.925651
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 250,
+      "qa_notes": "Rooted wooden totem-family form with a large true-alpha aperture and painted inner wall. Abstract lower band is painted relief. No rune meaning, ritual function, animation, separate roots or validated physical balance.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

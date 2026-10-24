@@ -1,0 +1,46 @@
+{
+  "scene": "Ruined Village/Full Scene C / Variant",
+  "scene_number": 30,
+  "source_master_url": "https://drive.google.com/file/d/1WQMHYOUM-uxhvrFCppw4-zf4L6RoZmXD/view?usp=drivesdk",
+  "frames": 6,
+  "frame_files": [
+    "runtime_frames/00.png",
+    "runtime_frames/01.png",
+    "runtime_frames/02.png",
+    "runtime_frames/03.png",
+    "runtime_frames/04.png",
+    "runtime_frames/05.png"
+  ],
+  "duration_ms": [
+    100,
+    120,
+    120,
+    120,
+    120,
+    100
+  ],
+  "loop": false,
+  "on_complete": "hold_final_frame",
+  "anchor_pixels": [
+    41,
+    84
+  ],
+  "native_anchor_pixels": [
+    244,
+    501
+  ],
+  "runtime_canvas": [
+    82,
+    92
+  ],
+  "placement_1536x1024": [
+    870,
+    400
+  ],
+  "reward_contents": null,
+  "native_source": [
+    1536,
+    1024
+  ],
+  "processing": "RGBA alpha below 10 cleared as generator stray pixels; translated to fixed bottom-center anchor; runtime downsample only. Native hand-drawn cells preserved."
+}

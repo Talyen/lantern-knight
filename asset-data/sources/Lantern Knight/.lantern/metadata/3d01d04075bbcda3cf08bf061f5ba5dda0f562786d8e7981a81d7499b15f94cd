@@ -1,0 +1,330 @@
+{
+  "earthward_stone_cache": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/earthward_stone_cache_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          173,
+          339
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          181,
+          339
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          193,
+          328
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          175,
+          324
+        ]
+      }
+    ]
+  },
+  "gravekeepers_supply_chest": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/gravekeepers_supply_chest_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          496,
+          793
+        ],
+        "translation": [
+          229,
+          299
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          496,
+          0,
+          991,
+          793
+        ],
+        "translation": [
+          226,
+          300
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          991,
+          0,
+          1487,
+          793
+        ],
+        "translation": [
+          248,
+          296
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1487,
+          0,
+          1983,
+          793
+        ],
+        "translation": [
+          228,
+          296
+        ]
+      }
+    ]
+  },
+  "sealed_earthware_jar": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/sealed_earthware_jar_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          242,
+          352
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          238,
+          349
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          281,
+          334
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          246,
+          318
+        ]
+      }
+    ]
+  },
+  "weathered_cache_box": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/weathered_cache_box_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          218,
+          369
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1083,
+          724
+        ],
+        "translation": [
+          235,
+          367
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1083,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          267,
+          365
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          253,
+          365
+        ]
+      }
+    ]
+  }
+}

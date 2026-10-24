@@ -1,0 +1,15 @@
+{
+  "id": "lantern_drop_concept_09_strapped_bracers",
+  "name": "Strapped bracers",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/09_strapped_bracers.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Tubular identical cuffs with bevel strips; give stronger silhouette distinction and forged edges.",
+  "pack": "Lantern - World Drop Gear 02",
+  "folder": "world_drop_gear_02",
+  "destination": "lantern_revision_02/equipment/world_drop_gear_02/assets/09_strapped_bracers.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A PAIR OF STRAPPED BRACERS: unmatched worn blackened steel forearm guards, one longer with leather straps, one partly open revealing matte brown lining, strong overlap shadows. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-9b2de3a9-1c2b-491d-ab48-67bd55a75670.png",
+  "review": "Passed large overview and 64px light/dark proxy. Differentiated forged tools, cloth, leather, bone and book binding; native alpha preserved. Generated camera approximate."
+}

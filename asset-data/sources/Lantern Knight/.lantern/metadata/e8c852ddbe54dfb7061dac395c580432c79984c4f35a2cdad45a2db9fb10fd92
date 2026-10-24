@@ -1,0 +1,121 @@
+{
+  "pack": "01 Skeletons",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "SK01",
+      "slug": "ossuary_thrall",
+      "name": "Ossuary Thrall",
+      "description": "Lanky exposed-bone baseline, matching cuffs and centered waist ornament.",
+      "motion_hint": "Rattle-step / paired rake",
+      "move": "Short alternating rattle-steps with one small ribcage bob.",
+      "attack": "Raise both arms and rake down together.",
+      "death": "Knees fold, spine collapses and a few large bone clusters separate.",
+      "qa": "Two arms and two legs readable; five-digit open hands; broad skull, cuff pairing and isolated silhouette pass. More internal bone shading than the other variants; refine toward the chosen final style if selected.",
+      "native_file": "source/SK01_ossuary_thrall_native.png",
+      "asset_file": "assets/SK01_ossuary_thrall.png",
+      "native_dimensions": [
+        1145,
+        1374
+      ],
+      "asset_dimensions": [
+        762,
+        1448
+      ],
+      "native_sha256": "16fb470d8041abb20d2dacf451dce80e15a8e828e25f6055dc766c0facc9239f",
+      "asset_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 292970,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          256,
+          28,
+          890,
+          1348
+        ],
+        "transparent_padding_each_side": 64
+      }
+    },
+    {
+      "id": "SK02",
+      "slug": "sepulcher_warden",
+      "name": "Sepulcher Warden",
+      "description": "Compact armored guard with matching armor and a two-handed centered stone hammer.",
+      "motion_hint": "Heavy step / central slam",
+      "move": "Short heavy steps and slight shoulder bob; keep weapon centered.",
+      "attack": "Lift and drop a single two-handed hammer on the centerline.",
+      "death": "Fall to both knees, then tip forward with hammer.",
+      "qa": "Matching armor, complete limbs and believable shared grip pass. Stacked hands and cast highlights must be checked after mirroring. Fresh replacement chosen over a more textured draft.",
+      "native_file": "source/SK02_sepulcher_warden_native.png",
+      "asset_file": "assets/SK02_sepulcher_warden.png",
+      "native_dimensions": [
+        1024,
+        1536
+      ],
+      "asset_dimensions": [
+        812,
+        1577
+      ],
+      "native_sha256": "a52cbd099a884b439abc694625d5155107a1a7a024c0e3802e573cbfc50e9198",
+      "asset_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 494920,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          198,
+          48,
+          882,
+          1497
+        ],
+        "transparent_padding_each_side": 64
+      }
+    },
+    {
+      "id": "SK03",
+      "slug": "candlebone_oracle",
+      "name": "Candlebone Oracle",
+      "description": "Slender hooded skeleton, continuous robe silhouette and one central ritual orb.",
+      "motion_hint": "Glide / orb pulse",
+      "move": "Gentle vertical glide with small synchronized sleeve sway.",
+      "attack": "Hands close beneath orb, then open for a centered pulse.",
+      "death": "Orb dims; robe contracts and falls empty.",
+      "qa": "Both cupped hands and two visible lower legs pass. Fingers simplify at gameplay scale; keep orb and robe motion separate. Camera reads shallower than the most crouched design and needs final calibration.",
+      "native_file": "source/SK03_candlebone_oracle_native.png",
+      "asset_file": "assets/SK03_candlebone_oracle.png",
+      "native_dimensions": [
+        1024,
+        1536
+      ],
+      "asset_dimensions": [
+        602,
+        1633
+      ],
+      "native_sha256": "b0ed2ff17ef478eadcb5ec3b3dfde06f9a4978af450fe206479cb6f19af65a1f",
+      "asset_sha256": "d9fa25ea24f6c69560eac578e946c5224735e8c931518650a527cd2e5f49391d",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 413130,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          286,
+          13,
+          760,
+          1518
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

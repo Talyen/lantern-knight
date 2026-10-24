@@ -1,0 +1,160 @@
+{
+  "passed": true,
+  "issues": [],
+  "clipCount": 8,
+  "retainedByteIdenticalClipCount": 4,
+  "minimumBoundaryMarginPx": 21,
+  "clips": [
+    {
+      "id": "hanging_banner",
+      "status": "repaired",
+      "frames": 60,
+      "uniqueFrames": 60,
+      "minimumMarginPx": 21,
+      "loop": {
+        "periodMaximumChannelDifference": 0,
+        "periodMeanChannelDifference": 0.0,
+        "firstLastIntentionallyNotDuplicated": true,
+        "seamMeanAbsDifference": 0.07977948869977679,
+        "largestInteriorStepMeanAbsDifference": 0.13789149693080358,
+        "seamToLargestStepRatio": 0.5785671377533277
+      },
+      "firstLastMeanAbsDifference": 0.07977948869977679
+    },
+    {
+      "id": "loose_papers",
+      "status": "repaired",
+      "frames": 60,
+      "uniqueFrames": 60,
+      "minimumMarginPx": 115,
+      "loop": {
+        "periodMaximumChannelDifference": 0,
+        "periodMeanChannelDifference": 0.0,
+        "firstLastIntentionallyNotDuplicated": true,
+        "seamMeanAbsDifference": 0.2835540771484375,
+        "largestInteriorStepMeanAbsDifference": 0.5209557669503349,
+        "seamToLargestStepRatio": 0.5442958791076595
+      },
+      "firstLastMeanAbsDifference": 0.2835540771484375
+    },
+    {
+      "id": "reeds_sway",
+      "status": "repaired",
+      "frames": 60,
+      "uniqueFrames": 60,
+      "minimumMarginPx": 147,
+      "loop": {
+        "periodMaximumChannelDifference": 0,
+        "periodMeanChannelDifference": 0.0,
+        "firstLastIntentionallyNotDuplicated": true,
+        "seamMeanAbsDifference": 0.2609808785574777,
+        "largestInteriorStepMeanAbsDifference": 0.3132444109235491,
+        "seamToLargestStepRatio": 0.833154142441102
+      },
+      "firstLastMeanAbsDifference": 0.2609808785574777
+    },
+    {
+      "id": "dripping_water",
+      "status": "retained_byte_identical",
+      "frames": 30,
+      "uniqueFrames": 30,
+      "minimumMarginPx": 128,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.4696262904575893
+    },
+    {
+      "id": "chimney_puff",
+      "status": "repaired",
+      "frames": 60,
+      "uniqueFrames": 20,
+      "minimumMarginPx": 160,
+      "loop": {
+        "periodMaximumChannelDifference": 0,
+        "periodMeanChannelDifference": 0.0,
+        "firstLastIntentionallyNotDuplicated": true,
+        "seamMeanAbsDifference": 0.4470977783203125,
+        "largestInteriorStepMeanAbsDifference": 0.4470977783203125,
+        "seamToLargestStepRatio": 1.0
+      },
+      "firstLastMeanAbsDifference": 0.4470977783203125
+    },
+    {
+      "id": "dust_fall",
+      "status": "retained_byte_identical",
+      "frames": 30,
+      "uniqueFrames": 30,
+      "minimumMarginPx": 90,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.03144073486328125
+    },
+    {
+      "id": "fluttering_moth",
+      "status": "retained_byte_identical",
+      "frames": 30,
+      "uniqueFrames": 30,
+      "minimumMarginPx": 170,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.12867082868303573
+    },
+    {
+      "id": "water_glint",
+      "status": "retained_byte_identical",
+      "frames": 30,
+      "uniqueFrames": 30,
+      "minimumMarginPx": 140,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.05861663818359375
+    }
+  ],
+  "previews": [
+    {
+      "file": "reeds_sway_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_frames": "120"
+    },
+    {
+      "file": "dripping_water_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "1.000000",
+      "nb_frames": "60"
+    },
+    {
+      "file": "loose_papers_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_frames": "120"
+    },
+    {
+      "file": "chimney_puff_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_frames": "120"
+    },
+    {
+      "file": "fluttering_moth_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "1.000000",
+      "nb_frames": "60"
+    },
+    {
+      "file": "dust_fall_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "1.000000",
+      "nb_frames": "60"
+    },
+    {
+      "file": "hanging_banner_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_frames": "120"
+    },
+    {
+      "file": "water_glint_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "1.000000",
+      "nb_frames": "60"
+    }
+  ],
+  "tests": "Every alpha frame, atlas crop and transparent gutter. Periodic source endpoint equality for repaired loops. Nonloop clear endpoints. Retained PNG hashes against original. Source timing30fps versus60Hz video header. These are offline file tests, not uninterrupted human playback or engine certification."
+}

@@ -1,0 +1,255 @@
+{
+  "status": "NATIVE_LOWCARRY_ACTION_ART_TEST_PENDING_ROOT_SEQUENCE_REVIEW",
+  "direction": "DL",
+  "world_heading": [
+    0,
+    0,
+    1
+  ],
+  "source_sheet": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/lunge_lowcarry8_DL_v01/eight_native_sheet_v01.png",
+  "source_sha256": "f9568f66043871e1a7b9e1710ba56cc104bfa3050a571f49e98f14871eeffdc6",
+  "source_size_px": [
+    1717,
+    916
+  ],
+  "canvas_px": [
+    684,
+    576
+  ],
+  "common_padding_xy": [
+    148,
+    37
+  ],
+  "native_scale": 1.0,
+  "per_frame_fit": false,
+  "resampling": false,
+  "source_cels_preserved": 8,
+  "unique_cels_in_preview": 6,
+  "fps": 60,
+  "total_ticks": 54,
+  "loop_timeline": [
+    {
+      "frame": "01_READY",
+      "start_tick": 0,
+      "hold_ticks": 6
+    },
+    {
+      "frame": "02_LOAD",
+      "start_tick": 6,
+      "hold_ticks": 8
+    },
+    {
+      "frame": "03_DRIVE",
+      "start_tick": 14,
+      "hold_ticks": 4
+    },
+    {
+      "frame": "04_THRUST",
+      "start_tick": 18,
+      "hold_ticks": 4
+    },
+    {
+      "frame": "05_BRAKE",
+      "start_tick": 22,
+      "hold_ticks": 7
+    },
+    {
+      "frame": "07_RETURN",
+      "start_tick": 29,
+      "hold_ticks": 13
+    },
+    {
+      "frame": "01_READY",
+      "start_tick": 42,
+      "hold_ticks": 12
+    }
+  ],
+  "records": {
+    "01_READY": {
+      "file": "frames/01_READY.png",
+      "sha256": "7acbe3cd00bdf0e172d8f30ef358b448fe268fe452d182ec5f920cf8927678d1",
+      "fixed_sheet_origin_xy": [
+        0,
+        0
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        148,
+        37
+      ],
+      "foreground_pixels": 61411,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "02_LOAD": {
+      "file": "frames/02_LOAD.png",
+      "sha256": "b3880e2c3fd65dbe3af61957139e1f72839695a49f4417550b7de9ff8a7a6d9d",
+      "fixed_sheet_origin_xy": [
+        429,
+        0
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -281,
+        37
+      ],
+      "foreground_pixels": 59806,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "03_DRIVE": {
+      "file": "frames/03_DRIVE.png",
+      "sha256": "078cb44d31535fe3629ccb63e1883a30976d46ab3e810e857d9ad01f198bc187",
+      "fixed_sheet_origin_xy": [
+        858,
+        0
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -710,
+        37
+      ],
+      "foreground_pixels": 60980,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "04_THRUST": {
+      "file": "frames/04_THRUST.png",
+      "sha256": "73c6259f92c26ce10fb12e5313652e0c98cfbae5143398a79c2642f43299100f",
+      "fixed_sheet_origin_xy": [
+        1287,
+        0
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -1139,
+        37
+      ],
+      "foreground_pixels": 60947,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "05_BRAKE": {
+      "file": "frames/05_BRAKE.png",
+      "sha256": "cfed625ca00b5874e41e004360eb5d525e35b5525c3e86323d922e3963719f1e",
+      "fixed_sheet_origin_xy": [
+        0,
+        458
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        148,
+        -421
+      ],
+      "foreground_pixels": 56895,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "06_RETRACT": {
+      "file": "frames/06_RETRACT.png",
+      "sha256": "97f4de44a6ab1ec18c04dcb56d30c0a8c1e4908c695540972922dcb9427cc2e9",
+      "fixed_sheet_origin_xy": [
+        429,
+        458
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -281,
+        -421
+      ],
+      "foreground_pixels": 55291,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "07_RETURN": {
+      "file": "frames/07_RETURN.png",
+      "sha256": "ba4d8ce49be08b1ece0286b95a22efb8682beb588995d55344cd2049f7a70bfe",
+      "fixed_sheet_origin_xy": [
+        858,
+        458
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -710,
+        -421
+      ],
+      "foreground_pixels": 58531,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    },
+    "08_READY": {
+      "file": "frames/08_READY.png",
+      "sha256": "031730ebacca7e8bbd514e4332f2e70f2453e1ef6b08e444c936be06aca9bb42",
+      "fixed_sheet_origin_xy": [
+        1287,
+        458
+      ],
+      "common_padding_xy": [
+        148,
+        37
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -1139,
+        -421
+      ],
+      "foreground_pixels": 59641,
+      "resampling": false,
+      "per_frame_fit": false,
+      "body_warp": false,
+      "alpha_clipped": 0
+    }
+  },
+  "extraction_proof": {
+    "all_nonzero_alpha_source_pixels_preserved_once": true,
+    "foreground_rgba_exact": true,
+    "source_pixel_changes": false
+  },
+  "omitted_cels": [
+    "06_RETRACT"
+  ],
+  "closure": "Final hold reuses01_READY; actual08_READY preserved separately.",
+  "limits": [
+    "Source within-cell foot/body drift and pose spacing are preserved.",
+    "No physical ground-contact or exact camera certification from illustration.",
+    "DL06omitted for blade reversal;2/3gaze varies off attack axis."
+  ],
+  "preview": {
+    "file": "lunge_lowcarry_DL_native_60fps.mp4",
+    "sha256": "358f6a3552f03e3db5e28e62760ec746bb5c5e38e2dca1b91cc46ddabd85e2ca"
+  }
+}

@@ -1,0 +1,37 @@
+KEEPER'S GLADE A | OAK COTTAGE — FULLSCENE SOURCE AND PROVENANCE KIT
+
+ORIGINAL SOURCE, EXACT PROMPT AND REFERENCES
+native_floor.png is the unchanged 1536x1024 opaque RGB fullscene original. SHA-256: f45b42fca9479ef6bf23e8ed2f0ada14f9a32f26bcfb18390567540211d94805.
+The complete exact fullscene generation prompt is preserved byte-for-byte in exact_prompt.txt. Original generation provenance is preserved byte-for-byte in metadata.json. The actual available generation reference images, including the original RGBA hero, are included under references; all packaged reference files are hashed in provenance/packaged_reference_files.json. The scene's generation method and reference roles are recorded in the original metadata. Requested camera angles and physical scale are prompt intentions, not mathematically verified camera geometry.
+The upper-left terrace in Glade A is deliberately raised and reached by steps. These painted height changes still require separate navigation and collision implementation.
+
+This is a flattened raster source, not a layered scene or engine-ready level. Shelter, foliage, props, lights and scene shadows are baked. No separated upgrade assets, collision geometry, navigation mesh, height data, depth sorting or foreground occlusion masks are supplied.
+
+AI UPSCALE AND PROCESSING
+The separately delivered 6144x4096 master uses genuine 4x inference with the official Real-ESRGAN x4plus anime 6B model through NCNN CPU. The 3072x2048 option is that master reduced with Pillow Lanczos, not a native 2x model. Upscaling does not recover unavailable ground-truth detail.
+A continuous source is processed as 70 computational tiles with 160px cores, 32px context and 16px additional reflected processing border. The context is discarded without blending and all inferred core pixels assembled into one canvas. This is computational tiling, not artistic stitching. Each tile uses an isolated child process. The script requests 2 threads after loading; the NCNN load-time thread setting is 4. OMP_NUM_THREADS=2 is also set.
+Completed inference wall time for this scene: 238.563 seconds. Peak child RSS: 3316848 KiB. Actual run records are included under metrics. Two independent untiled sample checks assess tile-boundary consistency; results retain all observed differences in metrics/seam_metrics.json. They are neither exhaustive seam certification nor high-resolution ground-truth validation.
+
+HERO-SCALE REVIEWS
+The supplied original RGBA hero is alpha-cropped at alpha > 30 and conventionally resized with Lanczos to 160px visible height, then composited with a small grounding shadow. The art uses a 64px source-equivalent hero, or 256px in raw 4x. Raw 4x scenery is reduced by 0.625 to 3840x2560, corresponding to 2.5x native art display. Each 1536x1024 review viewport therefore covers 614.4x409.6 native pixels. Crop boxes and foot locations are in review_config.json and review_views_metadata.json.
+Three distinct viewports and their overview were visually inspected. Hero feet sit on apparently clear ground and the complete hero stays inside each crop. Hero/shadow overlays exist only in review previews, never in native or upscaled fullscenes. Engine scale, collision, navigation, height transitions and occlusion remain unvalidated.
+
+RUNTIME AND LICENSES
+Python 3.12.14, NCNN 1.0.20250916 CPU, NumPy 2.3.5, Pillow 12.3.0, Linux CPU. Verified model/archive hashes and runtime provenance are included. NCNN and Real-ESRGAN BSD-3-Clause notices are included. Runtime scripts and models use the same verified recipe as the previously delivered initiation-chamber source kit. No paid upscale API or external scene upload was used for this processing.
+Official model archive: https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+Model documentation: https://github.com/xinntao/Real-ESRGAN/blob/master/docs/anime_model.md
+NCNN: https://github.com/Tencent/ncnn
+
+REPRODUCTION FROM THIS KIT
+Large master/review PNGs, runtime/model binaries and intermediate tiles are excluded. Install a compatible Linux/Python environment with NumPy and Pillow. Several GB of RAM are required per process. From the extracted kit directory:
+python -m pip install --target inference/runtime --no-deps ncnn==1.0.20250916
+curl -fL -o official_models_bundle.zip https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+unzip official_models_bundle.zip 'models/realesrgan-x4plus-anime.*' -d inference
+python inference/run_isolated.py "$PWD/native_floor.png" "$PWD/ai_upscale"
+LANTERN_AI_RUNTIME="$PWD/inference" python inference/check_scene_seams.py "$PWD"
+python inference/build_scene_review.py "$PWD"
+
+The inference and seam scripts are the restored byte-for-byte scripts from the earlier source kit. build_scene_review.py only adapts the restored hero-path resolution to portable scene-relative references; its original is also included. This extracted-kit installation flow was not separately retested. Matching source/config tiles support resume; the source hash protects against cross-source reuse. The commands reproduce processing, not the image-generation service.
+
+INTEGRITY AND OUTPUTS
+kit_manifest.json hashes every included file except itself. metrics/separate_output_manifest.json hashes the seven separately generated PNGs. The outer manifest.json also hashes this ZIP. Any separately supplied lossless format companion is a transport version and does not change the PNG provenance recorded here. Source bytes, full output dimensions, prompt/metadata preservation and ZIP integrity were checked before packaging.

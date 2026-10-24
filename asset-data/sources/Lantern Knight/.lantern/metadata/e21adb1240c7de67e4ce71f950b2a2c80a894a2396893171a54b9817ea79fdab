@@ -1,0 +1,206 @@
+{
+  "clip_id": "lantern_run_D_6cel_balanced_test",
+  "status": "SIMPLIFIED_NATIVE_SIX_CEL_RUNTIME_TEST",
+  "unique_drawings": 6,
+  "heading": "D",
+  "world_heading": [
+    0.7071067812,
+    0,
+    0.7071067812
+  ],
+  "loop": true,
+  "ticks_per_second": 60,
+  "cycle_ticks": 40,
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_top_left": [
+    384,
+    640
+  ],
+  "pivot_bottom_left": [
+    384,
+    128
+  ],
+  "suggested_pixels_per_unit_APPROXIMATE": 280,
+  "density_method": "Initial visual native cranial width about80px versus ready100px at350PPU. Estimate280PPU, +-15%; not gameplay calibrated.",
+  "camera": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "certification": "Exact deterministic guide camera; illustrated projection approximate."
+  },
+  "source_sheet": "source/native_generated_v03.png",
+  "source_native_size": [
+    1774,
+    887
+  ],
+  "source_samples": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    35
+  ],
+  "retimed_playback": true,
+  "holds_ticks": [
+    10,
+    5,
+    5,
+    5,
+    5,
+    10
+  ],
+  "retiming": "Six selected original native cels1,2,3,4,5,8. Playback holds10,5,5,5,5,10 equalize20ticks right-led/20ticks left-led. Original25/30 drawings excluded for shoulder anatomy. Not an exact8sample phase match.",
+  "registration": "Rounded integer source grid crops, common164,272 translation from estimated source root220,368. No per-cel normalization, scaling, interpolation or pose manipulation; original natural bob retained.",
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/D_run_00.png",
+      "start_tick": 0,
+      "duration_ticks": 10,
+      "source_sample_tick": 0,
+      "source_cel": 1,
+      "visual_phase_tag_APPROXIMATE": "right_support_transition",
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "pivot_top_left": [
+        384,
+        640
+      ],
+      "registration_translation": [
+        164,
+        272
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/D_run_01.png",
+      "start_tick": 10,
+      "duration_ticks": 5,
+      "source_sample_tick": 5,
+      "source_cel": 2,
+      "visual_phase_tag_APPROXIMATE": "left_reach",
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "pivot_top_left": [
+        384,
+        640
+      ],
+      "registration_translation": [
+        164,
+        272
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/D_run_02.png",
+      "start_tick": 15,
+      "duration_ticks": 5,
+      "source_sample_tick": 10,
+      "source_cel": 3,
+      "visual_phase_tag_APPROXIMATE": "left_extended_flight",
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "pivot_top_left": [
+        384,
+        640
+      ],
+      "registration_translation": [
+        164,
+        272
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/D_run_03.png",
+      "start_tick": 20,
+      "duration_ticks": 5,
+      "source_sample_tick": 15,
+      "source_cel": 4,
+      "visual_phase_tag_APPROXIMATE": "left_contact",
+      "atlas_rect": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "pivot_top_left": [
+        384,
+        640
+      ],
+      "registration_translation": [
+        164,
+        272
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/D_run_04.png",
+      "start_tick": 25,
+      "duration_ticks": 5,
+      "source_sample_tick": 20,
+      "source_cel": 5,
+      "visual_phase_tag_APPROXIMATE": "left_support_transition",
+      "atlas_rect": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "pivot_top_left": [
+        384,
+        640
+      ],
+      "registration_translation": [
+        164,
+        272
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/D_run_05.png",
+      "start_tick": 30,
+      "duration_ticks": 10,
+      "source_sample_tick": 35,
+      "source_cel": 8,
+      "visual_phase_tag_APPROXIMATE": "right_contact_reach",
+      "atlas_rect": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "pivot_top_left": [
+        384,
+        640
+      ],
+      "registration_translation": [
+        164,
+        272
+      ]
+    }
+  ],
+  "limitations": [
+    "Right stride has fewer unique articulated poses because source samples25/30 are excluded.",
+    "Six held native drawings; no synthetic inbetweens.",
+    "Visual phase tags approximate; source foot-contact events do not transfer exactly after retiming.",
+    "Left grip has glove-like dark shading versus bare canonical hand.",
+    "Native source faint low-alpha edge speckles preserved; no destructive alpha cleanup.",
+    "Not engine tested or user accepted."
+  ],
+  "qa": "Ordered-cel anatomy/gear/single-stride and timing reviewed. Real-time playback/engine validation not claimed."
+}

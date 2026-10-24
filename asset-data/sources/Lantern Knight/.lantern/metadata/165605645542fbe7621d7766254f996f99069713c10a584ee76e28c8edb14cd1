@@ -1,0 +1,40 @@
+{
+  "masons_tool_chest": {
+    "seven_distinct_frames": true,
+    "lower_body_region_px": [
+      0,
+      850,
+      1024,
+      1024
+    ],
+    "lower_body_pixel_identical": true,
+    "closed_matches_original_renderer": true,
+    "open_design_original": true,
+    "open_lower_alpha_normalized": true,
+    "no_edge_clipping": true,
+    "mode": "RGBA",
+    "native_canvas": [
+      1024,
+      1024
+    ]
+  },
+  "provision_hopper": {
+    "seven_distinct_frames": true,
+    "lower_body_region_px": [
+      0,
+      640,
+      1024,
+      1024
+    ],
+    "lower_body_pixel_identical": true,
+    "closed_matches_original_renderer": true,
+    "open_design_original": true,
+    "open_lower_alpha_normalized": true,
+    "no_edge_clipping": true,
+    "mode": "RGBA",
+    "native_canvas": [
+      1024,
+      1024
+    ]
+  }
+}

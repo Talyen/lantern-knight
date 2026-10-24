@@ -1,0 +1,69 @@
+{
+  "asset": "Crypt Tomb Dial Seal",
+  "authored_cels": 8,
+  "native_canvas": [
+    512,
+    576
+  ],
+  "runtime_canvas": [
+    256,
+    288
+  ],
+  "states": [
+    "dormant",
+    "turn_15",
+    "turn_30",
+    "turn_45",
+    "turn_60",
+    "turn_75",
+    "turn_90",
+    "locked_active"
+  ],
+  "timing_ms": [
+    700,
+    130,
+    130,
+    130,
+    130,
+    130,
+    160,
+    1200
+  ],
+  "start_hold": "states/start.png",
+  "persistent_final_hold": "states/end.png",
+  "one_shot": true,
+  "completion_frame": 7,
+  "ground_anchor_native": [
+    256,
+    552
+  ],
+  "contact_anchor_native": [
+    270,
+    340
+  ],
+  "reward_anchor_native": [
+    270,
+    415
+  ],
+  "suggested_gameplay": "Turn the ritual dial to activate a game-controlled seal release or reward event. The sprite does not show a large cache opening.",
+  "implementation": "Suggested hooks only, no gameplay integration",
+  "source_native_size": [
+    1536,
+    1024
+  ],
+  "processing": "Mechanical extraction of authored cels, alpha-isolation, translation-only alignment, runtime downsampling and preview encoding. No code-created art or interpolated poses.",
+  "model_note": "Built-in imagegen; highest native quality/resolution requested. Preferred model naming was prompt intent, selection not exposed or verified.",
+  "qa": "Root approved",
+  "ground_anchor_runtime": [
+    128.0,
+    276.0
+  ],
+  "contact_anchor_runtime": [
+    135.0,
+    170.0
+  ],
+  "reward_anchor_runtime": [
+    135.0,
+    207.5
+  ]
+}

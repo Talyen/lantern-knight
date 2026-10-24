@@ -1,0 +1,77 @@
+LANTERN — GAMEPLAY READABILITY REVIEW
+2026-10-07 | Static preview only
+
+OPEN FIRST
+Lantern_Gameplay_Readability_1920x1080.png: neutral and expressive rows at approximate gameplay raster size. View at 100% to judge the intended 125-pixel hero.
+Lantern_Gameplay_Close_Comparison_2x.png: the same preview pixels at exactly 2x, with a third row showing each action clip's neutral ruler frame. This is an inspection enlargement, not a camera/zoom recommendation.
+
+WHAT THIS CHECKS
+Readability, silhouette, rough relative scale, and visible camera/pose compatibility next to the current world +X / screen-down-right hero ready frame. The floor grid follows the approximately 35.264-degree elevation / 45-degree azimuth reference, so its ground axes are 30 degrees below horizontal. It does not prove that a generated sprite obeys that camera.
+
+SCALING IS EXPLICITLY PREVIEW-ONLY
+Hero: approximately 125 pixels from visible hair top to lowest boot sole, using manual source y=42..609. The sword is excluded. This is a visual size anchor consistent with the task's 1080-high, 13 m vertical-span reference, not physical calibration or a measured character height. The stored runtime PPU is not being validated or changed.
+
+Intentional neutral screen-space extents relative to the 125-pixel hero:
+- Shroud Crawler: 75 px / 60%. This is the full low-pose vertical silhouette, not a standing height.
+- Bellbound Monk: 112 px / 89.6%, hood to sole.
+- Candlebone Oracle: 138 px / 110.4%, hood to skeletal feet.
+- Halo-Veil Cantor: 138 px / 110.4%, hood to veil tip; halo adds roughly 13 px in the neutral view.
+- Waxmask Acolyte: 125 px / 100%, hood tip to hem/sole as visible.
+These are deliberate comparative estimates, not approved physical sizes. Different headwear, floating bodies and crouched poses make the numbers unlike anatomical height measurements.
+
+Each clip receives ONE global uniform scale, estimated from that clip's neutral body drawing. That scale is then kept for its chosen action extreme. Effect bounds never determine scale. No individual action frame is fitted, centered, rotated, deformed, or stabilized. Source root/pivot coordinates are retained, so pose drift and provisional pivot issues stay visible. See review_manifest.json for every ruler, factor, frame ID, source path and SHA-256.
+
+SAMPLING VERSUS DRAWING DIFFERENCES
+Oracle's hover and spell sheets, and Waxmask's glide and ritual sheets, were generated at different native sampling. Using one pixel multiplier for both would reduce Oracle's spell-ready body from 138 px to about 98 px, and Waxmask's ready body from 125 px to about 111 px. That is a known density mismatch, not itself an anatomy defect. The main comparison compensates once per clip. It does not claim a final engine scale. Residual shape/proportion/camera differences remain visible after the neutral body rulers match.
+
+VISIBLE FINDINGS
+- Cantor: CAMERA UNRESOLVED / MOTION CONCEPT. Its frontal portrait read is the clearest mismatch beside the current elevated hero ready frame. The halo and pale veil read well, but that does not make the projection gameplay-ready.
+- Oracle: the long hover body reads shallower than the spell view. The skull and orb still identify the character at gameplay size; finger and bone detail largely merge.
+- Waxmask: red hood, white mask and eruption are identifiable. The upright glide remains portrait-leaning; do not confuse its distinct hood silhouette with a verified camera match.
+- Monk: the gold silhouette and bell read clearly. Its locomotion body is broader than the cast-ready body after neutral height matching, a drawing/proportion difference beyond native sampling.
+- Crawler: broad low silhouette and reaching hands communicate a ground-bound enemy; the projected body axis is broadly compatible with the down-right target. No numeric camera proof is claimed.
+
+SELECTED FRAMES
+Hero: ready_world_positive_X_DR_native (same reference in every row).
+Crawler: cocoon_scoot_DR_01; action ruler predatory_pounce_DR_01; extreme predatory_pounce_DR_04.
+Monk: locomotion_01; action ruler cast_01; extreme cast_05.
+Oracle: hover_01; action ruler spell_01; extreme spell_05.
+Cantor: drift_veil_breath_01; action ruler resonant_spell_01; extreme resonant_spell_04.
+Waxmask: glide_01; action ruler ritual_attack_01; extreme ritual_attack_05.
+
+PRESERVATION AND LIMITS
+Only traditional compositing/resampling was used. All supplied source PNGs remain unchanged; their hashes were checked before/after. No image generation, AI edit, new character drawing, relighting, alpha cleanup, per-frame fitting, or source overwrite occurred. The shared flat floor provides equal background conditions but does not alter baked sprite lighting. Low-alpha artifacts, pose placement and baked effects are not hidden or corrected.
+
+This is NOT engine validation, performance validation, a production import recipe, metric calibration, a complete animation review, a test of collision/root motion, or approval of these experimental enemy cameras. No repository, user computer or engine was accessed. The archive contains only the two review PNGs, this README, and the selection/scale manifest; original asset packs are separate.
+
+FIVE-PACK ANIMATION INDEX
+All packs are one-facing experiments: world +X / screen-down-right intent. No four/eight-way coverage is supplied. Drawing counts are unique drawings, not 60 unique drawings per second. Timing previews hold these drawings on a 60 Hz timeline.
+Private Drive folder: https://drive.google.com/drive/folders/1l4rY31exRTCiAoenNKW2EqiddSBW5PLe
+ZIP paths below are relative to lantern_enemy_animations_20261007/. Current byte sizes and SHA-256 values are in catalog.json.
+
+Shroud Crawler: 6 movement / 6 attack drawings; one facing.
+  Runtime: shroud_crawler/shroud_crawler_runtime_native.zip
+  Source: shroud_crawler/shroud_crawler_source_native.zip
+  Caveat: Approximate projection; source pose placement and pounce displacement are retained.
+
+Bellbound Monk: 6 movement / 8 attack drawings; one facing.
+  Runtime: bellbound_monk/bellbound_monk_runtime.zip
+  Source: bellbound_monk/bellbound_monk_source.zip
+  Caveat: Approximate projection; source pose/proportion variation and differing clip silhouettes remain.
+
+Candlebone Oracle: 6 movement / 8 attack drawings; one facing.
+  Runtime: candlebone_oracle/delivery/Lantern_Candlebone_Oracle_Animations_Runtime_v01.zip
+  Source: candlebone_oracle/delivery/Lantern_Candlebone_Oracle_Animations_Source_v01.zip
+  Caveat: Approximate camera; native sampling differs between clips; baked spell effects.
+
+Halo-Veil Cantor: 6 movement / 6 attack drawings; one facing.
+  Runtime: halo_veil_cantor/halo_veil_cantor_runtime_concept.zip
+  Source: halo_veil_cantor/halo_veil_cantor_source.zip
+  Caveat: CAMERA UNRESOLVED / MOTION CONCEPT. Not gameplay-view-ready.
+
+Waxmask Acolyte: 6 movement / 8 attack drawings; one facing.
+  Runtime: waxmask_acolyte/CT01_waxmask_acolyte_runtime.zip
+  Source: waxmask_acolyte/CT01_waxmask_acolyte_source.zip
+  Caveat: Portrait-leaning approximate camera; source registration and body sampling drift between clips.
+
+This review ZIP also includes catalog.json; animation sources remain in their separate packs.
