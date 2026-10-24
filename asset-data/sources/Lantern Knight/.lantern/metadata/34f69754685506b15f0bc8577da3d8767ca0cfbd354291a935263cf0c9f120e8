@@ -1,0 +1,9 @@
+Clockwork Beetle — Death
+
+12 genuine newly illustrated image-generated cels plus exact canonical neutral entry. Hold inert collapsed terminal frame.
+Runtime canvas 384x384; fixed top-left pivot [192, 260]. All durations in milliseconds. Total 2155ms. No looping.
+RGBA frames and atlas are identical. Atlas has 4px gutters around each frame. Keep original actor PPU. No authored engine changes.
+No damage events.
+Source native_cels.png retained at actual native resolution 1448x1086; no resolution enhancement claim. Preferred model requested in prompt; actual model selection not exposed by tool.
+Code performed mechanical cel extraction, alpha-preserving Lanczos resampling, registration, atlas assembly and preview encoding only.
+Reviewed contact sheets, alpha bounds and atlas equivalence. Engine testing remains required.

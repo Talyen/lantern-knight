@@ -1,0 +1,52 @@
+{
+  "actor": "Censer Keeper",
+  "back_view_design_note": "Rear coat folds and harness construction are inferred from approved front identity. Anatomical left upper grip/right lower grip retained; right front shoulder badge naturally occluded in new views.",
+  "attack_arc_note": "All headings use two-handed forward staff press with shared event phase. Visual markers do not define engine damage.",
+  "extension_facings": [
+    "DL",
+    "UL",
+    "UR"
+  ],
+  "required_baseline": "censer_keeper_runtime.zip, DR baseline delivered separately and unchanged",
+  "canvas": [
+    832,
+    832
+  ],
+  "pivot": [
+    426,
+    740
+  ],
+  "pivot_convention": "top-left origin, x right, y down",
+  "estimated_ppu_by_heading": {
+    "UL": 258,
+    "UR": 258,
+    "DL": 260,
+    "DR": 280
+  },
+  "world_preview_ppu": 258,
+  "world_preview_note": "All headings rendered at common PPU using downscaling only; runtime remains native heading-specific PPU.",
+  "mirroring": false,
+  "clips_per_facing": [
+    "move",
+    "attack"
+  ],
+  "drawn_cels_per_clip": 6,
+  "DR_png_hashes": {
+    "attack_00.png": "18a42c24d1adf5fe02dc8aadbf90e7b57860af17202cc460dad913417da1ba4c",
+    "attack_01.png": "503e4385d30937ce976409cea6649727fbae323d82fca472eb7f0513482b7b45",
+    "attack_02.png": "3da162a744c1d81ca7f166a769da603455803a462c04264602726c470719e54b",
+    "attack_03.png": "97003d7db9914380f57ed3508350a9f0f2973068079a05c07d81101f594c9eb4",
+    "attack_04.png": "76068f1ba087efe5284e4be8cc551710bc4e10c048350674cf0cf7e36cb9547e",
+    "attack_05.png": "b1810f78fcf7fb983bf5eb29c0f1805ea391e34fe757d28028a4652b5ee6ac10",
+    "attack_atlas.png": "383424b64169ab828bc3014649b0a680794aa0895829bd2b3506bd5ec97c8488",
+    "idle_still.png": "27d2b3cbfe751c1f72f277adc79f549c3f9f30f5c26e2d72d1defefb8050e5bd",
+    "move_00.png": "27d2b3cbfe751c1f72f277adc79f549c3f9f30f5c26e2d72d1defefb8050e5bd",
+    "move_01.png": "3a18bda38ddb99dedc823bc2b819a10502f1fa639d03426fab14876019a0410c",
+    "move_02.png": "5ca0fc096716f648806d2502d3992225563ce02164c830739238e9dd38566443",
+    "move_03.png": "37583c7589a8b48f1abfdc8f757365dd0aa0eab24c150d93d30a14df2f01486d",
+    "move_04.png": "9f037b05ad54eabf710b22d8608d74fa03252ca16383198530f2bcce7dc71ff6",
+    "move_05.png": "f3b57f961c808960dedc0b7aeb4b0e9fb2e89348bda90fd97d7f2f81343b5f25",
+    "move_atlas.png": "1aa14d812adb59ae6966532aa24169b2d074bfc6a60cc88adae0afae9536676b"
+  },
+  "source_reference": "Canonical original for every heading is DL/source/original.png (identical identity hash). DR_reference included for portable comparison rebuild; runtime extension does not replace delivered DR"
+}

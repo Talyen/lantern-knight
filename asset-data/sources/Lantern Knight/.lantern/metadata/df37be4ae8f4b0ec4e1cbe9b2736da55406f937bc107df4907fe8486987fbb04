@@ -1,0 +1,168 @@
+{
+  "passed": true,
+  "sampleCount": 27,
+  "checks": [
+    {
+      "clip": "enemy_cone",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_cone",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_cone",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_line",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_line",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_line",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_arc",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_arc",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_arc",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_ring",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_ring",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "enemy_ring",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "loot_appearance",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "loot_appearance",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "loot_appearance",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "loot_pickup",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "loot_pickup",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "loot_pickup",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "shrine_activation",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "shrine_activation",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "shrine_activation",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "door_seal_dissolve",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "door_seal_dissolve",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "door_seal_dissolve",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "checkpoint_return",
+      "frame": 0,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "checkpoint_return",
+      "frame": 12,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    },
+    {
+      "clip": "checkpoint_return",
+      "frame": 29,
+      "pngRGBABytesMatch": true,
+      "svgTextMatch": true
+    }
+  ]
+}

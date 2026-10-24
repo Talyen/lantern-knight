@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "prop_alchemist_still_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_alchemist_still_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_alchemist_still_01.png",
+    "sha256": "3dd0128d609ce161aa2bb4238140d430acb942ccb7009c804b0be0b90e277da7",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_alchemist_still_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1309,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      128,
+      62,
+      1183,
+      1142
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95666,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-2e2729ee-08e9-49b0-8f0e-f86fda1e29de.png"
+  },
+  {
+    "asset_id": "prop_arcane_dynamo_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_arcane_dynamo_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_arcane_dynamo_01.png",
+    "sha256": "f4abb51f30926ec37f8995f5864ae05f46f4c1d560d0abdbb51f624caecd8ef4",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_arcane_dynamo_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      21,
+      1410,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      170,
+      50,
+      1333,
+      996
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97226,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-dad2e798-d391-403c-8bf8-8a16c4813e92.png"
+  },
+  {
+    "asset_id": "prop_occult_armillary_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_occult_armillary_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_occult_armillary_01.png",
+    "sha256": "4746272e0bb758c0ce410141c9a6f28a52a6ec1783a8eee4b4ddd125fddc5488",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_occult_armillary_01.prompt.txt",
+    "size": [
+      1222,
+      1287
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1216,
+      1235
+    ],
+    "alpha_bounds_ge128": [
+      180,
+      28,
+      1044,
+      1229
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.92445,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-fc83dad0-1a0e-4249-b0c5-edb63a1efdeb.png"
+  },
+  {
+    "asset_id": "prop_ritual_altar_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_ritual_altar_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_ritual_altar_01.png",
+    "sha256": "afb05c4d2a61adab9a593dca974f12e5ba09cff024998182250eef0bbe17e403",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_ritual_altar_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      32,
+      1500,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      90,
+      73,
+      1445,
+      971
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97427,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-f48a2618-0d19-4334-8648-d68c9f940daf.png"
+  },
+  {
+    "asset_id": "prop_riveted_boiler_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_riveted_boiler_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_riveted_boiler_01.png",
+    "sha256": "41a38151bd446f0b9db990acc29ce6624cbc4b886ebe87ede14987afaac3ef48",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_riveted_boiler_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      209,
+      17,
+      1236,
+      1175
+    ],
+    "alpha_bounds_ge128": [
+      293,
+      22,
+      1039,
+      1172
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97323,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-e042706a-6e56-4458-a08b-dede2caac2ff.png"
+  },
+  {
+    "asset_id": "prop_unlit_brazier_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_unlit_brazier_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_unlit_brazier_01.png",
+    "sha256": "726028ed1d883c5df83f6a1247335e587e86f35dd19a8294c0a064734a2ca20b",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_unlit_brazier_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      105,
+      1256,
+      1128
+    ],
+    "alpha_bounds_ge128": [
+      78,
+      108,
+      1235,
+      1098
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96963,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-fdadcc0d-02fb-4606-88b4-96a10443d161.png"
+  },
+  {
+    "asset_id": "prop_valve_pipe_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_valve_pipe_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_valve_pipe_01.png",
+    "sha256": "07bad88af178833691751dd01b0b5d081a650c5b1249d93898f0d80a21322e65",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_valve_pipe_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      25,
+      15,
+      1492,
+      1007
+    ],
+    "alpha_bounds_ge128": [
+      198,
+      22,
+      1419,
+      1004
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9591,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-8113b00a-9056-4e52-8234-aa00cbb31c41.png"
+  },
+  {
+    "asset_id": "prop_wooden_handcart_01",
+    "pack": "volume_03_occult_industrial",
+    "path": "assets/prop_wooden_handcart_01.png",
+    "original_path": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_wooden_handcart_01.png",
+    "sha256": "a35f713ca746621fc6947bf9acc5b8d7a5a2fbecc34183390066bed1a207e9b1",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/prop_wooden_handcart_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      16,
+      1470,
+      980
+    ],
+    "alpha_bounds_ge128": [
+      80,
+      19,
+      1465,
+      978
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96307,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-ccb41aa0-2dab-4c63-91d4-743df4a2d648.png"
+  }
+]

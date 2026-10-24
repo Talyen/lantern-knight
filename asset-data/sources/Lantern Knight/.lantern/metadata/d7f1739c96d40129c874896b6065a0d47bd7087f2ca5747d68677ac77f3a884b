@@ -1,0 +1,80 @@
+{
+  "name": "Candle-procession Wraith DL",
+  "reference": {
+    "id": "lantern_elite_concept_05_candle_procession_wraith",
+    "sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a"
+  },
+  "holds": {
+    "move": [
+      9,
+      8,
+      8,
+      9,
+      8,
+      8
+    ],
+    "attack": [
+      8,
+      9,
+      12,
+      6,
+      9,
+      14
+    ]
+  },
+  "offsets": {
+    "move": [
+      [
+        10,
+        0
+      ],
+      [
+        52,
+        0
+      ],
+      [
+        74,
+        0
+      ],
+      [
+        20,
+        15
+      ],
+      [
+        51,
+        15
+      ],
+      [
+        84,
+        15
+      ]
+    ],
+    "attack": [
+      [
+        20,
+        0
+      ],
+      [
+        47,
+        0
+      ],
+      [
+        48,
+        0
+      ],
+      [
+        31,
+        15
+      ],
+      [
+        34,
+        15
+      ],
+      [
+        49,
+        15
+      ]
+    ]
+  },
+  "facing": "DL front three-quarter"
+}

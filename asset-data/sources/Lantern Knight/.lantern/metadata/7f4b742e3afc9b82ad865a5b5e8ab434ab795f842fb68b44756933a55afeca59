@@ -1,0 +1,5 @@
+Lantern Knight: selfheal_loop / L
+
+Keep the unique Lantern_Hero_selfheal_loop_L_v01/ folder intact. source/native contains original crop pixels; runtime/frames contains 512×512 derivatives. Use manifest timing and fixed manual pivot. Do not mirror asymmetrical equipment. Intentional crouch/reach/rise remains in the art.
+
+Visually reviewed runtime-test artwork; engine behavior, target contact and physical root registration are not certified. No previews or debug materials are bundled.

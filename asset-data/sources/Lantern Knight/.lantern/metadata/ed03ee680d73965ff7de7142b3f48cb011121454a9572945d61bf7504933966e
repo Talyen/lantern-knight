@@ -1,0 +1,16 @@
+{
+  "runtime": {
+    "file": "cantor_runtime.zip",
+    "drive_id": "1dAZGl8OVPHbfGz85dcbp67zJle1pOZdR",
+    "sha256": "b61826fb408ae9e1835bf219a587c0d747d6a06fd9a0fcb74fdad8bdf16bf44e",
+    "unchanged": true,
+    "internal_revision": "CAMERA-GUIDED v03 IMPORT CALIBRATION; filenames may sayv02"
+  },
+  "source": {
+    "file": "cantor_source.zip",
+    "drive_id": "1CG6Pdmfjn2xZIOqx_R1v722NbNoLDUHs",
+    "sha256": "537c6365d0ecd59fa522e06ebb21d0c2247374bcf836fe923b6a8f83d1969f8d",
+    "unchanged": true,
+    "internal_revision": "CAMERA-GUIDED v03 IMPORT CALIBRATION; filenames may sayv02"
+  }
+}

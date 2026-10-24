@@ -1,0 +1,23 @@
+{
+  "native_sha256": "c4babbfe0adcc0a24943cbd0c1a2e876b919fadebe6674df832f542072bfce1c",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "hero_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "hero_alpha_bbox": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_dimensions": [
+    68,
+    160
+  ],
+  "foot_anchor": [
+    790,
+    670
+  ],
+  "method": "Native environment unchanged. Original approved hero alpha-cropped at threshold 30, Lanczos scaled to 160px, alpha-composited with small grounding shadow. No hero repainting. Presentation-only viewport, no engine scale, collision or occlusion validation."
+}

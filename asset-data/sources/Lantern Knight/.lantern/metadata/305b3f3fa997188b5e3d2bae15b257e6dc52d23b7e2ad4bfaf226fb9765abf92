@@ -1,0 +1,35 @@
+{
+  "pivot_pixels": [
+    110,
+    240
+  ],
+  "target_pixels": [
+    285,
+    260
+  ],
+  "intended_footprint_pixels": [
+    [
+      264,
+      250
+    ],
+    [
+      286,
+      239
+    ],
+    [
+      308,
+      255
+    ],
+    [
+      300,
+      275
+    ],
+    [
+      275,
+      280
+    ]
+  ],
+  "footprint_shape": "single target at hooked arc endpoint",
+  "coordinate_space": "384x384 output canvas",
+  "interpretation": "Experimental intended damage/utility footprint; cosmetic debris may extend outside. Verify actual collision in engine. No engine files changed."
+}

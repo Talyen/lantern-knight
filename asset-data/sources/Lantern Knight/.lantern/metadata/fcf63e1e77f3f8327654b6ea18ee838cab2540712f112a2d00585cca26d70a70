@@ -1,0 +1,57 @@
+{
+  "revision": "v3: confirmed inner foreground pair only",
+  "preservation_reference": "Polished v2 source before the confirmed inner-pair correction",
+  "preservation_frames_checked": 480,
+  "every_other_vector_identical_after_removing_two_new_banks": true,
+  "all_tree_positions_canopies_scales_and_motion_unchanged": true,
+  "root_to_existing_terrain_continuity_frames": {
+    "left": 240,
+    "right": 240
+  },
+  "root_continuity_failures": [],
+  "rgb_quantization_tolerance_per_channel": 1,
+  "contact_route_local_pixels": [
+    [
+      438,
+      941
+    ],
+    [
+      438,
+      962
+    ],
+    [
+      438,
+      993
+    ],
+    [
+      400,
+      1008
+    ],
+    [
+      365,
+      1034
+    ]
+  ],
+  "bank_top_y": 960,
+  "trunk_bottom_y_range": [
+    966.3,
+    968.1
+  ],
+  "root_lip_buries_lowest_trunk_pixels": true,
+  "decoded_native_hold_frames_inspected": [
+    0,
+    30,
+    60,
+    90,
+    120,
+    150,
+    180,
+    210,
+    239
+  ],
+  "notes": [
+    "Each bank visibly merges into the existing near rock plane; no isolated pad or floating slab.",
+    "Both banks share the unchanged foreground parent transforms with their trees.",
+    "Geometry and continuity checks complement visual inspection; filled pixels alone do not establish convincing grounding."
+  ]
+}

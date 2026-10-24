@@ -1,0 +1,26 @@
+[
+  {
+    "frame": 0,
+    "lower_body_pixels_equal": true
+  },
+  {
+    "frame": 1,
+    "lower_body_pixels_equal": true
+  },
+  {
+    "frame": 2,
+    "lower_body_pixels_equal": true
+  },
+  {
+    "frame": 3,
+    "lower_body_pixels_equal": true
+  },
+  {
+    "frame": 4,
+    "lower_body_pixels_equal": true
+  },
+  {
+    "frame": 5,
+    "lower_body_pixels_equal": true
+  }
+]

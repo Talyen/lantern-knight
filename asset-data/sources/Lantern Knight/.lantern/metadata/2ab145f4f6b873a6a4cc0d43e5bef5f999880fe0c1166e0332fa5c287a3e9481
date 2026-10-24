@@ -1,0 +1,135 @@
+LANTERN KNIGHT ART PRODUCTION PLAN
+Provisional foundation for the fixed camera 2.5D action RPG
+6 October 2026
+
+Start with one approved male Lamplighter, one measurable camera setup and one successful movement and first-swing test. Only then expand to eight directions and a full animation set. The accompanying JSON files are a proposed art contract and examples of metadata. They do not contain production sprites, measured animation data or an implemented importer.
+
+LOCKED HERO AND STYLE
+
+The exact user-uploaded RUST crop, image(3).png, is the unchanged hero authority. Library item: libfile_0da5071239448191b6962495ce1e0164. Preserve the original pixels and faithfully reproduce the pictured male face, rust coat, repair patches, two crossing belts, vest, proportions, sword/lantern and accessories in the production source. Anatomical right forearm wrap and left forearm bracer must remain consistent. No recoloring, repainting, recropping, regeneration or redesign of the hero. Older charcoal/crimson experiments and later regenerated interpretations are historical only. Archival prompt wording never overrides the selected image.
+
+Clean INK is locked. Match the reference's actual shapes, linework and values; do not add a fluid-brush hybrid, painted realism or the rejected low-poly appearance. Broad dark fantasy can draw on occult, horror, steampunk, magic and gothic influences. The three proposed theme families were rejected; none is an approved setting.
+
+The remaining gate is technical and visual fidelity of the production source/animation, not another costume or style choice. Preserve the original uploaded reference unchanged and use its exact file hash for asset-source tracking.
+
+WHY A RIG COMES BEFORE HUNDREDS OF FRAMES
+
+For consistent production animation, keep one canonical 3D source and rig per character, build it faithfully from the fixed reference, animate it, and render from the selected camera with a controlled clean INK finish. A rig gives repeatable proportions, sword length, hand grips, feet, camera, scale and attachments. The first implementer must produce a real articulated proxy/export proof while final-art approval is pending, rather than stopping at a written plan. Selective contours and broad flat shading can preserve an illustrated appearance. Art direction and cleanup are still required; a rig does not automatically produce the desired style.
+
+Use image generation for new concepts, environment studies and static concept exploration only. Generate new concepts fresh rather than repeatedly editing degraded outputs. The exact Rust hero is already fixed and must not be regenerated or edited. Image generation cannot guarantee exact frame registration, anatomy, camera elevation, weapon continuity or smooth motion across hundreds of independently generated images. A generated sprite sheet is a visual proposal until every frame is checked. Do not derive a production animation set by asking for every pose independently.
+
+First run a bounded representative-direction walk/attack test from the canonical 3D source. If its render cannot preserve the locked clean INK look, use one controlled layered 2D rig with authored views and consistent registration. This fallback should preserve the reference, not invent independent AI animation frames.
+
+APPROVAL GATES
+
+1. Canonical hero fidelity
+   The unchanged Rust reference and clean INK style are selected. Verify that the production source reproduces them; do not ask for another hero redesign or style choice.
+
+2. Selected camera and source-scale verification
+   Final selected camera: orthographic elevation 35.264389682754654 degrees and azimuth 45 degrees. The chosen initial effective vertical span is 13 world units, approximately 23.1111 horizontally at 16:9; the user delegated this initial framing choice. Do not ask for the angle/initial zoom again. Preserve the earlier 30/35/45 study and temporary exact-35 selection as historical only. Validate registration, gameplay readability and source-density headroom at the chosen starting frame and any modest configurable zoom range. Source dimensions and final production art still require verification.
+   Verify the chosen initial framing and actual visible hero height at the intended window size, without creating another zoom-choice gate. A provisional 1.8 unit hero and 1 unit = 1 metre convention make relative scale easy to communicate; they are not measurements taken from the old drawing.
+
+3. Representative-direction motion and style test
+   Render one actual articulated walk loop and first sword attack from the same source in representative front/three-quarter, side and back views. A single-direction smoke test can precede this, but does not pass the style/consistency gate by itself. Include idle transition, foot contacts, attack anticipation/contact/recovery and the held lantern during the swing. Inspect at native output size and gameplay zoom on dark and light ground. Fix sliding feet, popping outlines, clipping, changing scale and bad grips before expansion.
+
+4. Eight direction motion approval
+   Render those approved clips at the eight world yaw directions. Check front, back and both sides; retain equipment handedness. Confirm direction switching and readable back views. A complete eight direction walk does not also supply backward walking and strafing.
+
+5. Remaining actor and small environment kit
+   Add the second and third sword strikes for the confirmed three-hit combo, plus idle, dodge, hit, death and lantern flare. Run can follow if the movement-speed design needs it. Then complete one enemy and the few world modules below. The playable handoff needs all three combo stages even though the first export proof uses one swing. Keep the sword-and-lantern loadout fixed; additional enemies and equipment come later.
+
+6. Export and integration review
+   Deliver registered RGBA masters, atlas pages, metadata, review movies and the source rig/render scene. Verify against the contract. The user's implementation team owns importer and runtime work; this guide does not start or manage that work.
+
+THE SMALLEST USEFUL KIT
+
+Hero: one male Lamplighter with the confirmed fixed sword-and-lantern loadout, proposed to be baked together into the actor for the first kit. Keep separate rig objects and sockets in the authoring source so future equipment can be produced without redesigning him.
+Enemy: one simple skeleton with a distinct narrow silhouette, one short sword and a shield. Begin with idle, walk, attack, hit and death. Its visual proportions, exact size and equipment are a fresh approval, not final assets taken from a multi character concept sheet.
+Floor: one square ground material, two quiet variants and a worn edge or small decal. The square texture is mapped onto the XZ floor; it should not contain a perspective diamond painted into the image.
+Wall: one straight module, one corner/end treatment, clean top and side planes. Give it an explicit footprint and height. A 3D proxy with artwork on simple surfaces is preferable where the hero can pass behind it.
+Tree: one graphic silhouette with a separate foreground canopy if needed for occlusion. Use a stable trunk base anchor and a small ground footprint rather than the entire leaf silhouette as collision.
+Chest: closed and open states from the chosen camera, sharing the same root and scale. A small opening sequence can follow if interaction requires it.
+Lantern effects: a restrained flame/flicker loop and the confirmed mouse-aimed short-cone flare with brief stagger and cooldown. Exact angle, range, durations and timings remain tuning values. Keep emission separate from opaque actor art. The confirmed lighting baseline is painted environment illumination, contact shadows and selective glow; dynamic lighting is optional. A sword trail can follow once strike timing reads without it.
+
+PROVISIONAL ANIMATION BUDGET
+
+All numbers below are starting budgets for review, not a demand for unnecessary frames.
+- Idle: 12 drawings per direction, 12 drawings per second, 1.00 second loop.
+- Walk: 12 at 15 per second, 0.80 second loop.
+- Run: 8 at 16 per second, 0.50 second loop.
+- Sword attacks 01, 02 and 03: provisionally 10 drawings each at 20 per second, 0.50 second per action. These repeated values are placeholders for review, not a requirement that every combo strike have identical timing.
+- Directional dash (stable clip ID dodge): 8 at 20 per second, 0.40 second action as a proposed visual budget. Brief invulnerability is simulation-owned; this clip duration does not define its window.
+- Hit: 4 at 16 per second, 0.25 second reaction.
+- Death: 12 at 12 per second, 1.00 second action as a proposed visual budget. Hold until the confirmed room reset; the reset delay is tunable.
+- Lantern cast: 12 at 16 per second, 0.75 second action.
+
+That is 98 drawings for one direction, or 784 hero images for eight directions before alternate equipment or extra layers, including all three combo stages and optional run. Omitting run reduces this draft full-set budget to 720 images. These are future estimates, not a prerequisite for starting the game. The first style gate uses the small walk/first-swing sample in several representative directions. Only then expand to all eight views and the rest of the kit; the playable handoff still needs three combo stages. Sixty frames per second display does not require 60 new sprite drawings per second. World movement and input can remain smooth while animation holds individual drawings. Use time based playback and actual frame durations; do not tie gameplay speed to monitor refresh.
+
+WASD moves and the mouse supplies aim. Travel-facing walk/run and aim-facing attack/cast are confirmed. Aim-facing idle, locked heading at each swing start, and dodge travel facing remain implementation defaults. Independent mouse aim remains available while moving. Dedicated backward/strafe locomotion and torso-independent aim are deferred. Eight facing renders of a forward walk do not supply those extra animations. Combat is confirmed as a deliberate but responsive three-hit sword combo, with recovery cancelable by dodge rather than unrestricted cancellation through every attack phase, and no initial stamina system. Sword arcs are mouse-directed. Dodge is a directional dash with brief invulnerability. Death resets the room/encounter; exact timings remain tuning values.
+
+REGISTRATION AND ATTACHMENTS
+
+Keep one virtual untrimmed canvas and one projected ground root for the hero across all clips and directions. This root is a rig reference on the floor, not the lowest opaque pixel or whichever foot happens to be planted. The animation can lean, jump, recoil and swing around that root. Do not recenter or rescale each frame to its visible silhouette.
+
+The example uses a 512 by 640 source canvas, ground root at pixel [256, 544], and 256 source pixels per projected world unit. A camera facing card therefore measures 2.0 by 2.5 projected world units. These are an editable calibration fixture, not mandatory production dimensions. Choose the final canvas and source density from the approved projected footprint, motion bounds and gameplay zoom. Keep transparent room for weapons and coat tails. If a larger canvas is required, extend it while preserving root and pixel density rather than shrinking the actor.
+
+If an atlas trims transparent pixels, record both the atlas rectangle and its offset inside the original canvas. The frame still uses the original canvas, anchor and scale. A renderer may reconstruct the original canvas or position the trimmed quad with the same offset. It must not silently center the trimmed image.
+
+Once the proposed hand assignment is approved, keep the sword in the right hand and the lantern in the left through every clip. The right hand may be behind the body from some views. Do not swap hands just to keep both props visible. The first kit's composited actor renders resolve self occlusion automatically. Later modular equipment needs per frame sockets plus correct front/body/back ordering or a shared depth solution; a single generic overlay cannot solve every sword/body crossing.
+
+Export lantern light origin, grip sockets and weapon tip where useful, in explicitly named coordinate spaces. Projected socket pixels are useful for 2D effects. Actor local 3D socket transforms from the rig are needed for consistent world space attachments. Do not invent one from the other. No measured sockets are supplied in the example JSON.
+
+TIMING AND GAMEPLAY BOUNDARIES
+
+Use stable clip names, direction IDs, frame order, frame durations and events. Suggested events include foot_contact_left/right, sword_swing_start, sword_hit_window_open/close, dodge_window_open/close, lantern_flare_release and death_settled. Each event has a unique ID and a time relative to clip start, so skipped display frames do not lose it and a held frame does not repeat it. Loop events include the loop occurrence when deduplicating.
+
+Art events describe animation timing. Their example values are unapproved. Gameplay still decides collision, damage, invulnerability, movement distance and cooldowns. An opaque sword pixel is not a hitbox. Mouse-directed arc collision, exactly-once damage per target per swing, and dash invulnerability belong to simulation. Trails, flashes, particles and source frames have no authority over damage or invulnerability. Death starts one room reset and invalidates old action/effect events; presentation follows that state. If a clip is interrupted, the runtime must cancel its remaining windows and pending effects rather than leave them active.
+
+Use in place locomotion in the first export, with a measured intended speed to match the feet. Dodge displacement is a separate approved gameplay curve. If root motion is exported later, specify who applies it so movement is not counted twice. The flat ground lab comes first; the playable slice includes small connected hand-authored areas with simple elevation. Use one walkable height per XZ location and keep feet, aim, collision and contact shadows registered to that surface. Stacked floors, underpasses and complex traversal remain deferred.
+
+STATIC ART AND EXPORT QUALITY
+
+Author or render clean isolated objects from the approved reference and camera through controlled source/export tools. Keep the floor, walls, objects, character and effects modular. Ask for genuine transparency on cutouts. A dark background or checker pattern painted into the picture is not alpha. Avoid baked floor shadows in the actor/prop color image; use a separate contact shadow asset or shadow proxy. Three.js sprites do not cast geometry shadows automatically.
+
+Keep lossless RGBA PNG masters. Record color space and alpha convention. Use sRGB for color artwork and linear/non color sampling for normal, mask and depth data. Keep emissive effects separate so their brightness is controllable. Validate straight versus premultiplied alpha exactly once in the pipeline; double multiplication causes dark edges. Inspect cutouts over black, white and representative floor colors.
+
+Prefer 2048 atlas pages as a starting point, splitting by actor and useful clip groups. Choose final page size after checking the actual target device limits and memory budget. A 2048 square uncompressed RGBA8 page is 16 MiB before mipmaps, so PNG download size is not runtime GPU memory. Preserve full source canvas metadata while packing trimmed rectangles. Disable rotated packing in the first contract. Add edge extrusion and enough separation for the chosen filtering and mip levels; a tiny fixed gutter is not a universal guarantee against bleed. Verify the packed output at gameplay zoom.
+
+Normal or depth maps are optional later passes from the same rig and exact camera, with a declared coordinate space and value encoding. They are not needed for the first clean style test. A rough AI normal map should not be treated as measured geometry. Use painted environment lighting, contact shadows and selective glow first. A dynamic lantern light or ground pool is optional and should not be required to relight every painted surface.
+
+CAMERA MATH FOR THE ART HANDOFF
+
+Conventions: Y is up; the ground is XZ. Yaw zero points along +Z; positive yaw turns toward +X, with yaw = atan2(directionX, directionZ). Camera azimuth uses the same convention. Camera elevation is measured above the horizontal ground. At selected azimuth 45 degrees and exact elevation 35.264389682754654 degrees, normalized target-to-camera offset is [0.577350269190, 0.577350269190, 0.577350269190], proportional to [1, 1, 1]. Screen right is [0.707106781187, 0, -0.707106781187] and screen up is [-0.408248290464, 0.816496580928, -0.408248290464].
+
+Direction IDs d00, d45, d90, d135, d180, d225, d270 and d315 mean world yaw. They do not mean screen compass headings. At this camera d45 faces toward the viewer and projects screen down; d225 faces away and projects screen up. A screen input vector must first be mapped to the ground, not mistaken for world XZ.
+
+For camera facing sprite cards, use width = sourceWidth / P and height = sourceHeight / P, where P is source pixels per projected world unit. Local pixel position relative to the root is ((pixelX - rootX) / P, (rootY - pixelY) / P). If using Three.js Sprite.center, its lower left convention means center = (rootX/sourceWidth, 1-rootY/sourceHeight). The example gives [0.5, 0.15].
+
+If implementation instead uses vertical world Y cards, the rendered height is foreshortened by cos(elevation). To reproduce the source image, card height must be sourceHeight / (P * cos(elevation)); width remains sourceWidth / P. The example becomes about 3.06186218 units tall at the selected 35.264389682754654-degree elevation. Do not apply that correction to an already camera facing card. A vertical proxy measuring 1.8 world units projects to 1.8 * cos(elevation), about 1.46969385 projected units. At a 1440-pixel drawing-buffer height, that ruler spans 211.6, 162.8, or 132.3 pixels at effective vertical spans of 10, 13, or 16 units respectively. The chosen initial span is 13, giving approximately 162.8 pixels; the outer spans are zoom-headroom diagnostics, not pending choices. Neither sprite-card height is the physical height of the character.
+
+These formulas handle visual registration, not arbitrary 3D occlusion. Large tree canopies, walls and actors crossing one another need tested ordering and/or explicit occlusion/depth proxies. Approve those cases in the small kit before treating the presentation as production ready.
+
+ACCEPTANCE CHECKLIST
+
+- Production source/turnaround faithfully matches the exact unchanged Rust reference and clean INK style, including repair patches, two crossing belts and accessory continuity; no redesign.
+- Selected 35.264389682754654-degree elevation, 45-degree azimuth and chosen 13-unit initial span retained and technically verified; configurable zoom does not alter bake orientation.
+- Root, canvas, pixel density and camera ID identical across a clip set.
+- No per frame auto scale, recentering, clipped sword, detached lantern or changing costume parts.
+- Clean loop seam, stable planted feet and readable timing for all three combo strikes and the flare at gameplay zoom.
+- Every direction is genuinely authored/rendered, not an accidental mirror.
+- All frame durations are positive; events fall within their clip; completion and interruption are defined.
+- Real alpha, no background residue, no dark/white fringes and no atlas bleed in the tested zoom range.
+- Floor seams, wall corners, open chest alignment, near/far tree overlap and grounding across simple elevation checked.
+- Metadata references only actual delivered files in a production manifest. The example manifest deliberately marks all art as planned or illustrative.
+
+REFERENCES
+
+Visual references inspected: heroes_gothic_graphic_v2.png and heroes_three_substyles.png, plus their stored generation and revision briefs. Those sheets were concept exploration and did not lock a measurable camera or export scale.
+
+Three.js OrthographicCamera documentation: orthographic projection keeps apparent size independent of distance.
+https://threejs.org/docs/pages/OrthographicCamera.html
+
+Three.js Sprite documentation: camera facing plane, lower left normalized center convention, and no geometry shadow casting.
+https://threejs.org/docs/pages/Sprite.html
+
+The numerical budgets, proposed dimensions, approval gates and art workflow here are project recommendations. They are intentionally subject to approval and testing.

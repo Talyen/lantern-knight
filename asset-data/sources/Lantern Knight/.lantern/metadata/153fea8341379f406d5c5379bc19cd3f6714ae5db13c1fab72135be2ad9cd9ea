@@ -1,0 +1,20 @@
+{
+  "native/06_reexpanding.png": "9ca4d0f561a28e9234c128fa18b410c37341cc70cb9b5ac358eb9648bdc82755",
+  "native/03_full_compression.png": "147fd4e9c34cf6bfbe27570bce757608d3934a3449295df58c0b193dcad2bb9f",
+  "native/05_lever_releasing.png": "0b4bb166106f1d92fd7c4c80f15e29b921309fb28441f50995dbc1117752b0fc",
+  "native/02_half_compressed.png": "8ed1ad29e70dcd263ef7286a5c310d256496aec1cc861978c2580ffe99a48914",
+  "native/01_lever_descending.png": "643893eee18c8558ca98cf9dddb6a661e04b183598746e3096ec83589e5e5dc1",
+  "native/00_cold_ready.png": "81ee1b4e39d2dc45e604c9a6ee62f5180da0176151c5978e5ba0cf09eabf6033",
+  "native/07_banked_ready.png": "a775b3410785ef4f606cc1739d5407b82732d9f31c0b715a197bfd4c7e05a481",
+  "native/04_coals_ignited.png": "e38d8cef23149d4815cbe6066616a8beb3670b0e972821a7705f518620f3764b",
+  "runtime/06_reexpanding.png": "e4a2d8303a4ec9ef13a46a6a7e24bc03f2f11708a0e433102792d6c3b19ca8b0",
+  "runtime/03_full_compression.png": "4591e989b6a537b6bd817eac574b3411c47273c589c7b692d36f7d3773316bec",
+  "runtime/05_lever_releasing.png": "98afd9ddef6d0034948634868ab9fc22a6b5c40c073590e1760c39a295f58374",
+  "runtime/02_half_compressed.png": "499c49ea871c5f55c71ebf4daf6424d789dfa440491b10d43d92dce2c94212d9",
+  "runtime/01_lever_descending.png": "badea7fa994286231537901ff39507a677fdbcd68220c01b92d32f1b325f1b6e",
+  "runtime/00_cold_ready.png": "fd40392a463b4c79eaf87f916501e32c41179b3e07d4c3ac44319f36bdea9fcb",
+  "runtime/07_banked_ready.png": "2a218f73275815d731a9d0f0d2f0322142e25331269ae33760528a8eda20fe0e",
+  "runtime/04_coals_ignited.png": "392243f04c6f7f4c3f148e43098c9e8cfd2e84e9a4857882d42c7c76ad8489f2",
+  "states/end.png": "a775b3410785ef4f606cc1739d5407b82732d9f31c0b715a197bfd4c7e05a481",
+  "states/start.png": "81ee1b4e39d2dc45e604c9a6ee62f5180da0176151c5978e5ba0cf09eabf6033"
+}

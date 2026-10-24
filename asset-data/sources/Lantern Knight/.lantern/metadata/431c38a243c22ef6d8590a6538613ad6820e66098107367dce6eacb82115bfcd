@@ -1,0 +1,21 @@
+{
+  "id": "wood_splinter_burst",
+  "family": "wood_splinter_burst",
+  "source_fps": 30,
+  "preview_fps": 60,
+  "frame_count": 42,
+  "duration_seconds": 1.4,
+  "loop": false,
+  "canvas": [
+    640,
+    560
+  ],
+  "pivot": [
+    320,
+    386
+  ],
+  "alpha": "straight",
+  "camera": "fixed orthographic ground registration; illustrative contours",
+  "world_density_px_per_metre": 112,
+  "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance"
+}

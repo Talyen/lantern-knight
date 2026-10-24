@@ -1,0 +1,124 @@
+{
+  "scene_number": 11,
+  "scene": "Graveyard / structured_graveyard_full_upscaled4x",
+  "prop": "a tied canvas sack",
+  "source_master_url": "https://drive.google.com/file/d/17zbPUVN2NyeUv60mvs15jYPPj1Gl9qsn/view?usp=drivesdk",
+  "animation": {
+    "name": "open",
+    "loop": false,
+    "frame_durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "hold_final": true,
+    "final_state": "open_empty",
+    "trigger": "interaction"
+  },
+  "frame_count": 6,
+  "runtime_frame_size": [
+    55,
+    49
+  ],
+  "runtime_anchor_bottom_contact": [
+    23,
+    48
+  ],
+  "native_frame_size": [
+    416,
+    371
+  ],
+  "native_anchor_bottom_contact": [
+    173,
+    359
+  ],
+  "runtime_scale_from_native": 0.132890365448505,
+  "source_cells": [
+    512,
+    512
+  ],
+  "source_bounds": [
+    [
+      116,
+      119,
+      417,
+      450
+    ],
+    [
+      109,
+      121,
+      408,
+      450
+    ],
+    [
+      92,
+      127,
+      390,
+      452
+    ],
+    [
+      116,
+      90,
+      419,
+      437
+    ],
+    [
+      105,
+      112,
+      407,
+      438
+    ],
+    [
+      57,
+      124,
+      449,
+      438
+    ]
+  ],
+  "source_contact_anchors": [
+    [
+      238,
+      450
+    ],
+    [
+      228,
+      450
+    ],
+    [
+      210,
+      452
+    ],
+    [
+      238,
+      437
+    ],
+    [
+      224,
+      438
+    ],
+    [
+      218,
+      438
+    ]
+  ],
+  "preview_scene_size": [
+    1200,
+    800
+  ],
+  "preview_anchor": [
+    610,
+    370
+  ],
+  "native_note": "Imagegen-produced cels, translated to shared ground contact; no AI upscaling. Runtime is a mechanical downsample.",
+  "qa": {
+    "alpha": true,
+    "frame_clipping": false,
+    "fixed_ground_contact": true,
+    "distinct_hand_drawn_cels": true,
+    "empty_interior": true,
+    "scene_fit": "Reviewed at gameplay distance on original master; all previews are mechanical composites."
+  }
+}

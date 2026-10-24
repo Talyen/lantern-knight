@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "central_processional_court",
+      "display_crop_box": [
+        1125,
+        450,
+        2661,
+        1474
+      ],
+      "source_crop_box": [
+        450.0,
+        180.0,
+        1064.4,
+        589.6
+      ],
+      "display_hero_foot": [
+        2010,
+        918
+      ],
+      "source_hero_foot": [
+        804.0,
+        367.2
+      ]
+    },
+    {
+      "name": "lower_mausoleum_court",
+      "display_crop_box": [
+        2225,
+        1475,
+        3761,
+        2499
+      ],
+      "source_crop_box": [
+        890.0,
+        590.0,
+        1504.4,
+        999.6
+      ],
+      "display_hero_foot": [
+        2950,
+        1998
+      ],
+      "source_hero_foot": [
+        1180.0,
+        799.2
+      ]
+    },
+    {
+      "name": "upper_burial_terrace",
+      "display_crop_box": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "source_crop_box": [
+        0.0,
+        0.0,
+        614.4,
+        409.6
+      ],
+      "display_hero_foot": [
+        798,
+        338
+      ],
+      "source_hero_foot": [
+        319.2,
+        135.2
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

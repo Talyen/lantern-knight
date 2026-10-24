@@ -1,0 +1,22 @@
+{
+  "all_original_media_byte_identical": true,
+  "count": 16,
+  "sha256": {
+    "previews/drift_veil_breath_native_60hz.mp4": "a071d56f129fbb849cc5abedf1bbc75ddde72a40c5bd92ddf6d9ba39eb200f9f",
+    "previews/resonant_spell_native_60hz.mp4": "63221c073f5cc658bf5ff4a34da923f7d63738afe225753d645a985da66ebe4d",
+    "atlases/drift_veil_breath_atlas.png": "b5dc22029a3739ca1fa5104a939a99234ab30ac1138ea6f9f1ebef9fde7f7f2a",
+    "atlases/resonant_spell_atlas.png": "75ac4d6869f9ddadaf1cdaa5e61cbdb15f3fbedf1eba7ec60238e607bb20d9d1",
+    "frames/drift_veil_breath/drift_veil_breath_02.png": "8fd0de3edea1ac8175422174cd46c66119a46e3258eb28ef6b2cd9133215a463",
+    "frames/drift_veil_breath/drift_veil_breath_01.png": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699",
+    "frames/drift_veil_breath/drift_veil_breath_03.png": "219f014768ae6c6acb49573158d87710fd5092974aa07ed2faf6ff152b9dc3ff",
+    "frames/drift_veil_breath/drift_veil_breath_04.png": "94c7bc5d5317236796c85c93e7661bfeae5008aad4e466c50d978bc994919a12",
+    "frames/drift_veil_breath/drift_veil_breath_06.png": "ea879b3183c4b18f13f0c628869dc4e61f33a35830ae9f4de74ddbd62c8d43d5",
+    "frames/drift_veil_breath/drift_veil_breath_05.png": "cc85486568193ca2c7897c5dd589401000a04a15e0948f720a7bb06a9b470dd6",
+    "frames/resonant_spell/resonant_spell_04.png": "7d8d36884e17027c4831795d52787fb9d73f1b3caebac6a9713b464e2b683541",
+    "frames/resonant_spell/resonant_spell_01.png": "46ba91c8b9a7196833b7fe53040e9c59e4bb543ff2e4901aac96b205f43e7a2a",
+    "frames/resonant_spell/resonant_spell_05.png": "c1224ac08ea13f52c09736b010d1adfd6fce5c81d6e6900afb40f4016f9be8e5",
+    "frames/resonant_spell/resonant_spell_06.png": "cec2bddff40975040ecb0a8c92e9c316f91eb5728bd7fc5ad32e2a08e7f54bc9",
+    "frames/resonant_spell/resonant_spell_02.png": "747849b90a0731966cc992c5f40bd851112dbe91abe20a1b224a7418eab12802",
+    "frames/resonant_spell/resonant_spell_03.png": "e63731eb617789c7724ce53ce85dc905043934dc4f1b0413d2db1bf7baf1b1af"
+  }
+}

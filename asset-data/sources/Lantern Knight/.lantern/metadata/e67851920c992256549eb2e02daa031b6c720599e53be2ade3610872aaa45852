@@ -1,0 +1,1 @@
+Stone Saint DL and UR extension: four clips. Install alongside existing DR and UL; preserve baseline. Canvas1024x1024, pivot[512,732] equals baseline640/[320,540] plus192px padding. PPU220 unchanged. No upscale. Registration baked into pixels; do not apply twice. Gameplay damage separately configured. No engine integration test.

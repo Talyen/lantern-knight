@@ -1,0 +1,53 @@
+# WICKWAKE · Concept C
+
+A clean, cut-paper vector lantern for a dark-fantasy loading screen. An asymmetric ribbon passes behind the cage and over the flame, then settles into a small heraldic burst. Every contour is drawn geometry. There are no generated bitmap assets, texture layers, grain, noise, text, logos, stock art, or fonts.
+
+## Delivery
+
+- `Lantern_C_Wickwake_Preview.mp4`: 8 seconds, 1920×1080, 60 fps, H.264, silent.
+- `Lantern_C_Wickwake_Intro.mp4`: 2 seconds / 120 frames.
+- `Lantern_C_Wickwake_Hold_Loop.mp4`: 4 seconds / 240 frames; designed for seamless repetition.
+- `Lantern_C_Wickwake_Complete.mp4`: 2 seconds / 120 frames; resolves to a held emblem.
+- `lantern_hold.svg`, `lantern_complete.svg`: editable, resolution-independent vector poses. All geometry remains paths; no embedded raster imagery.
+- `poster.png`: full-resolution reference pose.
+- `render.py`: the complete editable motion/art source, including palette, shapes, timing, easing, layer order and export.
+- `verify.py`, `validation.json`: metadata, timing and source-loop validation.
+
+## Timing
+
+| Time | Choreography |
+| --- | --- |
+| 0–2 s | A small spark calls in opposing sweeps. Forged pieces arrive with staggered overshoot and assemble around the unfolding flame. |
+| 2–6 s | The flame breathes while three tapered strokes travel on one asymmetric four-second route. The brightest stroke crosses the cage in the foreground. |
+| 6–8 s | Circulation decelerates, the strokes recede, and crisp gold rays spread into a final emblem. The final pose holds from 7.7 s. |
+
+The loop is sampled at times 2 + n/60 for n = 0…239. Its mathematical next frame is exactly the first frame. The last stored frame is one normal 1/60-second step before that first frame, so the clip has no duplicated endpoint. Intro, hold and completion are designed to play consecutively; the middle clip may be repeated as needed. The supplied completion clip starts at phase zero, so switch to it only at the next full 4-second hold boundary. That can add up to 4 seconds after an external loading task finishes. For an immediate exit from any phase, generate a phase-matched completion from the editable motion source. H.264 delivery is lossy; source pixels are deterministic.
+
+## Rebuild
+
+Requires Python 3, pycairo and FFmpeg. No downloaded art or network access is used by the renderer. This pack was rendered with Python 3.13 / pycairo 1.27 and FFmpeg 7.1.
+
+On a system with those dependencies installed:
+
+```sh
+python3 render.py
+python3 verify.py
+```
+
+The render script writes the 8-second preview, the three phase clips, static SVGs and poster into its own directory. `python3 render.py --proof` makes a smaller 960×540 proof at the same real 60 fps. `python3 render.py --still 3.25` exports an arbitrary full-resolution pose to `still.png`.
+
+## Edit the design
+
+- Palette constants at the top of `render.py`: near-black, old gold, ivory, crimson and two gold shadow planes.
+- `handle`, `crown`, `rear`, `side`, `base`: the lantern's vector pieces.
+- `flame`: two flowing flame shapes plus a crimson lower curl.
+- `ROUTE` and `ribbon`: five cubic Bezier segments and variable-width, pointed flow ribbons.
+- `piece`: staggered arrival with overshoot and independent rotations.
+- `draw`: composition, phase timing, layer order, ember placements and completion rays.
+- Global canvas size: `W`, `H`. Composition is centred at (960,565) with a 1.10 uniform art scale.
+
+The SVGs include a near-black canvas and matching negative-space cutouts. For a different background, change `BG` and rebuild so the cutouts remain coordinated. They are intended for direct path editing in a vector editor; motion lives in `render.py`.
+
+## Scope
+
+This is an art/motion concept package. No Unity integration, runtime script, engine performance benchmark or Unity testing is included. No licensing of third-party art is required by this package; all illustrated geometry is original to this concept.

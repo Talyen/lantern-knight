@@ -1,0 +1,1677 @@
+{
+  "category": "Charms",
+  "items": [
+    {
+      "id": "iron_vow_torque",
+      "label": "Iron Vow Torque",
+      "category": "charms",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "cd86da181f7014934d9b2b748a862636cf55608a18ced1c4b0ab476033dde80a",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            244,
+            274,
+            267
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.027586206896551724,
+          "sha256": "3251e7045207498bd8729b3d5c3dc924f495bcb9657c6c843132939e4f4d777d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            118,
+            121,
+            138,
+            136
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.013793103448275862,
+          "sha256": "c291d5965424009dbf6c49f6ec9f652ab384d226401fa540197bf5b3312ba15c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            111,
+            480,
+            400
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3432950191570881,
+          "sha256": "5bc477e50b2f22b0d4820c8064bafaf0b9741c5013551a8455c173168815f88c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            28,
+            120,
+            100
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08582375478927202,
+          "sha256": "55ea1885f3e62f09fedb78cc0afce6ba1507799561bd0b5de59407af8f53b877",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            50
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04291187739463601,
+          "sha256": "5d600bb310a84f9567e9407bf6fcf474df9e4172085df9a3385c0d4342b27396",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            25
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.021455938697318006,
+          "sha256": "9737b79af6e841566797ac99bcb1e1e7c2828600bc750c44eb87e668c6ea4c05",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            243,
+            431,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "source_resampling_factor": 0.020689655172413793,
+          "sha256": "7fbbeb67adcade03b7b289b32bf4171c4c635769bfd43805b06ec9a45654e067",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported."
+        },
+        "ground_scaled_512": {
+          "path": "charms/iron_vow_torque/iron_vow_torque__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            243,
+            431,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "source_resampling_factor": 0.020689655172413793,
+          "sha256": "7fbbeb67adcade03b7b289b32bf4171c4c635769bfd43805b06ec9a45654e067",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "funeral_bead_loop",
+      "label": "Funeral Bead Loop",
+      "category": "charms",
+      "reference_extent_cm": 24,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "e9cbdc8d6403b8dcade83b01ce4eb4fe62eca0d57073dfb255e1075d8321ef2c",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            232,
+            234,
+            280,
+            277
+          ],
+          "visible_extent": 48,
+          "source_resampling_factor": 0.03864734299516908,
+          "sha256": "526a2389b99b4838c7e1b0351c448c6238c3ddf103e0f701da972d8d64b389ca",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            116,
+            116,
+            141,
+            139
+          ],
+          "visible_extent": 25,
+          "source_resampling_factor": 0.01932367149758454,
+          "sha256": "7c9defb11e78d1abb26f0a9e940012b24f7378aa3e3a369da577c87c07e3a1e6",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            54,
+            480,
+            457
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3607085346215781,
+          "sha256": "39bd8052d0739073b1a50a9e1a9f123e916073b713fd8dca4b1433c8b885e839",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            13,
+            120,
+            114
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09017713365539452,
+          "sha256": "d528012f695d1ec519f278a2d73301fd25a54e6132a4734952f3ac9280c163f2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04508856682769726,
+          "sha256": "6e1606acc5de3c84c684627793ac88ffd5393516432f0364f484e57cb617ebb6",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02254428341384863,
+          "sha256": "953613b57ffdd9187d70a04faab50796281d3a7b1152c800129728394ca0d684",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            416,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.028985507246376812,
+          "sha256": "baf7198c5f8aed367ba70463d0cd0644ded8756344cf7ec3a68f8859d2c1b08a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported."
+        },
+        "ground_scaled_512": {
+          "path": "charms/funeral_bead_loop/funeral_bead_loop__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            238,
+            416,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.028985507246376812,
+          "sha256": "baf7198c5f8aed367ba70463d0cd0644ded8756344cf7ec3a68f8859d2c1b08a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 36,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "widows_ear_cuff",
+      "label": "Widow's Ear Cuff",
+      "category": "charms",
+      "reference_extent_cm": 5,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "0d91de840a9db61e21ab9000bca80a3ba918f0c7e613d6becc51b5dc5fe1fe97",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            252,
+            248,
+            259,
+            264
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.010818120351588911,
+          "sha256": "bd379f6491bdde1b7dfbdaa1a7ae68cd5cdbadecab70c4dea09e21761f9c3d25",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            125,
+            123,
+            130,
+            132
+          ],
+          "visible_extent": 9,
+          "source_resampling_factor": 0.005409060175794456,
+          "sha256": "1ace9147e2f3e9f74c2969f7aae4476c0e9461c7714898729f84246bd34b56b0",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            162,
+            32,
+            349,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3029073698444895,
+          "sha256": "455db660a3f9512417f9ac8d5e9be2c082a5bd1a96d6c5741745a614475667fd",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            40,
+            8,
+            87,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.07572684246112238,
+          "sha256": "18608ad6813125d71732c97271b3208e50fde5997901f8c5fbfb4b56fc5626db",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            20,
+            4,
+            43,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.03786342123056119,
+          "sha256": "35ad91689f1f144f5c98bb39780bf3da4edf7c9f223a9f0defe6d681c195d3c2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            10,
+            2,
+            22,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.018931710615280595,
+          "sha256": "75446ac7f595485f05b71a0490d9ad2950bbe4fd4acf2bcd89e1b8b691b8e1e5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            253,
+            432,
+            260,
+            448
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.010818120351588911,
+          "sha256": "83e0d073f23a187d05123af738d7c913f8ba142ddc75543ad2898e6f9d51e65f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported."
+        },
+        "ground_scaled_512": {
+          "path": "charms/widows_ear_cuff/widows_ear_cuff__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            254,
+            436,
+            259,
+            448
+          ],
+          "visible_extent": 12,
+          "source_resampling_factor": 0.008113590263691683,
+          "sha256": "e2538ebdc2c8f9098831db356950b22170b58711630f8ebb203fcb988d9f9f25",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "shroudkeeper_hairpin",
+      "label": "Shroudkeeper Hairpin",
+      "category": "charms",
+      "reference_extent_cm": 17,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "5f7aec187c0748eadc71176d788d9dbe1196395cac642e435a593a9026f87830",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            239,
+            266,
+            273
+          ],
+          "visible_extent": 34,
+          "source_resampling_factor": 0.0225613802256138,
+          "sha256": "25d1b4496fbe27b7826d39f656f2b72d6329eb95789e19b5698838c60d396cce",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            122,
+            118,
+            134,
+            137
+          ],
+          "visible_extent": 19,
+          "source_resampling_factor": 0.0112806901128069,
+          "sha256": "19d467d7e73786438d00543822057aaa5e01b07a47219e5ff92cf7265a0725a7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            126,
+            32,
+            386,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.2972793629727936,
+          "sha256": "33d93a72a27dd8043f645796418b865669e4d25d6ac2f77cc00a4693d0671ddb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            31,
+            8,
+            96,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0743198407431984,
+          "sha256": "aed16e2b45349dbf1cd69d95a8081f799b483311a5cc259b0680fc6dd9aaf1e2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            15,
+            4,
+            48,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.0371599203715992,
+          "sha256": "d3dadbc23dcebe63e595e6c2db359898f1d27fa21ef5fd69915640749c4fb323",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            8,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.0185799601857996,
+          "sha256": "be0a3b40fbe26446fa7b0ce11ac5cc7094dcd5723a43881d0417f64bf2ec94f6",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            249,
+            422,
+            264,
+            448
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.017252820172528202,
+          "sha256": "2b3afe72d0f7c69b4ab62635335adc17210417e4eaeb45d640d469020966f115",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported."
+        },
+        "ground_scaled_512": {
+          "path": "charms/shroudkeeper_hairpin/shroudkeeper_hairpin__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            249,
+            422,
+            264,
+            448
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.017252820172528202,
+          "sha256": "2b3afe72d0f7c69b4ab62635335adc17210417e4eaeb45d640d469020966f115",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 26,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "pallbearers_wrist_bangle",
+      "label": "Pallbearer's Wrist Bangle",
+      "category": "charms",
+      "reference_extent_cm": 8,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "ae37f384da268fb0b04b77a70be498d79799669b2919691a4ef82c52e01146df",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            264,
+            263
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.013071895424836602,
+          "sha256": "d21a8735272d86a37bc970104f298c56edb8118e6914bdc9d0a3a7acd2bd9a1a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            134
+          ],
+          "visible_extent": 11,
+          "source_resampling_factor": 0.006535947712418301,
+          "sha256": "aafa44eab032e7427192b968131e8c9c7527460c5e5fd3b8979cec44e10f4b9f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            45,
+            480,
+            467
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3660130718954248,
+          "sha256": "f622b618f542df4bd27a3d1f6ae05875522266ef0d08472d0007c9542a77cdae",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            11,
+            120,
+            117
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0915032679738562,
+          "sha256": "fe447e8a1fa21ec1635526a0ec3c15e8f80d0faab698b9897ab915ab00d81859",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            58
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.0457516339869281,
+          "sha256": "c60a8bd25da5b680ac5b484b4062be16019932c2ae30bb0b2d7d09f1aff93d4a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02287581699346405,
+          "sha256": "c081735c33d86f0f3604d985d214caa0f893116507659ace91dbe56ffde43d7c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            433,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.013071895424836602,
+          "sha256": "0f1fd125ed47e42414798bfbffbf0de8d2a5987a727b46fed352c8c600708a7c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported. Targeted built-in image_gen surface revision; selected clean-ink v2."
+        },
+        "ground_scaled_512": {
+          "path": "charms/pallbearers_wrist_bangle/pallbearers_wrist_bangle__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            250,
+            437,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "source_resampling_factor": 0.00980392156862745,
+          "sha256": "4145518be9b1e633860426d19c39e20e63f29d89a0a2061b63de274c8dddcdd0",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "hearth_knot_charm",
+      "label": "Hearth-Knot Charm",
+      "category": "charms",
+      "reference_extent_cm": 10,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__full_native.png",
+          "dimensions": [
+            1145,
+            1374
+          ],
+          "sha256": "1a42a692b71bf9b641ba03c4fdc5c0467dc60b515732608e5eb5568ac20434d1",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            246,
+            263,
+            266
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.015026296018031555,
+          "sha256": "13d88a445d44226d18a8ebd63fa5b1f48c555fdc4f56dafe985cf825f91f8b94",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            123,
+            123,
+            132,
+            133
+          ],
+          "visible_extent": 10,
+          "source_resampling_factor": 0.007513148009015778,
+          "sha256": "5826345c377a626b8a1712f06905a7a3dc629ade8cb412b544ea7beedd957c88",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            83,
+            32,
+            429,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.33658903080390684,
+          "sha256": "2dde6d48b80b15d1c795923fbd820000aea3be56d9dfe60124f5627562b2ea11",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            20,
+            8,
+            107,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08414725770097671,
+          "sha256": "b90fb1bb647f959b77c2d8616f93f84dc2013faedd005ff2e77b57bd0bd8769b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            53,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.042073628850488355,
+          "sha256": "c7666bb5948b2ff627606feb89768eff7208b9a1307b2f39600e423e51797cf3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            5,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.021036814425244178,
+          "sha256": "6eb8586337890438fbd6284122eb85f32e41b28b24732c561fb49c615e09ff81",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            250,
+            432,
+            262,
+            448
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.012021036814425245,
+          "sha256": "b1ede1be151cd0ab9ff3dc44664386099e1f576aeccc0993269339c1b43d38d4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported."
+        },
+        "ground_scaled_512": {
+          "path": "charms/hearth_knot_charm/hearth_knot_charm__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            250,
+            433,
+            262,
+            448
+          ],
+          "visible_extent": 15,
+          "source_resampling_factor": 0.011269722013523666,
+          "sha256": "c166bb52903d047b1e4d35cafeb4135b506dd05857cb508d0d84a7ce9f1f6753",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 15,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "waxen_votive_hand",
+      "label": "Waxen Votive Hand",
+      "category": "charms",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "2ee9cff34abcc94f8c5f628136b9905636e03bd36c60df07f48e5fa478f9872a",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            250,
+            244,
+            261,
+            268
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.0163265306122449,
+          "sha256": "ca37336ce7e5940096a88ceade9beacc25eb86695186fe31c718b3511d87d4c1",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            124,
+            122,
+            133,
+            135
+          ],
+          "visible_extent": 13,
+          "source_resampling_factor": 0.00816326530612245,
+          "sha256": "631ffe1fb5d46fea3f453e7a2170817fa4ec66690feeb023a10df128ab8ac4a9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            153,
+            32,
+            358,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3047619047619048,
+          "sha256": "030ccb68592becb00014425889034aced873555785968e2b675cc2b0d0ff5835",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            38,
+            8,
+            89,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0761904761904762,
+          "sha256": "baa6477a11bba992d348979129bc566a92e24aded9e56845642ae5ce7302d376",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            19,
+            4,
+            45,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.0380952380952381,
+          "sha256": "5fc52df03e6d469394ade1397d518cdd28f4761051b0d0344ba64c570d974072",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            9,
+            2,
+            22,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.01904761904761905,
+          "sha256": "f8da5ccc65b37ce7030a8e3a0161e3c67d4cf67a9be172783d04cb38cf03830c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            252,
+            430,
+            260,
+            448
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.012244897959183673,
+          "sha256": "1d587a3d3524355a5d639df6b458d745c27d3fb644f390b471e7b01941a2f276",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported."
+        },
+        "ground_scaled_512": {
+          "path": "charms/waxen_votive_hand/waxen_votive_hand__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            252,
+            430,
+            260,
+            448
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.012244897959183673,
+          "sha256": "1d587a3d3524355a5d639df6b458d745c27d3fb644f390b471e7b01941a2f276",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "threshold_horseshoe",
+      "label": "Threshold Horseshoe",
+      "category": "charms",
+      "reference_extent_cm": 13,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "b207e84df7b12a40ba65c0b508cb5ae1e3f1606b40d357a41883b76404e55588",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            243,
+            243,
+            269,
+            268
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.022988505747126436,
+          "sha256": "139064161842c0a82f332ba26909916a66baac0df89b25405f9b4e037de97b65",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            119,
+            137,
+            135
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.011494252873563218,
+          "sha256": "0e468b86abbf7e149a22cff560288e7529da11783682b15eb7278b790c4565cb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            41,
+            480,
+            471
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.39610963748894784,
+          "sha256": "b30d0470ec85d2931a2dc5f58362c4004964c94304d36f61fec43d3c2427a1ee",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            117
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09902740937223696,
+          "sha256": "b2505f97bfb08f7bbd790b6d3688ea04e6e90d2e03640596ebfbcef25d4e71a8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04951370468611848,
+          "sha256": "5dd21b6bbf96b55ba5b1e9e32422544da75c4133ad45447afb5d0f4309c72434",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02475685234305924,
+          "sha256": "f1c958730128dace543a52032c759cbfdbe0a3dce5be414606b41b88a865acef",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            429,
+            266,
+            448
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.01768346595932803,
+          "sha256": "65c0e9e3c6fe963ad9de4f59813bf03c7fbe34789067fbe2ee3e90a98b5c5993",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original design, built-in image_gen; category inspiration only; generated 2026-10-16; actual model not reported. Targeted built-in image_gen surface revision; selected clean-ink v2."
+        },
+        "ground_scaled_512": {
+          "path": "charms/threshold_horseshoe/threshold_horseshoe__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            429,
+            266,
+            448
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.01768346595932803,
+          "sha256": "65c0e9e3c6fe963ad9de4f59813bf03c7fbe34789067fbe2ee3e90a98b5c5993",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 20,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    }
+  ]
+}

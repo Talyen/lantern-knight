@@ -1,0 +1,58 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_whole_map_crop_overview.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/review_views/whole_map_crop_overview.png",
+    "name": "keepers_glade_A_whole_map_crop_overview.png",
+    "size": 2770061,
+    "sha256": "443719575d85c2ccd682548d7667bcc14d911ed33f0bd6022364d64c87f2246f",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_cottage_and_hearth_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/review_views/cottage_and_hearth_hero_context.png",
+    "name": "keepers_glade_A_cottage_and_hearth_hero_context.png",
+    "size": 2389059,
+    "sha256": "bd5f35e99fe4b14f47a0f26862ceff42250ee2552bc58bd403add48c603eb5c2",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_raised_western_terrace_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/review_views/raised_western_terrace_hero_context.png",
+    "name": "keepers_glade_A_raised_western_terrace_hero_context.png",
+    "size": 2309778,
+    "sha256": "5d6ca757128901e48c9d6f44326bca7caaff230aadc8294ecd15eb7421d4d89c",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_eastern_expansion_clearing_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/review_views/eastern_expansion_clearing_hero_context.png",
+    "name": "keepers_glade_A_eastern_expansion_clearing_hero_context.png",
+    "size": 2048089,
+    "sha256": "22e391e683dab6760e87ac472a21ed370b41a68069f268a2f5ee6e807eff09f0",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_native_floor.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/native_floor.png",
+    "name": "keepers_glade_A_native_floor.png",
+    "size": 3365371,
+    "sha256": "f45b42fca9479ef6bf23e8ed2f0ada14f9a32f26bcfb18390567540211d94805",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_full_upscaled4x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/ai_upscale/full_upscaled4x.png",
+    "name": "keepers_glade_A_full_upscaled4x.png",
+    "size": 30708952,
+    "sha256": "39d05ba5dde78c1424ab1403571ea6ae04e95c9c7131bd3f1b02ba9e28b854f0",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/keepers_glade_A_full_upscaled2x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/keepers_glade_A/ai_upscale/full_upscaled2x.png",
+    "name": "keepers_glade_A_full_upscaled2x.png",
+    "size": 8997831,
+    "sha256": "0c6ad4732b0141065e0d12a070065fac4003ac2a3596d9314f6e5530681d596a",
+    "library_artifact_type": "image"
+  }
+]

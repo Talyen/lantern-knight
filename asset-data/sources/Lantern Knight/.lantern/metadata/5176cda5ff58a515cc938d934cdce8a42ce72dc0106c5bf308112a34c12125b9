@@ -1,0 +1,442 @@
+{
+  "pack": "ritual_study_04",
+  "revision": "02",
+  "count": 8,
+  "decision": "substantial selective rebuild",
+  "camera": {
+    "elevation_requested_deg": 35.264389682754654,
+    "azimuth_requested_deg": 45,
+    "exact_calibration_verified": false
+  },
+  "assets": [
+    {
+      "id": "lantern_ritual_prop_01_inkwell_quill",
+      "display_name": "Inkwell and quill",
+      "image": "assets/01_inkwell_quill.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/01_inkwell_quill.png",
+      "old_sha256": "2aaef236a04dd6bbbc654375c8ce8d78e12a678a82c5b93f3ac82e50e8955b80",
+      "sha256": "cd9e0ab082caacd25531c4ccf6254e517ff6a38116fa38b5f94668b1337a2ee7",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          19,
+          45,
+          1232,
+          1214
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          322,
+          47,
+          1109,
+          1190
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-25daaa2c-7a46-407c-8007-d6f114d44ecd.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: Squat iron inkwell with a thick uneven ivory ceramic mouth and one gray feather quill. The quill is inserted in the black opening; broad feather shape with four expressive notches. Worn iron silhouette and bold ink recess, no bevelled cage. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/01_inkwell_quill.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_ritual_prop_02_rolled_star_chart",
+      "display_name": "Part-open star chart",
+      "image": "assets/02_rolled_star_chart.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/02_rolled_star_chart.png",
+      "old_sha256": "4cc7f9ba89822d4429a1a8c80bfa9695d87674f1eff2cd1aa8fa03907645ec29",
+      "sha256": "810bd6f639bbe373079f1bd66d5e2c0a244f900daae7f4171f1c28cb3c92cdf8",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "alpha": {
+        "range": [
+          0,
+          254
+        ],
+        "bbox_xyxy": [
+          0,
+          37,
+          1483,
+          946
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          13
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          139,
+          56,
+          1391,
+          943
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-b3ab3017-f497-4584-b23b-0042a207aad9.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: Partly unrolled parchment star chart with curling uneven ends, a loose faded indigo ribbon around one roll. A bold sparse crescent-and-constellation diagram, five star marks joined with a few imperfect lines; no text. Dark curl shadows and bent paper edges. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/02_rolled_star_chart.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_ritual_prop_03_sealed_letters",
+      "display_name": "Sealed letter bundle",
+      "image": "assets/03_sealed_letters.png",
+      "revision_status": "retained_original_byte_identical",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/03_sealed_letters.png",
+      "old_sha256": "cb3e236900f8a853fe563caddde6772bd64373e7a3817f8108654f03f0010f80",
+      "sha256": "cb3e236900f8a853fe563caddde6772bd64373e7a3817f8108654f03f0010f80",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          86,
+          52,
+          1214,
+          1214
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          89,
+          170,
+          1177,
+          1094
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_text_only_generation",
+        "transparent_background": true,
+        "input_images": [],
+        "source_filename": "exec-593d15b7-5cdf-4866-af7e-778b2772a4ab.png",
+        "prompt_file": "prompts/03_sealed_letters.txt",
+        "prompt_sha256": "a65e2fdc9f9ca00ecbc97831c834e8b851b6ec69f0865bb078084f588cb43e9e",
+        "exact_prompt": "Use case: stylized-concept. Create one fresh original SMALL WORLD PROP cutout for Lantern, a fixed-camera gothic dark fantasy action RPG. Single complete coherent object or intentional compact assembly, sitting on an invisible horizontal ground/table plane. Elevated orthographic-looking three-quarter camera approximately 35.264 degrees elevation, 45 degrees azimuth; clearly reveal useful overhead-facing surfaces. All parts complete in central 65-70 percent of a square canvas, wide empty transparent gutters. Genuine transparent alpha exterior, opaque object art except deliberate visible holes. No scene, floor, shadow, person, hand, UI framing, labels, readable text, logos, magical glow, haze or vignette. Clean Ink: confident dark silhouette line, few purposeful structural lines, smooth broad flat color regions with two or three LARGE hard-edged shadow planes per material. No texture grain, hatching, distressed surfaces, cracks carpet, small ornamental filigree, noisy patterns, photo textures, gradients, painterly wash or rendered 3D gloss. Materials described through shape and broad highlights only. Strong silhouette readable at 96px. Upper-left illumination. Original noncanonical concept, approximate camera and ground contact, not a registered runtime sprite. Fresh text-only generation, never editing or referencing a previous generated image. Subject: one thick compact bundle of THREE folded cream paper letters tied together with a wide muted burgundy ribbon, ONE large plain circular red wax seal fastening the ribbon on top. Paper envelopes are blank with simple triangular flap folds and no text, address, emblem or script. Slightly staggered edges show the thickness, viewed overhead with top and two narrow side faces. Clean quiet paper planes, one complete bundle, no pen, feather or separate loose letters."
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": true
+    },
+    {
+      "id": "lantern_ritual_prop_04_divination_bowl",
+      "display_name": "Divination bowl",
+      "image": "assets/04_divination_bowl.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/04_divination_bowl.png",
+      "old_sha256": "083210eeb04cf12e042f54abb729902d0a3fc16ce3c318320d5485d743570631",
+      "sha256": "ad5b7c967ae4e95c65484a4ca89fc47e027d665102d50f9339f3e64487fac73d",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          103,
+          1200,
+          1150
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          16
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          122,
+          253,
+          1131,
+          988
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-500bc3d9-27a1-45f2-8f9e-a04ae7f47bc6.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A shallow blackened stone divination bowl on a squat foot ring, subtly irregular thick ivory rim with one worn notch. Still dark indigo water with a single pale curved reflection and deep black crescent under the rim. Hand-shaped silhouette, no polished perfect torus. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/04_divination_bowl.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_ritual_prop_05_sheathed_ritual_knife",
+      "display_name": "Sheathed ritual knife",
+      "image": "assets/05_sheathed_ritual_knife.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/05_sheathed_ritual_knife.png",
+      "old_sha256": "52d0a20f800ddb7938bae1eff752b639accd14dad0e6819ec2d0c07c7c164254",
+      "sha256": "9f4db2b373565e6fe3d428dac37c78dbd89295273971bae23ec4e73d51503faf",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          208,
+          52,
+          1199,
+          1230
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          212,
+          98,
+          1099,
+          1153
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": null,
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A sheathed ritual knife with long curved muted plum leather sheath, irregular stitched seam, worn ivory handle and simple dark iron guard; blunt iron sheath tip. Flat leather folds and heavy overlaps, functional fully enclosed blade. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/05_sheathed_ritual_knife.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_ritual_prop_06_wax_seal_kit",
+      "display_name": "Wax seal kit",
+      "image": "assets/06_wax_seal_kit.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/06_wax_seal_kit.png",
+      "old_sha256": "7981515bc743227b20b80870a97766b6de1e987c25b8bcd0380d9f8399cb279d",
+      "sha256": "d4d107816cec200f173867c1c27560a6ace104bc74b712a76a858858e294749f",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          210,
+          53,
+          1192,
+          1214
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          308,
+          162,
+          1054,
+          1029
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-87dded5c-92ec-4590-9da7-307ade6db2ed.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A compact wax-seal kit. One stout irregular turned-wood stamp handle, rounded gently waisted profile with FLAT quiet mahogany fill and a single long black side shadow, NO diamond-cut or gemstone-like facets. A simple dull brass stamping foot fixed underneath, warm brown brass fill with one muted ocher top plane and black side, no gold stripes. Beside it one burgundy wax stick with blunt softened irregular end, and one plain deep red wax seal touching the stick. Restrained strong tabletop shapes. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/06_wax_seal_kit.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_ritual_prop_07_brass_hourglass",
+      "display_name": "Brass hourglass",
+      "image": "assets/07_brass_hourglass.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/07_brass_hourglass.png",
+      "old_sha256": "43b768e5c0f71ce3961c715ef0311bc02744eec992bb84fa7d600991a9db8589",
+      "sha256": "afb612947913fa4db48c3c9f5f3c20644025098aaf373f4d9c34585fc65be3cb",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          21,
+          21,
+          1210,
+          1254
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          25,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          339,
+          66,
+          916,
+          1165
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-fc456a7b-9c55-40ef-b224-bdd94565a3f8.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A sturdy old hourglass: uneven dark wooden round end plates, three plain dull brass pillars securely connecting both plates, two visible at sides. Continuous smoke-gray twin glass bulbs and ivory sand with narrow falling line. Sparse white accents and broad black occlusions, no glass shine ribbons. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/07_brass_hourglass.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_ritual_prop_08_mortar_pestle",
+      "display_name": "Mortar and pestle",
+      "image": "assets/08_mortar_pestle.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_ritual_study_04/assets/08_mortar_pestle.png",
+      "old_sha256": "ba12774a8eed08d405a5902dd68aae5c1fd126ce58d3de5b5bf59a0b6a61f830",
+      "sha256": "274907f70cb9ba2bb60ec40dfe8a48bcd132fbc2a41616c30c19e4c6b18e8a48",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          91,
+          52,
+          1152,
+          1234
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          193,
+          140,
+          1073,
+          1125
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-91edbd9b-199a-4664-aa35-ef45c0b21f24.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A broad squat worn gray stone mortar, slightly asymmetric thick rounded rim, deep black hollow holding one dark wood pestle that leans securely against the far rim. Short broad foot, a chipped rim and two purposeful tool-carving lines, no faceted stone shading. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/08_mortar_pestle.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    }
+  ],
+  "art_review": {
+    "verdict": "PASS as art candidates; runtime integration unverified",
+    "findings": "Seven fresh redraws; sealed letters retained byte-identical. Chart now has a designed sparse crescent diagram, quill and ceramic mouth have stronger contacts, bowl and mortar have irregular rims/deep recesses. Wax kit regenerated again to remove gemstone-like handle facets. Hourglass pillars visibly meet endplates. Sheathed knife is fully enclosed. Good small-scale hierarchy; fine stitching is incidental.",
+    "evidence": [
+      "proofs/overview_light.jpg",
+      "proofs/overview_dark.jpg",
+      "proofs/game_size_light.jpg",
+      "proofs/game_size_dark.jpg",
+      "proofs/before_after.jpg"
+    ],
+    "alpha_caveat": "Some native exports contain alpha=1 edge specks, not opaque clipped artwork. All alpha>=128 silhouettes have positive padding. Masters unchanged; validate import/atlas behavior.",
+    "camera_caveat": "Approximate illustrated view only; no exact camera, scale or pivot compliance claimed."
+  }
+}

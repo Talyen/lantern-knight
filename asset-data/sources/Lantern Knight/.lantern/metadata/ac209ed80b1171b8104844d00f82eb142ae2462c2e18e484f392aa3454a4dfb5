@@ -1,0 +1,18 @@
+Abandoned Orchard | approved full-size delivery
+
+Approved native artwork is retained byte-for-byte. No regeneration, inpainting, cleanup, additions, removals, color grading, sharpening, or art-direction changes.
+
+MASTER: genuine Real-ESRGAN x4plus anime 6B model inference, 1536 x 1024 -> 6144 x 4096 RGB PNG.
+AI2x: 3072 x 2048 Lanczos reduction of the AI4x master (not an independent 2x model run).
+Hero160 full preview: AI4x reduced to 3840 x 2560; original canonical hero composited at 160 px visible height.
+Gameplay crops: 1536 x 1024 portions of that same 3840 x 2560 display-scale scene. Hero context is presentation only and is never baked into the clean master.
+Overview: full map plus marked gameplay-view rectangles.
+Comparison: identical scene crop comparing ordinary Lanczos enlargement against model output at display scale.
+
+Computational tiling uses 160 px native cores, 32 px real context, plus 16 px reflection padding, 2 CPU threads, isolated NCNN workers. No artistic tiling or seam blending. Two overlapping untiled-reference checks are included in metrics.
+
+Exact original generation prompt and actual tool parameters are included. Model/quality/seed details not exposed by the generation tool are not invented. References are preserved with SHA-256 provenance. Native output binding records the actual image-generation result.
+
+No Unity or other engine work. Art contains baked structures, ground, shadows, and height cues; collision and occlusion layers are not supplied.
+
+Runtime/model provenance gives the official download URL and SHA-256 checksums. Install ncnn==1.0.20250916, numpy, and Pillow to replay the scripts; place the official .bin and .param under inference/models. Scripts are included, binary runtime and model weights are not.

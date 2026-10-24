@@ -1,0 +1,42 @@
+{
+  "asset": "woodland B: mossy grove and ruined arch",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-c6a6ff4d-e9a3-4d67-9a0b-8953bfd473ee.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "verified": false
+  },
+  "upscaled": false,
+  "expanded": false,
+  "sha256": "21393dfefca57b5b59736ba234037461193eefe8d7df74570bd20a5bf7b00291",
+  "visual_review": {
+    "status": "usable native viewport sample; pending user selection",
+    "strengths": [
+      "distinctive ruined arch and gnarled root islands",
+      "connected playable winding clearing and separate approach routes",
+      "mature dark olive woodland palette and clean ink silhouettes; no water, people, horizon or text"
+    ],
+    "caveats": [
+      "earth and moss retain small patchwork surface detail, busier than approved graveyard floor",
+      "camera angles and hero scale are prompt targets, not geometrically or in-engine verified",
+      "tall trees, roots and ruined arch are baked into this preview"
+    ]
+  },
+  "candidate_hero_feet": [
+    1060,
+    605
+  ]
+}

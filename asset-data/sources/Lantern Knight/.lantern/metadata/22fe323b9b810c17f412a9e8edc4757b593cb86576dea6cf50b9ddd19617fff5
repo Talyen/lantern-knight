@@ -1,0 +1,32 @@
+{
+  "theme": "cloister",
+  "variant": "B",
+  "title": "Cold moonlit cloister",
+  "generation_method": "built-in image_gen fresh generation using original hero as style reference",
+  "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-7e4ce332-fed7-48c4-99ff-c4ea31a277eb.png",
+  "native_path": "/workspace/shared/lantern_cultist_samples_oct09/cloister/B/native.png",
+  "prompt_path": "/workspace/shared/lantern_cultist_samples_oct09/cloister/B/exact_prompt.txt",
+  "reference_path": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "camera_precision": "Prompt requested; exact numerical projection cannot be certified from generated image.",
+  "hypothetical_hero_height_px": 160,
+  "hero_baked_in": false,
+  "npcs_or_enemies_baked_in": false,
+  "water_present": false,
+  "native_unmodified": true,
+  "upscaled": false,
+  "edits_used": false,
+  "generation_attempts": 1,
+  "selected_attempt": 1,
+  "sha256": "188fe4abf42c88194da175268b2cbb636441d25a83438f8ae0c2b98910802425",
+  "qa_notes": "Visually inspected for clean ink, open courtyard composition, defaced statues, hanging censers, altar, open combat routes and no characters/water."
+}

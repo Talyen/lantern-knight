@@ -1,0 +1,259 @@
+{
+  "asset": "exhausted_idle_DR_v02",
+  "version": "v02",
+  "status": "ART_REVIEW_INTEGRATION_CANDIDATE",
+  "facing": "DR",
+  "heading_world": "+X",
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "verification": "visually conditioned only"
+  },
+  "equipment": {
+    "sword_hand": "right",
+    "lantern_hand": "left",
+    "lantern_support": "Closed left fist grips top handle; lantern hangs below actual hand. No wrist strap.",
+    "mirrored": false
+  },
+  "runtime": {
+    "cell_size": [
+      512,
+      512
+    ],
+    "atlas_size": [
+      1536,
+      1024
+    ],
+    "grid": [
+      3,
+      2
+    ],
+    "atlas": "exhausted_idle_DR_v02_atlas.png",
+    "fps": 60,
+    "frame_count": 6,
+    "unique_drawings": 6,
+    "duration_ticks": 120,
+    "duration_seconds": 2.0,
+    "loop": true,
+    "pivot_px_top_left": [
+      256,
+      462
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.09765625
+    ],
+    "suggested_pixels_per_unit": 292.0,
+    "pixels_per_unit_status": "approximate clip-wide starting value; no resampling baked in",
+    "root_motion_track": null
+  },
+  "state_flow": {
+    "mode": "loop_while_host_requests",
+    "gameplay_effects": [],
+    "exit": "Host transitions to existing ready or other state; no baked restoration action."
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/exhausted_idle_DR_v02_00.png",
+      "label": "exhaled",
+      "hold_ticks_60hz": 18,
+      "atlas_rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "source_rect": [
+        0,
+        0,
+        480,
+        500
+      ],
+      "common_canvas_inset_px": [
+        16,
+        6
+      ],
+      "alpha_bbox": [
+        16,
+        33,
+        496,
+        506
+      ],
+      "sha256": "6fb4b1c9f27aa52902c894908fc8775d5ccad57591a94942523d5aa1e7b1f274"
+    },
+    {
+      "index": 1,
+      "file": "frames/exhausted_idle_DR_v02_01.png",
+      "label": "inhale_start",
+      "hold_ticks_60hz": 18,
+      "atlas_rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "source_rect": [
+        480,
+        0,
+        480,
+        500
+      ],
+      "common_canvas_inset_px": [
+        16,
+        6
+      ],
+      "alpha_bbox": [
+        17,
+        25,
+        496,
+        505
+      ],
+      "sha256": "c70027b5adc106449af9e716ef226a3abaffd59da9fe4a1d646fdcb35e367b9e"
+    },
+    {
+      "index": 2,
+      "file": "frames/exhausted_idle_DR_v02_02.png",
+      "label": "inhale_crest",
+      "hold_ticks_60hz": 22,
+      "atlas_rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "source_rect": [
+        960,
+        0,
+        480,
+        500
+      ],
+      "common_canvas_inset_px": [
+        16,
+        6
+      ],
+      "alpha_bbox": [
+        17,
+        6,
+        496,
+        506
+      ],
+      "sha256": "70ea0881c411ca647868106b0ac40f64b14fd8197641b64b98652f91c6f80953"
+    },
+    {
+      "index": 3,
+      "file": "frames/exhausted_idle_DR_v02_03.png",
+      "label": "release",
+      "hold_ticks_60hz": 18,
+      "atlas_rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "source_rect": [
+        0,
+        500,
+        480,
+        500
+      ],
+      "common_canvas_inset_px": [
+        16,
+        6
+      ],
+      "alpha_bbox": [
+        16,
+        6,
+        496,
+        506
+      ],
+      "sha256": "17498c5a32801676376d2a572496d01e5607a9e2cedb78c27ac6f405a2e55e8e"
+    },
+    {
+      "index": 4,
+      "file": "frames/exhausted_idle_DR_v02_04.png",
+      "label": "heavy_exhale",
+      "hold_ticks_60hz": 26,
+      "atlas_rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "source_rect": [
+        480,
+        500,
+        480,
+        500
+      ],
+      "common_canvas_inset_px": [
+        16,
+        6
+      ],
+      "alpha_bbox": [
+        17,
+        31,
+        496,
+        506
+      ],
+      "sha256": "d0413f060436e7d95c468cc2a92044061f84bf7afa81034df2899b4ea859d677"
+    },
+    {
+      "index": 5,
+      "file": "frames/exhausted_idle_DR_v02_05.png",
+      "label": "recover",
+      "hold_ticks_60hz": 18,
+      "atlas_rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "source_rect": [
+        960,
+        500,
+        480,
+        500
+      ],
+      "common_canvas_inset_px": [
+        16,
+        6
+      ],
+      "alpha_bbox": [
+        17,
+        6,
+        496,
+        504
+      ],
+      "sha256": "b56da2f0267b5c3b0c913bf6aee386f9253f1e3b6f4d368c4ad6cf638537cc1a"
+    }
+  ],
+  "source": {
+    "native_sheet_size": [
+      1536,
+      1024
+    ],
+    "source_grid_pitch": [
+      480,
+      500
+    ],
+    "source_grid_origin": [
+      0,
+      0
+    ],
+    "generator": "built-in image_gen",
+    "source_sha256": "411adea29f180384a9315c0ed2ec5b9a710bb363dcb789094e577d372b5bb095",
+    "prompt_file": "prompt.txt",
+    "canonical_identity": "C / Rust hero",
+    "source_cel_native_rgba_preserved": true
+  },
+  "known_limits": [
+    "Generated test animation artwork; engine integration, collisions, gameplay state changes and root motion are not implemented.",
+    "Redrawn breathing cels, with uniform 480 x 500 source-cell pitch and identical (16,6) transparent inset into 512 x 512 cells. This follows the actual native drawing layout rather than the requested 512 grid that the generator did not honor.",
+    "No resampling, AI upscaling, mirroring, mesh warping, interpolation or per-cel registration. Figure RGBA values inside each uniform source rectangle are unchanged. Discarded outer sheet margins contain no alpha>16 visible artwork.",
+    "Fixed canvas and common pivot do not mathematically lock every boot contour. Small native contour/foot variation remains and should be checked in engine. No pixel-perfect seamless-loop claim.",
+    "Native alpha includes alpha=1 transparent-background residue within cropped cells and peak opacity of 254; transparent padding has zero alpha. Native source bytes were preserved.",
+    "Camera and PPU are visual approximations. PPU 292 is a clip-wide starting estimate based on upright height versus canonical ready at nominal 350 PPU, not a metric camera solve.",
+    "The existing ready/idle and loop endpoints are distinct drawings. Review host transitions before shipping."
+  ]
+}

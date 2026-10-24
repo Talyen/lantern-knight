@@ -1,0 +1,410 @@
+[
+  {
+    "pack": "occult",
+    "id": "spectral_bolt_launch",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 10,
+        "identical_rgba": true
+      },
+      {
+        "frame": 28,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "spectral_bolt_flight",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 12,
+        "identical_rgba": true
+      },
+      {
+        "frame": 34,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true,
+    "loop_test": {
+      "mathematical_endpoint_compared_to_first": true,
+      "max_channel_delta": 0,
+      "fraction_pixels_differing": 0.0,
+      "seam_mean_rgba_delta": 0.22648228236607143,
+      "first_step_mean_rgba_delta": 0.23212960379464287
+    }
+  },
+  {
+    "pack": "occult",
+    "id": "spectral_bolt_impact",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 10,
+        "identical_rgba": true
+      },
+      {
+        "frame": 28,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "thorn_eruption",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "ink_shadow_burst",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 12,
+        "identical_rgba": true
+      },
+      {
+        "frame": 34,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "ritual_circle_activation",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 16,
+        "identical_rgba": true
+      },
+      {
+        "frame": 46,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "cursed_chain_strike",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "pale_ghost_flame",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 16,
+        "identical_rgba": true
+      },
+      {
+        "frame": 46,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true,
+    "loop_test": {
+      "mathematical_endpoint_compared_to_first": true,
+      "max_channel_delta": 0,
+      "fraction_pixels_differing": 0.0,
+      "seam_mean_rgba_delta": 0.11038643973214286,
+      "first_step_mean_rgba_delta": 0.10940011160714286
+    }
+  },
+  {
+    "pack": "occult",
+    "id": "lightning_fork",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 10,
+        "identical_rgba": true
+      },
+      {
+        "frame": 28,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "cold_shard_burst",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "soul_leech_ribbon",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 16,
+        "identical_rgba": true
+      },
+      {
+        "frame": 46,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true,
+    "loop_test": {
+      "mathematical_endpoint_compared_to_first": true,
+      "max_channel_delta": 0,
+      "fraction_pixels_differing": 0.0,
+      "seam_mean_rgba_delta": 0.7822174944196428,
+      "first_step_mean_rgba_delta": 0.7440743582589285
+    }
+  },
+  {
+    "pack": "occult",
+    "id": "summoning_vortex",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 20,
+        "identical_rgba": true
+      },
+      {
+        "frame": 58,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true,
+    "loop_test": {
+      "mathematical_endpoint_compared_to_first": true,
+      "max_channel_delta": 0,
+      "fraction_pixels_differing": 0.0,
+      "seam_mean_rgba_delta": 1.6248116629464286,
+      "first_step_mean_rgba_delta": 1.4659584263392857
+    }
+  },
+  {
+    "pack": "occult",
+    "id": "poison_mist_puff",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 16,
+        "identical_rgba": true
+      },
+      {
+        "frame": 46,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "occult",
+    "id": "ward_break",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 12,
+        "identical_rgba": true
+      },
+      {
+        "frame": 34,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "materials",
+    "id": "wood_splinter_burst",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "materials",
+    "id": "stone_crumble",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "materials",
+    "id": "pottery_shards",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "materials",
+    "id": "glass_chips",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 14,
+        "identical_rgba": true
+      },
+      {
+        "frame": 40,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "materials",
+    "id": "metal_dent_sparks",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 12,
+        "identical_rgba": true
+      },
+      {
+        "frame": 34,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  },
+  {
+    "pack": "materials",
+    "id": "cloth_tear_scraps",
+    "source_replays": [
+      {
+        "frame": 0,
+        "identical_rgba": true
+      },
+      {
+        "frame": 16,
+        "identical_rgba": true
+      },
+      {
+        "frame": 46,
+        "identical_rgba": true
+      }
+    ],
+    "all_replays_pass": true
+  }
+]

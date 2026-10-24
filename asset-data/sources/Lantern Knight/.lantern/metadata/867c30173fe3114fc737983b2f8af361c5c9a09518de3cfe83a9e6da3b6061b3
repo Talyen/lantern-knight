@@ -1,0 +1,577 @@
+{
+  "title": "Salt Halo",
+  "role": "enemy attack",
+  "canvas": [
+    512,
+    512
+  ],
+  "fixed_registration": true,
+  "pivot_pixels": [
+    256,
+    305
+  ],
+  "target_pixels": [
+    256,
+    305
+  ],
+  "intended_attack_footprint": "annulus",
+  "guide_notice": "Approximate visual integration guides, not engine collision geometry. Safe center for Salt Halo; gaps between Hollow Trident strips. Ground perspective must be retained.",
+  "animation": {
+    "cycle_ms": 1910,
+    "formation_ms": 980,
+    "strike_ms": 35,
+    "contact_ms": 90,
+    "recovery_ms": 455,
+    "clear_pause_ms": 350,
+    "entries": [
+      {
+        "source_index": 0,
+        "source_cel": 1,
+        "file": "frames/00.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 0,
+        "end_ms": 70,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 1,
+        "source_cel": 2,
+        "file": "frames/01.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 70,
+        "end_ms": 140,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 2,
+        "source_cel": 3,
+        "file": "frames/02.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 140,
+        "end_ms": 210,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 3,
+        "source_cel": 4,
+        "file": "frames/03.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 210,
+        "end_ms": 280,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 4,
+        "source_cel": 5,
+        "file": "frames/04.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 280,
+        "end_ms": 350,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 5,
+        "source_cel": 6,
+        "file": "frames/05.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 350,
+        "end_ms": 420,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 6,
+        "source_cel": 7,
+        "file": "frames/06.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 420,
+        "end_ms": 490,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 7,
+        "source_cel": 8,
+        "file": "frames/07.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 490,
+        "end_ms": 560,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 8,
+        "source_cel": 9,
+        "file": "frames/08.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 560,
+        "end_ms": 630,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 9,
+        "source_cel": 10,
+        "file": "frames/09.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 630,
+        "end_ms": 700,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 10,
+        "source_cel": 11,
+        "file": "frames/10.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 700,
+        "end_ms": 770,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 11,
+        "source_cel": 12,
+        "file": "frames/11.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 770,
+        "end_ms": 840,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 12,
+        "source_cel": 13,
+        "file": "frames/12.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 840,
+        "end_ms": 910,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 13,
+        "source_cel": 14,
+        "file": "frames/13.png",
+        "phase": "FORMATION / WINDUP",
+        "start_ms": 910,
+        "end_ms": 980,
+        "duration_ms": 70,
+        "damage_event": false
+      },
+      {
+        "source_index": 14,
+        "source_cel": 15,
+        "file": "frames/14.png",
+        "phase": "STRIKE",
+        "start_ms": 980,
+        "end_ms": 1015,
+        "duration_ms": 35,
+        "damage_event": false
+      },
+      {
+        "source_index": 15,
+        "source_cel": 16,
+        "file": "frames/15.png",
+        "phase": "CONTACT",
+        "start_ms": 1015,
+        "end_ms": 1105,
+        "duration_ms": 90,
+        "damage_event": true
+      },
+      {
+        "source_index": 16,
+        "source_cel": 17,
+        "file": "frames/16.png",
+        "phase": "RECOVERY",
+        "start_ms": 1105,
+        "end_ms": 1170,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 17,
+        "source_cel": 18,
+        "file": "frames/17.png",
+        "phase": "RECOVERY",
+        "start_ms": 1170,
+        "end_ms": 1235,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 18,
+        "source_cel": 19,
+        "file": "frames/18.png",
+        "phase": "RECOVERY",
+        "start_ms": 1235,
+        "end_ms": 1300,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 19,
+        "source_cel": 20,
+        "file": "frames/19.png",
+        "phase": "RECOVERY",
+        "start_ms": 1300,
+        "end_ms": 1365,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 20,
+        "source_cel": 21,
+        "file": "frames/20.png",
+        "phase": "RECOVERY",
+        "start_ms": 1365,
+        "end_ms": 1430,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 21,
+        "source_cel": 22,
+        "file": "frames/21.png",
+        "phase": "RECOVERY",
+        "start_ms": 1430,
+        "end_ms": 1495,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 22,
+        "source_cel": 23,
+        "file": "frames/22.png",
+        "phase": "RECOVERY",
+        "start_ms": 1495,
+        "end_ms": 1560,
+        "duration_ms": 65,
+        "damage_event": false
+      },
+      {
+        "source_index": 23,
+        "source_cel": 24,
+        "file": "frames/23.png",
+        "phase": "CLEAR / HOLD",
+        "start_ms": 1560,
+        "end_ms": 1910,
+        "duration_ms": 350,
+        "damage_event": false
+      }
+    ],
+    "contact_event": {
+      "source_cel": 16,
+      "time_ms": 1015
+    }
+  },
+  "source_grid": [
+    6,
+    4
+  ],
+  "source_size": [
+    1536,
+    1024
+  ],
+  "source_uniform_scale": 1.5625,
+  "source_padding": [
+    56.0,
+    56.0
+  ],
+  "artwork_method": "Built-in imagegen evolving cels; fixed-grid extraction only. No synthetic tweening, no per-cel recentering. Final terminal cel explicitly cleared.",
+  "qa": [
+    {
+      "cel": 1,
+      "crop": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 247,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 2,
+      "crop": [
+        256,
+        0,
+        512,
+        256
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 245,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 3,
+      "crop": [
+        512,
+        0,
+        768,
+        256
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 240,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 4,
+      "crop": [
+        768,
+        0,
+        1024,
+        256
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 245,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 5,
+      "crop": [
+        1024,
+        0,
+        1280,
+        256
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 248,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 6,
+      "crop": [
+        1280,
+        0,
+        1536,
+        256
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 250,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 7,
+      "crop": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 248,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 8,
+      "crop": [
+        256,
+        256,
+        512,
+        512
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 251,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 9,
+      "crop": [
+        512,
+        256,
+        768,
+        512
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 10,
+      "crop": [
+        768,
+        256,
+        1024,
+        512
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 11,
+      "crop": [
+        1024,
+        256,
+        1280,
+        512
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 12,
+      "crop": [
+        1280,
+        256,
+        1536,
+        512
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 13,
+      "crop": [
+        0,
+        512,
+        256,
+        768
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 14,
+      "crop": [
+        256,
+        512,
+        510,
+        768
+      ],
+      "source_edge_alpha_gt16": 7,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 15,
+      "crop": [
+        510,
+        512,
+        768,
+        768
+      ],
+      "source_edge_alpha_gt16": 13,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 16,
+      "crop": [
+        768,
+        512,
+        1024,
+        768
+      ],
+      "source_edge_alpha_gt16": 7,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 17,
+      "crop": [
+        1024,
+        512,
+        1280,
+        768
+      ],
+      "source_edge_alpha_gt16": 9,
+      "source_alpha_max": 252,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 18,
+      "crop": [
+        1280,
+        512,
+        1536,
+        768
+      ],
+      "source_edge_alpha_gt16": 11,
+      "source_alpha_max": 252,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 19,
+      "crop": [
+        0,
+        768,
+        256,
+        1024
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 253,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 20,
+      "crop": [
+        256,
+        768,
+        512,
+        1024
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 252,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 21,
+      "crop": [
+        512,
+        768,
+        768,
+        1024
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 251,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 22,
+      "crop": [
+        768,
+        768,
+        1024,
+        1024
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 245,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 23,
+      "crop": [
+        1024,
+        768,
+        1280,
+        1024
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 242,
+      "output_border_alpha_max": 0
+    },
+    {
+      "cel": 24,
+      "crop": [
+        1280,
+        768,
+        1536,
+        1024
+      ],
+      "source_edge_alpha_gt16": 0,
+      "source_alpha_max": 2,
+      "output_border_alpha_max": 0
+    }
+  ]
+}

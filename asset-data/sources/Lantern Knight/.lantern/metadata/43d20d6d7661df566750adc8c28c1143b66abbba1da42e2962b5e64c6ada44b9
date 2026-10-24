@@ -1,0 +1,18 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "new-generation",
+  "source": "/workspace/scratch/1a83d58417d5/generated_images/exec-6b5dc2d5-062a-482f-983f-0df53fa575c3.png",
+  "prompt_file": "prompt_v2.txt",
+  "grid": [
+    6,
+    4
+  ],
+  "generated_cels": 24,
+  "contact_cel": 11,
+  "terminal_cel": 24,
+  "created_utc": "2026-10-10",
+  "selected_version": 2,
+  "rejected_version": 1,
+  "rejection_reason": "Unsafe margins or opaque matte; regenerated with smaller art.",
+  "assembly_policy": "Original generated pixels; crop and fixed grid registration only; final cel replaced transparent."
+}

@@ -1,0 +1,30 @@
+{
+  "monk": {
+    "drawings": 7,
+    "unique": 7,
+    "native_sources_preserved": true,
+    "upscaling": false,
+    "engine_validated": false,
+    "endpoint_equals_move01": true,
+    "all_within_canvas": true,
+    "encoded_frames": 462,
+    "ffprobe": {
+      "r_frame_rate": "60/1",
+      "nb_read_frames": "462"
+    }
+  },
+  "crawler": {
+    "drawings": 7,
+    "unique": 7,
+    "native_sources_preserved": true,
+    "upscaling": false,
+    "engine_validated": false,
+    "endpoint_equals_move01": true,
+    "all_within_canvas": true,
+    "encoded_frames": 444,
+    "ffprobe": {
+      "r_frame_rate": "60/1",
+      "nb_read_frames": "444"
+    }
+  }
+}

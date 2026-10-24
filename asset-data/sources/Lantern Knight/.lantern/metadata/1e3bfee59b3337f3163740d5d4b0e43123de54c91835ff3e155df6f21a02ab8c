@@ -1,0 +1,71 @@
+{
+  "title": "Cloister B | Cold Moonlit Sanctuary",
+  "hero_source": "references/hero_original.png",
+  "views": [
+    {
+      "name": "central_cloister_court",
+      "display_box": [
+        1175,
+        662,
+        2711,
+        1686
+      ],
+      "display_foot": [
+        2030,
+        1295
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "altar_approach",
+      "display_box": [
+        1475,
+        250,
+        3011,
+        1274
+      ],
+      "display_foot": [
+        2125,
+        962
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "western_arcade_route",
+      "display_box": [
+        175,
+        1375,
+        1711,
+        2399
+      ],
+      "display_foot": [
+        1062,
+        1925
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "courtyard_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "eastern_arcade_junction",
+      "source_xy": [
+        960,
+        640
+      ]
+    }
+  ],
+  "approved_reference_images": [
+    "references/selected_viewport_sample.png"
+  ],
+  "scene_notes": [
+    "Recovered fullscene original; exact full-expansion generation prompt unavailable. Included prompt belongs only to the earlier selected viewport sample.",
+    "Scenery, shadows and height transitions are baked. Walkability and occlusion are illustrative only; no engine integration or exact camera geometry has been validated."
+  ]
+}

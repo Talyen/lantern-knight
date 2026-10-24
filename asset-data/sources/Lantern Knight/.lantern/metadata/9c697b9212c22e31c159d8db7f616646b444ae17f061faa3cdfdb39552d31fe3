@@ -1,0 +1,456 @@
+{
+  "name": "terracotta_chimney_pot",
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    480
+  ],
+  "pivot_normalized_top_left": [
+    0.5,
+    0.75
+  ],
+  "loop": false,
+  "clip": "break",
+  "duration_ms": 2210,
+  "frame_count": 15,
+  "states": {
+    "intact": 0,
+    "damaged": 3,
+    "broken": 14
+  },
+  "atlas": "break_atlas.png",
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/break_00.png",
+      "duration_ms": 350,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          0,
+          444,
+          437
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          160,
+          88
+        ],
+        "base_match": 1.0
+      }
+    },
+    {
+      "index": 1,
+      "file": "frames/break_01.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          444,
+          0,
+          887,
+          437
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          156,
+          89
+        ],
+        "base_match": 0.9503
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/break_02.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          887,
+          0,
+          1330,
+          437
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          160,
+          89
+        ],
+        "base_match": 0.9489
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/break_03.png",
+      "duration_ms": 220,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1330,
+          0,
+          1774,
+          437
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          162,
+          88
+        ],
+        "base_match": 0.9362
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/break_04.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          437,
+          444,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          162,
+          84
+        ],
+        "base_match": 0.9139
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/break_05.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          444,
+          437,
+          887,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          156,
+          85
+        ],
+        "base_match": 0.9428
+      }
+    },
+    {
+      "index": 6,
+      "file": "frames/break_06.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          887,
+          437,
+          1330,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          162,
+          84
+        ],
+        "base_match": 0.92
+      }
+    },
+    {
+      "index": 7,
+      "file": "frames/break_07.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1330,
+          437,
+          1774,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          156,
+          85
+        ],
+        "base_match": 0.9018
+      }
+    },
+    {
+      "index": 8,
+      "file": "frames/break_08.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          444,
+          0,
+          878,
+          539
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          154,
+          -3
+        ],
+        "base_match": 0.8536
+      }
+    },
+    {
+      "index": 9,
+      "file": "frames/break_09.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          878,
+          0,
+          1317,
+          539
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          150,
+          -3
+        ],
+        "base_match": 0.8185
+      }
+    },
+    {
+      "index": 10,
+      "file": "frames/break_10.png",
+      "duration_ms": 80,
+      "atlas_rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1317,
+          0,
+          1774,
+          539
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          154,
+          -3
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 11,
+      "file": "frames/break_11.png",
+      "duration_ms": 90,
+      "atlas_rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          0,
+          539,
+          456,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          172,
+          170
+        ],
+        "base_match": 0.6661
+      }
+    },
+    {
+      "index": 12,
+      "file": "frames/break_12.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        0,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          456,
+          539,
+          897,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          186,
+          176
+        ],
+        "base_match": 0.7299
+      }
+    },
+    {
+      "index": 13,
+      "file": "frames/break_13.png",
+      "duration_ms": 130,
+      "atlas_rect": [
+        768,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          897,
+          539,
+          1324,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          188,
+          171
+        ],
+        "base_match": 0.737
+      }
+    },
+    {
+      "index": 14,
+      "file": "frames/break_14.png",
+      "duration_ms": 700,
+      "atlas_rect": [
+        1536,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1324,
+          539,
+          1774,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.04,
+        "translation": [
+          180,
+          166
+        ],
+        "base_match": 0.6799
+      }
+    }
+  ],
+  "import": {
+    "alpha": "straight RGBA",
+    "color_space": "sRGB",
+    "trim": false,
+    "rotation": false,
+    "filter": "bilinear",
+    "use_fixed_pivot": true,
+    "stop_on_final_frame": true
+  }
+}

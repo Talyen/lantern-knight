@@ -1,0 +1,10 @@
+LANTERN / Canal Workshop / REVISION 02
+
+Offline assembled illustration scene. This is an actual editable composition of separate source images and controlled projected ground, not a generated flattened location plate.
+
+Camera: orthographic elevation 35.264389682754654 deg, azimuth 45 deg, 13 m vertical span, 1920 x 1080. World axes X right, Y up, Z ground. The 1.8 m ruler projects to 122.098 px. Beauty renders omit it; qa/scale_proxy_1920x1080.png shows the diagnostic.
+
+EDIT / REPRODUCE
+Run python source/compose_scenes.py with Python 3, Pillow, NumPy. Change scene_layout.json, then run again. The renderer verifies each source PNG SHA256 before compositing. Cards retain source pixels; resize/mirroring and scene-level material tint are explicit transforms, never changes to the source files. All generated card cameras, physical dimensions and manually estimated root pivots remain approximate. The ground and anchor projection equations are exact. Layer order is explicitly authored for this fixed camera.
+
+Supersedes lantern_overnight/06_scene_studies/canal_workshop. Source hashes and original paths are in manifest and scene_layout. No canonical protagonist artwork is included. No collision, navigation, depth sorting, engine import, gameplay or performance testing is claimed.

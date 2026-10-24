@@ -1,0 +1,22 @@
+{
+  "tool_mode": "built-in image_gen",
+  "selected_request": {
+    "key": "05_hoarfrost_rupture",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: stylized-concept. Asset type: production 2D VFX sprite animation sheet for a subdued grounded dark-fantasy game.\nUse the supplied approved static effect as material, rendering, palette, silhouette-family reference. Redraw eight DISTINCT successive authored animation poses, not eight copies, not an icon collection, not a static transform/fade sequence.\nEXACT LAYOUT: one 2048x1024 transparent RGBA canvas containing exactly 4 columns by 2 rows, eight identical 512x512 invisible cells. Time order left-to-right along the top row, then left-to-right along the bottom row. No titles, labels, lines, borders, checkerboard, contact-sheet decorations, terrain background, character, text, shadows outside the effect, or watermark. True transparent empty pixels.\nEvery cell shows the complete effect at the same fixed camera, world scale and anchor. Keep all particles and material within the central 76% of its own cell, at least 12% clear padding on every edge; absolutely no crossing between cells. The peak may fill that inner area but never touch its edges. The later frames intentionally have much less material without zooming them up.\nGrounded physical material with hand-painted / realistically textured surfaces, restrained neutral lighting and low-saturation colors. No neon, magic glow, colored bloom, graphic rings, symbols, or luminous energy. Distinct changes in geometry, material formation, movement, fragmentation and dissipation must make this genuinely animate. One coherent one-shot cycle: anticipation, onset, strike, peak, breakup, decay, residue, nearly clear.\nSUBJECT: Hoarfrost Rupture. Preserve the reference's sharp opaque slate-blue and chalk-white fracture ice blades rising through dark earthen shale fragments; craggy natural ice, not clean gems. Fixed isometric camera looking down about 30 degrees, anchor at cell x=50%, y=80%, ground plane unchanged. Frame 1: a few low fissured frost flakes and tiny lifted soil crumbs, no tall spike. Frame 2: three short asymmetric ice points visibly pushing upward through split earth. Frame 3: multiple separate blades erupt, central blade half height, chunks thrown outward. Frame 4: full reference-like jagged broad eruption with tall central blade and asymmetrical side blades. Frame 5: central blade snaps into several falling jagged pieces; side blades split and tumble, open spaces appear. Frame 6: many smaller chips collapse down into a low ice rubble spray, short vapor wisps only. Frame 7: scattered low frost chunks and settling granular ice. Frame 8: only 3-5 tiny frost chips and earth crumbs near the same anchor, almost entirely transparent. Keep rupture rooted at exactly the same place in every cell.",
+    "referenced_image_paths": [
+      "/workspace/scratch/1a83d58417d5/lantern_dark_grounded_expansion/05_hoarfrost_rupture.png"
+    ],
+    "transparent_background": true
+  },
+  "selected_result": {
+    "key": "05_hoarfrost_rupture",
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-7dca805e-2de5-47c4-b4c8-153c9ebfbd08.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-7dca805e-2de5-47c4-b4c8-153c9ebfbd08.png",
+    "result_keys": [
+      "image_url",
+      "output_hint"
+    ]
+  },
+  "selected_image_sha256": "fe32a1ef52082797775651dc363f61ebdcc42dbebcd99888614079000bbe47ee"
+}

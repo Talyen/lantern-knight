@@ -1,0 +1,15 @@
+{
+  "rootwood/rootwood_A_hero160_context.png": "b1132f9006792bbf88d0ed2150ae0d586f59f09e0f07af68d6ce99752734a947",
+  "rootwood/rootwood_B_context_metadata.json": "e4509261a9c5b97bc695aa24047dcde4d9cbbb22e8e9a41fc9622117b6f27b20",
+  "rootwood/rootwood_AB_comparison.png": "e6337637ae7e19400bd5330838c473a44def307780e8b0a9f1f2f7b52f69ba9c",
+  "rootwood/rootwood_B_native.png": "34e93be721a7fec749f49d5b5e5881d04f41e46867e31ea9de5699e57781b4ea",
+  "rootwood/rootwood_A_native.png": "7d5e1b545681572f890589e39db423285c78b6fb506adf81605cd1f24fa54a68",
+  "rootwood/provenance.json": "440c1c0f9249f86182b225268a3b49c49b20e60b102a0682962bf442dda1b507",
+  "rootwood/rootwood_B_hero160_context.png": "3a82f5cd8824aa6ee2841c2100184039362ba204205864baf0afbc9395a940f9",
+  "rootwood/rootwood_A_exact_prompt.txt": "19ae3542dc72d7b6e2644ff9676ac27557ea87066232eec2ba7a7173a553faa0",
+  "rootwood/rootwood_B_exact_prompt.txt": "648e5d9be25483ac84a8f66c66612b6a7513866c30882883f5a93e09909441cb",
+  "rootwood/rootwood_A_context_metadata.json": "39d034580e97f4e4e68d820adbbfae03726a5992bd82eb868ca937f9851badd8",
+  "README.txt": "95679c08d92d4f72e3c11dc1b29b79dc5baca6deceea1c3ca7756347a8a7f35b",
+  "build_deliverables.py": "45189beff381c6108fc617216dc24622c9af5c8864673e2309df921b24f68a59",
+  "references/hero_original.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

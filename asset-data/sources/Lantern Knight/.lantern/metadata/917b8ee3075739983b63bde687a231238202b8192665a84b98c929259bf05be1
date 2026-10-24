@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "upper_hall",
+      "display_crop_box": [
+        600,
+        150,
+        2136,
+        1174
+      ],
+      "source_crop_box": [
+        240.0,
+        60.0,
+        854.4,
+        469.6
+      ],
+      "display_hero_foot": [
+        1363,
+        770
+      ],
+      "source_hero_foot": [
+        545.2,
+        308.0
+      ]
+    },
+    {
+      "name": "central_hall",
+      "display_crop_box": [
+        1200,
+        775,
+        2736,
+        1799
+      ],
+      "source_crop_box": [
+        480.0,
+        310.0,
+        1094.4,
+        719.6
+      ],
+      "display_hero_foot": [
+        1763,
+        1475
+      ],
+      "source_hero_foot": [
+        705.2,
+        590.0
+      ]
+    },
+    {
+      "name": "lower_chamber",
+      "display_crop_box": [
+        1975,
+        1460,
+        3511,
+        2484
+      ],
+      "source_crop_box": [
+        790.0,
+        584.0,
+        1404.4,
+        993.6
+      ],
+      "display_hero_foot": [
+        2720,
+        1963
+      ],
+      "source_hero_foot": [
+        1088.0,
+        785.2
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

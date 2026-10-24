@@ -1,0 +1,23 @@
+{
+  "enemy": "Clockwork Penitent",
+  "ability": "piston_penance",
+  "status": "corrected",
+  "findings": [
+    "Raised impact effect to the extended piston-foot contact height (was below foot)."
+  ],
+  "checks": {
+    "actor_frames": 16,
+    "effect_frames": 8,
+    "actor_unique": 16,
+    "effect_unique": 8,
+    "no_edge_contact": true,
+    "all_nonempty": true,
+    "atlas_matches_frames": true,
+    "single_hit_count": 1,
+    "hit_time_ms": 1050,
+    "telegraph_ms": 1000,
+    "engine_tested": false
+  },
+  "evidence": "/workspace/shared/enemy_variety/physical/polish/piston_penance_before_after.jpg",
+  "review_method": "Inspected all actor cels at fixed registration, all effect cels, canonical ready comparison, and timed actor/effect composites across release, contact and recovery. Revised MP4 decoded for review."
+}

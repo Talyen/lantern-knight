@@ -1,0 +1,28 @@
+{
+  "all_original_media_byte_identical": true,
+  "file_count": 22,
+  "sha256": {
+    "bellbound_monk/previews/cast_ordered_contact.jpg": "e4a9ee101e137dc4a897b89922eae4a1873d5adf60cc488c2a57d637c42d42b0",
+    "bellbound_monk/previews/locomotion_ordered_contact.jpg": "428c7812036d625829a1a82b39128109461acf52e18c0a51bc103006abaad04b",
+    "bellbound_monk/previews/locomotion_first_contact.jpg": "3117a35a2a56d7169429737906ee1a97cab92fb61097bd0cf203b4d9d4dc2edd",
+    "bellbound_monk/previews/cast_60hz.mp4": "48eced2c97cad25724742e39bcc2c3152559ef8c54e195b5f1e86d6643391e12",
+    "bellbound_monk/previews/locomotion_60hz.mp4": "3b812a82131972e6788a20a66e26e634285fffaf26388abe30c48587269e1994",
+    "bellbound_monk/previews/cast_first_contact.jpg": "1930e6961e9dfe6008903fff3682c88062ebc858ffe110a33e723c8c766638b0",
+    "bellbound_monk/runtime/locomotion_atlas.png": "e371095069d933c9ec4443c0df7a602d4a01712e1f3eaeb3077f75b773e6d923",
+    "bellbound_monk/runtime/cast_atlas.png": "d67da41b4b54a26d66ddb27e57f489e8000f68d39bcb99445dd1301c20103330",
+    "bellbound_monk/runtime/cast/cast_04.png": "a92e74c66865110faefb7b72d401a184e7824f151b51b2d53b144c1c03a026d8",
+    "bellbound_monk/runtime/cast/cast_07.png": "1ab20b65c19bdc60c0264974c240db552cdeed148ed13a5810ed49af58c3b298",
+    "bellbound_monk/runtime/cast/cast_02.png": "63d9912a64add3fb661a95d473b9abc57dd7ff399e113039b55204abb2ec9e23",
+    "bellbound_monk/runtime/cast/cast_03.png": "5f2a7783904970ce2b9664fb33421d272a276f4d87f0a90400d9834bc165c966",
+    "bellbound_monk/runtime/cast/cast_01.png": "47350433f4b4aaa321a8c57add8ef524b7be0716adaeb21c1f1a324932b95eca",
+    "bellbound_monk/runtime/cast/cast_05.png": "742c9d4349a23faac256d7eafd28c25d5b22e69ed418fc1b201282c6b8311da0",
+    "bellbound_monk/runtime/cast/cast_06.png": "7546f271884a4a6691f64c6f63609ceac9b629040fdcaf6ed8ae2e4d64a58c4d",
+    "bellbound_monk/runtime/cast/cast_08.png": "3adc6191f1142c5ba9497bf555792c2e16bf400068f8b97ac5ef1d002919f831",
+    "bellbound_monk/runtime/locomotion/locomotion_02.png": "caf802b4e874f8592ca19cc862de605e28059824ec1c9518a14a47c1fbd7d979",
+    "bellbound_monk/runtime/locomotion/locomotion_06.png": "0cd646b118af8438f46a8b632253977a63742d6940c3ca895680230170e57719",
+    "bellbound_monk/runtime/locomotion/locomotion_03.png": "538b4642031c6f95c8b2bf289be86e0fa6cd07d6e4ea162161ad657a7f5c856b",
+    "bellbound_monk/runtime/locomotion/locomotion_01.png": "6375845d2621de2c203d452f586c00775ecb17466c2d4301aa88fa3f01de6cfa",
+    "bellbound_monk/runtime/locomotion/locomotion_04.png": "fe9d5ce3ef54b88fdf79aff376690a28eb68c816323ff50b18e4d8f5ae582498",
+    "bellbound_monk/runtime/locomotion/locomotion_05.png": "01cb030b4595c995a5fe96e7c5033d705884efdbab1110e883cc597f1331a0b1"
+  }
+}

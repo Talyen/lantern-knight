@@ -1,0 +1,8 @@
+selfheal_enter_DR
+Original generated 2D artwork is an art-review/integration-test candidate, not engine-approved animation.
+No camera metric, physical blade length, collisions, IK, gameplay events, healing mechanics, or controller wiring certified.
+Native distinct cels with integer holds at 60 Hz. No optical flow, mesh warp, synthetic in-betweens, mirroring, or image upscaling.
+First/last drawings are not pixel-identical to shared ready. Runtime transition/root/scale review remains required.
+Native pose-dependent foot/root drift retained during kneel/rise; no skeleton or root-motion solve. Check in engine before release.
+
+Runtime: use the PNG frames or atlas. MP4 is an opaque review preview. PPU is an approximate starting value.

@@ -1,0 +1,544 @@
+{
+  "title": "Lantern gameplay readability review",
+  "created_utc": "2026-10-07",
+  "purpose": "Static visual comparison of the current hero ready frame and five enemy motion experiments.",
+  "preview_only": true,
+  "source_changes": false,
+  "input_sha256_verified_unchanged": true,
+  "scale_policy": "One uniform multiplier per clip, estimated from its neutral body ruler; the same multiplier is used for that clip's action frame. No per-frame fitting.",
+  "camera_reference": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "ground_axes_screen_degrees": [
+      30,
+      150
+    ],
+    "vertical_span_m": 13,
+    "output_height_px": 1080,
+    "ground_grid_nominal_spacing_m": 1
+  },
+  "hero_ruler": {
+    "source_y": [
+      42,
+      609
+    ],
+    "target_px": 125,
+    "measurement": "Approximate visible hair-to-lowest-sole vertical extent. Sword excluded. Not a metric height measurement."
+  },
+  "source_path_base": "Original task workspace root, containing lantern_hero_core_animations_01 and lantern_enemy_animations_20261007.",
+  "compositing": "Pillow RGBA alpha composite on a shared flat neutral floor; Lanczos gameplay downsampling. Close sheet uses 2x nearest-neighbor magnification of the gameplay-size preview pixels. No relighting, alpha cleanup, shape change, mirroring, new character generation, or source-file write.",
+  "anchor_policy": "Provided authored root/pivot per clip is retained. Roots are provisional, not re-fitted to each pose or to each visible foot.",
+  "actors": [
+    {
+      "name": "Current hero",
+      "short": "HERO",
+      "target_body_span_px": 125,
+      "status": "REFERENCE",
+      "neutral": {
+        "source": "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_X_DR_native.png",
+        "pivot": [
+          301,
+          556
+        ],
+        "body_ruler_y": [
+          42,
+          609
+        ],
+        "phase": "Ready reference",
+        "frame_id": "ready_world_positive_X_DR_native",
+        "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+        "source_size": [
+          632,
+          688
+        ],
+        "scale": 0.2204585537918871,
+        "ruler_source_frame": "ready_world_positive_X_DR_native",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          152
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_X_DR_native.png",
+        "pivot": [
+          301,
+          556
+        ],
+        "body_ruler_y": [
+          42,
+          609
+        ],
+        "phase": "Ready reference",
+        "frame_id": "ready_world_positive_X_DR_native",
+        "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+        "source_size": [
+          632,
+          688
+        ],
+        "scale": 0.2204585537918871,
+        "ruler_source_frame": "ready_world_positive_X_DR_native",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          152
+        ]
+      },
+      "action": {
+        "source": "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_X_DR_native.png",
+        "pivot": [
+          301,
+          556
+        ],
+        "body_ruler_y": [
+          42,
+          609
+        ],
+        "phase": "Ready reference",
+        "frame_id": "ready_world_positive_X_DR_native",
+        "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+        "source_size": [
+          632,
+          688
+        ],
+        "scale": 0.2204585537918871,
+        "ruler_source_frame": "ready_world_positive_X_DR_native",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          152
+        ]
+      },
+      "notes": [
+        "125 px hair-to-sole; sword excluded.",
+        "Current hero ready frame repeated."
+      ]
+    },
+    {
+      "name": "Shroud Crawler",
+      "short": "SHROUD CRAWLER",
+      "target_body_span_px": 75,
+      "status": "APPROX. PROJECTION",
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/shroud_crawler/frames/cocoon_scoot/cocoon_scoot_DR_01.png",
+        "pivot": [
+          448,
+          488
+        ],
+        "body_ruler_y": [
+          210,
+          608
+        ],
+        "phase": "Reach / long shroud",
+        "frame_id": "cocoon_scoot_DR_01",
+        "sha256": "8e396b046ac6d0e7e025668c2e034d311a1e58e07bc59aef08b98adb83cbcfe2",
+        "source_size": [
+          768,
+          768
+        ],
+        "scale": 0.1884422110552764,
+        "ruler_source_frame": "cocoon_scoot_DR_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          145,
+          145
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/shroud_crawler/frames/predatory_pounce/predatory_pounce_DR_01.png",
+        "pivot": [
+          448,
+          488
+        ],
+        "body_ruler_y": [
+          194,
+          609
+        ],
+        "phase": "Threatening ready",
+        "frame_id": "predatory_pounce_DR_01",
+        "sha256": "c122add3ee18a7b01fa2cc294c1c7d8af669d767003e3cfe4bca0a78c8d79e65",
+        "source_size": [
+          768,
+          768
+        ],
+        "scale": 0.18072289156626506,
+        "ruler_source_frame": "predatory_pounce_DR_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          139
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/shroud_crawler/frames/predatory_pounce/predatory_pounce_DR_04.png",
+        "pivot": [
+          448,
+          488
+        ],
+        "body_ruler_y": null,
+        "phase": "Pounce / paired reach",
+        "frame_id": "predatory_pounce_DR_04",
+        "sha256": "0716a1ec589813b4a9eb048da7d129366bb36a32d2af9e899110cb09b3246c1d",
+        "source_size": [
+          768,
+          768
+        ],
+        "scale": 0.18072289156626506,
+        "ruler_source_frame": "predatory_pounce_DR_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          139
+        ]
+      },
+      "notes": [
+        "Low, broad pose reads as ground-bound.",
+        "Hand extension remains legible."
+      ]
+    },
+    {
+      "name": "Bellbound Monk",
+      "short": "BELLBOUND MONK",
+      "target_body_span_px": 112,
+      "status": "APPROX. PROJECTION",
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/bellbound_monk/runtime/locomotion/locomotion_01.png",
+        "pivot": [
+          320,
+          500
+        ],
+        "body_ruler_y": [
+          151,
+          538
+        ],
+        "phase": "Compress / bell right",
+        "frame_id": "locomotion_01",
+        "sha256": "6375845d2621de2c203d452f586c00775ecb17466c2d4301aa88fa3f01de6cfa",
+        "source_size": [
+          640,
+          576
+        ],
+        "scale": 0.28940568475452194,
+        "ruler_source_frame": "locomotion_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          185,
+          167
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/bellbound_monk/runtime/cast/cast_01.png",
+        "pivot": [
+          320,
+          500
+        ],
+        "body_ruler_y": [
+          141,
+          541
+        ],
+        "phase": "Ready",
+        "frame_id": "cast_01",
+        "sha256": "47350433f4b4aaa321a8c57add8ef524b7be0716adaeb21c1f1a324932b95eca",
+        "source_size": [
+          640,
+          576
+        ],
+        "scale": 0.28,
+        "ruler_source_frame": "cast_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          179,
+          161
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/bellbound_monk/runtime/cast/cast_05.png",
+        "pivot": [
+          320,
+          500
+        ],
+        "body_ruler_y": null,
+        "phase": "Shockwave overshoot",
+        "frame_id": "cast_05",
+        "sha256": "742c9d4349a23faac256d7eafd28c25d5b22e69ed418fc1b201282c6b8311da0",
+        "source_size": [
+          640,
+          576
+        ],
+        "scale": 0.28,
+        "ruler_source_frame": "cast_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          179,
+          161
+        ]
+      },
+      "notes": [
+        "Gold mass and bell separate clearly.",
+        "Cast body is narrower than locomotion."
+      ]
+    },
+    {
+      "name": "Candlebone Oracle",
+      "short": "CANDLEBONE ORACLE",
+      "target_body_span_px": 138,
+      "status": "APPROX. PROJECTION",
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/candlebone_oracle/frames/hover/hover_01.png",
+        "pivot": [
+          273,
+          672
+        ],
+        "body_ruler_y": [
+          84,
+          661
+        ],
+        "phase": "Low hover",
+        "frame_id": "hover_01",
+        "sha256": "24b7a6abd0cc4bf3d550632a5fbc249f704d86379ac54810992f5133e333dcc9",
+        "source_size": [
+          546,
+          755
+        ],
+        "scale": 0.2391681109185442,
+        "ruler_source_frame": "hover_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          131,
+          181
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/candlebone_oracle/frames/spell/spell_01.png",
+        "pivot": [
+          277,
+          606
+        ],
+        "body_ruler_y": [
+          177,
+          587
+        ],
+        "phase": "Ready",
+        "frame_id": "spell_01",
+        "sha256": "3b45f28c668f2cf0fc9ec8e376a262d895188a67f11d23ac56bc152f4f71ec67",
+        "source_size": [
+          554,
+          735
+        ],
+        "scale": 0.33658536585365856,
+        "ruler_source_frame": "spell_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          186,
+          247
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/candlebone_oracle/frames/spell/spell_05.png",
+        "pivot": [
+          277,
+          606
+        ],
+        "body_ruler_y": null,
+        "phase": "Release",
+        "frame_id": "spell_05",
+        "sha256": "5d4c667f8e1390bebd40428d72c66931194ee589baf37386821775bc4d1693a7",
+        "source_size": [
+          554,
+          735
+        ],
+        "scale": 0.33658536585365856,
+        "ruler_source_frame": "spell_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          186,
+          247
+        ]
+      },
+      "notes": [
+        "Skull and orb read; small bones merge.",
+        "Hover is shallower than the spell view."
+      ]
+    },
+    {
+      "name": "Halo-Veil Cantor",
+      "short": "HALO-VEIL CANTOR",
+      "target_body_span_px": 138,
+      "status": "CAMERA UNRESOLVED",
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor/frames/drift_veil_breath/drift_veil_breath_01.png",
+        "pivot": [
+          328,
+          595
+        ],
+        "body_ruler_y": [
+          126,
+          578
+        ],
+        "phase": "Low float",
+        "frame_id": "drift_veil_breath_01",
+        "sha256": "7ba1efe5d7810fbf331a18fc8707017e82daf394ce1037fdabe8272d4e594eab",
+        "source_size": [
+          640,
+          640
+        ],
+        "scale": 0.3053097345132743,
+        "ruler_source_frame": "drift_veil_breath_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          195,
+          195
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor/frames/resonant_spell/resonant_spell_01.png",
+        "pivot": [
+          328,
+          595
+        ],
+        "body_ruler_y": [
+          115,
+          550
+        ],
+        "phase": "Rest",
+        "frame_id": "resonant_spell_01",
+        "sha256": "d983b9e6cb8aef29ff59f44fa876ad5c8659736893536090689dcaa2c5a63f1d",
+        "source_size": [
+          640,
+          640
+        ],
+        "scale": 0.31724137931034485,
+        "ruler_source_frame": "resonant_spell_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          203,
+          203
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor/frames/resonant_spell/resonant_spell_04.png",
+        "pivot": [
+          328,
+          595
+        ],
+        "body_ruler_y": null,
+        "phase": "Radiant resonance",
+        "frame_id": "resonant_spell_04",
+        "sha256": "6ac142be1979fab5e1a69d1f27fadbab6fc724b49fbe91723f3aaccb5c487e0f",
+        "source_size": [
+          640,
+          640
+        ],
+        "scale": 0.31724137931034485,
+        "ruler_source_frame": "resonant_spell_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          203,
+          203
+        ]
+      },
+      "notes": [
+        "MOTION CONCEPT: frontal/portrait read.",
+        "Halo and pale veil are easy to identify."
+      ]
+    },
+    {
+      "name": "Waxmask Acolyte",
+      "short": "WAXMASK ACOLYTE",
+      "target_body_span_px": 125,
+      "status": "APPROX. / PORTRAIT-LEANING",
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/waxmask_acolyte/frames/glide/glide_01.png",
+        "pivot": [
+          416,
+          584
+        ],
+        "body_ruler_y": [
+          106,
+          592
+        ],
+        "phase": "Quiet float",
+        "frame_id": "glide_01",
+        "sha256": "e217d37c005de638482643b4bff74074de452d304541d0d7de9a134e22669d9f",
+        "source_size": [
+          768,
+          704
+        ],
+        "scale": 0.257201646090535,
+        "ruler_source_frame": "glide_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          198,
+          181
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/waxmask_acolyte/frames/ritual_attack/ritual_attack_01.png",
+        "pivot": [
+          416,
+          584
+        ],
+        "body_ruler_y": [
+          158,
+          590
+        ],
+        "phase": "Ready",
+        "frame_id": "ritual_attack_01",
+        "sha256": "9f372cae784605c9be9923f51f90262e5c0d1cb4889e9cbc4de0ce13d5bc4dc9",
+        "source_size": [
+          768,
+          704
+        ],
+        "scale": 0.28935185185185186,
+        "ruler_source_frame": "ritual_attack_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          222,
+          204
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/waxmask_acolyte/frames/ritual_attack/ritual_attack_05.png",
+        "pivot": [
+          416,
+          584
+        ],
+        "body_ruler_y": null,
+        "phase": "Wax eruption",
+        "frame_id": "ritual_attack_05",
+        "sha256": "51a9beefefe92059633ae1f08f1cdd27ac981046f622a1cd64b914530164ac97",
+        "source_size": [
+          768,
+          704
+        ],
+        "scale": 0.28935185185185186,
+        "ruler_source_frame": "ritual_attack_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          222,
+          204
+        ]
+      },
+      "notes": [
+        "Red hood and white mask read quickly.",
+        "Upright robe view remains portrait-like."
+      ]
+    }
+  ],
+  "findings": [
+    "Cantor is a motion concept with CAMERA UNRESOLVED; its portrait/frontal read remains visibly different from the elevated hero.",
+    "Oracle hover and Waxmask glide are comparatively upright/portrait-like; Oracle spell is visually more elevated.",
+    "Different native sampling is compensated by fixed per-clip neutral-body estimates. This is not an engine import recommendation or final PPU calibration.",
+    "Monk has a noticeably broader locomotion silhouette than its cast-ready body even after height matching; that is a residual drawing/proportion comparison, separate from pixel-density mismatch.",
+    "At this chosen size the Monk bell/gold, Cantor halo/pale veil, Waxmask red hood/white mask and Crawler broad low silhouette remain distinct; Oracle fine skeletal details collapse, while skull and orb remain useful cues.",
+    "Effects are baked into these frames; compositing does not separate, retouch, or resize them independently."
+  ],
+  "not_tested": [
+    "Physical world size or camera projection calibration",
+    "Full animation jitter or loop continuity",
+    "Engine import and PPU settings",
+    "Collision and root motion",
+    "Lighting/material response",
+    "Performance or texture-memory budget"
+  ]
+}

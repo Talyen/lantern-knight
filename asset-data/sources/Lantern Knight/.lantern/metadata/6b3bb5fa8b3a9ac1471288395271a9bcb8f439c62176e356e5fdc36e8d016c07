@@ -1,0 +1,64 @@
+{
+  "title": "Abandoned Orchard",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "central_orchard_path",
+      "display_box": [
+        844,
+        738,
+        2380,
+        1762
+      ],
+      "display_foot": [
+        1612,
+        1388
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    },
+    {
+      "name": "press_house_approach",
+      "display_box": [
+        1564,
+        282,
+        3100,
+        1306
+      ],
+      "display_foot": [
+        2332,
+        932
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    },
+    {
+      "name": "lower_orchard_gate",
+      "display_box": [
+        1450,
+        1536,
+        2986,
+        2560
+      ],
+      "display_foot": [
+        2218,
+        2225
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "junction_1",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "junction_2",
+      "source_xy": [
+        960,
+        320
+      ]
+    }
+  ]
+}

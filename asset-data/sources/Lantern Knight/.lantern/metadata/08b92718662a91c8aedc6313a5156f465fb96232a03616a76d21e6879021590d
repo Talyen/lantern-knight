@@ -1,0 +1,14 @@
+{
+  "mode": "fresh generation",
+  "reference_paths": [
+    "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/sweep_world_negative_Z_sheet_v01/reference/eight_action_geometry.png",
+    "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/sweep_world_negative_Z_sheet_v01/reference/shared_ready_negative_Z_native.png"
+  ],
+  "transparent_background": true,
+  "requested_model": "Sunburst2.5(gpt-image-2.5-sunburst)",
+  "actual_selector": "unverified",
+  "reference_hashes": {
+    "lantern_hero_core_animations_01/reference_led_attacks/sweep_compact9_directions/guides_world_negative_Z/neutral_eight_action_native_markerfree_clean_4x2.png": "d5b37e95ae3191000890106fcf7683094c7ce7d96ca9e2189ef6772889e88848",
+    "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_negative_Z_UR_native.png": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4"
+  }
+}

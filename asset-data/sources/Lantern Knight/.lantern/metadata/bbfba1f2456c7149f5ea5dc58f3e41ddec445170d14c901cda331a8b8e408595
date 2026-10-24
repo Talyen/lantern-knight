@@ -1,0 +1,22 @@
+LANTERN CLEAN INK REVISION 02 — volume_15_tree_forms
+6 freshly generated illustrated PNG cutouts. This version supersedes same-named previous pack assets.
+Originals were preserved. All raster images are fresh built-in imagegen generations, never edit cascades. Exact prompts, source image IDs, hashes and native alpha bounds are in provenance and manifest.json.
+Art direction: expressive dark-fantasy cel-colored ink, selected material marks, connected black shadow masses, restrained stone/wood/iron colors.
+CAMERA: Prompt-constrained orthographic-like 35.2643897 degree elevation / 45 degree azimuth. These are raster illustrations, not calibrated 3D geometry bakes; precise projection, world scale and registration are unverified. Intended initial camera vertical span 13m, but import scale must be chosen in-engine.
+ALPHA: Native generated transparency preserved. Hidden RGB outside the alpha silhouette may contain dark/glowing colors; import as straight alpha. No automatic alpha repair, recoloring, cropping or asset resizing applied. Edge alpha is antialiased and some interior alpha is near-opaque rather than 255. Review manifests for support bounds.
+GAME USE: Static illustrations only. No collision meshes, pivots, normals, sprite sheets, animation, state transitions or physical passage widths implied. Set bottom support pivot and sorting layer per scene. Contact sheets include light/dark backgrounds and approximately 180px gameplay previews; these are inspection layouts only.
+
+V02A SOURCE-PORTABILITY REPAIR (6 October 2026)
+All six tree PNGs, generated masters/provenance and existing proof images remain
+byte-identical to v02. Only this README and the placement-proof source changed.
+The three Gothic PNGs in placement_proof/reference_assets/ are unchanged borrowed
+composition dependencies from Gothic v02, not additional Tree Forms designs.
+
+From a disposable extracted pack root run:
+  python placement_proof/build_tree_placement.py
+Python 3, Pillow and NumPy are sufficient; no old workspace or sibling pack is
+needed. The two proof images are regenerated and their placement manifest uses
+pack-relative source paths. Existing absolute provenance strings are historical.
+The original hand-chosen placement assumptions remain unchanged. This is a
+composition-source repair, not new artwork, camera calibration or engine work.
+See SOURCE_PORTABILITY.json for the precise preservation and replay scope.

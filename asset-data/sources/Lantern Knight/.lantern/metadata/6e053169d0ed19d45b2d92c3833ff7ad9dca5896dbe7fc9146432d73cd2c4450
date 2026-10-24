@@ -1,0 +1,58 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_whole_map_crop_overview.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/review_views/whole_map_crop_overview.png",
+    "name": "observatory_A_whole_map_crop_overview.png",
+    "size": 2663015,
+    "sha256": "e01c2669742085e20215b06230c0c12dd4c101717430cc50eee798772413ff23",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_central_armillary_concourse_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/review_views/central_armillary_concourse_hero_context.png",
+    "name": "observatory_A_central_armillary_concourse_hero_context.png",
+    "size": 2224143,
+    "sha256": "8cff7eae548af398ac866680fba6ab62524f0123df1362470e845df86d9d1d4a",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_western_telescope_terrace_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/review_views/western_telescope_terrace_hero_context.png",
+    "name": "observatory_A_western_telescope_terrace_hero_context.png",
+    "size": 2234413,
+    "sha256": "de9d3995a4064a27c70c4c345e3a1a89fd70e1dda25b704f40839878e02a9e8e",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_southeastern_bridge_approach_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/review_views/southeastern_bridge_approach_hero_context.png",
+    "name": "observatory_A_southeastern_bridge_approach_hero_context.png",
+    "size": 2194061,
+    "sha256": "7797604c25c148771dc18c25257e1a256e512176e010bf6b8dc263e39679cf22",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_native_floor.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/native_floor.png",
+    "name": "observatory_A_native_floor.png",
+    "size": 3281995,
+    "sha256": "b439bf3c0b2972f1871c5a2e61b9f599a4c63b2cb34e13497b4eb09effa33f6c",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_full_upscaled4x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/ai_upscale/full_upscaled4x.png",
+    "name": "observatory_A_full_upscaled4x.png",
+    "size": 27803921,
+    "sha256": "473db5cb71452b034ee786e4e213bec9f47c035cc2b4cc97872c22e0d99af43b",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/observatory_A_full_upscaled2x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_A/ai_upscale/full_upscaled2x.png",
+    "name": "observatory_A_full_upscaled2x.png",
+    "size": 8609205,
+    "sha256": "47c663561c3ee43b21c832377b30786d7cddf20812172fac90173235ca681498",
+    "library_artifact_type": "image"
+  }
+]

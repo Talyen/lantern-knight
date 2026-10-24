@@ -1,0 +1,146 @@
+{
+  "archivist": {
+    "cels": [
+      {
+        "cel": 0,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Read/rest: one open book, left palm on page, right hand at margin.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 1,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Lift corner: right thumb/finger grip page edge; attached at binding.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 2,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Page arch: broad single page, connected corner grip, no loose sheet.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 3,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Pass binding: page folds across center, right arm connected.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 4,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Smooth: right hand settles turned page, left hand stays on book.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 5,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Attentive: head raises with normal neck; same hands/book/desk.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      }
+    ],
+    "work_lower_station_identical": true,
+    "talk_ready_reuses_work_cel": 5
+  },
+  "lanternkeeper": {
+    "cels": [
+      {
+        "cel": 0,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Tend: upper hand holds lantern handle, other hand at wick knob.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 1,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Pinch knob: two coherent hands, lantern remains on bench.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 2,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Adjust: subtle wrist shift, no hand enters flame.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 3,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Flame response: restrained flame change, attached handle grip.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 4,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Release: adjustment hand rests on bench, other hand retains handle.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      },
+      {
+        "cel": 5,
+        "size": [
+          512,
+          512
+        ],
+        "visual_review": "Attentive: chin raised toward visitor; both hands and lantern clear.",
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true
+      }
+    ],
+    "work_lower_station_identical": true,
+    "talk_ready_reuses_work_cel": 5
+  },
+  "video": {
+    "frames": "720",
+    "frame_rate": "60/1",
+    "duration_seconds": "12.000000"
+  },
+  "limitations": [
+    "Small upper-station/native illustration differences remain.",
+    "Talk-ready reuses native final cel; it is not a separate animated acknowledgement.",
+    "Camera specification is art direction rather than measured 3D projection.",
+    "No engine-side import test performed."
+  ],
+  "cleanup": "Known tiny prior-row bench-foot fragment removed from keeper empty top-right margin x355:410,y0:30; character/prop pixels untouched."
+}

@@ -1,0 +1,70 @@
+{
+  "source_release": "v02a",
+  "scope": "Source portability only; no existing art/animation/master/video changes",
+  "supersedes_archive": "Lantern_volume_15_tree_forms_CleanInk_v02.zip",
+  "supersedes_archive_sha256": "d28f9cbfe594751cd799b25af08f87edd0c9511c0fe57a9ab191312a4caeb6eb",
+  "changed_existing_members": [
+    {
+      "member": "volume_15_tree_forms/README.txt",
+      "old_sha256": "c19168846888655ed673ee4d5802c652fe9c7b31c52911c0f205c3c70cc10410",
+      "new_sha256": "bbfba1f2456c7149f5ea5dc58f3e41ddec445170d14c901cda331a8b8e408595"
+    },
+    {
+      "member": "volume_15_tree_forms/placement_proof/build_tree_placement.py",
+      "old_sha256": "24c70b41de5d2400049700c855ee3ff70be4d18fb49e68dca00b823b831d0eff",
+      "new_sha256": "74944fa9cc314aa31249b1eec0daf312199cd0d9b282b43cc9e29c56b477de6d"
+    }
+  ],
+  "new_reference_inputs": [
+    {
+      "member": "placement_proof/reference_assets/arch_gothic_wall_01.png",
+      "sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "role": "composition_dependency_only_not_new_tree_design"
+    },
+    {
+      "member": "placement_proof/reference_assets/arch_pointed_arch_01.png",
+      "sha256": "47d9662cfba04e16241342bc5e9fb92a24d1cf913e51f38f3ffea5a47fae422f",
+      "role": "composition_dependency_only_not_new_tree_design"
+    },
+    {
+      "member": "placement_proof/reference_assets/arch_crypt_door_01.png",
+      "sha256": "9f9c32cb2179b0d277a6cbd1401b44ad9fd652c175337a48e9feb02caa8db2d0",
+      "role": "composition_dependency_only_not_new_tree_design"
+    }
+  ],
+  "existing_members_preserved_byte_identical": 21,
+  "existing_artwork_members_preserved_byte_identical": 12,
+  "existing_artwork_members": [
+    "volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png",
+    "volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png",
+    "volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+    "volume_15_tree_forms/assets/vegetation_pale_birch_cluster_01.png",
+    "volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png",
+    "volume_15_tree_forms/assets/vegetation_windswept_yew_01.png",
+    "volume_15_tree_forms/contact_dark.png",
+    "volume_15_tree_forms/contact_light.png",
+    "volume_15_tree_forms/game_size_dark.png",
+    "volume_15_tree_forms/game_size_light.png",
+    "volume_15_tree_forms/placement_proof/tree_architecture_fixed_camera_clean.png",
+    "volume_15_tree_forms/placement_proof/tree_architecture_fixed_camera_grid.png"
+  ],
+  "bounded_qa": {
+    "commands": [
+      {
+        "command": "python placement_proof/build_tree_placement.py",
+        "passed": true
+      }
+    ],
+    "rebuilt_output_pixels_equal": true,
+    "rebuilt_output_count": 2,
+    "font_fallback_smoke": null,
+    "prior_representative_animation_replay": "Exact sample replay passed on original unchanged artwork and unmodified render math; full sequence was not re-exported in this source-only repair.",
+    "testing_limits": [
+      "No engine/runtime integration",
+      "No all-platform certification",
+      "Full animation sequences not re-exported",
+      "Original approved output bytes copied, not replaced with regenerated proof/test files"
+    ]
+  },
+  "generated_utc": "2026-10-06T17:53:47.544555+00:00"
+}

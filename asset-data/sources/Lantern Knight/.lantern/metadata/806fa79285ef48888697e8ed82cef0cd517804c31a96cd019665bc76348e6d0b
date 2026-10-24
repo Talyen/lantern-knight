@@ -1,0 +1,19 @@
+LANTERN KNIGHT UI v06 — JOURNAL / PARCHMENT ART HANDOFF
+
+Static PNG artwork, reusable concept layers and illustrative control samples. Engine integration, responsive layouts, animation and gameplay rules remain implementation work. The current direction uses parchment, leather and dark iron.
+
+RESOURCE VESSELS
+Each HP/MP frame, empty_glass, glass_front, fill_mask and fluid_body shares a 1200 × 1200 canvas. fill_mask is grayscale: use luminance/red, not alpha. surface_source is a separate cropped wide ellipse. Aperture bounds are HP [200,138,1000,892] and MP [200,117,1000,913].
+Layer order: empty_glass, fixed-scale fluid_body clipped below the chosen height and inside fill_mask, separately positioned surface clipped to the same aperture, glass_front limited to the liquid/surface, then frame. Scale/place only the surface to match the aperture chord at that height. Do not squash or rescale the body as the level changes. At zero, use empty_glass plus frame. Full leaves 5.5% visual headspace. These are static layering proofs; implement the height/surface geometry, connect real resource values and test readability at gameplay size.
+Demonstrated level y = aperture_bottom - aperture_height × 0.945 × resource_fraction. This represents linear display height, not physical liquid volume. The glass-front separation is mechanically extracted artwork.
+
+PARCHMENT WINDOW
+The clean skin is 1390 × 975. Nine-slice borders are left/right 145 px and top/bottom 130 px. Keep corners fixed and stretch the middle edge strips and paper center. The minimum size must exceed the summed borders at the chosen display scale. Suggested text inset is 9% of the panel size. Blank tall/wide examples and slices are provided. This is raster artwork, not a resolution-independent frame.
+
+CONTROLS
+Button artwork is flattened. Use the clean unlabelled skin with runtime text; labelled samples under Mockups are baked examples.
+The volume cord and dark-iron collar are separate PNGs. Move the collar along the cord; uniformly scale the complete control when needed.
+Tooltip top/body/bottom slices are 400 px wide. Keep caps fixed when changing height and stretch the body. The middle side-edge artwork also stretches, so this is not a seamless tile. Blank short/long examples are included.
+
+INVENTORY, JOURNAL AND EXAMPLES
+Inventory and journal PNGs are blank art masters for separately placed grid cells, text and items. The journal page geometry was corrected to closely matched widths while retaining natural paper edges. ExampleItems and labelled control samples are illustrative content, not established game items, quests, statistics or packing/equipment rules. Populated review screens are delivered separately.

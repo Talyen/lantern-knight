@@ -1,0 +1,50 @@
+{
+  "asset": "observatory",
+  "variant": "B",
+  "label": "Collapsed chart-library observatory",
+  "method": "built-in image_gen; fresh generation, hero viewed in conversation as art-style guidance",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-22aafd9d-83c0-4c7b-96cc-d5f373130c81.png",
+  "style_reference_viewed": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "reference_image_parameters_used": false,
+  "prompt_path": "/workspace/shared/lantern_cultist_samples_oct09/observatory/B/exact_prompt.txt",
+  "intended_hero_height_pixels": 160,
+  "requested_projection": {
+    "type": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_validated": false
+  },
+  "hero_scale_validated_in_engine": false,
+  "hero_baked_in": false,
+  "live_characters_baked_in": false,
+  "water_observed": false,
+  "active_hazards_observed": false,
+  "sha256": "83533a9be07a9cedda856c5cc5057ca88f5b04116cda2b8bd3c2936dc28cc221",
+  "upscaled": false,
+  "edited": false,
+  "fresh_generation_attempt": 1,
+  "status": "native viewport sample ready for review; not full map or engine-ready layered asset",
+  "visual_review": {
+    "strengths": [
+      "Collapsed shelves and snapped telescope pieces clearly communicate observatory-library identity",
+      "Generous light floor gives strong character contrast",
+      "Sparse central floor markings preserve combat readability"
+    ],
+    "caveats": [
+      "Charts contain finer detail than desired",
+      "Small exterior glimpses appear in upper window openings, including mixed night and daylight tones",
+      "Brass has subtle gradient highlights beyond literal three-flat-tone rendering"
+    ],
+    "suggested_hero_feet": [
+      786,
+      820
+    ]
+  }
+}

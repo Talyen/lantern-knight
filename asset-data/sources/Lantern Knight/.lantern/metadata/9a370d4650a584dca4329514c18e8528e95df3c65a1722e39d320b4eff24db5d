@@ -1,0 +1,98 @@
+[
+  {
+    "id": "weathered_satchel",
+    "file": "source/masters/weathered_satchel.png",
+    "sha256": "2096009daa027bbf3e04ce50bca8c9d6e0791f4d9c37763836af47ca7bcbf8d7",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/weathered_satchel.txt"
+  },
+  {
+    "id": "tied_grain_sack",
+    "file": "source/masters/tied_grain_sack.png",
+    "sha256": "59e9ead74e852b4efab6ff7803aad4d2fccf9fdfb63a27d6ed28becbcda54281",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/tied_grain_sack.txt"
+  },
+  {
+    "id": "reed_hamper",
+    "file": "source/masters/reed_hamper.png",
+    "sha256": "474e5e74036516dfe52042ab9f4a88c90342aed90fa05b6120a1ae89c3f24ea6",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/reed_hamper.txt"
+  },
+  {
+    "id": "burial_coffin",
+    "file": "source/masters/burial_coffin.png",
+    "sha256": "579bf775a1692a3bbe6ce4ff396e84e0065be6e455be99b350d488538fcb6b91",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/burial_coffin.txt"
+  },
+  {
+    "id": "bowed_apothecary_cabinet",
+    "file": "source/masters/bowed_apothecary_cabinet.png",
+    "sha256": "3bdbf6faab198b2b1dac79c38c124dc362ab1885adcc715f860b292097ab82f7",
+    "size": [
+      1145,
+      1374
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/bowed_apothecary_cabinet.txt"
+  },
+  {
+    "id": "spouted_coal_scuttle",
+    "file": "source/masters/spouted_coal_scuttle.png",
+    "sha256": "8af376316abd6e24acc0c388e566b4d2d6d5535eed65126339442db614bdbe68",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/spouted_coal_scuttle.txt"
+  },
+  {
+    "id": "canvas_rollcase",
+    "file": "source/masters/canvas_rollcase.png",
+    "sha256": "60fcc04dc8aa11af9f34828324868d16566b6e3d1164ddf7b46bff1c257d78fd",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/canvas_rollcase.txt"
+  },
+  {
+    "id": "curved_spice_drawer",
+    "file": "source/masters/curved_spice_drawer.png",
+    "sha256": "bcafb85760ae5c3af39755ff7c856dd3cb39ea3050b2261ad4befe99b3a34033",
+    "size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "intent": "NEW generation, no input/edit images",
+    "prompt": "source/prompts/curved_spice_drawer.txt"
+  }
+]

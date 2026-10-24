@@ -1,0 +1,51 @@
+{
+  "asset": "desecrated_chapel",
+  "variant": "B",
+  "label": "Roofless overgrown chapel",
+  "method": "built-in image_gen; fresh generation with original hero as art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-d24c4635-07eb-4698-a199-8646611a4016.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "prompt_path": "/workspace/shared/lantern_next_scene_samples_oct09/chapel/B/exact_prompt.txt",
+  "intended_hero_height_pixels": 160,
+  "requested_projection": {
+    "type": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_validated": false
+  },
+  "hero_scale_validated_in_engine": false,
+  "hero_baked_in": false,
+  "scenery_throughout": "allowed; preserve open combat floor and readable routes",
+  "water_observed": false,
+  "sha256": "d20688943f62be9f27d1595cca50a01bac0140dbf016093afd799a43f3f3e4b5",
+  "upscaled": false,
+  "edited": false,
+  "fresh_generation_attempt": 1,
+  "status": "native viewport sample ready for review; not full map or engine-ready layered asset",
+  "visual_review": {
+    "label": "Roofless overgrown chapel",
+    "strengths": [
+      "Clear daylight and sage greenery give a distinct atmosphere",
+      "Largest open altar clearing and broad central playable floor",
+      "Quiet broad stone faces; strong broken window silhouettes; no hero or water"
+    ],
+    "caveats": [
+      "Dense leaf clusters at edges increase high-frequency detail",
+      "Tall freestanding columns interrupt some routes and would need occlusion treatment in game",
+      "Only loosely conforms to fixed tone-count; sun/shadow value variation remains"
+    ],
+    "suggested_hero_feet": [
+      825,
+      588
+    ]
+  }
+}

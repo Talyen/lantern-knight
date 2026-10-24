@@ -1,0 +1,19 @@
+{
+  "DL/README_clean_native.txt": "c3f75d475412c7731377d682f138a7e2d2bd34f3c61c8660e093226264bac55f",
+  "DL/manifest_clean_native.json": "5cc5ef121f23cce9d0299af16abff44e40a00631fd2fe8ede1073b730a207b37",
+  "DL/prompts/generate.txt": "9639a69536aaa9cd2c3025bfa235c36ac853af6e47b3184eb5ae9125314dc450",
+  "DL/source/lantern_DL_native_sheet.png": "353db8f91e468d67b492798dea39877b901cd1540e3ea0eda6296a0893085cd3",
+  "DR/README_clean_native.txt": "2e9c06f32f5e2885b8ee8ad7ea209f9e12c4152250d3168a1cf1b1172eea038e",
+  "DR/manifest_clean_native.json": "17abbe24c067889756d64a894f8a7c33a2b20d1e104e42324e33e2cb5cdb9cab",
+  "DR/prompts/generate.txt": "b2a7ae245222ca4f32f37c4119f5ac094af3b77758a4b33ca3dfb06934562b07",
+  "DR/source/lantern_DR_native_sheet.png": "d7bfc65581631fd65614f54118f02ff06b8d79875885e82d65cb0907aea05787",
+  "QA_CORRECTIONS_20261007.json": "99aebc609cddfda92e0ebfe7844ae3ae20ebd36b87179595b0faf9b14cd7cb31",
+  "UL/README_clean_native.txt": "64dc17a3249169ddedb001be99308c4082f36db8d567b8eb3011a8ca3ff9ce98",
+  "UL/manifest_clean_native.json": "78965333c3ee02a187fa30481b1a138d4dbf070edcd364d3f6eca089a67e0e86",
+  "UL/prompts/generate.txt": "53dac24d82beb08ea2389a6757214d02ce3e6680a0599480b95cccc1064b73cd",
+  "UL/source/lantern_UL_native_sheet.png": "931a1f619d6e68b9fc1cc57627b1bbf34f9dc19dcbb2efbdec0897f4c38a69e2",
+  "UR/README_clean_native.txt": "9cd3b1dd6c14f15f6379d21a29968cff19bb1b72094b11964cac09c31df71b32",
+  "UR/manifest_clean_native.json": "1f5fae2606c359b0fc2a1ec5cc7ad46dea414d34934f46680c1be5adf7309e06",
+  "UR/prompts/generate.txt": "4a5bd535d11beeb6d26af666059ee2317189f312396e192065d26f5ba9446c3e",
+  "UR/source/lantern_UR_native_sheet.png": "0bfe29760d7a605cb996c0a6f57a09b9cd487d17a54878dc2a4c106a6c96eb95"
+}

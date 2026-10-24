@@ -1,0 +1,1 @@
+Native transparent crops and 512px runtime frames. Exact source timing is in manifest.json. Runtime-test artwork; engine integration and collision contacts remain unverified. Source density and whole-cel translations are approximate. No mirroring. Terminal hold/loop behavior follows manifest.

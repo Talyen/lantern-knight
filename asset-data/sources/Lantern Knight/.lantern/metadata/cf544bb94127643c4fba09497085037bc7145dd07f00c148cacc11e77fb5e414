@@ -1,0 +1,706 @@
+{
+  "character": "CT04 Halo-Veil Cantor",
+  "version": "CAMERA-GUIDED v03 IMPORT CALIBRATION",
+  "status": "Compact camera-guided artwork retained; cross-clip growth reduced through fixed import mapping; engine review pending",
+  "runtime_certified": false,
+  "original_delivered_assets": "Preserved unchanged. Original frontal hover/spell are separate motion concepts, not matching gameplay-camera clips.",
+  "canvas_pixels": [
+    640,
+    640
+  ],
+  "display_anchor_pixels_top_left": [
+    320,
+    608
+  ],
+  "display_anchor_normalized_bottom_left": [
+    0.5,
+    0.05
+  ],
+  "anchor_status": "Native provisional display anchor retained. Apply v03 clip-wide PPU/visual-child offset once; no anatomical root certification.",
+  "guide_projection": {
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "actor_world_forward": "+X",
+    "screen_heading": "down-right",
+    "exact_for_guide": true,
+    "numerically_certified_for_art": false
+  },
+  "generation": {
+    "tool": "Built-in imagegen",
+    "creative_wording": "Sunburst2.5",
+    "backend_claim": null,
+    "fresh_calls": 2,
+    "calls_per_clip": 1,
+    "generation_retries": 0,
+    "identity_input": "Cropped materials/mask/halo/hand details only; no full-body portrait used.",
+    "geometry_input": "Six exact-camera ghost proxy poses per clip."
+  },
+  "scale_notes": {
+    "normalization_applied": false,
+    "hover_neutral_body_ruler_px": 320,
+    "spell_neutral_body_ruler_px": 370,
+    "spell_to_hover_neutral_body_ratio": 1.15625,
+    "world_pixels_per_unit": null,
+    "interpretation": "Different clip-native drawing scales/proportions are preserved. A comparison renderer may use one documented neutral-body ruler per clip; never frame-by-frame silhouette fitting.",
+    "v03_override": "Native pixels not normalized. Runtime importer now uses hover base B and spell B/0.87 plus offset(-18/B,+34/B,0) in camera-facing sprite-local axes. Previous native ratio remains provenance only."
+  },
+  "style_tradeoffs": [
+    "Hover is compact and angular with a more geometric cowl crown.",
+    "Spell restores longer/slenderer crafted drapery and a more fabric-like cowl. These are not perfectly matched proportions.",
+    "Spell action is coherent but less explosive than the original star-like frontal spell.",
+    "Camera read is materially improved; this is not an unconditional art-style replacement or seamless cross-clip runtime certification."
+  ],
+  "processing": "Native grid cropping, uniform padding, documented integer hover row translation and background compositing for previews only. No upscaling, per-frame scale/warp, repainting, alpha cleanup, morphing, optical flow or interpolated in-betweens.",
+  "preview_timing": "60Hz video repeats held full drawings. This is six-drawing cel animation, not60unique drawings per second.",
+  "clips": {
+    "drift_veil_breath": {
+      "phases": [
+        "Low rest",
+        "Rise / inhale",
+        "Opening",
+        "High / open",
+        "Exhale",
+        "Settle"
+      ],
+      "holds": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "loop": true,
+      "repetitions": 4,
+      "neutral_crown_y": 210,
+      "neutral_tip_y_exclusive": 530,
+      "registration": "Native512px grid crops from source; identical64px padding for every cel; one shared [0,+24] translation for lower-row cels4\u20136, proven by three anchor comparisons. All native RGBA preserved.",
+      "body_ruler_px": 320,
+      "frames": [
+        {
+          "frame": 1,
+          "file": "frames/drift_veil_breath/drift_veil_breath_01.png",
+          "phase": "Low rest",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            160,
+            419,
+            530
+          ],
+          "nonzero_alpha_bbox": [
+            127,
+            89,
+            570,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699"
+        },
+        {
+          "frame": 2,
+          "file": "frames/drift_veil_breath/drift_veil_breath_02.png",
+          "phase": "Rise / inhale",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            640,
+            0,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            512,
+            0,
+            1024,
+            512
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            221,
+            157,
+            423,
+            532
+          ],
+          "nonzero_alpha_bbox": [
+            73,
+            84,
+            576,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "8fd0de3edea1ac8175422174cd46c66119a46e3258eb28ef6b2cd9133215a463"
+        },
+        {
+          "frame": 3,
+          "file": "frames/drift_veil_breath/drift_veil_breath_03.png",
+          "phase": "Opening",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            1280,
+            0,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            1024,
+            0,
+            1536,
+            512
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            183,
+            146,
+            431,
+            538
+          ],
+          "nonzero_alpha_bbox": [
+            67,
+            95,
+            538,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "219f014768ae6c6acb49573158d87710fd5092974aa07ed2faf6ff152b9dc3ff"
+        },
+        {
+          "frame": 4,
+          "file": "frames/drift_veil_breath/drift_veil_breath_04.png",
+          "phase": "High / open",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            0,
+            640,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            0,
+            512,
+            512,
+            1024
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            24
+          ],
+          "alpha_bbox_gt127": [
+            207,
+            150,
+            452,
+            532
+          ],
+          "nonzero_alpha_bbox": [
+            64,
+            88,
+            574,
+            582
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "94c7bc5d5317236796c85c93e7661bfeae5008aad4e466c50d978bc994919a12"
+        },
+        {
+          "frame": 5,
+          "file": "frames/drift_veil_breath/drift_veil_breath_05.png",
+          "phase": "Exhale",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            640,
+            640,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            512,
+            512,
+            1024,
+            1024
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            24
+          ],
+          "alpha_bbox_gt127": [
+            222,
+            156,
+            426,
+            517
+          ],
+          "nonzero_alpha_bbox": [
+            69,
+            88,
+            576,
+            534
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "cc85486568193ca2c7897c5dd589401000a04a15e0948f720a7bb06a9b470dd6"
+        },
+        {
+          "frame": 6,
+          "file": "frames/drift_veil_breath/drift_veil_breath_06.png",
+          "phase": "Settle",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            1280,
+            640,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            1024,
+            512,
+            1536,
+            1024
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            24
+          ],
+          "alpha_bbox_gt127": [
+            217,
+            156,
+            415,
+            519
+          ],
+          "nonzero_alpha_bbox": [
+            73,
+            88,
+            522,
+            526
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "ea879b3183c4b18f13f0c628869dc4e61f33a35830ae9f4de74ddbd62c8d43d5"
+        }
+      ],
+      "drawing_count": 6,
+      "cycle_ticks_60hz": 72,
+      "duration_seconds": 1.2,
+      "atlas": "atlases/drift_veil_breath_atlas.png",
+      "atlas_dimensions": [
+        1920,
+        1280
+      ],
+      "neutral_body_ruler": "Native head-crown to lowest center robe tip in cel01; excludes halo. Approximate silhouette ruler for comparison only, not exact anatomy or world scale.",
+      "world_pixels_per_unit": null,
+      "preview": "previews/drift_veil_breath_native_60hz.mp4",
+      "preview_duration_seconds": 4.8,
+      "import_settings": {
+        "native_canvas_px": [
+          640,
+          640
+        ],
+        "native_pivot_top_left_px": [
+          320,
+          608
+        ],
+        "pivot_normalized_bottom_left": [
+          0.5,
+          0.05
+        ],
+        "proposed_reference_ppu": 256,
+        "pixels_per_unit_at_proposed_base": 256.0,
+        "relative_visual_scale_from_ppu": 1,
+        "visual_child_local_scale": [
+          1,
+          1,
+          1
+        ],
+        "visual_child_local_offset_units": [
+          0.0,
+          0.0,
+          0
+        ],
+        "offset_reference_px_screen_xy": [
+          0,
+          0
+        ],
+        "offset_axes": {
+          "plane": "camera-facing sprite-local plane",
+          "x": "screen right",
+          "y": "screen up",
+          "z": "zero depth displacement",
+          "mapping": "World-size units on sprite plane, NOT world XZ or actor-root translation. Map to renderer screen-right/screen-up basis if renderer local axes differ."
+        },
+        "preserve_existing_actor_world_size": "Let B be approved current hover/base PPU. Keep hover at B. This clip PPU=B/1. Offset=(0/B,0/B,0) on declared camera-facing sprite-local axes.256 is proposed only.",
+        "apply_once": "Importer PPU supplies the entire relative scale; visual child scale stays1. Offset applied once to entire clip. No per-frame fitting. Do not scale/translate actor root, colliders or world movement."
+      }
+    },
+    "resonant_spell": {
+      "phases": [
+        "Rest",
+        "Gather inward",
+        "Present orb",
+        "Resonant release / flare",
+        "Recoil",
+        "Settle"
+      ],
+      "holds": [
+        18,
+        14,
+        12,
+        10,
+        12,
+        24
+      ],
+      "loop": false,
+      "repetitions": 3,
+      "neutral_crown_y": 190,
+      "neutral_tip_y_exclusive": 560,
+      "registration": "Native512px grid crops with identical64px padding for every cel; no additional translation. Differing halo/crown/shoulder residuals did not justify a common row offset. Intentional rise/reach retained.",
+      "body_ruler_px": 370,
+      "frames": [
+        {
+          "frame": 1,
+          "file": "frames/resonant_spell/resonant_spell_01.png",
+          "phase": "Rest",
+          "hold_ticks_60hz": 18,
+          "seconds": 0.3,
+          "atlas_rect_xywh": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            227,
+            122,
+            430,
+            560
+          ],
+          "nonzero_alpha_bbox": [
+            87,
+            84,
+            576,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "46ba91c8b9a7196833b7fe53040e9c59e4bb543ff2e4901aac96b205f43e7a2a"
+        },
+        {
+          "frame": 2,
+          "file": "frames/resonant_spell/resonant_spell_02.png",
+          "phase": "Gather inward",
+          "hold_ticks_60hz": 14,
+          "seconds": 0.23333333333333334,
+          "atlas_rect_xywh": [
+            640,
+            0,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            512,
+            0,
+            1024,
+            512
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            225,
+            121,
+            442,
+            550
+          ],
+          "nonzero_alpha_bbox": [
+            65,
+            85,
+            576,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "747849b90a0731966cc992c5f40bd851112dbe91abe20a1b224a7418eab12802"
+        },
+        {
+          "frame": 3,
+          "file": "frames/resonant_spell/resonant_spell_03.png",
+          "phase": "Present orb",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            1280,
+            0,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            1024,
+            0,
+            1536,
+            512
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            212,
+            108,
+            482,
+            549
+          ],
+          "nonzero_alpha_bbox": [
+            64,
+            89,
+            550,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "e63731eb617789c7724ce53ce85dc905043934dc4f1b0413d2db1bf7baf1b1af"
+        },
+        {
+          "frame": 4,
+          "file": "frames/resonant_spell/resonant_spell_04.png",
+          "phase": "Resonant release / flare",
+          "hold_ticks_60hz": 10,
+          "seconds": 0.16666666666666666,
+          "atlas_rect_xywh": [
+            0,
+            640,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            0,
+            512,
+            512,
+            1024
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            151,
+            82,
+            556,
+            520
+          ],
+          "nonzero_alpha_bbox": [
+            95,
+            65,
+            576,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "7d8d36884e17027c4831795d52787fb9d73f1b3caebac6a9713b464e2b683541"
+        },
+        {
+          "frame": 5,
+          "file": "frames/resonant_spell/resonant_spell_05.png",
+          "phase": "Recoil",
+          "hold_ticks_60hz": 12,
+          "seconds": 0.2,
+          "atlas_rect_xywh": [
+            640,
+            640,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            512,
+            512,
+            1024,
+            1024
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            182,
+            106,
+            456,
+            522
+          ],
+          "nonzero_alpha_bbox": [
+            65,
+            64,
+            576,
+            576
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "c1224ac08ea13f52c09736b010d1adfd6fce5c81d6e6900afb40f4016f9be8e5"
+        },
+        {
+          "frame": 6,
+          "file": "frames/resonant_spell/resonant_spell_06.png",
+          "phase": "Settle",
+          "hold_ticks_60hz": 24,
+          "seconds": 0.4,
+          "atlas_rect_xywh": [
+            1280,
+            640,
+            640,
+            640
+          ],
+          "source_grid_rect_xyxy": [
+            1024,
+            512,
+            1536,
+            1024
+          ],
+          "uniform_padding_xy": [
+            64,
+            64
+          ],
+          "registration_translation_xy": [
+            0,
+            0
+          ],
+          "alpha_bbox_gt127": [
+            224,
+            111,
+            432,
+            530
+          ],
+          "nonzero_alpha_bbox": [
+            65,
+            64,
+            556,
+            560
+          ],
+          "native_pixels_unchanged": true,
+          "sha256": "cec2bddff40975040ecb0a8c92e9c316f91eb5728bd7fc5ad32e2a08e7f54bc9"
+        }
+      ],
+      "drawing_count": 6,
+      "cycle_ticks_60hz": 90,
+      "duration_seconds": 1.5,
+      "atlas": "atlases/resonant_spell_atlas.png",
+      "atlas_dimensions": [
+        1920,
+        1280
+      ],
+      "neutral_body_ruler": "Native head-crown to lowest center robe tip in cel01; excludes halo. Approximate silhouette ruler for comparison only, not exact anatomy or world scale.",
+      "world_pixels_per_unit": null,
+      "preview": "previews/resonant_spell_native_60hz.mp4",
+      "preview_duration_seconds": 4.5,
+      "import_settings": {
+        "native_canvas_px": [
+          640,
+          640
+        ],
+        "native_pivot_top_left_px": [
+          320,
+          608
+        ],
+        "pivot_normalized_bottom_left": [
+          0.5,
+          0.05
+        ],
+        "proposed_reference_ppu": 256,
+        "pixels_per_unit_at_proposed_base": 294.2528735632184,
+        "relative_visual_scale_from_ppu": 0.87,
+        "visual_child_local_scale": [
+          1,
+          1,
+          1
+        ],
+        "visual_child_local_offset_units": [
+          -0.0703125,
+          0.1328125,
+          0
+        ],
+        "offset_reference_px_screen_xy": [
+          -18,
+          -34
+        ],
+        "offset_axes": {
+          "plane": "camera-facing sprite-local plane",
+          "x": "screen right",
+          "y": "screen up",
+          "z": "zero depth displacement",
+          "mapping": "World-size units on sprite plane, NOT world XZ or actor-root translation. Map to renderer screen-right/screen-up basis if renderer local axes differ."
+        },
+        "preserve_existing_actor_world_size": "Let B be approved current hover/base PPU. Keep hover at B. This clip PPU=B/0.87. Offset=(-18/B,34/B,0) on declared camera-facing sprite-local axes.256 is proposed only.",
+        "apply_once": "Importer PPU supplies the entire relative scale; visual child scale stays1. Offset applied once to entire clip. No per-frame fitting. Do not scale/translate actor root, colliders or world movement."
+      }
+    }
+  },
+  "import_contract": "metadata/import_contract_v03.json"
+}

@@ -1,0 +1,33 @@
+SHEARHAND SISTER — G4 ANIMATION KIT v1.0
+
+Selected Lantern Knight design preserved: severe pale face, ivory hood and veil, ash-violet habit, wine-red sash, pointed boots and two black-iron shear forearms. Built-in imagegen supplied all artwork and all 48 distinct pose/effect drawings.
+
+CONTENTS
+- Full 1024 x 1536 RGBA canonical master.
+- Seven actor clips: idle, move, basic_attack, signature_ability, get_hit, defeat, spawn.
+- One separate signature_fx clip.
+- Six transparent PNG cels per clip, 3 x 2 atlas PNG, 60 Hz exposure JSON, labeled MP4 preview and per-action ZIP.
+- Combined labeled MP4 reel, all-action contact sheet, complete kit ZIP, original source sheets, exact prompts and technical QA.
+
+IMPORT CONTRACT
+All actor and FX runtime frames use a fixed 768 x 640 pixel canvas and pivot (320,576), measured from top-left. Normalized bottom-left pivot: (0.416666667,0.1). Each atlas is 2304 x 1280, three columns and two rows. Preserve the canvas: do not trim or auto-fit frames. PNGs are straight RGBA; use ordinary alpha blending. Atlas rectangles and frame filenames are explicit in each timing JSON.
+
+The neutral standing body ruler is approximately 472 px. Each whole source sheet received one uniform downsample, never per-frame scale fitting or upscaling. Manual anatomical contact anchors place the cels on the common pivot. Native source rasters remain unchanged. Technical object extraction retains the connected artwork plus its antialiased fringe and excludes neighboring actors. The native extracted cels and all source boxes/anchors are included for audit. Slight hand-drawn anatomical and perspective variation remains.
+
+TIMING / GAMEPLAY CUES
+Times are integer 60 Hz ticks, not 60 unique drawings per second. Use the hold_ticks_60hz field for each cel.
+- idle: 72 ticks, looping
+- move: 44 ticks, looping, in-place gait. Apply world movement in the controller.
+- basic_attack: 88 ticks, one shot; first 60 ticks (1.00 s) anticipate the lunge snip; exactly one damage cue at tick 60
+- signature_ability: 92 ticks, one shot; first 60 ticks (1.00 s) anticipate the crossed-shear closure; exactly one damage cue at tick 60
+- get_hit: 36 ticks, one shot, then return to ready
+- defeat: first 48 ticks collapse, then cel 6 holds indefinitely. Null final exposure means an unbounded terminal hold, never a reset or disappearing actor.
+- spawn: 60 ticks, one shot. Already-present kneeling vigil rises physically to guard.
+- signature_fx: 18 ticks, one shot. Start with signature actor tick 56; FX cel 3 and actor impact coincide at tick 60. Clear the effect after tick 74.
+
+The basic attack uses a single forward shear lunge and closure. The signature attack spreads both arms, then crosses both shears over one compact target zone. Each timing file includes one conceptual target-zone center and one event cue. These are authoring hints, not implemented gameplay colliders. The separate FX shares the actor pivot, already positioned around the signature target at (418,320); overlay it at the same origin with no extra offset. The signature review preview and reel demonstrate this overlay.
+
+REVIEW / LIMITS
+The MP4s repeat looping clips or replay one-shots for review, with short review-only holds. Those replay gaps are not runtime timing. Spawn and defeat never float, fade or dissolve. Defeat remains as an intact fallen figure.
+
+This is a one-facing illustrated art/timing handoff matching the selected three-quarter concept. No calibrated engine camera, numeric pixels-per-world-unit, root-motion implementation, collision validation or game integration is claimed. Test state transitions and ground contact in the target game before production use. The full generated masters remain available for further direction.

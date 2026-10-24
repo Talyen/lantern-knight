@@ -1,0 +1,347 @@
+{
+  "name": "Soot Pressure Burst",
+  "canvas": [
+    768,
+    640
+  ],
+  "release_ms": 110,
+  "durations_ms": [
+    20,
+    20,
+    30,
+    40,
+    70,
+    50,
+    50,
+    50,
+    60,
+    60,
+    60,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    500
+  ],
+  "total_visual_ms": 930,
+  "clear_pause_ms": 500,
+  "new_tail_cels": 12,
+  "tail_registration": "One common uniform scale and placement for every tail cel; no per-cel centering, source anchoring, positional tween or dynamic scale.",
+  "tail_bindings": [
+    {
+      "tail_frame": 0,
+      "source_rect": [
+        0,
+        40,
+        330,
+        455
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        95,
+        5
+      ],
+      "visible_alpha_centroid": [
+        335.75,
+        317.17
+      ]
+    },
+    {
+      "tail_frame": 1,
+      "source_rect": [
+        330,
+        40,
+        647,
+        455
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        116,
+        5
+      ],
+      "visible_alpha_centroid": [
+        343.51,
+        322.87
+      ]
+    },
+    {
+      "tail_frame": 2,
+      "source_rect": [
+        647,
+        40,
+        970,
+        455
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        121,
+        5
+      ],
+      "visible_alpha_centroid": [
+        349.38,
+        322.32
+      ]
+    },
+    {
+      "tail_frame": 3,
+      "source_rect": [
+        970,
+        40,
+        1254,
+        455
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        133,
+        5
+      ],
+      "visible_alpha_centroid": [
+        337.78,
+        324.71
+      ]
+    },
+    {
+      "tail_frame": 4,
+      "source_rect": [
+        0,
+        458,
+        390,
+        873
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        95,
+        5
+      ],
+      "visible_alpha_centroid": [
+        407.12,
+        263.49
+      ]
+    },
+    {
+      "tail_frame": 5,
+      "source_rect": [
+        390,
+        458,
+        715,
+        873
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        194,
+        5
+      ],
+      "visible_alpha_centroid": [
+        415.82,
+        257.94
+      ]
+    },
+    {
+      "tail_frame": 6,
+      "source_rect": [
+        715,
+        458,
+        1010,
+        873
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        209,
+        5
+      ],
+      "visible_alpha_centroid": [
+        433.89,
+        251.52
+      ]
+    },
+    {
+      "tail_frame": 7,
+      "source_rect": [
+        1010,
+        458,
+        1254,
+        873
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        185,
+        5
+      ],
+      "visible_alpha_centroid": [
+        383.09,
+        244.31
+      ]
+    },
+    {
+      "tail_frame": 8,
+      "source_rect": [
+        0,
+        876,
+        410,
+        1254
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        95,
+        5
+      ],
+      "visible_alpha_centroid": [
+        469.59,
+        183.94
+      ]
+    },
+    {
+      "tail_frame": 9,
+      "source_rect": [
+        410,
+        876,
+        748,
+        1254
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        220,
+        5
+      ],
+      "visible_alpha_centroid": [
+        475.25,
+        158.23
+      ]
+    },
+    {
+      "tail_frame": 10,
+      "source_rect": [
+        748,
+        876,
+        1035,
+        1254
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        252,
+        5
+      ],
+      "visible_alpha_centroid": [
+        468.57,
+        173.52
+      ]
+    },
+    {
+      "tail_frame": 11,
+      "source_rect": [
+        1035,
+        876,
+        1254,
+        1254
+      ],
+      "uniform_scale": 1.3,
+      "placement": [
+        218,
+        5
+      ],
+      "visible_alpha_centroid": [
+        390.58,
+        129.51
+      ]
+    }
+  ],
+  "qa": [
+    {
+      "frame": 0,
+      "edge_max_alpha": 0,
+      "sha256": "01c4cc80cb496aed8e4029050bec87538af82b118df62e52a7cd9190d3e17973"
+    },
+    {
+      "frame": 1,
+      "edge_max_alpha": 0,
+      "sha256": "adc929de029ef3cc135d5deaaf5632f9205673427bc0ede3c655767c92ec6b8e"
+    },
+    {
+      "frame": 2,
+      "edge_max_alpha": 0,
+      "sha256": "6213cfa048bfb6e574a63bcff023c62b7c234589f8ccaa527ac6007e31831986"
+    },
+    {
+      "frame": 3,
+      "edge_max_alpha": 0,
+      "sha256": "c6fba11f80ff56ab3fa19d7f804e67ecc5bfabef2b72d323ebbaa36b3302f5ce"
+    },
+    {
+      "frame": 4,
+      "edge_max_alpha": 0,
+      "sha256": "aca074d3cf0dee5878f6c9f1f8c323b95a9d9fe440b89d56bec6fa6ac17cf7f0"
+    },
+    {
+      "frame": 5,
+      "edge_max_alpha": 0,
+      "sha256": "20ac494769f16d190f02224ba92efa15a987d9365688694318462d729b62d0cb"
+    },
+    {
+      "frame": 6,
+      "edge_max_alpha": 0,
+      "sha256": "b499214bbbce0a586f7e7f1c329a198858306499a41e2c5da533dd103e479805"
+    },
+    {
+      "frame": 7,
+      "edge_max_alpha": 0,
+      "sha256": "982354533f73f6ef61b41325f4e2e60ee5b42b1283b47fb30abeac1455860866"
+    },
+    {
+      "frame": 8,
+      "edge_max_alpha": 0,
+      "sha256": "81866184ea60a99940893f2d5c46e570a335adbce29c034eca42636491749841"
+    },
+    {
+      "frame": 9,
+      "edge_max_alpha": 0,
+      "sha256": "fd03962e71b4697381725ebb117b33f9c1e43413f17df40f019b1cac9db985d6"
+    },
+    {
+      "frame": 10,
+      "edge_max_alpha": 0,
+      "sha256": "38aed274fd271fc115dff30554fd120780ce1b527227e3db1639a56cb748e90e"
+    },
+    {
+      "frame": 11,
+      "edge_max_alpha": 0,
+      "sha256": "06acf20baf766af5350a06ed91eae2d2f01ba6ec95f8da7937839824be80a057"
+    },
+    {
+      "frame": 12,
+      "edge_max_alpha": 0,
+      "sha256": "d745b5c6c0dbb5a90a869cc6cb2aa34a171bfee85c5d7eca1f1b16b71af7a628"
+    },
+    {
+      "frame": 13,
+      "edge_max_alpha": 0,
+      "sha256": "193f5ba7132d6558f60d9ce088b900476cd85f13a245b233180a442ca9d947d3"
+    },
+    {
+      "frame": 14,
+      "edge_max_alpha": 0,
+      "sha256": "98f47e475c547a0c47dfd5b9d8feb26467dde34cd819007f8b9624b15dd2bccf"
+    },
+    {
+      "frame": 15,
+      "edge_max_alpha": 0,
+      "sha256": "31d7f8bf1d6e9fc5b3ca1291a7c717679f244ce3eb6b9304c82ce1574e5d96fa"
+    },
+    {
+      "frame": 16,
+      "edge_max_alpha": 0,
+      "sha256": "92f760423f77ecbf80164f69c8cc03b42ec26594c9e49a727d1ba7fc94ecd3c0"
+    },
+    {
+      "frame": 17,
+      "edge_max_alpha": 0,
+      "sha256": "92fd45c62bf2641e0dd33eb05d215c9c15b5c5856aaa4a758bcde6d65ea16e4f"
+    }
+  ],
+  "apng_frames": 18,
+  "apng_final_alpha": [
+    0,
+    0
+  ]
+}

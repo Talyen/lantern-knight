@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "town_blank_hanging_sign_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_blank_hanging_sign_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_blank_hanging_sign_01.png",
+    "sha256": "276d39686bdcbacf4562de9fc703b7aecf49cfa3ea0e96016262c76363a80a20",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_blank_hanging_sign_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      33,
+      1262,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      109,
+      54,
+      1219,
+      1155
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95929,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-5e094758-1af8-474b-8d19-d8f68a1c5703.png"
+  },
+  {
+    "asset_id": "town_bridge_rail_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_bridge_rail_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_bridge_rail_01.png",
+    "sha256": "9477b470bffc876d0c04273cba1a51aa13abf900cb780d9e610384c216d6a699",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_bridge_rail_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1516,
+      994
+    ],
+    "alpha_bounds_ge128": [
+      162,
+      47,
+      1403,
+      988
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.94548,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-c501b41b-2988-45c1-baee-22d4aff6a252.png"
+  },
+  {
+    "asset_id": "town_chain_bollards_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_chain_bollards_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_chain_bollards_01.png",
+    "sha256": "c5bf9bde357f1cf69fcc7cb1f787c7e0e74873c1d45967e3a9f350bbd4795ea9",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_chain_bollards_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      32,
+      21,
+      1504,
+      990
+    ],
+    "alpha_bounds_ge128": [
+      38,
+      49,
+      1498,
+      982
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.93845,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-41a6e35d-bf14-430c-a8b4-2bd33e60f98c.png"
+  },
+  {
+    "asset_id": "town_hand_pump_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_hand_pump_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_hand_pump_01.png",
+    "sha256": "954b45bd92cb51f69e1d04d550dcb1fc4e8c79423a0397732a401f16af41e05e",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_hand_pump_01.prompt.txt",
+    "size": [
+      1214,
+      1295
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      62,
+      1164,
+      1255
+    ],
+    "alpha_bounds_ge128": [
+      112,
+      65,
+      1161,
+      1245
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95712,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-32b43e60-df76-4055-8369-89ce1bdd480f.png"
+  },
+  {
+    "asset_id": "town_iron_drain_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_iron_drain_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_iron_drain_01.png",
+    "sha256": "811130e82d97e38957e98aae4a79fefbc475260aea743da60e30eaa918db60e9",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_iron_drain_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      31,
+      1415,
+      1010
+    ],
+    "alpha_bounds_ge128": [
+      149,
+      34,
+      1412,
+      1007
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.95114,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-6134839e-1099-4469-93cd-63d534e9c0e2.png"
+  },
+  {
+    "asset_id": "town_market_awning_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_market_awning_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_market_awning_01.png",
+    "sha256": "158f4ad6006d84c361f81e03d528ef6e3d75150ed815c2806a1961937191c7e3",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_market_awning_01.prompt.txt",
+    "size": [
+      1295,
+      1214
+    ],
+    "alpha_bounds_nonzero": [
+      52,
+      15,
+      1230,
+      1193
+    ],
+    "alpha_bounds_ge128": [
+      93,
+      18,
+      1221,
+      1188
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.948,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-915401aa-cb83-44e5-b7ca-52e636201e87.png"
+  },
+  {
+    "asset_id": "town_notice_post_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_notice_post_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_notice_post_01.png",
+    "sha256": "7bc65b3c4cb9a7a787a5abab02919a1f45d36a4358460554f30fa7012d3b64de",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_notice_post_01.prompt.txt",
+    "size": [
+      1223,
+      1286
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1187,
+      1254
+    ],
+    "alpha_bounds_ge128": [
+      191,
+      26,
+      1046,
+      1237
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.973,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-3fc8b2b6-c87c-4486-bfbc-dc7f622ab75a.png"
+  },
+  {
+    "asset_id": "town_rain_barrel_01",
+    "pack": "volume_06_town",
+    "path": "assets/town_rain_barrel_01.png",
+    "original_path": "lantern_environment_candidates/volume_06_town/assets/town_rain_barrel_01.png",
+    "sha256": "0dace0464639c3d89a7d741c1997d20127e3af0757af54e6c54d47f65cf3b993",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/town_rain_barrel_01.prompt.txt",
+    "size": [
+      1295,
+      1214
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      39,
+      1230,
+      1214
+    ],
+    "alpha_bounds_ge128": [
+      183,
+      48,
+      1112,
+      1176
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98491,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-e84da418-5152-425f-8f0e-269fd21f289e.png"
+  }
+]

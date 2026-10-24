@@ -1,0 +1,38 @@
+{
+  "id": "SK01",
+  "name": "Ossuary Thrall",
+  "family": "01 Skeletons",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9",
+  "source_url": "https://drive.google.com/file/d/1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9/view?usp=drivesdk",
+  "source_archive": "01_skeletons_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/01_skeletons_selection_pack/01_skeletons/assets/SK01_ossuary_thrall.png",
+  "source_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "right_crop_extra": {
+    "attack": {
+      "3": 24
+    }
+  },
+  "registration_offsets": {
+    "attack": {
+      "3": [
+        20,
+        0
+      ],
+      "5": [
+        24,
+        0
+      ]
+    }
+  },
+  "clear_left_pixels": {
+    "attack": {
+      "4": 32
+    }
+  }
+}

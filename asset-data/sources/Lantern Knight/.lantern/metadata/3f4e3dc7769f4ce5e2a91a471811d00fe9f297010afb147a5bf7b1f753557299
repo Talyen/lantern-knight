@@ -1,0 +1,69 @@
+LANTERN / LIGHTING 03 / CLEAN INK REBUILD
+
+Eight fresh illustrated fixtures; unlit/lit/broken transparent states. Four
+original two-second flame loops: watch lantern, tripod brazier, votive
+candelabrum and hanging cage lamp. Runtime exports:24 frames at12fps, phases
+0/24 through23/24. Phase1 is pixel-identical to phase0 and is not duplicated.
+Review GIF durations total exactly2seconds; MP4s are12fps review outputs.
+
+Review proof/Before_After_All_Eight.png, All_Lighting_States.png,
+Four_Flame_Loops.mp4 and QA_integrity.json.
+
+CAMERA / ROOT
+1536square, root[768,1220],440px/m. Exact orthographic projection matrix at
+35.2643897-degree elevation45-degree azimuth. Fixture volumes are fixed-view
+isometric illustrations, not fully calibrated3D meshes. Source pixel anchors
+are explicitly registered in source/registration.json. Wall cresset socket
+stays(0,1.035,-0.18); hanging lamp chain socket stays(0,2.135,0). Their roots are
+virtual ground references. Collision/mount integration still needs game review.
+
+LIGHT SEPARATION
+png/ contains combined state sprites. emission/ contains flame-only lit states.
+illumination/ contains the separate static pane-warmth layer, empty when unused.
+animation/ includes flame-only emission for every loop frame. Unlit fixture +
+pane warmth + corresponding emission reproduces the combined lit image exactly.
+These are straight-alpha colored layers, not a claim of physical lumens or
+runtime dynamic illumination. Integration decides additive/blended usage.
+
+Every flame is a deformation of one new authored flame master. Contact vertices
+are fixed for all phases; only the material's upper flow changes. Hardware is
+pixel-identical across all loop frames outside the emission union. Glass, rims,
+source camera and ground root do not drift. No frame is independently generated.
+
+DAMAGE
+Material-specific derived terminal assemblies: broken glass pane, detached
+hanging street lamp, fractured outer brazier-leg strap with supporting core
+and foot retained, severed wall-cresset arm, broken candle branch, chipped stone
+beacon cap, damaged cage bar and snapped stove chimney. Broken states are unlit.
+A damaged fixture does not imply a safe interaction or runtime damage state.
+
+SOURCE / MIGRATION
+source/masters/ are untouched new generated illustrations. source/prompts/
+records exact built-in image_gen prompts. Editable source is build_lighting.py,
+illustration_engine.py, registration.json and clipping_meshes.json. Alpha is
+preserved, with no thresholding or added noise/grain. Original pack and hero
+were not modified. Same eight IDs, state names, four clip IDs, canvas and root.
+New raster/layer/Python source supersedes the original SVG construction source.
+
+Rebuild with Python3/Pillow/NumPy: python source/build_lighting.py, then
+python source/package_proof.py. ffmpeg produces review movies. Engine import,
+relighting, collision, packed atlases and runtime timing remain integration work.
+
+R02A SOURCE-PORTABILITY REPAIR (6 October 2026)
+Only source usability/documentation changed. Every previously delivered artwork,
+master, still, frame, layer, atlas and review image/movie is byte-identical to r02.
+The eight images in source/historical_before/ are unchanged original comparison
+inputs, not additional designs or runtime assets. They make package_proof.py
+self-contained. No old workspace or generated-image folder is required.
+
+Rebuild a disposable extracted copy; the builders overwrite derived outputs and
+some manifest review labels. From this pack root run:
+  python source/build_lighting.py --stills-only
+  python source/package_proof.py
+Omit --stills-only to rebuild the full existing animation set. Python, Pillow and
+NumPy are required; review movies need FFmpeg with libx264. Pillow >=10.1 is
+recommended for size-aware font fallback. Font labels prefer installed DejaVu
+Sans; set LANTERN_FONT_PATH to any suitable font file, or 'default' for Pillow's
+bundled font. Fallback typography can differ; source art is unaffected.
+See SOURCE_PORTABILITY.json for the bounded replay and byte-preservation scope.
+No new engine/runtime, collision or complete cross-platform certification.

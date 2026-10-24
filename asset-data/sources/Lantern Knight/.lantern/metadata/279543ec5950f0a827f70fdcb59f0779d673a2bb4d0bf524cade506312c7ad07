@@ -1,0 +1,49 @@
+{
+  "pack": "06 Spirits and Constructs",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "SP01",
+      "slug": "veil_wisp",
+      "name": "Veil Wisp",
+      "description": "A single floating dark-fantasy spirit, no anatomy or props: a compact upper teardrop hood of cool slate-blue ectoplasm surrounds one charcoal-black oval face hollow with two tiny pale-ivory eye points. The lower body tapers into exactly THREE broad simple clothlike spectral tips, one central long tip and two matching shorter side tips. No arms, hands, legs, feet, mouth, wings, flame, particles, glow haze or detached wisps. A mournful inverted-drop silhouette, smoothly inked and opaque like an animation cel, two large dark-blue shadow patches and one pale slate highlight. Upper hood volume and the front hollow face toward screen down-right. One continuous body only.",
+      "motion_hint": "Hover bob / short dart",
+      "move": "One slow vertical bob and a small synchronized tail sway.",
+      "attack": "Compress the body and dart forward.",
+      "death": "Shrink smoothly toward the eye hollow until gone.",
+      "qa": "One continuous three-tailed spirit, no limbs or loose particles, passes. Thin tail ends need a stable construction curve through motion. Small head tilt and cloth contours are not mathematically mirrored.",
+      "native_file": "source/SP01_veil_wisp_native.png",
+      "asset_file": "assets/SP01_veil_wisp.png",
+      "native_dimensions": [
+        1024,
+        1536
+      ],
+      "asset_dimensions": [
+        737,
+        1529
+      ],
+      "native_sha256": "ca46ad2e8f54bc174635e2973afdd2a99eb3bcfaa39731187d6c99ec027b4a69",
+      "asset_sha256": "80f8802796d5f44eb4acdfcbf262cf039f9515cf302f6ca43ee6c627b350b795",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 407796,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          226,
+          44,
+          835,
+          1445
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

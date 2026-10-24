@@ -1,0 +1,51 @@
+{
+  "schema": "lantern.sprite.v1",
+  "id": "lantern_archetype_concept_01_skeletal_archer",
+  "name": "Skeletal archer",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    320,
+    520
+  ],
+  "estimated_pixels_per_unit": 256,
+  "facing": "screen down-right (front three-quarter)",
+  "camera": {
+    "projection": "orthographic visual target",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibrated_3d": false
+  },
+  "mirroring": "Not approved; author opposite facing independently",
+  "root_motion": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+  "reference_sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+  "clips": {
+    "idle": {
+      "loop": true,
+      "tick_rate": 60,
+      "holds_ticks": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "frames": [
+        "idle_00.png",
+        "idle_01.png",
+        "idle_02.png",
+        "idle_03.png",
+        "idle_04.png",
+        "idle_05.png"
+      ],
+      "atlas": "idle_atlas.png",
+      "atlas_columns": 3,
+      "atlas_rows": 2,
+      "attack_visual_event_frame": null,
+      "end_behavior": "repeat authored forward cycle; no pingpong, crossfade or root motion"
+    }
+  }
+}

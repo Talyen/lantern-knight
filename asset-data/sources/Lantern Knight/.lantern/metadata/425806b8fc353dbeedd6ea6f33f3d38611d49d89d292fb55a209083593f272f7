@@ -1,0 +1,21 @@
+{
+  "id": "summoning_vortex",
+  "family": "summoning_vortex",
+  "source_fps": 30,
+  "preview_fps": 60,
+  "frame_count": 60,
+  "duration_seconds": 2.0,
+  "loop": true,
+  "canvas": [
+    640,
+    560
+  ],
+  "pivot": [
+    320,
+    386
+  ],
+  "alpha": "straight",
+  "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+  "world_density_px_per_metre": 112,
+  "preview_interpolation": "none; each source drawing repeats twice"
+}

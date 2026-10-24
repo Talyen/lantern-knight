@@ -1,0 +1,81 @@
+{
+  "name": "Hovering Broken Mask DL",
+  "reference": {
+    "id": "lantern_cave_creature_06_hovering_broken_mask",
+    "sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f"
+  },
+  "holds": {
+    "move": [
+      10,
+      9,
+      10,
+      10,
+      9,
+      10
+    ],
+    "attack": [
+      8,
+      10,
+      12,
+      5,
+      8,
+      14
+    ]
+  },
+  "offsets": {
+    "move": [
+      [
+        -56,
+        -6
+      ],
+      [
+        -26,
+        -10
+      ],
+      [
+        0,
+        -6
+      ],
+      [
+        -54,
+        -11
+      ],
+      [
+        -30,
+        -6
+      ],
+      [
+        -2,
+        -9
+      ]
+    ],
+    "attack": [
+      [
+        -56,
+        -6
+      ],
+      [
+        -32,
+        4
+      ],
+      [
+        -14,
+        4
+      ],
+      [
+        -54,
+        0
+      ],
+      [
+        -28,
+        0
+      ],
+      [
+        -2,
+        -9
+      ]
+    ]
+  },
+  "ppu": 274,
+  "facing": "screen lower-left front three-quarter"
+}

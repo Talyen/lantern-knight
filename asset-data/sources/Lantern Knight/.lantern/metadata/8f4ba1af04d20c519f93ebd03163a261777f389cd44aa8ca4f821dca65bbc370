@@ -1,0 +1,106 @@
+{
+  "id": "ZB01",
+  "name": "Ashen Shambler",
+  "family": "03 Zombies",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1lU6WlrBD_Mfl5kAjTSURbgAhmLS8bZLo",
+  "source_url": "https://drive.google.com/file/d/1lU6WlrBD_Mfl5kAjTSURbgAhmLS8bZLo/view?usp=drivesdk",
+  "source_archive": "03_zombies_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/03_zombies_selection_pack/03_zombies/assets/ZB01_ashen_shambler.png",
+  "source_sha256": "c2e8f5cfd33e745e414aa0a93047d18cd51baf283d10478864dbdba6f8a9c631",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "right_crop_extra": {
+    "attack": {
+      "3": 32
+    }
+  },
+  "clear_left_pixels": {
+    "attack": {
+      "4": 40
+    }
+  },
+  "clear_rectangles": {
+    "move": {
+      "3": [
+        [
+          400,
+          0,
+          512,
+          6
+        ]
+      ]
+    },
+    "attack": {
+      "3": [
+        [
+          400,
+          0,
+          512,
+          6
+        ]
+      ]
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -20,
+        0
+      ],
+      "1": [
+        20,
+        -7
+      ],
+      "2": [
+        17,
+        6
+      ],
+      "3": [
+        25,
+        5
+      ],
+      "4": [
+        25,
+        5
+      ],
+      "5": [
+        3,
+        5
+      ]
+    },
+    "attack": {
+      "2": [
+        85,
+        -7
+      ],
+      "3": [
+        8,
+        -2
+      ],
+      "4": [
+        -9,
+        -4
+      ],
+      "5": [
+        11,
+        0
+      ]
+    }
+  },
+  "remove_components_below": 2000,
+  "bottom_crop_extra": {
+    "move": {
+      "0": 8,
+      "1": 8
+    },
+    "attack": {
+      "0": 8,
+      "1": 8,
+      "2": 8
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "source_sha256": "effdd9886f6398034bc991c1711ae77ee20e1cecbe2491f395828aac79d6b13d",
+  "changed_pixels": 80499,
+  "alpha_identical": true,
+  "boot_material_regions": [
+    {
+      "source_cell": 1,
+      "rect": [
+        225,
+        313,
+        268,
+        363
+      ],
+      "pixels": 1182
+    },
+    {
+      "source_cell": 2,
+      "rect": [
+        211,
+        380,
+        270,
+        435
+      ],
+      "pixels": 1334
+    },
+    {
+      "source_cell": 4,
+      "rect": [
+        350,
+        221,
+        411,
+        293
+      ],
+      "pixels": 1509
+    },
+    {
+      "source_cell": 7,
+      "rect": [
+        135,
+        315,
+        218,
+        410
+      ],
+      "pixels": 3154
+    }
+  ],
+  "method": "RGB-only temporary pants and boot-material correction; original drawn contours retained. Wrong sourcecel3 remains in archivedsheet but excluded from animation."
+}

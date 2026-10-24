@@ -1,0 +1,17 @@
+# lunge_lowcarry8_v01
+
+Current LOW-CARRY eight-drawing full-action restart. This is distinct from the rejected overhead twenty-frame set.
+
+- Eight transparent native PNGs, each 560×510, with source pixels and alpha unchanged.
+- Original sheet origins: x=0,429,858,1287; y=0,458. Same integer padding (+48,+24) for every cell. Scale is exactly 1.0. No independent pose fitting, bbox centering or weapon changes.
+- Cel05 retains its entire sword beyond the nominal first-column gutter.
+- Complete action: Ready → Load → Drive → Thrust → Brake → Retract → Return → Ready. Unequal holds total 54 ticks /0.9s at60Hz.
+- Default closed-loop timeline explicitly displays01_READY again for the final Ready phase. The actual drawn08_READY remains a separate PNG and is shown on the native board. Therefore the MP4 preview has 8 phase exposures but only 7 unique source cels; it does not display all8 drawings. An alternate actual-eight-source action timeline uses all eight original cels.
+- No physical PPU/ground-root pivot is claimed for this native cell layout. The padding origin is not a foot pivot. Source contact flags are reference data, not observed physical contact proof.
+
+## Review limitations
+Comfortable low lantern carry is preserved throughout. Cels03–05 have crowded projected sword-fist/guard versus lantern-base tangencies; the fist/guard remains foreground and the housing behind. The apex04 rear leg extends farther and retracts briskly into05. Fixed-cell drift and original silhouette differences are deliberately retained for the motion test. There are no synthetic in-betweens or per-limb adjustments.
+
+source_extraction_conservation.json proves exact rectangle-to-sheet RGBA roundtrips separately from loop_closure_proof.json. All eight connected character alpha components and local edge fringes are preserved. Outside the safe rectangles, the sheet contains isolated alpha=1 gutter/background noise; it is unassigned to cells and remains in the unchanged external original sheet.
+
+Native preview/video/closeboard references and hashes are in provenance.json. No atlas, source originals, old rejected work, or videos are bundled. Root-level camera/world integration remains outside this bounded native extraction.

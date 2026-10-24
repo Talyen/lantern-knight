@@ -1,0 +1,26 @@
+[
+  {
+    "baseline": "06_distant_backdrops/01_ruined_cathedral_skyline_v2",
+    "current": "masters/01_ruined_cathedral_skyline_v2.png",
+    "status": "retained original",
+    "sha256": "f7428c49e3ac27468d876dacdf600d6b49907887cc879f19473e5092143997f7"
+  },
+  {
+    "baseline": "06_distant_backdrops/02_misted_blackwood_valley_v1",
+    "current": "masters/02_misted_blackwood_valley_v1.png",
+    "status": "retained original",
+    "sha256": "a66cb48eae14386fba366c1d4bcf697b1e8cf574f7f48b4f9aeeaa69144543a6"
+  },
+  {
+    "baseline": "06_distant_backdrops/03_sunken_industrial_canal_v2",
+    "current": "masters/03_sunken_industrial_canal_r02.png",
+    "status": "redrawn",
+    "sha256": "9889c5b911c77225b35a86de2c3ee731d07f7a5ed6530b616bae4d5d9f39075c"
+  },
+  {
+    "baseline": "06_distant_backdrops/04_moonlit_mausoleum_ridge_v1",
+    "current": "masters/04_moonlit_mausoleum_ridge_v1.png",
+    "status": "retained original",
+    "sha256": "6e27337e3dfb40b80bd1dd4b0de5824122ba595436c506bf82d7218799954747"
+  }
+]

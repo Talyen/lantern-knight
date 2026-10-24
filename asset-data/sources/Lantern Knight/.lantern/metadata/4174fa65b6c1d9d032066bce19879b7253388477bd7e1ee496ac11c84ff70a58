@@ -1,0 +1,212 @@
+[
+  {
+    "asset_id": "occult_clustered_wax_altar_01",
+    "pack": "volume_16_occult_landmarks",
+    "path": "assets/occult_clustered_wax_altar_01.png",
+    "original_path": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_clustered_wax_altar_01.png",
+    "sha256": "8ed5130797399cd3e43f169865717a52284ff373c6a055e633497415c5bb336e",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/occult_clustered_wax_altar_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      11,
+      1384,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      160,
+      14,
+      1376,
+      1011
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97905,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-9dc5ae79-af31-4078-aa9a-3d488e05a50a.png"
+  },
+  {
+    "asset_id": "occult_hollow_ritual_totem_02",
+    "pack": "volume_16_occult_landmarks",
+    "path": "assets/occult_hollow_ritual_totem_02.png",
+    "original_path": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_hollow_ritual_totem_02.png",
+    "sha256": "a8496c4fbc795fbbf170c768ca76a968a026a7f68baa91b40d2655768ecb5b52",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/occult_hollow_ritual_totem_02.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      41,
+      30,
+      926,
+      1512
+    ],
+    "alpha_bounds_ge128": [
+      105,
+      32,
+      921,
+      1494
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9619,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-74a63ac6-5022-455f-8bb1-bcc69c18ceb3.png"
+  },
+  {
+    "asset_id": "occult_root_bound_stone_face_01",
+    "pack": "volume_16_occult_landmarks",
+    "path": "assets/occult_root_bound_stone_face_01.png",
+    "original_path": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_root_bound_stone_face_01.png",
+    "sha256": "455895377579caf0a079c27b527d3d5775f44fa4c482a9d278cb79b81890e393",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/occult_root_bound_stone_face_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1274,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      91,
+      37,
+      1247,
+      1160
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97209,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "occult_split_rune_monolith_02",
+    "pack": "volume_16_occult_landmarks",
+    "path": "assets/occult_split_rune_monolith_02.png",
+    "original_path": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_split_rune_monolith_02.png",
+    "sha256": "aad9f44a50f072c3e6e6ee7a577c1ca5c8421a4486c9177183097e3169a5cce4",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/occult_split_rune_monolith_02.prompt.txt",
+    "size": [
+      1199,
+      1312
+    ],
+    "alpha_bounds_nonzero": [
+      33,
+      2,
+      1152,
+      1312
+    ],
+    "alpha_bounds_ge128": [
+      242,
+      12,
+      966,
+      1298
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96778,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-b664eb9a-576f-401d-a6a0-4d7500f17dce.png"
+  },
+  {
+    "asset_id": "occult_thorn_iron_shrine_frame_01",
+    "pack": "volume_16_occult_landmarks",
+    "path": "assets/occult_thorn_iron_shrine_frame_01.png",
+    "original_path": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_thorn_iron_shrine_frame_01.png",
+    "sha256": "a841153ace93ceb5ca9567d2ae3bfe37768d6d9a143f8b5e775b60544fb08765",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/occult_thorn_iron_shrine_frame_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      25,
+      38,
+      1288,
+      1169
+    ],
+    "alpha_bounds_ge128": [
+      292,
+      42,
+      1059,
+      1160
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.90376,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "occult_tilted_astronomical_ring_01",
+    "pack": "volume_16_occult_landmarks",
+    "path": "assets/occult_tilted_astronomical_ring_01.png",
+    "original_path": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_tilted_astronomical_ring_01.png",
+    "sha256": "6aca74330c418dda3a95216cc5d478bff6b1576886e93158eab034bff1913365",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/occult_tilted_astronomical_ring_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      37,
+      1280,
+      1175
+    ],
+    "alpha_bounds_ge128": [
+      143,
+      40,
+      1206,
+      1172
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96804,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-741e8aac-f196-49d6-bafb-c9526b2ef5a5.png"
+  }
+]

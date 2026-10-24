@@ -1,0 +1,9 @@
+Ossuary Thrall: tethered_hook
+Additive ability only. Existing attacks and get-hit art unchanged.
+Native generated sheet1024x1536,16 actor +8 effect cels. Source cel crops and explicit ordinary resample factor are in runtime JSON. Actor export canvas1024x1024, pivot[384, 584].
+Render row-major; use per-frame milliseconds and one gameplay hit at1160ms. Effect starts1000ms; it never independently schedules damage. Coordinate offsets are top-left +x right,+y down.
+Reel compares reference appearance to the new synchronized ability, not a captured baseline attack. One direction supplied. Inspect in engine before gameplay integration.
+
+Polish revision physical-polish-v1:
+Replaced duplicated detached arm effect with eight restrained bone-chip contact cels; impact begins at existing single-hit time 1160 ms.
+Current authoritative FX canvas [384, 384], pivot [192, 280], offset [530, -230], start 1160ms. Read revised runtime JSON. No engine integration changes.

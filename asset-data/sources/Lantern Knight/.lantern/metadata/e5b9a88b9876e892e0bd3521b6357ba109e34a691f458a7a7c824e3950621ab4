@@ -1,0 +1,13 @@
+LANTERN GROUND SURFACES+DECALS / REVISION02
+
+12 material tiles and8 transparent decals. All20 source illustrations freshly rebuilt.
+Raw TOPDOWN horizontal XZ artwork. Image-right=+X,image-down=+Z. No camera baked into runtime art.
+1024x1024 RGBA;sRGB;4m square;256texels/m. Materials opaque;decals straight alpha. Centre pivot512,512.
+Exact orthographic proof uses elevation35.264389682754654deg and azimuth45deg. It is a planar mathematical preview, not Blender/runtime render; do not import projected proofs as textures.
+
+TILING LIMITATION: visually inspected3x3 repeat fields, recognizable motif repetition and small edge differences remain. No blanket mathematically seamless claim. See Tile_Statistics and individual repeat previews. Use sensible terrain blending, decals and spatial variation rather than exposing acres of one stamp. Runtime mip/UV/import not tested.
+
+Sources: untouched fresh generated masters plus per-image prompts. Rejected noisy or raised-crack explorations excluded. Canvas fitting is uniform packaging, not repainting. Original v1 assets preserved outside this package; all20 matching identifiers superseded here.
+Black fissures are painted color, not geometry holes. No collision,height,normal maps or real puddle/lighting behavior included.
+
+REVISION02a: replaces only06darkearth,07mossyearth,08gravel with quieter fresh illustrations. PreviousRevision02 ZIP preserved separately. Latest-only collection should select this r02a pack and exclude the older ground ZIP. Recognizable barepatches and material motifs remain: use decals and sensible layout variation to break repetition.

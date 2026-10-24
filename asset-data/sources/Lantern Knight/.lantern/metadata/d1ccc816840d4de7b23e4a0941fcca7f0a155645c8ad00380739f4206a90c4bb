@@ -1,0 +1,39 @@
+{
+  "frame_count": 7,
+  "duration_ticks": 40,
+  "changed_pixels": 1334,
+  "alpha_unchanged": true,
+  "atlas_checks": [
+    {
+      "frame": "frames/run_00.png",
+      "atlas_exact": true
+    },
+    {
+      "frame": "frames/run_01.png",
+      "atlas_exact": true
+    },
+    {
+      "frame": "frames/run_02.png",
+      "atlas_exact": true
+    },
+    {
+      "frame": "frames/run_03.png",
+      "atlas_exact": true
+    },
+    {
+      "frame": "frames/run_04.png",
+      "atlas_exact": true
+    },
+    {
+      "frame": "frames/run_05.png",
+      "atlas_exact": true
+    },
+    {
+      "frame": "frames/run_06.png",
+      "atlas_exact": true
+    }
+  ],
+  "engine_verified": false,
+  "real_time_visual_verified": false,
+  "previews_regenerated": true
+}

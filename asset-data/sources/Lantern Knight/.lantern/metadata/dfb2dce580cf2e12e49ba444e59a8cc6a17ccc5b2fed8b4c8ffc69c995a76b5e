@@ -1,0 +1,270 @@
+{
+  "clip": "cocoon_scoot",
+  "loop": true,
+  "source": "source/locomotion_v02_native.png",
+  "source_size_px": [
+    1536,
+    1024
+  ],
+  "source_sha256": "b850f79e173029bcb95c35bd193c3f7b84c7fda70cfdb552bef1912175466f06",
+  "native_canvas_px": [
+    768,
+    768
+  ],
+  "fixed_pivot_top_left_px": [
+    448,
+    488
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5833333333333334,
+    0.36458333333333337
+  ],
+  "atlas": "atlas/cocoon_scoot_DR_atlas.png",
+  "atlas_grid": [
+    3,
+    2
+  ],
+  "unique_drawings": 6,
+  "tick_rate": 60,
+  "total_ticks": 44,
+  "duration_seconds": 0.7333333333333333,
+  "frame_hold_ticks": [
+    10,
+    7,
+    5,
+    10,
+    7,
+    5
+  ],
+  "events": {},
+  "root_motion": "Visual in-place test. No per-frame root fitting or engine translation is baked. Pounce displacement is retained in its native cell. Engine travel/attack distance is a future tuning parameter.",
+  "extraction": "Six connected-figure masks isolate ownership including fingers outside nominal grid gutters; uniform512cell origins plus128padding yield768canvas. Alpha\u226416\u21920 and alpha\u2265250\u2192255. RGB unchanged. No resize, mirroring, warp, tween, or centering.",
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/cocoon_scoot/cocoon_scoot_DR_01.png",
+      "phase": "Reach / long shroud",
+      "hold_ticks_60hz": 10,
+      "start_tick": 0,
+      "end_tick_exclusive": 10,
+      "source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_component_bounds_px": [
+        61,
+        82,
+        540,
+        480
+      ],
+      "exported_visible_bounds_px": [
+        189,
+        210,
+        668,
+        608
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "8e396b046ac6d0e7e025668c2e034d311a1e58e07bc59aef08b98adb83cbcfe2"
+    },
+    {
+      "index": 2,
+      "file": "frames/cocoon_scoot/cocoon_scoot_DR_02.png",
+      "phase": "Hand pull / bunch",
+      "hold_ticks_60hz": 7,
+      "start_tick": 10,
+      "end_tick_exclusive": 17,
+      "source_cell_origin_px": [
+        512,
+        0
+      ],
+      "source_component_bounds_px": [
+        586,
+        82,
+        986,
+        453
+      ],
+      "exported_visible_bounds_px": [
+        202,
+        210,
+        602,
+        581
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "e769b133d345ec3a3fbc16017b3a640298c2160dc65771976b99111bcdc468e5"
+    },
+    {
+      "index": 3,
+      "file": "frames/cocoon_scoot/cocoon_scoot_DR_03.png",
+      "phase": "Low settle / reach",
+      "hold_ticks_60hz": 5,
+      "start_tick": 17,
+      "end_tick_exclusive": 22,
+      "source_cell_origin_px": [
+        1024,
+        0
+      ],
+      "source_component_bounds_px": [
+        1051,
+        94,
+        1506,
+        457
+      ],
+      "exported_visible_bounds_px": [
+        155,
+        222,
+        610,
+        585
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "66a53b1d9b2bd9702227145d3638593f2e5e8ca46223c7fe31692cad3a44bdb8"
+    },
+    {
+      "index": 4,
+      "file": "frames/cocoon_scoot/cocoon_scoot_DR_04.png",
+      "phase": "Second long reach",
+      "hold_ticks_60hz": 10,
+      "start_tick": 22,
+      "end_tick_exclusive": 32,
+      "source_cell_origin_px": [
+        0,
+        512
+      ],
+      "source_component_bounds_px": [
+        92,
+        554,
+        588,
+        967
+      ],
+      "exported_visible_bounds_px": [
+        220,
+        170,
+        716,
+        583
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "d56b14b9a67abdeed00f2e981e6c78b9e75a30e4615a380af8cf2762e2e4df53"
+    },
+    {
+      "index": 5,
+      "file": "frames/cocoon_scoot/cocoon_scoot_DR_05.png",
+      "phase": "Contract / hand recovery",
+      "hold_ticks_60hz": 7,
+      "start_tick": 32,
+      "end_tick_exclusive": 39,
+      "source_cell_origin_px": [
+        512,
+        512
+      ],
+      "source_component_bounds_px": [
+        603,
+        568,
+        966,
+        909
+      ],
+      "exported_visible_bounds_px": [
+        219,
+        184,
+        582,
+        525
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "963b43bdbef12fe22198f7c5937cb3a2b4a645bccfab300bf78a5eeda4a4ffaf"
+    },
+    {
+      "index": 6,
+      "file": "frames/cocoon_scoot/cocoon_scoot_DR_06.png",
+      "phase": "Settle toward loop",
+      "hold_ticks_60hz": 5,
+      "start_tick": 39,
+      "end_tick_exclusive": 44,
+      "source_cell_origin_px": [
+        1024,
+        512
+      ],
+      "source_component_bounds_px": [
+        1065,
+        561,
+        1503,
+        974
+      ],
+      "exported_visible_bounds_px": [
+        169,
+        177,
+        607,
+        590
+      ],
+      "fixed_pivot_top_left_px": [
+        448,
+        488
+      ],
+      "native_rgb_unchanged": true,
+      "sha256": "f5256e869a88428f885758f2538029782be5f9cca515adb242631121f338d67f"
+    }
+  ],
+  "tick_to_drawing_1based": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    6,
+    6,
+    6,
+    6,
+    6
+  ]
+}

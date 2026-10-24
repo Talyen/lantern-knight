@@ -1,0 +1,426 @@
+{
+  "stills": [
+    {
+      "asset": "pilgrim_chest",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        193,
+        379,
+        831,
+        977
+      ]
+    },
+    {
+      "asset": "pilgrim_chest",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        194,
+        124,
+        906,
+        977
+      ]
+    },
+    {
+      "asset": "pilgrim_chest",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        194,
+        222,
+        862,
+        977
+      ]
+    },
+    {
+      "asset": "cooper_barrel",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        353,
+        389,
+        673,
+        831
+      ]
+    },
+    {
+      "asset": "cooper_barrel",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        353,
+        398,
+        925,
+        937
+      ]
+    },
+    {
+      "asset": "cooper_barrel",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        185,
+        398,
+        925,
+        937
+      ]
+    },
+    {
+      "asset": "reliquary_urn",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        348,
+        347,
+        687,
+        833
+      ]
+    },
+    {
+      "asset": "reliquary_urn",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        348,
+        405,
+        730,
+        966
+      ]
+    },
+    {
+      "asset": "reliquary_urn",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        236,
+        405,
+        730,
+        966
+      ]
+    },
+    {
+      "asset": "shrine_reliquary",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        198,
+        377,
+        826,
+        974
+      ]
+    },
+    {
+      "asset": "shrine_reliquary",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        199,
+        174,
+        948,
+        974
+      ]
+    },
+    {
+      "asset": "shrine_reliquary",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        199,
+        241,
+        895,
+        974
+      ]
+    },
+    {
+      "asset": "masons_tool_chest",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        174,
+        444,
+        850,
+        988
+      ]
+    },
+    {
+      "asset": "masons_tool_chest",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        175,
+        208,
+        871,
+        988
+      ]
+    },
+    {
+      "asset": "masons_tool_chest",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        175,
+        292,
+        857,
+        988
+      ]
+    },
+    {
+      "asset": "shipping_crate",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        238,
+        331,
+        786,
+        951
+      ]
+    },
+    {
+      "asset": "shipping_crate",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        239,
+        16,
+        812,
+        951
+      ]
+    },
+    {
+      "asset": "shipping_crate",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        139,
+        130,
+        793,
+        951
+      ]
+    },
+    {
+      "asset": "provision_hopper",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        268,
+        311,
+        756,
+        903
+      ]
+    },
+    {
+      "asset": "provision_hopper",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        269,
+        67,
+        779,
+        903
+      ]
+    },
+    {
+      "asset": "provision_hopper",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        195,
+        157,
+        763,
+        903
+      ]
+    },
+    {
+      "asset": "iron_lockbox",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        282,
+        486,
+        742,
+        926
+      ]
+    },
+    {
+      "asset": "iron_lockbox",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        283,
+        267,
+        763,
+        926
+      ]
+    },
+    {
+      "asset": "iron_lockbox",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1024,
+        1024
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        283,
+        343,
+        749,
+        926
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "asset": "pilgrim_chest",
+      "endpoint_exact_matches": {
+        "closed": true,
+        "open": true
+      },
+      "frame_count": 24
+    },
+    {
+      "asset": "shrine_reliquary",
+      "endpoint_exact_matches": {
+        "closed": true,
+        "open": true
+      },
+      "frame_count": 24
+    },
+    {
+      "asset": "iron_lockbox",
+      "endpoint_exact_matches": {
+        "closed": true,
+        "open": true
+      },
+      "frame_count": 24
+    }
+  ],
+  "untouched_generated_master_sha256": {
+    "iron_lockbox.png": "f45a621099e1a14d5ed22408f1d4dd156f19e238b9617f5a40dade2b7cf47188",
+    "shipping_crate.png": "345b7013e1efda5815afe9e72cf442cc776654edb3af14647ba1bdfe02f2a931",
+    "provision_hopper.png": "5742d93a7bc977bf26202b30cf53f1afbceb79c8ba1656a23e466e904583fea5",
+    "shrine_reliquary.png": "86b5ebf3c67fd8d97e87a10a9a725a56214bf80f7f8fcbf3be136b14aed5de41",
+    "cooper_barrel.png": "895927d120f25b8862fb37e6c85c6869e710b2ec2cf0be6051db95b6d24c345f",
+    "masons_tool_chest.png": "0953a51c2bb7138f88f48409bd48f6ac68e8491da17164d2aa65ccf602484e5e",
+    "reliquary_urn.png": "8d7ee5fcfe48b203473ab5533f969971b088c75b592f1d988979a7a07878ecbb",
+    "lid_undersides.png": "0f808ef67c8ba3459d9d0a46d0dbb0f84b2ed8e32da2459a59910e45887cc6f6",
+    "pilgrim_chest.png": "bcf71da2553fd255998df1ea51daa5b0d870aff0320f4284f6462c60a93bc37d"
+  },
+  "evaluation": "Automated integrity checks only; independent art/motion audit pending."
+}

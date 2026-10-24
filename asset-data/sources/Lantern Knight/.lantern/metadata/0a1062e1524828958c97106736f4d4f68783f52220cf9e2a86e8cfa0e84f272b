@@ -1,0 +1,21 @@
+WATCH LANTERN — IGNITION + EXTINGUISHING / CLEAN INK
+
+Two one-shot clips, each with eight independently illustrated effect cels plus two exact state-boundary cels. This is authored cel animation with held integer 60 Hz ticks, not 60 unique drawings/second.
+
+IGNITE: unlit → ember → catch → split catch → rise → fork → overshoot → settle → steady shape → original lit phase zero.
+EXTINGUISH: original lit phase zero → dip → gutter → ember/smoke → puff → coil → lifting curl → wisps → last wisp → original unlit.
+
+IMPORT
+Full frames are straight-alpha RGBA, 1536×1536. Ground pivot: (768,1220), top-left pixel convention. Original 440px/m and fixed orthographic camera (35.2643897° elevation, 45° azimuth) retained.
+Trimmed fixture atlas cells reconstruct at offset (632,848); pivot inside trim is (136,372). Each 280×440 visible trim has a 2px transparent gutter. Metadata provides every rectangle.
+Effect-only cels are 96×160, socket pivot (48,140). Watch-lantern socket: (741,1113). Standard alpha-over blend; smoke must not use additive blend. Reusable cels are unclipped except the two original lit boundary copies. Apply the destination fixture's own glass/cage occlusion. Registered effect exports already use this lantern's original pane mask. Illumination exports are separate.
+Use manifest duration_ticks at 60 Hz, then switch once to terminal_state. Do not loop the one-shots. Start extinguish at original flicker phase zero (finish the running cycle before switching). Original flicker assets are not duplicated or rebuilt here.
+
+SOURCE
+source/build_transitions.py rebuilds runtime PNGs, atlas, manifest, native-pixel contacts and MP4 from included original state/layer inputs and fresh transparent generated effect sheet. Requires Python with Pillow, numpy, scipy, plus ffmpeg. Run from any working directory.
+source/generated_transition_drawings.png is the untouched generation result with native alpha. Separate cropped drawings are included. Deterministic compositing removes disconnected generator speckles, retains antialiased alpha around the illustration, and downscales each separate cel. No source drawing or fixture is upscaled. There is no generative edit cascade.
+The prompt requested Sunburst 2.5 art direction; image generation used the available built-in tool. No specific model/backend version is asserted.
+
+QA
+Every frame was inspected at native fixture scale. Fixture pixels outside the original pane mask remain byte-identical. Original silhouette stays unchanged. Pane alpha varies intentionally with illumination/effects, as in the source lit image; this is not a hardware shape change. Final ignition and initial extinguish equal original lit exactly; final extinguish equals original unlit exactly. Review MP4 is 60Hz with review-only terminal holds, labeled separately from runtime durations.
+No engine, scene, repository or game changes, and no claim of engine validation.

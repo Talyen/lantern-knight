@@ -1,0 +1,26 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png",
+    "new": "volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png",
+    "new": "volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+    "new": "volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_pale_birch_cluster_01.png",
+    "new": "volume_15_tree_forms/assets/vegetation_pale_birch_cluster_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png",
+    "new": "volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_windswept_yew_01.png",
+    "new": "volume_15_tree_forms/assets/vegetation_windswept_yew_01.png"
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "name": "Hovering Broken Mask UL",
+  "reference": {
+    "id": "lantern_cave_creature_06_hovering_broken_mask",
+    "sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f"
+  },
+  "holds": {
+    "move": [
+      10,
+      9,
+      10,
+      10,
+      9,
+      10
+    ],
+    "attack": [
+      8,
+      10,
+      12,
+      5,
+      8,
+      14
+    ]
+  },
+  "offsets": {
+    "move": [
+      [
+        -32,
+        -3
+      ],
+      [
+        -29,
+        -8
+      ],
+      [
+        -37,
+        -4
+      ],
+      [
+        -32,
+        -3
+      ],
+      [
+        -36,
+        -4
+      ],
+      [
+        -34,
+        -2
+      ]
+    ],
+    "attack": [
+      [
+        -36,
+        2
+      ],
+      [
+        -36,
+        6
+      ],
+      [
+        -35,
+        9
+      ],
+      [
+        -32,
+        0
+      ],
+      [
+        -34,
+        0
+      ],
+      [
+        -34,
+        -2
+      ]
+    ]
+  },
+  "ppu": 270,
+  "facing": "screen upper-left rear three-quarter",
+  "rear_surface": "Inferred concave interior with thick shell rim and recessed facial relief; canonical original shows exterior only."
+}

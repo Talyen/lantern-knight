@@ -1,0 +1,6 @@
+Lantern Knight | Strapped Saddle Panniers
+7 generated/edit-based opening poses. Non-looping generic opening and settle; interiors are empty/dark throughout, with no visible loot; hold the final open-empty state.
+640 x 800 RGBA, pivot (320,750), shared padded canvas. Atlas is 4 columns by 2 rows, row-major. Timing and frame rectangles are in the animation JSON.
+Closed and open-empty PNGs exactly match first and last animation frames.
+Opening cels were surgically edited with image_gen to remove all contents. All loot-extraction frames were removed. Approved closed and open-empty endpoint pixels are preserved exactly. No scale/fade-only opening.
+Preview video is opaque checkerboard for review. Runtime frames and atlas retain source alpha.

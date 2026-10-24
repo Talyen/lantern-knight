@@ -1,0 +1,8 @@
+LANTERN KNIGHT - Charcoal ash / sparse fall
+
+96 transparent RGBA frames, 1024 x 512 each.
+Playback: forward, 24 fps, 4.0 seconds. Loop: True.
+Pivot: center (512,256), normalized (0.5,0.5). Atlas has 8 columns; pixel rectangles and timings are in runtime.json.
+Use either numbered frames or atlas rectangles. Preserve full bounds and straight alpha. Bilinear sampling; clamp the texture. Avoid texture compression that damages faint alpha.
+The source sheet contains 16 generated evolving poses. Motion is composed from these cels, with phase offsets and forward drift. The dust uses temporal cel blending and restrained palette reduction. Source cels are not a full replacement for the delivered wide-overlay animation.
+No water, combat effects or bright magic. No engine files were changed.

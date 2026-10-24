@@ -1,0 +1,22 @@
+{
+  "canonical_sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c",
+  "source_likeness": "passed_known_view_only",
+  "idle_motion": "passed_limited_study_only",
+  "3d_look": "failed_not_animated",
+  "camera_calibration": "not_established_for_2d_study",
+  "walk": "not_done",
+  "attack": "not_done",
+  "three_directions": "not_done",
+  "production_approved": false,
+  "runtime_atlas": "not_created",
+  "frame_count": 24,
+  "source_fps": 12,
+  "preview_fps": 60,
+  "idle_duration_seconds": 2,
+  "video_duration_seconds": 6,
+  "video_dimensions": [
+    1920,
+    1080
+  ],
+  "requires_next": "Artist-authored view/model construction and hidden-joint coverage; then still and calibrated motion gates."
+}

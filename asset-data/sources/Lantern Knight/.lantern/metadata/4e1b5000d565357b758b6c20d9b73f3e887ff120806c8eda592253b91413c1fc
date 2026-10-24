@@ -1,0 +1,17 @@
+LANTERN REVISION 02 — OCCULT + MATERIAL EFFECTS
+Audit-ready 2026-10-06. Scenic rebuild is NOT included in this delivery.
+
+Current asset payload:
+occult/ — 12 families / 14 clips, 576 authored drawings at 30 fps.
+materials/ — 6 distinct impact clips, 252 authored drawings at 30 fps.
+source/ — draw_effects.py, occult.py, materials.py, package.py, verify.py.
+SOURCE_REPLAY_AND_LOOPS.json — 3 source-replayed samples per clip; all 60 match RGBA exactly. Four periodic source endpoints exactly equal frame 0.
+
+Per pack: manifest.json, qa_report.json, PRIOR_FUNCTIONAL_CONTRACT.json, README.txt.
+Per clip: full logical canvas transparent PNGs, native editable SVG vectors, union-cropped padded atlas pages, frame rectangles and stable pivot, exact source timing. Six-frame phase proof and 60 Hz held-frame dual-background MP4 in review/.
+
+Import changes are explicit: canvas 640x560 and root (320,386) replace old canvas/root; durations were authored for the new actions. This is not a blind drop-in sprite replacement. Geometry is art-directed illustrative animation anchored to a fixed source root. Ground ellipses retain orthographic registration; contour masses and material fragments are NOT exact 3D projections. Prior metadata is preserved for comparison, not misrepresented as new camera proof.
+
+Atlas padding: 2 edge-extrusion pixels plus 4 transparent gutter pixels. Normal straight-alpha blend. Do not enable generic whole-atlas mipmaps; use per-sprite mip generation if needed. Original asset files remain untouched.
+
+Exclude from final current collection: rejected/, scenic_illustrated/ (pending fresh-master gate), proof/ (historical art gate), root ink_shadow_burst/ and stone_crumble/ (earlier gate renders), source/legacy_canvas.py and source/scenic.py (rejected scenic method). No engine integration or art acceptance beyond these current packs is implied.

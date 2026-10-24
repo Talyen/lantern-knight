@@ -1,0 +1,472 @@
+{
+  "version": "2.0-clean-ink-candidate",
+  "content_status": "root_art_gate_and_independent_motion_review_passed_portable_rebuild_verified",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "source_density_px_per_m": 440,
+  "default_canvas": [
+    1536,
+    1536
+  ],
+  "default_root": [
+    768,
+    1220
+  ],
+  "crusher_canvas": [
+    1536,
+    1792
+  ],
+  "crusher_root": [
+    768,
+    1420
+  ],
+  "assets": [
+    {
+      "id": "retracting_spike_trap",
+      "states": {
+        "idle": {
+          "png": "png/retracting_spike_trap_idle.png",
+          "alpha_bounds_px": [
+            421,
+            942,
+            1112,
+            1408
+          ],
+          "sha256": "d404649e2377b16ed54618e01591989926d21a2c2ffdbad77c65a67ed71b57e2",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "engaged": {
+          "png": "png/retracting_spike_trap_engaged.png",
+          "alpha_bounds_px": [
+            421,
+            872,
+            1112,
+            1408
+          ],
+          "sha256": "5d3793f52bb8554e07c176630751ca72f22d3ad7c4111d2e12820097d530f84b",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/retracting_spike_trap_broken.png",
+          "alpha_bounds_px": [
+            404,
+            942,
+            1112,
+            1408
+          ],
+          "sha256": "876bb9fa1f52cb405796ea9a2581033fc75df10a21e1822c2119273928d658dc",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/retracting_spike_trap.png"
+    },
+    {
+      "id": "bronze_iris_gate",
+      "states": {
+        "closed": {
+          "png": "png/bronze_iris_gate_closed.png",
+          "alpha_bounds_px": [
+            405,
+            356,
+            1145,
+            1398
+          ],
+          "sha256": "86d1d09c571ca1fa99bd5d037d019f6e9d9ea8936394e357adeaa827c6ed1d87",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "open": {
+          "png": "png/bronze_iris_gate_open.png",
+          "alpha_bounds_px": [
+            405,
+            356,
+            1145,
+            1398
+          ],
+          "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "jammed": {
+          "png": "png/bronze_iris_gate_jammed.png",
+          "alpha_bounds_px": [
+            405,
+            356,
+            1145,
+            1398
+          ],
+          "sha256": "b8c60736af31360590cfa603648516b065538ed4fd2ad4ff502dc99fbf56543d",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/bronze_iris_gate.png"
+    },
+    {
+      "id": "ceiling_pendulum_blade",
+      "states": {
+        "idle": {
+          "png": "png/ceiling_pendulum_blade_idle.png",
+          "alpha_bounds_px": [
+            573,
+            285,
+            928,
+            1198
+          ],
+          "sha256": "ca80ca007f063b083af406e4f48aef0e7e2e9adf09bbaf4ac78ae114c5928483",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "active": {
+          "png": "png/ceiling_pendulum_blade_active.png",
+          "alpha_bounds_px": [
+            616,
+            285,
+            1222,
+            1263
+          ],
+          "sha256": "585e46918c6153dda019e91a5964f3dc213c0d54aea60661d7b5507d5d0c2da2",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "jammed": {
+          "png": "png/ceiling_pendulum_blade_jammed.png",
+          "alpha_bounds_px": [
+            430,
+            285,
+            808,
+            1100
+          ],
+          "sha256": "c562614b20ea7ce3c0fc9fe396781a86aed4039523b25da26b319a37b465be69",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/ceiling_pendulum_blade.png"
+    },
+    {
+      "id": "pressure_steam_vent",
+      "states": {
+        "idle": {
+          "png": "png/pressure_steam_vent_idle.png",
+          "alpha_bounds_px": [
+            605,
+            983,
+            1057,
+            1317
+          ],
+          "sha256": "c25dcc4fa930598cbfc68910021c9989bbb1c28e1d66c747e17bd78eec3db7c2",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "active": {
+          "png": "png/pressure_steam_vent_active.png",
+          "alpha_bounds_px": [
+            605,
+            731,
+            1058,
+            1317
+          ],
+          "sha256": "033969c97383b2e83c7a189c9af67ffa14e696073369f20478dd9acf6f328900",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/pressure_steam_vent_broken.png",
+          "alpha_bounds_px": [
+            605,
+            962,
+            1059,
+            1317
+          ],
+          "sha256": "49993a4495e57771c5932462393f8bac5906698daaad9557a29a098764e8d717",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/pressure_steam_vent.png",
+      "supporting_source_masters": [
+        {
+          "file": "source/masters/steam_plume_clean.png",
+          "role": "three-tone steam effect"
+        }
+      ]
+    },
+    {
+      "id": "hinged_bridge_panel",
+      "states": {
+        "lowered": {
+          "png": "png/hinged_bridge_panel_lowered.png",
+          "alpha_bounds_px": [
+            319,
+            845,
+            1240,
+            1420
+          ],
+          "sha256": "c0ddea121415a9302de4c604e57919327bed3d7e9ade048520eb119a6c1f3649",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "raised": {
+          "png": "png/hinged_bridge_panel_raised.png",
+          "alpha_bounds_px": [
+            736,
+            330,
+            1233,
+            1194
+          ],
+          "sha256": "bc11b20893476ff8227f49215146168dcbe1f3cc7d0e179066651b2ee2793b53",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "jammed": {
+          "png": "png/hinged_bridge_panel_jammed.png",
+          "alpha_bounds_px": [
+            413,
+            762,
+            1235,
+            1194
+          ],
+          "sha256": "db2f21431629495afa7052b67d89512c7c4d40670c93bee80926772219e94c4a",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/hinged_bridge_panel.png"
+    },
+    {
+      "id": "guided_stone_crusher",
+      "states": {
+        "raised": {
+          "png": "png/guided_stone_crusher_raised.png",
+          "alpha_bounds_px": [
+            358,
+            56,
+            1267,
+            1704
+          ],
+          "sha256": "3ed1eb7f5db5d8941ec41850f08ed66e02fcda73b569cc4779c025774860ac1e",
+          "canvas_px": [
+            1536,
+            1792
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1420.0
+          ]
+        },
+        "lowered": {
+          "png": "png/guided_stone_crusher_lowered.png",
+          "alpha_bounds_px": [
+            358,
+            56,
+            1267,
+            1704
+          ],
+          "sha256": "1f12b2a36d3351bff4f08688526deda99f996d7e477708829ae8371d0edbe1e9",
+          "canvas_px": [
+            1536,
+            1792
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1420.0
+          ]
+        },
+        "jammed": {
+          "png": "png/guided_stone_crusher_jammed.png",
+          "alpha_bounds_px": [
+            358,
+            56,
+            1267,
+            1704
+          ],
+          "sha256": "4ae847a5663f012b2d63bcdb1f01d297190330ded7facbf7608f068ccd5afd65",
+          "canvas_px": [
+            1536,
+            1792
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1420.0
+          ]
+        }
+      },
+      "source_master": "source/masters/guided_stone_crusher_isovolumes.png",
+      "supporting_source_masters": [
+        {
+          "file": "source/masters/guided_stone_crusher.png",
+          "role": "chain only"
+        }
+      ]
+    }
+  ],
+  "mechanical_contracts": {
+    "iris": {
+      "center": [
+        0,
+        1.15,
+        0.096
+      ],
+      "hidden_chamber_radius_min_m": 1.85,
+      "visible_aperture_radius_m": 0.745,
+      "wall_mounted_only": true,
+      "nominal_aperture_radius_m": 0.75,
+      "render_overlap_guard_m": 0.005,
+      "under_floor_space_m": 0.7,
+      "height_reserve_m": 3.0
+    },
+    "pendulum_pivot": [
+      0,
+      2.38,
+      0.03
+    ],
+    "bridge_hinge": [
+      0,
+      0.225,
+      -0.86
+    ],
+    "steam_outlet": [
+      0,
+      0.218,
+      0
+    ],
+    "crusher": {
+      "chain_reel_y": 2.6,
+      "raised_head_clearance": 1.86,
+      "lowered_head_clearance": 0.23
+    }
+  },
+  "safety_scope": "Presentation art only; no damage window, safe-state, traversal or collider behavior is defined.",
+  "revision": "clean_ink_r02a_20261006_portable",
+  "pixel_format": {
+    "mode": "RGBA8",
+    "alpha": "straight",
+    "color_space": "sRGB"
+  },
+  "migration": {
+    "old_pack_id": "Hazards 05",
+    "asset_ids": "unchanged",
+    "state_names": "unchanged",
+    "clip_ids": "unchanged",
+    "canvas_and_roots": "unchanged, including crusher padding",
+    "source_roles": "Old SVG replaced by new masters, layers, editable meshes and Python rig source",
+    "collision": "not migrated; engine review required"
+  },
+  "camera_provenance": {
+    "mechanism_projection": "exact orthographic world matrix",
+    "painted_volumes": "fixed-view artwork with calibrated attachment points; not fully relightable or fully calibrated 3D surfaces"
+  },
+  "portability": {
+    "historical_references": "source/reference_before/",
+    "font": "source/fonts/DejaVuSans.ttf",
+    "font_license": "source/fonts/LICENSE-DejaVu.txt",
+    "requirements": "requirements.txt",
+    "source_only_clean_rebuild_verified": true,
+    "bit_identical_state_and_frame_pngs": 90
+  },
+  "reference_roles": {
+    "source/reference_before/": "historical comparison only, not final art",
+    "source/masters/": "untouched new illustration masters",
+    "layers/": "source components",
+    "png/": "final states",
+    "animation/": "registered runtime frame candidates and reviews",
+    "proof/": "visual and technical validation"
+  }
+}

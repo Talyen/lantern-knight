@@ -1,0 +1,4 @@
+Lantern Knight scene 13 prop opening
+Use runtime_frames/00.png closed; play 00-05 once on interaction, then hold 05 indefinitely. Rewards are game-owned; no reward artwork is included.
+Place all frames at the same anchor from manifest.json. Native frames preserve source pixels; runtime frames are downsampled to gameplay scale. Do not independently trim frames.
+Preview plays twice for review only; runtime animation does not loop.

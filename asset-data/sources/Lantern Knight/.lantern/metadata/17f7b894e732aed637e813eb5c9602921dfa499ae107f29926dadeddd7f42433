@@ -1,0 +1,90 @@
+{
+  "id": "SK02",
+  "name": "Sepulcher Warden",
+  "family": "01 Skeletons",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9",
+  "source_url": "https://drive.google.com/file/d/1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9/view?usp=drivesdk",
+  "source_archive": "01_skeletons_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/01_skeletons_selection_pack/01_skeletons/assets/SK02_sepulcher_warden.png",
+  "source_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "remove_components_below": 2000,
+  "direction": "UL",
+  "facing": "screen upper-left (rear three-quarter)",
+  "baseline_dependency": {
+    "package": "SK02_runtime.zip",
+    "sha256": "330452401ebdb79a55badbf9c9dd62b7a4f985d0c45e56e142163dd2924114ef",
+    "direction": "DR",
+    "unchanged": true
+  },
+  "bottom_crop_extra": {
+    "attack": {
+      "0": 8,
+      "2": 32
+    }
+  },
+  "right_crop_extra": {
+    "attack": {
+      "3": 16
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -55,
+        0
+      ],
+      "1": [
+        -35,
+        20
+      ],
+      "2": [
+        20,
+        10
+      ],
+      "3": [
+        -70,
+        20
+      ],
+      "4": [
+        -45,
+        0
+      ],
+      "5": [
+        5,
+        0
+      ]
+    },
+    "attack": {
+      "0": [
+        -75,
+        -9
+      ],
+      "1": [
+        -30,
+        -5
+      ],
+      "2": [
+        -8,
+        -19
+      ],
+      "3": [
+        -119,
+        40
+      ],
+      "4": [
+        -64,
+        32
+      ],
+      "5": [
+        -38,
+        18
+      ]
+    }
+  }
+}
