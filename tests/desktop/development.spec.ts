@@ -47,6 +47,39 @@ async function copyRuntimeAssets(root: string) {
   console.log(`Copied ${files.size} owned runtime asset files into the fresh checkout`);
 }
 
+async function copyDependencies(root: string) {
+  const started = performance.now();
+  const dependencies = path.join(projectRoot, 'node_modules');
+  const packages: string[] = [];
+  for (const name of await fs.readdir(dependencies)) {
+    if (name.startsWith('@'))
+      for (const child of await fs.readdir(path.join(dependencies, name)))
+        packages.push(path.join(name, child));
+    else packages.push(name);
+  }
+  // Copies and watcher caches remain checkout-local. Package copies are
+  // independent; drain each bounded batch before cleanup on any failure.
+  for (let offset = 0; offset < packages.length; offset += 8) {
+    const results = await Promise.allSettled(
+      packages.slice(offset, offset + 8).map(async (name) => {
+        const target = path.join(root, 'node_modules', name);
+        await fs.mkdir(path.dirname(target), { recursive: true });
+        await fs.cp(path.join(dependencies, name), target, {
+          recursive: true,
+          verbatimSymlinks: true,
+          mode: constants.COPYFILE_FICLONE,
+          filter: (source) =>
+            !/^(?:\.vite|\.cache)(?:\/|$)/.test(
+              path.relative(dependencies, source).split(path.sep).join('/'),
+            ),
+        });
+      }),
+    );
+    for (const result of results) if (result.status === 'rejected') throw result.reason;
+  }
+  console.log(`Installed dependencies copied in ${Math.round(performance.now() - started)}ms`);
+}
+
 test('fresh source checkout: renderer reload, main/preload restart and owned shutdown', async () => {
   test.setTimeout(8 * 60_000);
   // Expand Windows 8.3 temp aliases before Vite starts native filesystem watchers.
@@ -82,16 +115,8 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
       await fs.copyFile(path.join(projectRoot, file), path.join(root, file));
     await copyRuntimeAssets(root);
     // CI verifies npm ci once. This copy keeps dependencies and watcher caches checkout-local.
-    const dependencies = path.join(projectRoot, 'node_modules');
-    await fs.cp(dependencies, path.join(root, 'node_modules'), {
-      recursive: true,
-      verbatimSymlinks: true,
-      mode: constants.COPYFILE_FICLONE,
-      filter: (source) =>
-        !/^(?:\.vite|\.cache)(?:\/|$)/.test(
-          path.relative(dependencies, source).split(path.sep).join('/'),
-        ),
-    });
+    await copyDependencies(root);
+    console.log('Starting the fresh-checkout development command');
     running = runProcess(
       process.execPath,
       [
@@ -116,6 +141,8 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
         output: (chunk) => {
           const text = chunk.toString();
           log = (log + text).slice(-65536);
+          if (text.includes('Starting Electron against '))
+            console.log('Development command is launching Electron');
           for (const match of text.matchAll(/DevTools listening on (ws:\/\/[^\s]+)/g))
             endpoints.push(match[1]!);
         },
