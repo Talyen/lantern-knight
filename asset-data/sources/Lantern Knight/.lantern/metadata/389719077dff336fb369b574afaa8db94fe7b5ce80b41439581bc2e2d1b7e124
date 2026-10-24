@@ -1,0 +1,23 @@
+{
+  "IMPORT_README.txt": "f7d5e40bc39349209f58777ea9ff0a0e6c67c200313fdcadca8f3ed495fe0694",
+  "atlas/page_00.png": "90f86c6c67ac3fecb00523a9e69f4d3c3b444d6b41c66f3e08b4ae40eae28dd5",
+  "frames/hit_reaction_001.png": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d",
+  "frames/hit_reaction_002.png": "c8e4bc49921bf87a1338804c555d76575df9259d7ec48ed2afc68c58ab4a091e",
+  "frames/hit_reaction_003.png": "4f5ed4b3a9df3b2eb4a7671fd6ffae8977e44d2f5f9cbdf8ffe800c2e8443e08",
+  "frames/hit_reaction_004.png": "01b536b521e1b4605722b18ad41308660171ed41e1786f0157de5675854c69da",
+  "frames/hit_reaction_005.png": "58c38fa1f509a044423a9da126853245894895b6e2b7629801757bdf04845003",
+  "frames/hit_reaction_006.png": "e2f7f6bb0fe13add19e693d789c6c9bd13d52d3d19300bb2ab4c556ec20c95ee",
+  "frames/hit_reaction_007.png": "c128a7e5f976303fe814de945554426824633f847d613335c07a1c3f32eeeeb2",
+  "frames/hit_reaction_008.png": "3b9b66450b61275fac088130bf91d2dbbc2f26fcf433c42aa409d2e2a5c03d29",
+  "frames/hit_reaction_009.png": "28a6f88624b15e591eecd954f712e1563b6a18410034a3f8d7b97cdb8d70b18b",
+  "frames/hit_reaction_010.png": "78a5b3730753791e749855ed8cc764d1597b70b244e3edbb304f719f36dee0bb",
+  "frames/hit_reaction_011.png": "ee7c185f867ce5d7cd6c98e707c4345d9c92cfbd288c562dd7ea280e18a1a2b8",
+  "frames/hit_reaction_012.png": "645e9c28493fcc01159da16eb8c78691b401a7b4933925ada8c5dbab63aab495",
+  "frames/hit_reaction_013.png": "541de820659b36f18683057e60094cb976590f510bf99297460038c96482ab7e",
+  "frames/hit_reaction_014.png": "05ef44f23f082ca81ccf8749e46a8e556d34a0e579fdec194439380cb0d080e5",
+  "frames/hit_reaction_015.png": "08dfe1cf33ea2a66f7b1ea6d2a0b536cb1ffde78baabaf0d171dc31799222531",
+  "frames/hit_reaction_016.png": "06602d5b94c766af136e1c179da89fe67ee3a964922bb2770185f1286cf1a6fb",
+  "input_manifest_snapshot.json": "d51a4898140606d440794deda8e9e43530b07c0a84bdce6442581607de1099b3",
+  "timing_and_registration.json": "9f275631f87aa59b0cbf95cad4d4c3f099854ec7ee2a77584bb50c64c9173327",
+  "validation_report.json": "c9d09f3e0053b21c29f5b71ba69e85e18c5a3f5b40d0a55603c8bfa125ed27c1"
+}

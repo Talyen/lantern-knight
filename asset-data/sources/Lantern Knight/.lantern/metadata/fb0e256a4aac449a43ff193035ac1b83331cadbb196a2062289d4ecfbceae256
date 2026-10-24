@@ -1,0 +1,34 @@
+[
+  {
+    "name": "nave_carpet_edge",
+    "junction_source_xy": [
+      640,
+      640
+    ],
+    "check_source_box": [
+      592,
+      592,
+      688,
+      688
+    ],
+    "mean_abs_rgb_difference": 0.006747775607638889,
+    "max_abs_rgb_difference": 2.0,
+    "pct_pixels_over_2": 0.0
+  },
+  {
+    "name": "altar_and_columns",
+    "junction_source_xy": [
+      1120,
+      320
+    ],
+    "check_source_box": [
+      1072,
+      272,
+      1168,
+      368
+    ],
+    "mean_abs_rgb_difference": 0.010988588686342593,
+    "max_abs_rgb_difference": 2.0,
+    "pct_pixels_over_2": 0.0
+  }
+]

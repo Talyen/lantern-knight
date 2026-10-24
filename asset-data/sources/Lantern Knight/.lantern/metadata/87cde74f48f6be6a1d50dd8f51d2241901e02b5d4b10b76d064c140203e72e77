@@ -1,0 +1,482 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "occult_industrial_01",
+  "title": "Lantern Occult & Industrial - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Machines, instruments and ritual furniture are static visual props, not functional mechanisms; no movable layers, connected sockets, effects or behaviors are included.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "prop_riveted_boiler_01",
+      "name": "Dormant riveted boiler",
+      "file": "assets/prop_riveted_boiler_01.png",
+      "prompt_file": "provenance/prop_riveted_boiler_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 715169,
+      "sha256": "6b86e11490e2c4388572df0bd04b7f0057b0eb02e4edb4d38f06a13100dd44fe",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        91,
+        29,
+        1240,
+        1163
+      ],
+      "alpha_at_least_16_bounds_px": [
+        323,
+        32,
+        993,
+        1159
+      ],
+      "fully_transparent_pixel_fraction": 0.718055,
+      "fully_opaque_pixel_fraction": 0.000369,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.84
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.25,
+          0.81
+        ],
+        [
+          0.49,
+          0.75
+        ],
+        [
+          0.75,
+          0.81
+        ],
+        [
+          0.54,
+          0.96
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Dormant static illustration only; gauge, valve and pipe have no functional or animated state.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_ritual_altar_01",
+      "name": "Ritual stone altar",
+      "file": "assets/prop_ritual_altar_01.png",
+      "prompt_file": "provenance/prop_ritual_altar_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1237851,
+      "sha256": "ddab52c43beb8695aacf8788f17672f45c803cce9f93f8a2dc50f5fd0e4e158b",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1344,
+        1000
+      ],
+      "alpha_at_least_16_bounds_px": [
+        228,
+        164,
+        1331,
+        922
+      ],
+      "fully_transparent_pixel_fraction": 0.714566,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.53,
+        0.75
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.17,
+          0.74
+        ],
+        [
+          0.65,
+          0.4
+        ],
+        [
+          0.85,
+          0.64
+        ],
+        [
+          0.34,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Table, cloth and bowl are one compound prop, not separate movable layers.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_valve_pipe_01",
+      "name": "Straight valve pipe",
+      "file": "assets/prop_valve_pipe_01.png",
+      "prompt_file": "provenance/prop_valve_pipe_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1428575,
+      "sha256": "c487c119aa2db6adf8900e91e419f2925b5b2f54fd6fbb61b3cfe88411ab92b0",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1346,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        299,
+        60,
+        1286,
+        930
+      ],
+      "fully_transparent_pixel_fraction": 0.724071,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 3,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.76
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.25,
+          0.82
+        ],
+        [
+          0.64,
+          0.49
+        ],
+        [
+          0.79,
+          0.62
+        ],
+        [
+          0.43,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Actual output is a straight valve fitting despite the prompt requesting an elbow. No functional joints or validated pipe connections.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_unlit_brazier_01",
+      "name": "Empty unlit brazier",
+      "file": "assets/prop_unlit_brazier_01.png",
+      "prompt_file": "provenance/prop_unlit_brazier_01.prompt.txt",
+      "dimensions_px": [
+        1351,
+        1164
+      ],
+      "file_bytes": 635412,
+      "sha256": "89d17e33803ec5d69cfdae756fc59c066bc1f04e57f74f9c3715fe2246ec390e",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        49,
+        17,
+        1323,
+        1140
+      ],
+      "alpha_at_least_16_bounds_px": [
+        158,
+        127,
+        1193,
+        1070
+      ],
+      "fully_transparent_pixel_fraction": 0.679324,
+      "fully_opaque_pixel_fraction": 0.001186,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.79
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.12,
+          0.71
+        ],
+        [
+          0.5,
+          0.6
+        ],
+        [
+          0.88,
+          0.72
+        ],
+        [
+          0.51,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Empty static bowl; no fire, fuel, smoke, emission, light or animation included.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_occult_armillary_01",
+      "name": "Occult armillary",
+      "file": "assets/prop_occult_armillary_01.png",
+      "prompt_file": "provenance/prop_occult_armillary_01.prompt.txt",
+      "dimensions_px": [
+        1285,
+        1224
+      ],
+      "file_bytes": 755241,
+      "sha256": "4f0df96325e5b3db60b316f08388767e3841ccba59108877ebb1ca90fa011736",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        15,
+        1223,
+        1163
+      ],
+      "alpha_at_least_16_bounds_px": [
+        278,
+        17,
+        1008,
+        1160
+      ],
+      "fully_transparent_pixel_fraction": 0.7522,
+      "fully_opaque_pixel_fraction": 0.001275,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.83
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.26,
+          0.86
+        ],
+        [
+          0.51,
+          0.7
+        ],
+        [
+          0.68,
+          0.82
+        ],
+        [
+          0.65,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Rings and orb form one static illustration; no ring rotation, particle effect or emissive layer.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_arcane_dynamo_01",
+      "name": "Dormant copper dynamo",
+      "file": "assets/prop_arcane_dynamo_01.png",
+      "prompt_file": "provenance/prop_arcane_dynamo_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1360683,
+      "sha256": "9f45a48f237aef1ed7d505ecc1fcda4ca7d290098c30649f8546719f6775bb3f",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        69,
+        32,
+        1376,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        219,
+        79,
+        1371,
+        959
+      ],
+      "fully_transparent_pixel_fraction": 0.658213,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.75
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.14,
+          0.67
+        ],
+        [
+          0.6,
+          0.41
+        ],
+        [
+          0.89,
+          0.57
+        ],
+        [
+          0.41,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Single dormant machine. Rotor, coils, ceramic insulator and cable are not animated or separate layers.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_alchemist_still_01",
+      "name": "Alchemist still",
+      "file": "assets/prop_alchemist_still_01.png",
+      "prompt_file": "provenance/prop_alchemist_still_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 633271,
+      "sha256": "ae976d0364b2d83ec6a56fc7fed451affef3c8c2308da2514fc1cece3b993e50",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        134,
+        1152,
+        1102
+      ],
+      "alpha_at_least_16_bounds_px": [
+        251,
+        136,
+        1149,
+        1057
+      ],
+      "fully_transparent_pixel_fraction": 0.747658,
+      "fully_opaque_pixel_fraction": 0.0005,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.78
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.78
+        ],
+        [
+          0.45,
+          0.63
+        ],
+        [
+          0.86,
+          0.69
+        ],
+        [
+          0.6,
+          0.87
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Kettle and receiver are a compound prop; glass is painted opaque blue-gray, not physically refractive.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "prop_wooden_handcart_01",
+      "name": "Empty wooden handcart",
+      "file": "assets/prop_wooden_handcart_01.png",
+      "prompt_file": "provenance/prop_wooden_handcart_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1344540,
+      "sha256": "f90d8f50e31d08061ad73dc45e958dd3ee55460316c158c95a97c73cac2baa88",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        41,
+        55,
+        1518,
+        960
+      ],
+      "alpha_at_least_16_bounds_px": [
+        149,
+        69,
+        1388,
+        957
+      ],
+      "fully_transparent_pixel_fraction": 0.67579,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.59,
+        0.72
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.3,
+          0.55
+        ],
+        [
+          0.63,
+          0.26
+        ],
+        [
+          0.9,
+          0.48
+        ],
+        [
+          0.76,
+          0.78
+        ],
+        [
+          0.49,
+          0.69
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Parked static cart only. Handles extend beyond the suggested main wheel/bed footprint; no movement or physics is supplied.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

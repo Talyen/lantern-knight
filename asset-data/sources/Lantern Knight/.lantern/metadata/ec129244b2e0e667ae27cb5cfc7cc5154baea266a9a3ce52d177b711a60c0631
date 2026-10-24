@@ -1,0 +1,35 @@
+{
+  "status": "All three suitable for user art-direction comparison, with composition caveats",
+  "review_scope": "Independent full-frame contact sheets and native-pixel hero/floor crops; presentation review only.",
+  "common": {
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "live_characters_baked_in": false,
+    "readable_floor_and_routes": true,
+    "major_style_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false,
+    "style_note": "Clear structural ink, large stone masses, restrained floor variation and readable human-scale altar/stair proportions. All show enclosed courtyard architecture; carved statues are static scenery."
+  },
+  "A": {
+    "direction": "Overgrown limestone cloister",
+    "strength": "Strongest overgrown sanctuary identity and quiet warm floor. A broad uncluttered courtyard separates the hero clearly from ivy-lined masonry.",
+    "caveat": "Most props sit near edges. Sparse ivy interrupts some tiles, with mild floor shading beyond strict flat three-tone fills."
+  },
+  "B": {
+    "direction": "Cold moon-blue cloister",
+    "strength": "Strongest cool ruined-cult atmosphere and best spread of statues/props through the courtyard while keeping usable-looking routes. Hero contrast is strong.",
+    "caveat": "More central obstruction from statues and a prominent paving medallion. Headless robed figures are clearly carved statues on plinths, not live characters."
+  },
+  "C": {
+    "direction": "Burnt crimson cloister",
+    "strength": "Bold corrupted-sanctuary identity with fallen columns, red cloth and scorched paving; substantial floor remains clear around the altar.",
+    "caveat": "Large dark scorch patches and fine paving seams add more ground activity. The altar reads closer to the chapel direction than the greener or moonlit variants."
+  },
+  "suggested_starting_point": "B for a cold cultist courtyard with varied prop placement; A for the clearest overgrown cloister; C for a burnt/crimson setting.",
+  "limits": "Tall scenery and decorative statues are baked into viewport art-direction samples. No in-engine occlusion, collision, exact camera calibration or gameplay-clearance validation is claimed. No native repainting, expansion or upscaling was performed."
+}

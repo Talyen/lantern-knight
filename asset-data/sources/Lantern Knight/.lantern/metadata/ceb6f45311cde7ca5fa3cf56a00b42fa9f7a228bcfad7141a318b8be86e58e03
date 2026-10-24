@@ -1,0 +1,60 @@
+{
+  "title": "Full Scenic Crypt",
+  "views": [
+    {
+      "name": "upper_hall",
+      "display_box": [
+        600,
+        150,
+        2136,
+        1174
+      ],
+      "display_foot": [
+        1363,
+        770
+      ]
+    },
+    {
+      "name": "central_hall",
+      "display_box": [
+        1200,
+        775,
+        2736,
+        1799
+      ],
+      "display_foot": [
+        1763,
+        1475
+      ]
+    },
+    {
+      "name": "lower_chamber",
+      "display_box": [
+        1975,
+        1460,
+        3511,
+        2484
+      ],
+      "display_foot": [
+        2720,
+        1963
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "central_inlay",
+      "source_xy": [
+        800,
+        480
+      ]
+    },
+    {
+      "name": "column_and_floor",
+      "source_xy": [
+        960,
+        800
+      ]
+    }
+  ]
+}

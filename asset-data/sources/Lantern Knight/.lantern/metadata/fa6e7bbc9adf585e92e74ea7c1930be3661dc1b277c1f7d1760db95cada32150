@@ -1,0 +1,72 @@
+{
+  "scene_number": 4,
+  "scene": "Desecrated Chapel/Full Scene C",
+  "prop": "a closed leather satchel",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    140,
+    160,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold final frame indefinitely",
+  "native_canvas": [
+    640,
+    640
+  ],
+  "native_anchor": [
+    320,
+    560
+  ],
+  "runtime_scale": 0.1712707182320442,
+  "runtime_anchor": [
+    55,
+    96
+  ],
+  "placement_on_1536_scene": [
+    570,
+    520
+  ],
+  "source_boxes": [
+    [
+      91,
+      80,
+      453,
+      425
+    ],
+    [
+      79,
+      80,
+      442,
+      425
+    ],
+    [
+      83,
+      82,
+      461,
+      426
+    ],
+    [
+      101,
+      44,
+      471,
+      425
+    ],
+    [
+      84,
+      14,
+      453,
+      426
+    ],
+    [
+      93,
+      27,
+      457,
+      426
+    ]
+  ],
+  "source_master_url": "https://drive.google.com/file/d/1DNBu0j5qy1bRfpl9ZuBaGmbytp-JCbP6/view?usp=drivesdk"
+}

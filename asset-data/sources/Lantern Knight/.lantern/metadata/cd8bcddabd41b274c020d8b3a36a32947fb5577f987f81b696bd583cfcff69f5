@@ -1,0 +1,25 @@
+LANTERN / CLOCKWORK BEETLE / REVISION 02
+
+Capability                         Previous source              Revision 02 illustrated art
+Front three-quarter rest           Exact model projection       New source drawing + six-chain cutout rig
+Side rest                          Exact yaw 135 model           New right-facing oblique drawing
+Rear rest                          Exact yaw 225 model           New rear-oblique drawing
+Front scuttle                      Exact model/rig               24-source-frame ink cutout scuttle
+Side scuttle                       Exact yaw 135 model/rig       24-source-frame new-view ink scuttle
+Rear scuttle                       Exact yaw 225 model/rig       24-source-frame new-view ink scuttle
+Idle                               Exact model/rig               48-source-frame front-view cutout loop
+Mandible attack                    Exact model/rig               30-source-frame anticipation/snap/recovery
+Recoil                             Exact model/rig               24-source-frame braced response/recovery
+Six articulated leg chains         3D armature                   Per-view 2D fixed-link joint chains
+Planted attack/recoil feet          Geometric                     Numerical fixed contacts; alpha source parts
+Transparent registered outputs     Yes                           768 and 384 RGBA frames + padded 384 atlases
+Calibrated camera/heading guarantee Yes                           NO: illustrations approximate target camera
+Arbitrary model rotations          Source model could rotate     NO: three source views only
+Lighting response / actual mesh    Source geometry               NO: baked ink cutout art
+
+IMPORTANT
+The motion roles and three illustrated directional studies are preserved, but this is not a fully calibrated drop-in replacement for the original 3D rig. Side and rear art depict distinct views and are not mirrors. They are not proven exact 135 and 225 degree rotations, and view-to-view registration/shape volume is approximate.
+
+The exact old Blender rig/action files are retained under technical_reference, for camera and animation evidence only. Their old low-poly visual exports are not preferred art in this package.
+
+Scuttle is in-place. The animation JSON supplies suggested screen-space travel per second so stance feet can remain planted when the actor moves in a game. Without matching travel, the gait will appear to slide against a stationary ground. No engine runtime integration is claimed.

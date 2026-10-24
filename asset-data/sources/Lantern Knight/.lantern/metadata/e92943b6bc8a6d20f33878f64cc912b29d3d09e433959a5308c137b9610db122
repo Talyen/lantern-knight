@@ -1,0 +1,94 @@
+{
+  "monk": {
+    "source_sha256": "bbeb5f215536ca50f9d04e50f2e843a922b97f8958286e2d6a55241d71670dce",
+    "source_size": [
+      1536,
+      1024
+    ],
+    "drawings": [
+      {
+        "drawing": 1,
+        "source_owner_component": 3,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 86703
+      },
+      {
+        "drawing": 2,
+        "source_owner_component": 2,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 104340
+      },
+      {
+        "drawing": 3,
+        "source_owner_component": 1,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 122400
+      },
+      {
+        "drawing": 4,
+        "source_owner_component": 4,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 114125
+      },
+      {
+        "drawing": 5,
+        "source_owner_component": 5,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 107103
+      },
+      {
+        "drawing": 6,
+        "source_owner_component": 6,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 106682
+      }
+    ],
+    "all_six_native_rgb_and_ownership_verified": true
+  },
+  "crawler": {
+    "source_sha256": "117e393aae7a6d4bde1bb1aa03f62f6a11e6633873d897cb77825f7b43f8ad4f",
+    "source_size": [
+      1536,
+      1024
+    ],
+    "drawings": [
+      {
+        "drawing": 1,
+        "source_owner_component": 1,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 94275
+      },
+      {
+        "drawing": 2,
+        "source_owner_component": 2,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 90453
+      },
+      {
+        "drawing": 3,
+        "source_owner_component": 3,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 81017
+      },
+      {
+        "drawing": 4,
+        "source_owner_component": 6,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 84820
+      },
+      {
+        "drawing": 5,
+        "source_owner_component": 4,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 89820
+      },
+      {
+        "drawing": 6,
+        "source_owner_component": 5,
+        "exact_expected_rgba": true,
+        "nonzero_alpha_pixels": 88908
+      }
+    ],
+    "all_six_native_rgb_and_ownership_verified": true
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "all_current_frame_and_atlas_hashes_match": true,
+  "frames": [
+    {
+      "file": "frames/run_00.png",
+      "sha256": "97ba2787258c32fbdce2037e30d19b7ffb6623d0d0d499fec8924f3fee2fcaca",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_01.png",
+      "sha256": "3f246147a5dcf46382bf08f114b319b025f0c91bc4b4f42e883d04f71d4640e8",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_02.png",
+      "sha256": "6dd68353853399a2f071ae633c4906bc240ff600265573d8561e3f97fbe2c061",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_03.png",
+      "sha256": "63245e162fa604024d4c41c2ba2e69d21500c45bfd1bc2387a58a08cb7437402",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_04.png",
+      "sha256": "7277d9798a002da6d195e167ee67fd3d145f91513a5bc0ee2bb298c6a71b5955",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_05.png",
+      "sha256": "1b9c7243caebe9293765bdd31cfbc91822a3d1362d4aa6f41c5211155eca6a8b",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_06.png",
+      "sha256": "1ff9c0dfcfbaa654911a6fc24e172c37697de8012a3786384f6f12a6c73384d1",
+      "exact_runtime_v02_hash": true
+    },
+    {
+      "file": "frames/run_07.png",
+      "sha256": "ef19fb890c40f0a089a3aabe60b5d839d1b4af2bb600705625f27ef5a22b6f3b",
+      "exact_runtime_v02_hash": true
+    }
+  ],
+  "atlas_sha256": "15400f4184c1cdf35defdcf28843c6dd844887717314e8ae49ca8d51806a3d86",
+  "engine_verified": false
+}

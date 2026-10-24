@@ -1,0 +1,364 @@
+{
+  "asset": "CT01 Waxmask Acolyte",
+  "revision": "v03 unified original-reference animation",
+  "native_source": "source/unified_native.png",
+  "native_source_size": [
+    1254,
+    1254
+  ],
+  "canvas": [
+    768,
+    704
+  ],
+  "root_origin_pixels": [
+    416,
+    584
+  ],
+  "fps": 60,
+  "native_pixels_per_unit": 85.59670781893004,
+  "clip_relative_scale": {
+    "glide": 1,
+    "ritual_attack": 1
+  },
+  "import_note": "Use newPPU=oldPPU*0.8559670781893004 for BOTH new clips and effects, OR use oldPPU and a single common renderer scale1.1682692307692308. Never both. No per-frame/per-clip fitting.",
+  "camera_target": {
+    "elevation": 35.2643897,
+    "azimuth": 45,
+    "heading": "world +X / screen-down-right",
+    "assessment": "Drawn using camera reference; not mathematically projection certified."
+  },
+  "poses": [
+    {
+      "source_pose": 1,
+      "source_components": [
+        1
+      ],
+      "source_anchor": [
+        188,
+        418
+      ],
+      "translation_pixels": [
+        178,
+        166
+      ],
+      "bounds": [
+        327,
+        168,
+        477,
+        584
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 2,
+      "source_components": [
+        2
+      ],
+      "source_anchor": [
+        632,
+        418
+      ],
+      "translation_pixels": [
+        -266,
+        166
+      ],
+      "bounds": [
+        219,
+        184,
+        456,
+        574
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 3,
+      "source_components": [
+        3
+      ],
+      "source_anchor": [
+        1086,
+        418
+      ],
+      "translation_pixels": [
+        -720,
+        166
+      ],
+      "bounds": [
+        158,
+        194,
+        440,
+        568
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 4,
+      "source_components": [
+        6
+      ],
+      "source_anchor": [
+        268,
+        836
+      ],
+      "translation_pixels": [
+        98,
+        -252
+      ],
+      "bounds": [
+        162,
+        182,
+        444,
+        572
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 5,
+      "source_components": [
+        5
+      ],
+      "source_anchor": [
+        614,
+        834
+      ],
+      "translation_pixels": [
+        -248,
+        -250
+      ],
+      "bounds": [
+        240,
+        168,
+        482,
+        584
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 6,
+      "source_components": [
+        4
+      ],
+      "source_anchor": [
+        1008,
+        833
+      ],
+      "translation_pixels": [
+        -642,
+        -249
+      ],
+      "bounds": [
+        326,
+        168,
+        507,
+        584
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 7,
+      "source_components": [
+        10
+      ],
+      "source_anchor": [
+        187,
+        1216
+      ],
+      "translation_pixels": [
+        179,
+        -632
+      ],
+      "bounds": [
+        261,
+        291,
+        547,
+        584
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 8,
+      "source_components": [
+        9,
+        11,
+        13,
+        14,
+        17,
+        18
+      ],
+      "source_anchor": [
+        605,
+        1224
+      ],
+      "translation_pixels": [
+        -239,
+        -640
+      ],
+      "bounds": [
+        253,
+        208,
+        579,
+        584
+      ],
+      "edge_alpha_max": 0
+    },
+    {
+      "source_pose": 9,
+      "source_components": [
+        8,
+        12,
+        15,
+        16,
+        19
+      ],
+      "source_anchor": [
+        1012,
+        1235
+      ],
+      "translation_pixels": [
+        -646,
+        -651
+      ],
+      "bounds": [
+        326,
+        184,
+        575,
+        584
+      ],
+      "edge_alpha_max": 0
+    }
+  ],
+  "clips": {
+    "glide": {
+      "drawings": 5,
+      "source_poses": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "duration_ticks": 48,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 2,
+          "start_tick": 10,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 3,
+          "start_tick": 18,
+          "hold_ticks": 6
+        },
+        {
+          "cel": 4,
+          "start_tick": 24,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 5,
+          "start_tick": 34,
+          "hold_ticks": 14
+        }
+      ],
+      "native_pixels_per_unit": 85.59670781893004,
+      "relative_scale": 1,
+      "offset_pixels": [
+        0,
+        0
+      ],
+      "root_motion": "engine supplied, no animated root displacement",
+      "events": {},
+      "ppu_relative_to_old_baseline": 0.8559670781893004
+    },
+    "ritual_attack": {
+      "drawings": 5,
+      "source_poses": [
+        1,
+        6,
+        7,
+        8,
+        9
+      ],
+      "duration_ticks": 72,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 12
+        },
+        {
+          "cel": 2,
+          "start_tick": 12,
+          "hold_ticks": 19
+        },
+        {
+          "cel": 3,
+          "start_tick": 31,
+          "hold_ticks": 5
+        },
+        {
+          "cel": 4,
+          "start_tick": 36,
+          "hold_ticks": 4
+        },
+        {
+          "cel": 5,
+          "start_tick": 40,
+          "hold_ticks": 17
+        },
+        {
+          "cel": 1,
+          "start_tick": 57,
+          "hold_ticks": 15
+        }
+      ],
+      "native_pixels_per_unit": 85.59670781893004,
+      "relative_scale": 1,
+      "offset_pixels": [
+        0,
+        0
+      ],
+      "root_motion": "engine supplied, no animated root displacement",
+      "events": {
+        "contact_tick": 31,
+        "release_tick": 36,
+        "recover_tick": 40,
+        "return_ready_tick": 57
+      },
+      "ppu_relative_to_old_baseline": 0.8559670781893004
+    }
+  },
+  "shared_ready": "glide_01.png and ritual_attack_01.png are byte-identical; attack timeline ends on same cel1",
+  "generation": {
+    "tool": "built-in image_gen",
+    "fresh_unified_drawings": 9,
+    "references": "original CT01 + camera guide only",
+    "generative_edit_cascade": false,
+    "no_resampling": true
+  },
+  "provenance": "Previous movement/attack package retained only in source/provenance, not active runtime",
+  "native_density_handoff": {
+    "old_neutral_native_height_px": 486,
+    "new_shared_ready_native_height_px": 416,
+    "new_ppu_relative_to_old": 0.8559670781893004,
+    "both_new_clips_same_ppu": true,
+    "example_old_ppu": 100,
+    "example_new_ppu": 85.59670781893004,
+    "alternative_renderer_scale_if_ppu_unchanged": 1.1682692307692308,
+    "apply_once": "Use newPPU=oldPPU*0.8559670781893004 for BOTH new clips and effects, OR use oldPPU and a single common renderer scale1.1682692307692308. Never both. No per-frame/per-clip fitting.",
+    "pivot_pixels_top_left": [
+      416,
+      584
+    ],
+    "additional_offset_pixels": [
+      0,
+      0
+    ],
+    "pose_caveat": "Height comparison is old hovering neutral robe silhouette versus new standing shared ready. Old robe extends8px below documented root; new near-foot contacts root. Height normalization preserves intended overall visual size, not old body proportions."
+  }
+}

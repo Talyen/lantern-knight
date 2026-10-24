@@ -1,0 +1,34 @@
+# Lantern — Generic Loot
+
+Three reusable physical ground drops: wrapped equipment bundle, small relic parcel, coin pouch. These represent broad categories, not individual item art. No inventory icons or UI are included.
+
+## Runtime
+- 21 transparent 256×256 RGBA frames, plus a 1560×1040 atlas with 4px cell gutters.
+- Three six-drawing effects: landing (24 ticks), resting glint (90-tick loop), collection (24 ticks). All timing uses 60 Hz ticks.
+- The JSON manifest specifies every frame, source crop, scale, pivot, layer, timing and atlas rectangle.
+- Ground pivot is (128,224); glint pivot is (128,128), attached (0,-84) from ground pivot.
+- Landing behind the drop; glint and collection in front. Hide the drop three ticks into collection.
+- Landing and collection display their six frames during ticks 0–23. At tick 24, explicitly disable the effect renderer and clear its sprite. Never hold the last frame: it contains residual sparks. This terminal event is encoded in the manifest and reproduced by the build script. Glint continues its 90-tick loop while the drop rests.
+- Straight alpha, bilinear filtering, no atlas mipmaps unless repacked with appropriate extrusion.
+- Suggested footprint 0.6–0.9m; tune against the actual hero. Do not individually resize animation frames.
+
+## Color behavior
+Authoritative effects are pure white RGB with coverage in alpha, so one runtime tint controls every effect. Base Items: white #FFFFFF. Uniques: gold/tan #CFAD6C. No blue, green, purple, or orange rarity ladder. Ground objects use neutral grayscale material shading so the generic silhouette stays consistent. Do not tint opaque art with a solid color replacement; multiply it only if that is the intended art direction. Gold in previews is illustrative only; no rarity color is baked into authoritative effect PNGs.
+
+## Source and rebuilding
+Four selected fresh built-in image_gen outputs: three at native 2172×724 and landing at native 2043×770, transparently generated. Exact prompts are included. Sunburst 2.5 is a visual-intent phrase, not a guaranteed selected model. Generated source has been preserved unchanged. Runtime is derived through conventional crop, alpha cleanup below 8/255, grayscale material conversion, white-mask extraction, and downsampling only. No upscaling.
+
+Run `python rebuild.py` with Python, Pillow, NumPy and ffmpeg installed to rebuild runtime, atlas, manifest, contact sheet, small-size check, and 60fps MP4. Preview tinting and compositing are conventional image operations, not additional generated drawings.
+
+## Projection and placement
+Use upright camera-facing sprite cards for drops and effects. Each drawing already contains its own perspective cues, including the landing effect’s flattened ground ellipse. Keep the card facing the fixed orthographic game camera and attach the declared pivot to the world ground position. Do not lay these full effect images onto a horizontal ground plane and do not apply a second isometric or diamond projection: that would foreshorten the already-baked ellipse again. A renderer that separates a genuinely horizontal decal would need separately authored assets; none are included here.
+
+Camera art-direction target: orthographic 35.264° elevation / 45° azimuth. These are 2D drawings, not renders from a mathematically verified 3D camera.
+
+## QA
+All 21 frames inspected on the contact sheet. Landing used measured nonuniform crop regions, eliminating neighboring fragments that naïve equal-grid slicing would introduce. Common scale and explicit ground anchors prevent per-frame size/anchor normalization drift. Every runtime border is transparent, every effect's visible RGB is pure white, and the three silhouettes remain distinguishable at roughly 64px footprint. See qa_report.json. The MP4 shows two full land/rest/collect cycles with white and gold/tan demonstration tints.
+
+## Delivery packages
+- `lantern_generic_loot_runtime.zip`: runtime PNG frames, atlas, manifest, integration README and QA report. Authoritative import package.
+- `lantern_generic_loot_source_rebuild.zip`: unchanged selected image-generation sheets, prompts, reproducible extraction/compositing script, reference manifest, README and QA report.
+- Contact sheet and MP4 are delivered separately and are not runtime assets.

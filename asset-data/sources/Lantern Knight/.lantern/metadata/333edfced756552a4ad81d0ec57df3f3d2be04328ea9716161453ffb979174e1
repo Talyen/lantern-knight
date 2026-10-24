@@ -1,0 +1,454 @@
+{
+  "name": "umbral_beak",
+  "role": "enemy",
+  "grid": [
+    4,
+    6
+  ],
+  "canvas": [
+    512,
+    384
+  ],
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_scale": 1.1483253588516746,
+  "source_padding": [
+    76.0,
+    72.0
+  ],
+  "telegraph_ms": 980,
+  "strike_ms": 40,
+  "impact_start_ms": 1020,
+  "contact_ms": 90,
+  "recovery_ms": 420,
+  "clear_hold_ms": 350,
+  "duration_ms": 1880,
+  "frames": [
+    {
+      "cel": 1,
+      "source_box": [
+        0,
+        0,
+        314,
+        187
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 2,
+      "source_box": [
+        314,
+        0,
+        627,
+        187
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 3,
+      "source_box": [
+        627,
+        0,
+        940,
+        187
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 4,
+      "source_box": [
+        940,
+        0,
+        1254,
+        187
+      ],
+      "source_boundary_alpha_pixels": 8,
+      "paste": [
+        75,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 5,
+      "source_box": [
+        0,
+        187,
+        314,
+        424
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        76,
+        47
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 6,
+      "source_box": [
+        314,
+        187,
+        627,
+        424
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        47
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 7,
+      "source_box": [
+        627,
+        187,
+        940,
+        424
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        47
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 8,
+      "source_box": [
+        940,
+        187,
+        1254,
+        424
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        47
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 9,
+      "source_box": [
+        0,
+        424,
+        314,
+        656
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        79
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 10,
+      "source_box": [
+        314,
+        424,
+        627,
+        656
+      ],
+      "source_boundary_alpha_pixels": 5,
+      "paste": [
+        77,
+        79
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 11,
+      "source_box": [
+        627,
+        424,
+        940,
+        656
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        79
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 12,
+      "source_box": [
+        940,
+        424,
+        1254,
+        656
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        79
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 13,
+      "source_box": [
+        0,
+        656,
+        314,
+        871
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        76,
+        105
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 14,
+      "source_box": [
+        314,
+        656,
+        627,
+        871
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        105
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 15,
+      "source_box": [
+        627,
+        656,
+        940,
+        871
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        105
+      ],
+      "duration_ms": 40,
+      "phase": "strike",
+      "damage_event": false
+    },
+    {
+      "cel": 16,
+      "source_box": [
+        940,
+        656,
+        1254,
+        871
+      ],
+      "source_boundary_alpha_pixels": 12,
+      "paste": [
+        75,
+        105
+      ],
+      "duration_ms": 90,
+      "phase": "impact",
+      "damage_event": true
+    },
+    {
+      "cel": 17,
+      "source_box": [
+        0,
+        871,
+        314,
+        1084
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        112
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 18,
+      "source_box": [
+        314,
+        871,
+        627,
+        1084
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        77,
+        112
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 19,
+      "source_box": [
+        627,
+        871,
+        940,
+        1084
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        112
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 20,
+      "source_box": [
+        940,
+        871,
+        1254,
+        1084
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        112
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 21,
+      "source_box": [
+        0,
+        1084,
+        314,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        117
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 22,
+      "source_box": [
+        314,
+        1084,
+        627,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        117
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 23,
+      "source_box": [
+        627,
+        1084,
+        940,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        117
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 24,
+      "source_box": [
+        940,
+        1084,
+        1254,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        117
+      ],
+      "duration_ms": 350,
+      "phase": "clear",
+      "damage_event": false
+    }
+  ],
+  "registration": "Fixed nominal 4x6 source grid; crop offsets compensated, no per-frame recentering.",
+  "assembly": "Only crops, one uniform scale, fixed placement; no synthetic motion, morphing or fade. Final all-zero cel.",
+  "coordinates_note": "Art direction only, not engine collision integration",
+  "preview_cycles": 3,
+  "source_sha256": "b4da778671648c5732d0d91275bc229aa9904eb2f59bf44c011fcf6a14138fce",
+  "art_direction_guide_normalized_source_cell": {
+    "pivot": [
+      0.53,
+      0.76
+    ],
+    "target": [
+      0.53,
+      0.76
+    ],
+    "footprint": "small ellipse"
+  }
+}

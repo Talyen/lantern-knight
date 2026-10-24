@@ -1,0 +1,15 @@
+{
+  "id": "lantern_concept_item_08_vigil_kite_shield",
+  "name": "Vigil kite shield",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/08_vigil_kite_shield.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Generic blue heraldic shield with bevel diamond; replace centered badge with stronger authored shape language.",
+  "pack": "Lantern - Equipment and Loot Concepts 01",
+  "folder": "equipment_loot_01",
+  "destination": "lantern_revision_02/equipment/equipment_loot_01/assets/08_vigil_kite_shield.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A VIGIL KITE SHIELD: narrow chipped kite outline, faded slate blue wood panels, black iron perimeter with irregular breaks, simple off-center ivory vertical candle mark. No gem or central diamond. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-ad802a1f-b650-46b7-aa4e-0d61ca97129c.png",
+  "review": "Passed large overview and 64px light/dark proxy. Bow string joins both tips; crossbow fresh unloaded variant has one continuous correctly anchored string. Native alpha preserved."
+}

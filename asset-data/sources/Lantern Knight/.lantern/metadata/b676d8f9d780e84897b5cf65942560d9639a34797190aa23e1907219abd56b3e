@@ -1,0 +1,264 @@
+{
+  "passed": true,
+  "issues": [],
+  "clipCount": 24,
+  "retainedByteIdenticalClipCount": 0,
+  "minimumBoundaryMarginPx": 12,
+  "clips": [
+    {
+      "id": "layered_flame_tongues__d000",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 46,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d045",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 99,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d090",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 60,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d135",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d180",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 46,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d225",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 66,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d270",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 60,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "layered_flame_tongues__d315",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d000",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 73,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d045",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 99,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d090",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 56,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d135",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d180",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 72,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d225",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 66,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d270",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 57,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "fractured_amber_panes__d315",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d000",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 48,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d045",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 99,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d090",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 43,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d135",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 12,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d180",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 47,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d225",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 66,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d270",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 44,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "curling_ember_ribbons__d315",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    }
+  ],
+  "previews": [
+    {
+      "file": "layered_flame_tongues__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "curling_ember_ribbons__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "layered_flame_tongues__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "curling_ember_ribbons__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "fractured_amber_panes__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "fractured_amber_panes__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    }
+  ],
+  "tests": "Every alpha frame, atlas crop and transparent gutter. Periodic source endpoint equality for repaired loops. Nonloop clear endpoints. Retained PNG hashes against original. Source timing30fps versus60Hz video header. These are offline file tests, not uninterrupted human playback or engine certification."
+}

@@ -1,0 +1,16 @@
+{
+  "id": "lantern_concept_item_07_rook_crossbow",
+  "name": "Rook crossbow",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/07_rook_crossbow.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Readable stock crossbow; uniform brown shading and gold crank lack ink-led material accents.",
+  "pack": "Lantern - Equipment and Loot Concepts 01",
+  "folder": "equipment_loot_01",
+  "destination": "lantern_revision_02/equipment/equipment_loot_01/assets/07_rook_crossbow.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A ROOK CROSSBOW: compact severe dark oak stock, broad forged steel bow arms, a SINGLE UNC\u041eCKED taut bowstring tied directly from left bow tip to right bow tip across the empty stock rail, NO BOLT or ARROW anywhere, simple offset black iron winding lever. Believable working assembly. Unloaded resting crossbow, no bolt, no arrow, no fletching. Both string ends clearly attach to their respective bow tips, one continuous straight string, simple empty bolt channel. Keep construction easy to understand. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-d48a2f7c-0f9d-4362-bfcb-1fccc2e2b767.png",
+  "revision_note": "Fresh unloaded variant to remove bolt/string cocking inconsistency.",
+  "review": "Passed large overview and 64px light/dark proxy. Bow string joins both tips; crossbow fresh unloaded variant has one continuous correctly anchored string. Native alpha preserved."
+}

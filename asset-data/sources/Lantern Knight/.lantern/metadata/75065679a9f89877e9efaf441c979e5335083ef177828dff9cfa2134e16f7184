@@ -1,0 +1,5 @@
+Ironcap Fungus: choked_spore_puff
+Additive ability only. Existing attacks and get-hit art unchanged.
+Native generated sheet1024x1536,16 actor +8 effect cels. Source cel crops and explicit ordinary resample factor are in runtime JSON. Actor export canvas640x640, pivot[320, 540].
+Render row-major; use per-frame milliseconds and one gameplay hit at1100ms. Effect starts1000ms; it never independently schedules damage. Coordinate offsets are top-left +x right,+y down.
+Reel compares reference appearance to the new synchronized ability, not a captured baseline attack. One direction supplied. Inspect in engine before gameplay integration.

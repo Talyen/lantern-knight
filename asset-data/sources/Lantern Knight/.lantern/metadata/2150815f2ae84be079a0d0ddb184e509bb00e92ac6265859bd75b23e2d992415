@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "main_nave",
+      "display_crop_box": [
+        900,
+        800,
+        2436,
+        1824
+      ],
+      "source_crop_box": [
+        360.0,
+        320.0,
+        974.4,
+        729.6
+      ],
+      "display_hero_foot": [
+        1688,
+        1263
+      ],
+      "source_hero_foot": [
+        675.2,
+        505.2
+      ]
+    },
+    {
+      "name": "sanctuary_aisle",
+      "display_crop_box": [
+        2125,
+        525,
+        3661,
+        1549
+      ],
+      "source_crop_box": [
+        850.0,
+        210.0,
+        1464.4,
+        619.6
+      ],
+      "display_hero_foot": [
+        2783,
+        1308
+      ],
+      "source_hero_foot": [
+        1113.2,
+        523.2
+      ]
+    },
+    {
+      "name": "side_chapel",
+      "display_crop_box": [
+        1375,
+        1450,
+        2911,
+        2474
+      ],
+      "source_crop_box": [
+        550.0,
+        580.0,
+        1164.4,
+        989.6
+      ],
+      "display_hero_foot": [
+        1735,
+        2110
+      ],
+      "source_hero_foot": [
+        694.0,
+        844.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

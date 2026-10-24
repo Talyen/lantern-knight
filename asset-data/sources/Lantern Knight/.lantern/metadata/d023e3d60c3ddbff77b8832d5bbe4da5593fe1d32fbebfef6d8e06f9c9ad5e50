@@ -1,0 +1,61 @@
+{
+  "title": "village_C fresh variant 01",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "entry",
+      "display_box": [
+        382,
+        672,
+        1918,
+        1696
+      ],
+      "display_foot": [
+        1150,
+        1312
+      ]
+    },
+    {
+      "name": "middle",
+      "display_box": [
+        1407,
+        460,
+        2943,
+        1484
+      ],
+      "display_foot": [
+        2175,
+        1100
+      ]
+    },
+    {
+      "name": "far",
+      "display_box": [
+        2207,
+        1010,
+        3743,
+        2034
+      ],
+      "display_foot": [
+        2975,
+        1650
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "terrain_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "landmark_junction",
+      "source_xy": [
+        960,
+        640
+      ]
+    }
+  ]
+}

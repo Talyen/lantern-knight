@@ -1,0 +1,15 @@
+{
+  "id": "lantern_concept_item_03_thorn_recurve_bow",
+  "name": "Thorn recurve bow",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/03_thorn_recurve_bow.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Bow and string nearly disappear at 64 px; stronger bow width and characterful hooked tips.",
+  "pack": "Lantern - Equipment and Loot Concepts 01",
+  "folder": "equipment_loot_01",
+  "destination": "lantern_revision_02/equipment/equipment_loot_01/assets/03_thorn_recurve_bow.png",
+  "prompt": "Create a NEW image from scratch. The supplied canonical C/RUST image is STYLE REFERENCE ONLY: match its clean hand-inked variable contour, broad flat angular shadow masses, restrained earth and slate palette. Do not depict the reference person. Subject: A THORN RECURVE BOW: thick bent dark yew limbs, hooked tips and visible taut hemp string, middle leather wrapping. Deliberately sturdy silhouette, asymmetrical wood knots, no arrows. View: approximate orthographic game camera elevation 35.264 degrees, azimuth 45 degrees, seeing top and two sides. Ground-drop pose on invisible horizontal plane where appropriate. Polished CLEAN INK dark fantasy illustration, assertive tapered black contours, economical broken internal lines, broad connected deep shadow shapes designed across material surfaces. Smooth mostly flat color fills. Material-specific intentional silhouettes and selective meaningful edges. NO grain, NO stipple, NO dense scratches, NO tiny hatch shading, NO glossy specular bevel strips, NO polygon faces, NO photorealism, NO 3D render. Single isolated asset or named assembly only. Composition: centered modest-sized subject entirely inside central 65 percent of square canvas, ample transparent padding on ALL sides. True transparent alpha background, no ground, no cast shadow, no halo, no vignette, no border, no text or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-2db1122d-8772-4872-8fc7-4f3c455530e5.png",
+  "review": "Passed large overview and 64px light/dark proxy. Bow string joins both tips; crossbow fresh unloaded variant has one continuous correctly anchored string. Native alpha preserved."
+}

@@ -1,0 +1,441 @@
+{
+  "schema": "limited-art-study/v1",
+  "asset_id": "lamplighter_C_RUST_known_view_cutout_v01",
+  "production_approved": false,
+  "scope": "One uncalibrated known-view idle study. Not a walk/attack clip.",
+  "canonical_sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c",
+  "clip_id": "known_view_idle_study",
+  "duration_ticks": 24,
+  "timebase_hz": 12,
+  "loop": true,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_000.png",
+      "sample_time_seconds": 0.0,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 1,
+      "sha256": "3a0d42cbe84ca89ef0ed1331e24574265c090014945713d3b6a27e2c8eade16c",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_001.png",
+      "sample_time_seconds": 0.08333333333333333,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 3,
+      "sha256": "f2bebe2533be82e705ae030c70ec30fc213422c30a626c6d51affb97d0cf905e",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_002.png",
+      "sample_time_seconds": 0.16666666666666666,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 5,
+      "sha256": "e735c29b5fade5fab1693f170ba99d8f607374adec33ca6507a0869f63f8c8f9",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_003.png",
+      "sample_time_seconds": 0.25,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 7,
+      "sha256": "e0df0bc01e1762ced958c6c398aba4d1b19939a218bc08d215aaa111bb907aea",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_004.png",
+      "sample_time_seconds": 0.3333333333333333,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 9,
+      "sha256": "b7509db6c27705f2206e08986ed4c069db153a55ffe89bdc2cb0fbc3e188cad6",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_005.png",
+      "sample_time_seconds": 0.4166666666666667,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 11,
+      "sha256": "211ea86b278fc86f6acbbcabe2e050633010bb8af8d4807dbd620612faaf2cdf",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_006.png",
+      "sample_time_seconds": 0.5,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 13,
+      "sha256": "540e618f9561c5a4f219e1b4f6939d51923afa1b67dfdd494501bd1fb2f9a7cc",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_007.png",
+      "sample_time_seconds": 0.5833333333333334,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 15,
+      "sha256": "39a917a32698d141d55149232a33948aa0984fe9221139a7bcdca8c737671adf",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_008.png",
+      "sample_time_seconds": 0.6666666666666666,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 17,
+      "sha256": "6f4ff9d33c237450dbb95f694b676f612e0d7feece097af28a856982efd87e42",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_009.png",
+      "sample_time_seconds": 0.75,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 19,
+      "sha256": "a25b93a335ce90fcc87ed4250c9f897cf70296d21075b6fc374cb3d7be21448c",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_010.png",
+      "sample_time_seconds": 0.8333333333333334,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 21,
+      "sha256": "2ec2254ffe7c5d5b2f283bb18c218112e05485a2538c4f7909227d7cc113b28c",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_011.png",
+      "sample_time_seconds": 0.9166666666666666,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 23,
+      "sha256": "875df92ddfbb3a799370e04d6393dc8f2f610d91de63895e39afa0975ebc47b5",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 12,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_012.png",
+      "sample_time_seconds": 1.0,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 25,
+      "sha256": "95e3b9217172df7c49b748f63c4b91591862cd5a2a92d71ab03c2ef51545e061",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 13,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_013.png",
+      "sample_time_seconds": 1.0833333333333333,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 27,
+      "sha256": "180d471b104af6b8d830a42857e5c5e6b988cd5ded353c6a56cc72ec846368f1",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 14,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_014.png",
+      "sample_time_seconds": 1.1666666666666667,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 29,
+      "sha256": "8599ffd5a6515603ac2715ab4934c2a101dda613951cc65804db87d73c585fbe",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 15,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_015.png",
+      "sample_time_seconds": 1.25,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 31,
+      "sha256": "a6fb241051201167ce5289052119d9fdb05f7e3d76153a56db04ffc8f3c6b37a",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 16,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_016.png",
+      "sample_time_seconds": 1.3333333333333333,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 33,
+      "sha256": "fd7726c20b8b22002c21e2673ea29a83f0a98d3217651a6a3fef75ef9d9fa0d5",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 17,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_017.png",
+      "sample_time_seconds": 1.4166666666666667,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 35,
+      "sha256": "46ffca02a9e04f9e2316fb6d3d8372a42fc3dc7c3d97afe874c27c63fbb5746f",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 18,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_018.png",
+      "sample_time_seconds": 1.5,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 37,
+      "sha256": "e57d91311b18c665ea396aff8a9a1a86b78176a3ed8b2a1822526274cbe7bd86",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 19,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_019.png",
+      "sample_time_seconds": 1.5833333333333333,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 39,
+      "sha256": "84fa2a853d67ffc45ef83493516076701fe3e8cca967932100c3a9a39263b5d7",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 20,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_020.png",
+      "sample_time_seconds": 1.6666666666666667,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 41,
+      "sha256": "d1fb665decdb5c737b441210539d73393d73a7bd3de4d4ce5a8ad6d9e31a44b2",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 21,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_021.png",
+      "sample_time_seconds": 1.75,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 43,
+      "sha256": "246ace78060a1c1f72ff1e3db318c3391216c178657303010f0c6059f4597825",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 22,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_022.png",
+      "sample_time_seconds": 1.8333333333333333,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 45,
+      "sha256": "d1657ee3bc5b038fb35e672ca40361c3af91d0e0581d205ccfadc92fe771931a",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    },
+    {
+      "index": 23,
+      "file": "frames_native/lamplighter_C_RUST_knownview_idle_023.png",
+      "sample_time_seconds": 1.9166666666666667,
+      "duration_ticks": 1,
+      "timebase_hz": 12,
+      "source_timeline_frame": 47,
+      "sha256": "d51878660d6c0e19226b52033fb376011cba31c42fefce75e472f36ec1fe2841",
+      "untrimmed_canvas_px": [
+        466,
+        1198
+      ],
+      "root_px": [
+        272,
+        1084
+      ]
+    }
+  ],
+  "preview_presentation_fps": 60,
+  "atlas": null,
+  "attachments": {
+    "lantern_bail_grip_source_px": [
+      412,
+      540
+    ],
+    "lantern_body_hinge_source_px": [
+      410,
+      574
+    ]
+  },
+  "source_resolution_px": [
+    466,
+    1198
+  ],
+  "export_scale": 1,
+  "export_note": "Source-size derivatives of the 2x Blender proof renders; interpolation is UV resampling, not newly drawn pixels.",
+  "root_note": "Stable canvas registration only, no game-meter or camera calibration.",
+  "approval_scope": "Source-derived static likeness and limited known-view idle study accepted. Full production camera/walk/attack gate remains blocked."
+}

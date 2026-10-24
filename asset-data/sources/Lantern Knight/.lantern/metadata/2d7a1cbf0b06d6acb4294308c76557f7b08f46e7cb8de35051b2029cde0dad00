@@ -1,0 +1,482 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "dock_01",
+  "title": "Lantern Dock & River - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "River infrastructure is static illustrated scenery; no dock traversal, rope/net simulation, vessel buoyancy, working mechanisms or real-world navigation code is supplied. Rope is an alternate within an existing object family.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "dock_mooring_cleat_02",
+      "name": "Iron mooring cleat",
+      "file": "assets/dock_mooring_cleat_02.png",
+      "prompt_file": "provenance/dock_mooring_cleat_02.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1044216,
+      "sha256": "70a596635b694d4dfa2b8fdc892bd45db7d60a502ef0966298ddf480ed19dd05",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        179,
+        96,
+        1378,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        184,
+        99,
+        1375,
+        922
+      ],
+      "fully_transparent_pixel_fraction": 0.714129,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 3,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.5,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.21,
+          0.66
+        ],
+        [
+          0.4,
+          0.49
+        ],
+        [
+          0.78,
+          0.72
+        ],
+        [
+          0.59,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Low deck-mount fitting; anchor estimates support plane, no connection strength or physical cleat operation.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_coiled_mooring_line_01",
+      "name": "Heavy mooring-line coil",
+      "file": "assets/dock_coiled_mooring_line_01.png",
+      "prompt_file": "provenance/dock_coiled_mooring_line_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1500427,
+      "sha256": "7630c5fcacca2f15da60132f3b2fd06922d80dfbceebf3a9dff14d12f65879ce",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        21,
+        1436,
+        1000
+      ],
+      "alpha_at_least_16_bounds_px": [
+        233,
+        133,
+        1317,
+        913
+      ],
+      "fully_transparent_pixel_fraction": 0.67039,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.64
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.16,
+          0.55
+        ],
+        [
+          0.48,
+          0.36
+        ],
+        [
+          0.86,
+          0.65
+        ],
+        [
+          0.67,
+          0.84
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Alternate rope-coil form within the broader art collection; larger scenic dressing, not a wholly new object family or physics rope.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_broken_jetty_section_01",
+      "name": "Broken jetty section",
+      "file": "assets/dock_broken_jetty_section_01.png",
+      "prompt_file": "provenance/dock_broken_jetty_section_01.prompt.txt",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "file_bytes": 969760,
+      "sha256": "fc0131c0960d3951145aea5d2508dba0a7e95ec220701016858d3a23b6df9dd1",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        49,
+        1281,
+        1042
+      ],
+      "alpha_at_least_16_bounds_px": [
+        131,
+        87,
+        1276,
+        1034
+      ],
+      "fully_transparent_pixel_fraction": 0.634121,
+      "fully_opaque_pixel_fraction": 0.000527,
+      "boundary_nonzero_alpha_pixel_count": 5,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.09,
+          0.57
+        ],
+        [
+          0.46,
+          0.41
+        ],
+        [
+          0.9,
+          0.65
+        ],
+        [
+          0.53,
+          0.91
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 176,
+      "qa_notes": "Independent jetty fragment, not a registered damaged state of the ferry landing. No walkable deck or collision surface.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_overturned_rowboat_01",
+      "name": "Overturned rowboat",
+      "file": "assets/dock_overturned_rowboat_01.png",
+      "prompt_file": "provenance/dock_overturned_rowboat_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1290643,
+      "sha256": "d8690b3f0070c5e232c9c4a297d392d61eae73c5ed2bebcead18c02efce6c0fd",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        8,
+        1484,
+        1006
+      ],
+      "alpha_at_least_16_bounds_px": [
+        200,
+        151,
+        1407,
+        889
+      ],
+      "fully_transparent_pixel_fraction": 0.687413,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.66
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.14,
+          0.8
+        ],
+        [
+          0.43,
+          0.47
+        ],
+        [
+          0.83,
+          0.36
+        ],
+        [
+          0.9,
+          0.46
+        ],
+        [
+          0.56,
+          0.76
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "One static overturned hull, no upright matching state, buoyancy, interior or vessel operation.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_wooden_fish_trap_01",
+      "name": "Wooden fish trap",
+      "file": "assets/dock_wooden_fish_trap_01.png",
+      "prompt_file": "provenance/dock_wooden_fish_trap_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1450276,
+      "sha256": "e62fe34205b6148323d296d52f9626770531802554f066d619c8961e7ba569f5",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        21,
+        1482,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        197,
+        95,
+        1371,
+        947
+      ],
+      "fully_transparent_pixel_fraction": 0.60251,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 16,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.71
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.13,
+          0.73
+        ],
+        [
+          0.6,
+          0.37
+        ],
+        [
+          0.87,
+          0.58
+        ],
+        [
+          0.33,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Stylized empty slat trap; openings and funnel are visual, not a mechanically validated trapping device.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_wood_iron_capstan_01",
+      "name": "Wood-and-iron capstan",
+      "file": "assets/dock_wood_iron_capstan_01.png",
+      "prompt_file": "provenance/dock_wood_iron_capstan_01.prompt.txt",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "file_bytes": 738985,
+      "sha256": "15f3a6d34c419ccedec1357f175c2e3a113738cbbdc73325d5107c88308556a6",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        21,
+        1336,
+        1119
+      ],
+      "alpha_at_least_16_bounds_px": [
+        154,
+        100,
+        1223,
+        1024
+      ],
+      "fully_transparent_pixel_fraction": 0.672663,
+      "fully_opaque_pixel_fraction": 0.000764,
+      "boundary_nonzero_alpha_pixel_count": 29,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.5,
+        0.82
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.29,
+          0.78
+        ],
+        [
+          0.5,
+          0.65
+        ],
+        [
+          0.72,
+          0.81
+        ],
+        [
+          0.55,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Handles, drum and base form one static prop; no spin states, working winch or rope behavior.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_piled_fishing_nets_02",
+      "name": "Cloth-covered net bundle",
+      "file": "assets/dock_piled_fishing_nets_02.png",
+      "prompt_file": "provenance/dock_piled_fishing_nets_02.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1286648,
+      "sha256": "445762675ce1d647f4ae8b6894b355704d4efda4b96a764bbc50ece5da812fac",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        49,
+        0,
+        1522,
+        976
+      ],
+      "alpha_at_least_16_bounds_px": [
+        180,
+        179,
+        1390,
+        819
+      ],
+      "fully_transparent_pixel_fraction": 0.656946,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 1,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.5,
+        0.7
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.12,
+          0.61
+        ],
+        [
+          0.51,
+          0.41
+        ],
+        [
+          0.89,
+          0.62
+        ],
+        [
+          0.55,
+          0.83
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Simplified net folds mostly read as opaque overlapping cloth-like masses with a coarse mesh edge; no simulated net or separable layers.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "dock_navigation_post_01",
+      "name": "Blank river marker",
+      "file": "assets/dock_navigation_post_01.png",
+      "prompt_file": "provenance/dock_navigation_post_01.prompt.txt",
+      "dimensions_px": [
+        1024,
+        1536
+      ],
+      "file_bytes": 1022055,
+      "sha256": "19da20e88342b780fecab6a9084b45864b744965fbb45f5f284ca52c8d7f28c5",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        19,
+        807,
+        1462
+      ],
+      "alpha_at_least_16_bounds_px": [
+        314,
+        79,
+        804,
+        1413
+      ],
+      "fully_transparent_pixel_fraction": 0.760651,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.46,
+        0.87
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.3,
+          0.84
+        ],
+        [
+          0.47,
+          0.78
+        ],
+        [
+          0.6,
+          0.87
+        ],
+        [
+          0.45,
+          0.93
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 260,
+      "qa_notes": "Blank fictional marker, no real-world navigation code or text. Static deck/ground-mounted visual post.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

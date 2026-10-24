@@ -1,0 +1,2 @@
+New authored UL rear-facing movement+attack extension. Right dagger/left book anatomical ownership retained. Same640canvas,pivot374/555,240estimatedPPU,timing as original DR dependency. No mirroring; actual rear costume view. DR unchanged.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

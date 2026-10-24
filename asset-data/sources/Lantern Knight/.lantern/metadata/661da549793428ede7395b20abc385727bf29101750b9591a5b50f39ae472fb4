@@ -1,0 +1,35 @@
+{
+  "status": "All three suitable for user art-direction comparison, with density and palette caveats",
+  "review_scope": "Independent full-frame contact sheets, native-pixel hero crops, and native-pixel wax/altar detail crops; presentation review only.",
+  "common": {
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "live_characters_baked_in": false,
+    "readable_floor_and_routes": true,
+    "major_style_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false,
+    "style_note": "Clean tapered outlines and strong connected dark masses. Mild broad floor mottling remains but is subordinate to props and the hero."
+  },
+  "A": {
+    "direction": "Cool basalt initiation cavern",
+    "strength": "Quietest, clearest fighting floor and strongest visual space for the hero. Large basalt rock planes and small candle accents fit the clean ink style.",
+    "caveat": "Some broad subdued floor mottling and giant surrounding stone forms; carved figures in niches are static scenery."
+  },
+  "B": {
+    "direction": "Ochre hardened-wax grotto",
+    "strength": "Most distinctive ritual material treatment. Golden layered drips read as solid wax on raised masonry, not white liquid; the central floor stays clear.",
+    "caveat": "The upper-left altar wall is considerably busier and more ornamental. Bright ochre changes the mood from cold dread to a warm candle shrine."
+  },
+  "C": {
+    "direction": "Dark crimson oath chamber",
+    "strength": "Strongest restrained dark-cult palette. Broad circulation around the altar remains readable, and the original hero retains clear silhouette contrast.",
+    "caveat": "Dark paving and cracks are more pronounced than A/B. Dark enemy sprites will need a separate contrast check; no in-engine result is implied."
+  },
+  "suggested_starting_point": "A for clearest gameplay presentation. B for the more distinctive wax-shrine identity; C for a darker crimson mood.",
+  "limits": "Tall scenery and decorative statues are baked into these viewport art-direction samples. No in-engine occlusion, collision, exact camera calibration or gameplay-clearance validation is claimed. No source repainting, expansion or upscaling was performed."
+}

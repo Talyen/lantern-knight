@@ -1,0 +1,454 @@
+{
+  "method": "Read-only normalized alpha patch SSD; both boot regions jointly determine one whole-drawing integer registration. No anatomical/pixel warp, per-frame scale, pelvis/head lock or silhouette fitting.",
+  "boxes_native": [
+    [
+      375,
+      1190,
+      605,
+      1320
+    ],
+    [
+      585,
+      1095,
+      825,
+      1170
+    ]
+  ],
+  "frames": [
+    {
+      "frame": 2,
+      "native_best_foot_translation": {
+        "near": [
+          5,
+          2
+        ],
+        "far": [
+          20,
+          4
+        ]
+      },
+      "native_joint_translation": [
+        14,
+        3
+      ],
+      "export_integer_correction": [
+        -5,
+        -1
+      ],
+      "near_residual_px": [
+        -2.85,
+        -0.14
+      ],
+      "far_residual_px": [
+        3.602,
+        0.72
+      ]
+    },
+    {
+      "frame": 3,
+      "native_best_foot_translation": {
+        "near": [
+          5,
+          1
+        ],
+        "far": [
+          14,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        9,
+        1
+      ],
+      "export_integer_correction": [
+        -4,
+        0
+      ],
+      "near_residual_px": [
+        -1.85,
+        0.43
+      ],
+      "far_residual_px": [
+        2.021,
+        0.43
+      ]
+    },
+    {
+      "frame": 4,
+      "native_best_foot_translation": {
+        "near": [
+          14,
+          4
+        ],
+        "far": [
+          25,
+          14
+        ]
+      },
+      "native_joint_translation": [
+        22,
+        12
+      ],
+      "export_integer_correction": [
+        -8,
+        -4
+      ],
+      "near_residual_px": [
+        -1.979,
+        -2.28
+      ],
+      "far_residual_px": [
+        2.752,
+        2.021
+      ]
+    },
+    {
+      "frame": 5,
+      "native_best_foot_translation": {
+        "near": [
+          0,
+          -1
+        ],
+        "far": [
+          14,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        5,
+        0
+      ],
+      "export_integer_correction": [
+        -3,
+        0
+      ],
+      "near_residual_px": [
+        -3.0,
+        -0.43
+      ],
+      "far_residual_px": [
+        3.021,
+        0.43
+      ]
+    },
+    {
+      "frame": 6,
+      "native_best_foot_translation": {
+        "near": [
+          -1,
+          0
+        ],
+        "far": [
+          15,
+          3
+        ]
+      },
+      "native_joint_translation": [
+        6,
+        2
+      ],
+      "export_integer_correction": [
+        -3,
+        -1
+      ],
+      "near_residual_px": [
+        -3.43,
+        -1.0
+      ],
+      "far_residual_px": [
+        3.451,
+        0.29
+      ]
+    },
+    {
+      "frame": 7,
+      "native_best_foot_translation": {
+        "near": [
+          0,
+          0
+        ],
+        "far": [
+          0,
+          0
+        ]
+      },
+      "native_joint_translation": [
+        0,
+        0
+      ],
+      "export_integer_correction": [
+        0,
+        0
+      ],
+      "near_residual_px": [
+        0.0,
+        0.0
+      ],
+      "far_residual_px": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "frame": 8,
+      "native_best_foot_translation": {
+        "near": [
+          -3,
+          4
+        ],
+        "far": [
+          22,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        14,
+        1
+      ],
+      "export_integer_correction": [
+        -4,
+        -1
+      ],
+      "near_residual_px": [
+        -5.29,
+        0.72
+      ],
+      "far_residual_px": [
+        5.462,
+        -0.57
+      ]
+    },
+    {
+      "frame": 9,
+      "native_best_foot_translation": {
+        "near": [
+          0,
+          3
+        ],
+        "far": [
+          31,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        21,
+        1
+      ],
+      "export_integer_correction": [
+        -7,
+        -1
+      ],
+      "near_residual_px": [
+        -7.0,
+        0.29
+      ],
+      "far_residual_px": [
+        6.333,
+        -0.57
+      ]
+    },
+    {
+      "frame": 10,
+      "native_best_foot_translation": {
+        "near": [
+          0,
+          1
+        ],
+        "far": [
+          3,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        1,
+        1
+      ],
+      "export_integer_correction": [
+        -1,
+        0
+      ],
+      "near_residual_px": [
+        -1.0,
+        0.43
+      ],
+      "far_residual_px": [
+        0.29,
+        0.43
+      ]
+    },
+    {
+      "frame": 11,
+      "native_best_foot_translation": {
+        "near": [
+          3,
+          3
+        ],
+        "far": [
+          33,
+          5
+        ]
+      },
+      "native_joint_translation": [
+        28,
+        5
+      ],
+      "export_integer_correction": [
+        -8,
+        -2
+      ],
+      "near_residual_px": [
+        -6.71,
+        -0.71
+      ],
+      "far_residual_px": [
+        6.193,
+        0.15
+      ]
+    },
+    {
+      "frame": 12,
+      "native_best_foot_translation": {
+        "near": [
+          6,
+          4
+        ],
+        "far": [
+          36,
+          10
+        ]
+      },
+      "native_joint_translation": [
+        29,
+        10
+      ],
+      "export_integer_correction": [
+        -9,
+        -3
+      ],
+      "near_residual_px": [
+        -6.419,
+        -1.28
+      ],
+      "far_residual_px": [
+        6.483,
+        1.301
+      ]
+    },
+    {
+      "frame": 13,
+      "native_best_foot_translation": {
+        "near": [
+          1,
+          0
+        ],
+        "far": [
+          1,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        1,
+        1
+      ],
+      "export_integer_correction": [
+        0,
+        0
+      ],
+      "near_residual_px": [
+        0.43,
+        0.0
+      ],
+      "far_residual_px": [
+        0.43,
+        0.43
+      ]
+    },
+    {
+      "frame": 14,
+      "native_best_foot_translation": {
+        "near": [
+          2,
+          1
+        ],
+        "far": [
+          3,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        2,
+        1
+      ],
+      "export_integer_correction": [
+        -1,
+        0
+      ],
+      "near_residual_px": [
+        -0.14,
+        0.43
+      ],
+      "far_residual_px": [
+        0.29,
+        0.43
+      ]
+    },
+    {
+      "frame": 15,
+      "native_best_foot_translation": {
+        "near": [
+          1,
+          1
+        ],
+        "far": [
+          1,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        1,
+        1
+      ],
+      "export_integer_correction": [
+        0,
+        0
+      ],
+      "near_residual_px": [
+        0.43,
+        0.43
+      ],
+      "far_residual_px": [
+        0.43,
+        0.43
+      ]
+    },
+    {
+      "frame": 16,
+      "native_best_foot_translation": {
+        "near": [
+          1,
+          3
+        ],
+        "far": [
+          0,
+          1
+        ]
+      },
+      "native_joint_translation": [
+        0,
+        2
+      ],
+      "export_integer_correction": [
+        0,
+        -1
+      ],
+      "near_residual_px": [
+        0.43,
+        0.29
+      ],
+      "far_residual_px": [
+        0.0,
+        -0.57
+      ]
+    }
+  ]
+}

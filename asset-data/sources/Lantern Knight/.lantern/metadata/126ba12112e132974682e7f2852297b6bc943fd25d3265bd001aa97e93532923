@@ -1,0 +1,6 @@
+Shroud Wisp / Gravecloth Lash / Polish revision 02
+Explicit actor/effect atlas filenames and sampler/ending metadata; kit and loose JSON match.
+Uniform strike-page registration removes position/size snap at source-ready return.
+Cloth dust scuff (effect cel 03) now lands at the single attack contact event; padded preview uses runtime actor pivot.
+Original visual design retained. Exact ready endpoint retained. No engine changes or gameplay certification.
+One damage event at 1075 ms. Tell ends 1020 ms.

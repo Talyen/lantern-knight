@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "issues": [],
+  "clipCount": 6,
+  "frameCount": 144,
+  "loopSeams": {
+    "lamp_flame": {
+      "lastToFirstMeanAbsoluteDifference": 0.119685,
+      "maxOtherAdjacentDifference": 0.122342,
+      "seamToMaxAdjacentRatio": 0.9783,
+      "sampleConvention": "phase=i/24; no duplicated endpoint",
+      "passed": true
+    },
+    "rising_motes": {
+      "lastToFirstMeanAbsoluteDifference": 0.023639,
+      "maxOtherAdjacentDifference": 0.028254,
+      "seamToMaxAdjacentRatio": 0.8367,
+      "sampleConvention": "phase=i/24; no duplicated endpoint",
+      "passed": true
+    },
+    "quiet_smoke": {
+      "lastToFirstMeanAbsoluteDifference": 0.084061,
+      "maxOtherAdjacentDifference": 0.09007,
+      "seamToMaxAdjacentRatio": 0.9333,
+      "sampleConvention": "phase=i/24; no duplicated endpoint",
+      "passed": true
+    }
+  },
+  "minimumMarginPx": 107,
+  "atlasCropMatches": true,
+  "zeroRGBUnderZeroAlpha": true
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "name": "terrain_junction",
+    "junction_source_xy": [
+      640,
+      480
+    ],
+    "check_source_box": [
+      592,
+      432,
+      688,
+      528
+    ],
+    "mean_abs_rgb_difference": 0.006799768518518518,
+    "max_abs_rgb_difference": 2.0,
+    "pct_pixels_over_2": 0.0
+  },
+  {
+    "name": "landmark_junction",
+    "junction_source_xy": [
+      960,
+      640
+    ],
+    "check_source_box": [
+      912,
+      592,
+      1008,
+      688
+    ],
+    "mean_abs_rgb_difference": 0.008721245659722222,
+    "max_abs_rgb_difference": 4.0,
+    "pct_pixels_over_2": 0.010850694444444444
+  }
+]

@@ -1,0 +1,16 @@
+Funeral ash downward palm slam
+
+Selected source: source_sheet.png
+Grid:1536x1024;6 columns x4 rows;256x256 nominal square cells;24 cels row-major.
+Prompt:prompt_v3.txt. Provenance:generation_provenance.json.
+
+Registration:preserve nominal256px grid. No per-frame shape recentering or per-row target translation.
+
+Experimental target normalized:[0.5, 0.918]; pivot:[0.5, 0.918].
+
+Assembly cautions:
+- Preserve fixed nominal256px grid registration. Warning baseline drifts about15px from row1 to row3; record this rather than recentering cels.
+- Cel16 powder and cels17–18 smoke spill slightly below nominal y768 row boundary. Gutter cleanup must preserve the central hand shape.
+- Cels14–15 upper wisps touch row3 top.
+- Cel24 contains only a few pixels of row3 contamination at its very top; final clear frame should be alpha zero.
+- Telegraph oval is narrower than the complete splayed hand. Use central palm/oval as intended contact region, excluding cosmetic fingers, tendrils and dispersed ash.

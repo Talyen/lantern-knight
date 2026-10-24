@@ -1,0 +1,92 @@
+{
+  "id": "SK02",
+  "name": "Sepulcher Warden",
+  "family": "01 Skeletons",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9",
+  "source_url": "https://drive.google.com/file/d/1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9/view?usp=drivesdk",
+  "source_archive": "01_skeletons_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/01_skeletons_selection_pack/01_skeletons/assets/SK02_sepulcher_warden.png",
+  "source_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "remove_components_below": 2000,
+  "direction": "DL",
+  "facing": "screen lower-left (front three-quarter)",
+  "baseline_dependency": {
+    "package": "SK02_runtime.zip",
+    "sha256": "330452401ebdb79a55badbf9c9dd62b7a4f985d0c45e56e142163dd2924114ef",
+    "direction": "DR",
+    "unchanged": true
+  },
+  "top_crop_extra": {
+    "move": {
+      "3": 16,
+      "4": 16,
+      "5": 16
+    }
+  },
+  "bottom_crop_extra": {
+    "attack": {
+      "0": 8,
+      "1": 8
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        1,
+        -8
+      ],
+      "1": [
+        4,
+        -10
+      ],
+      "2": [
+        -20,
+        -12
+      ],
+      "3": [
+        3,
+        12
+      ],
+      "4": [
+        -7,
+        -5
+      ],
+      "5": [
+        -18,
+        -13
+      ]
+    },
+    "attack": {
+      "0": [
+        -74,
+        -4
+      ],
+      "1": [
+        -14,
+        -14
+      ],
+      "2": [
+        10,
+        -8
+      ],
+      "3": [
+        -102,
+        20
+      ],
+      "4": [
+        -27,
+        14
+      ],
+      "5": [
+        7,
+        6
+      ]
+    }
+  }
+}

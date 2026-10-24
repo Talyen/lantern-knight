@@ -1,0 +1,1840 @@
+{
+  "id": "death",
+  "name": "Death collapse",
+  "timed_drawing_slots": 22,
+  "duration_ticks_60hz": 84,
+  "duration_seconds": 1.4,
+  "frames": [
+    {
+      "frame": 1,
+      "phase": "ready seed R0",
+      "support_plan": "Exact frozen ready-state contacts",
+      "pose": "Exact shared R0 ready image.",
+      "start_tick_60hz": 0,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.0,
+      "original_plan_frame": 1,
+      "file": "frames/death/death_01.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 1,
+        "file": "frames/death/death_01.png",
+        "shared_state_id": "R0",
+        "source_file": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/shared_states/R0_delivery_1536.png",
+        "scale": "immutable exported R0, no resampling",
+        "translation_px": [
+          0,
+          0
+        ]
+      },
+      "shared_state_id": "R0"
+    },
+    {
+      "frame": 2,
+      "phase": "terminal hit",
+      "support_plan": "near right rear boot sole",
+      "pose": "Terminal hit drives chest backward; both props remain gripped.",
+      "start_tick_60hz": 1,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.016667,
+      "original_plan_frame": 2,
+      "file": "frames/death/death_02.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 2,
+        "file": "frames/death/death_02.png",
+        "source_file": "source/death_master_01_native.png",
+        "source_size_px": [
+          1312,
+          1199
+        ],
+        "source_sheet_id": "d1",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          66,
+          12,
+          570,
+          625
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          601,
+          424
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          223,
+          610
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.88,
+          926.32
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          607,
+          431,
+          1017,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          605,
+          428,
+          1019,
+          934
+        ],
+        "sha256": "f3b38e6d472eda584f7943f7b00927c9c04414a42fd9b2809131442eef264a43"
+      }
+    },
+    {
+      "phase": "authored b1 bridge",
+      "pose": "Fresh complete recoil-to-fold bridge; chest starts leaving the back arch while hips load.",
+      "bridge_id": "b1",
+      "after_original_plan_frame": 2,
+      "frame": 3,
+      "hold_ticks_60hz": 2,
+      "file": "frames/death/death_03.png",
+      "start_tick_60hz": 3,
+      "start_seconds": 0.05,
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 3,
+        "file": "frames/death/death_03.png",
+        "source_file": "source/b01_recoil_fold_v01_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "b1",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.54,
+        "integer_translation_px": [
+          386,
+          402
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          641,
+          970
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.14,
+          925.8
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          603,
+          426,
+          988,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          602,
+          425,
+          1032,
+          932
+        ],
+        "sha256": "526951e3261ed6272d0c5de8750732026bc3a9df7721a1a209b7a187b9236463"
+      },
+      "support_plan": "near right rear boot sole"
+    },
+    {
+      "frame": 4,
+      "phase": "stagger extension",
+      "support_plan": "near right rear boot sole",
+      "pose": "Broken guard folds forward with bent knees and held props.",
+      "start_tick_60hz": 5,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.083333,
+      "original_plan_frame": 3,
+      "file": "frames/death/death_04.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 4,
+        "file": "frames/death/death_04.png",
+        "source_file": "source/death_master_01_native.png",
+        "source_size_px": [
+          1312,
+          1199
+        ],
+        "source_sheet_id": "d1",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          680,
+          70,
+          1173,
+          611
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          617,
+          483
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          817,
+          597
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.08,
+          925.68
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          623,
+          490,
+          1024,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          622,
+          488,
+          1026,
+          933
+        ],
+        "sha256": "cde1171ce4b253780fbe1228aa853b33c2d29c22b7dff288a5c00c58a45a2cf1"
+      }
+    },
+    {
+      "frame": 5,
+      "phase": "broken guard",
+      "support_plan": "near right rear boot sole",
+      "pose": "Both knees buckle deeply; right rear support remains until descent.",
+      "start_tick_60hz": 8,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.133333,
+      "original_plan_frame": 4,
+      "file": "frames/death/death_05.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 5,
+        "file": "frames/death/death_05.png",
+        "source_file": "source/death_master_01_native.png",
+        "source_size_px": [
+          1312,
+          1199
+        ],
+        "source_sheet_id": "d1",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          66,
+          658,
+          640,
+          1182
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          584,
+          506
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          243,
+          1158
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.68,
+          926.0
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          591,
+          513,
+          1060,
+          939
+        ],
+        "nonzero_alpha_bbox": [
+          587,
+          511,
+          1062,
+          945
+        ],
+        "sha256": "9628932060e240a8a76baed5ceee2c4557605f1f822d2ebaa44d3bd93ac65628"
+      }
+    },
+    {
+      "frame": 6,
+      "phase": "knee buckle",
+      "support_plan": "far left forward boot sole; near right knee descending",
+      "pose": "Rear near RIGHT knee descends; far LEFT forward boot remains the planted support.",
+      "start_tick_60hz": 11,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.183333,
+      "original_plan_frame": 5,
+      "file": "frames/death/death_06.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 6,
+        "file": "frames/death/death_06.png",
+        "source_file": "source/death_master_02_v02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d2",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          37,
+          17,
+          756,
+          535
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          540,
+          589
+        ],
+        "native_support_feature": "far left forward boot sole; near right knee descending",
+        "native_support_px": [
+          624,
+          486
+        ],
+        "registered_support_target_px": [
+          951,
+          917
+        ],
+        "registered_support_actual_px": [
+          950.9,
+          917.3
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          545,
+          594,
+          1037,
+          946
+        ],
+        "nonzero_alpha_bbox": [
+          544,
+          593,
+          1043,
+          948
+        ],
+        "sha256": "af2e6eb6d7c3614306e2afe0114ca280fe9f852fe33f029769c7c4ef361c59e9"
+      }
+    },
+    {
+      "phase": "authored b2 bridge",
+      "pose": "Fresh late knee-descent bridge with right knee approaching contact and left boot planted.",
+      "bridge_id": "b2",
+      "after_original_plan_frame": 5,
+      "frame": 7,
+      "hold_ticks_60hz": 3,
+      "file": "frames/death/death_07.png",
+      "start_tick_60hz": 14,
+      "start_seconds": 0.233333,
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 7,
+        "file": "frames/death/death_07.png",
+        "source_file": "source/b02_knee_descent_v01_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "b2",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.43,
+        "integer_translation_px": [
+          470,
+          530
+        ],
+        "native_support_feature": "far left forward boot sole; knee still descending",
+        "native_support_px": [
+          1119,
+          900
+        ],
+        "registered_support_target_px": [
+          951,
+          917
+        ],
+        "registered_support_actual_px": [
+          951.17,
+          917.0
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          578,
+          603,
+          1014,
+          957
+        ],
+        "nonzero_alpha_bbox": [
+          578,
+          603,
+          1040,
+          958
+        ],
+        "sha256": "8547d07f4bc96d2021c8170f0fc04a9fee6263d5f5b5c1439a46b38be9a98cfc"
+      },
+      "support_plan": "far left forward boot sole; knee still descending"
+    },
+    {
+      "frame": 8,
+      "phase": "descent",
+      "support_plan": "near right rear knee contact",
+      "pose": "Near RIGHT knee reaches ground while far LEFT boot stays forward and planted.",
+      "start_tick_60hz": 17,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.283333,
+      "original_plan_frame": 6,
+      "file": "frames/death/death_08.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 8,
+        "file": "frames/death/death_08.png",
+        "source_file": "source/death_master_02_v02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d2",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          779,
+          103,
+          1515,
+          572
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          584,
+          631
+        ],
+        "native_support_feature": "near right rear knee contact",
+        "native_support_px": [
+          1105,
+          502
+        ],
+        "registered_support_target_px": [
+          812,
+          910
+        ],
+        "registered_support_actual_px": [
+          812.2,
+          910.3
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          589,
+          637,
+          1093,
+          954
+        ],
+        "nonzero_alpha_bbox": [
+          588,
+          635,
+          1095,
+          956
+        ],
+        "sha256": "41e5e073536debf272cf42903be2d304299dcc295037121dfb5ecff1c1e48e65"
+      }
+    },
+    {
+      "frame": 9,
+      "phase": "first knee contact",
+      "support_plan": "near right rear knee contact",
+      "pose": "Low catching compression over the right knee and planted left boot.",
+      "start_tick_60hz": 20,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.333333,
+      "original_plan_frame": 7,
+      "file": "frames/death/death_09.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 9,
+        "file": "frames/death/death_09.png",
+        "source_file": "source/death_master_02_v02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d2",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          13,
+          575,
+          767,
+          967
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          562,
+          648
+        ],
+        "native_support_feature": "near right rear knee contact",
+        "native_support_px": [
+          370,
+          950
+        ],
+        "registered_support_target_px": [
+          812,
+          910
+        ],
+        "registered_support_actual_px": [
+          811.9,
+          910.5
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          568,
+          654,
+          1085,
+          917
+        ],
+        "nonzero_alpha_bbox": [
+          566,
+          648,
+          1090,
+          919
+        ],
+        "sha256": "a2d0576382a879399c98fcfea1caa64e5ea9d1294995a26486fa67855b541c0a"
+      }
+    },
+    {
+      "frame": 10,
+      "phase": "loss of support",
+      "support_plan": "anatomically checked grounded near RIGHT knee, both knees down",
+      "pose": "Left knee completes descent so both knees are down; right-knee contact is retained.",
+      "start_tick_60hz": 23,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.383333,
+      "original_plan_frame": 9,
+      "file": "frames/death/death_10.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 10,
+        "file": "frames/death/death_10.png",
+        "source_file": "source/death_master_01_native.png",
+        "source_size_px": [
+          1312,
+          1199
+        ],
+        "source_sheet_id": "d1",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          673,
+          733,
+          1294,
+          1193
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          588,
+          614
+        ],
+        "native_support_feature": "anatomically checked grounded near RIGHT knee, both knees down",
+        "native_support_px": [
+          940,
+          1085
+        ],
+        "registered_support_target_px": [
+          812,
+          910
+        ],
+        "registered_support_actual_px": [
+          812.28,
+          909.68
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          595,
+          621,
+          1103,
+          994
+        ],
+        "nonzero_alpha_bbox": [
+          594,
+          615,
+          1103,
+          996
+        ],
+        "sha256": "043ea308eeb5766be77edf6d7e818418d2653356e1cc3d00f9dd3f3ab35d425a"
+      }
+    },
+    {
+      "phase": "authored b4 bridge",
+      "pose": "Fresh both-knees-to-hip drop bridge; torso loses support toward the near side.",
+      "bridge_id": "b4",
+      "after_original_plan_frame": 9,
+      "frame": 11,
+      "hold_ticks_60hz": 3,
+      "file": "frames/death/death_11.png",
+      "start_tick_60hz": 25,
+      "start_seconds": 0.416667,
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 11,
+        "file": "frames/death/death_11.png",
+        "source_file": "source/b04_hip_drop_v01_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "b4",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.4,
+        "integer_translation_px": [
+          498,
+          548
+        ],
+        "native_support_feature": "anatomically checked near RIGHT knee rolls into hip transfer",
+        "native_support_px": [
+          785,
+          905
+        ],
+        "registered_support_target_px": [
+          812,
+          910
+        ],
+        "registered_support_actual_px": [
+          812.0,
+          910.0
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          551,
+          620,
+          1056,
+          949
+        ],
+        "nonzero_alpha_bbox": [
+          551,
+          575,
+          1056,
+          958
+        ],
+        "sha256": "8592056f5d3879250ed247f10b1554395f7e137b6e08c6064a9026f69462d72d"
+      },
+      "support_plan": "anatomically checked near RIGHT knee rolls into hip transfer"
+    },
+    {
+      "frame": 12,
+      "phase": "second knee descent",
+      "support_plan": "observed near RIGHT knee contour as hip begins descending",
+      "pose": "Both knees fold as pelvis and hip descend; lantern arm keeps cage clear.",
+      "start_tick_60hz": 28,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.466667,
+      "original_plan_frame": 10,
+      "file": "frames/death/death_12.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 12,
+        "file": "frames/death/death_12.png",
+        "source_file": "source/death_master_02_v02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d2",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          776,
+          605,
+          1527,
+          966
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          583,
+          676
+        ],
+        "native_support_feature": "observed near RIGHT knee contour as hip begins descending",
+        "native_support_px": [
+          1103,
+          939
+        ],
+        "registered_support_target_px": [
+          812,
+          910
+        ],
+        "registered_support_actual_px": [
+          811.9,
+          909.8
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          588,
+          681,
+          1103,
+          923
+        ],
+        "nonzero_alpha_bbox": [
+          587,
+          678,
+          1105,
+          925
+        ],
+        "sha256": "9ee448b6900247ba01cdaf8a65a8eabffa2e8b20b8d89062220ac53ec7df05a3"
+      }
+    },
+    {
+      "frame": 13,
+      "phase": "low lantern protect",
+      "support_plan": "near hip/coat contact",
+      "pose": "Near hip and coat reach support; torso leans toward shoulder landing.",
+      "start_tick_60hz": 30,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.5,
+      "original_plan_frame": 11,
+      "file": "frames/death/death_13.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 13,
+        "file": "frames/death/death_13.png",
+        "source_file": "source/death_master_02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d2a",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          796,
+          644,
+          1507,
+          1009
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          486,
+          671
+        ],
+        "native_support_feature": "near hip/coat contact",
+        "native_support_px": [
+          1132,
+          924
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.24,
+          906.2
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          493,
+          677,
+          1077,
+          971
+        ],
+        "nonzero_alpha_bbox": [
+          491,
+          676,
+          1080,
+          975
+        ],
+        "sha256": "1bd4189a0df48f9f21debe7a3cef78664069639fed233f8c2673041f6a82a300"
+      }
+    },
+    {
+      "frame": 14,
+      "phase": "hip contact",
+      "support_plan": "observed folded hip/coat lower contact; shoulder descending",
+      "pose": "Shoulder descends from the supported hip; sword stays outside torso and legs.",
+      "start_tick_60hz": 32,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.533333,
+      "original_plan_frame": 12,
+      "file": "frames/death/death_14.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 14,
+        "file": "frames/death/death_14.png",
+        "source_file": "source/death_master_03_v02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d3",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          2,
+          647,
+          794,
+          1004
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          477,
+          701
+        ],
+        "native_support_feature": "observed folded hip/coat lower contact; shoulder descending",
+        "native_support_px": [
+          362,
+          901
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.6,
+          906.74
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          484,
+          708,
+          1112,
+          983
+        ],
+        "nonzero_alpha_bbox": [
+          477,
+          706,
+          1115,
+          985
+        ],
+        "sha256": "68bd3f583b92ab7f87165c915158e115a9035508d8f0a7361e9dc34804115ec1"
+      }
+    },
+    {
+      "frame": 15,
+      "phase": "shoulder descent",
+      "support_plan": "near hip/coat contact; coat lifted by landing",
+      "pose": "Landing compresses the curled body and throws the heavy coat upward.",
+      "start_tick_60hz": 34,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.566667,
+      "original_plan_frame": 13,
+      "file": "frames/death/death_15.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 15,
+        "file": "frames/death/death_15.png",
+        "source_file": "source/death_master_04_native.png",
+        "source_size_px": [
+          1774,
+          887
+        ],
+        "source_sheet_id": "d4",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          8,
+          7,
+          875,
+          501
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          458,
+          633
+        ],
+        "native_support_feature": "near hip/coat contact; coat lifted by landing",
+        "native_support_px": [
+          427,
+          376
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.06,
+          906.06
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          464,
+          639,
+          1093,
+          992
+        ],
+        "nonzero_alpha_bbox": [
+          462,
+          637,
+          1100,
+          999
+        ],
+        "sha256": "fe69245b662ff931be9a6ca5eb8d07b43956ef8b54ccc669798dc98acf3cc7c7"
+      }
+    },
+    {
+      "phase": "authored b5 bridge",
+      "pose": "Fresh shoulder-landing bridge; chest and cheek lower while props stay held.",
+      "bridge_id": "b5",
+      "after_original_plan_frame": 13,
+      "frame": 16,
+      "hold_ticks_60hz": 3,
+      "file": "frames/death/death_16.png",
+      "start_tick_60hz": 37,
+      "start_seconds": 0.616667,
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 16,
+        "file": "frames/death/death_16.png",
+        "source_file": "source/b05_shoulder_landing_v01_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "b5",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.43,
+        "integer_translation_px": [
+          459,
+          546
+        ],
+        "native_support_feature": "near hip/coat contact; shoulder landing bridge",
+        "native_support_px": [
+          720,
+          838
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.6,
+          906.34
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          521,
+          741,
+          1073,
+          961
+        ],
+        "nonzero_alpha_bbox": [
+          515,
+          672,
+          1075,
+          978
+        ],
+        "sha256": "dbc46cfd758db0a08647b67a7de976a81046f223400a665b52718432b3544c5c"
+      },
+      "support_plan": "near hip/coat contact; shoulder landing bridge"
+    },
+    {
+      "frame": 17,
+      "phase": "shoulder contact",
+      "support_plan": "observed near hip/coat lower contour; shoulder and cheek settle",
+      "pose": "Shoulder and cheek meet the drawn ground; forearm and lamp remain clear.",
+      "start_tick_60hz": 40,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.666667,
+      "original_plan_frame": 14,
+      "file": "frames/death/death_17.png",
+      "hold_60hz": 4,
+      "source_registration": {
+        "index": 17,
+        "file": "frames/death/death_17.png",
+        "source_file": "source/death_master_03_v02_native.png",
+        "source_size_px": [
+          1536,
+          1024
+        ],
+        "source_sheet_id": "d3",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          774,
+          720,
+          1536,
+          1005
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          474,
+          742
+        ],
+        "native_support_feature": "observed near hip/coat lower contour; shoulder and cheek settle",
+        "native_support_px": [
+          1138,
+          923
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.84,
+          906.43
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          480,
+          749,
+          1086,
+          967
+        ],
+        "nonzero_alpha_bbox": [
+          474,
+          744,
+          1091,
+          972
+        ],
+        "sha256": "1971c09248f7411dff48bcca98ece27fdad1b7d79f3a41ec69a5cba4df764982"
+      }
+    },
+    {
+      "frame": 18,
+      "phase": "body impact",
+      "support_plan": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+      "pose": "Full side-body contact; lamp, cheek and foreground hand contacts jointly registered.",
+      "start_tick_60hz": 44,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.733333,
+      "original_plan_frame": 15,
+      "file": "frames/death/death_18.png",
+      "hold_60hz": 4,
+      "source_registration": {
+        "index": 18,
+        "file": "frames/death/death_18.png",
+        "source_file": "source/death_master_04_native.png",
+        "source_size_px": [
+          1774,
+          887
+        ],
+        "source_sheet_id": "d4",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          897,
+          187,
+          1771,
+          513
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          488,
+          746
+        ],
+        "native_support_feature": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+        "native_support_px": [
+          1433,
+          448
+        ],
+        "registered_support_target_px": [
+          866.84,
+          946.28
+        ],
+        "registered_support_actual_px": [
+          884.64,
+          939.14
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          494,
+          752,
+          1129,
+          981
+        ],
+        "nonzero_alpha_bbox": [
+          492,
+          750,
+          1131,
+          985
+        ],
+        "sha256": "43fd94f91977707dc13145d57107ab5c5bd025f2c8438d00bc4b0962fe5ecf8c",
+        "multi_ground_contact_fit": {
+          "method": "One whole-drawing integer translation from the average of observed grounded hand-knuckles, cheek and lantern-base landmarks relative to final D0 contacts. Source scale unchanged. No head lock, per-part transform or blending.",
+          "native_landmarks_px": {
+            "hand_knuckles": [
+              1433,
+              448
+            ],
+            "cheek": [
+              1547,
+              353
+            ],
+            "lantern_base": [
+              1682,
+              421
+            ]
+          },
+          "D0_registered_targets_px": {
+            "hand_knuckles": [
+              866.84,
+              946.28
+            ],
+            "cheek": [
+              974.76,
+              860.4
+            ],
+            "lantern_base": [
+              1082.3,
+              921.2
+            ]
+          },
+          "registered_actual_px": {
+            "hand_knuckles": [
+              884.64,
+              939.14
+            ],
+            "cheek": [
+              969.0,
+              868.84
+            ],
+            "lantern_base": [
+              1068.9,
+              919.16
+            ]
+          },
+          "residuals_px": {
+            "hand_knuckles": [
+              17.8,
+              -7.14
+            ],
+            "cheek": [
+              -5.76,
+              8.44
+            ],
+            "lantern_base": [
+              -13.4,
+              -2.04
+            ]
+          },
+          "retired_anchor": "Previously labeled hip point was not a reliable contact; c1/c3 were transparent. Replaced with directly observed foreground hand/cheek/lamp-base contacts after independent QA."
+        }
+      }
+    },
+    {
+      "frame": 19,
+      "phase": "impact compression",
+      "support_plan": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+      "pose": "Distinct impact compression with held sword and lantern, no vanished equipment.",
+      "start_tick_60hz": 48,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.8,
+      "original_plan_frame": 16,
+      "file": "frames/death/death_19.png",
+      "hold_60hz": 4,
+      "source_registration": {
+        "index": 19,
+        "file": "frames/death/death_19.png",
+        "source_file": "source/death_master_04_native.png",
+        "source_size_px": [
+          1774,
+          887
+        ],
+        "source_sheet_id": "d4",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          23,
+          538,
+          940,
+          847
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          486,
+          741
+        ],
+        "native_support_feature": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+        "native_support_px": [
+          576,
+          803
+        ],
+        "registered_support_target_px": [
+          866.84,
+          946.28
+        ],
+        "registered_support_actual_px": [
+          895.22,
+          937.1
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          492,
+          747,
+          1158,
+          964
+        ],
+        "nonzero_alpha_bbox": [
+          490,
+          745,
+          1159,
+          966
+        ],
+        "sha256": "3f5df25a4fd06426a99983245e9a3cc8a604731102683bf1816eaf97e795f50e",
+        "multi_ground_contact_fit": {
+          "method": "One whole-drawing integer translation from the average of observed grounded hand-knuckles, cheek and lantern-base landmarks relative to final D0 contacts. Source scale unchanged. No head lock, per-part transform or blending.",
+          "native_landmarks_px": {
+            "hand_knuckles": [
+              576,
+              803
+            ],
+            "cheek": [
+              658,
+              730
+            ],
+            "lantern_base": [
+              817,
+              765
+            ]
+          },
+          "D0_registered_targets_px": {
+            "hand_knuckles": [
+              866.84,
+              946.28
+            ],
+            "cheek": [
+              974.76,
+              860.4
+            ],
+            "lantern_base": [
+              1082.3,
+              921.2
+            ]
+          },
+          "registered_actual_px": {
+            "hand_knuckles": [
+              895.22,
+              937.1
+            ],
+            "cheek": [
+              955.9,
+              883.08
+            ],
+            "lantern_base": [
+              1073.56,
+              908.98
+            ]
+          },
+          "residuals_px": {
+            "hand_knuckles": [
+              28.38,
+              -9.18
+            ],
+            "cheek": [
+              -18.86,
+              22.68
+            ],
+            "lantern_base": [
+              -8.74,
+              -12.22
+            ]
+          },
+          "retired_anchor": "Previously labeled hip point was not a reliable contact; c1/c3 were transparent. Replaced with directly observed foreground hand/cheek/lamp-base contacts after independent QA."
+        }
+      }
+    },
+    {
+      "frame": 20,
+      "phase": "settle recoil",
+      "support_plan": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+      "pose": "Release of landing compression into the supported curled body pose.",
+      "start_tick_60hz": 52,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.866667,
+      "original_plan_frame": 17,
+      "file": "frames/death/death_20.png",
+      "hold_60hz": 4,
+      "source_registration": {
+        "index": 20,
+        "file": "frames/death/death_20.png",
+        "source_file": "source/death_master_04_native.png",
+        "source_size_px": [
+          1774,
+          887
+        ],
+        "source_sheet_id": "d4",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          898,
+          553,
+          1774,
+          873
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          479,
+          755
+        ],
+        "native_support_feature": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+        "native_support_px": [
+          1440,
+          810
+        ],
+        "registered_support_target_px": [
+          866.84,
+          946.28
+        ],
+        "registered_support_actual_px": [
+          880.08,
+          945.18
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          485,
+          761,
+          1126,
+          986
+        ],
+        "nonzero_alpha_bbox": [
+          482,
+          758,
+          1127,
+          992
+        ],
+        "sha256": "1ec7157a1c1688c5c38752c51de61e58a4caf7761c1ae523c49cd7e029bfe9f2",
+        "multi_ground_contact_fit": {
+          "method": "One whole-drawing integer translation from the average of observed grounded hand-knuckles, cheek and lantern-base landmarks relative to final D0 contacts. Source scale unchanged. No head lock, per-part transform or blending.",
+          "native_landmarks_px": {
+            "hand_knuckles": [
+              1440,
+              810
+            ],
+            "cheek": [
+              1560,
+              710
+            ],
+            "lantern_base": [
+              1703,
+              766
+            ]
+          },
+          "D0_registered_targets_px": {
+            "hand_knuckles": [
+              866.84,
+              946.28
+            ],
+            "cheek": [
+              974.76,
+              860.4
+            ],
+            "lantern_base": [
+              1082.3,
+              921.2
+            ]
+          },
+          "registered_actual_px": {
+            "hand_knuckles": [
+              880.08,
+              945.18
+            ],
+            "cheek": [
+              968.88,
+              871.18
+            ],
+            "lantern_base": [
+              1074.7,
+              912.62
+            ]
+          },
+          "residuals_px": {
+            "hand_knuckles": [
+              13.24,
+              -1.1
+            ],
+            "cheek": [
+              -5.88,
+              10.78
+            ],
+            "lantern_base": [
+              -7.6,
+              -8.58
+            ]
+          },
+          "retired_anchor": "Previously labeled hip point was not a reliable contact; c1/c3 were transparent. Replaced with directly observed foreground hand/cheek/lamp-base contacts after independent QA."
+        }
+      }
+    },
+    {
+      "phase": "authored b6 bridge",
+      "pose": "Fresh tiny final settling pose directly matched to D0 body, lamp and blade placement.",
+      "bridge_id": "b6",
+      "after_original_plan_frame": 17,
+      "frame": 21,
+      "hold_ticks_60hz": 2,
+      "file": "frames/death/death_21.png",
+      "start_tick_60hz": 56,
+      "start_seconds": 0.933333,
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 21,
+        "file": "frames/death/death_21.png",
+        "source_file": "source/b06_terminal_settle_v02_native.png",
+        "source_size_px": [
+          1774,
+          887
+        ],
+        "source_sheet_id": "b6",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1774,
+          887
+        ],
+        "uniform_source_scale": 0.38,
+        "integer_translation_px": [
+          461,
+          678
+        ],
+        "native_support_feature": "same D0 hip/coat contact; final residual settle",
+        "native_support_px": [
+          809,
+          601
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.42,
+          906.38
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          489,
+          761,
+          1125,
+          981
+        ],
+        "nonzero_alpha_bbox": [
+          488,
+          737,
+          1125,
+          982
+        ],
+        "sha256": "59f4ec791db9a52784e026eb19aeea493a8a7b462d4f80244fa6612446d7f0e4"
+      },
+      "support_plan": "same D0 hip/coat contact; final residual settle"
+    },
+    {
+      "frame": 22,
+      "phase": "terminal hold D0",
+      "support_plan": "near hip/coat contact; terminal D0",
+      "pose": "Exact D0 terminal image holds26 ticks here, then persists indefinitely until game state changes.",
+      "start_tick_60hz": 58,
+      "hold_ticks_60hz": 26,
+      "start_seconds": 0.966667,
+      "original_plan_frame": 24,
+      "file": "frames/death/death_22.png",
+      "hold_60hz": 26,
+      "source_registration": {
+        "index": 22,
+        "file": "frames/death/death_22.png",
+        "source_file": "source/death24_v03_native.png",
+        "source_size_px": [
+          1774,
+          887
+        ],
+        "source_sheet_id": "d0",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1774,
+          887
+        ],
+        "uniform_source_scale": 0.38,
+        "integer_translation_px": [
+          461,
+          678
+        ],
+        "native_support_feature": "near hip/coat contact; terminal D0",
+        "native_support_px": [
+          809,
+          601
+        ],
+        "registered_support_target_px": [
+          768.42,
+          906.38
+        ],
+        "registered_support_actual_px": [
+          768.42,
+          906.38
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          489,
+          762,
+          1123,
+          980
+        ],
+        "nonzero_alpha_bbox": [
+          488,
+          688,
+          1124,
+          991
+        ],
+        "sha256": "42fe591ba2b83ff305416b8292eda5b04b95405cdee627126b42d04a00bbefb9"
+      },
+      "shared_state_id": "D0"
+    }
+  ],
+  "loop": false,
+  "entry": "R0",
+  "exit": "D0 terminal still frame, no automatic return to idle",
+  "intent": "Dramatic back recoil, failing knees and hip/shoulder collapse; five complete transition drawings replace redundant settled variants, while an opposite-knee setup and its dependent bridge are omitted. Exact final D0 holds for26 ticks inside the finite84-tick clip, then indefinitely.",
+  "events": [
+    {
+      "name": "first_knee_contact",
+      "frames": [
+        8
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.283333
+      ]
+    },
+    {
+      "name": "both_knees_down",
+      "frames": [
+        10
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.383333
+      ]
+    },
+    {
+      "name": "hip_contact",
+      "frames": [
+        13
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.5
+      ]
+    },
+    {
+      "name": "shoulder_contact",
+      "frames": [
+        17
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.666667
+      ]
+    },
+    {
+      "name": "body_contact",
+      "frames": [
+        18
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.733333
+      ]
+    },
+    {
+      "name": "terminal_pose",
+      "frames": [
+        22
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.966667
+      ]
+    }
+  ],
+  "contact_rule": "Read source_registration physical support chain. Near right rear knee goes down first in the actual artwork, superseding the provisional far-knee-first script. Both knees then transfer to hip/coat and shoulder/forearm/cheek.",
+  "terminal_hold": "Exact final D0 persists after finite84-tick animation, until game state changes. It already receives26 ticks in the finite clip; preview extends it without adding unique art.",
+  "planned_drawing_budget": 24,
+  "delivered_complete_drawings": 22,
+  "count_revision": "An unintended opposite-knee setup and its dependent bridge were omitted after anatomical QA; six removed ticks were assigned to exact D0. No repeated still is counted as new art.",
+  "clip_id": "death",
+  "status": "FINAL_ART_CONTACT_GATE_PASS_2026-10-07",
+  "artwork_approved": true,
+  "action_role": "death",
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 1,
+  "unique_complete_drawings": 22,
+  "shared_states": {
+    "R0": {
+      "sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d"
+    },
+    "D0": {
+      "sha256": "42fe591ba2b83ff305416b8292eda5b04b95405cdee627126b42d04a00bbefb9"
+    }
+  },
+  "actual_backend_verified": false,
+  "requested_image_model_text": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "original_alpha_preserved": "Original source masters retained. Source ownership partitions only separate whole figures; no body deformation or new alpha painting. One affine uniform-source normalization and integer whole-drawing translation per output.",
+  "canonical_scale_reference": "Ready height507 visible pixels on immutable R0; retain accepted pixels-per-world-unit. Canvas padding is not actor rescaling.",
+  "camera_note": "Accepted slightly down-right illustrated near-profile view; camera angle/elevation are not calibrated3D measurements.",
+  "gameplay_note": "Visual event suggestions only. No game/engine/repository settings, root-motion control, hitboxes, knockback, damage or invulnerability changed.",
+  "art_review": {
+    "art_gate": "PASS corrected same-right-knee descent, actual side contact registration, expressive impact/cloth follow-through, stable final D0 transition/hold.",
+    "frames": 22,
+    "unique_pngs": 22,
+    "ticks": 84,
+    "seconds": 1.4,
+    "D0_start_tick": 58,
+    "D0_finite_hold_ticks": 26,
+    "D0_indefinite_hold": "game-owned after finite action, no automatic return to idle",
+    "R0_exact": true,
+    "all_borders_alpha0": true,
+    "min_bottom_margin": 30,
+    "frames_bounds": [
+      {
+        "frame": 1,
+        "visible_bbox": [
+          603,
+          420,
+          857,
+          927
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 2,
+        "visible_bbox": [
+          607,
+          431,
+          1017,
+          932
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 3,
+        "visible_bbox": [
+          603,
+          426,
+          988,
+          930
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 4,
+        "visible_bbox": [
+          623,
+          490,
+          1024,
+          930
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 5,
+        "visible_bbox": [
+          591,
+          513,
+          1060,
+          939
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 6,
+        "visible_bbox": [
+          545,
+          594,
+          1037,
+          946
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 7,
+        "visible_bbox": [
+          578,
+          603,
+          1014,
+          957
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 8,
+        "visible_bbox": [
+          589,
+          637,
+          1093,
+          954
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 9,
+        "visible_bbox": [
+          568,
+          654,
+          1085,
+          917
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 10,
+        "visible_bbox": [
+          595,
+          621,
+          1103,
+          994
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 11,
+        "visible_bbox": [
+          551,
+          620,
+          1056,
+          949
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 12,
+        "visible_bbox": [
+          588,
+          681,
+          1103,
+          923
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 13,
+        "visible_bbox": [
+          493,
+          677,
+          1077,
+          970
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 14,
+        "visible_bbox": [
+          484,
+          708,
+          1112,
+          983
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 15,
+        "visible_bbox": [
+          464,
+          639,
+          1093,
+          992
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 16,
+        "visible_bbox": [
+          521,
+          741,
+          1073,
+          961
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 17,
+        "visible_bbox": [
+          480,
+          749,
+          1086,
+          967
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 18,
+        "visible_bbox": [
+          494,
+          752,
+          1129,
+          981
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 19,
+        "visible_bbox": [
+          492,
+          747,
+          1158,
+          964
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 20,
+        "visible_bbox": [
+          485,
+          761,
+          1126,
+          986
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 21,
+        "visible_bbox": [
+          489,
+          761,
+          1125,
+          981
+        ],
+        "edge_max_alpha": 0
+      },
+      {
+        "frame": 22,
+        "visible_bbox": [
+          489,
+          762,
+          1123,
+          980
+        ],
+        "edge_max_alpha": 0
+      }
+    ]
+  },
+  "source_manifest_companion": {
+    "archive": "Lantern_Death_Collapse_Sources.zip",
+    "entry": "Lantern_Death_Collapse_Sources/source_inventory.json"
+  },
+  "delivery_notes": "22 complete drawings after omitting an unintended opposite-knee pose and dependent bridge.84ticks at60Hz; exact D0 starts58, holds26 ticks here and then persists. Exact R0 entry. Engine integration and arbitrary interruption behavior not tested."
+}

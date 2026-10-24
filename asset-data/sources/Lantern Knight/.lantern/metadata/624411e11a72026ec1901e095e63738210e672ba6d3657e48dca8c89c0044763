@@ -1,0 +1,154 @@
+{
+  "id": "ZB01",
+  "name": "Ashen Shambler",
+  "source_sha256": "c2e8f5cfd33e745e414aa0a93047d18cd51baf283d10478864dbdba6f8a9c631",
+  "ppu": 256,
+  "clips": {
+    "hit": {
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds": [
+        4,
+        4,
+        7,
+        6,
+        6,
+        9
+      ],
+      "event": 1,
+      "end": "return compatible ready after recovery",
+      "right_extra": {
+        "3": 32
+      },
+      "clear_rects": {
+        "4": [
+          [
+            0,
+            0,
+            32,
+            512
+          ]
+        ]
+      },
+      "offsets": {
+        "0": [
+          -8,
+          4
+        ],
+        "1": [
+          0,
+          4
+        ],
+        "2": [
+          48,
+          4
+        ],
+        "3": [
+          -26,
+          19
+        ],
+        "4": [
+          27,
+          19
+        ],
+        "5": [
+          70,
+          19
+        ]
+      }
+    },
+    "defeat": {
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds": [
+        6,
+        8,
+        10,
+        10,
+        12,
+        60
+      ],
+      "event": 5,
+      "end": "hold final corpse indefinitely; no automatic recovery or despawn",
+      "bottom_extra": {
+        "0": 56,
+        "1": 56,
+        "2": 32
+      },
+      "clear_rects": {
+        "3": [
+          [
+            0,
+            0,
+            512,
+            58
+          ]
+        ],
+        "4": [
+          [
+            0,
+            0,
+            512,
+            58
+          ]
+        ],
+        "5": [
+          [
+            0,
+            0,
+            512,
+            58
+          ]
+        ]
+      },
+      "offsets": {
+        "0": [
+          0,
+          -45
+        ],
+        "1": [
+          0,
+          -45
+        ],
+        "2": [
+          0,
+          -30
+        ],
+        "3": [
+          0,
+          50
+        ],
+        "4": [
+          0,
+          50
+        ],
+        "5": [
+          0,
+          50
+        ]
+      }
+    }
+  },
+  "baseline_dependency": {
+    "direction": "DR",
+    "canonical_revision": "ZB01_v02",
+    "package": "ZB01_runtime.zip",
+    "library_file_id": "libfile_32e51c3799cc81918a592e003dd763d3",
+    "library_version": 1,
+    "sha256": "3886eb516d0e33314e48fc8f938f89f07ccda9dc61de508911cc23bc9d289bc5",
+    "unchanged": true,
+    "proof": "All 15 runtime PNG bytes match exact canonical archive"
+  }
+}

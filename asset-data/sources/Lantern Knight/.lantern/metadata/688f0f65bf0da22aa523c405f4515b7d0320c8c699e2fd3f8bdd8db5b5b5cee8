@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "forge_approach",
+      "display_crop_box": [
+        400,
+        375,
+        1936,
+        1399
+      ],
+      "source_crop_box": [
+        160.0,
+        150.0,
+        774.4,
+        559.6
+      ],
+      "display_hero_foot": [
+        1225,
+        1275
+      ],
+      "source_hero_foot": [
+        490.0,
+        510.0
+      ]
+    },
+    {
+      "name": "main_square",
+      "display_crop_box": [
+        1250,
+        925,
+        2786,
+        1949
+      ],
+      "source_crop_box": [
+        500.0,
+        370.0,
+        1114.4,
+        779.6
+      ],
+      "display_hero_foot": [
+        2038,
+        1725
+      ],
+      "source_hero_foot": [
+        815.2,
+        690.0
+      ]
+    },
+    {
+      "name": "lower_district",
+      "display_crop_box": [
+        2050,
+        1475,
+        3586,
+        2499
+      ],
+      "source_crop_box": [
+        820.0,
+        590.0,
+        1434.4,
+        999.6
+      ],
+      "display_hero_foot": [
+        2950,
+        2075
+      ],
+      "source_hero_foot": [
+        1180.0,
+        830.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

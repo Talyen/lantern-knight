@@ -1,0 +1,17 @@
+LANTERN SWEEP — NINE-DRAWING NATIVE TEST, VERSION 2
+
+One complete ready-to-ready action uses nine unique drawings and eleven timed cels. Ready and the load/settle drawing are reused.
+
+Open preview/compact9_candidate_playable.html for offline play, pause, replay, scrub, and close-up/gameplay scale. The two MP4s are reference playback. The HTML embeds its PNG frames and does not require a server.
+
+Use runtime/frames/ for uniform 1280 x 1000 transparent frames, or the 3 x 3 atlas. animation.json gives timing, atlas rectangles in both pixel-origin conventions, and the common ground pivot. Native high-resolution drawings are in native/; these have individual source framing and should not be substituted directly into the animation without the supplied uniform registration.
+
+UNITY-STYLE IMPORT VALUES
+Pixels per unit: 350, for one unit per meter. Pivot: X 0.49609375, Y 0.2 measured from the bottom-left. Preserve transparency. No horizontal flipping. Atlas cells: 1280 x 1000. Camera: orthographic elevation 35.264389682754654 degrees, world bearing 45 degrees, Y-up; actor faces world +X. Gameplay vertical span: 13 meters (orthographic size 6.5).
+
+KNOWN LIMITS
+The chosen poses passed a human-first visual review. The compact sequence is readable, but independent native drawings retain small foot-registration, body-mass, garment and line differences. The final settling step is closer to ready after a bounded existing-cel substitution; it is not claimed to be perfectly foot-locked. Former doubtful high-lantern carry and tangled rear-coat sources are excluded. No anatomy warps or hero mirroring were used.
+
+Traditional wrong-panel patch cleanup preserves alpha and all pixels outside its saved masks. Those original drawings and masks are included. The shared ready source is unchanged.
+
+The JSON/HTML timing is 1170 ms. MP4 timing is rounded to its video frame timebase and includes repeated viewings. The clip should play once and hold ready in game. Actual combat hitboxes/events are not included.

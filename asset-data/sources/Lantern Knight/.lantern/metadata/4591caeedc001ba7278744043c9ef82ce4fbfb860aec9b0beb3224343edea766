@@ -1,0 +1,38 @@
+{
+  "title": "04 Cultists",
+  "variants": [
+    {
+      "id": "CT01",
+      "slug": "waxmask_acolyte",
+      "name": "Waxmask Acolyte",
+      "description": "A slender adult cultist in a tall pointed oxblood hood and a long unbroken charcoal robe with exactly three broad clean fold masses. Face fully covered by a smooth warm-ivory oval mask, two small identical dark oval eye holes and a single short centered vertical mouth slit, no markings. Matching narrow ivory cuffs, centered plain waist belt. Two gloved five-digit hands grip one short ceremonial dagger held VERTICALLY on the body centerline, point DOWN; both hands stacked at abdomen, the whole hilt and blade visible. Matching simple black shoes peek below robe. Tall restrained triangular silhouette. No flame, ornaments, chains or loose straps.",
+      "motion_hint": "Quiet glide-step / center stab",
+      "move": "Small robe-covered steps with a stable upper body.",
+      "attack": "Hands lift together then make one short centered stab.",
+      "death": "Mask bows and robe folds vertically to the ground.",
+      "qa": "Mask, two stacked hands, central dagger, matching cuffs and two feet pass. Very clean small-scale triangular read. Stacked hand order must be validated before mirroring the attack."
+    },
+    {
+      "id": "CT02",
+      "slug": "bellbound_monk",
+      "name": "Bellbound Monk",
+      "description": "A very broad squat adult cultist monk, face hidden behind a plain bronze oval plate nested inside a small round charcoal hood. Thick bell-shaped muted ochre outer robe, matching deep charcoal sleeve cuffs, three large broad robe folds, chunky black shoes. BOTH gloved hands support a SINGLE large plain bronze ritual handbell at abdomen: one broad rounded bell bowl open at the bottom, one central short wooden handle gripped by both hands; visible full bell silhouette. No chains, no shoulder decorations, no other equipment. A short wide domed silhouette, smooth flat bronze, ochre and charcoal cel colors. The bell reads as a simple rounded cone, no text, engraved symbols or grain.",
+      "motion_hint": "Slow plod / bell swing",
+      "move": "Short synchronized robe bob over tiny steps.",
+      "attack": "Swing the central bell forward with both hands.",
+      "death": "Kneel and sink, the bell settling in front.",
+      "qa": "Broad robe, shared bell grip and two feet pass. Bell mouth is tilted toward the viewer; preserve its tilt through animation or rebuild from a simple volume guide."
+    },
+    {
+      "id": "CT04",
+      "slug": "halo_veil_cantor",
+      "name": "Halo-Veil Cantor",
+      "description": "A mysterious tall levitating adult occult cantor enclosed in a continuous warm-ivory robe, long wide pointed sleeves held low and equivalently forward. A smooth elongated charcoal-black facemask with two narrow small ivory eye slits, no mouth. Around the back of its hood a SINGLE large rigid old-bronze circular collar rising behind the head like a physical halo, thick simple ring attached symmetrically at both shoulders, not a glow. Two matching charcoal-gloved hands support a small plain bronze sphere exactly centered at waist. The lower robe ends in three large centered tapered points, no exposed legs or feet and no tiny ribbons. Tall inverted-drop silhouette with broad circular collar, simple flat ivory, charcoal and matte bronze colors. No particles, flames, symbols or cast shadows.",
+      "motion_hint": "Hover bob / sphere pulse",
+      "move": "Hover with one gentle vertical bob and minimal sleeve sway.",
+      "attack": "Raise the centered sphere and open both hands.",
+      "death": "Rigid collar tips while the robe collapses inward.",
+      "qa": "Two cupped gloved hands and one centered sphere pass; continuous floating robe avoids foot animation. Physical collar silhouette reads clearly. Metal has soft small surface variation; keep final shading broad when animated."
+    }
+  ]
+}

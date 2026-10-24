@@ -1,0 +1,19 @@
+{
+  "mode": "fresh generation from reference inputs",
+  "prompt_path": "prompts/eight_action_sheet_v01.txt",
+  "reference_paths": [
+    "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/sweep_world_positive_Z_sheet_v01/reference/eight_action_geometry.png",
+    "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/sweep_world_positive_Z_sheet_v01/reference/shared_ready_positive_Z_native.png"
+  ],
+  "reference_roles": [
+    "exact fixed-camera eight action poses",
+    "shared world+Z ready identity and materials, not action geometry"
+  ],
+  "transparent_background": true,
+  "requested_model_name": "Sunburst2.5(gpt-image-2.5-sunburst)",
+  "actual_model_selection": "unverified; built-in tool has no model selector",
+  "source_hashes": {
+    "lantern_hero_core_animations_01/reference_led_attacks/sweep_compact9_directions/guides_world_positive_Z/neutral_eight_action_native_markerfree_clean_4x2.png": "258552731042c1fbe3746fca7a1e4e08847aa1dd115d1078e512f1e41aa8ad78",
+    "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_Z_DL_native.png": "13fcf64d6fcbef5b9b576f7f7129f9d93cc3ec44b004385a90ab2664d44a3c6c"
+  }
+}

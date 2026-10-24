@@ -1,0 +1,9 @@
+LANTERN / SHROUD WISP / REVISION 02
+
+Fresh source ink illustration and controlled cutout hover. Three rest drawing studies, one original-view hover, alpha frames in 768 and 384 px, padded atlas, editable source masks and pivots.
+
+The old source had exact 3D projection. These new drawings target the same elevated camera but are not calibrated geometry or exact alternate headings. Keep the old Blender source for geometric rig evidence; do not confuse it with the new art.
+
+30 authored frames per second, 60 frames in a 2-second loop; 60 Hz review duplicates each frame. No independent generated frames, no global rubber deformation. Root is ground anchor, not a foot pivot. Preview ground colors are not baked into sprites.
+
+Source code requires Python, Pillow, NumPy. Read manifest.json and qa/validation.json for remaining limitations.

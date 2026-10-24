@@ -1,0 +1,112 @@
+LANTERN KNIGHT: SELECTED CAMERA AND GAMEPLAY-FRAMING VALIDATION
+
+Build one runnable three.js calibration room that validates the selected camera and chosen initial gameplay framing before production art expands. Deliver evidence from the actual renderer. The camera-selection decision is complete; do not ask me to choose the angle or starting zoom again.
+
+I manage all Codex agents myself. Work only in the assigned checkout. Do not create or manage other tasks or agents, publish, or deploy. Read AGENTS.md and relevant local instructions, inspect existing work, and reuse the current three.js/Electron setup when present. If no app exists, use the smallest runnable three.js harness, not a new game framework. Record versions and commands. Attached foundation/art documents are supporting inputs; do not assume unknown files exist or treat exploratory art as approved production content.
+
+1. CURRENT DECISIONS
+
+Final selected initial camera:
+- Orthographic projection.
+- Elevation = 35.264389682754654 degrees above the XZ horizon.
+- Azimuth = 45 degrees, measured from +Z toward +X.
+- Effective vertical span = 13 world units initially. At 16:9, horizontal span = 23.1111111111 units.
+- I delegated the initial framing choice. Use 13 as the chosen adjustable default, not a pending approval.
+- Keep modest zoom configurable, with suitable source-resolution headroom. This does not authorize changing the asset bake angle.
+
+The earlier exact 30/35/45 comparison and temporary exact-35 selection are history. The final choice is the precise isometric angle above, not a rounded 35-degree bake. Preserve old evidence with its original labels, but do not reopen the decision or silently relabel older images.
+
+The male Lamplighter is the exact user-uploaded RUST reference image(3).png, Library item libfile_0da5071239448191b6962495ce1e0164. Preserve it unchanged; old charcoal/crimson and regenerated interpretations are historical only. Clean INK is locked, with no fluid-brush hybrid. Match the original face, repaired rust coat, two crossing belts, vest, props and anatomy, preserving right forearm wrap/left forearm bracer. This calibration assignment cannot redesign or regenerate the hero.
+
+Confirmed gameplay/presentation:
+- Deliberate but responsive three-hit combo with mouse-directed sword arcs.
+- Directional dash with brief invulnerability; recovery can be canceled, not every attack phase. No initial stamina system.
+- Mouse-directed short-cone lantern flare, brief stagger, cooldown.
+- Travel-facing locomotion and aim-facing attacks/casts; dedicated strafe and independent torso aim deferred.
+- Fixed sword-and-lantern loadout first.
+- Death resets the current room/encounter.
+- Small connected hand-authored areas with simple elevation; procedural generation and stacked floors deferred.
+- Painted environment lighting, contact shadows and selective glow; dynamic lighting optional.
+
+Exact timing, arc/cone sizes, dash direction mapping, input buffering and brief facing locks remain tunable. This assignment only needs cheap proxy interactions to test screen space. It does not implement finished combat, production animation, an asset factory, inventory, saves, procedural generation or an editor. The 1.8-unit hero below is a calibration ruler, not an approved final character proportion.
+
+2. ONE MEASURABLE SCENE
+
+Use a right-handed world: +Y up, XZ ground, 1 unit = 1 metre for the calibration fixture. Include a clearly measured 1.8-unit standing proxy hero with sword/lantern sides, ground-root marker, height ruler and simple articulated movement. Use the same actual geometry, dimensions, world positions, materials, lighting and animation snapshot across comparison captures.
+
+Include a 1-unit floor grid, labelled axes, unit cube, eight world-heading arrows, another actor, chest, tree/canopy, pillar, wall/corner, doorway and foreground occluder. Include mouse-directed sword arcs, a lantern cone/flare preview, an enemy ground telegraph and a ramp/stair route to a raised landing. A simple ramp collision surface under visible stair treads is sufficient. Show useful near and far navigation space and record dimensions in the fixture.
+
+Use genuine 3D proxies or sprites baked from the exact selected camera. Do not reuse art baked at 35 degrees and compensate with nonuniform scaling. Older camera studies are historical evidence, not the current source-bake contract. A flat sprite cannot be rotated to manufacture a new camera elevation. Use a new version and rebake/revalidate affected assets if the canonical orientation ever changes.
+
+3. INITIAL FRAMING AND CONFIGURABLE ZOOM
+
+Set camera.zoom = 1 and express the initial 13-unit span through orthographic frustum bounds. Label it as the chosen starting setting. Make modest runtime zoom configuration possible without rebuilding assets. For a bounded headroom check, 10 and 16 unit spans may be used as closer/wider diagnostic limits; these are test values, not pending selections or a demand for three separate art sets. The final permitted gameplay range can be tuned within validated image quality and visibility.
+
+At a fixed 1.8-unit vertical ruler:
+  projected height = 1.8 * cos(elevation)
+  ruler pixels = projected height * drawingBufferHeight / effectiveVerticalSpan
+
+At the selected elevation, projected ruler height is 1.46969384567 world screen units. At a 1440-pixel drawing buffer:
+- Initial span 13: 162.7968568 pixels, approximately 162.8.
+- Optional span 10 headroom diagnostic: 211.6359138 pixels.
+- Optional span 16 headroom diagnostic: 132.2724461 pixels.
+
+Measure the actual ruler separately from the animated silhouette including sword, lantern and coat. A large art-viewer image is not a gameplay footprint measurement. Do not resize the hero to compensate for zoom or confuse source-image density with runtime drawing-buffer density. Inspect the chosen initial size and optional closer view for enough resolution, alpha-edge quality and motion padding.
+
+4. CAMERA, VIEWPORT AND INPUT CONTRACT
+
+For azimuth a and elevation e in radians, derive:
+  target-to-camera = (cos(e)*sin(a), sin(e), cos(e)*cos(a))
+  screen right = (cos(a), 0, -sin(a))
+  screen up = (-sin(e)*sin(a), cos(e), -sin(e)*cos(a))
+  view forward = -target-to-camera
+
+At the selected exact elevation and azimuth:
+  target-to-camera = (0.577350269190, 0.577350269190, 0.577350269190)
+  screen right = (0.707106781187, 0, -0.707106781187)
+  screen up = (-0.408248290464, 0.816496580928, -0.408248290464)
+
+Record actual position, target, distance, near/far planes, matrices and matrix storage convention. Ensure content fits clipping bounds. For effective vertical span S and active aspect A, top/bottom = +/-S/2 and right/left = +/-S*A/2 at zoom 1. Call updateProjectionMatrix after changing bounds. Distance alone is not orthographic zoom. Label the HUD "orthographic coverage" rather than angular FOV. Show values actually used by the renderer.
+
+Baseline evidence uses a 2560 x 1440 physical drawing buffer, render scale 1 and effective DPR 1. Separate CSS/logical size, device DPR, effective DPR, physical buffer size, viewport rectangle and render scale. Do not multiply DPR twice. Keep vertical span stable on resize and let horizontal coverage follow aspect. Verify 16:9, 16:10 and a high-DPR window. Any letterbox bars must be explicit and excluded from pointer coordinates.
+
+Map screen-relative WASD onto normalized horizontal camera-right and screen-up-on-ground directions; normalize diagonals. Mouse aim converts pointer position relative to the active canvas CSS rectangle into NDC, then constructs a camera ray. In the flat lab intersect Y=0. On raised ground, use a clearly labelled local support-height plane or demonstrated walkable-surface picking. Do not aim at Y=0 from a raised landing or accidentally target canopy/wall surfaces. Cross-level combat is outside a local-plane-only proof unless demonstrated.
+
+Guard zero-sized/hidden canvases, pointers outside the active viewport, ray-plane parallelism, behind-ray intersections, non-finite values and a pointer directly over the hero. Retain last valid aim when no direction exists. Clear held inputs on blur/pause. If showing multiple diagnostic viewports, map interaction to the selected viewport rather than treating the whole grid as one camera.
+
+5. RUNNABLE REVIEW AND EVIDENCE
+
+Expose the initial 13-unit framing as the startup/reset preset. Provide clearly labelled controls for optional close/wide headroom diagnostics, normal/debug view and reset/replay. Keep orientation locked. WASD moves, mouse aims, LMB previews a mouse-directed sword arc, RMB the flare and Shift a directional dash. These are calibration previews. The foundation implementation owns simulation-authoritative damage, invulnerability, idempotent hit records and exactly-once death room reset.
+
+Use a fixed target for measurement captures. If testing follow, translate camera and target together with one documented policy and no automatic zoom/orbit. Walk around the tree/pillar/walls, through the door, past another actor and onto the raised landing. Show foot/contact markers and occlusion diagnostics. Real 3D depth does not prove later flat-sprite overlap correctness; retain that later asset-pipeline test. A bounded occluder fade or silhouette is acceptable if disclosed.
+
+Deliver:
+- Runnable room, exact launch commands and control list.
+- At least one native 2560 x 1440 baseline capture at the selected orientation and initial 13-unit span, plus a useful debug/registration view of the same setup.
+- If checking zoom headroom, native captures at identical pose/tick for the chosen diagnostic spans, with actual values labelled. A contact sheet can supplement originals; a reduced preview does not prove native-size readability.
+- A short actual-app clip showing movement, sword/lantern aim, telegraphs, raised ground, occlusion and initial framing. A brief configurable-zoom demonstration is sufficient; no new angle-selection study is needed.
+- A concise recommendation on any implementation corrections needed. Do not turn a successful result into another camera approval request.
+
+6. MACHINE-READABLE HANDOFF AND VERIFICATION
+
+Write a camera contract and capture manifest consumed by this app. Include schema/version, selected orientation, chosen initial framing, axes/units, exact basis, target/matrices, frustum/zoom, viewport/DPR/resize policy, measured hero/ruler size, source-bake compatibility, fixture/capture tick and output paths.
+
+Set selectedElevation = 35.264389682754654, selectedAzimuth = 45 and selectedSpan = 13. Record that elevation was explicitly chosen and initial framing selected under user delegation; it is a configurable accepted starting value. Store current preview span separately. Do not leave these selected values null or mark the camera choice pending. Preserve prior versions as superseded history and use a new immutable ID consistent with the current art contract. Technical validation and final-art verification are still separate statuses.
+
+Test basis orthonormality; projected ruler height against the formula; ground/support-plane project-unproject round trips; normalized diagonal movement; aim after resize/letterbox/zoom; invalid-ray and near-zero handling; foot/shadow registration on raised ground; fixed-span resizing; and repeatable frozen-pose captures. Confirm d45 is toward camera/screen-down and d225 away/screen-up at azimuth 45. Inspect the actual physical output size. Report passed/failed/not-run checks honestly. Browser tests on one OS do not certify target-machine or Windows performance.
+
+Stop when the selected setup is implemented, evidence and contract agree, and any defects are fixed or specifically reported. No camera-choice approval is required to finish this assignment. Production art still needs faithful source/turnaround, clean-INK and registration checks against the unchanged canonical image. Derive canvas size, motion padding and source density from the chosen gameplay footprint and intended zoom headroom instead of blindly inheriting the illustrative 512 x 640 / 256-pixels-per-unit values.
+
+FOUNDATION INTEGRATION
+
+Keep the current foundation's confirmed gameplay and character choices. Reconcile its camera record, art plan and manifests with the selected 35.264389682754654-degree elevation, azimuth 45 and chosen 13-unit initial span. Replace outdated pending-camera clauses; preserve their history without keeping superseded choices active. Modest runtime zoom is configurable, but an orientation/bake change requires explicit versioning and rebake validation. Do not change generated art dimensions silently.
+
+Reuse a working renderer/input implementation rather than restarting it. Do not expand this assignment into final combat or production animation. Return verified integration points and any real blockers; I manage later agent assignments.
+
+API REFERENCES
+
+Three.js orthographic bounds, zoom and projection updates:
+https://threejs.org/docs/pages/OrthographicCamera.html
+Three.js ray construction from normalized device coordinates:
+https://threejs.org/docs/pages/Raycaster.html
+Recheck the installed versions during implementation.

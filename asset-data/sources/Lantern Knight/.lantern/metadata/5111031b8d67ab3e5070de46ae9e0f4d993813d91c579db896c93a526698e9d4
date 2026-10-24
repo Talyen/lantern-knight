@@ -1,0 +1,391 @@
+{
+  "character": "Briar Midwife",
+  "clip": "spawn",
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_px": [
+    350,
+    660
+  ],
+  "pivot_normalized": [
+    0.4557291666666667,
+    0.859375
+  ],
+  "coordinate_system": "top-left, +x right, +y down",
+  "facing": "three-quarter screen-right",
+  "root_motion": "in-place; consumer supplies movement",
+  "loop": false,
+  "duration_ms": 1550,
+  "frames": [
+    {
+      "file": "frames/spawn_000.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p1.png",
+        "source_cel": 1,
+        "source_bbox": [
+          12,
+          291,
+          538,
+          696
+        ],
+        "source_anchor": [
+          279,
+          696
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/spawn_001.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p2_polished.png",
+        "source_cel": 1,
+        "source_bbox": [
+          17,
+          252,
+          523,
+          648
+        ],
+        "source_anchor": [
+          270,
+          648
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/spawn_002.png",
+      "duration_ms": 130,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p1.png",
+        "source_cel": 2,
+        "source_bbox": [
+          533,
+          172,
+          1012,
+          680
+        ],
+        "source_anchor": [
+          790,
+          680
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/spawn_003.png",
+      "duration_ms": 130,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p2_polished.png",
+        "source_cel": 2,
+        "source_bbox": [
+          548,
+          184,
+          1008,
+          652
+        ],
+        "source_anchor": [
+          785,
+          652
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/spawn_004.png",
+      "duration_ms": 130,
+      "atlas_rect": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p2_polished.png",
+        "source_cel": 3,
+        "source_bbox": [
+          31,
+          837,
+          521,
+          1336
+        ],
+        "source_anchor": [
+          278,
+          1336
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/spawn_005.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p2_polished.png",
+        "source_cel": 4,
+        "source_bbox": [
+          568,
+          841,
+          1008,
+          1354
+        ],
+        "source_anchor": [
+          790,
+          1354
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/spawn_006.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p1.png",
+        "source_cel": 3,
+        "source_bbox": [
+          13,
+          794,
+          547,
+          1403
+        ],
+        "source_anchor": [
+          290,
+          1403
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/spawn_007.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        2304,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p3.png",
+        "source_cel": 1,
+        "source_bbox": [
+          16,
+          89,
+          574,
+          737
+        ],
+        "source_anchor": [
+          301,
+          737
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/spawn_008.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        0,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p1.png",
+        "source_cel": 4,
+        "source_bbox": [
+          510,
+          720,
+          1008,
+          1455
+        ],
+        "source_anchor": [
+          798,
+          1455
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/spawn_009.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        768,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p3.png",
+        "source_cel": 2,
+        "source_bbox": [
+          531,
+          37,
+          1020,
+          755
+        ],
+        "source_anchor": [
+          804,
+          755
+        ],
+        "source_to_runtime_scale": 0.8050139275766016
+      }
+    },
+    {
+      "file": "frames/spawn_010.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        1536,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p3.png",
+        "source_cel": 3,
+        "source_bbox": [
+          23,
+          758,
+          533,
+          1511
+        ],
+        "source_anchor": [
+          298,
+          1511
+        ],
+        "source_to_runtime_scale": 0.7675962815405046
+      }
+    },
+    {
+      "file": "frames/spawn_011.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        2304,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/spawn_p3.png",
+        "source_cel": 4,
+        "source_bbox": [
+          551,
+          759,
+          1002,
+          1511
+        ],
+        "source_anchor": [
+          800,
+          1511
+        ],
+        "source_to_runtime_scale": 0.7686170212765957
+      }
+    },
+    {
+      "file": "frames/spawn_012.png",
+      "duration_ms": 150,
+      "atlas_rect": [
+        0,
+        2304,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    }
+  ],
+  "atlas": "spawn_atlas.png",
+  "source_info": "Built-in imagegen; 4 evolving drawn cels per native 1024x1536 source page; downsample only; no scale/fade-only animation; alpha kept and edge specks removed",
+  "events": []
+}

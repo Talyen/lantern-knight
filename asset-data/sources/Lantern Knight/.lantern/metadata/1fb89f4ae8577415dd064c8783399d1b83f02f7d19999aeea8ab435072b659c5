@@ -1,0 +1,124 @@
+{
+  "scene_number": 8,
+  "scene": "Graveyard / full_scenic_graveyard_full_upscaled4x",
+  "prop": "a closed leather satchel",
+  "source_master_url": "https://drive.google.com/file/d/1rOs84moUWjQs9thVaf2vmFzsBRuEAK0o/view?usp=drivesdk",
+  "animation": {
+    "name": "open",
+    "loop": false,
+    "frame_durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "hold_final": true,
+    "final_state": "open_empty",
+    "trigger": "interaction"
+  },
+  "frame_count": 6,
+  "runtime_frame_size": [
+    63,
+    54
+  ],
+  "runtime_anchor_bottom_contact": [
+    30,
+    52
+  ],
+  "native_frame_size": [
+    484,
+    412
+  ],
+  "native_anchor_bottom_contact": [
+    231,
+    400
+  ],
+  "runtime_scale_from_native": 0.1303370786516854,
+  "source_cells": [
+    512,
+    512
+  ],
+  "source_bounds": [
+    [
+      36,
+      126,
+      481,
+      432
+    ],
+    [
+      17,
+      126,
+      464,
+      432
+    ],
+    [
+      12,
+      116,
+      465,
+      432
+    ],
+    [
+      47,
+      18,
+      506,
+      406
+    ],
+    [
+      28,
+      122,
+      483,
+      406
+    ],
+    [
+      13,
+      122,
+      469,
+      406
+    ]
+  ],
+  "source_contact_anchors": [
+    [
+      246,
+      432
+    ],
+    [
+      228,
+      432
+    ],
+    [
+      224,
+      432
+    ],
+    [
+      266,
+      406
+    ],
+    [
+      247,
+      406
+    ],
+    [
+      231,
+      406
+    ]
+  ],
+  "preview_scene_size": [
+    1200,
+    800
+  ],
+  "preview_anchor": [
+    550,
+    425
+  ],
+  "native_note": "Imagegen-produced cels, translated to shared ground contact; no AI upscaling. Runtime is a mechanical downsample.",
+  "qa": {
+    "alpha": true,
+    "frame_clipping": false,
+    "fixed_ground_contact": true,
+    "distinct_hand_drawn_cels": true,
+    "empty_interior": true,
+    "scene_fit": "Reviewed at gameplay distance on original master; all previews are mechanical composites."
+  }
+}

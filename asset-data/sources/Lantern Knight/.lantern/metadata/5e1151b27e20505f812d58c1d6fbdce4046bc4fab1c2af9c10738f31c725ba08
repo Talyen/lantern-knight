@@ -1,0 +1,211 @@
+{
+  "character": "ZB04 Shroud Crawler",
+  "clip": "hit_recovery",
+  "status": "TEST awaiting gameplay review",
+  "unique_drawings": 6,
+  "loop": false,
+  "tick_rate": 60,
+  "total_ticks": 38,
+  "duration_seconds": 0.6333333333333333,
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_top_left_px": [
+    448,
+    488
+  ],
+  "pivot_bottom_left_normalized": [
+    0.5833333333333334,
+    0.36458333333333337
+  ],
+  "pixels_per_unit": 256,
+  "ppu_status": "Explicit proposed shared import setting; not calibrated in engine. Existing movement references must use same 256 PPU.",
+  "camera": {
+    "elevation": 35.2643897,
+    "azimuth": 45,
+    "actor_world_heading": "+X",
+    "screen_heading": "down-right",
+    "verification": "Visual approximation; no geometric certification"
+  },
+  "atlas": {
+    "file": "crawler_hit_DR_atlas.png",
+    "grid": [
+      3,
+      2
+    ]
+  },
+  "source_sha256": "5087ae65c6b8c33b99d73ac7ddb4c489dea2a7e125c6603c67caa245da01471a",
+  "processing": "Native RGB retained. Connected-figure ownership, alpha <=16 to0 and >=250 to255, integer translation and padding only. No resize, warp, in-between, mirror, or per-frame fitting.",
+  "drawings": [
+    {
+      "index": 1,
+      "file": "crawler_hit_DR_01.png",
+      "phase": "Hit snap",
+      "start_tick": 0,
+      "hold_ticks_60hz": 3,
+      "source_component_bbox": [
+        74,
+        58,
+        514,
+        425
+      ],
+      "source_cell_origin": [
+        0,
+        0
+      ],
+      "translation": [
+        163,
+        153
+      ],
+      "alpha_bbox": [
+        237,
+        211,
+        677,
+        578
+      ],
+      "sha256": "8335fd5f4f169f49156312a1720bb22f3ee18723d96054390417f3f38c4fe82e"
+    },
+    {
+      "index": 2,
+      "file": "crawler_hit_DR_02.png",
+      "phase": "Accordion recoil",
+      "start_tick": 3,
+      "hold_ticks_60hz": 5,
+      "source_component_bbox": [
+        632,
+        99,
+        954,
+        435
+      ],
+      "source_cell_origin": [
+        512,
+        0
+      ],
+      "translation": [
+        -349,
+        153
+      ],
+      "alpha_bbox": [
+        283,
+        252,
+        605,
+        588
+      ],
+      "sha256": "7973ee9e63f1fa21cad6c2d217043a2c024ed5a46e8644fd9cc5fb417ae52dd7"
+    },
+    {
+      "index": 3,
+      "file": "crawler_hit_DR_03.png",
+      "phase": "Hands brace",
+      "start_tick": 8,
+      "hold_ticks_60hz": 8,
+      "source_component_bbox": [
+        1113,
+        134,
+        1480,
+        432
+      ],
+      "source_cell_origin": [
+        1024,
+        0
+      ],
+      "translation": [
+        -861,
+        153
+      ],
+      "alpha_bbox": [
+        252,
+        287,
+        619,
+        585
+      ],
+      "sha256": "aac208d57c53d7f3694dcf4f7de301b75e7d33a7b642bc7a0c0a6088dea9cb04"
+    },
+    {
+      "index": 4,
+      "file": "crawler_hit_DR_04.png",
+      "phase": "Drop and settle",
+      "start_tick": 16,
+      "hold_ticks_60hz": 5,
+      "source_component_bbox": [
+        77,
+        567,
+        521,
+        917
+      ],
+      "source_cell_origin": [
+        0,
+        512
+      ],
+      "translation": [
+        163,
+        -359
+      ],
+      "alpha_bbox": [
+        240,
+        208,
+        684,
+        558
+      ],
+      "sha256": "91bd2b37687dd78a64a78e176cfd28355b17c3b5901ee47189e41908d198b928"
+    },
+    {
+      "index": 5,
+      "file": "crawler_hit_DR_05.png",
+      "phase": "Pull forward",
+      "start_tick": 21,
+      "hold_ticks_60hz": 7,
+      "source_component_bbox": [
+        581,
+        571,
+        1024,
+        934
+      ],
+      "source_cell_origin": [
+        512,
+        512
+      ],
+      "translation": [
+        -349,
+        -359
+      ],
+      "alpha_bbox": [
+        232,
+        212,
+        675,
+        575
+      ],
+      "sha256": "80253825acd7f79ea13bc647bcfd83c9f0c95e150efe447dd2f9b7f6d9f6c758"
+    },
+    {
+      "index": 6,
+      "file": "crawler_hit_DR_06.png",
+      "phase": "Ready recovery",
+      "start_tick": 28,
+      "hold_ticks_60hz": 10,
+      "source_component_bbox": [
+        1068,
+        576,
+        1501,
+        949
+      ],
+      "source_cell_origin": [
+        1024,
+        512
+      ],
+      "translation": [
+        -861,
+        -359
+      ],
+      "alpha_bbox": [
+        207,
+        217,
+        640,
+        590
+      ],
+      "sha256": "da9b9b84a0d87e6136bf5e9fcc40e7e5b34d30f91a5ccbadccdf23ce20f5a65c"
+    }
+  ],
+  "transition": "Play once, then return to current movement/ready state. Repeated-hit restart and interruption rules require gameplay tuning."
+}

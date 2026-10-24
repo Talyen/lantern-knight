@@ -1,0 +1,7 @@
+Grave Dust Bloom — outward-dissipation animation study
+
+13 distinct art cels plus one transparent clear frame. See timing_manifest.json for durations and frame order. PNG frames and the APNG preserve full RGBA alpha. The atlas is row-major; its column count is documented in motion_config.json. MP4 previews use opaque neutral backgrounds, with a large view and a smaller gameplay-scale view.
+
+Material shapes change through newly image-generated temporal art. Packaging consists of cropping, fixed placement, common scale conversion where recorded, and encoding. No per-frame shrinking, reverse playback or recentering of the tail. Experimental keyframe studies may retain small fragment and contour variations. These have not been integrated into the game engine.
+
+Keep ground-oriented effects in their fixed isometric perspective; do not vertically flip them. The final transparent frame gives a clear end. Source generation prompts and registration details are included for provenance.

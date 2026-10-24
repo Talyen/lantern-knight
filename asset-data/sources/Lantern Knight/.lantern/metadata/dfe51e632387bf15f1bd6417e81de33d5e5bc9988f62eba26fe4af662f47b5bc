@@ -1,0 +1,10 @@
+{
+  "apng_frames": 14,
+  "decoded_apng_exactly_matches_all_source_pngs": true,
+  "final_alpha_extrema": [
+    0,
+    0
+  ],
+  "canvas_edges_all_zero": true,
+  "source_grid_edges_no_pixels_above_alpha12": true
+}

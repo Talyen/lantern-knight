@@ -1,0 +1,305 @@
+{
+  "recipe": "effects-playground-v1",
+  "sourceFiles": [
+    {
+      "file": "Lantern_Lighting03_CleanInk/png/watch_lantern_unlit.png",
+      "hash": "b28cc6c136727bc6b5d4b55d26e294d62c76ed582e72ad032d5c592c589e5ea5"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_000.png",
+      "hash": "1f43ecde3d7a6500cab6e1e3746fefe2ac4743d5c8a031ae3cb9eb6ce83f46f8"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_001.png",
+      "hash": "4e8e1576f7b46f60f40f2007b4fb37f05cee49060cef076578901179efa5b61e"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_002.png",
+      "hash": "fb7507b1d9f3f52a7270a77cb7fcc4264e113ff1cc964e342e6a59e8c089b1b1"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_003.png",
+      "hash": "49db50107b6547b2850a6ad8cdd08231760302092b9b6177c89a44ff327ed7cc"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_004.png",
+      "hash": "8ceaee6bc89e4fd4642da85b2dc382e76083322e5fe0590fdc92a5125062ac74"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_005.png",
+      "hash": "2db78a883b73b1366b5e0337b3a8b0c59e57a2b23224134fc4341a9721e46234"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_006.png",
+      "hash": "62ee6a934f4ec6819b755f8eb2dbfb49146b17558580cf479af412c1bb3e1c55"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_007.png",
+      "hash": "15e91e257b860022de32d1b36342e8366729e211e3af96b0f7579b7fbed17062"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_008.png",
+      "hash": "955d346e54c4324a4f9f0c993abba0b17265c1b78e3ad81c516a0abfc44afe1e"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_009.png",
+      "hash": "3aa58cb88d246e1ba7082e4902e2f3c71b444f511b160dd2ca122ecbf0e3eaca"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_010.png",
+      "hash": "34cfc76484fa808ac54bebc1504a407190491703182509372c6faf1a359bea71"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_011.png",
+      "hash": "899c670d213cb7b922a4552fb9da608f35d27ff77aef1970bdda6ec074ef4ae3"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_012.png",
+      "hash": "bfae3a0b326d507992c394933c596be4a010e04daa8574f388fda2f9631d57a3"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_013.png",
+      "hash": "980971a5b2a742ff75423e4d4e68f3737b5e87a797864eb4d95e59fdcf8f5ba4"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_014.png",
+      "hash": "5c7c9d46b6b36827af891ab6ae28d9d950415d8cee848fc670644e25f15e4af4"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_015.png",
+      "hash": "c856530217428510398296f210964f09dd47bf1d2061bcd62afff22ee3284a4c"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_016.png",
+      "hash": "54c142eba5a876b3dbc85da4eb7d3f9090b00fe7d0f901eab6cfeb317e3c13dc"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_017.png",
+      "hash": "8311e19d2898cee74910104c56d93b846b9c48273cf54026045396acb0f72232"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_018.png",
+      "hash": "5e4c28106fcc128be8cf91c9a0d04fbdadb648e3b4b5a66cca5e4ecc8c9e7f9b"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_019.png",
+      "hash": "d7b965c293643da8e68f04887654ddf14b038b9bea28bfe618f8771e297068f0"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_020.png",
+      "hash": "e24d352e36a6000fead0071809b92cee02d24a8dacdf8107d426b15f71f93a67"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_021.png",
+      "hash": "214599009d2333c559f01d96fdbdc29d22db012a7e0dd9cc7b4e293b4bafa447"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_022.png",
+      "hash": "5bd22c70c5ce532ab92b4e4b072929e667521f4b3dbd2baca18edd1117cd700f"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/watch_lantern/emission_023.png",
+      "hash": "7590060a4e27cbb7dcd376d8a2019142e5fe8c849fb340362a4bf7a84dee572b"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/png/tripod_brazier_unlit.png",
+      "hash": "66a3477676b351adc52ac4ecea73f6d6f10a85bc11c29a4b940b7a3fb980d81f"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_000.png",
+      "hash": "9f26a6de1ab9882a48c521129a6bc3782db4fe24282c67121cbe99a08d6f1e63"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_001.png",
+      "hash": "60b0df8fbcdae519f64beddf5632852cb03124e3a6d708362677b91707351a47"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_002.png",
+      "hash": "a44d147e6c0765c12765d5807253a81530844bf38862b1c5ac3f9131d5ab4664"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_003.png",
+      "hash": "032e6371b9d71dfd5b567012bbc9cf09ad1ec227435890f97020f45d4d96c009"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_004.png",
+      "hash": "f218c800f9985e49ba36fed1bd6ffd75e55d3b321e1af75d6d1ab93cba2277f4"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_005.png",
+      "hash": "c9e3ec78d3198cb72f1e4dd0a544411c45fc2e260483e5786ef2c5f6ac90e41a"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_006.png",
+      "hash": "b67544469bfaee95dfc33ec8f7f5f99d0c29147bbb869276dfcb19efc0c2d867"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_007.png",
+      "hash": "ca5056e2df163649c996838c05a0fdcd6d6e4f3765b90263b23422e0912c0f02"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_008.png",
+      "hash": "708e381243e135ef3380452fbb36ef532ffe13515ef0ae270d1260d6dcad0967"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_009.png",
+      "hash": "8a9ec57b4c8130b830b09fe1b2954493a8c90082ed8c1047ee6b18314b782226"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_010.png",
+      "hash": "45d5fa17abb5eb994255ba84486b742a83348ceae2793bbfa15eedfd59084907"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_011.png",
+      "hash": "218cccf3e078293e404a601db9f63ec14a87e3b9d94255ab98e472b16cd8d9df"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_012.png",
+      "hash": "40e27612e37a795f55d8b7205caf6a09ed631235e8ddc37f190d77072bec3a8f"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_013.png",
+      "hash": "fda28ca56a915d1c40ec14945ed7697b88bb63e7e2182843ef806799052186b7"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_014.png",
+      "hash": "f1e33aa9cd83de25197a2adc2de9d670e17f9eecf348e4467fb1d12e61ac9747"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_015.png",
+      "hash": "dd09ad8c1985a5813f014270a03b106597dfa2958fccd863ef02a3b7a5d36174"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_016.png",
+      "hash": "30feb10fe33079fe4a02ac2b03401387b8a726f3d8d74207e946437a7e3c397a"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_017.png",
+      "hash": "073c4aa224467c298a9252b830c03fb29405e8972fb4fca024ff6063bcf64a5c"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_018.png",
+      "hash": "fa502556cf0e3f42aa129efe05077c7488578e7afb466de4b34ea106d6c3bd89"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_019.png",
+      "hash": "f76e4b001dec9f51c7356a3b3a96b19e3e47ec45d61e4cb893b0e6ca95bc1207"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_020.png",
+      "hash": "1e279aefa981c32d9d4ffcaa20656c085264ef3fe8d7a420275cfcbc71b1b8ee"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_021.png",
+      "hash": "dbf8315b60a6bec86e085196adf144411f0b078e52422a868f0b2236f49dd591"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_022.png",
+      "hash": "dd160eba9190acc9b3b9e916ee1719361e7e4678a0d1c4c95de599f9c542a420"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/tripod_brazier/emission_023.png",
+      "hash": "d9428335e7baa1a39c601994a8c14b7ea359f85ee9a8087ea9a9d9336b8938d0"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/png/votive_candelabrum_unlit.png",
+      "hash": "a7b15a878222ef8f54ee0f3f6e457d7498077d2ccfecb5e8140fd20f91a1a529"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_000.png",
+      "hash": "5e4357ae0b777d2cdd00b12abdc4bcd7ac71e879a92d1e9c9a1a0468ad6c31ed"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_001.png",
+      "hash": "a2e91f453ee6b3c2b41e2ed317c60b8927d920117cdf8db46fee953b2027f38a"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_002.png",
+      "hash": "579fdae198d2adf4d6a7e7be7c60c11de2c46aceab6d4b5d41b41060815e51c4"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_003.png",
+      "hash": "1f38f1617f99a7577988e440676035a9e35c409b4a20cabdab69315116d534b7"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_004.png",
+      "hash": "7e1c92fc9cddcfe62dece839a762629bdafa19c20346f00290b452fea7998953"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_005.png",
+      "hash": "e839254af4f9d54cc74d464b30a9935c2788457a1183477c5bcc1275a03a340c"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_006.png",
+      "hash": "f72e3adfc596dd3594bfc63a6e389090a545359542ad57e251716a7b30d0cfce"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_007.png",
+      "hash": "761bf3b770ff545b1a95aa89bd8a91ca472027ee2f4b8c70419bebbbba1e0966"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_008.png",
+      "hash": "22489605c375058169a7672300d34b2295436204234ad7f2e22f405ff14ff51d"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_009.png",
+      "hash": "67e922bbff1166dbf68275a152da41f6ae1c7c722a732945f693fcb13e3c5f76"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_010.png",
+      "hash": "9f9a041344b272337ffeefc272f5d1bb1f0bf54776b75eb67e5d8fcc412c1eac"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_011.png",
+      "hash": "38977cd74f715917a509b4e19710d44c10055861184adbb043d1f5e466649427"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_012.png",
+      "hash": "56c5f35039161993c38f2990b503a864bc6ce700baeb9f8482c5b453b90da530"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_013.png",
+      "hash": "64760714b84b06b5b2bd1f46db487d7bb01daa5e5290b174da60e62c883e66d4"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_014.png",
+      "hash": "7598cbaf4854a0625b220b9255ddc1eafc3761596b1bfe62d3fc00629ced59be"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_015.png",
+      "hash": "85c842b12fb1bf82ccc21072a82a9db2d617117b1bf21b673d40244a803fa733"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_016.png",
+      "hash": "6925e5213c0234674e9a583e8b36a097e221a4b60ab6ba9bec7e88d74d83e340"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_017.png",
+      "hash": "450a54ba006f21ed440c2002210b7450169343081e538e35aad580bd97e9576f"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_018.png",
+      "hash": "7d0cdc2b1b25dc023e2447745166ae4685577945873012d2fb9b24641d80ccbf"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_019.png",
+      "hash": "b3b7954a3486ab99c1be84c095f51019ce631d5ffffb6718495303f53f8c946a"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_020.png",
+      "hash": "63e6fa13e56f87461341199259ee4f26c8ad1a3aaa6465d99c535c110bdf400b"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_021.png",
+      "hash": "429baa60c341106772b1ae2dad40081feb8884ff84bd1857ed752d2c2ff69ad5"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_022.png",
+      "hash": "e7712c4aaa32d0ab59bc0983f22e1b4c704689b3a08a8d4a16a783d8eae0f8bc"
+    },
+    {
+      "file": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_023.png",
+      "hash": "647b08485f78dbb73babd3fb8cb6d072b0cd626be0268096ee04f2c60b90f793"
+    }
+  ]
+}

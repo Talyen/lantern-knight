@@ -1,0 +1,9 @@
+LANTERN fresh large-scene variant
+
+The source is a newly generated flattened opaque 1536 x 1024 whole map. The exact prompt contains the approved style block verbatim. Only the canonical hero is supplied as a style reference; no existing environment image is used. The built-in image tool exposes no model selector, so the requested model name in the preserved prompt is not a verified backend model claim.
+
+The 6144 x 4096 master is genuine official Real-ESRGAN x4plus-anime 6B inference through NCNN CPU. The 3072 x 2048 file is Lanczos reduction of that AI output. Computational tiling uses 160-pixel cores, 32-pixel context and 16-pixel reflected border; tiling is not a modular art grid. Two independent untiled comparisons are included. Upscaling is not native generation and does not recover ground-truth detail.
+
+Practical full-scene display is 3840 x 2560, corresponding to 2.5x native scale. Hero reviews use the unchanged canonical hero at 160 pixels visible height, equivalent to 64 native pixels. Hero overlays are only in previews. The master pixel size is not the world size. The map is flattened, with no separated props, collision, navigation, occlusion or engine integration. Camera and scale are visually reviewed, not mathematically validated.
+
+Inference scripts, runtime provenance, exact prompt, generation parameters, input reference and integrity manifest are preserved. Runtime/model binaries and intermediate tiles are excluded. Install compatible dependencies and the verified model identified by runtime_provenance.json to reproduce the upscale. Image generation is not deterministic.

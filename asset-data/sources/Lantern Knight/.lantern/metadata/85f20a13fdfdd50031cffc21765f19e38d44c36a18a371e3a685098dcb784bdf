@@ -1,0 +1,469 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "town_01",
+  "title": "Lantern Town & Street - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manual ground-anchor estimate, except explicitly wall-mounted items use a mounting anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Street utilities are static images without behavior, physical simulation, modular sockets or traversability; the wall-mounted sign has a mounting anchor and null ground footprint.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "town_hand_pump_01",
+      "name": "Dormant street pump",
+      "file": "assets/town_hand_pump_01.png",
+      "prompt_file": "provenance/town_hand_pump_01.prompt.txt",
+      "dimensions_px": [
+        1322,
+        1190
+      ],
+      "file_bytes": 552837,
+      "sha256": "fb9a9a0066c465e45fd61197e087a75674641f0687f166c17bd42ffaa14acd8d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        90,
+        21,
+        1268,
+        1148
+      ],
+      "alpha_at_least_16_bounds_px": [
+        276,
+        64,
+        1127,
+        1142
+      ],
+      "fully_transparent_pixel_fraction": 0.764898,
+      "fully_opaque_pixel_fraction": 0.001195,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.47,
+        0.85
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.27,
+          0.82
+        ],
+        [
+          0.48,
+          0.7
+        ],
+        [
+          0.68,
+          0.82
+        ],
+        [
+          0.47,
+          0.96
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Static pump and handle, no water or operating animation; mechanical function is not validated.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "town_notice_post_01",
+      "name": "Blank notice board",
+      "file": "assets/town_notice_post_01.png",
+      "prompt_file": "provenance/town_notice_post_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 631754,
+      "sha256": "5642442564974617e594aec670f11fa5bb9d0015046782040d477c4315937280",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        97,
+        72,
+        1192,
+        1157
+      ],
+      "alpha_at_least_16_bounds_px": [
+        220,
+        80,
+        1117,
+        1114
+      ],
+      "fully_transparent_pixel_fraction": 0.693154,
+      "fully_opaque_pixel_fraction": 0.0005,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.53,
+        0.79
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.24,
+          0.67
+        ],
+        [
+          0.32,
+          0.64
+        ],
+        [
+          0.8,
+          0.89
+        ],
+        [
+          0.75,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Two blank parchment faces; no readable or implied user-authored notice content.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "town_blank_hanging_sign_01",
+      "name": "Blank hanging sign",
+      "file": "assets/town_blank_hanging_sign_01.png",
+      "prompt_file": "provenance/town_blank_hanging_sign_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 704290,
+      "sha256": "d055d41a5b8103262b00c27377fa9fc018838ee53705a57f7ecee64308351576",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        46,
+        1248,
+        1161
+      ],
+      "alpha_at_least_16_bounds_px": [
+        162,
+        49,
+        1181,
+        1158
+      ],
+      "fully_transparent_pixel_fraction": 0.654085,
+      "fully_opaque_pixel_fraction": 0.000551,
+      "boundary_nonzero_alpha_pixel_count": 8,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.18,
+        0.3
+      ],
+      "footprint_polygon_normalized": null,
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "WALL-MOUNTED: pivot estimates bracket attachment, not ground. No ground footprint applies; no wall or swinging state is included.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "wall_mount"
+    },
+    {
+      "id": "town_rain_barrel_01",
+      "name": "Open rain barrel",
+      "file": "assets/town_rain_barrel_01.png",
+      "prompt_file": "provenance/town_rain_barrel_01.prompt.txt",
+      "dimensions_px": [
+        1283,
+        1226
+      ],
+      "file_bytes": 719705,
+      "sha256": "2f58b8bfb7a1061433179b0d8dd23141a9a230cb9e37ce6dd40cc99334a00bbe",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        85,
+        1059,
+        1226
+      ],
+      "alpha_at_least_16_bounds_px": [
+        254,
+        137,
+        1044,
+        1105
+      ],
+      "fully_transparent_pixel_fraction": 0.600036,
+      "fully_opaque_pixel_fraction": 0.000808,
+      "boundary_nonzero_alpha_pixel_count": 34,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.5,
+        0.84
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.24,
+          0.75
+        ],
+        [
+          0.5,
+          0.68
+        ],
+        [
+          0.8,
+          0.77
+        ],
+        [
+          0.51,
+          0.91
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Open dark painted interior, no water, fluid simulation or animated tap.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "town_market_awning_01",
+      "name": "Freestanding market awning",
+      "file": "assets/town_market_awning_01.png",
+      "prompt_file": "provenance/town_market_awning_01.prompt.txt",
+      "dimensions_px": [
+        1351,
+        1164
+      ],
+      "file_bytes": 506229,
+      "sha256": "6b1852264f41e6318196a024e26c3e34a56ddf104f7c5e25a8f853f1d7d18bd1",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        21,
+        1323,
+        1140
+      ],
+      "alpha_at_least_16_bounds_px": [
+        212,
+        85,
+        1164,
+        1060
+      ],
+      "fully_transparent_pixel_fraction": 0.75763,
+      "fully_opaque_pixel_fraction": 0.000759,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.71
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.16,
+          0.7
+        ],
+        [
+          0.45,
+          0.41
+        ],
+        [
+          0.86,
+          0.68
+        ],
+        [
+          0.56,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Single combined roof/post card. Polygon is visual support envelope; post collisions and canopy occlusion must be designed separately.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "town_bridge_rail_01",
+      "name": "Wooden bridge rail",
+      "file": "assets/town_bridge_rail_01.png",
+      "prompt_file": "provenance/town_bridge_rail_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1104816,
+      "sha256": "6e905b3db43f4893dea9338a53b9e02d8e839400dda8f9f7c2b4e452aa9eaa89",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        177,
+        23,
+        1319,
+        958
+      ],
+      "alpha_at_least_16_bounds_px": [
+        275,
+        25,
+        1316,
+        955
+      ],
+      "fully_transparent_pixel_fraction": 0.784726,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.88
+        ],
+        [
+          0.76,
+          0.43
+        ],
+        [
+          0.85,
+          0.48
+        ],
+        [
+          0.24,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Standalone visual rail section; no deck, connection sockets, load-bearing or modular snapping validation.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "town_iron_drain_01",
+      "name": "Iron drain grate",
+      "file": "assets/town_iron_drain_01.png",
+      "prompt_file": "provenance/town_iron_drain_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1283448,
+      "sha256": "426546413cbbf5e1df83b082d56ee4f095ffed71c053fc0e57c8d9696d21b749",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        60,
+        35,
+        1342,
+        960
+      ],
+      "alpha_at_least_16_bounds_px": [
+        227,
+        90,
+        1310,
+        958
+      ],
+      "fully_transparent_pixel_fraction": 0.715789,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.52
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.15,
+          0.45
+        ],
+        [
+          0.51,
+          0.09
+        ],
+        [
+          0.85,
+          0.48
+        ],
+        [
+          0.47,
+          0.93
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Open transparent slots checked by alpha components and compositing. Does not create a hole in underlying terrain.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "town_chain_bollards_01",
+      "name": "Chain-linked bollards",
+      "file": "assets/town_chain_bollards_01.png",
+      "prompt_file": "provenance/town_chain_bollards_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1075838,
+      "sha256": "88dd57d209d567d80e272c46d82b11b3ce0ae9b64bce89c3fde27888d88ddc9b",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        71,
+        21,
+        1450,
+        944
+      ],
+      "alpha_at_least_16_bounds_px": [
+        175,
+        142,
+        1387,
+        922
+      ],
+      "fully_transparent_pixel_fraction": 0.825509,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.12,
+          0.8
+        ],
+        [
+          0.74,
+          0.43
+        ],
+        [
+          0.91,
+          0.55
+        ],
+        [
+          0.22,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Posts and slack chain are one static compound prop, with transparent link openings. No chain physics or navigation behavior.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    }
+  ]
+}

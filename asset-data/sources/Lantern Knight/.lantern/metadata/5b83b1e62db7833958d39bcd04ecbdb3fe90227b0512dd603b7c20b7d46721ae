@@ -1,0 +1,491 @@
+{
+  "title": "Lantern — Enemy Selection Catalog",
+  "created_utc": "2026-10-07",
+  "status": "Complete: 12 packs, 48 static variants. Concept generation stopped at this scope. No enemy animations were created.",
+  "next_stage_gate": "Enemy animation is conditional on finishing hero animations first.",
+  "favorite_ids": [
+    "SK03",
+    "ZB04",
+    "CT01",
+    "CT02",
+    "CT04"
+  ],
+  "favorites": [
+    {
+      "id": "SK03",
+      "name": "Candlebone Oracle",
+      "pack": "01_skeletons",
+      "asset": "01_skeletons/assets/SK03_candlebone_oracle.png",
+      "native": "01_skeletons/source/SK03_candlebone_oracle_native.png",
+      "favorite": true,
+      "asset_sha256": "d9fa25ea24f6c69560eac578e946c5224735e8c931518650a527cd2e5f49391d",
+      "native_sha256": "b0ed2ff17ef478eadcb5ec3b3dfde06f9a4978af450fe206479cb6f19af65a1f",
+      "motion_hint": "Glide / orb pulse",
+      "qa": "Both cupped hands and two visible lower legs pass. Fingers simplify at gameplay scale; keep orb and robe motion separate. Camera reads shallower than the most crouched design and needs final calibration.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Hover and teleport; a centered orb pulse can replace elaborate arm combat."
+    },
+    {
+      "id": "ZB04",
+      "name": "Shroud Crawler",
+      "pack": "03_zombies",
+      "asset": "03_zombies/assets/ZB04_shroud_crawler.png",
+      "native": "03_zombies/source/ZB04_shroud_crawler_native.png",
+      "favorite": true,
+      "asset_sha256": "ab4d67f1de815498ceb2751ce42d248bdfa57914a153740e9cf110cf861b03b8",
+      "native_sha256": "d71bf07dd1fc389177154b03b54050a3f0285c93771c9fa77edf6e5ee0238eca",
+      "motion_hint": "Hand-pull / short pounce",
+      "qa": "Two planted five-digit hands and a fully enclosed lower-body cocoon pass; no exposed lower limb or stump. Low horizontal silhouette is distinct; many cloth folds can be simplified when animated. No rig or exact projected length is supplied.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Flop, pull or magically slide the shroud; avoid a conventional walk."
+    },
+    {
+      "id": "CT01",
+      "name": "Waxmask Acolyte",
+      "pack": "04_cultists",
+      "asset": "04_cultists/assets/CT01_waxmask_acolyte.png",
+      "native": "04_cultists/source/CT01_waxmask_acolyte_native.png",
+      "favorite": true,
+      "asset_sha256": "cca39f1b1224262370d5b751c09384f685447c7c2447c370584fb0bcdc3734ef",
+      "native_sha256": "21662027325e804f20bf6a2aefc509c561ae2a9431b9c6f700328fc4207474ec",
+      "motion_hint": "Quiet glide-step / center stab",
+      "qa": "Mask, two stacked hands, central dagger, matching cuffs and two feet pass. Very clean small-scale triangular read. Stacked hand order must be validated before mirroring the attack.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Glide or blink; use one compact centered ritual action."
+    },
+    {
+      "id": "CT02",
+      "name": "Bellbound Monk",
+      "pack": "04_cultists",
+      "asset": "04_cultists/assets/CT02_bellbound_monk.png",
+      "native": "04_cultists/source/CT02_bellbound_monk_native.png",
+      "favorite": true,
+      "asset_sha256": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7",
+      "native_sha256": "67d4bc9c01434346916d0519b59505e2babf353707ac730ac5d17806c2b2a2c4",
+      "motion_hint": "Slow plod / bell swing",
+      "qa": "Broad robe, shared bell grip and two feet pass. Bell mouth is tilted toward the viewer; preserve its tilt through animation or rebuild from a simple volume guide.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Rock or float with the bell; one exaggerated ring/pulse can carry the attack."
+    },
+    {
+      "id": "CT04",
+      "name": "Halo-Veil Cantor",
+      "pack": "04_cultists",
+      "asset": "04_cultists/assets/CT04_halo_veil_cantor.png",
+      "native": "04_cultists/source/CT04_halo_veil_cantor_native.png",
+      "favorite": true,
+      "asset_sha256": "1638b0508f10486c286414c02b156efc8a117ea9079cf2739f562932d024fade",
+      "native_sha256": "c1bffcc5a026b5ee2b414ff354000f5c7f3bd553e9a6c46dd975cf56cdb448ca",
+      "motion_hint": "Hover bob / sphere pulse",
+      "qa": "Two cupped gloved hands and one centered sphere pass; continuous floating robe avoids foot animation. Physical collar silhouette reads clearly. Metal has soft small surface variation; keep final shading broad when animated.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Steady levitation, sleeve drift and a centered magic pulse."
+    }
+  ],
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "facing": "World +X / screen down-right 30 degrees"
+  },
+  "limits": [
+    "Camera wording and visual audit are not calibrated projection proof.",
+    "Bilateral construction helps but does not guarantee mirror-safe animation; validate handedness, occlusion and world lighting.",
+    "Minor per-variant asymmetry, topology and gameplay-contrast limits are documented in each README and manifest.",
+    "Final pivots, game scale, rigging, animation keys, colliders and separate effects are not included."
+  ],
+  "packs": [
+    {
+      "folder": "01_skeletons",
+      "title": "01 Skeletons",
+      "count": 4,
+      "variant_ids": [
+        "SK01",
+        "SK02",
+        "SK03",
+        "SK04"
+      ],
+      "archive": "01_skeletons_selection_pack.zip",
+      "archive_bytes": 8679982,
+      "archive_sha256": "87250fec4f852e008fffcac596caf0e4c42d62c891fde30e0b453550096f63fc",
+      "zip_crc_verified": true,
+      "overview": "01_skeletons/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "02_goblins",
+      "title": "02 Goblins",
+      "count": 4,
+      "variant_ids": [
+        "GB01",
+        "GB02",
+        "GB03",
+        "GB04"
+      ],
+      "archive": "02_goblins_selection_pack.zip",
+      "archive_bytes": 8190936,
+      "archive_sha256": "8d310878260890f1756daa2ac137e05d54f56e378091ec972aa674717f9eadd3",
+      "zip_crc_verified": true,
+      "overview": "02_goblins/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "03_zombies",
+      "title": "03 Zombies",
+      "count": 4,
+      "variant_ids": [
+        "ZB01",
+        "ZB02",
+        "ZB03",
+        "ZB04"
+      ],
+      "archive": "03_zombies_selection_pack.zip",
+      "archive_bytes": 8238144,
+      "archive_sha256": "95c77287aeb502aab044aadaa64d532bda369539cfe4f08ee0272acb8db940a3",
+      "zip_crc_verified": true,
+      "overview": "03_zombies/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "04_cultists",
+      "title": "04 Cultists",
+      "count": 4,
+      "variant_ids": [
+        "CT01",
+        "CT02",
+        "CT03",
+        "CT04"
+      ],
+      "archive": "04_cultists_selection_pack.zip",
+      "archive_bytes": 8521550,
+      "archive_sha256": "072892aba3344abbcf8adba87b4cbf3e531a1394fca66340bb950b736bb93f60",
+      "zip_crc_verified": true,
+      "overview": "04_cultists/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "05_slimes",
+      "title": "05 Slimes",
+      "count": 4,
+      "variant_ids": [
+        "SL01",
+        "SL02",
+        "SL03",
+        "SL04"
+      ],
+      "archive": "05_slimes_selection_pack.zip",
+      "archive_bytes": 7554648,
+      "archive_sha256": "4ba2b9fd71ec18425cf0547cb4ff365b716c967747f8b673f8a0ed17794cb929",
+      "zip_crc_verified": true,
+      "overview": "05_slimes/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "06_spirits_constructs",
+      "title": "06 Spirits and Constructs",
+      "count": 4,
+      "variant_ids": [
+        "SP01",
+        "SP02",
+        "SP03",
+        "SP04"
+      ],
+      "archive": "06_spirits_constructs_selection_pack.zip",
+      "archive_bytes": 9346544,
+      "archive_sha256": "801a4b065555ee13ef285300e5695d97ad442477cad84de6f7948189bd969d6d",
+      "zip_crc_verified": true,
+      "overview": "06_spirits_constructs/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "07_flying_vermin",
+      "title": "07 Bats and Flying Vermin",
+      "count": 4,
+      "variant_ids": [
+        "BT01",
+        "BT02",
+        "BT03",
+        "BT04"
+      ],
+      "archive": "07_flying_vermin_selection_pack.zip",
+      "archive_bytes": 7454435,
+      "archive_sha256": "1b5f3e2bdb8f6e667d0d4a32b5ee96933258d4e23df518a374176f3a8d451984",
+      "zip_crc_verified": true,
+      "overview": "07_flying_vermin/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "08_spiders_scuttlers",
+      "title": "08 Spiders and Scuttlers",
+      "count": 4,
+      "variant_ids": [
+        "SC01",
+        "SC02",
+        "SC03",
+        "SC04"
+      ],
+      "archive": "08_spiders_scuttlers_selection_pack.zip",
+      "archive_bytes": 7504242,
+      "archive_sha256": "e25c1569d140d336c3fed2dddc01e4b109960375a341a940b2db828b3300a857",
+      "zip_crc_verified": true,
+      "overview": "08_spiders_scuttlers/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "09_armor_golems",
+      "title": "09 Animated Armor and Golems",
+      "count": 4,
+      "variant_ids": [
+        "AR01",
+        "AR02",
+        "AR03",
+        "AR04"
+      ],
+      "archive": "09_armor_golems_selection_pack.zip",
+      "archive_bytes": 9689708,
+      "archive_sha256": "4bd2f11c3ec450098b9bcf6915ffb42ecd49ebff8484f69d48fe4706c1b2f581",
+      "zip_crc_verified": true,
+      "overview": "09_armor_golems/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "10_wolves_hellhounds",
+      "title": "10 Wolves and Hellhounds",
+      "count": 4,
+      "variant_ids": [
+        "WH01",
+        "WH02",
+        "WH03",
+        "WH04"
+      ],
+      "archive": "10_wolves_hellhounds_selection_pack.zip",
+      "archive_bytes": 6938837,
+      "archive_sha256": "617ab380c93d18a9db630898ad36f57421ca5d9e8ae49f8b88f7c353112d51ad",
+      "zip_crc_verified": true,
+      "overview": "10_wolves_hellhounds/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "11_fungi_plants",
+      "title": "11 Fungi and Plants",
+      "count": 4,
+      "variant_ids": [
+        "FP01",
+        "FP02",
+        "FP03",
+        "FP04"
+      ],
+      "archive": "11_fungi_plants_selection_pack.zip",
+      "archive_bytes": 8755233,
+      "archive_sha256": "aa4f28c07a3c33b664d566966048f290cc06ad3287fab82498e99f4a12f95ef9",
+      "zip_crc_verified": true,
+      "overview": "11_fungi_plants/overview.jpg",
+      "status": "Complete static selection concepts"
+    },
+    {
+      "folder": "12_elemental_spirits",
+      "title": "12 Elemental Spirits",
+      "count": 4,
+      "variant_ids": [
+        "EL01",
+        "EL02",
+        "EL03",
+        "EL04"
+      ],
+      "archive": "12_elemental_spirits_selection_pack.zip",
+      "archive_bytes": 8614631,
+      "archive_sha256": "15a3dd7c968efebd136a63edd2fc1e27e968d6aed292a2c020b5ceca65659a6e",
+      "zip_crc_verified": true,
+      "overview": "12_elemental_spirits/overview.jpg",
+      "status": "Complete static selection concepts"
+    }
+  ],
+  "variants": [
+    {
+      "id": "SK01",
+      "name": "Ossuary Thrall",
+      "pack": "01_skeletons",
+      "asset": "01_skeletons/assets/SK01_ossuary_thrall.png",
+      "native": "01_skeletons/source/SK01_ossuary_thrall_native.png",
+      "favorite": false,
+      "asset_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+      "native_sha256": "16fb470d8041abb20d2dacf451dce80e15a8e828e25f6055dc766c0facc9239f",
+      "motion_hint": "Rattle-step / paired rake",
+      "qa": "Two arms and two legs readable; five-digit open hands; broad skull, cuff pairing and isolated silhouette pass. More internal bone shading than the other variants; refine toward the chosen final style if selected.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "SK02",
+      "name": "Sepulcher Warden",
+      "pack": "01_skeletons",
+      "asset": "01_skeletons/assets/SK02_sepulcher_warden.png",
+      "native": "01_skeletons/source/SK02_sepulcher_warden_native.png",
+      "favorite": false,
+      "asset_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+      "native_sha256": "a52cbd099a884b439abc694625d5155107a1a7a024c0e3802e573cbfc50e9198",
+      "motion_hint": "Heavy step / central slam",
+      "qa": "Matching armor, complete limbs and believable shared grip pass. Stacked hands and cast highlights must be checked after mirroring. Fresh replacement chosen over a more textured draft.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "SK03",
+      "name": "Candlebone Oracle",
+      "pack": "01_skeletons",
+      "asset": "01_skeletons/assets/SK03_candlebone_oracle.png",
+      "native": "01_skeletons/source/SK03_candlebone_oracle_native.png",
+      "favorite": true,
+      "asset_sha256": "d9fa25ea24f6c69560eac578e946c5224735e8c931518650a527cd2e5f49391d",
+      "native_sha256": "b0ed2ff17ef478eadcb5ec3b3dfde06f9a4978af450fe206479cb6f19af65a1f",
+      "motion_hint": "Glide / orb pulse",
+      "qa": "Both cupped hands and two visible lower legs pass. Fingers simplify at gameplay scale; keep orb and robe motion separate. Camera reads shallower than the most crouched design and needs final calibration.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Hover and teleport; a centered orb pulse can replace elaborate arm combat."
+    },
+    {
+      "id": "GB01",
+      "name": "Mossfang Scavenger",
+      "pack": "02_goblins",
+      "asset": "02_goblins/assets/GB01_mossfang_scavenger.png",
+      "native": "02_goblins/source/GB01_mossfang_scavenger_native.png",
+      "favorite": false,
+      "asset_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+      "native_sha256": "bd10897172c0f0f67e51197b3804fe42d002ba4108ba81cd37aa0432e9ca4ce5",
+      "motion_hint": "Sneak-step / paired rake",
+      "qa": "Two arms, two legs and four-digit hands pass; pointed ears, balanced wraps and low claw silhouette are readable. Tiny far tusk naturally occluded; no directional marking.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "ZB01",
+      "name": "Ashen Shambler",
+      "pack": "03_zombies",
+      "asset": "03_zombies/assets/ZB01_ashen_shambler.png",
+      "native": "03_zombies/source/ZB01_ashen_shambler_native.png",
+      "favorite": false,
+      "asset_sha256": "c2e8f5cfd33e745e414aa0a93047d18cd51baf283d10478864dbdba6f8a9c631",
+      "native_sha256": "c7f76e1be14c593ba8fec14f268eba16027c19d7d478270c5e031abfc8e8c61a",
+      "motion_hint": "Drag-step / double reach",
+      "qa": "Both five-digit hands and two legs pass; clear hunched adult silhouette, no gore. Garment tears and one small trouser hole are not perfectly bilateral; simplify these details in the selected final model before literal mirroring.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "ZB02",
+      "name": "Gravetoll Hauler",
+      "pack": "03_zombies",
+      "asset": "03_zombies/assets/ZB02_gravetoll_hauler.png",
+      "native": "03_zombies/source/ZB02_gravetoll_hauler_native.png",
+      "favorite": false,
+      "asset_sha256": "c88791b222dca9dfc84645cb1c6f394b7045b0987b558bd5cea7c4ac805e8e3d",
+      "native_sha256": "eae984d5071edc5c9dad7ee3651d967b997333962b3a0732f558bb2562321b4a",
+      "motion_hint": "Weighty plod / paired crush",
+      "qa": "Complete paired fists, boots and broad shoulders pass. Centered apron and matched wraps are simple to mirror; layered skin shadow shapes are denser than a strict three-mass target.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "ZB04",
+      "name": "Shroud Crawler",
+      "pack": "03_zombies",
+      "asset": "03_zombies/assets/ZB04_shroud_crawler.png",
+      "native": "03_zombies/source/ZB04_shroud_crawler_native.png",
+      "favorite": true,
+      "asset_sha256": "ab4d67f1de815498ceb2751ce42d248bdfa57914a153740e9cf110cf861b03b8",
+      "native_sha256": "d71bf07dd1fc389177154b03b54050a3f0285c93771c9fa77edf6e5ee0238eca",
+      "motion_hint": "Hand-pull / short pounce",
+      "qa": "Two planted five-digit hands and a fully enclosed lower-body cocoon pass; no exposed lower limb or stump. Low horizontal silhouette is distinct; many cloth folds can be simplified when animated. No rig or exact projected length is supplied.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Flop, pull or magically slide the shroud; avoid a conventional walk."
+    },
+    {
+      "id": "CT01",
+      "name": "Waxmask Acolyte",
+      "pack": "04_cultists",
+      "asset": "04_cultists/assets/CT01_waxmask_acolyte.png",
+      "native": "04_cultists/source/CT01_waxmask_acolyte_native.png",
+      "favorite": true,
+      "asset_sha256": "cca39f1b1224262370d5b751c09384f685447c7c2447c370584fb0bcdc3734ef",
+      "native_sha256": "21662027325e804f20bf6a2aefc509c561ae2a9431b9c6f700328fc4207474ec",
+      "motion_hint": "Quiet glide-step / center stab",
+      "qa": "Mask, two stacked hands, central dagger, matching cuffs and two feet pass. Very clean small-scale triangular read. Stacked hand order must be validated before mirroring the attack.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Glide or blink; use one compact centered ritual action."
+    },
+    {
+      "id": "CT02",
+      "name": "Bellbound Monk",
+      "pack": "04_cultists",
+      "asset": "04_cultists/assets/CT02_bellbound_monk.png",
+      "native": "04_cultists/source/CT02_bellbound_monk_native.png",
+      "favorite": true,
+      "asset_sha256": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7",
+      "native_sha256": "67d4bc9c01434346916d0519b59505e2babf353707ac730ac5d17806c2b2a2c4",
+      "motion_hint": "Slow plod / bell swing",
+      "qa": "Broad robe, shared bell grip and two feet pass. Bell mouth is tilted toward the viewer; preserve its tilt through animation or rebuild from a simple volume guide.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Rock or float with the bell; one exaggerated ring/pulse can carry the attack."
+    },
+    {
+      "id": "CT04",
+      "name": "Halo-Veil Cantor",
+      "pack": "04_cultists",
+      "asset": "04_cultists/assets/CT04_halo_veil_cantor.png",
+      "native": "04_cultists/source/CT04_halo_veil_cantor_native.png",
+      "favorite": true,
+      "asset_sha256": "1638b0508f10486c286414c02b156efc8a117ea9079cf2739f562932d024fade",
+      "native_sha256": "c1bffcc5a026b5ee2b414ff354000f5c7f3bd553e9a6c46dd975cf56cdb448ca",
+      "motion_hint": "Hover bob / sphere pulse",
+      "qa": "Two cupped gloved hands and one centered sphere pass; continuous floating robe avoids foot animation. Physical collar silhouette reads clearly. Metal has soft small surface variation; keep final shading broad when animated.",
+      "large_alpha_components": 1,
+      "later_motion_direction": "Steady levitation, sleeve drift and a centered magic pulse."
+    },
+    {
+      "id": "SL01",
+      "name": "Mosswell Slime",
+      "pack": "05_slimes",
+      "asset": "05_slimes/assets/SL01_mosswell_slime.png",
+      "native": "05_slimes/source/SL01_mosswell_slime_native.png",
+      "favorite": false,
+      "asset_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+      "native_sha256": "337c4ff1761e7e7773ce0c577f17842fa0f891e12a7b840dee7dc4a0c42556b7",
+      "motion_hint": "Squash-hop / body lunge",
+      "qa": "Single coherent mound, two eye slits and broad simple silhouette pass. External alpha preserved with minimal cleanup; body shading is illustrated jelly rather than a physically translucent material.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "SP01",
+      "name": "Veil Wisp",
+      "pack": "06_spirits_constructs",
+      "asset": "06_spirits_constructs/assets/SP01_veil_wisp.png",
+      "native": "06_spirits_constructs/source/SP01_veil_wisp_native.png",
+      "favorite": false,
+      "asset_sha256": "80f8802796d5f44eb4acdfcbf262cf039f9515cf302f6ca43ee6c627b350b795",
+      "native_sha256": "ca46ad2e8f54bc174635e2973afdd2a99eb3bcfaa39731187d6c99ec027b4a69",
+      "motion_hint": "Hover bob / short dart",
+      "qa": "One continuous three-tailed spirit, no limbs or loose particles, passes. Thin tail ends need a stable construction curve through motion. Small head tilt and cloth contours are not mathematically mirrored.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "BT03",
+      "name": "Mourning Moth",
+      "pack": "07_flying_vermin",
+      "asset": "07_flying_vermin/assets/BT03_mourning_moth.png",
+      "native": "07_flying_vermin/source/BT03_mourning_moth_native.png",
+      "favorite": false,
+      "asset_sha256": "e71d196ee30ef3ae2e95efc8aaee2f4a1111a9d1f783abf080769737b67137b5",
+      "native_sha256": "9ef52799a51ff98583123e0ad9c8d43143515dc0b18f6dda3861cdc5f108227b",
+      "motion_hint": "Soft flutter / dust pulse",
+      "qa": "Two simplified broad wing masses and two antennae pass; legs are intentionally hidden. Bilateral large oval wing pattern is mirror-friendly; flutter needs construction guides to retain pattern registration.",
+      "large_alpha_components": 1
+    },
+    {
+      "id": "FP02",
+      "name": "Ironcap Fungus",
+      "pack": "11_fungi_plants",
+      "asset": "11_fungi_plants/assets/FP02_ironcap_fungus.png",
+      "native": "11_fungi_plants/source/FP02_ironcap_fungus_native.png",
+      "favorite": false,
+      "asset_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+      "native_sha256": "5990924b47c23ad806a3fd6c53ea1264fa8d02de2652b0d6ce25b9cc68355be7",
+      "motion_hint": "Cap bob / heavy slam",
+      "qa": "One connected broad cap, four ivory spots and two eye slits pass. Three root lobes are visible with the rear lobe occluded; six gill divisions are not exact. Cap volume reads clearly at small sizes. The red cap is brighter than muted rust and painted highlights will flip when mirrored.",
+      "large_alpha_components": 1
+    }
+  ]
+}

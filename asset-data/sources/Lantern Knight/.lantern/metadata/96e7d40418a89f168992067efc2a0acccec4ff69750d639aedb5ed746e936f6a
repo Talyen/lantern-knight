@@ -1,0 +1,420 @@
+{
+  "asset": "CT01 Waxmask Acolyte",
+  "status": "native animation experiments; not camera/registration-certified production sprites",
+  "canvas": [
+    768,
+    704
+  ],
+  "root_origin_pixels": [
+    416,
+    584
+  ],
+  "fps": 60,
+  "alpha_cleanup": "alpha <=16 set to 0; alpha >=250 set to255; RGB unchanged, all intermediate coverage retained",
+  "no_rescale": true,
+  "no_mirroring": true,
+  "no_per_frame_autofit": true,
+  "camera_target": {
+    "elevation": 35.2643897,
+    "azimuth": 45,
+    "actor_forward": "world +X, screen-down-right 30 degrees",
+    "audit": "elevated three-quarter inferred, not mathematically certified; upper-body view remains closer to portrait than exact guide"
+  },
+  "clips": {
+    "glide": {
+      "drawings": 6,
+      "native_source": "source/glide_retry_native.png",
+      "native_source_size": [
+        1536,
+        1024
+      ],
+      "tile_size": [
+        512,
+        512
+      ],
+      "sequence_wide_pixel_translation": [
+        96,
+        96
+      ],
+      "source_root_assumption": [
+        320,
+        488
+      ],
+      "duration_ticks": 48,
+      "duration_seconds": 0.8,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 2,
+          "start_tick": 10,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 3,
+          "start_tick": 18,
+          "hold_ticks": 6
+        },
+        {
+          "cel": 4,
+          "start_tick": 24,
+          "hold_ticks": 6
+        },
+        {
+          "cel": 5,
+          "start_tick": 30,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 6,
+          "start_tick": 38,
+          "hold_ticks": 10
+        }
+      ],
+      "qa": [
+        {
+          "cel": 1,
+          "phase": "Quiet float",
+          "hold_ticks": 10,
+          "native_crop": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "source_alpha_bounds": [
+            207,
+            10,
+            403,
+            496
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 2,
+          "phase": "Gather cloth",
+          "hold_ticks": 8,
+          "native_crop": [
+            512,
+            0,
+            1024,
+            512
+          ],
+          "source_alpha_bounds": [
+            76,
+            14,
+            379,
+            484
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 3,
+          "phase": "Glide acceleration",
+          "hold_ticks": 6,
+          "native_crop": [
+            1024,
+            0,
+            1536,
+            512
+          ],
+          "source_alpha_bounds": [
+            36,
+            34,
+            432,
+            470
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 4,
+          "phase": "Trailing extreme",
+          "hold_ticks": 6,
+          "native_crop": [
+            0,
+            512,
+            512,
+            1024
+          ],
+          "source_alpha_bounds": [
+            25,
+            37,
+            447,
+            443
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 5,
+          "phase": "Hem catch-up",
+          "hold_ticks": 8,
+          "native_crop": [
+            512,
+            512,
+            1024,
+            1024
+          ],
+          "source_alpha_bounds": [
+            101,
+            11,
+            388,
+            453
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 6,
+          "phase": "Settle",
+          "hold_ticks": 10,
+          "native_crop": [
+            1024,
+            512,
+            1536,
+            1024
+          ],
+          "source_alpha_bounds": [
+            175,
+            8,
+            374,
+            483
+          ],
+          "edge_alpha_max": 0
+        }
+      ],
+      "events": {},
+      "root_motion": "in-place engine root; supply movement in engine, do not infer displacement from robe tail",
+      "production_note": "Source placement and drawn proportions drift. No per-cel alignment, scaling, warping or mirroring was applied. Shared pivot is an authoring anchor rather than proven anatomical registration."
+    },
+    "ritual_attack": {
+      "drawings": 8,
+      "native_source": "source/ritual_attack_native.png",
+      "native_source_size": [
+        1774,
+        887
+      ],
+      "tile_size": [
+        444,
+        444
+      ],
+      "sequence_wide_pixel_translation": [
+        240,
+        148
+      ],
+      "source_root_assumption": [
+        176,
+        436
+      ],
+      "duration_ticks": 72,
+      "duration_seconds": 1.2,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 12
+        },
+        {
+          "cel": 2,
+          "start_tick": 12,
+          "hold_ticks": 12
+        },
+        {
+          "cel": 3,
+          "start_tick": 24,
+          "hold_ticks": 7
+        },
+        {
+          "cel": 4,
+          "start_tick": 31,
+          "hold_ticks": 5
+        },
+        {
+          "cel": 5,
+          "start_tick": 36,
+          "hold_ticks": 3
+        },
+        {
+          "cel": 6,
+          "start_tick": 39,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 7,
+          "start_tick": 47,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 8,
+          "start_tick": 57,
+          "hold_ticks": 15
+        }
+      ],
+      "qa": [
+        {
+          "cel": 1,
+          "phase": "Ready",
+          "hold_ticks": 12,
+          "native_crop": [
+            0,
+            -6,
+            444,
+            438
+          ],
+          "source_alpha_bounds": [
+            79,
+            10,
+            255,
+            442
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 2,
+          "phase": "Lift / anticipation",
+          "hold_ticks": 12,
+          "native_crop": [
+            444,
+            -6,
+            888,
+            438
+          ],
+          "source_alpha_bounds": [
+            87,
+            11,
+            278,
+            442
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 3,
+          "phase": "Bow",
+          "hold_ticks": 7,
+          "native_crop": [
+            888,
+            -6,
+            1332,
+            438
+          ],
+          "source_alpha_bounds": [
+            77,
+            65,
+            332,
+            440
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 4,
+          "phase": "Seal contact",
+          "hold_ticks": 5,
+          "native_crop": [
+            1332,
+            -6,
+            1776,
+            438
+          ],
+          "source_alpha_bounds": [
+            78,
+            146,
+            383,
+            442
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 5,
+          "phase": "Wax eruption",
+          "hold_ticks": 3,
+          "native_crop": [
+            0,
+            438,
+            444,
+            882
+          ],
+          "source_alpha_bounds": [
+            31,
+            8,
+            437,
+            418
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 6,
+          "phase": "Recoil / wax fall",
+          "hold_ticks": 8,
+          "native_crop": [
+            444,
+            438,
+            888,
+            882
+          ],
+          "source_alpha_bounds": [
+            32,
+            10,
+            440,
+            409
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 7,
+          "phase": "Recover",
+          "hold_ticks": 10,
+          "native_crop": [
+            888,
+            438,
+            1332,
+            882
+          ],
+          "source_alpha_bounds": [
+            109,
+            10,
+            352,
+            439
+          ],
+          "edge_alpha_max": 0
+        },
+        {
+          "cel": 8,
+          "phase": "Return",
+          "hold_ticks": 15,
+          "native_crop": [
+            1332,
+            438,
+            1776,
+            882
+          ],
+          "source_alpha_bounds": [
+            118,
+            3,
+            298,
+            437
+          ],
+          "edge_alpha_max": 0
+        }
+      ],
+      "events": {
+        "contact_tick": 31,
+        "release_tick": 36
+      },
+      "root_motion": "in-place engine root; supply movement in engine, do not infer displacement from robe tail",
+      "production_note": "Source placement and drawn proportions drift. No per-cel alignment, scaling, warping or mirroring was applied. Shared pivot is an authoring anchor rather than proven anatomical registration."
+    }
+  },
+  "preview_notes": {
+    "MP4": "exact 60 fps, four loops, no interpolation",
+    "APNG": "millisecond-rounded drawing holds, use manifest for exact60Hz timing"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "requested_model_wording": "Sunburst 2.5",
+    "backend_model_selection_verified": false,
+    "glide_attempts": 2,
+    "attack_attempts": 1,
+    "generative_edit_cascade": false
+  }
+}

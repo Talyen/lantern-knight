@@ -1,0 +1,51 @@
+# Ember Etching — Lantern loading concept C
+
+A text-free 2D gothic reliquary, circled by distressed thorn engraving. Fire brings the image out of soot; the hold remains quietly alive with bending painted flame, glancing warmth through metal incisions, drifting smoke and sparse ascending cinders. On completion, the light gathers briefly and extinguishes into black.
+
+## Deliverables
+
+All motion clips: 1920 × 1080, 16:9, genuine 60 frames/s, H.264 MP4, yuv420p, BT.709, silent.
+
+- `03_ember_etching_preview.mp4`: 8 seconds; intro + one hold cycle + completion.
+- `03_ember_etching_intro.mp4`: 2 seconds / 120 frames. Black to fully revealed hold.
+- `03_ember_etching_hold_loop.mp4`: 4 seconds / 240 frames. Seamless indefinite hold.
+- `03_ember_etching_complete.mp4`: 2 seconds / 120 frames. Matching hold state to black.
+- `poster.jpg`: representative full-resolution still.
+- `contact_sheet.jpg`: four moments from intro, hold and completion.
+- `engraved_seal.png`: original generated artwork. Source pixels remain intact.
+- `render.py`: all animation/compositing source. No external private paths or tools required.
+- `boundary_metrics.json`: exact frame-function endpoint tests.
+- `verify.py` and `media_verification.json`: encoded frame count, true 60 fps motion, size and loop-seam verification.
+- `art_prompt.txt`: original generation prompt and provenance.
+
+## Timing and joining
+
+Pre-rendered clip playback: play intro once, repeat the hold loop as needed, then play completion on the next hold boundary. This may add up to 4 seconds of delay. The supplied completion MP4 starts at hold phase zero and is not intended to cut directly from an arbitrary hold frame.
+
+Immediate response using source-based playback: preserve the current hold time modulo 4 seconds as `phase_at_completion`, then render completion frames using `frame('complete', elapsed_since_completion, phase_offset=phase_at_completion)`. At completion elapsed time zero this matches `frame('hold', phase_at_completion)` exactly. This approach requires running/adapting the animation compositor; a single pre-rendered completion MP4 cannot match every possible incoming phase. For video-only playback that must respond instantly, use a short dissolve from the current hold image into the completion clip instead of a hard cut.
+
+Each clip has exactly duration × 60 frames; the mathematically identical endpoint frame is deliberately not duplicated. A loop's final-to-first interval is a normal 1/60-second animation step. The source checks intro(2.0) = hold(0.0) = hold(4.0) = complete(0.0), exactly. The preview uses a stream-copy concatenation of the three delivered clips, preserving every authored frame.
+
+No gameplay integration is included. This is a noninteractive cinematic loading-screen asset, with no type, progress percentage, input prompt, HUD or 3D dependency. Intended display: full-frame/contain on a black background, without a second bloom effect. Keep the image's black floor and subtle etched detail intact.
+
+## Rebuild
+
+Requires Python 3, NumPy, Pillow and FFmpeg with libx264 on the PATH.
+
+    python render.py
+
+For stills and endpoint verification only:
+
+    python render.py --proof-only
+
+The deterministic random seed is fixed. Editing LOOP requires adjusting the cycle timing and output durations together. For animation changes, adjust lighting, procedural smoke or flame parameters in `render.py`; the original artwork is kept separate and unmodified. This render uses layered compositing, localized source-flame deformation and new procedural effects, not a static-image zoom.
+
+## Color and motion
+
+- Restrained charcoal, aged silver and copper-orange. Warmth stays concentrated at the lantern.
+- Stationary architecture and thorn linework preserve the fine engraved art.
+- Integer phase harmonics and fade-to-zero particle lifetimes prevent motion discontinuities.
+- No camera movement, rotation, progress ring or sci-fi visual vocabulary.
+- No audio, flashing strobe, or player interaction.
+
+Original artwork generated with OpenAI's built-in image generation tool, then animated with local deterministic compositing. Native source art: 1672 × 941, resampled for the 1920 × 1080 animation canvas.

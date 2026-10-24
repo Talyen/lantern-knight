@@ -1,0 +1,8 @@
+LANTERN FLOOR FEATURES / REVISION02
+
+Selective repair: six rebuilt illustrated masters(f01–f06),two retained original assets(f07 quiet shallow puddle bed,f08 stepping slabs). Eight runtime images total.
+Raw TOPDOWN horizontalXZ,not camera-baked.1024x1024RGBA straight alpha,sRGB,4m canvas,256texels/m,centre pivot512,512.
+Exact planar orthographic proof:elevation35.264389682754654degrees,azimuth45degrees. These previews are not runtime source and not engine validation.
+Six repairs have untouched fresh generation masters+prompts. Two keep assets have original SVG and byte-identical runtime PNGs. Old pack preserved outside this package.
+Painted holes,handles,stone edges and water do not create geometry,collision,depth or water simulation. The circular dais is a flat illustrated top face,not a full pedestal.
+No engine-import,mipmap or runtime lighting testing. No new normals,height maps or physics.

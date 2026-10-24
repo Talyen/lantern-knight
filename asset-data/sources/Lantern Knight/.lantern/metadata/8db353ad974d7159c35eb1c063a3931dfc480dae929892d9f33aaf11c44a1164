@@ -1,0 +1,13 @@
+{
+  "scene": "Keepers Glade/Full Scene B",
+  "master_id": "1lZJfzH3mn9gMrC3QuO-cWrBPZAuRh2JF",
+  "source_kit_id": "1xzLCiiRpmSn6BmiM2J4UL1x9CZ1_01p5",
+  "generation": "Built-in imagegen; requested preferred gpt-image-2.5-sunburst in prompt; tool supplies no model selector. Native source resolution preserved.",
+  "revision": "Original coffer, urn and crate; midpoint wicker third pass.",
+  "native_authored_cels": 16,
+  "lootable_containers": 2,
+  "breakable_containers": 2,
+  "alpha": "Generated genuine RGBA; no chroma removal",
+  "scene_preview": "Mechanical overlay on unchanged exact approved master",
+  "terminal_states": "Hold indefinitely until explicitly reset"
+}

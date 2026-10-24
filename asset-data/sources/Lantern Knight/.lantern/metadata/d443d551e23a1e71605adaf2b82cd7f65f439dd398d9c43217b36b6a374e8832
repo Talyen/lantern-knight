@@ -1,0 +1,5 @@
+Wickline Thrust
+
+A narrow soot ribbon draws from left to right, its tip gathers dull copper embers into a long tapered wick spear, then snaps straight in ONE thrust to a small target at right. The tip splays on contact; the spent ribbon tears into curling charcoal fibers drifting beyond the target. Long horizontal lane, origin at25%,55%, target75%,55%.
+
+Experimental Lantern hero VFX. 24 RGBA384px frames,6x4 atlas. Fast formation then one hit, continuous physical aftermath. Utility effects instead have one protective/restorative pulse. APNG one-shot ends transparent; preview repeats3 cycles. Timing/footprint data are artistic guides, not engine implementation. Original generated source and actual prompts included. No procedural drawn art or synthetic fades.

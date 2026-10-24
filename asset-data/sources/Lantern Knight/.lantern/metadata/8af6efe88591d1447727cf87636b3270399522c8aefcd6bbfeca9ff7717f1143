@@ -1,0 +1,341 @@
+{
+  "asset": "dodge_DR",
+  "version": "v02",
+  "status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+  "heading": {
+    "world": "+X",
+    "screen": "down-right",
+    "mirrored": false
+  },
+  "native_source": {
+    "file": "source/dodge_DR_native_sheet.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "35d5d032ec43d9e3390c351123180d52bab7b5a97a2d01d50ab5ea7fc1d15c5d",
+    "generation": "built-in image_gen",
+    "requested_model": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "backend_model_verified": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      1048
+    ],
+    "atlas": "frames_clean_native/dodge_DR_atlas_native.png",
+    "grid": [
+      4,
+      2
+    ],
+    "frame_count": 8,
+    "unique_native_drawings": 8,
+    "fps": 60,
+    "duration_seconds": 0.75,
+    "loop": false,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015267
+    ],
+    "pivot_status": "Fixed-cell integration estimate, not calibrated skeleton/ground solve",
+    "recommended_pixels_per_unit": 249.691,
+    "density_method": {
+      "reference_nominal_ppu": 350,
+      "reference_family": "directional_ready_idle_v01/delivery",
+      "reference_heading_body_crown_to_boot_px": 567,
+      "clip_neutral_body_heights_px": [
+        407,
+        402
+      ],
+      "mean_clip_body_px": 404.5,
+      "ratio": 0.7134038800705468,
+      "measurement": "First and last neutral-cel crown-to-lowest-boot span, visually checked extrema are body not sword/coat",
+      "confidence": "Approximate: pose/anatomy variation prevents exact world-height certification"
+    },
+    "root_motion": "Original cell-relative body motion retained; no root-motion track",
+    "gameplay_logic_implemented": false
+  },
+  "processing": {
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "per_frame_autofit": false,
+    "nominal_native_cell": [
+      444,
+      444
+    ],
+    "uniform_added_margin_each_side": 40,
+    "alpha_cleanup": "Main human component selected from alpha>=16 with1px connectivity dilation, then2px ownership allowance; native RGB and retained edge alpha preserved. Removes distant low-alpha fuzz and excludes neighboring cels. No pixels translated within original cell coordinate system.",
+    "source_native_retained": true
+  },
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "world_up": "+Y",
+    "ground": "XZ",
+    "gameplay_vertical_span_m": 13,
+    "unity_orthographic_size": 6.5,
+    "verification": "Exact guide matrix exists; illustration only visually conditioned, not geometrically certified"
+  },
+  "suggested_timing_tags": {
+    "push_off_cel": 3,
+    "travel_cels": [
+      4,
+      5
+    ],
+    "land_cel": 6
+  },
+  "known_limits": [
+    "Art-review candidate, not final production integration approval.",
+    "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+    "Endpoints are new drawings, not pixel-identical to sharedready.",
+    "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+    "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+    "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+    "Some low-travel cels overlap sword and boot in screen space. Foreground ordering is plausible but does not prove3D/floor clearance.",
+    "Coat front skirt can form a third visible panel end in addition to the two rear tails."
+  ],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames_clean_native/dodge_DR_01.png",
+      "label": "ready",
+      "hold_ticks_60hz": 10,
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        136,
+        57,
+        365,
+        470
+      ],
+      "visible_bbox_alpha16": [
+        139,
+        60,
+        362,
+        467
+      ],
+      "sha256": "87778fe42723a45e31dccd8f69fab0fa80cbe7256783557daddff8cc02ec3f1e"
+    },
+    {
+      "index": 2,
+      "file": "frames_clean_native/dodge_DR_02.png",
+      "label": "compress",
+      "hold_ticks_60hz": 5,
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        108,
+        99,
+        356,
+        466
+      ],
+      "visible_bbox_alpha16": [
+        111,
+        102,
+        354,
+        464
+      ],
+      "sha256": "8b25e2766305fb41a143b6a68fff8fc95167408c62734e4822466a3fb77ad5b1"
+    },
+    {
+      "index": 3,
+      "file": "frames_clean_native/dodge_DR_03.png",
+      "label": "push_off",
+      "hold_ticks_60hz": 3,
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        90,
+        121,
+        408,
+        445
+      ],
+      "visible_bbox_alpha16": [
+        93,
+        124,
+        405,
+        443
+      ],
+      "sha256": "704776cda6b886d2ab3baff2d1b15a94836d81f0e07552c9751685ff3bf22679"
+    },
+    {
+      "index": 4,
+      "file": "frames_clean_native/dodge_DR_04.png",
+      "label": "low_travel",
+      "hold_ticks_60hz": 3,
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        65,
+        129,
+        458,
+        466
+      ],
+      "visible_bbox_alpha16": [
+        68,
+        131,
+        455,
+        464
+      ],
+      "sha256": "2bf8d378ee23ac9b828d4ce277a00d421efb6e504740b9e3aa070e8a2c50b3b9"
+    },
+    {
+      "index": 5,
+      "file": "frames_clean_native/dodge_DR_05.png",
+      "label": "prepare_land",
+      "hold_ticks_60hz": 3,
+      "atlas_rect": [
+        0,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        94,
+        112,
+        417,
+        437
+      ],
+      "visible_bbox_alpha16": [
+        97,
+        115,
+        414,
+        435
+      ],
+      "sha256": "a970d3d860ab566c0c9e6304c42e77396507805aa8b369a5e1bff1026cfcb293"
+    },
+    {
+      "index": 6,
+      "file": "frames_clean_native/dodge_DR_06.png",
+      "label": "landing",
+      "hold_ticks_60hz": 5,
+      "atlas_rect": [
+        524,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        71,
+        121,
+        374,
+        450
+      ],
+      "visible_bbox_alpha16": [
+        73,
+        124,
+        371,
+        448
+      ],
+      "sha256": "b92070e6ae1ea82cc5faca1c632b5c40184d8bda835e043b961bc4b334e32de5"
+    },
+    {
+      "index": 7,
+      "file": "frames_clean_native/dodge_DR_07.png",
+      "label": "recover",
+      "hold_ticks_60hz": 6,
+      "atlas_rect": [
+        1048,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        95,
+        69,
+        400,
+        445
+      ],
+      "visible_bbox_alpha16": [
+        98,
+        72,
+        397,
+        442
+      ],
+      "sha256": "ab556e0b275b1a86921a6367e21ed57287ab5cfa3076147ea47a32b6f14856f4"
+    },
+    {
+      "index": 8,
+      "file": "frames_clean_native/dodge_DR_08.png",
+      "label": "ready_restored",
+      "hold_ticks_60hz": 10,
+      "atlas_rect": [
+        1572,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        138,
+        47,
+        361,
+        455
+      ],
+      "visible_bbox_alpha16": [
+        141,
+        50,
+        358,
+        452
+      ],
+      "sha256": "27ecf7584a1450e3c08e028ae9ba087b99bb23b7c4d619dff4dc3dd9c8d9745d"
+    }
+  ]
+}

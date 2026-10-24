@@ -1,0 +1,22 @@
+{
+  "asset": "keepers_glade",
+  "variant": "A",
+  "method": "built-in image_gen; fresh generation using original locked hero for art-style and scale reference only",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-d44867f8-d249-4eed-91b9-e1ea92f32229.png",
+  "reference": "../../review/references/ready_world_positive_X_DR_native.png",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "opaque": true,
+  "upscaled": false,
+  "edited": false,
+  "expanded": false,
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "attempts": 1
+}

@@ -1,0 +1,330 @@
+{
+  "abbey_linen_chest": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/abbey_linen_chest_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          304,
+          311
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          301,
+          311
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          282,
+          309
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          286,
+          309
+        ]
+      }
+    ]
+  },
+  "archival_coffer": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/archival_coffer_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          305,
+          291
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          311,
+          292
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          292,
+          292
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          298,
+          292
+        ]
+      }
+    ]
+  },
+  "sealed_abbey_urn": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/sealed_abbey_urn_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          242,
+          353
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1062,
+          724
+        ],
+        "translation": [
+          271,
+          350
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1062,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          261,
+          335
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          242,
+          313
+        ]
+      }
+    ]
+  },
+  "candle_store_crate": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/candle_store_crate_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          240,
+          303
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1042,
+          724
+        ],
+        "translation": [
+          261,
+          302
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1042,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          226,
+          283
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          232,
+          304
+        ]
+      }
+    ]
+  }
+}
