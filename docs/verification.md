@@ -43,7 +43,7 @@ Authored scenes are disposable content: gameplay and rendering regressions own t
 `npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier and require Pillow. CI installs Pillow 13.0.0 in a temporary environment before the tests; test commands do not install dependencies. For local asset tests on macOS/Linux, create or reuse a checkout-local environment and activate it so subprocesses find Pillow:
 
 ```sh
-python3 -m venv .venv
+python3.11 -m venv .venv
 . .venv/bin/activate
 python -m pip install Pillow==13.0.0
 npm run test:assets

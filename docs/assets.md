@@ -24,7 +24,7 @@ Saving a scene does not register it in Game; follow [Game content registration](
 
 ## Local preparation review
 
-Use `assets:prepare -- --ids <asset-id>...` for a scoped refresh, or omit IDs to reconcile the owned source tree and prepare the retained selection. Dependencies and finalizers are selected automatically. Preparation needs the owned source files, [KTX-Software](#images-for-game-use) and a checkout-local `.venv` containing OpenCV 5.0.0, NumPy 2.0.2, Pillow 13.0.0 and Ruff 0.16.10. Ordinary development and builds need none of these authoring dependencies.
+Use `assets:prepare -- --ids <asset-id>...` for a scoped refresh, or omit IDs to reconcile the owned source tree and prepare the retained selection. Dependencies and finalizers are selected automatically. Preparation needs the owned source files, [KTX-Software](#images-for-game-use) and a checkout-local Python 3.11 `.venv` containing OpenCV 5.0.0, NumPy 2.0.2, Pillow 13.0.0 and Ruff 0.16.10. Ordinary development and builds need none of these authoring dependencies.
 
 Successful preparation checks consuming references, copies verified prepared objects into `asset-data/`, and atomically updates the accepted inventory pin. Review the artwork and Git changes together before committing. Failure preserves the accepted pin; additional unreferenced objects can be reused on retry. `--proof` remains an explicit preparation proof. `--local` remains available to investigate a checkout-local preparation.
 
