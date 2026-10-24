@@ -566,7 +566,11 @@ test('audio authoring verifies source hashes and rejects changed or escaped sour
   await fs.mkdir(path.join(root, 'Sounds'));
   await fs.writeFile(path.join(root, 'Sounds/source.flac'), bytes);
   const selected = [{ source: 'source.flac', sha256: hash }];
-  await verifyAudioSources(root, {}, selected);
+  await verifyAudioSources(
+    root,
+    { LANTERN_SOUND_LIBRARY: '/unavailable-external-library' },
+    selected,
+  );
   await fs.writeFile(path.join(root, 'Sounds/source.flac'), 'changed');
   await assert.rejects(verifyAudioSources(root, {}, selected), /Audio source changed/);
   await assert.rejects(

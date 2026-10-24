@@ -5,7 +5,6 @@ import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { runProcess } from '../run-process';
 import recipes from '../../assets/audio-sources.json';
-import { sourceLibraryRoot } from './paths';
 import { audioManifestPath, parseAudioManifest, type AudioManifest } from '../../src/assets/audio';
 import type { PreparationContext } from './context';
 import { safeRelative } from './files';
@@ -44,11 +43,11 @@ export async function audioTools(env: NodeJS.ProcessEnv) {
   };
 }
 export async function verifyAudioSources(
-  _libraryRoot: string,
+  libraryRoot: string,
   _env: NodeJS.ProcessEnv,
   selected: readonly { source: string; sha256: string }[] = recipes.entries,
 ) {
-  const root = path.resolve(path.join(sourceLibraryRoot(), recipes.libraryDirectory));
+  const root = path.resolve(path.join(libraryRoot, recipes.libraryDirectory));
   for (const recipe of selected) {
     safeRelative(recipe.source);
     const source = path.join(root, recipe.source);
@@ -77,7 +76,7 @@ export async function prepareAudio(
 ) {
   const env = context.environment,
     tools = await audioTools(env);
-  const root = path.resolve(path.join(sourceLibraryRoot(), recipes.libraryDirectory));
+  const root = path.resolve(path.join(context.libraryRoot, recipes.libraryDirectory));
   const manifest: AudioManifest = { schemaVersion: 1, samples: [] };
   await using temporary = await fs.mkdtempDisposable(path.join(os.tmpdir(), 'lantern-audio-'));
   const receipts: AudioReceipt[] = [];

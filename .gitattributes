@@ -7,4 +7,4 @@ public/** -text
 evidence/** -text
 
 # Repository-owned originals and prepared objects retain exact bytes.
-asset-data/** -text
+asset-data/** -text -diff -merge
