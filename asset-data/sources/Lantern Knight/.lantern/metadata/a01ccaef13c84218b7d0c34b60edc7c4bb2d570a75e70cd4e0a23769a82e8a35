@@ -1,0 +1,32 @@
+{
+  "asset": "keepers_glade_A",
+  "title": "Keeper\u2019s Glade A | Oak Cottage",
+  "method": "built-in image_gen, fresh whole-scene generation",
+  "exact_prompt": "exact_prompt.txt",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-fe5cf00f-8ef8-4a44-9012-a1c73126661a.png",
+  "reference_images": [
+    "references/selected_viewport_sample.png",
+    "references/hero_original.png"
+  ],
+  "reference_roles": [
+    "approved viewport sample: style, palette, materials, thematic identity only",
+    "unchanged canonical hero: style and physical-scale reference only"
+  ],
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "intended_hero_height_pixels": 64,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "scope": "Wider home-base concept with edge expansion alcoves. No engine integration or separated upgrade assets.",
+  "attempts": 1,
+  "native_edited": false,
+  "requested_native_coverage_relative_to_sample": 2.5,
+  "camera_geometry_validated": false,
+  "physical_scale_validated": false,
+  "native_sha256": "f45b42fca9479ef6bf23e8ed2f0ada14f9a32f26bcfb18390567540211d94805"
+}

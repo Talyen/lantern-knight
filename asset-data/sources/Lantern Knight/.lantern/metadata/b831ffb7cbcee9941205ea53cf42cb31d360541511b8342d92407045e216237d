@@ -1,0 +1,410 @@
+{
+  "camera_exact": true,
+  "camera_basis": {
+    "right": [
+      0.7071067811865476,
+      0.0,
+      -0.7071067811865475
+    ],
+    "up": [
+      -0.408248290463863,
+      0.816496580927726,
+      -0.4082482904638631
+    ],
+    "toward": [
+      0.5773502691896257,
+      0.5773502691896257,
+      0.5773502691896258
+    ]
+  },
+  "world_units": "metres",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "vertical_span": 13,
+  "virtual_1_8m_ruler_pixels": 122.09764256334611,
+  "source_pixels_unchanged": true,
+  "card_views_exact": false,
+  "no_hero": true,
+  "cards": [
+    {
+      "id": "service_masonry_chimney_01_0",
+      "projected_anchor_px": [
+        1470.0,
+        180.00000000000006
+      ],
+      "source_sha256": "efba24778fc10164c68ff7d0066f0b6bd424d2187b81dc35842a2556c020e43e",
+      "screen_box": [
+        1236,
+        -503,
+        1707,
+        204
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_1",
+      "projected_anchor_px": [
+        1280.0,
+        230.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1077,
+        -19,
+        1479,
+        249
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_2",
+      "projected_anchor_px": [
+        1610.0,
+        109.99999999999994
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1407,
+        -139,
+        1809,
+        129
+      ]
+    },
+    {
+      "id": "02_compact_smithy_v1_3",
+      "projected_anchor_px": [
+        455.0,
+        390.0
+      ],
+      "source_sha256": "a005392bd9c764f8ffb0bf098c7f21fac5e72da77a833095e8078dc598244972",
+      "screen_box": [
+        130,
+        -186,
+        779,
+        407
+      ]
+    },
+    {
+      "id": "prop_valve_pipe_01_5",
+      "projected_anchor_px": [
+        1160.0,
+        400.0
+      ],
+      "source_sha256": "07bad88af178833691751dd01b0b5d081a650c5b1249d93898f0d80a21322e65",
+      "screen_box": [
+        1020,
+        229,
+        1286,
+        406
+      ]
+    },
+    {
+      "id": "Connected_furnace_work_cluster",
+      "projected_anchor_px": [
+        810.0,
+        450.0
+      ],
+      "source_sha256": "351e6da62961a99d40119623348c244de803f5ffbda50d06c629682b9bf07c82",
+      "screen_box": [
+        641,
+        135,
+        978,
+        457
+      ]
+    },
+    {
+      "id": "Canal_retaining_wall_0",
+      "projected_anchor_px": [
+        1810.0,
+        405.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1638,
+        195,
+        1977,
+        421
+      ]
+    },
+    {
+      "id": "Canal_retaining_wall_1",
+      "projected_anchor_px": [
+        1535.0,
+        557.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1363,
+        347,
+        1702,
+        573
+      ]
+    },
+    {
+      "id": "Canal_retaining_wall_2",
+      "projected_anchor_px": [
+        1260.0,
+        709.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1088,
+        499,
+        1427,
+        725
+      ]
+    },
+    {
+      "id": "Canal_retaining_wall_3",
+      "projected_anchor_px": [
+        985.0,
+        861.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        813,
+        651,
+        1152,
+        877
+      ]
+    },
+    {
+      "id": "Canal_retaining_wall_4",
+      "projected_anchor_px": [
+        710.0,
+        1013.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        538,
+        803,
+        877,
+        1029
+      ]
+    },
+    {
+      "id": "Smith_workbench_2m",
+      "projected_anchor_px": [
+        585.0,
+        570.0
+      ],
+      "source_sha256": "7cd9bf0004f459dac5c6925930ff31399b51b6d33757f47459252b0c6c95f255",
+      "screen_box": [
+        492,
+        449,
+        679,
+        573
+      ]
+    },
+    {
+      "id": "prop_riveted_boiler_01_13",
+      "projected_anchor_px": [
+        1065.0,
+        455.0
+      ],
+      "source_sha256": "41a38151bd446f0b9db990acc29ce6624cbc4b886ebe87ede14987afaac3ef48",
+      "screen_box": [
+        949,
+        254,
+        1177,
+        463
+      ]
+    },
+    {
+      "id": "Anvil_0_9m",
+      "projected_anchor_px": [
+        890.0,
+        650.0
+      ],
+      "source_sha256": "c5d27ab7ddd1b81a960c66f226901a8e131f158159d7f55e75190a116e4921cd",
+      "screen_box": [
+        839,
+        556,
+        945,
+        653
+      ]
+    },
+    {
+      "id": "furn_grindstone_01_14",
+      "projected_anchor_px": [
+        470.0,
+        642.0
+      ],
+      "source_sha256": "a0a2d4080de2b6a2c31e2e8200d1000297f7d71b5f63cb6f7476fafbc973d5d9",
+      "screen_box": [
+        398,
+        522,
+        537,
+        649
+      ]
+    },
+    {
+      "id": "town_rain_barrel_01_15",
+      "projected_anchor_px": [
+        314.9999999999999,
+        615.0
+      ],
+      "source_sha256": "0dace0464639c3d89a7d741c1997d20127e3af0757af54e6c54d47f65cf3b993",
+      "screen_box": [
+        255,
+        507,
+        376,
+        620
+      ]
+    },
+    {
+      "id": "dock_coiled_mooring_line_01_16",
+      "projected_anchor_px": [
+        1040.0,
+        720.0
+      ],
+      "source_sha256": "7630c5fcacca2f15da60132f3b2fd06922d80dfbceebf3a9dff14d12f65879ce",
+      "screen_box": [
+        985,
+        657,
+        1094,
+        729
+      ]
+    },
+    {
+      "id": "dock_mooring_cleat_02_17",
+      "projected_anchor_px": [
+        1430.0,
+        493.00000000000006
+      ],
+      "source_sha256": "a077d566ca6b5662528adef8824520c703aa31d4d630257e995cb1b15d909ddb",
+      "screen_box": [
+        1367,
+        417,
+        1488,
+        498
+      ]
+    },
+    {
+      "id": "dock_navigation_post_01_18",
+      "projected_anchor_px": [
+        1510.0,
+        445.00000000000006
+      ],
+      "source_sha256": "7e7e32367f854a690ea74e65d25c3568468b5189d1eb8f17f04e7133bd84862d",
+      "screen_box": [
+        1423,
+        180,
+        1610,
+        460
+      ]
+    },
+    {
+      "id": "Quayside_lamp_3m",
+      "projected_anchor_px": [
+        1245.0,
+        570.0
+      ],
+      "source_sha256": "97dff4646c5ada08747a2b20361b75311059384b446b072ed989a3679c98bedb",
+      "screen_box": [
+        988,
+        174,
+        1467,
+        653
+      ]
+    },
+    {
+      "id": "Work_lantern_0_6m",
+      "projected_anchor_px": [
+        720.0,
+        552.0
+      ],
+      "source_sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+      "screen_box": [
+        632,
+        408,
+        807,
+        583
+      ]
+    },
+    {
+      "id": "dock_broken_jetty_section_01_19",
+      "projected_anchor_px": [
+        1480.0,
+        1020.0
+      ],
+      "source_sha256": "eb22f3beca48e40d3bf3725c3c9e7767a6384d75518aad83c5901cce02dba410",
+      "screen_box": [
+        1206,
+        696,
+        1748,
+        1057
+      ]
+    },
+    {
+      "id": "dock_piled_fishing_nets_02_20",
+      "projected_anchor_px": [
+        1570.0,
+        950.0
+      ],
+      "source_sha256": "445762675ce1d647f4ae8b6894b355704d4efda4b96a764bbc50ece5da812fac",
+      "screen_box": [
+        1417,
+        794,
+        1716,
+        993
+      ]
+    },
+    {
+      "id": "arch_wall_corner_01_21",
+      "projected_anchor_px": [
+        -80.0,
+        1080.0
+      ],
+      "source_sha256": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+      "screen_box": [
+        -586,
+        451,
+        423,
+        1123
+      ]
+    },
+    {
+      "id": "service_masonry_chimney_01_22",
+      "projected_anchor_px": [
+        140.0,
+        1130.0
+      ],
+      "source_sha256": "efba24778fc10164c68ff7d0066f0b6bd424d2187b81dc35842a2556c020e43e",
+      "screen_box": [
+        -118,
+        376,
+        402,
+        1155
+      ]
+    },
+    {
+      "id": "prop_wooden_handcart_01_23",
+      "projected_anchor_px": [
+        440.0,
+        909.9999999999999
+      ],
+      "source_sha256": "a35f713ca746621fc6947bf9acc5b8d7a5a2fbecc34183390066bed1a207e9b1",
+      "screen_box": [
+        279,
+        709,
+        599,
+        923
+      ]
+    },
+    {
+      "id": "dock_overturned_rowboat_01_24",
+      "projected_anchor_px": [
+        2030.0,
+        1040.0
+      ],
+      "source_sha256": "02cebd7d9832c42e41e5f26bce42d399f0d8582eed3c4ef93dd0164e82073679",
+      "screen_box": [
+        1572,
+        532,
+        2448,
+        1116
+      ]
+    }
+  ]
+}

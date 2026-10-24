@@ -1,0 +1,206 @@
+[
+  {
+    "asset_id": "crossing_brick_culvert_mouth_01",
+    "pack": "volume_14_crossings",
+    "path": "assets/crossing_brick_culvert_mouth_01.png",
+    "original_path": "lantern_environment_candidates/volume_14_crossings/assets/crossing_brick_culvert_mouth_01.png",
+    "sha256": "e73203b4432f68e4a005262f66bc46c0f4fe1b94aa5144a692396373b12e3d34",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crossing_brick_culvert_mouth_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      32,
+      1508,
+      984
+    ],
+    "alpha_bounds_ge128": [
+      164,
+      76,
+      1411,
+      954
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97359,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-3d9d7e9e-c533-4e6e-af86-2bf972e5726a.png"
+  },
+  {
+    "asset_id": "crossing_broken_aqueduct_pier_01",
+    "pack": "volume_14_crossings",
+    "path": "assets/crossing_broken_aqueduct_pier_01.png",
+    "original_path": "lantern_environment_candidates/volume_14_crossings/assets/crossing_broken_aqueduct_pier_01.png",
+    "sha256": "f7d0dace4ec51bfb590f2f4d540570e3aee4a9a0e3ed938dbb28e5e6d97e141d",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crossing_broken_aqueduct_pier_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      19,
+      956,
+      1497
+    ],
+    "alpha_bounds_ge128": [
+      93,
+      40,
+      951,
+      1493
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97547,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-ffd39ddc-8f33-4782-a623-2599756508d5.png"
+  },
+  {
+    "asset_id": "crossing_dry_spillway_channel_01",
+    "pack": "volume_14_crossings",
+    "path": "assets/crossing_dry_spillway_channel_01.png",
+    "original_path": "lantern_environment_candidates/volume_14_crossings/assets/crossing_dry_spillway_channel_01.png",
+    "sha256": "7650f44482c579fba589ac96e5449d593d976639a6a162bc496519b59acd7273",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crossing_dry_spillway_channel_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      22,
+      1439,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      196,
+      25,
+      1434,
+      997
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97912,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-e3e37308-ea40-4d68-8aa8-20b6df372a2f.png"
+  },
+  {
+    "asset_id": "crossing_static_timber_sluice_02",
+    "pack": "volume_14_crossings",
+    "path": "assets/crossing_static_timber_sluice_02.png",
+    "original_path": "lantern_environment_candidates/volume_14_crossings/assets/crossing_static_timber_sluice_02.png",
+    "sha256": "1251505fbc74015fc3fe72531b82b098b4c9c6e77a842fd0d2d41c2ae08df017",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crossing_static_timber_sluice_02.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      77,
+      21,
+      1292,
+      1174
+    ],
+    "alpha_bounds_ge128": [
+      252,
+      42,
+      1104,
+      1171
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95191,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-e3875431-5ee6-4465-857a-094866d894fd.png"
+  },
+  {
+    "asset_id": "crossing_stone_squeeze_stile_02",
+    "pack": "volume_14_crossings",
+    "path": "assets/crossing_stone_squeeze_stile_02.png",
+    "original_path": "lantern_environment_candidates/volume_14_crossings/assets/crossing_stone_squeeze_stile_02.png",
+    "sha256": "9072879f89e46546cd1f621374a6a004f58cf2c748435bd32642696f21a641fa",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crossing_stone_squeeze_stile_02.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      9,
+      1482,
+      958
+    ],
+    "alpha_bounds_ge128": [
+      64,
+      101,
+      1477,
+      954
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97183,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-6050b334-0315-4819-a910-1a08f8640100.png"
+  },
+  {
+    "asset_id": "crossing_timber_footbridge_01",
+    "pack": "volume_14_crossings",
+    "path": "assets/crossing_timber_footbridge_01.png",
+    "original_path": "lantern_environment_candidates/volume_14_crossings/assets/crossing_timber_footbridge_01.png",
+    "sha256": "6c8d7183f357af1af281fa3b291765f09acb0f67c3b0f863f2c08ea888fabff2",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crossing_timber_footbridge_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      1,
+      1440,
+      1002
+    ],
+    "alpha_bounds_ge128": [
+      148,
+      11,
+      1433,
+      998
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.95878,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-3d1e8d23-6324-4d68-8ee8-7779b7a44fe4.png"
+  }
+]

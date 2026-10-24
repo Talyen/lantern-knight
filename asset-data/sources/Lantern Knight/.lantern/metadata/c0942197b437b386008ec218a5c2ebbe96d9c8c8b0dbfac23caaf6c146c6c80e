@@ -1,0 +1,38 @@
+{
+  "name": "Sanguine Seal",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0,
+      "frame_index": 0
+    },
+    {
+      "name": "commit",
+      "time_ms": 960,
+      "frame_index": 8
+    },
+    {
+      "name": "impact",
+      "time_ms": 960,
+      "frame_index": 8,
+      "hit_count": 1
+    },
+    {
+      "name": "clear",
+      "time_ms": 1460,
+      "frame_index": 16
+    }
+  ],
+  "target_guide": {
+    "kind": "ellipse",
+    "center_px": [
+      256,
+      300
+    ],
+    "radii_px": [
+      146,
+      53
+    ]
+  },
+  "timebase": "milliseconds"
+}

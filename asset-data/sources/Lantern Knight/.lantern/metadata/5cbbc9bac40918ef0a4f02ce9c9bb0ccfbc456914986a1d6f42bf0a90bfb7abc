@@ -1,0 +1,191 @@
+{
+  "asset": "selfheal_exit_DR",
+  "version": "v01",
+  "status": "ART_REVIEW_INTEGRATION_CANDIDATE",
+  "facing": "down-right",
+  "heading_world": "+X",
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "verification": "visually conditioned, not metrically certified"
+  },
+  "equipment": {
+    "sword_hand": "right",
+    "lantern_hand": "left",
+    "mirrored": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      524
+    ],
+    "atlas": "selfheal_exit_DR_atlas.png",
+    "grid": [
+      4,
+      1
+    ],
+    "frame_count": 4,
+    "unique_drawings": 4,
+    "fps": 60,
+    "duration_ticks": 50,
+    "duration_seconds": 0.8333333333333334,
+    "loop": false,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015265
+    ],
+    "suggested_pixels_per_unit": 257.407,
+    "pixels_per_unit_status": "Inherited cast-family starting value only; cross-clip body density requires in-engine review",
+    "root_motion_track": null
+  },
+  "source": {
+    "file": "selfheal_transition_DR_native_sheet.png",
+    "native_sheet_size": [
+      1774,
+      887
+    ],
+    "generator": "built-in image_gen",
+    "backend_model_verified": false
+  },
+  "processing": {
+    "native_visible_pixels_preserved": true,
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "per_frame_rescaling": false,
+    "alpha_cleanup": "Figure ownership from alpha>=16 connected component with small allowance; zero-alpha RGB sanitized. Retained visible native RGB and alpha unchanged.",
+    "layout": "524 fixed cells from native 4x2 grid plus transparent padding. Rigid integer translations only, listed per cel.",
+    "registration": "Native cell positions; common -8px loop guide inset compensation and common exit(-9,+8) pose match only"
+  },
+  "events_suggested": [],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/selfheal_exit_DR_01.png",
+      "label": "rest_base",
+      "hold_ticks_60hz": 10,
+      "source_cel": 5,
+      "rigid_offset_px": [
+        -9,
+        8
+      ],
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        38,
+        150,
+        403,
+        472
+      ],
+      "sha256": "50fc5ef648738b2f0063feb694e630d452e39265ed84439373e3ae8d620ddb5f"
+    },
+    {
+      "index": 2,
+      "file": "frames/selfheal_exit_DR_02.png",
+      "label": "rise",
+      "hold_ticks_60hz": 14,
+      "source_cel": 6,
+      "rigid_offset_px": [
+        -9,
+        8
+      ],
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        67,
+        89,
+        393,
+        454
+      ],
+      "sha256": "e295dd61f2bbfe97cba75a5fc804a6e3fa1b9361296f1aa4b65cc281a9d85204"
+    },
+    {
+      "index": 3,
+      "file": "frames/selfheal_exit_DR_03.png",
+      "label": "straighten",
+      "hold_ticks_60hz": 12,
+      "source_cel": 7,
+      "rigid_offset_px": [
+        -9,
+        8
+      ],
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        59,
+        38,
+        402,
+        470
+      ],
+      "sha256": "68745c5e56363b5d92b56e6f1d9a2d2c0ecb22300bf115ae66e406701e32406b"
+    },
+    {
+      "index": 4,
+      "file": "frames/selfheal_exit_DR_04.png",
+      "label": "ready_restored",
+      "hold_ticks_60hz": 14,
+      "source_cel": 8,
+      "rigid_offset_px": [
+        -9,
+        8
+      ],
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        65,
+        42,
+        376,
+        477
+      ],
+      "sha256": "d9ce397d95c6b5507f144a7e560342d6466d776a04d3f33e66704bf764cd7faa"
+    }
+  ],
+  "known_limits": [
+    "Original generated 2D artwork is an art-review/integration-test candidate, not engine-approved animation.",
+    "No camera metric, physical blade length, collisions, IK, gameplay events, healing mechanics, or controller wiring certified.",
+    "Native distinct cels with integer holds at 60 Hz. No optical flow, mesh warp, synthetic in-betweens, mirroring, or image upscaling.",
+    "First/last drawings are not pixel-identical to shared ready. Runtime transition/root/scale review remains required.",
+    "Native pose-dependent foot/root drift retained during kneel/rise; no skeleton or root-motion solve. Check in engine before release."
+  ]
+}

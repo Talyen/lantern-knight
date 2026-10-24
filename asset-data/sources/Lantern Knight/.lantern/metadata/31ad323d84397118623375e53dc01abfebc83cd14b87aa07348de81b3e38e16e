@@ -1,0 +1,28 @@
+Use case: stylized-concept. Edit the supplied reference sprite sheet.
+Keep the same 16-cel sequence, same bell design, muted cracked ivory palette, angular hand-painted material, and all progressive formation/strike/breakup silhouettes. Change only LAYOUT, modest safe scaling, and ADD A CLEAR SINGLE TARGET TELEGRAPH.
+
+OUTPUT MUST BE A SQUARE IMAGE containing EXACTLY 4 COLUMNS and 4 ROWS of EQUAL SQUARE CELLS, not a landscape image. The entire sheet is square. True transparent RGBA. No text, visible grid, labels or environment.
+Each cel: keep ALL objects and fragments inside the middle 64% width and 70% height, i.e. x18%..82%, y14%..84%, with no cel overlap. Original image cel 8 touches the row boundary; fix it with generous clear margins. Constant physical bell dimensions between cels 5,6,7,8 before squash. Fixed attack axis x50%. Fixed invisible contact plane y76%. Assembled bell has width24%, height30%. The initial formation is centered x50%, y40%; the fully loaded bell is centered y29%; downward strike moves to center y54%; maximum contact compressed bell lower edge sits y76%. Do not center individual cel bounding boxes: actual UP windup and DOWN slam travel is essential.
+
+ONE TARGET, ONE STRONG HIT:
+Add a small, NONLUMINOUS broken chalk/ivory target ellipse, a few quiet thin disconnected material dashes, centered x50% y76%, width40%, height9%, in cels 2 through 7. It stays at the exact SAME target footprint throughout formation and loading. This is the readable danger telegraph at the one fixed ground spot. It must be extremely subdued, no magical glowing ring. On strike it is replaced by the low compressed collision debris ring at that exact location. Never draw a second hit or alternate target; the bell rebounds only during recovery, then disperses.
+
+Read sequence left-to-right then top-to-bottom:
+1 almost empty three tiny seeds, no complete bell.
+2 six disconnected converging shards plus fixed target dashes.
+3 ring/crown fragments with big transparent gaps plus same target dashes.
+4 half-formed ceramic bell plus same target dashes.
+5 first fully formed bell, center y40%, plus target dashes.
+6 complete bell raises UP to center y34%, plus same target dashes.
+7 clear full loaded highest pose at center y29%, plus same target dashes.
+8 sudden fast DOWNWARD travel, bell center y54%, narrow vertical material smear above; no cel-edge clipping.
+9 first contact compressed on fixed y76% plane with tiny initial chip burst.
+10 strongest single compressed impact, broad low sideways debris ellipse at same target.
+11 release from same contact, barely lifting, outward chips; NOT a second strike.
+12 modest upward recovery rebound and breakup into curved plates; NO hit.
+13 mostly disassembled separated crown/rim fragments, no intact bell.
+14 few separated small dissolving fragments, no bell.
+15 only four or five tiny grit flecks.
+16 perfectly empty transparent square.
+
+Preserve all genuine separately drawn animation cels; don't substitute repeated transform poses. Remove no construction or breakup stages. Avoid glow, gold shine, smoke, opaque backdrops. Exact one contact event, quiet ghostlike target telegraph only before the strike.

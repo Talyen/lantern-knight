@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_angular_boulder_01.png",
+    "new": "volume_04_terrain/assets/env_angular_boulder_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_basalt_outcrop_01.png",
+    "new": "volume_04_terrain/assets/env_basalt_outcrop_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_dry_stone_well_01.png",
+    "new": "volume_04_terrain/assets/env_dry_stone_well_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_fallen_column_01.png",
+    "new": "volume_04_terrain/assets/env_fallen_column_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_leaning_gravestone_01.png",
+    "new": "volume_04_terrain/assets/env_leaning_gravestone_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_low_thorn_hedge_01.png",
+    "new": "volume_04_terrain/assets/env_low_thorn_hedge_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_masonry_rubble_01.png",
+    "new": "volume_04_terrain/assets/env_masonry_rubble_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_04_terrain/assets/env_timber_barricade_01.png",
+    "new": "volume_04_terrain/assets/env_timber_barricade_01.png"
+  }
+]

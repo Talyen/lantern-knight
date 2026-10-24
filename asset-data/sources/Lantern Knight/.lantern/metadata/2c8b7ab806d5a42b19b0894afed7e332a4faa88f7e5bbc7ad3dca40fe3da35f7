@@ -1,0 +1,9 @@
+LANTERN VFX TEST: SUMMONED IVORY BELL
+
+16 independently generated cels; one fixed target and one downward hit.
+The bell visibly forms from shards, draws upward, strikes, compresses, then rebounds only during recovery and breaks apart.
+512x512 straight-alpha PNG frames; 2048x2048 4x4 atlas; variable-timing APNG; MP4 review repeated three times.
+Use the frame durations in timing_manifest.json, not a constant playback FPS. One cycle is 1090 ms including 250 ms fully clear reset.
+Target footprint: ellipse centered (258,383), radii (54,12) in the 512px canvas. Damage begins at 435 ms; one 90ms contact event. Recovery must not retrigger damage.
+All cels use one identical grid-to-canvas mapping. Do not bbox-recenter, which would remove the upward anticipation and downward travel.
+Generated source, exact prompts, provenance and reproducible extraction script included. MP4 backing is for review; alpha is in PNG/APNG.

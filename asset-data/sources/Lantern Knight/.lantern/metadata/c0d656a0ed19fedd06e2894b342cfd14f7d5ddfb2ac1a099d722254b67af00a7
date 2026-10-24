@@ -1,0 +1,330 @@
+{
+  "crate": {
+    "action": "open",
+    "frame_count": 4,
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "native_cell": [
+      768,
+      768
+    ],
+    "runtime_pivot_pixels": [
+      128,
+      233.33333333333334
+    ],
+    "native_pivot_pixels": [
+      384,
+      700
+    ],
+    "frame_durations_ms": [
+      100,
+      110,
+      110,
+      0
+    ],
+    "last_frame": "hold until game state changes",
+    "source_sheet": "native/crate_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          505,
+          724
+        ],
+        "translation": [
+          84,
+          42
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          505,
+          0,
+          1064,
+          724
+        ],
+        "translation": [
+          26,
+          42
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1064,
+          0,
+          1608,
+          724
+        ],
+        "translation": [
+          52,
+          42
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1608,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          44,
+          43
+        ]
+      }
+    ]
+  },
+  "basket": {
+    "action": "open",
+    "frame_count": 4,
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "native_cell": [
+      768,
+      768
+    ],
+    "runtime_pivot_pixels": [
+      128,
+      233.33333333333334
+    ],
+    "native_pivot_pixels": [
+      384,
+      700
+    ],
+    "frame_durations_ms": [
+      100,
+      110,
+      110,
+      0
+    ],
+    "last_frame": "hold until game state changes",
+    "source_sheet": "native/basket_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          494,
+          724
+        ],
+        "translation": [
+          106,
+          16
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          494,
+          0,
+          1040,
+          724
+        ],
+        "translation": [
+          53,
+          13
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1040,
+          0,
+          1583,
+          724
+        ],
+        "translation": [
+          52,
+          12
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1583,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          54,
+          12
+        ]
+      }
+    ]
+  },
+  "barrel": {
+    "action": "break",
+    "frame_count": 4,
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "native_cell": [
+      768,
+      768
+    ],
+    "runtime_pivot_pixels": [
+      128,
+      233.33333333333334
+    ],
+    "native_pivot_pixels": [
+      384,
+      700
+    ],
+    "frame_durations_ms": [
+      100,
+      110,
+      110,
+      0
+    ],
+    "last_frame": "hold until game state changes",
+    "source_sheet": "native/barrel_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          475,
+          724
+        ],
+        "translation": [
+          118,
+          71
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          475,
+          0,
+          1023,
+          724
+        ],
+        "translation": [
+          53,
+          67
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1023,
+          0,
+          1595,
+          724
+        ],
+        "translation": [
+          76,
+          75
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1595,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          78,
+          71
+        ]
+      }
+    ]
+  },
+  "slat": {
+    "action": "break",
+    "frame_count": 4,
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "native_cell": [
+      768,
+      768
+    ],
+    "runtime_pivot_pixels": [
+      128,
+      233.33333333333334
+    ],
+    "native_pivot_pixels": [
+      384,
+      700
+    ],
+    "frame_durations_ms": [
+      100,
+      110,
+      110,
+      0
+    ],
+    "last_frame": "hold until game state changes",
+    "source_sheet": "native/slat_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          499,
+          724
+        ],
+        "translation": [
+          103,
+          137
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          499,
+          0,
+          1039,
+          724
+        ],
+        "translation": [
+          78,
+          144
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1039,
+          0,
+          1611,
+          724
+        ],
+        "translation": [
+          66,
+          138
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1611,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          102,
+          150
+        ]
+      }
+    ]
+  }
+}

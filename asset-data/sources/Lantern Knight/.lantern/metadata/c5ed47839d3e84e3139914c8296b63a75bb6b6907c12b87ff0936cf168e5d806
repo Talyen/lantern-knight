@@ -1,0 +1,20 @@
+{
+  "all_original_media_byte_identical": true,
+  "file_count": 14,
+  "sha256": {
+    "source/bellbound_defeat_v01_native.png": "976690b0ae56b83dad48d73d5e99ae74f120b9e59555892a02a278cb57808f1b",
+    "source/crawler_defeat_v01_native.png": "50b9083f93a2fae1b275ab3b519b5d7b7cd95de29fbb911a83ac9eddaa4f7dc7",
+    "source/crawler_defeat_v02_native.png": "b24a4f2288d6e02b36943f45e9b47b41d9dae8795e598d8863b4a9b693f412f4",
+    "source/bellbound_defeat_v02_native.png": "8e92a7585e03c9cc8dde0c712597f6a9671a0ccf9a89506ac26f434a9b55b0bc",
+    "qa/crawler_defeat_v02_native_light.jpg": "8c306ddeb02e474c4321a75b9d060c94f9840aa3c41eb1025e23209f1004eca0",
+    "qa/bellbound_defeat_v01_native_light.jpg": "865bbde7eb6e1b0df65b4e85c72bf37335d3f3da712a32561b8953fbbaec1a4c",
+    "qa/crawler_defeat_v02_native_dark.jpg": "d843c8794b42c562f9943ce01ce7286d7bf4bc6d6699dd3602a06baefbd63c26",
+    "qa/crawler_defeat_v01_native_light.jpg": "9f9322d1f692f8c93733776413714dce199cd330aeee8441c7a16806b7aaa491",
+    "qa/bellbound_defeat_v02_native_light.jpg": "39ed9510e8e5f33da7035936d3082364832ebfd68f15910c62528355da4d5960",
+    "qa/bellbound_defeat_v02_native_dark.jpg": "d42ba80f3735e9d30d8291918cf8cf2d76428b66d61725a9ef90a3916e225026",
+    "source/references/bellbound_clean_locomotion.png": "5af2487048258c8bcc41ace10f715a188d3ade8bd06042173c598b6288822c23",
+    "source/references/crawler_clean_attack.png": "7432122653f4f11dba2bf79dc8cdee1c365e6ad9645bd1641a79b88d634511d7",
+    "source/references/crawler_canonical.png": "ab4d67f1de815498ceb2751ce42d248bdfa57914a153740e9cf110cf861b03b8",
+    "source/references/bellbound_canonical.png": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7"
+  }
+}

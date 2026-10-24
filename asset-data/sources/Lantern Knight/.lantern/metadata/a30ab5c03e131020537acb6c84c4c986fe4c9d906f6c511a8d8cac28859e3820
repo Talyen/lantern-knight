@@ -1,0 +1,84 @@
+[
+  {
+    "id": "lantern_hostile_faction_concept_04_censer_keeper",
+    "name": "Censer keeper",
+    "audit_verdict": "rebuild",
+    "audit_direction": "Slim elegant caster appears frontal with tiny ornate censer; stronger overhead pose and ritual silhouette required.",
+    "status": "REBUILT — fresh ink drawing",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_hostile_faction_07/assets/04_censer_keeper.png",
+    "revised_image": "packs/02_hostile_faction_07/assets/04_censer_keeper.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/characters/source/04_censer_keeper.png",
+    "sha256": "6665d22253e78bdb1acc1300ee58cfafae6dabb9f11a8bf8199f97b71ad19a05",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      291,
+      51,
+      1062,
+      1202
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated",
+    "padded_import": {
+      "id": "lantern_hostile_faction_concept_04_censer_keeper",
+      "native_asset": "packs/02_hostile_faction_07/assets/04_censer_keeper.png",
+      "padded_asset": "import_padded/02_hostile_faction_07/04_censer_keeper.png",
+      "native_canvas": [
+        1254,
+        1254
+      ],
+      "padded_canvas": [
+        1254,
+        1343
+      ],
+      "source_offset_xy": [
+        0,
+        45
+      ],
+      "added_padding_ltrb": [
+        0,
+        45,
+        0,
+        44
+      ],
+      "visible_bounds_alpha_gt_16_native": [
+        291,
+        51,
+        1062,
+        1202
+      ],
+      "visible_bounds_alpha_gt_16_padded": [
+        291,
+        96,
+        1062,
+        1247
+      ],
+      "provisional_ground_pivot_native_px": [
+        676.5,
+        1202
+      ],
+      "provisional_ground_pivot_padded_px": [
+        676.5,
+        1247
+      ],
+      "ground_pivot_shift_xy": [
+        0,
+        45
+      ],
+      "provisional_ground_pivot_padded_normalized": [
+        0.5394736842105263,
+        0.9285182427401341
+      ],
+      "pivot_caveat": "Bottom-center of visible bounds is a provisional import anchor, not a certified ground/rig pivot; especially review hovering or flying creatures.",
+      "pixel_preservation_verified": true,
+      "operation": "Pure transparent canvas extension; no crop, resampling, recoloring, matte extraction or alpha modification",
+      "sha256": "b6cf2bd2c7601b5337d5077c6e9d8341792f8e04e8d9061987ddee3d839d0c3b"
+    }
+  }
+]

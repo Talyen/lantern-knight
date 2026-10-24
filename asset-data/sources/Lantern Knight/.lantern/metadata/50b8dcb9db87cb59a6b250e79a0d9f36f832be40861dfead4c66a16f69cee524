@@ -1,0 +1,147 @@
+[
+  {
+    "path": "FULLSCENE_PROMPT_UNAVAILABLE.txt",
+    "size": 527,
+    "sha256": "b303c9af4caf6c854b0f008e65aade1a258d6ffb1c6acd63d5ef9a55f144cd5b"
+  },
+  {
+    "path": "README.txt",
+    "size": 5358,
+    "sha256": "850d8375823e4daf4bdb41c9f692d990e8a76586e5bfac8b00b478a491d91f6c"
+  },
+  {
+    "path": "inference/build_scene_review.py",
+    "size": 4048,
+    "sha256": "7cacde13cb4bc60659e3913e2aef109d88b2a17455ba20997f1381686f770c7c"
+  },
+  {
+    "path": "inference/check_scene_seams.py",
+    "size": 1805,
+    "sha256": "979b505dcdd77f8ff2015d61f027d14ca18e4ac11e4bc0418f75b3c453a02cce"
+  },
+  {
+    "path": "inference/recovered_original_build_scene_review.py",
+    "size": 4041,
+    "sha256": "e0a6a7181661af0907bd1e1501fdfc89fddbccab23f5878f08928da258b4b5ee"
+  },
+  {
+    "path": "inference/run_isolated.py",
+    "size": 3465,
+    "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f"
+  },
+  {
+    "path": "inference/run_test.py",
+    "size": 2347,
+    "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236"
+  },
+  {
+    "path": "metadata.json",
+    "size": 1523,
+    "sha256": "b3b314b0664dacc12b8ec38b7e5f986c751dc2c4073b76f9326bcad29241759c"
+  },
+  {
+    "path": "metrics/completed_seam_qa.json",
+    "size": 781,
+    "sha256": "c93dd117e2c20272502d9107ec57fade889942b94ec88e5dfc2c81401f6fc0aa"
+  },
+  {
+    "path": "metrics/resume_config.json",
+    "size": 137,
+    "sha256": "c3a25cd9cd215087d354cdbbd7a90fb7f2c4bf17355116f8c01dbfa6ae6feb3f"
+  },
+  {
+    "path": "metrics/run_metadata.json",
+    "size": 17128,
+    "sha256": "73a4bb12a309df8ef80332826fd42ec5580b8339be5297bea16724a523f8317e"
+  },
+  {
+    "path": "metrics/seam_check_run.log",
+    "size": 14851,
+    "sha256": "0dd2ca93aa52ba3d2e46d91862f56f202d1d3e07b67d7850e1675c3870532b52"
+  },
+  {
+    "path": "metrics/seam_metrics.json",
+    "size": 611,
+    "sha256": "fabb57f185016be3148ec8575809d26fd61434c58bd0f5524b3a53c2d959a5f4"
+  },
+  {
+    "path": "metrics/separate_output_manifest.json",
+    "size": 3408,
+    "sha256": "b4e87a708f3c4d2c01afd102e87bcfb1b0fd25be112e82b3e94052c28422a905"
+  },
+  {
+    "path": "metrics/tested_run.log",
+    "size": 8436,
+    "sha256": "fbc608db5e77cd31202573556674808809f95a2feef423aedf19054bdce41827"
+  },
+  {
+    "path": "native_floor.png",
+    "size": 3049975,
+    "sha256": "62294e05b638a476e19d36f5704794869338f20312ce6d6f29571b92b2278b37"
+  },
+  {
+    "path": "provenance/Real-ESRGAN-LICENSE.txt",
+    "size": 1519,
+    "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2"
+  },
+  {
+    "path": "provenance/ncnn-LICENSE.txt",
+    "size": 6427,
+    "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255"
+  },
+  {
+    "path": "provenance/reference_images.json",
+    "size": 525,
+    "sha256": "1131f326071afa4e5afecfab829a2c7ab8cf071adb0d4b8817076eb4a643ad76"
+  },
+  {
+    "path": "provenance/runtime_provenance.json",
+    "size": 758,
+    "sha256": "46a517061dc080cb9aa5c1542e79bbde4454199ec1cc6ed74aec58e3a41609f9"
+  },
+  {
+    "path": "provenance/source_model.json",
+    "size": 581,
+    "sha256": "391df623451fdc24197df2f72f2e8e54d04e50c7e9dad67425277a518d1b66c2"
+  },
+  {
+    "path": "references/hero_original.png",
+    "size": 204034,
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+  },
+  {
+    "path": "references/selected_viewport_sample.png",
+    "size": 2406938,
+    "sha256": "82e9e2c30c225aea927092895ce3ae05f5dc3ee6f3d6547169754e2b67f47623"
+  },
+  {
+    "path": "references/selected_viewport_sample_hero_metadata.json",
+    "size": 919,
+    "sha256": "956fb11215d01161f6413d4994ee16e15782e5fe3250b28c9c9926867d4344d4"
+  },
+  {
+    "path": "references/selected_viewport_sample_metadata.json",
+    "size": 2000,
+    "sha256": "cd853cfdf9291f76eed57d087310f477f01e39d07f7cd83ec95a7017e6ae1575"
+  },
+  {
+    "path": "references/selected_viewport_sample_prompt.txt",
+    "size": 2040,
+    "sha256": "2efea92c1b8f4afccbdd0863370eb6c1693164469823eb6ee330287a06ed12df"
+  },
+  {
+    "path": "review_config.json",
+    "size": 1815,
+    "sha256": "b75104548e42dfbcbed2e219e78c39548b965d2c92119f148d88ab261d030451"
+  },
+  {
+    "path": "review_views_metadata.json",
+    "size": 2198,
+    "sha256": "42bd780c5a444f7f28641c136f1d1221f236ab49272db8337f29c0f939e977a6"
+  },
+  {
+    "path": "visual_review.json",
+    "size": 1080,
+    "sha256": "607856b0e49257df7b943a402004072e77c1895234df59d955b6837e640f2b6a"
+  }
+]

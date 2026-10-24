@@ -1,0 +1,9 @@
+LANTERN GROUND TRANSITIONS / REVISION02
+
+9 transparent overlays+4coverage masks.7fresh illustrated repairs,two quiet original water/damp overlays retained.
+Raw TOPDOWN horizontalXZ.1024x1024 RGBA straightalpha,sRGB;4m canvas;centre pivot512,512. Masks8bitL linear coverage,not sRGB.
+IMPORTANT: replace t01earth-stone and t03pavement masks together with their new overlay! Coverage follows opaque border ribbon and is no longer fixed to old contour. Same transform mandatory. White keeps upper(-Z) stone,black reveals lower(+Z) earth. Technical masks derive from alpha midpoint; proof assemblies included.
+Original t06stillpuddle and t07dampspread artwork+masks retained byte-for-byte. Source SVGs included.
+XREPEAT: t01–t05 designed as widthspanning borders; inspect supplied3xstrips. Residual edge mismatches remain; not certified perfectly periodic. No corners,Tjunctions,autotile logic,terrainshader,depth,collision,waterphysics or engineintegration.
+Exact planar projection previews:elevation35.264389682754654degrees,azimuth45degrees. Do not import projected previews as runtime textures.
+Fresh masters+prompts kept; rejected stonefilledmoss candidate excluded. Illustrations have local inkshadows only,not worldheightgeometry.

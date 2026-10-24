@@ -1,0 +1,12 @@
+Gravetoll Hauler: four-direction movement and double-fist slam extension
+
+New content: DL, UL and UR movement and attacks. Install beside unchanged DR baseline for four authored diagonal headings. No mirroring or resizing. Rear apron details are minimally inferred as two straight shoulder straps, black waist belt and matching red-brown cloth covering the hips.
+
+All clips contain six native drawings. Movement holds [8,7,7,7,8,11] total48 ticks at60Hz, matching DR phase/duration. Attack totals50 ticks; zero-based frame3 is the visual slam apex, not a damage guarantee.
+
+Canvas640x640, pivot[320,520] from top-left (x right,y down), estimated256 pixels per world unit. Registration is baked; do not apply offsets again. Each atlas is3x2 cells of640px and metadata lists every frame rectangle and measured transparent border (at least4px). World motion is external.
+
+Rebuild: python rebuild.py .
+Requires Python3, Pillow, numpy, scipy and ffmpeg. The exact approved original is original.png at archive root, stored once without duplication. Each heading contains native sheets, prompts and masking/registration config. Unchanged DR runtime is included only for comparison previews. No network or generation call is needed to rebuild. Runtime contains only new headings.
+
+35.2643897-degree elevation is an illustrated visual target, not calibrated3D. Preview is encoded at60Hz; no engine integration or real-time playback claim.

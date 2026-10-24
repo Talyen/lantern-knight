@@ -1,0 +1,15 @@
+LANTERN — Bone-Etched Hex Rune Ground Drop
+
+Standalone generic category. No chest, container or enemy is baked in. Choose the loot category in game.
+
+DROP: 24 frames at 30 fps, 0.8 seconds, play once. It rises on a short arc, lands at 0.533 seconds and settles by 0.7 seconds. At the end, hold rest or switch directly to IDLE.
+IDLE: 60 frames at 30 fps, 2 seconds, loop. The base item is identical in every idle frame. One small neutral glint, with no bobbing or replayed drop.
+REST: one persistent sprite. The last drop frame, first idle frame and last idle frame are pixel-identical to rest.
+
+Runtime frames are 256×256, straight RGBA, with pivot (128, 224), normalized (0.5, 0.875). Do not trim frames individually. Atlases have 4-pixel gutters. Use bilinear filtering and no mipmaps unless repacked with extrusion.
+For arbitrary container/enemy launch positions, use pose_cels and optional_engine_motion metadata instead of pretranslated drop frames. The baked example launches at (80, 204) and lands at (128, 224). Do not add a second arc to baked frames.
+For tintable glints, use rest plus shimmer_layers/shimmer_atlas instead of composited idle frames. White is the base-item effect; gold/tan may designate uniques. Bone ivory, muted blue cloth and rust-orange ember inlay are physical material colors.
+
+SOURCE: nine newly generated illustrated cels on a native 1536×1024 sheet, not 24 or 60 new drawings. Uniform per-category downsampling and cel registration; the motion path and existing generated glint are composited. No upscale or AI frame interpolation. Original generated sheets and prompts are preserved. Very low alpha and isolated sub-128-pixel source noise are discarded during extraction. Engine integration and world scale are untested. Camera is an illustrated approximation, not a calibrated 3D render.
+
+The separate shared Source Rebuild ZIP contains build.py. It requires Python, Pillow, NumPy, SciPy and ffmpeg. Extract it and run python build.py from its directory to reproduce all runtime frames, atlases, metadata, contact sheets, MP4 and category packages.

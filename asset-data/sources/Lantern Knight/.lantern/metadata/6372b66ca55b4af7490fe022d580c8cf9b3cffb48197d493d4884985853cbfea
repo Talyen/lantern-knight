@@ -1,0 +1,393 @@
+{
+  "clip_id": "Lantern_Hero_standing_reach_D_v02",
+  "family": "standing_reach",
+  "facing": "D",
+  "producer": "animate_reach_inspection_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual planted boot midpoint registration with one clip-wide scale. Intentional reaching-arm and torso displacement preserved; no head or silhouette fitting. Native background hidden RGB ignored by RGBA compositing.",
+  "equipment_contract": "Sword anatomical right throughout. Lantern continuously gripped by anatomical left; closed-fist/knuckle interaction, no free left hand or floating lantern.",
+  "timing_source": "interaction_audit_20261017/standing_reach_DR_runtime/standing_reach_DR_timing_60hz.json",
+  "source_timing": [
+    10,
+    8,
+    8,
+    8,
+    15,
+    8,
+    8,
+    12
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "94cf3aa9e939a44c1caade3ab08df754250078560c2888b767d67e2f5c1e7271",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "265687051f85879ed14c063a721297bc726fefacbd09e9d94d8786a706244f03",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        0,
+        0,
+        384,
+        512
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        91,
+        84
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          265,
+          434
+        ],
+        "anatomical_right_boot_sole_xy": [
+          159,
+          454
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        91,
+        106,
+        391,
+        483
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "02cdf0a9ce5cf663a5bbf0a641982413dfbd4469918da511d531c0fb853bd917",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "0104d58648188570d566f3d9cfe6f7367a4535337e36651253b6a4fc1cba8029",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        384,
+        0,
+        768,
+        512
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        97,
+        83
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          261,
+          434
+        ],
+        "anatomical_right_boot_sole_xy": [
+          147,
+          457
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 10,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        98,
+        105,
+        397,
+        482
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "538bd6e1bcfb75958736dc47109bfb453a95b6b24fb688933ceec724aee52565",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "4d4ea55370299a9fe13142fb07d0fed5001f5b5debe520bfcf46dd203b409be9",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        768,
+        0,
+        1152,
+        512
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        103,
+        83
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          252,
+          434
+        ],
+        "anatomical_right_boot_sole_xy": [
+          140,
+          457
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 18,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        103,
+        103,
+        403,
+        481
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "aaea2449fb18d40c4229f83999ebddba37f4b1a74fcd6d079ecece1f824902d5",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "760be768b74bca8818c2b4dddf93315b1bfd2856d44e50c2b69c5f0815e87708",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        1152,
+        0,
+        1536,
+        512
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        112,
+        80
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          241,
+          436
+        ],
+        "anatomical_right_boot_sole_xy": [
+          128,
+          461
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 26,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        112,
+        103,
+        400,
+        479
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "9dfc6b0932f8471079689b45fa2384dd4452e86e8f47857da4a646a594567976",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "6ce01c1f6e07ee9c98f64933fc1cf9578f4a1af847d7af87854bc7bf22b12734",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        0,
+        512,
+        384,
+        1024
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        93,
+        85
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          263,
+          432
+        ],
+        "anatomical_right_boot_sole_xy": [
+          155,
+          452
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 34,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        93,
+        85,
+        393,
+        445
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "d56af7f47f12d75400e81376790f40f171c1685221dd2e292ad7e91267455ed1",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "6c49d8f85715c49e719284c208a39faf3f18907d26d47e764a8971d375249192",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        384,
+        512,
+        768,
+        1024
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        99,
+        86
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          260,
+          431
+        ],
+        "anatomical_right_boot_sole_xy": [
+          143,
+          452
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 49,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        100,
+        86,
+        399,
+        459
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "24d685758b491c59f5f96cd9d66da3cb7d910f2d82132059e2cd5f437aff54d8",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "22fd41844a013b33ddcf305cd99c3a3103f753d615b3f41707a08b5c736c55c5",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        768,
+        512,
+        1152,
+        1024
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        105,
+        85
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          250,
+          432
+        ],
+        "anatomical_right_boot_sole_xy": [
+          137,
+          453
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 57,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        106,
+        86,
+        405,
+        465
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "262cdc8349b6ea333c9153414fe00907107874c6b21a5c7f7943e68d4ce9472a",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "1754d1c7af6d7d79490f52fb1ab79cf8e92949df5bb7776157f0fbed92cc125d",
+      "source_sha256": "baa41f739066be9e50fcfa1cf5d950b6c7b880a39571d3b19d683c674b3ee297",
+      "crop_xyxy": [
+        1152,
+        512,
+        1536,
+        1024
+      ],
+      "uniform_scale": 0.78,
+      "translation_xy": [
+        114,
+        85
+      ],
+      "observed_anchors": {
+        "anatomical_left_boot_sole_xy": [
+          239,
+          431
+        ],
+        "anatomical_right_boot_sole_xy": [
+          125,
+          453
+        ]
+      },
+      "registration_note": "Constant 0.78 source scale. Whole-cel position from manually observed midpoint of two planted boot soles; chest, shoulders and reaching hand remain free to move.",
+      "equipment_state": "Sword anatomical right; left fist continuously grips lantern handle while reaching.",
+      "start_tick": 65,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        114,
+        88,
+        402,
+        448
+      ]
+    }
+  ],
+  "native_drawn_cels": 8,
+  "timeline_frame_count": 8,
+  "duration_ticks": 77,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "64471ba17209344985e5839e39587c179d118a9ae2b2c992af11d457515fc45f"
+  }
+}

@@ -1,0 +1,8 @@
+Gravetoll Hauler: coffinshoulder_rush
+Additive ability only. Existing attacks and get-hit art unchanged.
+Native generated sheet1024x1536,16 actor +8 effect cels. Source cel crops and explicit ordinary resample factor are in runtime JSON. Actor export canvas640x640, pivot[320, 520].
+Render row-major; use per-frame milliseconds and one gameplay hit at1050ms. Effect starts1050ms; it never independently schedules damage. Coordinate offsets are top-left +x right,+y down.
+Reel compares reference appearance to the new synchronized ability, not a captured baseline attack. One direction supplied. Inspect in engine before gameplay integration.
+
+Polish: Baked late ground-scuff effect cels down to the foot plane; previously floated at waist height. Early contact debris, actor art and hit timing preserved.
+FX canvas768x768, fixed pivot384,560, same230,-75 offset. Fixed registered cels only; no engine changes.

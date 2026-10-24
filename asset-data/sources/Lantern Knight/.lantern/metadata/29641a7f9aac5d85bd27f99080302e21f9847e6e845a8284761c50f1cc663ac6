@@ -1,0 +1,43 @@
+LANTERN — RELIQUARY URN / FULL CERAMIC SHATTER
+Eight native illustrated cels. One-shot destruction with persistent debris.
+
+RUNTIME
+runtime/frames: eight transparent 1024x1024 PNG canvases.
+runtime/urn_shatter_atlas.png: 4096x2048, four columns x two rows; no pixel scaling.
+runtime/urn_debris.png: byte-equivalent image to final cel, hold indefinitely.
+runtime/manifest.json: state names, common pivot, authored 60Hz tick durations,
+camera target, per-clip pixels/metre, hashes and explicit limitations.
+
+Timing: 6,3,4,5,5,4,6 ticks, then permanent final cel (33ticks / 0.55s before hold).
+Do not loop, reverse, interpolate or reset this destruction animation. Review
+movies run at 60Hz with an extended intact lead-in and 1.5s debris hold. The
+painted animation has eight unique drawings, not 60 unique drawings each second.
+
+SCALE / REGISTRATION
+New source sheet is 1774x887. Generated artwork is copied at native density.
+The existing original static was downsampled once by 0.716 for the first cel.
+Use 314.976 pixels/metre for this clip versus 440 for the original static to keep
+the same apparent world size. Do not silently enlarge the new frames.
+Common pixel pivot [512,802]; normalized Unity bottom-left pivot [0.5,0.216796875].
+Cel placement follows the stationary ceramic foot ring, not moving visual bounds.
+Target camera is fixed orthographic 35.2643897 degree elevation, 45 degree azimuth.
+This is hand-illustrated fixed-view art, not a measured 3D camera reconstruction.
+
+SOURCE
+source/urn_shatter_generated.png: untouched fresh eight-cel generation.
+source/original_urn_closed.png: canonical identity reference from current
+Containers01 CleanInk r02a collection.
+source/generation_prompt.txt: exact prompt, original identity reference only.
+source/build.py: deterministic extraction, registration, timing, atlas and
+review builder. Requires Python 3, Pillow and ffmpeg. Run python source/build.py
+from any working directory. No online service is needed to rebuild outputs.
+Generated once with built-in imagegen; no edit cascade. Sunburst 2.5 was a prompt
+phrase, not a verified backend/model claim.
+
+ART NOTES
+Curved ceramic shell fragments, hollow interior, thick fracture edges, original
+lid/knob, two handle-bearing shoulder pieces and the medallion-bearing front
+shard remain recognizable. The last right handle is partly occluded by debris.
+Minor chip counts and fracture contours vary between drawings; these are eight
+stylized hand-drawn stages, not a rigid physically simulated fracture mesh.
+No collision, damage logic, sound, loot or game/repository integration included.

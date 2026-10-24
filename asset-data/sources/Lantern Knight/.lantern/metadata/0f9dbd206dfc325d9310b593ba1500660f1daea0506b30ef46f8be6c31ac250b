@@ -1,0 +1,41 @@
+{
+  "asset": "observatory_C_sample_retry",
+  "generation_method": "built-in image_gen, new text-only generation",
+  "approved_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "approved_style_verbatim_present": true,
+  "exact_prompt_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/C/exact_prompt.txt",
+  "prompt_sha256": "940741e93175c12b51aecea8303b92c72876ea51644197e62841d96e290e6294",
+  "raw_tool_result_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/C/raw_tool_result.json",
+  "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-1db98268-7ef9-4d56-a717-812624189c0d.png",
+  "native_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/C/native.png",
+  "native_sha256": "4b5de213b055220d894136ed1d125f644ef0f6513a246655bdd8c17960841ec9",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "native_mode": "RGB",
+  "input_images": [],
+  "no_environment_reference_input": true,
+  "image_was_upscaled": false,
+  "sample_only": true,
+  "requested_model_in_approved_style": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model": "Not disclosed by built-in tool response",
+  "attempt": 2,
+  "first_attempt_rejected": "One freestanding chart console became oversized; retry replaced furniture with flush wall charts",
+  "visual_qa": {
+    "full_bleed_opaque_scene": true,
+    "entirely_enclosed_no_sky": true,
+    "layered_medium_scale_architecture": true,
+    "no_loose_micro_props": true,
+    "no_giant_furniture": true,
+    "no_characters": true,
+    "astronomical_instruments_and_routes_readable": true,
+    "scale_note": "64px hypothetical human requested; no engine/camera/geometry validation. Ring mechanisms are large architectural machinery, not human furniture."
+  },
+  "original_environment_inspected_for_understanding_only": {
+    "kit_drive_id": "1ptynaByOlSrZ12G91ok7uflE_xuVHEwP",
+    "native_drive_id": "1fKRijy35Fs0RnCLf05r4lcZiSOiPVcOs",
+    "native_sha256": "62294e05b638a476e19d36f5704794869338f20312ce6d6f29571b92b2278b37"
+  },
+  "canonical_hero_passed_to_generator": false
+}

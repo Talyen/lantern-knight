@@ -1,0 +1,58 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_whole_map_crop_overview.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/review_views/whole_map_crop_overview.png",
+    "name": "observatory_C_whole_map_crop_overview.png",
+    "size": 2374783,
+    "sha256": "f2f645950d6c89f363a49e96845b457f61bf527b82eeb33ab498fc1e09b71b4f",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_central_eclipse_hall_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/review_views/central_eclipse_hall_hero_context.png",
+    "name": "observatory_C_central_eclipse_hall_hero_context.png",
+    "size": 1767082,
+    "sha256": "ca1389f40cd2e750ac98f533268fa42a2cdd1ef8d0460c43d5022ec5befbb93b",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_upper_hall_crossing_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/review_views/upper_hall_crossing_hero_context.png",
+    "name": "observatory_C_upper_hall_crossing_hero_context.png",
+    "size": 1891445,
+    "sha256": "84b0c103a9d68942fbec396f21c81beec62e90e7790c2b4608843680689e0523",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_lower_celestial_passage_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/review_views/lower_celestial_passage_hero_context.png",
+    "name": "observatory_C_lower_celestial_passage_hero_context.png",
+    "size": 1778477,
+    "sha256": "9622db0be383dfdc6ca8b67eb4349196060053002642afbb4f61e82aaaac9d1c",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_native_floor.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/native_floor.png",
+    "name": "observatory_C_native_floor.png",
+    "size": 3049975,
+    "sha256": "62294e05b638a476e19d36f5704794869338f20312ce6d6f29571b92b2278b37",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_full_upscaled4x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/ai_upscale/full_upscaled4x.png",
+    "name": "observatory_C_full_upscaled4x.png",
+    "size": 24954063,
+    "sha256": "fcb1763ab02263c06c8dfab06eca53498cb9722f2fb782d7fe82d11e6fce54e3",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/observatory_C_full_upscaled2x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/observatory_C/ai_upscale/full_upscaled2x.png",
+    "name": "observatory_C_full_upscaled2x.png",
+    "size": 7647752,
+    "sha256": "6e6420b8cb722c0074f57ff5f0704d7a59976504a4f9834a424493f41be8d37f",
+    "library_artifact_type": "image"
+  }
+]

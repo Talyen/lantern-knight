@@ -1,0 +1,73 @@
+{
+  "native_scale": 1,
+  "frame_dimensions": [
+    768,
+    768
+  ],
+  "pivot_top_left": [
+    384,
+    640
+  ],
+  "native_source_dimensions": [
+    1774,
+    887
+  ],
+  "unique_frame_hashes": 8,
+  "duration_ticks": 40,
+  "cell_border_alpha_max": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "cell_border_alpha_gt8_clear": true,
+  "per_frame_fit": false,
+  "mirror": false,
+  "engine_validated": false,
+  "extraction_checks": [
+    {
+      "index": 0,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 1,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 2,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 3,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 4,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 5,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 6,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    },
+    {
+      "index": 7,
+      "padded_pixels_exact": true,
+      "atlas_pixels_exact": true
+    }
+  ]
+}

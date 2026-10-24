@@ -1,0 +1,13 @@
+[
+  {
+    "path": "references/selected_viewport_sample.png",
+    "sha256": "71cee24b35b41b39c7816b12c3829fcfc2b1edb37d89ef3df602e85a0b4e292a",
+    "role": "Earlier selected viewport sample; available recovered reference, not the fullscene source",
+    "prompt": "references/selected_viewport_sample_prompt.txt"
+  },
+  {
+    "path": "references/hero_original.png",
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+    "role": "Original RGBA hero used for conventional review composites"
+  }
+]

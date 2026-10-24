@@ -1,0 +1,67 @@
+{
+  "native_source_support_frames": 240,
+  "trees_checked": 13,
+  "total_root_support_tests": 3120,
+  "tree_support_pass_counts": {
+    "mid_left_high": 240,
+    "mid_left_low": 240,
+    "mid_right_high": 240,
+    "mid_right_low": 240,
+    "cliff_lower_fixed": 240,
+    "cliff_upper_fixed": 240,
+    "cliff_low": 240,
+    "foreground_left_high": 240,
+    "foreground_left_mid": 240,
+    "foreground_left_low": 240,
+    "foreground_right_high": 240,
+    "foreground_right_mid": 240,
+    "foreground_right_low": 240
+  },
+  "support_failures": [],
+  "fixed_root_geometry": {
+    "lower": {
+      "trunk_bottom_y_range": [
+        759.87,
+        760.49
+      ],
+      "shelf_front_y": 765,
+      "terrain_parent": "mountain"
+    },
+    "upper": {
+      "trunk_bottom_y_range": [
+        671.48,
+        671.96
+      ],
+      "shelf_front_y": 675,
+      "terrain_parent": "mountain"
+    }
+  },
+  "arch_crown_C1_continuous": true,
+  "shared_transition_clip": true,
+  "decoded_preview_frames_inspected": [
+    0,
+    30,
+    60,
+    90,
+    119,
+    120,
+    150,
+    180,
+    210,
+    240,
+    270,
+    300,
+    330,
+    359,
+    360,
+    390,
+    420,
+    450,
+    479
+  ],
+  "notes": [
+    "All 13 trunks have terrain directly beneath their bases throughout the complete hold period; this is a pixel support check, not a standalone visual grounding judgment.",
+    "The two added ledges use the original palette and share the mountain transform with their trees.",
+    "Decoded proofs cover reveal, both phase joins, every half-second of the hold, loop end, and closing."
+  ]
+}

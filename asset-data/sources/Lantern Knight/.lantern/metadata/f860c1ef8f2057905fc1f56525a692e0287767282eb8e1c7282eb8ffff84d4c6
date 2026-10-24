@@ -1,0 +1,37 @@
+{
+  "asset": "cloister_B",
+  "title": "Cloister B | Cold Moonlit Sanctuary",
+  "source_file": "/workspace/scratch/1a83d58417d5/generated_images/exec-2c5d9f42-a6ae-4f68-8d01-e851f511189a.png",
+  "source_sha256": "2f034d0a6d596dd6dcb8feae194775e9d80808a250acd604f3c7decd2cc6e79c",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_bytes_preserved": true,
+  "recovered_on_utc": "2026-10-09",
+  "generation_prompt_status": "Exact full-expansion generation prompt unavailable; no replacement invented.",
+  "generation_model_status": "Original full-expansion model/backend metadata unavailable.",
+  "generation_reference_parameter_status": "Original full-expansion reference arguments unavailable.",
+  "sample_prompt_scope": "Only the earlier selected viewport sample; not the full-expansion prompt.",
+  "sample_native_sha256": "188fe4abf42c88194da175268b2cbb636441d25a83438f8ae0c2b98910802425",
+  "review_scale": {
+    "source_hero_equivalent_px": 64,
+    "raw4x_hero_equivalent_px": 256,
+    "display_scene_scale": 2.5,
+    "display_scene_dimensions": [
+      3840,
+      2560
+    ],
+    "review_hero_height_px": 160,
+    "viewport_dimensions": [
+      1536,
+      1024
+    ]
+  },
+  "upscale_method": "Restored official Real-ESRGAN x4plus anime 6B model using isolated NCNN CPU contextual tiles; 2x is Lanczos reduction of 4x output.",
+  "camera_geometry_validated": false,
+  "engine_integrated": false,
+  "collision_or_occlusion_masks_included": false,
+  "layered_source_available": false
+}

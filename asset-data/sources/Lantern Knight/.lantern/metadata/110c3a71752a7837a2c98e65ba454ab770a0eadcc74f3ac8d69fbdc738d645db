@@ -1,0 +1,13 @@
+GALLOWS GARDENER — B1 artwork and animation kit
+
+Approved character: ivory pointed oval mask with two black eyeholes, torn olive hood/robe, root-wrapped limbs, bound mossy root bundle, broad C-shaped hook. The full master is the approved native-resolution PNG preserved byte-for-byte. No AI upscaling is claimed or applied.
+
+Contents: idle, in-place move, basic hook attack, root-binding special, recoil/recovery, defeat, spawn/appearance, and a separate target-root effect. Each action has 12 individually generated source cels. Runtime sequences include a shared ready endpoint where appropriate. Animation comes from evolving drawn poses, not still-image scale/fade effects.
+
+Runtime: RGBA PNG frames, 640 x 640, pixel pivot (360,530), normalized pivot (0.5625,0.828125), three-quarter screen-left. Each atlas is 4 x 4 cells (2560 x 2560). JSON lists exact rectangles, durations, source cel provenance, and one-shot event timestamps. Empty atlas slots are transparent. Artwork is downsampled from native generated 1536 x 1024 sheets, six cels per sheet.
+
+Timing: hook and root bind each last 1790 ms. Windup lasts 1080 ms. The single hit/bind event is 1140 ms, frame 7 (zero-based). Target offset is (-240,0) pixels from actor pivot. The target root effect starts at 800 ms and closes at the bind event. Metadata describes timing only: no engine features, combat code, damage, movement, or integration have been added.
+
+The source sheets are included per clip; discarded layout drafts are omitted. The master and comparison reel are separate files to avoid duplicate complete archives. Source art retains generated alpha; runtime extraction removes disconnected/low-alpha backing fragments and normalizes the frame footprint. Character geometry and shading are image-generated, with ordinary downsampling and registration for runtime packaging.
+
+Review performed: all extracted cels viewed in temporal contact sheets; touching hook cels regenerated; idle spacing repaired; stray FX segments removed with component-aware extraction; spawn/defeat progression reordered; every runtime canvas checked for edge clipping; actor target-contact frames checked against the reel at the one-shot timestamps; common ready endpoints checked pixel-identical. The labeled MP4 uses the supplied durations, with each clip played twice. Small cel-to-cel ink variation is inherent in these generated sequences.

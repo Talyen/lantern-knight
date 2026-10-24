@@ -1,0 +1,1682 @@
+[
+  {
+    "id": "weathered_satchel_open",
+    "asset": "weathered_satchel",
+    "fps": 24,
+    "frame_count": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frames": [
+      {
+        "file": "animation/weathered_satchel/open_000.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "d95235f9485dec5d0edff0731187a0d105d1f963697c2a5529c86a649a3c3b99"
+      },
+      {
+        "file": "animation/weathered_satchel/open_001.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "1aa5a4c7bcc6940dc1b099468d5ff93168054a175b4abedfd0d7962d4bddf54e"
+      },
+      {
+        "file": "animation/weathered_satchel/open_002.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "13d0caaf475f8ff7b49fcd73aedef49cf350a6fbe0cf95b000d4954d1d3109eb"
+      },
+      {
+        "file": "animation/weathered_satchel/open_003.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "232906c79522f2e694e7c7c73b67ef7ed189be3d0597a3fe6dd6c538302a248c"
+      },
+      {
+        "file": "animation/weathered_satchel/open_004.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "a4e1f95371f3fea6967345421db7aef66ab40a75064a2063c4b4c7b3d37772a8"
+      },
+      {
+        "file": "animation/weathered_satchel/open_005.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "00b702f65d7b3bc64a81f5b161dbb17ba039c894fd0638053689c79c6f9643e2"
+      },
+      {
+        "file": "animation/weathered_satchel/open_006.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "f98be83662e6d6a5f9f270f12d9715c1eb671cc1f3e45d5eb53cc11e786184dd"
+      },
+      {
+        "file": "animation/weathered_satchel/open_007.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "23d63cdf1b0e33c3ba46393611546dcd83c0f7ed15afa9479913941f42c654a6"
+      },
+      {
+        "file": "animation/weathered_satchel/open_008.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "70c4efdb713b50c6162b35cdc98424a8b88ab858e0d0a3279bed5899e02bc05e"
+      },
+      {
+        "file": "animation/weathered_satchel/open_009.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "a7d542e794fd5a53f5a9cf44c2a0e596b6d03025a69e8a160a831c047fb45ec8"
+      },
+      {
+        "file": "animation/weathered_satchel/open_010.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ae6d5bd7f864e817de3268ed482195a55f019b53ede33cac54932bacaaf815de"
+      },
+      {
+        "file": "animation/weathered_satchel/open_011.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "df3c358da1a00f03cb65a1cb6a0fc2c546a630b4d6240ecbe87b2a43270f4f4d"
+      },
+      {
+        "file": "animation/weathered_satchel/open_012.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ab429702a44a25ecfbb9eab38ae0286c011994722e7e0415a5d52536a4f620c3"
+      },
+      {
+        "file": "animation/weathered_satchel/open_013.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "fa75eb3ff9b9ed6278e81c76cee6b449d019268f126de021962e109d0eb09da1"
+      },
+      {
+        "file": "animation/weathered_satchel/open_014.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          761,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ad13cfc32fe06f23248e7fe461bccaa17f8a6d0bc0c2813ebbf84573e30850ef"
+      },
+      {
+        "file": "animation/weathered_satchel/open_015.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          744,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "d9a6d0dd58d7bae3f1dca7bdd3af6ff06a72a2799e3f81cfea36bc12f3527fe3"
+      },
+      {
+        "file": "animation/weathered_satchel/open_016.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          706,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "f9c2bca78e61c860a6c9d571fec79fe572841129682a71c5dfb71a37bc7ccabd"
+      },
+      {
+        "file": "animation/weathered_satchel/open_017.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          674,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "309f996a807d1765c99f3fc781ebc1125f64a15c9ce342816bd017998b6d8c97"
+      },
+      {
+        "file": "animation/weathered_satchel/open_018.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          647,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "39a340634b25ee6916bafa668c8e2ff892c78a072e6be44bf0d23eeb1f0a7ac8"
+      },
+      {
+        "file": "animation/weathered_satchel/open_019.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          626,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "3d803de8317e74bd89b8a963008baecab53de6b816df86b5e137ded714bc4c35"
+      },
+      {
+        "file": "animation/weathered_satchel/open_020.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          611,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "7c37b6f5b29e14ea514ec22617433b75434306d0d3bcdf114ccef0555d69b6cb"
+      },
+      {
+        "file": "animation/weathered_satchel/open_021.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          601,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "08bada61602d3a47a132a0d967d308997f216b55f8626cc5be694574d4a57ff2"
+      },
+      {
+        "file": "animation/weathered_satchel/open_022.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          593,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "f15f22fbfd4c86433126646df7252653c16a3a70c0cf03a99f0d088aa0bac872"
+      },
+      {
+        "file": "animation/weathered_satchel/open_023.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          514,
+          591,
+          1038,
+          1335
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "0c5a92a6201ad92695ab58df0bc131e02b5d548060ef30d8427083eab90418d2"
+      }
+    ],
+    "reverse": "Play these exact frames in reverse for closing.",
+    "proof": "animation/weathered_satchel/fixed_root_motion_sheet.png"
+  },
+  {
+    "id": "burial_coffin_open",
+    "asset": "burial_coffin",
+    "fps": 24,
+    "frame_count": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frames": [
+      {
+        "file": "animation/burial_coffin/open_000.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          723,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "393039c0b69998fecbbe1a5e5255d00a3330e7038b786c82b1b861b81fb60042"
+      },
+      {
+        "file": "animation/burial_coffin/open_001.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          723,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "c1cb0f0c917936b85724a31bb3f26dcf11ece47c723ca8518d03edbd4205f386"
+      },
+      {
+        "file": "animation/burial_coffin/open_002.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          723,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "356cf4acf4e5b9092c495b1bfa184d031df74ba4d70ef4d37e57e5ac5ed4c8d2"
+      },
+      {
+        "file": "animation/burial_coffin/open_003.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          723,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "2897333c12d38e046bf9ebde178c10c21afbdd840ec396db65bcbda62e65683f"
+      },
+      {
+        "file": "animation/burial_coffin/open_004.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          723,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "21b79647320ceabf26c0caedd52e1a44eeef99144a433540d7f1547c04fdb99b"
+      },
+      {
+        "file": "animation/burial_coffin/open_005.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          716,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "57b64c4c0629200588e890151c05677eed6f5c7260e1af66adca3ec8c3ef570f"
+      },
+      {
+        "file": "animation/burial_coffin/open_006.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          709,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "0d759d973cec3fe7f4e8ef621b8fd183ffe473a70a2b91148e0ed6a01b233cda"
+      },
+      {
+        "file": "animation/burial_coffin/open_007.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          701,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "3224eb3a1b7e230503b9add546a03a123d1644e04d0f5085cbb3de0ce103e2c3"
+      },
+      {
+        "file": "animation/burial_coffin/open_008.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          689,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "dd0ee509c2fb2c5185153597d581a060ba270bcd520f7ae6229535b25e98164b"
+      },
+      {
+        "file": "animation/burial_coffin/open_009.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          666,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "e894437a7f9994456bb7a03c3519014db4d99b1aa3e9746b0c569288526649cd"
+      },
+      {
+        "file": "animation/burial_coffin/open_010.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          641,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "e27795d6546eec79120014df1e696923470a46ed225a4caf079d9b8585cd9f02"
+      },
+      {
+        "file": "animation/burial_coffin/open_011.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          619,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ee3261d0e1bb82545bac08a63f3ab2c8224428a41e8209e97f7e05733b66d513"
+      },
+      {
+        "file": "animation/burial_coffin/open_012.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          598,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "4c53d08bd4722b3c1ba101905385a0470c7ea3e06fea8fed6102a8695a537d9d"
+      },
+      {
+        "file": "animation/burial_coffin/open_013.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          577,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "bd58501548570e118484596c9268eb553ae2b836b3ff577c4699a9f858203c12"
+      },
+      {
+        "file": "animation/burial_coffin/open_014.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          557,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "815ba5222ef92ea89b844da6b1329fa797428ecbaf26978b542ed051a2e1c212"
+      },
+      {
+        "file": "animation/burial_coffin/open_015.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          540,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "0614c984aaa34f9e7c2f7a92a12cecb35618019201d462180293b9c7665e4482"
+      },
+      {
+        "file": "animation/burial_coffin/open_016.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          527,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "73ca23585e8898756e21e4aade1df8c99f2c7e137e9394f7e4a57b904631ca44"
+      },
+      {
+        "file": "animation/burial_coffin/open_017.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          518,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ac62688b0251a6d4937d3f9b32991c51991dd0b69efca865b88311ec014c35c9"
+      },
+      {
+        "file": "animation/burial_coffin/open_018.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          510,
+          1146,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "407b584caab521ded23b85664050bded8369b80132a1c17d875ec99667058383"
+      },
+      {
+        "file": "animation/burial_coffin/open_019.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          503,
+          1148,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "cf46c46a64d3749f11a76e7d5d8f03cf49f36ed893212343f75f05705abfd3b3"
+      },
+      {
+        "file": "animation/burial_coffin/open_020.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          500,
+          1157,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "e4a016a849f4831b088a862bf4b5496eb6e8d6fd951bee172b2345a32f143f19"
+      },
+      {
+        "file": "animation/burial_coffin/open_021.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          498,
+          1163,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "1d457e51032535a944bb560d08317674e38ee67dced4bb243850b50ea5186fea"
+      },
+      {
+        "file": "animation/burial_coffin/open_022.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          496,
+          1167,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "6fa724594f64c9b9e3c75d7ea07e4b48bcafc1e829d0ee034fd43262f5f00fca"
+      },
+      {
+        "file": "animation/burial_coffin/open_023.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          496,
+          1168,
+          1413
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "cc71f54ad8a66cf07bac35c7f65f796f6ee569f311457ae306b4b738e6876841"
+      }
+    ],
+    "reverse": "Play these exact frames in reverse for closing.",
+    "proof": "animation/burial_coffin/fixed_root_motion_sheet.png"
+  },
+  {
+    "id": "bowed_apothecary_cabinet_open",
+    "asset": "bowed_apothecary_cabinet",
+    "fps": 24,
+    "frame_count": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frames": [
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_000.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "d976ac82604d9fa78cc76fdf3f9a9ce52bf472831737fc6499e80a490c0d5a36"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_001.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "4c077a6aab3ed4a418b689bf2ee3e31e169073e243e15158d808eaeb98012525"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_002.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "cbef6b9876d05b7b54e48fbad8f8f35c8bc6094bba5d4e8454af33df9016a3e4"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_003.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ad51306ddf29f98fb158aedecea35f9d5b5836d327bded380830ae33bacace7b"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_004.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "cc564adb637af530b37cb012856dd367643c2b34db2ca150684dffe4b3533332"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_005.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "b8112cfc12e2ab3b2f972125bf12240943e7a84aee5c85adc5ab1f2b9d269107"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_006.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "7fb2a89775dd743ec4bd66226f9f7cd7eba6ce885128baa29b17e3c36dbfbbfc"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_007.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "bd7bc9e9cf465b6a98b05a331cd91773440f243b42f1808564defc5520648692"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_008.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "2cf018236f2efd759591ee11f47ad8c55be9acfb72142899ceb82045bde33da9"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_009.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ec6a3c7072be1fe30979f0bf284e25decd5a77cfeb2010440ae0d11a258eba54"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_010.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "43c3338f404511c56d81522b46827d04beeafc4cdc9bec763fb6d46e60d2cc7f"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_011.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "f78c30baf6be8781058b851b8b0871ae179b24ae02a97593374ff0f468fb0264"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_012.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "9aa0816660003ea1c52c3695caee383043091bf9ff6765f6d6d17f3e61435ace"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_013.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "8995982f36df37bc5b7177a75e3421db776cb636e467e2f98b920f11da1af4ca"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_014.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "b8f57535ead621fd15162f23124cfbe1f311ef4d11e06a29b0123ab600034624"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_015.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ee6f71bcb90383e39051c7a998fea6ce3481d3f7b30ffe4f77bbad8c18cf5b22"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_016.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          546,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "530a45807954f38584afef064a61fc14c9fb62c8a3b62c170fcc7cbf47f6ffb3"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_017.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          538,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "b05cebca20aa1762c77202472f3ee8df9de203428f6e63cbdf76d6345ea7459d"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_018.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          520,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "35a570df31c2037165b95d99f6217f11dc8ede3883929adbdbacdbc03a8f2060"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_019.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          505,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "b6ab63576f55b89d690d2e737c903cadc5e46eb41eb1ec1f27d96fafef05f620"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_020.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          493,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "e3fdd79cce48ba174d1d845afd91fa016246c9ff454d0acc7868a551e9d8f70b"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_021.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          485,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "51c29af05bdb5b36506208e0e5d9d1e9e962ec85a0e82c6c59cfa607812c01df"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_022.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          479,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "9a224b3b7a8060626f651df0eb2ff8fea2188de98e6f95adb49156721a0343d0"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_023.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          478,
+          491,
+          981,
+          1380
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "0eedb24bd3b6b51b1cb60a542f788dc73d476bdd6aa9357e9c6ca7bcd6fc233e"
+      }
+    ],
+    "reverse": "Play these exact frames in reverse for closing.",
+    "proof": "animation/bowed_apothecary_cabinet/fixed_root_motion_sheet.png"
+  },
+  {
+    "id": "curved_spice_drawer_open",
+    "asset": "curved_spice_drawer",
+    "fps": 24,
+    "frame_count": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frames": [
+      {
+        "file": "animation/curved_spice_drawer/open_000.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "ce77e4886f30ccaa4a83cd8232f7eaed1892d28a59ca6da8c9bdfdaaf0fd0dd4"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_001.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "76f83cf565030b92e78592f4e24f7a47bce39a12567aa75a185de03b7da6ca6c"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_002.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "0fcd1df993f17f8af2f1993b38a04c8cfa89105de98ab0fb4cfed28211d69044"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_003.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "27bb2df10bc1df88af1237adbe498e4d2e3db57f4568eeb8ec0c9fd0e5e05e66"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_004.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "31de143c38bd55f3da44040ba6383099132fb6637b3aef92932585395bd510c0"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_005.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "b546a92bcabff77c58d4a02834e710dc1b037619816b85bd0f6503f093562564"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_006.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "3c68d4097776ac0ba45750300ff62083aeeb9263fccbd268a4d96e96e6beb818"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_007.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "246b70310aaad1dadc47d0f32be291b622902b3fffb298cf399cd8129e958c53"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_008.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "a03631ec146278762c885433017397ae0b7200f628d0fc029234893c1e8b14e3"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_009.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "053ea7402634522497a6039e93f814a75260319fb8b315e3eaccdd04ff37f80d"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_010.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "26cfd0f534890564e0b5212ff5a112d3c9b9ca41bfb178e325b1ee276f4c4a95"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_011.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          460,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "4afb67e3860364981e37ae8b86e0eceb738e0dec6553188cfe1e27f5451f4a75"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_012.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          452,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "79c293244b8802c12fb3df05de7f4a6646e95c9fb8f8bc23547ea0cf03455900"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_013.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          444,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "2f9b3f57d792320f008630c0a11718be3b2268ac688c84767243aa8e6adb46ac"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_014.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          436,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "033813026bef215770e16045b90ddd752921a06fc2cd64ca829565e7bcf85695"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_015.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          428,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "8eed2489ae271d54348007234dfbd006e2e9976b4c71657aa8239c528de21b0a"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_016.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          420,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "e12befccff411bd07061704c562f6df8de5593df37cccc95fc97882a9c6015c5"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_017.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          413,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "6a239b5a29277623d83b0b774dbf0e4309a0c1361fc5173558fe0f42051ab63e"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_018.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          407,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "132e09269057ed272a1709e9faec05de5401904a7b14ccf56b50d2c289604580"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_019.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          402,
+          811,
+          1064,
+          1333
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "43eb93c4b74b62abbcefeafa9ab249459af485dbe3301b9468fc3573bf5b3e2e"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_020.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          397,
+          811,
+          1064,
+          1336
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "6abcb0c85d8d145ee8b19197d2e00a621ab41ad128e56fcfc7499938adb36dd0"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_021.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          394,
+          811,
+          1064,
+          1338
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "17772a019d2b35e4a8e809ae70d3a7729dd648191ccd18d15dd37e4b6298bbc1"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_022.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          392,
+          811,
+          1064,
+          1339
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "a950dd42fe335db1ca2e63e31756a853b241af74bc40329d44c23751fc6fe7cd"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_023.png",
+        "source": "source/build_workshop.py",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "bounds": [
+          391,
+          811,
+          1064,
+          1339
+        ],
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "sha256": "fbf2ece008b1ea01897143720e810b7252c0e17e1ceb5dfd274e22f1b9d48df0"
+      }
+    ],
+    "reverse": "Play these exact frames in reverse for closing.",
+    "proof": "animation/curved_spice_drawer/fixed_root_motion_sheet.png"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "source_sheet": {
+    "project_relative_path": "lunge_lowcarry_eight_v01/eight_native_sheet_v01.png",
+    "sha256": "ae34275ecdd92bd92c6427f4f39b368240245210f3543473e4e93b5bb3769c3e",
+    "included_in_package": false
+  },
+  "fixed_cell_extraction_manifest_sha256": "6cb5cc2ff005a3a502f0d1a69406a5ee5d6cdeb5db8189ab2eb6e6f0619f6696",
+  "external_artifacts": {
+    "lunge_lowcarry8_fixed_origin_native_60fps.mp4": {
+      "relative_to_lowcarry_folder": "extraction_playback_v01/lunge_lowcarry8_fixed_origin_native_60fps.mp4",
+      "sha256": "21663367a72745753233ebe6f7c6c7a78c115c7446c94f49e0a678b6c55b121d"
+    },
+    "eight_cel_fixed_origin_native_closeboard.png": {
+      "relative_to_lowcarry_folder": "extraction_playback_v01/eight_cel_fixed_origin_native_closeboard.png",
+      "sha256": "456c568f41d740b590cffc847ffc304efc26365fa9fcb1a3421d78a76f2125f2"
+    },
+    "hand_lantern_cels03_05_native_strip.png": {
+      "relative_to_lowcarry_folder": "extraction_playback_v01/hand_lantern_cels03_05_native_strip.png",
+      "sha256": "f25c2e09c129cb56256d7c5783ad61dbb373b020e27090dce9a88003ae33757c"
+    }
+  },
+  "native_pixel_rule": "No resampling, no per-cel bbox centering, no toe fitting, no weapon normalization, no body/limb edits. Only original fixed-cell origins and one shared integer padding offset.",
+  "old_rejected_twenty_frame_package": "Not included or modified."
+}

@@ -1,0 +1,1733 @@
+{
+  "category": "quest",
+  "items": [
+    {
+      "id": "relic",
+      "label": "Broken Sun Relic",
+      "category": "quest",
+      "reference_extent_cm": 20,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/relic/relic__full_native.png",
+          "dimensions": [
+            1195,
+            1206
+          ],
+          "sha256": "90cef324dd9858a9e0f5cde968b19994c8ea6cc956498ed3df944200618f6a1f"
+        },
+        "inventory512": {
+          "path": "quest/relic/relic__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b5533d6b7655d6f0e915524abdb08f954cc5c77a0f56fab9753ad61f7c28d17d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            236,
+            236,
+            275,
+            276
+          ],
+          "visible_extent": 40
+        },
+        "thumb256": {
+          "path": "quest/relic/relic__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "f0aa9e8ac789a04ef0b4e62b185fd9297c4e64d3210da15e570e46d5a1d91333",
+          "visible_bbox": [
+            116,
+            117,
+            140,
+            138
+          ],
+          "visible_extent": 24
+        },
+        "detail512": {
+          "path": "quest/relic/relic__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a6c5f05fd1d82326580d7ae99c0b111213e435322d38f15e1677036cfde9c81e",
+          "visible_bbox": [
+            37,
+            32,
+            474,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "quest/relic/relic__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "64a9a620a7be78249162ef794a4e1cee5654d894755a2af9fef70e9f966b4ebc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            9,
+            8,
+            118,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/relic/relic__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "b2ef49e0c53943bec6a9fe7bb4b8e1febcdc17c64f3af7a01f8b2a1bae526564",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/relic/relic__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "496a779e596c2f5e6bb927317b38dec9295642589cf29cfa55f34a442abe59f4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/relic/relic__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ebf7b4a09418ab3d7c501106ad26a725e09910c27f07afc96e9ad5603ea0757a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            242,
+            418,
+            271,
+            448
+          ],
+          "visible_extent": 30,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/relic/relic__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ebf7b4a09418ab3d7c501106ad26a725e09910c27f07afc96e9ad5603ea0757a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            242,
+            418,
+            271,
+            448
+          ],
+          "visible_extent": 30,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "key",
+      "label": "Iron Dungeon Key",
+      "category": "quest",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/key/key__full_native.png",
+          "dimensions": [
+            1196,
+            1113
+          ],
+          "sha256": "b9431a74e5fc76d7a7705149ef64b4301fe8a6b9d1d08a4ae0f1d6cbf941e10e"
+        },
+        "inventory512": {
+          "path": "quest/key/key__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c985ac862f136d71e0ef80e4ad3c9b216a0a96e5a55bec2aa52f9a5684520f49",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            240,
+            274,
+            272
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "quest/key/key__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "99d4cb15f46df1a0fe5fa46ce6911303b2e8a169712cabd8d8b54931eb4275f5",
+          "visible_bbox": [
+            118,
+            119,
+            138,
+            136
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "quest/key/key__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bdeb1fd5d4aaff2ad2c237125eb19a0efd067d833e5be974f9487b9ef89784c2",
+          "visible_bbox": [
+            33,
+            55,
+            480,
+            457
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "quest/key/key__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "64e2d5d24e3a992f6b6fd7fea904e51e4aff955a11e097852a085eda1c68e207",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            114
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/key/key__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "fcc579775cb4284791b7a6db73786d534c9ebf069d1c6dd57a8d62242bdd8750",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/key/key__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "9bac07c8ea0c863fefda297167717480e530b19fbc9b8194a85116013e1e39ec",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/key/key__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b52cef005c3527f744db5523a672c33a0e84d5c0f292eea476d23d859506d7b6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            424,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/key/key__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b52cef005c3527f744db5523a672c33a0e84d5c0f292eea476d23d859506d7b6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            424,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "sealed_letter",
+      "label": "Sealed Letter",
+      "category": "quest",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/sealed_letter/sealed_letter__full_native.png",
+          "dimensions": [
+            1236,
+            1205
+          ],
+          "sha256": "aad0f00a92c2496119791967e08cfe01d10e9932bbd504417054270cc8cd9d29"
+        },
+        "inventory512": {
+          "path": "quest/sealed_letter/sealed_letter__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3f290578f86f868b2f223833db9d87acf44ed9d3820673501e765b33b1644c20",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            234,
+            239,
+            278,
+            272
+          ],
+          "visible_extent": 44
+        },
+        "thumb256": {
+          "path": "quest/sealed_letter/sealed_letter__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5bc0b2e9820aa2b0d3d13d37ec6e245ce3668b6371c0e3fbf4b2bfe5d0b8fed8",
+          "visible_bbox": [
+            117,
+            119,
+            139,
+            136
+          ],
+          "visible_extent": 22
+        },
+        "detail512": {
+          "path": "quest/sealed_letter/sealed_letter__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "274c376e4e3a2364fcf426f36d1b5395ed68fcc720bd096dc3577dc2d79984f7",
+          "visible_bbox": [
+            32,
+            88,
+            480,
+            423
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "quest/sealed_letter/sealed_letter__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9e8b0b96e299fef8ba1d78e07689b8d203c2b0e78d19cf09f98b21f2238e94ff",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            22,
+            120,
+            106
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/sealed_letter/sealed_letter__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "3d0f7c879ffdff2d7118648c54eff36b9916358f2fdebc597143cebae0d4e084",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            53
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/sealed_letter/sealed_letter__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "66f28f3e849a76213663f715b4ad94224f9f393f752ea82e7388439555385e21",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/sealed_letter/sealed_letter__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "128d2106531ed97533ff9efa083e9b3fc3f047bdcec2ecf28ce9c932f2270c26",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            423,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/sealed_letter/sealed_letter__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "128d2106531ed97533ff9efa083e9b3fc3f047bdcec2ecf28ce9c932f2270c26",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            423,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "book",
+      "label": "Worn Grimoire",
+      "category": "quest",
+      "reference_extent_cm": 32,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/book/book__full_native.png",
+          "dimensions": [
+            1139,
+            1209
+          ],
+          "sha256": "e83635016f43ee78b027c229cc990fa740d2496b117a40d1950c6fd20ea0276e"
+        },
+        "inventory512": {
+          "path": "quest/book/book__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "317d93ff92bd22bab344720c44229d57c6f20ac3ed999b63f7bb8d7d6f3fadc0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            224,
+            225,
+            288,
+            286
+          ],
+          "visible_extent": 64
+        },
+        "thumb256": {
+          "path": "quest/book/book__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "74f8da1b9abc699a12bba080800627fdf7c640fff4634148686225469584f71c",
+          "visible_bbox": [
+            111,
+            110,
+            145,
+            143
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "quest/book/book__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b60fe18b5c86a62c83b85d7215004b9c5e0cca445337376f8bf4d8ef2185b172",
+          "visible_bbox": [
+            32,
+            41,
+            480,
+            470
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "quest/book/book__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "12bd98d0c63f3f70cdef8547e28ce6edfb95f56705b08cc435cfe0a28c55049f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            117
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/book/book__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "48d4e5f1725822dc1a56765b3250b4f7c694262bae698b6c8745e3467aca9075",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/book/book__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "f630fd1f6c3214a203f4e9297e04b5812ae4ccfd3f59382754d3eba745377fce",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/book/book__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5b88049e1cd690b0d1373ff22cecdffdd4668e7d54af4bf32b791a7704491ee0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            402,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/book/book__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5b88049e1cd690b0d1373ff22cecdffdd4668e7d54af4bf32b791a7704491ee0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            402,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "sealed_reliquary",
+      "label": "Sealed Reliquary",
+      "category": "quest",
+      "reference_extent_cm": 24,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__full_native.png",
+          "dimensions": [
+            1462,
+            1076
+          ],
+          "sha256": "fcfabf4709672e5371fbc59f71ca29880ca70442493b4e95a3ef2e95c84409e6"
+        },
+        "inventory512": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "605990b8e7484556dfdf71c54df95cdb89c6e02466ede4c324670488f3fb43a5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            232,
+            238,
+            280,
+            273
+          ],
+          "visible_extent": 48
+        },
+        "thumb256": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "3f7007ed332a6e8f196cbccfcba83d20cc57d9ee415c8cb1c8e63febd0064700",
+          "visible_bbox": [
+            114,
+            118,
+            142,
+            139
+          ],
+          "visible_extent": 28
+        },
+        "detail512": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "83fd30b1c7a5495445d1bb247c94d59c717e452e027bf6b21e59a30536c81297",
+          "visible_bbox": [
+            32,
+            94,
+            480,
+            418
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "92a85ac67b26d206db1f2dbd87bbf49b2b4415918d01294d5115fdd4ebfd123a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            23,
+            120,
+            104
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "577ff462d4dcbacca1269e60f5acdaaa074a9c5a2aeaad4165d846f601823c3c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "5aecc642514117e604864303b7549b522d72dd7a48904856794090155567bc21",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e6b033fcf8d0b4818cf28791d3b6c49d36b13d05d9572473872bf484aecdc1e0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            238,
+            422,
+            274,
+            448
+          ],
+          "visible_extent": 36
+        },
+        "ground_scaled_512": {
+          "path": "quest/sealed_reliquary/sealed_reliquary__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2f5ffc7cbe9682ceca1ea4b896666c4dbc9f0a97f168b12abe57f8bd1ab3c877",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            238,
+            422,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_10_ashen_reliquary",
+      "label": "Ashen reliquary",
+      "category": "quest",
+      "reference_extent_cm": 28,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "b3f3dcbfa4159fbc23fd1f2a1a5abbea015b99e6cbbd7ce634c02fe9dc576c9a"
+        },
+        "inventory512": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "95e5e5b8e4dd38d09dd42431fea3c1eae8ad8a419259ffed4ef925772eaca22b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            228,
+            228,
+            283,
+            284
+          ],
+          "visible_extent": 56
+        },
+        "thumb256": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "8658565f6b0ff89bf94f23e3a942e7e16df469241abcad02e1cb65de40410270",
+          "visible_bbox": [
+            112,
+            113,
+            144,
+            142
+          ],
+          "visible_extent": 32
+        },
+        "detail512": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6ef8b9d3e9ec00e535e08beb8e468991e1a998ef72e9fce46fe29589f8dde450",
+          "visible_bbox": [
+            35,
+            32,
+            476,
+            479
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "e9feec962be530f8d8498eb0ec76f9b7142b732e4f74e238d24d73b4d0d9b9c3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            9,
+            8,
+            119,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "592726fa58a8a7988f5c3fed11c8732d74c77a1ec075e9f5b38d4d20ec371480",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7da95abbabcf8d123cd5748ee0c6044adbb3c379776bc43af08f4968cb0657ec",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2c9e40d7b67ba18abc7fa95f219750d68f926d13056716b39ff085b045578a92",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            236,
+            406,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/lantern_drop_concept_10_ashen_reliquary/lantern_drop_concept_10_ashen_reliquary__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2c9e40d7b67ba18abc7fa95f219750d68f926d13056716b39ff085b045578a92",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            236,
+            406,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_11_bone_scroll_case",
+      "label": "Bone scroll case",
+      "category": "quest",
+      "reference_extent_cm": 35,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "e2fa231b3f4cd8276046a567dd0127d29aee0310d81dad203dabd3c4c1cbb4ba"
+        },
+        "inventory512": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3654dce31fd6e91721456d48fc71ee188abbf1ca9d6b5bca0db78bfdf01f110b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            221,
+            222,
+            291,
+            290
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "993f1b243c90b24dea75fff03e34c43e93b46b219f3e899be5bca692f14fa900",
+          "visible_bbox": [
+            108,
+            110,
+            148,
+            146
+          ],
+          "visible_extent": 40
+        },
+        "detail512": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9701e2a99f6437936d96771102dc6635c63b466fa4b4047d5e2037786a00871c",
+          "visible_bbox": [
+            32,
+            40,
+            479,
+            472
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9d65a8f948dbbe01be584a9c627802e2dbd9371c308cee539574b25a280557cd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "d16c06be74459e3b7aef6cc947b76c9deb5b00953fde9030a5eded48c061844a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "4a74dc85c47664e9123a16ebc5a1a836db19158d2185752fd8e2cea3af3504c9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c6897e32c0bfaeab21783759e71054985d1d7da46a9d21f82ed0ec616ceb9bcd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            398,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/lantern_drop_concept_11_bone_scroll_case/lantern_drop_concept_11_bone_scroll_case__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c6897e32c0bfaeab21783759e71054985d1d7da46a9d21f82ed0ec616ceb9bcd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            398,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_12_chainbound_codex",
+      "label": "Chainbound codex",
+      "category": "quest",
+      "reference_extent_cm": 32,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "e559ca1523194a02156e5763a593f8a0c181d4b3bb6df9ebf7d567ae2b57c19c"
+        },
+        "inventory512": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f7d5bceb9e6cc229a7814dc266b12fe6b01c51a46557460a1d50138a90adb272",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            224,
+            231,
+            288,
+            281
+          ],
+          "visible_extent": 64
+        },
+        "thumb256": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5fb59176e755857dc2bf340a1ec084e5d8e36a912ede93feb054988f891860ea",
+          "visible_bbox": [
+            111,
+            113,
+            145,
+            143
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e6e4714ac8b1bd5d08f71b13477c1a8f0dbe911774b86d3efd366dea506b0aa1",
+          "visible_bbox": [
+            32,
+            80,
+            480,
+            432
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c1403148083ed09e4b51bf9b2a352bd149ccd73ea6712f0fc75248c9b4a468c4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            20,
+            120,
+            108
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "336281c8e5c723d0c07e36f1228709d07ed34a4c4370f5c36efae689db296c01",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            10,
+            60,
+            54
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "431c374296d005a51b4d4b19bffe4868d75cc76c2d60faf606f1e5f8f8f1ab06",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c1e5755c3e1a3cb30332ddf4fe128c45193d5b48841967bdb8c68c4e3c637f38",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            410,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/lantern_drop_concept_12_chainbound_codex/lantern_drop_concept_12_chainbound_codex__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c1e5755c3e1a3cb30332ddf4fe128c45193d5b48841967bdb8c68c4e3c637f38",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            410,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_14_ossuary_key",
+      "label": "Ossuary key",
+      "category": "quest",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "556623f0f0dfc10487c8eea70dc889c44864fbaf39c33c6c683bb27d76417879"
+        },
+        "inventory512": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cac5266df5c669c03914276a613e29a525928d3d8c58047b56a5d1ac213e6e8d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            240,
+            274,
+            272
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "7c90914acada18a277c530bdbe572b562a284849480e4df749d4f5c78e3a2fe5",
+          "visible_bbox": [
+            118,
+            119,
+            138,
+            136
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d39e92080c1dc509c82d371c22abb124edc08f5063a3299c451caa96f7fb88cd",
+          "visible_bbox": [
+            32,
+            54,
+            480,
+            458
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "3a61eed708d5316e5862e4b0164c2244765f543ddc3422447e3471abdc60bb8f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            13,
+            120,
+            114
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "427011805485906c06e6ede88d76943c67ef12faa56367405d17d1e3978484ad",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c72c4a0c9460de5e5e7d9706794b5cb2aad616eaaef36de9cc15c92682d6ae38",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "66901972af66a8029abd3469c532e41ea4de530f8b9a16c04bb79e57a7a1d990",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            424,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/lantern_concept_item_14_ossuary_key/lantern_concept_item_14_ossuary_key__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "66901972af66a8029abd3469c532e41ea4de530f8b9a16c04bb79e57a7a1d990",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            424,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_16_lockbound_grimoire",
+      "label": "Lockbound grimoire",
+      "category": "quest",
+      "reference_extent_cm": 32,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "a94148ef041a3b280dbb1cc0b49dcf33c55dc0103dfb1e51d4279455ac12d665"
+        },
+        "inventory512": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c4e7a7a3f9d3257913bcd0dd103ef13ba10e531d9397c50b34a693abb79c1e70",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            224,
+            226,
+            288,
+            286
+          ],
+          "visible_extent": 64
+        },
+        "thumb256": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ec96fea65e99596138bdc7147709ca00e7f460ff2262aa6f6855c921bb3054e3",
+          "visible_bbox": [
+            111,
+            111,
+            145,
+            144
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d66939893b3569a02f9419cbc34b4aa102cdd914bd610dbc40eca47a0c3ac573",
+          "visible_bbox": [
+            32,
+            44,
+            479,
+            466
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "94b4824929df82a8e7bf12eea249819622f87b54ba6f0ab94fee92f08e5927ff",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            11,
+            120,
+            117
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a4100649a9fb74e288755ce58d0de01ded2385ea79c3c9397e7eeb46b36ea0e4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "5657364c143e2da4d1a5fd17b9e509925a5760af483446b93edf2717898f80bf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a20603f7e8e7f1ac3cde0b37c20fc0c45da31c1fc77f7dce3c8565e82bceb508",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            403,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "quest/lantern_concept_item_16_lockbound_grimoire/lantern_concept_item_16_lockbound_grimoire__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a20603f7e8e7f1ac3cde0b37c20fc0c45da31c1fc77f7dce3c8565e82bceb508",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            403,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

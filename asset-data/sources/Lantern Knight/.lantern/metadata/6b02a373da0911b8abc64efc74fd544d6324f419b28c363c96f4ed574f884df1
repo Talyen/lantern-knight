@@ -1,0 +1,3799 @@
+{
+  "category": "armor",
+  "items": [
+    {
+      "id": "chainmail",
+      "label": "Chainmail Shirt",
+      "category": "armor",
+      "reference_extent_cm": 75,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/chainmail/chainmail__full_native.png",
+          "dimensions": [
+            1181,
+            1173
+          ],
+          "sha256": "06670b8a51da5523ac94e3465ff85d727d910e289f2cf5efae8307e4f1330ae8"
+        },
+        "inventory512": {
+          "path": "armor/chainmail/chainmail__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3216741b3398565749f70cb579c7a775d3343df4157c8f076104bb8673bfac3f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            181,
+            185,
+            331,
+            327
+          ],
+          "visible_extent": 150
+        },
+        "thumb256": {
+          "path": "armor/chainmail/chainmail__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "4a9ad02f7cfdcdd5a674b7293e9e3bb38de685bca344c995152e6e7b52c8c8dc",
+          "visible_bbox": [
+            90,
+            92,
+            168,
+            166
+          ],
+          "visible_extent": 78
+        },
+        "detail512": {
+          "path": "armor/chainmail/chainmail__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8bb1737f876a80aff51cdc3c488411c4a570a52a01869c050f5219aaac4add90",
+          "visible_bbox": [
+            32,
+            44,
+            480,
+            467
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/chainmail/chainmail__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "00586dd8fbc3ec0872c07f025eaaef7b77582b7c4cde76a77facce0201bd8407",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            11,
+            120,
+            117
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/chainmail/chainmail__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a4e6c43fe2b67678899a263f298df4e0a8c186ab25f077f52f9d46a6812e714c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/chainmail/chainmail__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "425557e39ba51dfa7f0b558553efb6579657203d89510a1eddf0997ce6fafba3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/chainmail/chainmail__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccaf0ce09838e4486c4e43674b73308200dbe193f2142bfe42b67d52120a90fb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            200,
+            342,
+            312,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/chainmail/chainmail__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccaf0ce09838e4486c4e43674b73308200dbe193f2142bfe42b67d52120a90fb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            200,
+            342,
+            312,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "breastplate",
+      "label": "Iron Breastplate",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/breastplate/breastplate__full_native.png",
+          "dimensions": [
+            1534,
+            1025
+          ],
+          "sha256": "9036294e7b205d49e53c6427638ae80871023d22fbf3f9aa08c1fe06d31c7336"
+        },
+        "inventory512": {
+          "path": "armor/breastplate/breastplate__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "328489185b912bcbc157ece2e84e0e0b623fa0c86be495cfd1a1518387a0227e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            191,
+            315,
+            321
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "armor/breastplate/breastplate__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "aba042f82fe53668abebe460d921178c78a5092c93db0346e5c27df1f447d7cf",
+          "visible_bbox": [
+            96,
+            93,
+            160,
+            163
+          ],
+          "visible_extent": 70
+        },
+        "detail512": {
+          "path": "armor/breastplate/breastplate__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ba133d66939a1f8d2f6dcbe2b1929e3c9c85fcebd7fc71790758b7efa7119657",
+          "visible_bbox": [
+            51,
+            32,
+            461,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/breastplate/breastplate__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c576fc36c84d5b830c5d430c5322eb59072e8a58b2650c984874bf7d95b22676",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            8,
+            115,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/breastplate/breastplate__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e0a9243a2973a06225b853027a43020bb754ef3ae36e54e30098fc181173b2dc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            57,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/breastplate/breastplate__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "5e8f1a71bfca1368aaf63ecd32dff4d3fb6debc68534bb7428ae6a42ee325ad2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/breastplate/breastplate__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7a7f56db2825d4adcceaa3bf5d8258eadc6b1034c87e9dcf656e690f6029ec2c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            210,
+            347,
+            301,
+            450
+          ],
+          "visible_extent": 103
+        },
+        "ground_scaled_512": {
+          "path": "armor/breastplate/breastplate__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ea3812d46d53d61e2234cf45845f23855bb2a0d14a33d88d3d77408a04ecdf31",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            350,
+            301,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "gauntlets",
+      "label": "Iron Gauntlets",
+      "category": "armor",
+      "reference_extent_cm": 32,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/gauntlets/gauntlets__full_native.png",
+          "dimensions": [
+            1195,
+            1178
+          ],
+          "sha256": "b8bd1b232cdb8d9ea3be3c709ad40d7ff2e913dd3ecc99fd0a9e4140c0c29866"
+        },
+        "inventory512": {
+          "path": "armor/gauntlets/gauntlets__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "91b79719a4fcdbcd5d5ac94708ee479de4035b0880364c6bc22b29e3940a6a10",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            224,
+            225,
+            288,
+            287
+          ],
+          "visible_extent": 64
+        },
+        "thumb256": {
+          "path": "armor/gauntlets/gauntlets__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "4cc9551d3b6bc28053e366964f765da3f85b366bf3cabe392f713a7c30e83f29",
+          "visible_bbox": [
+            111,
+            110,
+            145,
+            144
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "armor/gauntlets/gauntlets__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0ae75620dcf86c7502a04fbbe2daf0871c67d5632967a942ea1c9ba6a99c8fef",
+          "visible_bbox": [
+            32,
+            39,
+            480,
+            473
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/gauntlets/gauntlets__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "981b263354ce371f9dd842e911ea3780fb78f3bfba670d92ba7fd233494989bf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/gauntlets/gauntlets__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "eb90d66d23928ec1dbcdf01faba50269c1ccf8902a6610e863b3a260020e3ba7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/gauntlets/gauntlets__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b9c232f55a2f705010ac8509e3ab2b0300aea1358c9600b6d68be805948e3522",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/gauntlets/gauntlets__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ce1c29c5fb497becd85fc5eca823ba71ff12d9cf4c1f3dd558a04e281bc665d3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            402,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/gauntlets/gauntlets__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ce1c29c5fb497becd85fc5eca823ba71ff12d9cf4c1f3dd558a04e281bc665d3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            402,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "greaves",
+      "label": "Iron Greaves",
+      "category": "armor",
+      "reference_extent_cm": 50,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/greaves/greaves__full_native.png",
+          "dimensions": [
+            1201,
+            1177
+          ],
+          "sha256": "567b1fdd34a2000d879dcdb7d2b27ab1ba23d4e6b5a6cbaa70f04e393df0b1ff"
+        },
+        "inventory512": {
+          "path": "armor/greaves/greaves__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "52fb6947bd905f711eb2fb94d81b455c3ee0ad752777b732fd40d133e3fa4e74",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            218,
+            206,
+            293,
+            306
+          ],
+          "visible_extent": 100
+        },
+        "thumb256": {
+          "path": "armor/greaves/greaves__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "0d7230504649c8dde5ced99c9d63c88c84a686d487c7eb7b11e31d88dc7140a1",
+          "visible_bbox": [
+            107,
+            103,
+            149,
+            155
+          ],
+          "visible_extent": 52
+        },
+        "detail512": {
+          "path": "armor/greaves/greaves__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "81670b41e0de6d288025ed81f6ce6b38aa95123b2888565ca4aa31ddeac2e932",
+          "visible_bbox": [
+            88,
+            32,
+            424,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/greaves/greaves__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "ddec85a6f1c095e43b61b475ea3d2c1eafd69f9dfe1770f4a706dcb6e4fb5512",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            22,
+            8,
+            106,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/greaves/greaves__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "6b337f5ee7e767ef58602dc52d8a59cb9544406ac6cbd74f3913c115470dd72c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            4,
+            53,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/greaves/greaves__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "e13748d8595876dbeaff0d0fa6159399feb4a024de2c26a73b6f6baf1fcaab02",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            2,
+            26,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/greaves/greaves__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f4a37e8354f399a3ccf85ff6719774e16378fc8be67476bdd3f94a2c40ef211e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            228,
+            373,
+            284,
+            448
+          ],
+          "visible_extent": 75,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/greaves/greaves__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f4a37e8354f399a3ccf85ff6719774e16378fc8be67476bdd3f94a2c40ef211e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            228,
+            373,
+            284,
+            448
+          ],
+          "visible_extent": 75,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "helmet",
+      "label": "Iron Helmet",
+      "category": "armor",
+      "reference_extent_cm": 32,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/helmet/helmet__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "a4fdc861b4e86873d44625aae6a9c82036e501730f61ad44f93a3dfc64418758"
+        },
+        "inventory512": {
+          "path": "armor/helmet/helmet__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9517136efc798a3fd5daf6b06cabe074011356e5a00f6c369460fdbe62886740",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            224,
+            224,
+            287,
+            288
+          ],
+          "visible_extent": 64
+        },
+        "thumb256": {
+          "path": "armor/helmet/helmet__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "7ec70bec8f37a3b3a1987ce344ed8d26312ef6640ad84b04415e288f220a552e",
+          "visible_bbox": [
+            110,
+            110,
+            146,
+            146
+          ],
+          "visible_extent": 36
+        },
+        "detail512": {
+          "path": "armor/helmet/helmet__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5b99fa7e0b4b3714ff40aca18af459fc1e4879a4c0f3d158bf76474ab48e9618",
+          "visible_bbox": [
+            34,
+            32,
+            477,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/helmet/helmet__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "df76cc158f814b82e4f4c96e6144a2117156320da20ab648db7b57299a18918e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            119,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/helmet/helmet__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "90f46274f9d7336385d56e43bdaec3bfc4952ceafc2f6f9b912113bb3325fcc8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/helmet/helmet__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "287b7b60df7fff88c9c48333f54edd4bd1670c120e53335824d037669c6a703f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/helmet/helmet__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "93183c15e4630a379f78a15a06bd06ed5659bb67d4b9ab825ba8f4b5cfa1d5e3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            222,
+            380,
+            290,
+            449
+          ],
+          "visible_extent": 69
+        },
+        "ground_scaled_512": {
+          "path": "armor/helmet/helmet__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e5699f07e3b7b270e45651d203ef0a5c30b573ccfa1079d70490bff2ae8393a7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            233,
+            400,
+            280,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "shield",
+      "label": "Kite Shield",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/shield/shield__full_native.png",
+          "dimensions": [
+            1780,
+            884
+          ],
+          "sha256": "0fbd3c538238abc709276179a650cbe10e116b89eee258ce54615337567a40f5"
+        },
+        "inventory512": {
+          "path": "armor/shield/shield__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2a9196b5e883020be8e922b0ecc6dfa78377eb48d95b974977b9826d5b9e86b8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            191,
+            224,
+            321,
+            288
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "armor/shield/shield__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "d17862fcb05908786d0eed86fc56157abfdfa2738495590fba3ed59fa0c7116b",
+          "visible_bbox": [
+            93,
+            110,
+            161,
+            146
+          ],
+          "visible_extent": 68
+        },
+        "detail512": {
+          "path": "armor/shield/shield__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "661dc46cd1ed30c5497bc8f78fc094fe958068dd13e576cef316a2c4bbc5a86e",
+          "visible_bbox": [
+            32,
+            145,
+            480,
+            367
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/shield/shield__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8335f324c36afddef2a7bb41935ecd6e55000e5bc1dc5a75b20c42b9e7da66a0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            36,
+            120,
+            91
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/shield/shield__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "ab7c9692b9d78251839c99446b6c727d1050995ed6ee5e0d6ad36d06029d2034",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            18,
+            60,
+            46
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/shield/shield__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "dadef5ccf5683b675f53fb77896e7f2207f83f4d41a9095778b2e62aa79691f6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/shield/shield__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f7b79e00527377a5b0b2dbd5a46b22394cd196040755ab2d0689d4e5c6de1380",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            202,
+            395,
+            309,
+            450
+          ],
+          "visible_extent": 107
+        },
+        "ground_scaled_512": {
+          "path": "armor/shield/shield__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f08f0be10848d605cdc8faf939aa3dd14233a59b8cef31b3b6deb30ad2b68ed3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            207,
+            400,
+            305,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "boots",
+      "label": "Leather Boots",
+      "category": "armor",
+      "reference_extent_cm": 38,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/boots/boots__full_native.png",
+          "dimensions": [
+            1581,
+            995
+          ],
+          "sha256": "886329d65fd89c1c695c47d6c33079497bf1b89d8b94c19a74ada155fbb0bce9"
+        },
+        "inventory512": {
+          "path": "armor/boots/boots__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "00443ad6036c6e12fe968ee61f887f7205556881d4594dc1b24525c242efcc5d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            218,
+            232,
+            294,
+            279
+          ],
+          "visible_extent": 76
+        },
+        "thumb256": {
+          "path": "armor/boots/boots__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ed8a8ae8d5d8a251e64dca22740032230a43757823cbd9d77e81442c81b44c90",
+          "visible_bbox": [
+            108,
+            114,
+            148,
+            142
+          ],
+          "visible_extent": 40
+        },
+        "detail512": {
+          "path": "armor/boots/boots__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e26fbb691eeddd7a4ba5781939517661b90781be68824f955528c9a09c9265d5",
+          "visible_bbox": [
+            32,
+            118,
+            480,
+            394
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/boots/boots__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "2b01535f63003bebbc28ea525f83001d867c524d2f04c274796f6a9948676244",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            29,
+            120,
+            98
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/boots/boots__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "bc03421cb7267d22b666daa6dd7429e68f461b8374d0b97fb3054a6481d6e008",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            15,
+            60,
+            49
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/boots/boots__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "5f1f1767f5cb9e7b712e7ec178bca0ef94d39caf2d732b7f47763fd02dfd752b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/boots/boots__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b8038f86bc0335649e240e20df5d8ad225a4b705f74b08cb7e4e456d48db42b6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            217,
+            398,
+            297,
+            451
+          ],
+          "visible_extent": 80
+        },
+        "ground_scaled_512": {
+          "path": "armor/boots/boots__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9d2aa700b77c5cf1acc8876ea235c7a2e958b261540b22f3675995560fce9463",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            228,
+            413,
+            285,
+            448
+          ],
+          "visible_extent": 57,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "leather_vest",
+      "label": "Leather Vest",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/leather_vest/leather_vest__full_native.png",
+          "dimensions": [
+            1238,
+            1206
+          ],
+          "sha256": "e68c3474b36673ae8da703452b60a446554de421831ba402bc30c12816880194"
+        },
+        "inventory512": {
+          "path": "armor/leather_vest/leather_vest__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d1b7d15511a832339b671b8593d2dba4368d1e9703c0ff0f94286fa393b07325",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            199,
+            191,
+            312,
+            321
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "armor/leather_vest/leather_vest__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "c8b14743ef62483949f75e1b043cb5139068a59491941acd82b234628a46f23d",
+          "visible_bbox": [
+            97,
+            93,
+            158,
+            163
+          ],
+          "visible_extent": 70
+        },
+        "detail512": {
+          "path": "armor/leather_vest/leather_vest__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "21ab97d9d279056c67809f49640299bf099fa131f7c4e4fbfb6ba68a035e1f3b",
+          "visible_bbox": [
+            60,
+            32,
+            450,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/leather_vest/leather_vest__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "07b822ae2bf41f3277ccc5dd78c76a4b53bb93c15bcd9001719e0998fe876215",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            15,
+            8,
+            113,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/leather_vest/leather_vest__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "669dadc5b5e5a2a7c9d1eb546e634d6aa9ddcfe4a9747cbd459eea01e962fd2a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            4,
+            56,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/leather_vest/leather_vest__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "a9dff431e507e4f3689f08b252fbc1833aaa097b50039d9fdc7eecb237cf040e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            28,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/leather_vest/leather_vest__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6ab6849b83d68db363ce42adab50fc606e7db81b051209b3e266342ea99e6cba",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            214,
+            350,
+            299,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/leather_vest/leather_vest__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6ab6849b83d68db363ce42adab50fc606e7db81b051209b3e266342ea99e6cba",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            214,
+            350,
+            299,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "hood",
+      "label": "Traveler Hood",
+      "category": "armor",
+      "reference_extent_cm": 35,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/hood/hood__full_native.png",
+          "dimensions": [
+            1222,
+            1122
+          ],
+          "sha256": "b2820b71a5af52774954f9e36578ed90c8f06cc7ecc9d993781e4540f95e3f9c"
+        },
+        "inventory512": {
+          "path": "armor/hood/hood__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "abcc17a711820310c3b1c8349d4fd07a56817cb2ef0d9b9dbf7dd8b38aa17e0f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            222,
+            221,
+            289,
+            291
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "armor/hood/hood__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "3995c8b93e74d4f737a14d9f6dc64a43aa959fcba9ac459a5b2e250fe8e21c1f",
+          "visible_bbox": [
+            110,
+            110,
+            145,
+            146
+          ],
+          "visible_extent": 36
+        },
+        "detail512": {
+          "path": "armor/hood/hood__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "201db97ec5639a5b43c6a8dc349a08107fa269b84014aa14d1ca03d781254f04",
+          "visible_bbox": [
+            43,
+            32,
+            469,
+            479
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "armor/hood/hood__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "51cf556438ce9970f4ed3fa1639e92470c96ceb7a4d8db13de0e3214c9a05de0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            8,
+            117,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/hood/hood__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "8c2dc023b2157e9522d3625f29ec43efa50b82dc36bc59916727fc3293ea8456",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/hood/hood__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "1c9b3a9907c9343b3e0b6baed23297943aabf25e26778b4b72ed98a38ab31b0b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/hood/hood__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "118d09b33853fa47b18ae967a704800206eefb2248400ad775ce0f926904f978",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            396,
+            281,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/hood/hood__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "118d09b33853fa47b18ae967a704800206eefb2248400ad775ce0f926904f978",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            232,
+            396,
+            281,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "cloak",
+      "label": "Wool Cloak",
+      "category": "armor",
+      "reference_extent_cm": 60,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/cloak/cloak__full_native.png",
+          "dimensions": [
+            1223,
+            1252
+          ],
+          "sha256": "24bf17708a6c8dea6c82f3652fc5434333ab7e9c6e6708a5a70ac64d16b1d751"
+        },
+        "inventory512": {
+          "path": "armor/cloak/cloak__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "547d5e6ac294640676e310d0198474979b869f04b65cbb3631388b7430b21bf0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            202,
+            316,
+            310
+          ],
+          "visible_extent": 120
+        },
+        "thumb256": {
+          "path": "armor/cloak/cloak__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "7e16830308a3d653c0001d08f3ab1b2a8d9e4c1ba90222e91b4d565f7beed5c3",
+          "visible_bbox": [
+            98,
+            99,
+            158,
+            157
+          ],
+          "visible_extent": 60
+        },
+        "detail512": {
+          "path": "armor/cloak/cloak__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bc82833be88f9f9de3494744f5a6867d6f7130c90f669bea8fc52beff4613dec",
+          "visible_bbox": [
+            32,
+            53,
+            480,
+            458
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/cloak/cloak__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "85899d5482ad03dabd2c5fafcfc89917ce497b599f26f10e2f86e747a248c440",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            13,
+            120,
+            114
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/cloak/cloak__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "4dbb2a379af16fcc6e3fb7e7f59364498bae0fad12fde43105330269a7ad4f3a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/cloak/cloak__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "67e108e4ea4d0049fd9bce4a96455366846e30f998b2ae6bfffa47cf58a3bab1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/cloak/cloak__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9f326a68b13dd452921eaaf28b4cff46fd4bba505da5a6908712969c93760048",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            367,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/cloak/cloak__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9f326a68b13dd452921eaaf28b4cff46fd4bba505da5a6908712969c93760048",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            367,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "buckler",
+      "label": "Iron Buckler",
+      "category": "armor",
+      "reference_extent_cm": 35,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/buckler/buckler__full_native.png",
+          "dimensions": [
+            1604,
+            981
+          ],
+          "sha256": "3038529f6469bb882b7128dd4b33a8a18346ff33567af836cb99bd4cd605ebac"
+        },
+        "inventory512": {
+          "path": "armor/buckler/buckler__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b5d407f7905a185fa1e72bfa15b5c5d9a03384d6a97eda729467b6fd945348fd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            221,
+            235,
+            291,
+            277
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "armor/buckler/buckler__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "10953cdfd8972ea0f8829f411f913ca204a4b03de88203fd215ced65c2ff69e3",
+          "visible_bbox": [
+            108,
+            115,
+            148,
+            141
+          ],
+          "visible_extent": 40
+        },
+        "detail512": {
+          "path": "armor/buckler/buckler__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fa08ac77de34ef58189e00ae528e45b68eaf49b0ca2a2278046b8c405decaedc",
+          "visible_bbox": [
+            32,
+            120,
+            480,
+            391
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/buckler/buckler__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "1e6e492d3672f8c67588dfb0133941ffd6852865ad827e8aded5c266ac8f554b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            30,
+            120,
+            98
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/buckler/buckler__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "f3812882f960f939806f90ae2fef102e67dc0e31c9951452a31063b0dc093e5d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            15,
+            60,
+            49
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/buckler/buckler__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7b98aeb9fe1ba6052173222b7694eb2cffc5a4aa8668ede34160b08c4a2275ad",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/buckler/buckler__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f5949bcc25cbbd6a198dc8bff8ef2f189e74493be4335983a0211be4924fdf57",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            416,
+            282,
+            448
+          ],
+          "visible_extent": 52
+        },
+        "ground_scaled_512": {
+          "path": "armor/buckler/buckler__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e15e5e03affe9f2231bb64a581d7945609aec06028fe777c61b5d2d3a09d8a64",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            417,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "pauldrons",
+      "label": "Iron Pauldrons",
+      "category": "armor",
+      "reference_extent_cm": 48,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/pauldrons/pauldrons__full_native.png",
+          "dimensions": [
+            1976,
+            796
+          ],
+          "sha256": "49a74277a75753f8adf49ff9917c9e170c31b1a553f50ed4f819b5227cc72732"
+        },
+        "inventory512": {
+          "path": "armor/pauldrons/pauldrons__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a3605b964544da8e55e1566a5d1cfa8ef4a2d3945577601a4f0375851b2f20d4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            208,
+            237,
+            304,
+            275
+          ],
+          "visible_extent": 96
+        },
+        "thumb256": {
+          "path": "armor/pauldrons/pauldrons__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "e6dddf147fb093b3e6192f78a1c404ce09637ac30faa66b3cca2f5c824821ee4",
+          "visible_bbox": [
+            103,
+            116,
+            153,
+            138
+          ],
+          "visible_extent": 50
+        },
+        "detail512": {
+          "path": "armor/pauldrons/pauldrons__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a8a956cb96c13f4cf911f92b7000d4d447974f34f4359fabaa6b7a3eb60b63ac",
+          "visible_bbox": [
+            32,
+            168,
+            480,
+            344
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/pauldrons/pauldrons__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "5a8a0aa92514425ee87c6873917056b1f837ae79edfd773e05eebe436e553c03",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            42,
+            120,
+            86
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/pauldrons/pauldrons__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "c678b46941c2c353b82e11335a2eb6aab7ae7d87aa764c1e2f80f01c8f5ed91a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            21,
+            60,
+            43
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/pauldrons/pauldrons__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b2d2ec00b7e3dd0c525fee2bf9a45b10c8b52b586b11c3f71e32fee97a16713d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            10,
+            30,
+            21
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/pauldrons/pauldrons__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4203b7f05765341f05d991b70f13a870efcd91902a2d678a324602c55de747d0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            220,
+            419,
+            292,
+            448
+          ],
+          "visible_extent": 72
+        },
+        "ground_scaled_512": {
+          "path": "armor/pauldrons/pauldrons__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1cb8674042b1cc123270a0ede9e9bfde1ba597e1e00295191a38247300e19fb4",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            220,
+            420,
+            292,
+            448
+          ],
+          "visible_extent": 72,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "bracers",
+      "label": "Leather Bracers",
+      "category": "armor",
+      "reference_extent_cm": 30,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/bracers/bracers__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "c722a6ccb98c7ce712d24bc85b20f7960a86d98d76b02346b45766e04f3d6985"
+        },
+        "inventory512": {
+          "path": "armor/bracers/bracers__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d1d5629a2707109c1da3d82324fa643bb70e993b59a6e822ce3abb2e938a10b9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            226,
+            226,
+            285,
+            286
+          ],
+          "visible_extent": 60
+        },
+        "thumb256": {
+          "path": "armor/bracers/bracers__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5816a075c58160b618621b83dae7220a06dcdf9af2f3ea23340ac477d681d63d",
+          "visible_bbox": [
+            112,
+            112,
+            143,
+            145
+          ],
+          "visible_extent": 33
+        },
+        "detail512": {
+          "path": "armor/bracers/bracers__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8fe9c5fc1b3e509f97c06ba7f44ad8523a5c18b06d849e41d77c2a1374444189",
+          "visible_bbox": [
+            37,
+            32,
+            475,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/bracers/bracers__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "b5332530cc3b63f1fe428ed92521cc4c6508929c36027f6b001ba6384db52b03",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            9,
+            8,
+            119,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/bracers/bracers__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "20eebd2c12adf76d56d5af992731245d8fa8b0f456785c315c20ea71a495cf01",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/bracers/bracers__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "aef287efe364c37c4ee1ba3ca4d96d303bada1dc5252683c330d8f8612795250",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/bracers/bracers__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7ed1a51c4de37121e0957a555decb6f15d5863af1610472bce0ad7a791ab90f1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            403,
+            278,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/bracers/bracers__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7ed1a51c4de37121e0957a555decb6f15d5863af1610472bce0ad7a791ab90f1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            403,
+            278,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "padded_trousers",
+      "label": "Padded Trousers",
+      "category": "armor",
+      "reference_extent_cm": 90,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/padded_trousers/padded_trousers__full_native.png",
+          "dimensions": [
+            1145,
+            1374
+          ],
+          "sha256": "57d7869e852abefd6d067dc991416934bb5da3265917a99c9f3aece5fa618868"
+        },
+        "inventory512": {
+          "path": "armor/padded_trousers/padded_trousers__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9eab80ffdef5f8c065a16a70153f5c924e377c2c82a83bba10854def61dde10e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            197,
+            166,
+            315,
+            346
+          ],
+          "visible_extent": 180
+        },
+        "thumb256": {
+          "path": "armor/padded_trousers/padded_trousers__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "42af25737521ae14e35c5d21ff6d005d84051498a8a10d7b5cf37b51cad8ab86",
+          "visible_bbox": [
+            96,
+            81,
+            160,
+            175
+          ],
+          "visible_extent": 94
+        },
+        "detail512": {
+          "path": "armor/padded_trousers/padded_trousers__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f77719e0dcac6fb08447aa805fbcf5fd181c84a19d70c5f6e315a2ff50513c5d",
+          "visible_bbox": [
+            109,
+            32,
+            403,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/padded_trousers/padded_trousers__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "1f0faca31ca1ae20a01f3eac7e1b7818d98905a272d6bc3409d825bc1b1ce79d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            27,
+            8,
+            100,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/padded_trousers/padded_trousers__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "05f7ea3a449bb1695969488120303f6c7c0127096369e425781fe656f5d4aec3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            13,
+            4,
+            50,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/padded_trousers/padded_trousers__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ed047561d5ae0cbd8be64a98b668d568041dff2eb706844b7d9fe82d703a0dea",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            25,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/padded_trousers/padded_trousers__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "97281718bac75cb0a41873dff9f4fa3d6d9b5d88cc376e676252d9449cedfac1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            212,
+            313,
+            301,
+            448
+          ],
+          "visible_extent": 135,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/padded_trousers/padded_trousers__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "97281718bac75cb0a41873dff9f4fa3d6d9b5d88cc376e676252d9449cedfac1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            212,
+            313,
+            301,
+            448
+          ],
+          "visible_extent": 135,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "mail_chausses",
+      "label": "Mail Chausses",
+      "category": "armor",
+      "reference_extent_cm": 90,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/mail_chausses/mail_chausses__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "20c084f62dcd6d0205355501dcbe5b375a13f88bf7a1afae4481e15b206f6bec"
+        },
+        "inventory512": {
+          "path": "armor/mail_chausses/mail_chausses__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "026386b279de1dbc6bfe78a712940a827180a69c50e4309ecd742920c925e3dc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            202,
+            166,
+            309,
+            346
+          ],
+          "visible_extent": 180
+        },
+        "thumb256": {
+          "path": "armor/mail_chausses/mail_chausses__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "69f571c3a57290b54e2b4fbfb9e947b4ce56dffe7eb664c778a5355d3755c85e",
+          "visible_bbox": [
+            101,
+            81,
+            157,
+            175
+          ],
+          "visible_extent": 94
+        },
+        "detail512": {
+          "path": "armor/mail_chausses/mail_chausses__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f0b4738986d2a3ee659fc5a4bf6ce9189b0749b7a58fa7ee1d46d1b2ecfec28a",
+          "visible_bbox": [
+            123,
+            32,
+            388,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/mail_chausses/mail_chausses__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "35c9607e3ddfe259f695c9f0f86fb8922cbb37ed87246d83f9084a4112064dd2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            31,
+            8,
+            97,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/mail_chausses/mail_chausses__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "087546fc213fe3e4dbcd8eaf8e753e77446f823265d8b343db2cd3a7e21ace51",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            15,
+            4,
+            48,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/mail_chausses/mail_chausses__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "f2260665d46e57cbf89436a3a475f3b18461f870f531b62297e5665543b3d18d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/mail_chausses/mail_chausses__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "12fac3e7df8de5bc3b898fe2eec3fdd712b75a655b6575b28a4ac2bf7ad24b26",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            216,
+            313,
+            296,
+            448
+          ],
+          "visible_extent": 135,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/mail_chausses/mail_chausses__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "12fac3e7df8de5bc3b898fe2eec3fdd712b75a655b6575b28a4ac2bf7ad24b26",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            216,
+            313,
+            296,
+            448
+          ],
+          "visible_extent": 135,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "occult_robe",
+      "label": "Occult Robe",
+      "category": "armor",
+      "reference_extent_cm": 60,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/occult_robe/occult_robe__full_native.png",
+          "dimensions": [
+            1302,
+            1208
+          ],
+          "sha256": "77dfba3827a590f51f77a0f0ac7cc34192e23f6a1749da593a3b6eb9c695641b"
+        },
+        "inventory512": {
+          "path": "armor/occult_robe/occult_robe__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "51b84267de91f5ad6129ec956445d0b9e6a10454979f64f2543a45a07387c144",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            200,
+            316,
+            311
+          ],
+          "visible_extent": 120
+        },
+        "thumb256": {
+          "path": "armor/occult_robe/occult_robe__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "f31585a0f60cc8312b57e24a34655193747ecda334b5ad657ffd0f63b946ebd5",
+          "visible_bbox": [
+            97,
+            99,
+            158,
+            158
+          ],
+          "visible_extent": 61
+        },
+        "detail512": {
+          "path": "armor/occult_robe/occult_robe__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b8073875ad6b102198cb1f82c9f83120039faadefafb82687b1ac041b1f35f19",
+          "visible_bbox": [
+            32,
+            48,
+            480,
+            463
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/occult_robe/occult_robe__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "bc5dbe51a0336b35267844ad0567ce617cee1aafefa1799f790b698ecaf2fe45",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            116
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/occult_robe/occult_robe__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "041bb7ce5f66a984a40c53a5fb03b722a3d1592e0767663db2646e5b7f69a48b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/occult_robe/occult_robe__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "f92689ded722a8a084eb4e0b34295b5a1bfe7d29186dd98a817abe252f6cbfda",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/occult_robe/occult_robe__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0a3054d0a5ca47cf1587cd7c7ea413343e35cb660d152e10693f7b88cb1ba0f7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            365,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/occult_robe/occult_robe__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0a3054d0a5ca47cf1587cd7c7ea413343e35cb660d152e10693f7b88cb1ba0f7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            365,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "leather_gloves",
+      "label": "Leather Gloves",
+      "category": "armor",
+      "reference_extent_cm": 28,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/leather_gloves/leather_gloves__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "dee6a42e99f30f52d8adba604a019eae4cf7089d897a4c9690dc77f70669fee4"
+        },
+        "inventory512": {
+          "path": "armor/leather_gloves/leather_gloves__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "037bea0591d5d8987bde4b709e0f7ad27aa5f06f2aa0527ca2390e168af0cc90",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            228,
+            233,
+            284,
+            279
+          ],
+          "visible_extent": 56
+        },
+        "thumb256": {
+          "path": "armor/leather_gloves/leather_gloves__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "007de7ae5c2a2e9d35fa31e87c6fc12a9c0f5cbe38d15b40491576a5edc01534",
+          "visible_bbox": [
+            113,
+            114,
+            143,
+            142
+          ],
+          "visible_extent": 30
+        },
+        "detail512": {
+          "path": "armor/leather_gloves/leather_gloves__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a6a3b908ec45c4c91e55f741a9f57b1965da525b844bb077b3a1ace6066e4cfe",
+          "visible_bbox": [
+            32,
+            72,
+            480,
+            439
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/leather_gloves/leather_gloves__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d48cd2be51d526a6dc42545e92e9b03ac89a201fffcfee04ce7cafce1edf8410",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            18,
+            120,
+            110
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/leather_gloves/leather_gloves__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "d5e2c054ec3888cbfc7f0ac7d5df18e6edd886dd34675c4b118533a486a9bce6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/leather_gloves/leather_gloves__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7798a285b77ea921ee4fc376bc3fad167faf3c57def44a4476180923c8f46bf8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/leather_gloves/leather_gloves__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6b75eed8be488bae661fed5051ee521ce7433a438e3f26e6b49e99c1400cf5b1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            235,
+            414,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/leather_gloves/leather_gloves__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6b75eed8be488bae661fed5051ee521ce7433a438e3f26e6b49e99c1400cf5b1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            235,
+            414,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_01_ward_tower_shield",
+      "label": "Ward tower shield",
+      "category": "armor",
+      "reference_extent_cm": 110,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "edc74e2653b83179fce23d2c8fcf85e985cffa4472eb6a21abdc7c5ca1b52857"
+        },
+        "inventory512": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "008c7a904e11a2215fdbdb16e10028eaebbb7d459925b1600431cbb32c6ee323",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            215,
+            146,
+            297,
+            366
+          ],
+          "visible_extent": 220
+        },
+        "thumb256": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "cab451a365db7ae7300f7701b0f5361ff72c19bd119677ec6d653fd48edcd226",
+          "visible_bbox": [
+            105,
+            73,
+            151,
+            183
+          ],
+          "visible_extent": 110
+        },
+        "detail512": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8a43c30f028fbb497923a17d48ee53043407ffc813c37382afa96fefa42d851d",
+          "visible_bbox": [
+            172,
+            32,
+            340,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "89f1aa511b6567550606d2d41afacd927bff5abdb6cf82271a6ece262879cebc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            43,
+            8,
+            85,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e12b4d33947004e3dd747d13175c45efd245216c7aeda1e788bea1cfb4e5c233",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            21,
+            4,
+            42,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "6fa70060ea9d80722f6147abb490a60df99131d7a0772b7cb8dfc96bdd948375",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            2,
+            21,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d54972d79ebb5f552418ea6f3e2f062ff6db168356cf5713740a16c595fbd635",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            225,
+            283,
+            287,
+            448
+          ],
+          "visible_extent": 165,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/lantern_drop_concept_01_ward_tower_shield/lantern_drop_concept_01_ward_tower_shield__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d54972d79ebb5f552418ea6f3e2f062ff6db168356cf5713740a16c595fbd635",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            225,
+            283,
+            287,
+            448
+          ],
+          "visible_extent": 165,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_07_traveler_boots",
+      "label": "Traveler boots",
+      "category": "armor",
+      "reference_extent_cm": 38,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "053fadbbec9002169f131dc73d16179e1add28a3518e76875b977f00fec71e37"
+        },
+        "inventory512": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bdd1d4a6f60b3721475b27ea04fede66afa4acd9a455242dc6823744864c0e0c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            219,
+            218,
+            293,
+            294
+          ],
+          "visible_extent": 76
+        },
+        "thumb256": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "a8f3b54ce45dfd6dda15ccfd2772ac61f7922deab973f104b3f66c0f8fb938a9",
+          "visible_bbox": [
+            107,
+            107,
+            147,
+            148
+          ],
+          "visible_extent": 41
+        },
+        "detail512": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "db7a16c0caa2aedf6137b683f78506ffb6ebd8d0573dae5e918901ec06812420",
+          "visible_bbox": [
+            40,
+            33,
+            473,
+            479
+          ],
+          "visible_extent": 446
+        },
+        "ui128": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "765f4e82cfddff3ac8a30973a5ab8ead8ef7f65966c983d450f0698d35414d40",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            8,
+            118,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e62247bb7c55126da29e07fb0d79bf3b2ace1f05850bf47e85cda5eaf6d43f37",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "835a1a6499cb77fc08697ca499cbc1bba0b0f01ddd8ef21c353183f7cbc781db",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "45ca47e4edf3250f4364c3030048df400e2d2c724765134ab07016969a84bf72",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            229,
+            391,
+            284,
+            448
+          ],
+          "visible_extent": 57,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/lantern_drop_concept_07_traveler_boots/lantern_drop_concept_07_traveler_boots__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "45ca47e4edf3250f4364c3030048df400e2d2c724765134ab07016969a84bf72",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            229,
+            391,
+            284,
+            448
+          ],
+          "visible_extent": 57,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_08_watch_helm",
+      "label": "Watch helm",
+      "category": "armor",
+      "reference_extent_cm": 32,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "09f73fab4bc99320c5c795278171f8af5dd37466205037c73282dcc76cb1b9ea"
+        },
+        "inventory512": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a4101ed740048f0df5bc62a099cd891d50beabac49b256ea0fa6aa3361f86dda",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            231,
+            224,
+            280,
+            288
+          ],
+          "visible_extent": 64
+        },
+        "thumb256": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "43ae40543af41c2db7dd28f8d6f05df309c28612a656bcd19e39a46d11571722",
+          "visible_bbox": [
+            113,
+            111,
+            142,
+            145
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ab923512ed64e149adf00452961320e2cff219fb3a50518b4ad2cc458407a900",
+          "visible_bbox": [
+            83,
+            32,
+            429,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "89ee500d7fa04cd78f9d943fa8516b676aae701bce1987bf684d50ac7f6515c0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            21,
+            8,
+            107,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "db0ee494d578c236ec160c6316bfc097d7ec6b8b9ae0661122b3138cadcce572",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            53,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "701a33bd44df10b1527fb0e98b5cd66898ef3e963bef5b09ee95ae563000db84",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "456956c5895fee90f8cefa61c1226748cfe53687dc9aa77c18406262eec0f900",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            238,
+            400,
+            275,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/lantern_drop_concept_08_watch_helm/lantern_drop_concept_08_watch_helm__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "456956c5895fee90f8cefa61c1226748cfe53687dc9aa77c18406262eec0f900",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            238,
+            400,
+            275,
+            448
+          ],
+          "visible_extent": 48,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_09_strapped_bracers",
+      "label": "Strapped bracers",
+      "category": "armor",
+      "reference_extent_cm": 30,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "1b54d3e88617e799a652f215a9e69796db11061353e40936ba13022c42952c2e"
+        },
+        "inventory512": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0c221145dbf89c8244114fa335bf044cacc23e184162a51c6a2869f4565217cb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            226,
+            229,
+            286,
+            283
+          ],
+          "visible_extent": 60
+        },
+        "thumb256": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "4f6c45ba6ecebc11e954f3a5e1f5b3c0dc9006826f179335f1d8f4813b90022d",
+          "visible_bbox": [
+            111,
+            112,
+            145,
+            144
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "eb9c05f02f06bc864b76f2b0f7933ccce3119ee06a9630cfcc027bfc3669f6ad",
+          "visible_bbox": [
+            32,
+            55,
+            479,
+            457
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "658f7ae000877fb378e0922fbf80a4588fcc1ff1ad04d4b298c0f2e7b879de83",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            114
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "2d967f1eb9dc7a825e6bb9eb3862fbbf25e4707ac2b6a7c7f5f70fdaecb73845",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "862b335f68abc27ee3288c04df5f8bb23a5f7b7ad91dc1cc2f044fd0394e9b5b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a2a4b2cc69dbdd840e16cece94b3231aa463ddb2e31c9f82371e84e4ccda9c4d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            408,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/lantern_drop_concept_09_strapped_bracers/lantern_drop_concept_09_strapped_bracers__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a2a4b2cc69dbdd840e16cece94b3231aa463ddb2e31c9f82371e84e4ccda9c4d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            408,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_08_vigil_kite_shield",
+      "label": "Vigil kite shield",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "42a00d396b666ebf652785860a9ecd6a2bf9f308a5e50a4ab6ec826d8daab6b0"
+        },
+        "inventory512": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccaca6d0797a615e0c7f1f2028370b57282023c45f19cd3e9ae2ad743eef779b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            217,
+            191,
+            294,
+            321
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "4a7cc487f5c5e4e7daa6d326bc150c058084d6e443f06bd1ec783575e5c4716d",
+          "visible_bbox": [
+            108,
+            95,
+            149,
+            161
+          ],
+          "visible_extent": 66
+        },
+        "detail512": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6a17a57eae1d5db08c18eedb0ebffd5fc770b62dbb4ad6a98b84e6a098e49287",
+          "visible_bbox": [
+            124,
+            33,
+            389,
+            480
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8127fd74d76518adc82c88472e84d814278ea7fc82dc80209dee62206efc4078",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            30,
+            8,
+            97,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "ac61258d9072c605f051ecf6407f935095056f19e958928c123b8c606ea50de5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            15,
+            4,
+            48,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "94131090a851249b18a7d462c073fdc2d1432311a1742c8579184c8a58139ecf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "58a084963ec3ca01587056522070441b8e44b646ee5fd684125199b71cc6455e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            227,
+            350,
+            285,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "armor/lantern_concept_item_08_vigil_kite_shield/lantern_concept_item_08_vigil_kite_shield__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "58a084963ec3ca01587056522070441b8e44b646ee5fd684125199b71cc6455e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            227,
+            350,
+            285,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

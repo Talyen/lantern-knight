@@ -1,0 +1,95 @@
+LAMPLIGHTER C / RUST — LIMITED KNOWN-VIEW IDLE STUDY v01
+6 October 2026
+
+RESULT AND SCOPE
+The original known-view identity is preserved in a controlled 2D idle study.
+The static likeness and limited idle poses passed review. This is not an
+accepted production hero sprite, calibrated turnaround, walk or sword attack.
+The original three-direction walk/attack production gate remains BLOCKED.
+
+START HERE
+preview/Lamplighter_KnownView_Idle_1080p60.mp4
+  1920 x 1080, 60 fps, six seconds showing three loops.
+preview/Lamplighter_KnownView_Idle_Review_Poster.png
+preview/Lamplighter_KnownView_Idle_ContactSheet.png
+source/Lamplighter_C_RUST_KnownView_Layered_Idle_v01.blend
+  Editable, self-contained Blender 4.3.2 source with packed original-derived
+  texture, a continuous UV mesh, separate cloth and lantern controls, and
+  timeline keys. Head, bare hands, sword and feet stay fixed.
+study_manifest_native.json
+  Explicit source sample times, rational durations, canvas, registration,
+  filenames and SHA-256 values for the source-size PNG sequence.
+frames_native/
+  Twenty-four transparent PNGs, each 466 x 1198 pixels.
+
+TIMING AND RESOLUTION
+The idle cycle is two seconds. It has 24 source samples at 12 samples/second.
+The 60 fps video holds each source sample for five display frames. It does not
+contain 60 independently authored poses per second and makes no game-runtime
+performance claim. The native Blender timeline is 24 fps with every second
+frame sampled. Key 49 closes the two-second loop.
+
+The source crop is 466 x 1198 pixels. The included 932 x 2396 extreme-pose
+images are 2x proof renders of those original pixels, not newly authored
+high-resolution detail. Native PNGs are resampled from the 2x proof masters.
+
+CANONICAL SOURCE AND PROVENANCE
+The reference image is the untouched user-selected original C / RUST crop.
+It was not regenerated, repainted, recolored or overwritten. Its SHA-256 is:
+74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c
+
+All included static foreground RGB values match the original source exactly.
+Masks exclude the original background, enclosed matte pockets and caption.
+Animation samples the same source texture through controlled UV geometry.
+No independent AI-generated frames or newly painted hidden surfaces are used.
+
+HOW THE RIG WORKS
+Authored source masks define nine semantic regions. A single continuous UV
+surface avoids cracks along shared source boundaries. Independent weighted
+controls deform the coat panels, a very small chest-cloth area, and the brass
+lantern body. Shared cloth seams are pinned. The lantern has a 0.9-degree
+hinge sweep while the carried bail and hand stay in place. This is a small
+idle/deformation proof, not evidence of articulated locomotion or attack.
+
+VERIFIED
+- The canonical file hash is unchanged.
+- Included static foreground pixels have zero RGB error against the source.
+- Across all 24 rendered samples, the tested face, hand and foot regions are
+  pixel-identical: zero RGBA error.
+- No new transparent holes occur inside the eight-source-pixel eroded rest
+  silhouette in any sample.
+- Video probe confirms 1920 x 1080, 60 fps, 360 frames and six seconds.
+- Explicit clip duration is 24 ticks at a 12 Hz timebase, exactly two seconds.
+
+LIMITATIONS
+This is the original concept's front three-quarter view. Its depicted angle
+is not calibrated. The flat authoring camera does not establish the locked
+35.264389682754654-degree / 45-degree / 13 m production contract. The declared
+pixel registration point [272,1084] is stable, but is not an approved metre-
+scaled game foot anchor. No runtime atlas or engine integration is included.
+
+A fine pale source-matte fringe remains visible on dark grounds. It has not
+been repainted or decontaminated. Broad limb articulation, back and side views,
+newly exposed joints and hidden costume surfaces are not supported by this
+one image. The failed 3D look experiment was not animated or promoted.
+
+NEXT PRODUCTION STEP
+Faithful production requires additional authored view/model work: approved
+front/side/back construction and hidden-joint coverage, followed by a properly
+shaped source rig and a fresh still likeness gate. Then prove a real walk and
+first sword attack in three calibrated directions. Keep the original design
+unchanged. Do not obtain those views by rotating this flat image, and do not
+infer that this idle study makes eight-direction production ready.
+
+REBUILD
+Open the packed .blend in Blender 4.3.2 and scrub frames 1 through 48.
+For a deterministic source reconstruction, from this directory run:
+  python source/build_static_layers.py
+  python source/prepare_control_fields.py
+  blender -b --python source/build_continuous_rig.py
+  blender -b --python source/render_idle_samples.py
+  python source/finish_study.py
+The Python preparation tools require Pillow, NumPy and SciPy. Rendering
+requires Blender; the video uses FFmpeg. The reconstruction reads the unchanged
+reference at ../reference/canonical_original_C_RUST.png. Source Python files
+are art-authoring/export tools; they contain no game or engine implementation.

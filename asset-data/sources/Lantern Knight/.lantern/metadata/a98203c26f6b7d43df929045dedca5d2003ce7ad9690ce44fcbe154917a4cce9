@@ -1,0 +1,756 @@
+{
+  "schema": "lantern.attack_variety.v1",
+  "enemy": "Bell Bearing Pilgrim",
+  "ability": "Bellmouth Pressure Shove",
+  "facing": "screen-right three-quarter; authored facing only, not validated for mirroring",
+  "loop": false,
+  "actor": {
+    "canvas_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      360,
+      565
+    ],
+    "pivot_unity_normalized": [
+      0.5625,
+      0.1171875
+    ],
+    "ppu": 240,
+    "original_neutral_height_px": 500,
+    "new_neutral_height_px": 395,
+    "atlas": "pilgrim_actor_atlas.png",
+    "atlas_grid": [
+      4,
+      4
+    ],
+    "frames": [
+      {
+        "index": 0,
+        "file": "actor_frames/actor_00.png",
+        "start_ms": 0,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          39,
+          56,
+          244,
+          272
+        ],
+        "source_anchor_xy": [
+          89,
+          214
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          140,
+          168
+        ],
+        "bbox_xyxy": [
+          143,
+          171,
+          517,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 1,
+        "file": "actor_frames/actor_01.png",
+        "start_ms": 125,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          281,
+          46,
+          501,
+          273
+        ],
+        "source_anchor_xy": [
+          103,
+          225
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          114,
+          148
+        ],
+        "bbox_xyxy": [
+          119,
+          153,
+          520,
+          567
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 2,
+        "file": "actor_frames/actor_02.png",
+        "start_ms": 250,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          533,
+          26,
+          750,
+          274
+        ],
+        "source_anchor_xy": [
+          107,
+          245
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          107,
+          111
+        ],
+        "bbox_xyxy": [
+          111,
+          115,
+          507,
+          567
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 3,
+        "file": "actor_frames/actor_03.png",
+        "start_ms": 375,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          792,
+          13,
+          998,
+          273
+        ],
+        "source_anchor_xy": [
+          104,
+          258
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          112,
+          86
+        ],
+        "bbox_xyxy": [
+          115,
+          91,
+          490,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 4,
+        "file": "actor_frames/actor_04.png",
+        "start_ms": 500,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          38,
+          295,
+          252,
+          562
+        ],
+        "source_anchor_xy": [
+          90,
+          265
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          138,
+          73
+        ],
+        "bbox_xyxy": [
+          141,
+          76,
+          532,
+          564
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 5,
+        "file": "actor_frames/actor_05.png",
+        "start_ms": 625,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          289,
+          295,
+          505,
+          561
+        ],
+        "source_anchor_xy": [
+          95,
+          264
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          129,
+          75
+        ],
+        "bbox_xyxy": [
+          133,
+          78,
+          527,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 6,
+        "file": "actor_frames/actor_06.png",
+        "start_ms": 750,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          538,
+          291,
+          743,
+          562
+        ],
+        "source_anchor_xy": [
+          102,
+          269
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          116,
+          66
+        ],
+        "bbox_xyxy": [
+          120,
+          69,
+          494,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 7,
+        "file": "actor_frames/actor_07.png",
+        "start_ms": 875,
+        "duration_ms": 125,
+        "phase": "tell",
+        "source_rect_xyxy": [
+          793,
+          289,
+          1007,
+          562
+        ],
+        "source_anchor_xy": [
+          103,
+          271
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          114,
+          62
+        ],
+        "bbox_xyxy": [
+          117,
+          66,
+          508,
+          565
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 8,
+        "file": "actor_frames/actor_08.png",
+        "start_ms": 1000,
+        "duration_ms": 100,
+        "phase": "release",
+        "source_rect_xyxy": [
+          36,
+          574,
+          266,
+          823
+        ],
+        "source_anchor_xy": [
+          92,
+          247
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          134,
+          107
+        ],
+        "bbox_xyxy": [
+          139,
+          110,
+          557,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 9,
+        "file": "actor_frames/actor_09.png",
+        "start_ms": 1100,
+        "duration_ms": 75,
+        "phase": "contact",
+        "source_rect_xyxy": [
+          267,
+          568,
+          555,
+          822
+        ],
+        "source_anchor_xy": [
+          117,
+          252
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          88,
+          98
+        ],
+        "bbox_xyxy": [
+          92,
+          103,
+          619,
+          567
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 10,
+        "file": "actor_frames/actor_10.png",
+        "start_ms": 1175,
+        "duration_ms": 100,
+        "phase": "recovery",
+        "source_rect_xyxy": [
+          557,
+          578,
+          760,
+          823
+        ],
+        "source_anchor_xy": [
+          83,
+          243
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          151,
+          114
+        ],
+        "bbox_xyxy": [
+          155,
+          117,
+          525,
+          565
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 11,
+        "file": "actor_frames/actor_11.png",
+        "start_ms": 1275,
+        "duration_ms": 100,
+        "phase": "recovery",
+        "source_rect_xyxy": [
+          807,
+          588,
+          1006,
+          823
+        ],
+        "source_anchor_xy": [
+          89,
+          233
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          140,
+          133
+        ],
+        "bbox_xyxy": [
+          143,
+          136,
+          506,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 12,
+        "file": "actor_frames/actor_12.png",
+        "start_ms": 1375,
+        "duration_ms": 100,
+        "phase": "recovery",
+        "source_rect_xyxy": [
+          33,
+          845,
+          244,
+          1090
+        ],
+        "source_anchor_xy": [
+          95,
+          243
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          129,
+          114
+        ],
+        "bbox_xyxy": [
+          133,
+          117,
+          518,
+          566
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 13,
+        "file": "actor_frames/actor_13.png",
+        "start_ms": 1475,
+        "duration_ms": 100,
+        "phase": "recovery",
+        "source_rect_xyxy": [
+          286,
+          839,
+          488,
+          1090
+        ],
+        "source_anchor_xy": [
+          98,
+          249
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          123,
+          103
+        ],
+        "bbox_xyxy": [
+          127,
+          106,
+          495,
+          567
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 14,
+        "file": "actor_frames/actor_14.png",
+        "start_ms": 1575,
+        "duration_ms": 100,
+        "phase": "recovery",
+        "source_rect_xyxy": [
+          541,
+          836,
+          744,
+          1090
+        ],
+        "source_anchor_xy": [
+          99,
+          252
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          121,
+          98
+        ],
+        "bbox_xyxy": [
+          126,
+          102,
+          494,
+          567
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      },
+      {
+        "index": 15,
+        "file": "actor_frames/actor_15.png",
+        "start_ms": 1675,
+        "duration_ms": 100,
+        "phase": "recovery",
+        "source_rect_xyxy": [
+          799,
+          847,
+          996,
+          1090
+        ],
+        "source_anchor_xy": [
+          97,
+          241
+        ],
+        "baked_scale": 1.858736059479554,
+        "baked_offset_xy": [
+          125,
+          118
+        ],
+        "bbox_xyxy": [
+          128,
+          121,
+          488,
+          567
+        ],
+        "pivot_top_left": [
+          360,
+          565
+        ]
+      }
+    ],
+    "registration_note": "Fixed source-grid horizontal registration; one uniform scale for all cels. Foot baseline registered vertically; no per-frame resizing.",
+    "scale_reference": "Full-height standing tell pose, because first cel is compressed crouch. Entire clip uses one scale; max standing silhouette matches500px reference."
+  },
+  "effect": {
+    "canvas_px": [
+      512,
+      384
+    ],
+    "pivot_top_left_px": [
+      256,
+      300
+    ],
+    "atlas": "pilgrim_effect_atlas.png",
+    "atlas_grid": [
+      4,
+      2
+    ],
+    "spawn_time_ms": 1000,
+    "durations_ms": [
+      35,
+      35,
+      30,
+      70,
+      90,
+      110,
+      130,
+      170
+    ],
+    "frames": [
+      "effect_frames/effect_00.png",
+      "effect_frames/effect_01.png",
+      "effect_frames/effect_02.png",
+      "effect_frames/effect_03.png",
+      "effect_frames/effect_04.png",
+      "effect_frames/effect_05.png",
+      "effect_frames/effect_06.png",
+      "effect_frames/effect_07.png"
+    ],
+    "placement": "world target footprint or lane endpoint; effect is independent from actor",
+    "suggested_target_offset_from_actor_px": [
+      300,
+      80
+    ],
+    "target_footprint_local_px": {
+      "shape": "forward_lane",
+      "bounds": [
+        -170,
+        -42,
+        170,
+        42
+      ]
+    },
+    "contact_frame_index": 3
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "tell_begin"
+    },
+    {
+      "time_ms": 1000,
+      "event": "release_begin"
+    },
+    {
+      "time_ms": 1100,
+      "event": "single_contact",
+      "visual_reference_only": true
+    },
+    {
+      "time_ms": 1775,
+      "event": "actor_return_to_ready"
+    }
+  ],
+  "total_duration_ms": 1775,
+  "damage_events": 1,
+  "runtime_sprite_offsets_px": [
+    0,
+    0
+  ],
+  "world_motion": "engine owned; do not reapply baked registration",
+  "source": {
+    "generator": "built-in imagegen",
+    "sheet_pixels": [
+      1024,
+      1536
+    ],
+    "layout": "16 actor cels + 8 effect cels",
+    "native_cell_sizes_px": [
+      [
+        205,
+        216
+      ],
+      [
+        220,
+        227
+      ],
+      [
+        217,
+        248
+      ],
+      [
+        206,
+        260
+      ],
+      [
+        214,
+        267
+      ],
+      [
+        216,
+        266
+      ],
+      [
+        205,
+        271
+      ],
+      [
+        214,
+        273
+      ],
+      [
+        230,
+        249
+      ],
+      [
+        288,
+        254
+      ],
+      [
+        203,
+        245
+      ],
+      [
+        199,
+        235
+      ],
+      [
+        211,
+        245
+      ],
+      [
+        202,
+        251
+      ],
+      [
+        203,
+        254
+      ],
+      [
+        197,
+        243
+      ],
+      [
+        256,
+        198
+      ],
+      [
+        256,
+        198
+      ],
+      [
+        256,
+        198
+      ],
+      [
+        256,
+        198
+      ],
+      [
+        256,
+        248
+      ],
+      [
+        256,
+        248
+      ],
+      [
+        256,
+        248
+      ],
+      [
+        256,
+        248
+      ]
+    ],
+    "resampling": "uniform Lanczos placement resampling to baseline footprint; no additional generated detail or AI upscale claimed",
+    "reference": {
+      "id": "1cc0GWPmmo-_fCzV59DNCcoqgVY5_yq-w",
+      "title": "original.png",
+      "mime_type": "image/png",
+      "size": "832335",
+      "url": "https://drive.google.com/file/d/1cc0GWPmmo-_fCzV59DNCcoqgVY5_yq-w/view?usp=drivesdk",
+      "display_url": "https://drive.google.com/file/d/1cc0GWPmmo-_fCzV59DNCcoqgVY5_yq-w/view?usp=drivesdk",
+      "file_or_folder": "file",
+      "created_time": "2026-10-10T02:31:33.499Z",
+      "modified_time": "2026-10-10T02:31:33.499Z",
+      "parent_ids": null,
+      "drive_id": null,
+      "current_user_can_share": null,
+      "has_augmented_permissions": null,
+      "shared": false,
+      "permissions": null,
+      "source_visibility_status": "not_shared",
+      "can_download": true,
+      "can_list_children": false
+    }
+  },
+  "qa": {
+    "rgba": true,
+    "unique_actor_cels": 16,
+    "unique_effect_cels": 8,
+    "no_engine_changes": true,
+    "integration_note": "Gameplay hitbox sizes and damage must be approved in engine; contact is a single visual reference. Smoke and small edge pixels preserved from generated alpha."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "prompt": "Use case: stylized-concept. Asset: NEW chronological decay animation artwork, exactly 12 cels in FOUR equal columns by THREE equal rows, read left-to-right then down. Transparent RGBA, no labels or borders. Input image is the appearance and starting peak reference only; draw genuine evolving continuation, preserving painterly material detail and muted colors. No character, lantern object, scenery, ground or text.\nSPATIAL MOTION: identical square spatial window and scale in every cel. The old invisible emitter is at x=12%,y=60%; leave it behind as debris moves RIGHT. Beginning cloud around x=20\u201372%, middle cloud x=35\u201382%, late wisps/flakes x=65\u201387%. Preserve the broad cloud envelope while material separates and thins. Leave progressively more empty space on the LEFT. Do not pull the remainder back to the source or recenter every drawing. No shrunken copy of the entire effect. Newly drawn material curls, splits and rotates each cel. All content stays 8% away from all cell boundaries, fully isolated clear gutters.\nASHEN VEIL FLARE tail, 12 drawings. Distinct motion is dry fluttering charred matter: large papery burned folds are torn away by the pulse, tumble and rotate edge-on in divergent outward paths, split into lighter flakes and lift on hot air. Charcoal-black scorched faces, dusty taupe undersides, brittle torn edges; just a tiny dull ember seam initially, no visible glow after the first few cels. Do not turn this into billowing smoke or liquid flame. Airy negative spaces and broken asymmetrical flying sheets.\nCels 1\u20133: broad charred folds detach from the left origin and are thrown forward, top fold flips upward while lower fold rotates down/right; angular silhouettes change visibly through rotation. Cels 4\u20136: three main folds tear into distinct large flaking pieces, expose pale gray undersides, tumble apart rightward; sparse dry ash grains trail. Cels 7\u20139: fragments separate and lift into irregular scattering, split further, some nearly edge-on, no connected cone silhouette and no flame; leave empty source area. Cels 10\u201312: a few tiny flakes still tumbling near the right edge, farther apart, then almost empty with one faint ash speck. Clear by outward scattering, never shrinking or returning to origin. Twelve distinct physically evolving drawings.\n",
+  "transparent_background": true,
+  "reference_image": "/workspace/scratch/1a83d58417d5/lantern_flare_animations/03_ash_heavy_flare/frames/04.png",
+  "reference_sha256": "75a1051587b214bde517d9b05bccfa3419c5f99bfa4a5f9e5c59edbb7508a15d",
+  "output": "new_tail_raw.png",
+  "output_sha256": "4f9846515989a28d5051c872a24e9195a8deffcd40d9a8637a6714aa14981230",
+  "selected_tail_cells": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ]
+}

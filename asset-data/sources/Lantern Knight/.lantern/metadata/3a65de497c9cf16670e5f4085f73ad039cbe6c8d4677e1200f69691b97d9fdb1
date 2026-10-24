@@ -1,0 +1,398 @@
+[
+  {
+    "old_id": "lantern_drop_concept_01_ward_tower_shield",
+    "name": "Ward tower shield",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/01_ward_tower_shield.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/01_ward_tower_shield.png",
+    "disposition": "rebuild",
+    "sha256": "edc74e2653b83179fce23d2c8fcf85e985cffa4472eb6a21abdc7c5ca1b52857",
+    "original_sha256": "05b98e19cc84b4b3ca17aa9141d4654479b087242c7813d110a87f0ca943060b",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        97,
+        42,
+        1037,
+        1182
+      ],
+      "visible_bbox_alpha_gt127": [
+        444,
+        45,
+        868,
+        1178
+      ],
+      "transparent_pixel_fraction": 0.7758146816948126,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/01_ward_tower_shield.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_02_shear_glaive",
+    "name": "Shear glaive",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/02_shear_glaive.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/02_shear_glaive.png",
+    "disposition": "rebuild",
+    "sha256": "c0975eb9fb6610d379a0fb318ebc059ec7113cc7d63b1ffb9eee4dae837b40b0",
+    "original_sha256": "8bfa2c4f0a2d095848f2fe563c73f685bf53013fa6763dcfe888947d08768e8e",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        162,
+        53,
+        1206,
+        1172
+      ],
+      "visible_bbox_alpha_gt127": [
+        192,
+        64,
+        1083,
+        1164
+      ],
+      "transparent_pixel_fraction": 0.937622256307726,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/02_shear_glaive.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_03_bearded_handaxe",
+    "name": "Bearded handaxe",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/03_bearded_handaxe.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/03_bearded_handaxe.png",
+    "disposition": "rebuild",
+    "sha256": "717da08107947c7959e124e7a79aba921a75af9dc384f7b3a607678b39cf6fe7",
+    "original_sha256": "8f8cc3f1900051221714c3fd9ce6dd9812f2c42d02606731689ecda1ed757317",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        35,
+        55,
+        1210,
+        1220
+      ],
+      "visible_bbox_alpha_gt127": [
+        83,
+        83,
+        1204,
+        1177
+      ],
+      "transparent_pixel_fraction": 0.7960090708139058,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/03_bearded_handaxe.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_04_cagehead_mace",
+    "name": "Cagehead mace",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/04_cagehead_mace.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/04_cagehead_mace.png",
+    "disposition": "rebuild",
+    "sha256": "8cde6ab6018d8cbc91de15e8f5702562e4c73ced991ae95d4028fb29674bf9bb",
+    "original_sha256": "17f6368c6c87478e1d8a97265b4034bebf7f6573b30257c5103dc6a4105c4074",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        146,
+        53,
+        1210,
+        1150
+      ],
+      "visible_bbox_alpha_gt127": [
+        187,
+        134,
+        1071,
+        1101
+      ],
+      "transparent_pixel_fraction": 0.853825970610156,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/04_cagehead_mace.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_05_quarry_mattock",
+    "name": "Quarry mattock",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/05_quarry_mattock.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/05_quarry_mattock.png",
+    "disposition": "rebuild",
+    "sha256": "df180d621b8915db9d02159ec4107a597b0c9e91162ea5e410ee7caedd1147a4",
+    "original_sha256": "7a7db48c943067708300dff712a6eb69ec538f9894a16fcd5f60a66778ce5edd",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        119,
+        64,
+        1234,
+        1174
+      ],
+      "visible_bbox_alpha_gt127": [
+        161,
+        70,
+        1109,
+        1170
+      ],
+      "transparent_pixel_fraction": 0.8546380450183019,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/05_quarry_mattock.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_06_pilgrim_pack",
+    "name": "Pilgrim pack",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/06_pilgrim_pack.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/06_pilgrim_pack.png",
+    "disposition": "rebuild",
+    "sha256": "1f203c18e486d8cc5ab5257ca42bacd14b20c00be02a0ffc094f843ec3ecf67c",
+    "original_sha256": "452f07255583b400787478cdc5be32aa0c45d405609a9c0e8754c2290e64438f",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        32,
+        1210,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        148,
+        130,
+        1164,
+        1130
+      ],
+      "transparent_pixel_fraction": 0.5443416791943612,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 5
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/06_pilgrim_pack.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_07_traveler_boots",
+    "name": "Traveler boots",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/07_traveler_boots.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/07_traveler_boots.png",
+    "disposition": "rebuild",
+    "sha256": "053fadbbec9002169f131dc73d16179e1add28a3518e76875b977f00fec71e37",
+    "original_sha256": "fa7c406acc93c64563ff7c5256e9747a53814cac4b56371e1f8bcb230c54808b",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        39,
+        1224,
+        1181
+      ],
+      "visible_bbox_alpha_gt127": [
+        134,
+        95,
+        1152,
+        1147
+      ],
+      "transparent_pixel_fraction": 0.5994457290100705,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 10
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/07_traveler_boots.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_08_watch_helm",
+    "name": "Watch helm",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/08_watch_helm.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/08_watch_helm.png",
+    "disposition": "rebuild",
+    "sha256": "09f73fab4bc99320c5c795278171f8af5dd37466205037c73282dcc76cb1b9ea",
+    "original_sha256": "45668c2cb08b50819b57037fc6d45643c5f14dfbd18f68bea92bbeb4ba9107ac",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        59,
+        59,
+        1192,
+        1228
+      ],
+      "visible_bbox_alpha_gt127": [
+        198,
+        63,
+        1071,
+        1190
+      ],
+      "transparent_pixel_fraction": 0.589651234073294,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/08_watch_helm.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_09_strapped_bracers",
+    "name": "Strapped bracers",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/09_strapped_bracers.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/09_strapped_bracers.png",
+    "disposition": "rebuild",
+    "sha256": "1b54d3e88617e799a652f215a9e69796db11061353e40936ba13022c42952c2e",
+    "original_sha256": "3b89dbe1364e7613b11d8ac874ab8ebd9af285f8b79a42da75da87d763daef49",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        23,
+        101,
+        1224,
+        1150
+      ],
+      "visible_bbox_alpha_gt127": [
+        79,
+        104,
+        1221,
+        1128
+      ],
+      "transparent_pixel_fraction": 0.6106322606574432,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/09_strapped_bracers.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_10_ashen_reliquary",
+    "name": "Ashen reliquary",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/10_ashen_reliquary.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/10_ashen_reliquary.png",
+    "disposition": "rebuild",
+    "sha256": "b3f3dcbfa4159fbc23fd1f2a1a5abbea015b99e6cbbd7ce634c02fe9dc576c9a",
+    "original_sha256": "6da9f4a6334c52c50c4301679dc7a39852c7585ca1ce59fbfddd7f7ef1d2f134",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        52,
+        1140,
+        1220
+      ],
+      "visible_bbox_alpha_gt127": [
+        138,
+        144,
+        1135,
+        1160
+      ],
+      "transparent_pixel_fraction": 0.6230868239178489,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 20
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/10_ashen_reliquary.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_11_bone_scroll_case",
+    "name": "Bone scroll case",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/11_bone_scroll_case.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/11_bone_scroll_case.png",
+    "disposition": "rebuild",
+    "sha256": "e2fa231b3f4cd8276046a567dd0127d29aee0310d81dad203dabd3c4c1cbb4ba",
+    "original_sha256": "75e5b7a4d11cf2a7c9b15175c3b99b8e315a715fd9d51cd5e6e74def1dfa68a2",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        33,
+        71,
+        1222,
+        1228
+      ],
+      "visible_bbox_alpha_gt127": [
+        142,
+        123,
+        1182,
+        1126
+      ],
+      "transparent_pixel_fraction": 0.774219149439497,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/11_bone_scroll_case.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_drop_concept_12_chainbound_codex",
+    "name": "Chainbound codex",
+    "pack": "Lantern - World Drop Gear 02",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/12_chainbound_codex.png",
+    "image": "lantern_revision_02/equipment/world_drop_gear_02/assets/12_chainbound_codex.png",
+    "disposition": "rebuild",
+    "sha256": "e559ca1523194a02156e5763a593f8a0c181d4b3bb6df9ebf7d567ae2b57c19c",
+    "original_sha256": "f672eec76fe2023919f1b978ecf49a65d23d80f9e84967d79cf474af71de3874",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        51,
+        1226,
+        1150
+      ],
+      "visible_bbox_alpha_gt127": [
+        78,
+        195,
+        1198,
+        1078
+      ],
+      "transparent_pixel_fraction": 0.6185399703405243,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 9
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/world_drop_gear_02/assets/12_chainbound_codex.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  }
+]

@@ -1,0 +1,13 @@
+clip,frame,hold_ticks_60hz,duration_seconds,phase
+drift_veil_breath,1,12,0.200000,Low float
+drift_veil_breath,2,10,0.166667,Inhale / rise
+drift_veil_breath,3,12,0.200000,Open veil
+drift_veil_breath,4,14,0.233333,High suspend
+drift_veil_breath,5,10,0.166667,Exhale / descend
+drift_veil_breath,6,12,0.200000,Return
+resonant_spell,1,20,0.333333,Rest
+resonant_spell,2,14,0.233333,Gather inward
+resonant_spell,3,8,0.133333,Unfurl
+resonant_spell,4,14,0.233333,Radiant resonance
+resonant_spell,5,10,0.166667,Ring / recoil
+resonant_spell,6,24,0.400000,Settle

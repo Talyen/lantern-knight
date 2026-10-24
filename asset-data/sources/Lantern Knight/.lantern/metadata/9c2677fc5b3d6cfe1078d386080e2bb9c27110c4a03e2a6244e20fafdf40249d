@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_blank_memorial_plaque_01.png",
+    "new": "volume_12_crypt/assets/crypt_blank_memorial_plaque_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_funeral_cloth_stand_01.png",
+    "new": "volume_12_crypt/assets/crypt_funeral_cloth_stand_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_leaning_sarcophagus_lid_01.png",
+    "new": "volume_12_crypt/assets/crypt_leaning_sarcophagus_lid_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_low_wooden_bier_01.png",
+    "new": "volume_12_crypt/assets/crypt_low_wooden_bier_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_restrained_bone_pile_01.png",
+    "new": "volume_12_crypt/assets/crypt_restrained_bone_pile_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_stone_offering_table_01.png",
+    "new": "volume_12_crypt/assets/crypt_stone_offering_table_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_urn_niche_stack_01.png",
+    "new": "volume_12_crypt/assets/crypt_urn_niche_stack_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_12_crypt/assets/crypt_wall_ossuary_cabinet_01.png",
+    "new": "volume_12_crypt/assets/crypt_wall_ossuary_cabinet_01.png"
+  }
+]

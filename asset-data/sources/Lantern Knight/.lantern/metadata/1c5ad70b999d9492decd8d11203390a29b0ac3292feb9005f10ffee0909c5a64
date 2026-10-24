@@ -1,0 +1,18 @@
+ENEMY COMPLETION TEST HANDOFF
+
+Use exact manifests embedded in completion_metadata and the new catalog groups.
+Core corrected records are preserved.
+ACTIVE FIVE: Crawler, Monk, Oracle v02, Waxmask unified v03, compact camera-guided Cantor v03. The near-frontal Cantor concept and old source clips in provenance are reference-only. See active_five_enemy_state_coverage for all25 state mappings.
+
+REQUIRED IMPORT CONTRACTS
+Oracle spawn, hit and defeat: Relative to corrected Oracle v02 PPU. Standalone ready frames are400x620/root204,554; new drawings600x700/root300,600. Per-frame PPU multipliers are required. Atlas cells600x700 require per-sprite PPU overrides; prefer standalone frames. Do not reuse old canvas normalization.
+
+Waxmask Acolyte spawn, hit and defeat: Frames already normalized to current unified v03:768x704/root416,584. Use SAME current v03 PPU; do not apply original v03 migration factor again. Spawn plays1..5 then0ready; defeat terminal is held indefinitely as documented.
+
+Monk and Crawler awakening: Use each actor current movement PPU B, not an assumed256PPU. Monk640x576/root320,500; Crawler768x768/root448,488. Seven held drawings each; final drawing equals current move01 decoded pixels. No extra offset/scale or root motion; resume move01 at documented handoff tick.
+
+Existing Monk and Crawler hit/recovery: Existing current hit/recovery package retained. Use its per-character canvas and fixed pivot, and current movement import density as documented; hit clips are one-shot. These records connect the existing current pack to the complete state catalog.
+
+Compact Cantor spawn, hit and defeat: Inherit current compact-hover PPU; import relative scale1. Canvas640x640/root320,608. Do not apply core spell0.87 scaling to these completion states. Exact ready is used at handoffs; spawn/hit/defeat are non-looping as documented.
+
+No engine integration or gameplay approval is claimed.

@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "central_orchard_path",
+      "display_crop_box": [
+        844,
+        738,
+        2380,
+        1762
+      ],
+      "source_crop_box": [
+        337.6,
+        295.2,
+        952.0,
+        704.8
+      ],
+      "display_hero_foot": [
+        1612,
+        1388
+      ],
+      "source_hero_foot": [
+        644.8,
+        555.2
+      ]
+    },
+    {
+      "name": "press_house_approach",
+      "display_crop_box": [
+        1564,
+        282,
+        3100,
+        1306
+      ],
+      "source_crop_box": [
+        625.6,
+        112.8,
+        1240.0,
+        522.4
+      ],
+      "display_hero_foot": [
+        2332,
+        932
+      ],
+      "source_hero_foot": [
+        932.8,
+        372.8
+      ]
+    },
+    {
+      "name": "lower_orchard_gate",
+      "display_crop_box": [
+        1450,
+        1536,
+        2986,
+        2560
+      ],
+      "source_crop_box": [
+        580.0,
+        614.4,
+        1194.4,
+        1024.0
+      ],
+      "display_hero_foot": [
+        2218,
+        2225
+      ],
+      "source_hero_foot": [
+        887.2,
+        890.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

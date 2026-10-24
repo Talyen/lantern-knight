@@ -1,0 +1,95 @@
+{
+  "name": "raven",
+  "version": "1.0",
+  "source": "Fresh built-in image generation from selected original only; no generated draft used as a reference.",
+  "art_direction": "Sunburst 2.5",
+  "camera": {
+    "elevation_degrees": 35.264,
+    "projection": "orthographic art direction; illustrative raster, not calibrated geometry"
+  },
+  "native_cell_size": [
+    576,
+    576
+  ],
+  "native_generation_size": [
+    1536,
+    1024
+  ],
+  "resampling": "none; native pixel crop and integer registration only",
+  "atlas": {
+    "file": "atlas.png",
+    "columns": 3,
+    "rows": 2,
+    "padding_inside_cells": true
+  },
+  "pivot_pixels_top_left": [
+    282,
+    522
+  ],
+  "pivot_normalized_bottom_left": [
+    0.4895833333333333,
+    0.09375
+  ],
+  "timing_hz": 60,
+  "clip": {
+    "name": "perch_preen",
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      2,
+      4,
+      5,
+      0
+    ],
+    "holds_ticks": [
+      100,
+      10,
+      10,
+      22,
+      10,
+      12,
+      18,
+      20
+    ],
+    "loop": true
+  },
+  "suggested_display_width_pixels": 96,
+  "recommended_idle_variation": {
+    "base_cel": 0,
+    "hold_ticks_range": [
+      120,
+      360
+    ],
+    "note": "Randomize rest between preen cycles, not within the action."
+  },
+  "alpha": "Straight RGBA. Native coverage retained; <8/255 dust removed; zero-alpha RGB cleared.",
+  "registration_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      -6,
+      1
+    ],
+    [
+      -2,
+      2
+    ],
+    [
+      -22,
+      2
+    ]
+  ],
+  "canonical_static_region": "y >= 256: lower body, tail, feet, rock pinned to cel 0"
+}

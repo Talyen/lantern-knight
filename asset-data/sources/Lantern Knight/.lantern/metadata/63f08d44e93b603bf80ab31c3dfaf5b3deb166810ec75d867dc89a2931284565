@@ -1,0 +1,16 @@
+Rust chain endpoint lash
+
+Selected source: source_sheet.png
+Grid:1536x1024;6 columns x4 rows;256x256 nominal square cells;24 cels row-major.
+Prompt:prompt_v3.txt. Provenance:generation_provenance.json.
+
+Registration:preserve nominal256px grid. No per-frame shape recentering or per-row target translation.
+
+Experimental target normalized:[0.725, 0.883]; pivot:[0.255, 0.89].
+
+Assembly cautions:
+- Preserve fixed nominal256px grid registration; raw target center drifts approximately15px vertically across first three rows.
+- Cel16 tip contact occurs on right side of warning ellipse, within its approximate x150..219 footprint. Do not treat cosmetic scrape chips as collision expansion.
+- Cel16 scrape extends slightly into neighboring cel17. Keep generated core artwork registration unchanged during gutter cleanup.
+- Marker remains in early recovery cels; document as cosmetic residual.
+- Cel24 has no meaningful painted alpha.

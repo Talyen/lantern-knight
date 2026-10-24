@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "wilderness_deliveries_oct09/rootwood/rootwood_B_native.png",
+  "reference_role": "style and accepted biome only; new composition",
+  "A": {
+    "source": "generated_images/exec-15816cd2-bca1-4cac-b683-ba8686f12830.png",
+    "prompt": "rootwood_A_exact_prompt.txt",
+    "native_sha256": "7d5e1b545681572f890589e39db423285c78b6fb506adf81605cd1f24fa54a68"
+  },
+  "B": {
+    "source": "generated_images/exec-d83867e1-0e62-4323-923f-5e5348ae44d7.png",
+    "prompt": "rootwood_B_exact_prompt.txt",
+    "native_sha256": "34e93be721a7fec749f49d5b5e5881d04f41e46867e31ea9de5699e57781b4ea"
+  }
+}

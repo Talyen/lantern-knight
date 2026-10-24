@@ -1,0 +1,9 @@
+# Rebuild materials
+
+`source/opening.png`, `source/idle.png`, and `source/pulse.png` are the unmodified, native-resolution built-in image generation outputs. `source/ready_reference.png` is the native pixel crop used as a design reference. `source/prompts.json` records all prompts and the tool/model caveat.
+
+Run `python rebuild.py` with Pillow, NumPy and FFmpeg installed. The script uses no network and no image-generation API: it deterministically crops the supplied source sheets, translates their grounded footprints into padded native-size canvases, creates exact complementary compositing layers, atlases, a JSON animation manifest, contact sheets, an MP4 review preview, and validation checks. It does not resample art, invent cels, or regenerate the source images. Copy the delivered runtime README into `runtime/README.md` after rebuilding if needed; it is also included here.
+
+The hand-drawn idle has six genuinely different interior swirl drawings and small edge-flame variations. The last-to-first seam is a cel-animation change, not a mathematical morph. Ground-contact alignment is fixed at each source footprint's bottom-center with its visible bottom at y=574; the world pivot is y=560. This keeps the footprint planted while flame tips move.
+
+Visual review: all 18 original cels viewed individually; all five action contact sheets reviewed; no clipped doorway tips, feet, or neighboring sprite fragments found. Transparent warm edge glow comes from original source alpha. All runtime outer canvas borders are fully transparent. Layer recombinations are pixel-exact. The front/back partition is an illustrative 2D mask, not inferred geometry. Target camera angles are prompt constraints, not a rendered-camera measurement.

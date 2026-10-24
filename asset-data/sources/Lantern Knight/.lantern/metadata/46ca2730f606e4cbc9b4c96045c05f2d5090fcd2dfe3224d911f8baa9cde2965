@@ -1,0 +1,42 @@
+{
+  "asset": "woodland A: old forest road and stone remnants",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-6b058caf-76f7-4b11-9864-bcb2c4626622.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "verified": false
+  },
+  "upscaled": false,
+  "expanded": false,
+  "sha256": "ed10acfbf9597cb3d63b04fb347184ef50009b4d33da7122580452781f0e7d69",
+  "visual_review": {
+    "status": "usable native viewport sample; pending user selection",
+    "strengths": [
+      "strong coherent inked tree and ruined-stone silhouettes",
+      "broad connected branching road and central combat ground",
+      "mature muted woodland palette; no water, people, horizon or text"
+    ],
+    "caveats": [
+      "ground has scattered small flat patches and some mottling, busier than the approved graveyard floor",
+      "camera angles and hero scale are prompt targets, not geometrically or in-engine verified",
+      "trees and stone occluders are baked into this preview"
+    ]
+  },
+  "candidate_hero_feet": [
+    760,
+    590
+  ]
+}

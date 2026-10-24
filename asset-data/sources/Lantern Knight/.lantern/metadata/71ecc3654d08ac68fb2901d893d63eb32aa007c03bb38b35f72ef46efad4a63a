@@ -1,0 +1,258 @@
+{
+  "clip_id": "Lantern_run_U_fresh_native8_test_v01",
+  "status": "NATIVE_TEST_NOT_ENGINE_VALIDATED",
+  "heading": "U",
+  "world_forward": [
+    -0.7071067811865476,
+    0,
+    -0.7071067811865476
+  ],
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "loop": true,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "unique_drawings": 8,
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_top_left": [
+    384,
+    640
+  ],
+  "pivot_bottom_left": [
+    384,
+    128
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.16666666666666666
+  ],
+  "native_sheet_size": [
+    1774,
+    887
+  ],
+  "padded_equal_grid_size": [
+    1776,
+    888
+  ],
+  "native_cell_size": [
+    444,
+    444
+  ],
+  "approximate_pixels_per_unit": 240,
+  "pixels_per_unit_uncertainty_percent": 15,
+  "native_authored_root": [
+    230,
+    420
+  ],
+  "integer_padding_translation": [
+    154,
+    220
+  ],
+  "registration": "One fixed manually estimated clip-wide root. Native pixels and alpha preserved exactly, except transparent right/bottom padding; no rescale, mirroring, morphing, frame-fitting, or per-cel alignment. Guide root not falsely substituted for drawn root.",
+  "scale_evidence": "Visual cranial-width estimate against ready UR/UL at350 PPU and existingUR at235PPU; new back-facing hairbreadth approximately65\u201370px vs ready approximately95\u2013100px and runUR approximately70px. Rounded fixed240PPU starting estimate, \u00b115%; no cardinal ready reference or engine calibration.",
+  "generation": "Built-in image_gen, fresh reference-driven generation. Sunburst2.5 phrase is artistic preference, not verified model identity. Selected fresh_v04 input only canonical+exactUguide+existingURstyle. No generated failed draft input.",
+  "source_sha256": "f3ccdb4b0872373ed42649c35c47600fd0a32ceda38b196e0353b265c1328fbc",
+  "motion_source": "Standing Torch Run Forward recovered joint samples, low-left-lantern adaptation; guide ticks0,5,10,15,20,25,30,35",
+  "source_joint_contacts_are_art_contacts": false,
+  "root_motion": "In-place sprites; source horizontal motion removed, authored body bob retained. Apply controller motion once.",
+  "limits": [
+    "Painted camera/pose approximate exact guide; no projection metrology or engine validation.",
+    "Source support/flight labels are joint proxies and are not verified sole contacts.",
+    "Fixed root and density are visual starting estimates; body bob retained with no foot-snapping.",
+    "Tiny native alpha1\u20137 specks can extend to original grid edges; visible alpha8 silhouettes remain within cells.",
+    "Natural slight head counter-rotation remains; no mirrored assets."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/run_00.png",
+      "source_tick": 0,
+      "start_tick": 0,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.0,
+      "source_phase_proxy": "right support",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        108,
+        10,
+        406,
+        428
+      ],
+      "sha256": "38fdd3b63d1b213bffa14552779dff3836162d734c252dd61d2196b6fe6ec85b"
+    },
+    {
+      "index": 1,
+      "file": "frames/run_01.png",
+      "source_tick": 5,
+      "start_tick": 5,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.125,
+      "source_phase_proxy": "right support",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        444,
+        0,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        89,
+        11,
+        393,
+        427
+      ],
+      "sha256": "9e2b3a3f07a6fe3ceb83c88f09f897386d6f6aecdb85a1d88b057134f6e42cfa"
+    },
+    {
+      "index": 2,
+      "file": "frames/run_02.png",
+      "source_tick": 10,
+      "start_tick": 10,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.25,
+      "source_phase_proxy": "flight",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        888,
+        0,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        98,
+        11,
+        396,
+        426
+      ],
+      "sha256": "49dd0fa1ca084c30762eb1ec402bbd0a239c43821eedb2a32df4227fb04e9763"
+    },
+    {
+      "index": 3,
+      "file": "frames/run_03.png",
+      "source_tick": 15,
+      "start_tick": 15,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.375,
+      "source_phase_proxy": "left support",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        1332,
+        0,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        117,
+        21,
+        374,
+        397
+      ],
+      "sha256": "73aadf086fe5774e62b9901f4975ab364a53c36d47d684145b717748a2ba9476"
+    },
+    {
+      "index": 4,
+      "file": "frames/run_04.png",
+      "source_tick": 20,
+      "start_tick": 20,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.5,
+      "source_phase_proxy": "left support",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        0,
+        444,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        100,
+        13,
+        403,
+        417
+      ],
+      "sha256": "20952a623a62269c1c2a3e3d2553e15be797dfe7f25e3803b970d9b95ca8cfac"
+    },
+    {
+      "index": 5,
+      "file": "frames/run_05.png",
+      "source_tick": 25,
+      "start_tick": 25,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.625,
+      "source_phase_proxy": "flight",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        444,
+        444,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        95,
+        10,
+        394,
+        422
+      ],
+      "sha256": "4c7ae629c52b24acdea127fee01a27e47a20e670f86c7726c960446184a264d6"
+    },
+    {
+      "index": 6,
+      "file": "frames/run_06.png",
+      "source_tick": 30,
+      "start_tick": 30,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.75,
+      "source_phase_proxy": "flight",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        888,
+        444,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        91,
+        10,
+        406,
+        419
+      ],
+      "sha256": "8244b6cee37d14480596c8700e2dae064f9f2a8152bf504277f0e50b04fd4096"
+    },
+    {
+      "index": 7,
+      "file": "frames/run_07.png",
+      "source_tick": 35,
+      "start_tick": 35,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.875,
+      "source_phase_proxy": "right support",
+      "observed_art_contact": null,
+      "source_crop_xywh": [
+        1332,
+        444,
+        444,
+        444
+      ],
+      "alpha8_bbox_in_source_cell": [
+        116,
+        23,
+        387,
+        393
+      ],
+      "sha256": "68ed9ac41771e35b17792c80d72f805505fc77e77bf32df05c51d9de8ceee005"
+    }
+  ]
+}

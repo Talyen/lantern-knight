@@ -1,0 +1,19 @@
+{
+  "README.txt": "292e96c646357db73aed6218103e51bc2f7cdfc41f158e98be0f64d906a15f82",
+  "atlas.png": "f3dfa8e0d740018c244fa3cfe7c153e96144ac2efebbc515878b38456e7f26c4",
+  "frames/run_00.png": "cf63a5a47f5695c73812219f3c549d30a10a1032869be68685c5f397a667ce99",
+  "frames/run_01.png": "615b3509b7ea5f479298e6bc7c63b92373a6a740dd4e84c358d60563901e0c82",
+  "frames/run_02.png": "c36900e2c3a095b079cd48dface0594d67bff685478025eb2dd597f7d8d841d9",
+  "frames/run_03.png": "930e49d00a25078be058564c608a2af04a04ce8661c90ef6d904f14c1569f1c8",
+  "frames/run_04.png": "ce48fc701be4a858fa79c448fd5b11a4b2f2ae6269eedb2c2935354d5d544ae2",
+  "frames/run_05.png": "958fa93fc4a8fd124dde543a7e60cfd559849bca18dbff1e06fca132f605b521",
+  "frames/run_06.png": "7936629e346a5d7b6358b805ee60b2df9fe4252b3861175756a6929ef5096b3a",
+  "frames/run_07.png": "bc218d7fe9950fd2e05d5a4552e141d1f914d964455d894998f56b24ba712968",
+  "import_companion_UR_lowcarry.json": "b7d9f64f99650e1cd516762f49b99c1faf08b3d3cc363e18913b56d88c0034f2",
+  "manifest.json": "faefc39a1bd989bf5fb2c23c6e85151f487feea963f73f0402c1abea5353f521",
+  "native_sheet.png": "9ed75b38f34a59703640832900ecfb2a16e9d88db79b8d6aee363bdd83ff847e",
+  "package_validation.json": "1f18c42ebac0d43b7b3405b51634afcdf3f89a7b97cc4856bd433602fce38e4b",
+  "preview/contact_sheet.png": "7e1cdec1008dc38d5620f74bff9d6e026ea8d74fbed711e2829b9880dfd625b7",
+  "preview/preview_0.5x.mp4": "902cc08dc2b3f99de6c29a6ebdb896cb8042ae951c2d85ae7a79f120488f2726",
+  "preview/preview_1x.mp4": "8d9dbb1f9e7873a84cb2577f87ae18e61569763f924db8a45abc8294c2c7585e"
+}

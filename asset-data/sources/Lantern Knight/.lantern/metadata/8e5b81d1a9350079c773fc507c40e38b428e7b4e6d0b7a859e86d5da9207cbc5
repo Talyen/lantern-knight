@@ -1,0 +1,233 @@
+{
+  "clip": "landing_target_fx",
+  "frame_count": 12,
+  "canvas": [
+    1024,
+    1024
+  ],
+  "pivot_px": [
+    512,
+    850
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.169921875
+  ],
+  "loop": false,
+  "durations_ms": [
+    180,
+    180,
+    180,
+    180,
+    130,
+    90,
+    55,
+    45,
+    60,
+    100,
+    150,
+    155
+  ],
+  "total_ms": 1505,
+  "atlas": "atlases/landing_target_fx_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/landing_target_fx/landing_target_fx_00.png",
+      "rect": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        337,
+        730,
+        673,
+        934
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/landing_target_fx/landing_target_fx_01.png",
+      "rect": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        339,
+        733,
+        687,
+        933
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/landing_target_fx/landing_target_fx_02.png",
+      "rect": [
+        2048,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        334,
+        735,
+        688,
+        940
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/landing_target_fx/landing_target_fx_03.png",
+      "rect": [
+        3072,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        335,
+        735,
+        688,
+        940
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/landing_target_fx/landing_target_fx_04.png",
+      "rect": [
+        0,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        340,
+        754,
+        686,
+        922
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/landing_target_fx/landing_target_fx_05.png",
+      "rect": [
+        1024,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        340,
+        757,
+        685,
+        924
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/landing_target_fx/landing_target_fx_06.png",
+      "rect": [
+        2048,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        340,
+        742,
+        688,
+        923
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/landing_target_fx/landing_target_fx_07.png",
+      "rect": [
+        3072,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        338,
+        726,
+        685,
+        925
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/landing_target_fx/landing_target_fx_08.png",
+      "rect": [
+        0,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        340,
+        596,
+        675,
+        898
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/landing_target_fx/landing_target_fx_09.png",
+      "rect": [
+        1024,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        333,
+        729,
+        679,
+        908
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/landing_target_fx/landing_target_fx_10.png",
+      "rect": [
+        2048,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        348,
+        679,
+        680,
+        911
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/landing_target_fx/landing_target_fx_11.png",
+      "rect": [
+        3072,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        361,
+        725,
+        663,
+        898
+      ]
+    }
+  ],
+  "events": [],
+  "on_complete": "hide"
+}

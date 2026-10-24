@@ -1,0 +1,29 @@
+VIEWPORT CROP CLEANUP TESTS — 2026-10-09
+
+Two representative 384x384 source crops, not whole scenes. Each was processed with the existing official Real-ESRGAN anime 6B model at genuine 4x, then the 1536x1536 model output was reduced with Pillow Lanczos to the original 384x384 size. Source files are untouched. This tests cleanup and style, not recovered detail or native-resolution generation.
+
+Source crop boxes:
+Graveyard native_floor_retry.png: (490,310,874,694).
+Original Crypt crypt_native.png: (720,350,1104,734).
+Full verified source paths and dimensions are in each crop_metadata.json.
+
+Best review files:
+{name}/comparison_native_1x_display.png — both panels at original crop pixel dimensions.
+{name}/comparison_native_2x_display.png — both panels enlarged equally with nearest-neighbor for inspection; no extra processing difference.
+{name}/native_crop.png — untouched crop.
+{name}/ai4x_back_to_native.png — final same-size cleanup.
+{name}/inference/full_upscaled4x.png refers only to this 384px CROP, not the whole original scene. The derived 2x intermediate was created by the shared pipeline but is not the selected cleanup test result.
+
+Observed tradeoffs:
+Crypt: substantial reduction in broad paint mottling, clearer quiet stone faces, main cracks/edges readable. Faint marks, highlights and tiny contour details are simplified or reinterpreted. Not automatically more faithful.
+Graveyard: cleaner stone faces and sharper ink, but many existing foliage fragments remain. This method does not redesign a busy composition into broad quiet masses; outlines can become more graphic/vector-like.
+No obvious visible internal processing seams observed in these crop comparisons. Prior independent pipeline seam tests exist in the earlier whole-scene experiments; these new crops were not separately ground-truth validated.
+
+Graveyard crop wall time 19.6257s; Crypt 17.9273s. Each used 9 fresh CPU processes, 160px cores, 32px context, 16px extra reflection padding; no blend. 2 threads requested after model load; Winograd retains 4 load-time threads. No paid API, new runtime install or third-party image upload. No full-scene inference in this experiment.
+
+Executed commands, from /workspace/shared/lantern_free_upscale_tests_oct09:
+python run_isolated.py /workspace/shared/lantern_floor_method_tests_oct09/ai_cleanup/graveyard/native_crop.png /workspace/shared/lantern_floor_method_tests_oct09/ai_cleanup/graveyard/inference
+python run_isolated.py /workspace/shared/lantern_floor_method_tests_oct09/ai_cleanup/crypt/native_crop.png /workspace/shared/lantern_floor_method_tests_oct09/ai_cleanup/crypt/inference
+python /workspace/shared/lantern_floor_method_tests_oct09/ai_cleanup/make_comparison.py graveyard crypt
+
+Exact settings/timings per tile in each cleanup_metadata.json. Official model URL/hash/runtime and BSD-3-Clause notices in provenance. These scripts preserve the tested workspace setup; portable packaging is not part of this small comparison request.

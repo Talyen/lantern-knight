@@ -1,0 +1,442 @@
+{
+  "pack": "travel_camp_05",
+  "revision": "02",
+  "count": 8,
+  "decision": "substantial selective rebuild",
+  "camera": {
+    "elevation_requested_deg": 35.264389682754654,
+    "azimuth_requested_deg": 45,
+    "exact_calibration_verified": false
+  },
+  "assets": [
+    {
+      "id": "lantern_camp_prop_01_folded_bedroll",
+      "display_name": "Folded bedroll",
+      "image": "assets/01_folded_bedroll.png",
+      "revision_status": "retained_original_byte_identical",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/01_folded_bedroll.png",
+      "old_sha256": "5a324709f21eb19e4ce80a68cfa364fa3069db855ed8815c14c6b7daa10fd945",
+      "sha256": "5a324709f21eb19e4ce80a68cfa364fa3069db855ed8815c14c6b7daa10fd945",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          52,
+          1216,
+          1206
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          12
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          74,
+          227,
+          1188,
+          1048
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_text_only_generation",
+        "transparent_background": true,
+        "input_images": [],
+        "source_filename": "exec-222d7d74-62ad-423d-920f-6b1c7eaa6396.png",
+        "prompt_file": "prompts/01_folded_bedroll.txt",
+        "prompt_sha256": "12da222699b31fa9151037cce68a8236febb5ff77812fefdf699ec8f52ef9153",
+        "exact_prompt": "Use case: stylized-concept. Create one fresh original SMALL WORLD PROP cutout for Lantern, a fixed-camera gothic dark fantasy action RPG. Single complete coherent object or intentional compact assembly, sitting on an invisible horizontal ground/table plane. Elevated orthographic-looking three-quarter camera approximately 35.264 degrees elevation, 45 degrees azimuth; clearly reveal useful overhead-facing surfaces. All parts complete in central 65-70 percent of a square canvas, wide empty transparent gutters. Genuine transparent alpha exterior, opaque object art except deliberate visible holes. No scene, floor, shadow, person, hand, UI framing, labels, readable text, logos, magical glow, haze or vignette. Clean Ink: confident dark silhouette line, few purposeful structural lines, smooth broad flat color regions with two or three LARGE hard-edged shadow planes per material. No texture grain, hatching, distressed surfaces, cracks carpet, small ornamental filigree, noisy patterns, photo textures, gradients, painterly wash or rendered 3D gloss. Materials described through shape and broad highlights only. Strong silhouette readable at 96px. Upper-left illumination. Original noncanonical concept, approximate camera and ground contact, not a registered runtime sprite. Fresh text-only generation, never editing or referencing a previous generated image. Subject: one compact thick rolled sleeping blanket, muted gray-blue cloth forming a broad cylinder with one generous folded flap wrapped over the top, tied with TWO wide plain dark brown leather straps. One clean spiral opening at the near end and one pale lining plane visible, smooth cloth with only two major folds, no quilt pattern or tiny wrinkles. Laid on its side diagonally, top surface and rolled end visible, no pillow, backpack, person or campsite."
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": true
+    },
+    {
+      "id": "lantern_camp_prop_02_iron_cookpot",
+      "display_name": "Iron cookpot",
+      "image": "assets/02_iron_cookpot.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/02_iron_cookpot.png",
+      "old_sha256": "c828aa4bdaba4f274293831f59bb1ad3be4d34fdc0a26ae9836b350d49067b8d",
+      "sha256": "945637e48c1730b89eafe97932246bf24d035cd1a5f07c6bffd0cb4c74a901db",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          146,
+          258,
+          1041,
+          1150
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          228,
+          263,
+          1035,
+          1012
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-aecfc671-d5a3-4649-b550-c01cbd349dbd.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A soot-black iron cookpot with broad open dark mouth, subtly dented rolled lip, sturdy curved bail attached to two visible opposite lugs, squat rounded belly and flat foot. One narrow muted slate light shape and broad hand-inked black body shadow; no glossy patch. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/02_iron_cookpot.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_camp_prop_03_kindling_bundle",
+      "display_name": "Rough firewood bundle",
+      "image": "assets/03_kindling_bundle.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/03_kindling_bundle.png",
+      "old_sha256": "dad5956ce95d180498823c4b015299b3094b4b22e5690c72973b70e274281203",
+      "sha256": "e3037cf26e771a68ecc14a18bdf2319041e01db1d276e8c77fab3a29e9f76407",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          89,
+          49,
+          1210,
+          1220
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          179,
+          220,
+          1098,
+          1047
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-fdd9dbb7-f367-469a-91e2-eeee028a9155.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A compact tied bundle of five irregular split kindling sticks of varied lengths and widths, dark oak bark, pale torn ends with sparse broad growth arcs, chunky hemp rope wrapped securely twice. Splintered silhouettes, no identical hexagonal logs. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/03_kindling_bundle.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_camp_prop_04_leather_waterskin",
+      "display_name": "Leather waterskin",
+      "image": "assets/04_leather_waterskin.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/04_leather_waterskin.png",
+      "old_sha256": "cea302883454b86480a67687da99b23d29ee5bc0124ac616da4da170ce0e73af",
+      "sha256": "beefcb3b5bed2397a13d88949430b9cd9cfe9f2e33b618dba0709da3be3e3b00",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          17,
+          47,
+          1202,
+          1254
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          7,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          124,
+          55,
+          1180,
+          1186
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-525dfe7b-08a4-4e41-8ab0-a84d01e3f4b3.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A slouched weathered tobacco leather waterskin, flattened uneven pouch with prominent stitched seam, pinched tied neck and wooden stopper. Broad charcoal fold under neck, a wide carrying strap secured at neck and lower side and laid loosely beside it. Matte leather, no inflated plastic shine. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/04_leather_waterskin.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_camp_prop_05_cooking_tripod",
+      "display_name": "Cooking tripod",
+      "image": "assets/05_cooking_tripod.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/05_cooking_tripod.png",
+      "old_sha256": "e2095fd76f911a7d198d4f6ed58cbc116dd67cf5b8279866cdade32d8c257f84",
+      "sha256": "ccb84328a1282e6590cb2269a7c2a58b81a752ce2fcbec2c725ea418ced14324",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          59,
+          33,
+          1210,
+          1214
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          222,
+          73,
+          1064,
+          1172
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-509d037d-98f2-43d9-887e-c8761b4e1d9c.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A freestanding forged-iron cooking tripod of three gently uneven sturdy rods, splayed into three grounded feet, joined securely at upper collar; short chain suspended from central joint ending in a broad S hook. Each link connected, readable negative gaps, no pot or fire. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/05_cooking_tripod.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_camp_prop_06_folded_canvas_tent",
+      "display_name": "Folded canvas tent",
+      "image": "assets/06_folded_canvas_tent.png",
+      "revision_status": "retained_original_byte_identical",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/06_folded_canvas_tent.png",
+      "old_sha256": "997370a8c5ec00ce03e2a6b56920e0ca3de132dbd6b645e5819edf25d999b4c5",
+      "sha256": "997370a8c5ec00ce03e2a6b56920e0ca3de132dbd6b645e5819edf25d999b4c5",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          53,
+          1236,
+          1214
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          65,
+          268,
+          1215,
+          1025
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_text_only_generation",
+        "transparent_background": true,
+        "input_images": [],
+        "source_filename": "exec-2f3d579e-3b9f-447c-a90a-f31446499ecc.png",
+        "prompt_file": "prompts/06_folded_canvas_tent.txt",
+        "prompt_sha256": "05b25147c0b9d4d16580a41d5cd1c6bebbed0704ed8d23c6676bf85e805beeae",
+        "exact_prompt": "Use case: stylized-concept. Create one fresh original SMALL WORLD PROP cutout for Lantern, a fixed-camera gothic dark fantasy action RPG. Single complete coherent object or intentional compact assembly, sitting on an invisible horizontal ground/table plane. Elevated orthographic-looking three-quarter camera approximately 35.264 degrees elevation, 45 degrees azimuth; clearly reveal useful overhead-facing surfaces. All parts complete in central 65-70 percent of a square canvas, wide empty transparent gutters. Genuine transparent alpha exterior, opaque object art except deliberate visible holes. No scene, floor, shadow, person, hand, UI framing, labels, readable text, logos, magical glow, haze or vignette. Clean Ink: confident dark silhouette line, few purposeful structural lines, smooth broad flat color regions with two or three LARGE hard-edged shadow planes per material. No texture grain, hatching, distressed surfaces, cracks carpet, small ornamental filigree, noisy patterns, photo textures, gradients, painterly wash or rendered 3D gloss. Materials described through shape and broad highlights only. Strong silhouette readable at 96px. Upper-left illumination. Original noncanonical concept, approximate camera and ground contact, not a registered runtime sprite. Fresh text-only generation, never editing or referencing a previous generated image. Subject: one folded canvas tent packed as a LOW FLAT rectangular beige envelope of heavy cloth, bound with ONE wide dark-green strap. TWO short folded dark wooden tent poles and TWO broad simple iron stakes are tucked neatly along one side under the same strap, attached as one cohesive packed camping assembly. Clearly flat and rectangular, unlike a cylindrical bedroll. Thick triangular fabric folds at two corners, quiet broad planes, no erected tent, ropes spilling, tiny eyelets, logo, text or texture."
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": true
+    },
+    {
+      "id": "lantern_camp_prop_07_pilgrim_walking_staff",
+      "display_name": "Pilgrim walking staff",
+      "image": "assets/07_pilgrim_walking_staff.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/07_pilgrim_walking_staff.png",
+      "old_sha256": "0c85a37c175c3586586be57994bdacda4dbb998a710a355d312ae09d0664ce7c",
+      "sha256": "bfdf17a63ae51a5add39a291e056c555b8d9f8a2fa5c32502904e7cb84a9ccdd",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          57,
+          47,
+          1192,
+          1198
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          303,
+          51,
+          1061,
+          1188
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": null,
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A pilgrims walking staff laid diagonally, gnarled tapered dark ash shaft with asymmetrical crook, worn cloth handgrip, dull iron ferrule and short burgundy travel token tied securely below crook. Broad wood contours, no extruded cylinder. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/07_pilgrim_walking_staff.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_camp_prop_08_leather_tool_roll",
+      "display_name": "Leather tool roll",
+      "image": "assets/08_leather_tool_roll.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_travel_camp_05/assets/08_leather_tool_roll.png",
+      "old_sha256": "2ddae171bbe323a819c040b19263f1a958d167c8f74ea388dfdfa35c460f94bc",
+      "sha256": "8602a1d4b972a02ddb60a5b87b7bf36e3fe6466d1f32e4ffd722eeda19fa898e",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          33,
+          21,
+          1200,
+          1254
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          58,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          112,
+          134,
+          1158,
+          1121
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-f077c23f-0a6a-45cc-9527-6073eb05a75c.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A partly unrolled dark leather tool roll holding three simple repair tools in fitted sewn pockets: awl, small chisel, flat file. Worn wood handles and slate steel ends; thick rolled far edge, irregular flap and loose closure strap. Broad leather fold shadows and selected stitch marks. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/08_leather_tool_roll.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    }
+  ],
+  "art_review": {
+    "verdict": "PASS as art candidates; runtime integration unverified",
+    "findings": "Six fresh redraws; bedroll and folded canvas retained byte-identical. Pot bail visibly pivots from lugs, waterskin strap attaches at both ends, tripod has three grounded legs with connected collar/chain/hook, tool roll holds tools in separate pockets. Broad leather folds replace inflated shine. Tripod and staff remain thin at 96 px, so larger world-prop display near 160 px or above is recommended; not guaranteed inventory-icon readability.",
+    "evidence": [
+      "proofs/overview_light.jpg",
+      "proofs/overview_dark.jpg",
+      "proofs/game_size_light.jpg",
+      "proofs/game_size_dark.jpg",
+      "proofs/before_after.jpg"
+    ],
+    "alpha_caveat": "Some native exports contain alpha=1 edge specks, not opaque clipped artwork. All alpha>=128 silhouettes have positive padding. Masters unchanged; validate import/atlas behavior.",
+    "camera_caveat": "Approximate illustrated view only; no exact camera, scale or pivot compliance claimed."
+  }
+}

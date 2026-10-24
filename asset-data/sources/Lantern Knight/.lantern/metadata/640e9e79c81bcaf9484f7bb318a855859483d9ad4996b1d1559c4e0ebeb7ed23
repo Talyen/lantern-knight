@@ -1,0 +1,70 @@
+{
+  "schema": "lantern.sprite.reaction.v1",
+  "name": "Waxmask_Acolyte",
+  "clip": "wax_channel_break",
+  "canvas": [
+    768,
+    704
+  ],
+  "pivot_pixels_top_left": [
+    416,
+    584
+  ],
+  "facing": "Existing authored down-right/front three-quarter, unchanged; do not mirror",
+  "tick_rate": 60,
+  "loop": false,
+  "holds_ticks": [
+    4,
+    6,
+    4,
+    8,
+    8,
+    8,
+    6,
+    8
+  ],
+  "total_ticks": 52,
+  "events": {
+    "entry_channel_tick": 0,
+    "standing_gathering_tick": 4,
+    "interruption_tick": 10,
+    "recoil_peak_tick": 14,
+    "recovery_tick": 22,
+    "standing_recovery_tick": 38,
+    "canonical_ready_tick": 44
+  },
+  "frames": [
+    "frames/wax_channel_break_00.png",
+    "frames/wax_channel_break_01.png",
+    "frames/wax_channel_break_02.png",
+    "frames/wax_channel_break_03.png",
+    "frames/wax_channel_break_04.png",
+    "frames/wax_channel_break_05.png",
+    "frames/wax_channel_break_06.png",
+    "frames/wax_channel_break_07.png"
+  ],
+  "atlas": {
+    "file": "wax_channel_break_atlas.png",
+    "columns": 4,
+    "rows": 2
+  },
+  "root_motion": "None. Actor translation engine-owned. Registration baked into PNG.",
+  "integration": "Return to existing ready state after final hold. Do not spawn attacks/projectiles; visual cancellation cue only.",
+  "handoff": {
+    "entry": "Existing canonical ritual_attack_actor_02 pose, standing with dagger raised, then new short standing gathering before interruption. Intended for wax-channel break, not generic get_hit.",
+    "exit": "Existing canonical ritual_attack_actor_01 ready pose, standing with dagger lowered.",
+    "reused_cels": [
+      0,
+      7
+    ],
+    "newly_illustrated_cels": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "reuse_source": "ct_waxmask_acolyte_runtime.zip / CT01_waxmask_acolyte/frames/ritual_attack_actor/"
+  }
+}

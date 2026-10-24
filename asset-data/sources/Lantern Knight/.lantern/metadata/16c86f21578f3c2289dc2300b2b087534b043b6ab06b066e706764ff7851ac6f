@@ -1,0 +1,107 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "tent_and_campfire",
+      "display_crop_box": [
+        1200,
+        150,
+        2736,
+        1174
+      ],
+      "source_crop_box": [
+        480.0,
+        60.0,
+        1094.4,
+        469.6
+      ],
+      "display_hero_foot": [
+        2362,
+        1025
+      ],
+      "source_hero_foot": [
+        944.8,
+        410.0
+      ]
+    },
+    {
+      "name": "western_expansion_alcove",
+      "display_crop_box": [
+        88,
+        562,
+        1624,
+        1586
+      ],
+      "source_crop_box": [
+        35.2,
+        224.8,
+        649.6,
+        634.4
+      ],
+      "display_hero_foot": [
+        800,
+        1100
+      ],
+      "source_hero_foot": [
+        320.0,
+        440.0
+      ]
+    },
+    {
+      "name": "eastern_workshop_clearing",
+      "display_crop_box": [
+        2250,
+        750,
+        3786,
+        1774
+      ],
+      "source_crop_box": [
+        900.0,
+        300.0,
+        1514.4,
+        709.6
+      ],
+      "display_hero_foot": [
+        3100,
+        1325
+      ],
+      "source_hero_foot": [
+        1240.0,
+        530.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation.",
+  "native_sha256": "f052cb0fc316f37ec3d77fd019967cecf0d35c6ec039b70ae89a2d25924b607d",
+  "raw_ai_sha256": "1496377d684af7d147773167d03d90a3cb528b95da1c0d72bbc3559f292930b8",
+  "hero_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "hero_alpha_crop_threshold": 30,
+  "hero_original_alpha_crop_bbox": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_resized_dimensions": [
+    68,
+    160
+  ],
+  "fullscene_exact_prompt_available": true
+}

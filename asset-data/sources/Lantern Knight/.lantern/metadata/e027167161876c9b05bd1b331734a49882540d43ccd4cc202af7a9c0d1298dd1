@@ -1,0 +1,46 @@
+{
+  "schema": "lantern.sprite.reaction.v1",
+  "name": "Candlebone_Oracle",
+  "clip": "cast_interrupt",
+  "canvas": [
+    400,
+    620
+  ],
+  "pivot_pixels_top_left": [
+    204,
+    554
+  ],
+  "facing": "Existing authored down-right/front three-quarter, unchanged; do not mirror",
+  "tick_rate": 60,
+  "loop": false,
+  "holds_ticks": [
+    8,
+    4,
+    8,
+    8,
+    10,
+    12
+  ],
+  "total_ticks": 50,
+  "events": {
+    "interruption_tick": 8,
+    "recoil_peak_tick": 12,
+    "recovery_tick": 20,
+    "ready_tick": 38
+  },
+  "frames": [
+    "frames/cast_interrupt_00.png",
+    "frames/cast_interrupt_01.png",
+    "frames/cast_interrupt_02.png",
+    "frames/cast_interrupt_03.png",
+    "frames/cast_interrupt_04.png",
+    "frames/cast_interrupt_05.png"
+  ],
+  "atlas": {
+    "file": "cast_interrupt_atlas.png",
+    "columns": 3,
+    "rows": 2
+  },
+  "root_motion": "None. Actor translation engine-owned. Registration baked into PNG.",
+  "integration": "Return to existing ready state after final hold. Do not spawn attacks/projectiles; visual cancellation cue only."
+}

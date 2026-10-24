@@ -1,0 +1,15 @@
+{
+  "id": "lantern_alch_prop_06_hinged_magnifying_lens",
+  "name": "Hinged magnifying lens",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/06_hinged_magnifying_lens.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Perfect gold rings and beveled stand look render-derived; redesign lens frame and selective highlights.",
+  "pack": "Lantern - Alchemy Tabletop Props 07",
+  "folder": "alchemy_tabletop_07",
+  "destination": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/06_hinged_magnifying_lens.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A HINGED MAGNIFYING LENS: thick irregular blackened brass lens rim on a simple articulated support and broad worn wood base, one large clear glass face with single pale reflection, visible sturdy hinge. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-14c6bcec-efc5-45f7-97fd-f9096aec6cae.png",
+  "review": "Stable supports and clamp contacts, differentiated ceramic/glass/copper/wood, clear pigment powder heaps and specimen-case vent. Glass reflections are intentional material cues. Passed large overview and 64px light/dark proxy; native alpha preserved."
+}

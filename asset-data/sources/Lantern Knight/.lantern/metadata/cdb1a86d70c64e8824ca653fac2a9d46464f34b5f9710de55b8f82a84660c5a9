@@ -1,0 +1,27 @@
+{
+  "scene": "keepers_glade_A",
+  "status": "sample_only_not_production",
+  "raw_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-ddfa15d8-729c-4bcf-9842-edd8284324b5.png",
+  "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/keepers_glade_A/native.png",
+  "native_size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_sha256": "63f4eb7a969d94a343c98af2966fc69b722042df61eaeec7642c0abc2deafe30",
+  "native_processing": "byte-identical copy only; no resize, edit or upscale",
+  "prompt_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/keepers_glade_A/exact_prompt.txt",
+  "prompt_sha256": "ef88911f015ceff40702ca3d043c3c047521fd6c07f7b0350995e33227f766b1",
+  "approved_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "style_prefix_verified_byte_exact": true,
+  "image_generation_tool": "built-in image_gen",
+  "actual_backend_model": "not disclosed by built-in tool",
+  "reference": "canonical hero only; style role",
+  "environment_inputs": [],
+  "qa": {
+    "identity": "Cozy cottage beneath mature oak, warm windows, compact hearth core",
+    "terrain": "Raised western clearing, rooted rock bank behind cottage, articulated internal shelves, eastern branching approach",
+    "scale": "Door approximately adult height at requested scale; ordinary bench/workbench and log seats",
+    "caveat": "Fine marks remain on grass and foliage. Accepted as a sample preserving richness; not a final production-clean asset."
+  }
+}

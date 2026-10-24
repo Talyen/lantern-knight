@@ -1,0 +1,35 @@
+{
+  "status": "All three suitable for user art-direction comparison, with ground-detail caveats",
+  "review_scope": "Independent full-frame contact sheets and native-pixel hero/material crops; presentation review only.",
+  "common": {
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "live_characters_baked_in": false,
+    "readable_floor_and_routes": true,
+    "major_style_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false,
+    "style_note": "Bold grouped tree/stone silhouettes and expressive ink contours. Broad earth color variation remains, but the hero silhouette reads clearly at native size."
+  },
+  "A": {
+    "direction": "Cold pine gathering",
+    "strength": "Quietest and widest fighting ground, clearly separated blue-black trees and red-draped ritual stones. Strong restrained cold forest identity.",
+    "caveat": "Several foreground pines are sapling-sized beside the hero; earth has soft broad tonal variation. This remains a viewport art sample, not a calibrated world-scale map."
+  },
+  "B": {
+    "direction": "Gnarled olive-tree gathering",
+    "strength": "Strong old-tree silhouettes, ochre earth and an offering table give the forest a distinct warmer ritual mood. Props create multiple readable routes.",
+    "caveat": "The draped stone groups and massive roots use more of the central space than A; nearby thick candles are stylized and oversized."
+  },
+  "C": {
+    "direction": "Rocky heather gathering",
+    "strength": "Most geographically distinct option, with angular natural stone shelves, purple heather and open pathways between ritual markers.",
+    "caveat": "Most small-scale heather and earth detail of the trio. Still readable, but less visually quiet than A/B and closer to a rocky heath than a closed forest."
+  },
+  "suggested_starting_point": "A for clean gameplay readability; B for ancient gnarled-forest character; C for a rockier, more open landscape.",
+  "limits": "Tall scenery and ritual props are baked into viewport art-direction samples. No in-engine occlusion, collision, exact camera calibration or gameplay-clearance validation is claimed. Final second-generation natives are included; archival initial attempts are excluded. No native repainting, expansion or upscaling was performed."
+}

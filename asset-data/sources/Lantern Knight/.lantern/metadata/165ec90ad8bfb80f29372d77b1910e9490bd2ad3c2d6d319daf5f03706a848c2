@@ -1,0 +1,456 @@
+{
+  "name": "empty_wicker_poultry_cage",
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    480
+  ],
+  "pivot_normalized_top_left": [
+    0.5,
+    0.75
+  ],
+  "loop": false,
+  "clip": "break",
+  "duration_ms": 2210,
+  "frame_count": 15,
+  "states": {
+    "intact": 0,
+    "damaged": 3,
+    "broken": 14
+  },
+  "atlas": "break_atlas.png",
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/break_00.png",
+      "duration_ms": 350,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          0,
+          444,
+          450
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          153,
+          76
+        ],
+        "base_match": 1.0
+      }
+    },
+    {
+      "index": 1,
+      "file": "frames/break_01.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          444,
+          0,
+          887,
+          450
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          156,
+          76
+        ],
+        "base_match": 0.9794
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/break_02.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          887,
+          0,
+          1330,
+          450
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          159,
+          76
+        ],
+        "base_match": 0.9593
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/break_03.png",
+      "duration_ms": 220,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1330,
+          0,
+          1774,
+          450
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          160,
+          76
+        ],
+        "base_match": 0.975
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/break_04.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          450,
+          444,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          156,
+          83
+        ],
+        "base_match": 0.9565
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/break_05.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          444,
+          450,
+          886,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          157,
+          83
+        ],
+        "base_match": 0.9432
+      }
+    },
+    {
+      "index": 6,
+      "file": "frames/break_06.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          886,
+          450,
+          1330,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          158,
+          83
+        ],
+        "base_match": 0.9373
+      }
+    },
+    {
+      "index": 7,
+      "file": "frames/break_07.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1330,
+          450,
+          1774,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          160,
+          83
+        ],
+        "base_match": 0.9321
+      }
+    },
+    {
+      "index": 8,
+      "file": "frames/break_08.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          444,
+          0,
+          889,
+          543
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          170,
+          34
+        ],
+        "base_match": 0.8811
+      }
+    },
+    {
+      "index": 9,
+      "file": "frames/break_09.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          889,
+          0,
+          1325,
+          543
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          184,
+          34
+        ],
+        "base_match": 0.8547
+      }
+    },
+    {
+      "index": 10,
+      "file": "frames/break_10.png",
+      "duration_ms": 80,
+      "atlas_rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1325,
+          0,
+          1774,
+          543
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          187,
+          35
+        ],
+        "base_match": 0.7756
+      }
+    },
+    {
+      "index": 11,
+      "file": "frames/break_11.png",
+      "duration_ms": 90,
+      "atlas_rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          0,
+          543,
+          452,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          164,
+          211
+        ],
+        "base_match": 0.6855
+      }
+    },
+    {
+      "index": 12,
+      "file": "frames/break_12.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        0,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          452,
+          543,
+          888,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          187,
+          211
+        ],
+        "base_match": 0.5988
+      }
+    },
+    {
+      "index": 13,
+      "file": "frames/break_13.png",
+      "duration_ms": 130,
+      "atlas_rect": [
+        768,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          888,
+          543,
+          1324,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          188,
+          211
+        ],
+        "base_match": 0.6047
+      }
+    },
+    {
+      "index": 14,
+      "file": "frames/break_14.png",
+      "duration_ms": 700,
+      "atlas_rect": [
+        1536,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1324,
+          543,
+          1774,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 0.93,
+        "translation": [
+          183,
+          211
+        ],
+        "base_match": 0.6103
+      }
+    }
+  ],
+  "import": {
+    "alpha": "straight RGBA",
+    "color_space": "sRGB",
+    "trim": false,
+    "rotation": false,
+    "filter": "bilinear",
+    "use_fixed_pivot": true,
+    "stop_on_final_frame": true
+  }
+}

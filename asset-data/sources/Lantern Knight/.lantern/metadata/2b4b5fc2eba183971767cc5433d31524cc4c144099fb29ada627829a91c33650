@@ -1,0 +1,176 @@
+{
+  "schema": "lantern.sprite_clip.v1",
+  "enemy": "Confessional Lurker",
+  "clip": "defeat",
+  "title": "Defeat",
+  "atlas": "confessional_lurker_defeat_atlas.png",
+  "atlas_size": [
+    4096,
+    1536
+  ],
+  "canvas": [
+    1024,
+    768
+  ],
+  "frame_size": [
+    1024,
+    768
+  ],
+  "pivot_px": [
+    512,
+    660
+  ],
+  "pivot_normalized_top_left": [
+    0.5,
+    0.859375
+  ],
+  "pixels_per_unit": 100,
+  "filter": "bilinear",
+  "wrap": "clamp",
+  "alpha": "straight",
+  "loop": false,
+  "duration_ms": 1630,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/defeat_00.png",
+      "rect": [
+        0,
+        0,
+        1024,
+        768
+      ],
+      "start_ms": 0,
+      "duration_ms": 150,
+      "pivot_px": [
+        512,
+        660
+      ],
+      "alpha_bbox": [
+        253,
+        171,
+        744,
+        666
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/defeat_01.png",
+      "rect": [
+        1024,
+        0,
+        1024,
+        768
+      ],
+      "start_ms": 150,
+      "duration_ms": 240,
+      "pivot_px": [
+        512,
+        660
+      ],
+      "alpha_bbox": [
+        223,
+        226,
+        739,
+        675
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/defeat_02.png",
+      "rect": [
+        2048,
+        0,
+        1024,
+        768
+      ],
+      "start_ms": 390,
+      "duration_ms": 160,
+      "pivot_px": [
+        512,
+        660
+      ],
+      "alpha_bbox": [
+        260,
+        312,
+        735,
+        680
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/defeat_03.png",
+      "rect": [
+        3072,
+        0,
+        1024,
+        768
+      ],
+      "start_ms": 550,
+      "duration_ms": 220,
+      "pivot_px": [
+        512,
+        660
+      ],
+      "alpha_bbox": [
+        248,
+        344,
+        736,
+        622
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/defeat_04.png",
+      "rect": [
+        0,
+        768,
+        1024,
+        768
+      ],
+      "start_ms": 770,
+      "duration_ms": 260,
+      "pivot_px": [
+        512,
+        660
+      ],
+      "alpha_bbox": [
+        233,
+        279,
+        757,
+        623
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/defeat_05.png",
+      "rect": [
+        1024,
+        768,
+        1024,
+        768
+      ],
+      "start_ms": 1030,
+      "duration_ms": 600,
+      "pivot_px": [
+        512,
+        660
+      ],
+      "alpha_bbox": [
+        263,
+        349,
+        739,
+        623
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "collapse_contact",
+      "time_ms": 550
+    }
+  ],
+  "ending": "hold_last",
+  "layer": "actor",
+  "root_motion": false
+}

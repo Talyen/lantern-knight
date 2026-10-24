@@ -1,0 +1,14 @@
+{
+  "native_dimensions": [
+    1086,
+    1448
+  ],
+  "all_12_source_actors_disconnected": true,
+  "native_scale_preserved": true,
+  "runtime_border_clear": true,
+  "shared_ready_byte_identical": true,
+  "anatomy_review": "All12 source drawings inspected for two hands, two feet, single orb, cloak identity. Minor drawn finger/clasp variation remains; no missing limb or prop observed.",
+  "camera_certified": false,
+  "source_drawing4_boundary": "Complete at x1070, 16px from1086px source edge.",
+  "spell_release_ownership": "Drawing10 and11 bounding boxes overlap, but nontransparent actor components are disconnected. Component ownership preserves effect and anatomy without cut lines."
+}

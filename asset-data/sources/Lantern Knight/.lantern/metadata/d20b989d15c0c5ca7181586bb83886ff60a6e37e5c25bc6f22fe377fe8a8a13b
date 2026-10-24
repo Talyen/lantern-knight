@@ -1,0 +1,17 @@
+LANTERN KNIGHT | COMPLETE ITEM LIBRARY
+
+146 designs: 120 existing accepted designs plus 26 additions.
+Each design has nine PNG exports. The 33 regenerated sources are newly generated higher-resolution artwork, not recovered original pixels. Older files are preserved separately.
+
+Choose your category ZIP and extract it. Files are grouped by category/item ID. Every ZIP includes a category manifest and this guide. The catalog lists every design and its bundle.
+
+EXPORT ROLES
+full_native: current source pixels, copied byte-for-byte, with original canvas dimensions.
+detail512: 512px inspection view, aspect-preserving, no upscaling.
+inventory512: 512px physical-reference inventory composition, center pivot (0.5,0.5); catalog extent or 2px/reference cm, 16px floor, 440px cap.
+thumb256: half-size inventory composition, center pivot (0.5,0.5).
+ui32 / ui64 / ui128: optically fitted UI icons for readability, not physical-scale views.
+ground_static_512: bottom anchor (256,448), normalized (0.5,0.875). Matched settled animation frame where mapped; otherwise a static pickup using existing artwork at 1.5px/reference cm, 16px floor, 440px cap. These preserve historical scales and are not globally scale-normalized.
+ground_scaled_512: normalized static pickup, bottom anchor (256,448), 1.5px/reference cm with a 12px floor and 440px cap; no upscaling. This is not an animation-matched frame.
+
+The existing 33 animation packs remain in the original Drive folders. This package does not replace animation sequences or include engine integration. Preview sheets are review aids, not game textures. Mechanical validation checks coverage, dimensions, alpha, and file hashes; gameplay and engine validation remain separate.

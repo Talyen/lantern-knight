@@ -1,0 +1,102 @@
+[
+  {
+    "path": "README.txt",
+    "sha256": "2c9e986a7760165626b3718ae5fe135774ae1dca968df2f8037e72ab353276c9",
+    "size": 1613
+  },
+  {
+    "path": "approved_style_prompt.txt",
+    "sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+    "size": 2318
+  },
+  {
+    "path": "exact_prompt.txt",
+    "sha256": "1961f07ea392435fcccfe38fa250c68a6d835c9efe910178305c7a4b6a0d2cd5",
+    "size": 4115
+  },
+  {
+    "path": "inference/build_scene_review.py",
+    "sha256": "7cacde13cb4bc60659e3913e2aef109d88b2a17455ba20997f1381686f770c7c",
+    "size": 4048
+  },
+  {
+    "path": "inference/check_scene_seams.py",
+    "sha256": "979b505dcdd77f8ff2015d61f027d14ca18e4ac11e4bc0418f75b3c453a02cce",
+    "size": 1805
+  },
+  {
+    "path": "inference/run_isolated.py",
+    "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f",
+    "size": 3465
+  },
+  {
+    "path": "inference/run_test.py",
+    "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236",
+    "size": 2347
+  },
+  {
+    "path": "metrics/output_manifest.json",
+    "sha256": "c4d7826ad1c987d4ce95c4779af96b9f98776a399c1fc4556c01a50985b05466",
+    "size": 2591
+  },
+  {
+    "path": "metrics/resume_config.json",
+    "sha256": "138aa5633f94d256e19faf5b8c070a0a8986782b7f647fd4f8831416eb63643b",
+    "size": 137
+  },
+  {
+    "path": "metrics/run_metadata.json",
+    "sha256": "f594c53d2c345f13bb594f299ecc753dfb0a2ae0edc4b45d6690afdbfb65eda2",
+    "size": 16889
+  },
+  {
+    "path": "metrics/seam_metrics.json",
+    "sha256": "9848c2a0773fee847c237f491d5f0adb930283e8c4b0fe2a96e7f431e4b84b5b",
+    "size": 592
+  },
+  {
+    "path": "native_floor.png",
+    "sha256": "6871ce94fc9408d80b5b0b70fd4bd8b70d36228166a7ed6781d4d62c8be21077",
+    "size": 2479935
+  },
+  {
+    "path": "production_manifest.json",
+    "sha256": "59e792266b6b0c034643e6d3ae4eef4147bf6bfe3310c66fd8cc349b82e6d6e9",
+    "size": 20802
+  },
+  {
+    "path": "provenance/Real-ESRGAN-LICENSE.txt",
+    "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2",
+    "size": 1519
+  },
+  {
+    "path": "provenance/exact_prompt_verification.json",
+    "sha256": "72fe6875d3a45982b75ecc940870cae3de57256b44f4fac0e53f095c9507e0fd",
+    "size": 516
+  },
+  {
+    "path": "provenance/ncnn-LICENSE.txt",
+    "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255",
+    "size": 6427
+  },
+  {
+    "path": "provenance/runtime_provenance.json",
+    "sha256": "46a517061dc080cb9aa5c1542e79bbde4454199ec1cc6ed74aec58e3a41609f9",
+    "size": 758
+  },
+  {
+    "path": "references/canonical_hero.png",
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+    "size": 204034
+  },
+  {
+    "path": "review_config.json",
+    "sha256": "c6d58e1f3b2ec9aca0953823e227085db34a6087899efa972363d7ccea07a6b7",
+    "size": 1687
+  },
+  {
+    "path": "review_views_metadata.json",
+    "sha256": "8c65c3020858f291a165b5b0ff8850b2066de8094b267fd555e753de0e036f78",
+    "size": 1725
+  }
+]

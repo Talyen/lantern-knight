@@ -1,0 +1,787 @@
+{
+  "version": "1.0",
+  "content_status": "reviewed_candidate_art_not_runtime_integrated",
+  "projection": "orthographic",
+  "camera": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "world": "right-handed XZ ground / Y up",
+    "screen_right": [
+      0.7071067811865475,
+      0,
+      -0.7071067811865475
+    ],
+    "screen_up": [
+      -0.4082482904638631,
+      0.816496580927726,
+      -0.4082482904638631
+    ]
+  },
+  "source_density_px_per_m": 440,
+  "canvas": [
+    1536,
+    1536
+  ],
+  "ground_pivot_px": [
+    768,
+    1220
+  ],
+  "assets": [
+    {
+      "id": "weathered_satchel",
+      "states": {
+        "closed": {
+          "png": "png/weathered_satchel_closed.png",
+          "svg": "svg/weathered_satchel_closed.svg",
+          "alpha_bounds_px": [
+            503,
+            743,
+            1033,
+            1373
+          ],
+          "sha256": "bc0d13ff41e5fb000c4e040ba0c4359feb7e695ab9be46a7f8e808a838b1ee8e",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            503,
+            743,
+            503,
+            163
+          ]
+        },
+        "open": {
+          "png": "png/weathered_satchel_open.png",
+          "svg": "svg/weathered_satchel_open.svg",
+          "alpha_bounds_px": [
+            503,
+            729,
+            1033,
+            1373
+          ],
+          "sha256": "89d53cfca8eb553614cc8a86ea6b776fc236e2a9bcd5d65470596d84bfc3a3cd",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            503,
+            729,
+            503,
+            163
+          ]
+        },
+        "broken": {
+          "png": "png/weathered_satchel_broken.png",
+          "svg": "svg/weathered_satchel_broken.svg",
+          "alpha_bounds_px": [
+            503,
+            743,
+            1033,
+            1375
+          ],
+          "sha256": "c674639e55120fb9c164cfcac1562ec656fa0f1f03006ec449cc694e50ff244e",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            503,
+            743,
+            503,
+            161
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        1.03,
+        1.15,
+        0.53
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true,
+      "carry_strap": "One unchanged attached strap source in every state. The open flap partially occludes it but the taller arch remains visible."
+    },
+    {
+      "id": "tied_grain_sack",
+      "states": {
+        "closed": {
+          "png": "png/tied_grain_sack_closed.png",
+          "svg": "svg/tied_grain_sack_closed.svg",
+          "alpha_bounds_px": [
+            514,
+            819,
+            1022,
+            1367
+          ],
+          "sha256": "729a5f4c3d80356cda1b28fe92d549a94065381a86a30eb699f766e68e013a37",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            514,
+            819,
+            514,
+            169
+          ]
+        },
+        "open": {
+          "png": "png/tied_grain_sack_open.png",
+          "svg": "svg/tied_grain_sack_open.svg",
+          "alpha_bounds_px": [
+            514,
+            808,
+            1022,
+            1367
+          ],
+          "sha256": "8e364fe935c2cbd9f8ba6aa71a31c8f39388d2ce7fa6dbfacf5ef3884a780bb2",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            514,
+            808,
+            514,
+            169
+          ]
+        },
+        "broken": {
+          "png": "png/tied_grain_sack_broken.png",
+          "svg": "svg/tied_grain_sack_broken.svg",
+          "alpha_bounds_px": [
+            514,
+            819,
+            1022,
+            1367
+          ],
+          "sha256": "fc1b74d0400c932ad6aef0d7b89c5bb17f54b35dbf73d8eb925ada37e73ebb9f",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            514,
+            819,
+            514,
+            169
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        0.79,
+        1.04,
+        0.79
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true
+    },
+    {
+      "id": "reed_hamper",
+      "states": {
+        "closed": {
+          "png": "png/reed_hamper_closed.png",
+          "svg": "svg/reed_hamper_closed.svg",
+          "alpha_bounds_px": [
+            471,
+            876,
+            1065,
+            1391
+          ],
+          "sha256": "803500322b8292ab169ecc4fb4536a242c6874b8fa5f5ab5c9d3873b8988fe62",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            471,
+            876,
+            471,
+            145
+          ]
+        },
+        "open": {
+          "png": "png/reed_hamper_open.png",
+          "svg": "svg/reed_hamper_open.svg",
+          "alpha_bounds_px": [
+            471,
+            592,
+            1065,
+            1391
+          ],
+          "sha256": "35cbe6545b7d04541910a4f9fba5b11bc51650147d31251cff7007096c540880",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            471,
+            592,
+            471,
+            145
+          ]
+        },
+        "broken": {
+          "png": "png/reed_hamper_broken.png",
+          "svg": "svg/reed_hamper_broken.svg",
+          "alpha_bounds_px": [
+            471,
+            801,
+            1065,
+            1391
+          ],
+          "sha256": "6ea2912b93e5d5deb73b8403a9c3d695eecc5040d1e236ad75ff81b783d4363f",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            471,
+            801,
+            471,
+            145
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        1.12,
+        0.84,
+        0.91
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true
+    },
+    {
+      "id": "burial_coffin",
+      "states": {
+        "closed": {
+          "png": "png/burial_coffin_closed.png",
+          "svg": "svg/burial_coffin_closed.svg",
+          "alpha_bounds_px": [
+            364,
+            828,
+            1172,
+            1453
+          ],
+          "sha256": "607217cba778c505e9dd73739bb92a5dd294bb32547fdf2908396faa717d5a88",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            364,
+            828,
+            364,
+            83
+          ]
+        },
+        "open": {
+          "png": "png/burial_coffin_open.png",
+          "svg": "svg/burial_coffin_open.svg",
+          "alpha_bounds_px": [
+            364,
+            593,
+            1179,
+            1453
+          ],
+          "sha256": "63cd71e83b551e951f13bcc3681c034cacf88a8208be6a898e2c63057219c9cd",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            364,
+            593,
+            357,
+            83
+          ]
+        },
+        "broken": {
+          "png": "png/burial_coffin_broken.png",
+          "svg": "svg/burial_coffin_broken.svg",
+          "alpha_bounds_px": [
+            364,
+            755,
+            1172,
+            1453
+          ],
+          "sha256": "a54e97b6a788ae1c2889918f264d96d5f128207a385834547a2814b8e3f79ac5",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            364,
+            755,
+            364,
+            83
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        2.01,
+        0.55,
+        0.75
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true
+    },
+    {
+      "id": "bowed_apothecary_cabinet",
+      "states": {
+        "closed": {
+          "png": "png/bowed_apothecary_cabinet_closed.png",
+          "svg": "svg/bowed_apothecary_cabinet_closed.svg",
+          "alpha_bounds_px": [
+            478,
+            493,
+            1058,
+            1387
+          ],
+          "sha256": "b908bd38cdc1b23f8bca93a13a6ada39f3b321af473a796015b87a69e84fe3fc",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            478,
+            493,
+            478,
+            149
+          ]
+        },
+        "open": {
+          "png": "png/bowed_apothecary_cabinet_open.png",
+          "svg": "svg/bowed_apothecary_cabinet_open.svg",
+          "alpha_bounds_px": [
+            333,
+            493,
+            1058,
+            1387
+          ],
+          "sha256": "b3eed95407f4a15f31323bce24381cc7dff71fce74fd33614bd6b6ee6c7c3541",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            333,
+            493,
+            478,
+            149
+          ]
+        },
+        "broken": {
+          "png": "png/bowed_apothecary_cabinet_broken.png",
+          "svg": "svg/bowed_apothecary_cabinet_broken.svg",
+          "alpha_bounds_px": [
+            478,
+            493,
+            1058,
+            1387
+          ],
+          "sha256": "c6c3350831935674706bdf99ef9c5d09a57de1f34a557bb7b6ab51a5eef783d6",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            478,
+            493,
+            478,
+            149
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        0.96,
+        2.0,
+        0.57
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true
+    },
+    {
+      "id": "spouted_coal_scuttle",
+      "states": {
+        "closed": {
+          "png": "png/spouted_coal_scuttle_closed.png",
+          "svg": "svg/spouted_coal_scuttle_closed.svg",
+          "alpha_bounds_px": [
+            485,
+            870,
+            1051,
+            1383
+          ],
+          "sha256": "82f29a243cbf5479fa28be3dbaba43dd0fb6eb8130dc26a80746d14a3c2d0deb",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            485,
+            870,
+            485,
+            153
+          ]
+        },
+        "open": {
+          "png": "png/spouted_coal_scuttle_open.png",
+          "svg": "svg/spouted_coal_scuttle_open.svg",
+          "alpha_bounds_px": [
+            485,
+            606,
+            1051,
+            1383
+          ],
+          "sha256": "0e90515ba2c811e0ea7bbeac1ec9cdf24ed27b51222bd0a721a2be83fa71c999",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            485,
+            606,
+            485,
+            153
+          ]
+        },
+        "broken": {
+          "png": "png/spouted_coal_scuttle_broken.png",
+          "svg": "svg/spouted_coal_scuttle_broken.svg",
+          "alpha_bounds_px": [
+            485,
+            825,
+            1051,
+            1387
+          ],
+          "sha256": "e2073fea99b0c0be8c653ed1faf3a0263ac41d2d0558282790459d69fa302126",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            485,
+            825,
+            485,
+            149
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        0.78,
+        0.98,
+        0.85
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true
+    },
+    {
+      "id": "canvas_rollcase",
+      "states": {
+        "closed": {
+          "png": "png/canvas_rollcase_closed.png",
+          "svg": "svg/canvas_rollcase_closed.svg",
+          "alpha_bounds_px": [
+            456,
+            917,
+            1080,
+            1400
+          ],
+          "sha256": "1b399bbd8b354c501b92a944140c9161ab5166d437e00b0b489dae4174a54ee6",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            456,
+            917,
+            456,
+            136
+          ]
+        },
+        "open": {
+          "png": "png/canvas_rollcase_open.png",
+          "svg": "svg/canvas_rollcase_open.svg",
+          "alpha_bounds_px": [
+            456,
+            917,
+            1080,
+            1465
+          ],
+          "sha256": "8b9b4fd1b13591d96b0b82a6800395e15d6fd68d18f776057d46165d4f4cae25",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            456,
+            917,
+            456,
+            71
+          ]
+        },
+        "broken": {
+          "png": "png/canvas_rollcase_broken.png",
+          "svg": "svg/canvas_rollcase_broken.svg",
+          "alpha_bounds_px": [
+            456,
+            917,
+            1080,
+            1400
+          ],
+          "sha256": "0babd54032ce14b94be22a97b83085dfa78f24fc276d607433bcb9a74a5d22b9",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            456,
+            917,
+            456,
+            136
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        1.08,
+        0.72,
+        0.59
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true,
+      "open_contents": "Pale inner shape is a folded/rolled linen insert. The removable end cap is the same component rigidly rotated flat and set beside the rollcase."
+    },
+    {
+      "id": "curved_spice_drawer",
+      "states": {
+        "closed": {
+          "png": "png/curved_spice_drawer_closed.png",
+          "svg": "svg/curved_spice_drawer_closed.svg",
+          "alpha_bounds_px": [
+            443,
+            812,
+            1093,
+            1407
+          ],
+          "sha256": "850d2eaba976b2b8b0e188ef70ff64c19b4d6ffc39c4c1cf3ffddd7294a36962",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            443,
+            812,
+            443,
+            129
+          ]
+        },
+        "open": {
+          "png": "png/curved_spice_drawer_open.png",
+          "svg": "svg/curved_spice_drawer_open.svg",
+          "alpha_bounds_px": [
+            347,
+            812,
+            1093,
+            1407
+          ],
+          "sha256": "1ac3f926e2e50bd56cd18d92ff146b4b738364688bf62c61534d39edf16177e4",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            347,
+            812,
+            443,
+            129
+          ]
+        },
+        "broken": {
+          "png": "png/curved_spice_drawer_broken.png",
+          "svg": "svg/curved_spice_drawer_broken.svg",
+          "alpha_bounds_px": [
+            426,
+            812,
+            1093,
+            1407
+          ],
+          "sha256": "3f2a9773f8f125c3b59c17e5e437f7434e142ea03301c9a871e72d2835d318d8",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768,
+            1220
+          ],
+          "transparent_margin_ltrb": [
+            426,
+            812,
+            443,
+            129
+          ]
+        }
+      },
+      "closed_world_extents_xyz": [
+        1.22,
+        0.72,
+        0.68
+      ],
+      "extent_status": "art bounds; gameplay collision requires integration review",
+      "heading": "canonical authored zero-yaw prop / no additional directions",
+      "root_role": "ground-centre, fixed across states and animation",
+      "source_density_px_per_m": 440,
+      "states_do_not_set_gameplay_timing": true,
+      "travel_contract": {
+        "open_travel_world_z": 0.44,
+        "enclosure_occlusion_plane_z": 0.305,
+        "method": "The tray translates rigidly. Its contents are geometrically clipped while still behind the fixed chest front."
+      }
+    }
+  ],
+  "production_ready": false,
+  "camera_contract_id": "lantern_fixed_iso_35.264389682754654_45_yup_v1",
+  "pixel_format": "RGBA8 sRGB straight alpha PNG",
+  "source_provenance": "Original world-authored 2.5D curved panels, explicit geometry, rigid components and a clipped linear drawer. No raster texture, independent AI frame or raster edit.",
+  "animations": "animation/clips.json",
+  "preview": {
+    "file": "Workshop_Container_Opening_Preview_60fps.mp4",
+    "fps": 60,
+    "frame_count": 240,
+    "seconds": 4,
+    "method": "Continuous source evaluated separately on every 60 Hz frame"
+  },
+  "atlas_policy": "Individual untrimmed source sprites; opening_sheet is an authoring sheet, not a runtime atlas. Runtime trimming/extrusion/mips are not supplied.",
+  "dependencies": {
+    "stills": [
+      "Python >=3.10",
+      "Pillow",
+      "Inkscape CLI"
+    ],
+    "motion": [
+      "Python >=3.10",
+      "Pillow",
+      "Cairo",
+      "librsvg",
+      "GObject",
+      "FFmpeg with libx264"
+    ],
+    "preview_font": "DejaVu Sans; PIL default-font fallback is present"
+  }
+}

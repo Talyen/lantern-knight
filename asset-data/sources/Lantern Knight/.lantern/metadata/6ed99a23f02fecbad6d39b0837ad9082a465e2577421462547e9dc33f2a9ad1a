@@ -1,0 +1,104 @@
+{
+  "name": "raven_reading_perch",
+  "scene": "raven_abbey_pack",
+  "authored_cels": 7,
+  "native_canvas": [
+    512,
+    512
+  ],
+  "runtime_canvas": [
+    256,
+    256
+  ],
+  "registration_translation_only": [
+    [
+      0,
+      0,
+      1.0
+    ],
+    [
+      -1,
+      0,
+      0.9980088342090649
+    ],
+    [
+      0,
+      0,
+      0.9987006080282512
+    ],
+    [
+      -2,
+      -1,
+      0.9984289825850456
+    ],
+    [
+      0,
+      0,
+      0.998006776880687
+    ],
+    [
+      -5,
+      3,
+      0.9988026394406709
+    ],
+    [
+      -1,
+      2,
+      0.9978880897660444
+    ]
+  ],
+  "states": [
+    "clasped_closed",
+    "clasp_half_raised",
+    "clasp_clear",
+    "cover_half_open",
+    "pages_lifted",
+    "pages_settling",
+    "settled_open"
+  ],
+  "frame_duration_ms": [
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140
+  ],
+  "start_hold": "clasped_closed",
+  "end_hold": "settled_open",
+  "ground_anchor_native": [
+    256,
+    471
+  ],
+  "contact_anchor_native": [
+    290,
+    170
+  ],
+  "completion_frame": 6,
+  "scene_placement": {
+    "canvas_width": 220,
+    "canvas_top_left": [
+      3390,
+      1905
+    ],
+    "ground_anchor": [
+      3500.0,
+      2107.3828125
+    ]
+  },
+  "gameplay_suggestion": "Reveal local history or route clue via game UI",
+  "implementation": "Art and metadata only; no gameplay integration",
+  "source": "Built-in imagegen; requested highest native quality and preferred model, tool did not expose model selection; source 1792x896; seven/eight authored cels, no generated interpolation",
+  "qa_status": "Root visually approved",
+  "ground_anchor_runtime": [
+    128.0,
+    235.5
+  ],
+  "contact_anchor_runtime": [
+    145.0,
+    85.0
+  ],
+  "runtime_derivation": "448px source cells translated onto 512px transparent canvas; downsampled to 256px runtime, no upscaling of authored detail",
+  "registration_note": "Stationary lower supports/hearth translation registration; source hand-drawn per-cel contour variation remains."
+}

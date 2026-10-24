@@ -1,0 +1,71 @@
+{
+  "name": "Initiates trial setter",
+  "authored_cels": 8,
+  "native_canvas": [
+    448,
+    544
+  ],
+  "runtime_canvas": [
+    224,
+    272
+  ],
+  "states": [
+    "ready",
+    "lever_half_down",
+    "partly_cocked",
+    "latch_approaching",
+    "armed_hold",
+    "released_returning",
+    "settling_vane_rising",
+    "completed_hold"
+  ],
+  "segments": {
+    "arm": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "completion": [
+      5,
+      6,
+      7
+    ]
+  },
+  "frame_duration_ms": [
+    140,
+    140,
+    180,
+    140,
+    0,
+    200,
+    200,
+    0
+  ],
+  "holds": {
+    "ready": 0,
+    "armed": 4,
+    "completed": 7
+  },
+  "external_release_required": true,
+  "loop": false,
+  "ground_anchor_native": [
+    224,
+    480
+  ],
+  "contact_anchor_native": [
+    340,
+    270
+  ],
+  "reward_marker_native": [
+    224,
+    500
+  ],
+  "completion_frame": 7,
+  "gameplay_suggestion": "Start externally controlled challenge; hold armed indefinitely until external completion, then release and show raised completion vane",
+  "implementation": "Art metadata only; no gameplay integration",
+  "source_library_id": "libfile_79150a017d608191a8c82c60ee4b1911",
+  "scene_master_id": "1Cm9zc77zryw4-tLHE1IZvXOjkuzvFKtI",
+  "qa_status": "Root visually approved 2026-10-18"
+}

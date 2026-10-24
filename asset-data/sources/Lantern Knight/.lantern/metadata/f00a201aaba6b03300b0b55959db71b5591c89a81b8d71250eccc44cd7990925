@@ -1,0 +1,193 @@
+{
+  "name": "07-quarry-slab-fire",
+  "revision": 2,
+  "canvas": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    256,
+    484
+  ],
+  "fps_clock": 60,
+  "loop": true,
+  "interpolation": "none",
+  "duration_ticks": 96,
+  "atlas_size": [
+    2112,
+    1584
+  ],
+  "padding_px": 8,
+  "rotation": false,
+  "frames": [
+    {
+      "index": 0,
+      "rect": [
+        8,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.8293376871027047,
+        0.22799470057827184
+      ]
+    },
+    {
+      "index": 1,
+      "rect": [
+        536,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.8559498991583314,
+        0.2899423848400475
+      ]
+    },
+    {
+      "index": 2,
+      "rect": [
+        1064,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.8133095184643441,
+        0.31886577978834807
+      ]
+    },
+    {
+      "index": 3,
+      "rect": [
+        1592,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.6551506347739188,
+        0.3968362591211714
+      ]
+    },
+    {
+      "index": 4,
+      "rect": [
+        8,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.37626457081835785,
+        0.5332531331695092
+      ]
+    },
+    {
+      "index": 5,
+      "rect": [
+        536,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.3647534559862866,
+        0.48283075248451934
+      ]
+    },
+    {
+      "index": 6,
+      "rect": [
+        1064,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.4357971181098388,
+        0.49498801245640234
+      ]
+    },
+    {
+      "index": 7,
+      "rect": [
+        1592,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.4277080646646091,
+        0.6043206276037185
+      ]
+    },
+    {
+      "index": 8,
+      "rect": [
+        8,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.613834966638868,
+        0.4338867057280983
+      ]
+    },
+    {
+      "index": 9,
+      "rect": [
+        536,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.815240612428933,
+        0.2848491010929003
+      ]
+    },
+    {
+      "index": 10,
+      "rect": [
+        1064,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.8498831265556315,
+        0.27933622357281446
+      ]
+    },
+    {
+      "index": 11,
+      "rect": [
+        1592,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 8,
+      "flame_energy_left_right": [
+        0.7996243206776661,
+        0.22954543015108728
+      ]
+    }
+  ],
+  "compositing": "Normal straight-alpha order: unlit, illumination, rear-flames, front-flames. Rear alpha already occluded by selected interior fuel and outer rim; front alpha occluded only by outer rim. Front/rear are nonoverlapping partitions of distinct illustrated cels, never duplicated drawings. effects equals rear over transparent then front. lit still is frame02."
+}

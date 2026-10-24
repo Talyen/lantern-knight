@@ -1,0 +1,18 @@
+{
+  "native/04_pages_lifted.png": "7bea3c995721cd6267ebf5342a7e82d824d640074c417965c08c9f2138c4a45b",
+  "native/03_cover_half_open.png": "5125f168f664b99da1dbc3d0a6bd9602687e4fc75e4fdf3bdc7a3b4ebfd28f09",
+  "native/02_clasp_clear.png": "02a72bbb7899cd63ec1263d1d742ad520997f413ab912f68b33f94bd829d8de2",
+  "native/05_pages_settling.png": "0f7be93c0c3bc474c625c5492d398fb22cf9fc86a17277dd18e673384caa84ef",
+  "native/01_clasp_half_raised.png": "a06b40b109561310d1d6bf4f21241e0080941ada634150c169db47778d2344b2",
+  "native/00_clasped_closed.png": "1820892e21085d970f67fe8623be7be52099809eb0dc7d301899f56c5916cc62",
+  "native/06_settled_open.png": "2d3f2accf47180fff552ff499a000e1c900d6d0e43c5df486d9982cec5aa9b6b",
+  "runtime/04_pages_lifted.png": "2e2fc3be8e123091d730a75d6d90a3e3017fb204f42121f82868ee1efd5ca171",
+  "runtime/03_cover_half_open.png": "fa856bd7a9733c2d263275a00a99f573ce70a0efac3792e65c5d1dcf75fb3a0e",
+  "runtime/02_clasp_clear.png": "30b7349eec136ad21bbfc78b481c6d808e2ae776ac2f903a767414c05e12ad86",
+  "runtime/05_pages_settling.png": "4561d1f3d04b010a1bdf0710e3376bbba127d92d212e0224bca58a60701a6bf7",
+  "runtime/01_clasp_half_raised.png": "93a89b8eb2a80d1399a4f7d9df6fd06bef471961ad3306c6162003c29b4f3d7d",
+  "runtime/00_clasped_closed.png": "58bc69dd43945593ddd4cffeaf2399ba1240468ea4a451630531bb47251853de",
+  "runtime/06_settled_open.png": "bd9314dafed72f10ff3150302ec403aefc006e1e24ba6b5cfdf3b903d8f4876b",
+  "states/end.png": "2d3f2accf47180fff552ff499a000e1c900d6d0e43c5df486d9982cec5aa9b6b",
+  "states/start.png": "1820892e21085d970f67fe8623be7be52099809eb0dc7d301899f56c5916cc62"
+}

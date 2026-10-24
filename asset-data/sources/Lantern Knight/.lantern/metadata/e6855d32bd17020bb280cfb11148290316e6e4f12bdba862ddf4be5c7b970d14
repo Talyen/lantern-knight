@@ -1,0 +1,21 @@
+{
+  "selected_clip": "Standing Torch Run Forward",
+  "reason": "Stable anatomical left torch hand adapts to hanging lantern; coherent strong lean and actual continuous two-step gait.",
+  "source_bundle": "mixamo_reference/unpacked/standing-torch-run-forward/joint-samples.json",
+  "source_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+  "sample_ticks": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35
+  ],
+  "cycle_ticks": 40,
+  "fps": 60,
+  "duplicate_tick40_excluded": true,
+  "root_policy": "Remove horizontal hip/root travel only. Retain source vertical bob and relative body motion.",
+  "adaptations": "Await helper record for rigid props and any bounded right sword carry."
+}

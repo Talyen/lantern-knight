@@ -1,0 +1,11 @@
+Lantern — Raven Abbey compact home base
+
+FINAL SOURCE: native.png, fresh built-in image generation. exact_regeneration_prompt.txt is the final generation prompt. Earlier rejected/edited experiments are not part of this kit.
+
+INTEGRATION SIZE IS 2715 x 1810 display pixels with the unchanged canonical hero at 160px visible height. Standard scene display is3840 x2560, so this footprint is49.99% of the normal area, not half width and half height. Do NOT treat6144 x4096 AI master pixels as scene world dimensions. Set display dimensions separately, preserving aspect ratio.
+
+AI4x master:6144 x4096, official Real-ESRGAN x4plus-anime6B.2x derivative3072 x2048 and display2715 x1810 use Lanczos reduction from that AI output. Computational tiling only, not modular gameplay tiles. Review metrics include two independent untiled comparisons. Native scene and canonical hero preserved.
+
+The hero previews are presentation composites at intended display scale and do not bake the hero into the deliverable environment. Native review preview upsampling used Lanczos only; final display and final context previews derive from genuine AI4x.
+
+No engine implementation, collision/navigation, prop separation or occlusion validation performed. Tall architecture and tree require an engine occlusion solution if the character walks behind them. Camera requested orthographic elevation35.264°, azimuth45°; geometry not mathematically validated. Furniture scale reviewed visually, not metrically exact.

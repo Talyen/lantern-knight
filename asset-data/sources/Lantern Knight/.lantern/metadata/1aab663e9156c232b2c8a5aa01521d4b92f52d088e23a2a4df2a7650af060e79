@@ -1,0 +1,274 @@
+{
+  "character": "monk",
+  "clip": "awakening",
+  "status": "TEST: visually reviewed; not engine validated",
+  "loop": false,
+  "unique_drawings": 7,
+  "new_drawings": 6,
+  "shared_endpoint_drawings": 1,
+  "tick_rate": 60,
+  "frame_hold_ticks": [
+    16,
+    8,
+    8,
+    6,
+    5,
+    5,
+    10
+  ],
+  "total_ticks": 58,
+  "duration_seconds": 0.9666666666666667,
+  "events": {
+    "awakening_start": 0,
+    "hands_or_shoulders_engage": 16,
+    "ready": 48,
+    "handoff_to_move": 58
+  },
+  "canvas_px": [
+    640,
+    576
+  ],
+  "pivot_top_left_px": [
+    320,
+    500
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.13194444444444442
+  ],
+  "atlas": {
+    "file": "monk_awaken_DR_atlas.png",
+    "grid": [
+      4,
+      2
+    ],
+    "last_cell_empty": true
+  },
+  "import_contract": {
+    "pixels_per_unit": "B",
+    "B": "Current approved movement PPU for this actor. Preserve existing world size. No assumed 256 PPU.",
+    "equivalent_reference_pixel_scale": 1.0,
+    "visual_child_scale": [
+      1,
+      1,
+      1
+    ],
+    "visual_child_offset": [
+      0,
+      0,
+      0
+    ],
+    "root_motion": "none; actor root and collider unchanged",
+    "filter": "bilinear",
+    "compression": "none for review",
+    "mipmaps": false
+  },
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "heading": "world +X / screen down-right",
+    "validation": "visual intent, not mathematically certified"
+  },
+  "processing": "Native source pixels, alpha threshold <=16 to zero and >=250 to255, connected-component ownership and integer landmark registration. No resize, warp, tween, mirror, or per-frame bounding-box normalization. Source-sheet row layout offsets removed; pose deformation and rise retained.",
+  "endpoint": "Drawing07 is decoded-pixel-identical to current move drawing01. Start movement from drawing01 after awakening. Generated06 to shared07 remains a hand-drawn pose transition, not a promise of pixel-perfect continuity.",
+  "drawings": [
+    {
+      "source_component_bbox": [
+        55,
+        236,
+        523,
+        513
+      ],
+      "source_cell": [
+        0,
+        0
+      ],
+      "cell_to_canvas_translation": [
+        80,
+        30
+      ],
+      "native_rgb_preserved": true,
+      "index": 1,
+      "file": "monk_awaken_DR_01.png",
+      "phase": "Dormant folded robe",
+      "hold_ticks": 16,
+      "start_tick": 0,
+      "end_tick_exclusive": 16,
+      "sha256": "d51823c2f9be785c7b4b3b608ab40f2da1905c2e81bf0444db4975aef16fe367",
+      "alpha_bbox": [
+        135,
+        266,
+        603,
+        543
+      ]
+    },
+    {
+      "source_component_bbox": [
+        556,
+        172,
+        994,
+        506
+      ],
+      "source_cell": [
+        512,
+        0
+      ],
+      "cell_to_canvas_translation": [
+        80,
+        30
+      ],
+      "native_rgb_preserved": true,
+      "index": 2,
+      "file": "monk_awaken_DR_02.png",
+      "phase": "Gather shoulders",
+      "hold_ticks": 8,
+      "start_tick": 16,
+      "end_tick_exclusive": 24,
+      "sha256": "91c69cc554c4bac81264eabf991eee2758d500f7975fc77a0e026072158c59b8",
+      "alpha_bbox": [
+        124,
+        202,
+        562,
+        536
+      ]
+    },
+    {
+      "source_component_bbox": [
+        1053,
+        77,
+        1486,
+        494
+      ],
+      "source_cell": [
+        1024,
+        0
+      ],
+      "cell_to_canvas_translation": [
+        80,
+        30
+      ],
+      "native_rgb_preserved": true,
+      "index": 3,
+      "file": "monk_awaken_DR_03.png",
+      "phase": "Heavy rise",
+      "hold_ticks": 8,
+      "start_tick": 24,
+      "end_tick_exclusive": 32,
+      "sha256": "7d3fe4fc43435bd2b0e9d608edcab207719609cb9bb7e7e4698adde89d97754f",
+      "alpha_bbox": [
+        109,
+        107,
+        542,
+        524
+      ]
+    },
+    {
+      "source_component_bbox": [
+        72,
+        540,
+        499,
+        929
+      ],
+      "source_cell": [
+        0,
+        512
+      ],
+      "cell_to_canvas_translation": [
+        60,
+        108
+      ],
+      "native_rgb_preserved": true,
+      "index": 4,
+      "file": "monk_awaken_DR_04.png",
+      "phase": "Grounded settle",
+      "hold_ticks": 6,
+      "start_tick": 32,
+      "end_tick_exclusive": 38,
+      "sha256": "0da66c121e25bcd7630c668a2ad47d66508de5a19f96883c60b738a356c0415d",
+      "alpha_bbox": [
+        132,
+        136,
+        559,
+        525
+      ]
+    },
+    {
+      "source_component_bbox": [
+        566,
+        551,
+        990,
+        925
+      ],
+      "source_cell": [
+        512,
+        512
+      ],
+      "cell_to_canvas_translation": [
+        78,
+        112
+      ],
+      "native_rgb_preserved": true,
+      "index": 5,
+      "file": "monk_awaken_DR_05.png",
+      "phase": "Guard settles",
+      "hold_ticks": 5,
+      "start_tick": 38,
+      "end_tick_exclusive": 43,
+      "sha256": "728472ee57bddfd34d50173b3d5ac243d56138ec194ffdfb1d8bc5897efed50f",
+      "alpha_bbox": [
+        132,
+        151,
+        556,
+        525
+      ]
+    },
+    {
+      "source_component_bbox": [
+        1056,
+        551,
+        1472,
+        926
+      ],
+      "source_cell": [
+        1024,
+        512
+      ],
+      "cell_to_canvas_translation": [
+        90,
+        112
+      ],
+      "native_rgb_preserved": true,
+      "index": 6,
+      "file": "monk_awaken_DR_06.png",
+      "phase": "Guard recovery",
+      "hold_ticks": 5,
+      "start_tick": 43,
+      "end_tick_exclusive": 48,
+      "sha256": "7e4b8d2a14180638a576445c9e5bfafa8f914c8e05ce182607945c6089f22dc1",
+      "alpha_bbox": [
+        122,
+        151,
+        538,
+        526
+      ]
+    },
+    {
+      "exact_shared_endpoint": true,
+      "source": "source/references/monk_move_ready.png",
+      "source_sha256": "6375845d2621de2c203d452f586c00775ecb17466c2d4301aa88fa3f01de6cfa",
+      "index": 7,
+      "file": "monk_awaken_DR_07.png",
+      "phase": "Exact existing move-ready",
+      "hold_ticks": 10,
+      "start_tick": 48,
+      "end_tick_exclusive": 58,
+      "sha256": "d78b90ad1511b163fddbaa11b4054df41212adb5789e6b7399509bb2be6a2cce",
+      "alpha_bbox": [
+        124,
+        151,
+        544,
+        538
+      ]
+    }
+  ]
+}

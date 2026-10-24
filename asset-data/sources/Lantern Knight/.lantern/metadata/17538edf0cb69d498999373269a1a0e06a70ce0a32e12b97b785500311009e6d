@@ -1,0 +1,170 @@
+{
+  "enemy": "Shroud Wisp",
+  "ability": "Gravecloth Lash",
+  "version": 2,
+  "art_method": "Built-in image generation; 16 newly drawn actor cels plus exact baseline start/end; 8 separately generated evolving effect cels. Ordinary Lanczos resampling, no claimed enhanced detail.",
+  "source_reference_id": "1DYnCCxS2NXdkzjd5nw4N_0RNrgrCwuiU",
+  "baseline_reference_path": "/workspace/shared/lantern_enemy_roster/neutral_frames/shroud_wisp.png",
+  "actor": {
+    "canvas": [
+      520,
+      408
+    ],
+    "pivot_top_left": [
+      216,
+      379
+    ],
+    "source_canvas": [
+      384,
+      384
+    ],
+    "source_pivot_top_left": [
+      192,
+      355
+    ],
+    "uniform_overflow_padding_ltrb": [
+      24,
+      24,
+      112,
+      0
+    ],
+    "estimated_ppu": null,
+    "frame_count": 18,
+    "frame_durations_ms": [
+      100,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      55,
+      45,
+      60,
+      90,
+      95,
+      100,
+      105,
+      115,
+      160
+    ],
+    "atlas_columns": 4,
+    "atlas_rows": 5,
+    "atlas_gutter": 0,
+    "native_generated_sheet_sizes": [
+      [
+        1774,
+        887
+      ],
+      [
+        1774,
+        887
+      ]
+    ],
+    "native_nominal_cel_size": [
+      443.5,
+      443.5
+    ],
+    "uniform_scale_to_runtime": 0.7448275862068966,
+    "fixed_page_translation": [
+      -132.88620689655176,
+      -160.31034482758622
+    ],
+    "registration_note": "Whole connected cels extracted without clipping at nominal sheet boundaries, then one shared scale and translation. No per-frame auto-fitting.",
+    "polish_added_overflow_padding_ltrb": [
+      24,
+      16,
+      0,
+      0
+    ],
+    "polish_strike_page_registration": {
+      "frames": [
+        9,
+        16
+      ],
+      "uniform_scale": 1.0983050847457627,
+      "translation": [
+        -47,
+        -15
+      ],
+      "calibration": "Last near-ready strike cel registered to exact source bounds; fixed transform for entire page, never per-pose fitting."
+    },
+    "atlas": "shroud_wisp_gravecloth_lash_v01_actor_atlas.png",
+    "end_behavior": "hold_last",
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "No gutter: clamp each frame UV to its rectangle or extract frames before filtering."
+    }
+  },
+  "effect": {
+    "canvas": [
+      256,
+      256
+    ],
+    "pivot_top_left": [
+      128,
+      128
+    ],
+    "frame_count": 8,
+    "frame_durations_ms": [
+      50,
+      50,
+      60,
+      60,
+      60,
+      60,
+      60,
+      80
+    ],
+    "atlas_columns": 4,
+    "atlas_rows": 2,
+    "offset_from_actor_pivot_pixels": [
+      155,
+      -55
+    ],
+    "native_generated_sheet_size": [
+      1774,
+      887
+    ],
+    "uniform_scale_to_runtime": 0.4502367531003382,
+    "start_ms": 915,
+    "contact_cel_index": 3,
+    "atlas": "shroud_wisp_gravecloth_lash_v01_effect_atlas.png",
+    "end_behavior": "hide",
+    "loop": false,
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "No gutter: clamp each frame UV to its rectangle or extract frames before filtering."
+    }
+  },
+  "timing": {
+    "windup_end_ms": 1020,
+    "contact_ms": 1075,
+    "damage_event_count": 1,
+    "actor_contact_cel_index": 10,
+    "total_ms": 1845,
+    "loop": false
+  },
+  "integration": "Additive authoring asset, no engine or hitbox changes. Top-left coordinates positive right/down; effect anchor=actor anchor+offset. Retain source movement PPU where numeric PPU not known. One damage event only at contact_ms.",
+  "qa": {
+    "transparent_rgba": true,
+    "unique_generated_actor_cels": 16,
+    "baseline_endpoints_exact": true,
+    "visually_reviewed": true,
+    "notes": [
+      "Contact sheet reviewed: evolving actor poses, one clear strike, exact baseline endpoints, separate material-matched effect.",
+      "Uniform overflow padding preserves source pixel scale and world anchor; pivot adjustment equals left/top padding. Native generated art retained, ordinary resampling only."
+    ],
+    "polish_notes": [
+      "Explicit actor/effect atlas filenames and sampler/ending metadata; kit and loose JSON match.",
+      "Uniform strike-page registration removes position/size snap at source-ready return.",
+      "Cloth dust scuff (effect cel 03) now lands at the single attack contact event; padded preview uses runtime actor pivot."
+    ],
+    "engine_tested": false
+  },
+  "revision": "spectral_polish_02"
+}

@@ -1,0 +1,507 @@
+{
+  "name": "Halo-Veil Cantor",
+  "character_id": "CT04",
+  "status": "MOTION CONCEPT / CAMERA UNRESOLVED",
+  "gameplay_view_ready": false,
+  "view_target": {
+    "elevation_degrees": 35.2643897,
+    "world_azimuth_degrees": 45,
+    "actor_world_forward": "+X",
+    "screen_heading_target": "down-right, 30 degrees below horizontal"
+  },
+  "camera_audit": "Art remains nearer frontal portrait than the required elevated projection. Prompt numbers are not a verified camera. Do not promote to gameplay-ready art.",
+  "canvas_pixels": [
+    640,
+    640
+  ],
+  "fixed_origin_pixels_top_left": [
+    328,
+    595
+  ],
+  "unity_pivot_normalized_bottom_left": [
+    0.5125,
+    0.0703125
+  ],
+  "pixels_per_world_unit": null,
+  "registration": "A single sheet-grid transform per row/column, source grid stride 1448/3 by 543 pixels, plus constant offset (16,40). Root is a provisional review anchor. Generated pose placement and scale variation are preserved, including any jitter. No per-frame recentering, fitting, resizing or stabilization.",
+  "alpha_processing": "Native RGBA preserved for source regions. No threshold cleanup or color repainting. Native sources retained byte-for-byte.",
+  "timing": "60 Hz encoded video uses repeated full drawings; no optical flow, morphing, interpolation or generated in-betweens.",
+  "clips": {
+    "drift_veil_breath": {
+      "loop": true,
+      "drawing_count": 6,
+      "ticks_per_cycle": 70,
+      "cycle_duration_seconds": 1.1666666666666667,
+      "preview_repetitions": 4,
+      "atlas": "atlases/drift_veil_breath_atlas.png",
+      "atlas_size": [
+        1920,
+        1280
+      ],
+      "atlas_frame_rects": [
+        [
+          0,
+          0,
+          640,
+          640
+        ],
+        [
+          640,
+          0,
+          640,
+          640
+        ],
+        [
+          1280,
+          0,
+          640,
+          640
+        ],
+        [
+          0,
+          640,
+          640,
+          640
+        ],
+        [
+          640,
+          640,
+          640,
+          640
+        ],
+        [
+          1280,
+          640,
+          640,
+          640
+        ]
+      ],
+      "frames": [
+        {
+          "frame": 1,
+          "file": "frames/drift_veil_breath/drift_veil_breath_01.png",
+          "source_rect_xyxy": [
+            0,
+            0,
+            520,
+            550
+          ],
+          "source_nominal_grid_offset": [
+            0,
+            0
+          ],
+          "paste_xy": [
+            16,
+            40
+          ],
+          "alpha_bbox_xyxy": [
+            57,
+            59,
+            536,
+            585
+          ],
+          "hold_ticks_60hz": 12,
+          "duration_seconds": 0.2,
+          "phase": "Low float",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 2,
+          "file": "frames/drift_veil_breath/drift_veil_breath_02.png",
+          "source_rect_xyxy": [
+            520,
+            0,
+            1000,
+            550
+          ],
+          "source_nominal_grid_offset": [
+            483,
+            0
+          ],
+          "paste_xy": [
+            53,
+            40
+          ],
+          "alpha_bbox_xyxy": [
+            53,
+            55,
+            531,
+            590
+          ],
+          "hold_ticks_60hz": 10,
+          "duration_seconds": 0.16666666666666666,
+          "phase": "Inhale / rise",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 3,
+          "file": "frames/drift_veil_breath/drift_veil_breath_03.png",
+          "source_rect_xyxy": [
+            1000,
+            0,
+            1448,
+            550
+          ],
+          "source_nominal_grid_offset": [
+            965,
+            0
+          ],
+          "paste_xy": [
+            51,
+            40
+          ],
+          "alpha_bbox_xyxy": [
+            53,
+            70,
+            469,
+            587
+          ],
+          "hold_ticks_60hz": 12,
+          "duration_seconds": 0.2,
+          "phase": "Open veil",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 4,
+          "file": "frames/drift_veil_breath/drift_veil_breath_04.png",
+          "source_rect_xyxy": [
+            0,
+            550,
+            520,
+            1086
+          ],
+          "source_nominal_grid_offset": [
+            0,
+            543
+          ],
+          "paste_xy": [
+            16,
+            47
+          ],
+          "alpha_bbox_xyxy": [
+            43,
+            50,
+            535,
+            567
+          ],
+          "hold_ticks_60hz": 14,
+          "duration_seconds": 0.23333333333333334,
+          "phase": "High suspend",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 5,
+          "file": "frames/drift_veil_breath/drift_veil_breath_05.png",
+          "source_rect_xyxy": [
+            520,
+            550,
+            1000,
+            1086
+          ],
+          "source_nominal_grid_offset": [
+            483,
+            543
+          ],
+          "paste_xy": [
+            53,
+            47
+          ],
+          "alpha_bbox_xyxy": [
+            53,
+            47,
+            531,
+            551
+          ],
+          "hold_ticks_60hz": 10,
+          "duration_seconds": 0.16666666666666666,
+          "phase": "Exhale / descend",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 6,
+          "file": "frames/drift_veil_breath/drift_veil_breath_06.png",
+          "source_rect_xyxy": [
+            1000,
+            550,
+            1448,
+            1086
+          ],
+          "source_nominal_grid_offset": [
+            965,
+            543
+          ],
+          "paste_xy": [
+            51,
+            47
+          ],
+          "alpha_bbox_xyxy": [
+            51,
+            65,
+            467,
+            565
+          ],
+          "hold_ticks_60hz": 12,
+          "duration_seconds": 0.2,
+          "phase": "Return",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        }
+      ]
+    },
+    "resonant_spell": {
+      "loop": false,
+      "drawing_count": 6,
+      "ticks_per_cycle": 90,
+      "cycle_duration_seconds": 1.5,
+      "preview_repetitions": 3,
+      "atlas": "atlases/resonant_spell_atlas.png",
+      "atlas_size": [
+        1920,
+        1280
+      ],
+      "atlas_frame_rects": [
+        [
+          0,
+          0,
+          640,
+          640
+        ],
+        [
+          640,
+          0,
+          640,
+          640
+        ],
+        [
+          1280,
+          0,
+          640,
+          640
+        ],
+        [
+          0,
+          640,
+          640,
+          640
+        ],
+        [
+          640,
+          640,
+          640,
+          640
+        ],
+        [
+          1280,
+          640,
+          640,
+          640
+        ]
+      ],
+      "frames": [
+        {
+          "frame": 1,
+          "file": "frames/resonant_spell/resonant_spell_01.png",
+          "source_rect_xyxy": [
+            0,
+            0,
+            600,
+            525
+          ],
+          "source_nominal_grid_offset": [
+            0,
+            0
+          ],
+          "paste_xy": [
+            16,
+            40
+          ],
+          "alpha_bbox_xyxy": [
+            16,
+            63,
+            615,
+            565
+          ],
+          "hold_ticks_60hz": 20,
+          "duration_seconds": 0.3333333333333333,
+          "phase": "Rest",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 2,
+          "file": "frames/resonant_spell/resonant_spell_02.png",
+          "source_rect_xyxy": [
+            600,
+            0,
+            1000,
+            525
+          ],
+          "source_nominal_grid_offset": [
+            483,
+            0
+          ],
+          "paste_xy": [
+            133,
+            40
+          ],
+          "alpha_bbox_xyxy": [
+            145,
+            57,
+            533,
+            565
+          ],
+          "hold_ticks_60hz": 14,
+          "duration_seconds": 0.23333333333333334,
+          "phase": "Gather inward",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 3,
+          "file": "frames/resonant_spell/resonant_spell_03.png",
+          "source_rect_xyxy": [
+            1000,
+            0,
+            1448,
+            525
+          ],
+          "source_nominal_grid_offset": [
+            965,
+            0
+          ],
+          "paste_xy": [
+            51,
+            40
+          ],
+          "alpha_bbox_xyxy": [
+            51,
+            69,
+            485,
+            564
+          ],
+          "hold_ticks_60hz": 8,
+          "duration_seconds": 0.13333333333333333,
+          "phase": "Unfurl",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 4,
+          "file": "frames/resonant_spell/resonant_spell_04.png",
+          "source_rect_xyxy": [
+            0,
+            525,
+            600,
+            1086
+          ],
+          "source_nominal_grid_offset": [
+            0,
+            543
+          ],
+          "paste_xy": [
+            16,
+            22
+          ],
+          "alpha_bbox_xyxy": [
+            16,
+            22,
+            616,
+            583
+          ],
+          "hold_ticks_60hz": 14,
+          "duration_seconds": 0.23333333333333334,
+          "phase": "Radiant resonance",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 5,
+          "file": "frames/resonant_spell/resonant_spell_05.png",
+          "source_rect_xyxy": [
+            600,
+            525,
+            1000,
+            1086
+          ],
+          "source_nominal_grid_offset": [
+            483,
+            543
+          ],
+          "paste_xy": [
+            133,
+            22
+          ],
+          "alpha_bbox_xyxy": [
+            133,
+            22,
+            531,
+            583
+          ],
+          "hold_ticks_60hz": 10,
+          "duration_seconds": 0.16666666666666666,
+          "phase": "Ring / recoil",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        },
+        {
+          "frame": 6,
+          "file": "frames/resonant_spell/resonant_spell_06.png",
+          "source_rect_xyxy": [
+            1000,
+            525,
+            1448,
+            1086
+          ],
+          "source_nominal_grid_offset": [
+            965,
+            543
+          ],
+          "paste_xy": [
+            51,
+            22
+          ],
+          "alpha_bbox_xyxy": [
+            51,
+            22,
+            469,
+            565
+          ],
+          "hold_ticks_60hz": 24,
+          "duration_seconds": 0.4,
+          "phase": "Settle",
+          "pivot_pixels": [
+            328,
+            595
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+Canvas Rollcase | Lantern Knight opening interaction
+
+Runtime: 8 native generated cels on 512 x 512 transparent RGBA canvases. No upscaling. Main body registered to a stable pivot. Atlas: 2048 x 1024, 4 columns x 2 rows, row-major. Timing: 830 ms, play once then hold final.
+
+Use states/intact.png before interaction and states/open_empty.png after. These are byte-identical cel images to frames 00 and 07, so state transitions do not pop. Never loop the opening action. Trigger the single generic loot_release event at frame 03 / 250 ms once per interaction. The game handles rewards separately; no reward art, contents, item payloads, coins or loot effects are included.
+
+Pivot uses top-left pixel coordinates, stable across every cel. The main-body footprint is the placement reference, not the changing silhouette bounds. Unity normalized pivot uses (x/512, 1-y/512), because Unity uses bottom-left coordinates. Keep atlas rects untrimmed. Enable alpha transparency and clamp wrap; use the JSON variable frame durations.
+
+Provenance: source prop from the existing asset library; creative animation cels produced using the built-in image generation tool. Maximum native resolution was requested; returned cel sheet is 1774 x 887. This is actual generated resolution, not an upscaled high-resolution claim. Runtime pads and registers extracted cels without upscaling. Only mechanical extraction, alpha cleanup, registration and assembly used code.
+
+Visual review: 8-frame contact sheet includes every production frame. MP4 uses a neutral preview background only; runtime PNGs remain transparent.

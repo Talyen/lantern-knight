@@ -1,0 +1,6 @@
+Skeletal Archer: Barbed Pinning Arrow
+16 genuinely image-generated actor cels; 8 separately drawn target-effect cels.
+Actor tell: 1000ms. Release:100ms. Single target contact:1100ms. Actor recovery ends:1775ms. Total visual duration:1775ms.
+Nonlooping. All registration is baked. Keep original actor canvas and pivot; no runtime sprite offset. See runtime JSON for frame durations and target placement.
+Original body scale matched by one uniform placement resampling factor (Pilgrim uses full-height standing pose; first cel is crouched). Oracle uses 32px horizontal padding on each side, with pivot shifted32px, preserving its original world anchor and PPU. Native generated sheet: 1024x1536; roughly256px-wide source cells. Runtime canvases are NOT claims of newly generated detail.
+Authored right-facing three-quarter only. Directional extensions not included. Collision/damage implementation is not part of this asset pack.

@@ -1,0 +1,36 @@
+# Lantern — Living Ember
+
+Broad, expressive flame silhouettes grow from an ember, morph into a lantern, and continue to dance behind a bespoke calligraphic ribbon wordmark.
+
+## Included films
+- `Lantern_06_LivingEmber_Loading.mp4`: text-free 8-second loading screen. 0–2 s assemble/arrive; 2–6 s exact four-second source hold cycle; 6–8 s completion/resolution.
+- `Lantern_06_LivingEmber_Title.mp4`: 10-second title/splash. Original paths physically draw/grow to form **Lantern**. All seven letters are finished before 6 seconds; the settled complete lockup is readable from 7–10 seconds while the emblem remains alive.
+- Separate 2-second Intro, 4-second Hold and 2-second Complete clips are included for implementation. They come from the same continuous loading timeline.
+
+Every final film is native **1920 × 1080, 60 fps**, silent H.264/yuv420p, with web-friendly fast-start metadata. The phase clips have the same settings. No 30-fps upconversion.
+
+## Editable artwork and source
+`Loading_Master.svg` and `Title_Master.svg` are fully vector, editable settled compositions. `Loading_Assembly.svg` and `Title_Drawing.svg` show intermediate states. `render.py` is the complete deterministic animation source, including all original letter geometry; there are no linked images, plates, fonts, or network dependencies. The SVG files are representative still frames; the rebuild code contains the animation.
+
+## Motion design
+Several broad flame tongues deform independently with integer-harmonic periodic motion. The foreground seed flame changes its actual Bézier control points into the cream lantern silhouette, and the glass opening expands within it. Completion reverses that morph and lifts the ember away. Every title glyph grows as an original variable-width ribbon, led by a miniature flame. The full word remains still while the fire keeps moving.
+
+## Rebuild
+Requires Python 3.10+, Pillow, NumPy, FFmpeg with libx264, and system Cairo + librsvg + GObject libraries. On Debian/Ubuntu, the native libraries are commonly provided by `libcairo2`, `librsvg2-2` and `libgobject-2.0-0`. No fonts are needed.
+
+Run:
+
+    python render.py --proof
+    python render.py --all
+    python render.py --frame 7.5 --kind title --output rebuilt_title.png
+    python verify.py
+
+`--all` rebuilds both final films and all three loading phase clips. `--proof` rebuilds the four full-resolution PNGs, editable SVGs and contact sheet. `--draft` optionally creates separate 960×540 motion proofs; drafts are not the final films.
+
+## Rights / resources
+All artwork, lettering paths and animation code were created for this Lantern exploration. No third-party font or image assets are bundled or required. No generated raster plate, photographic texture, film grain, noise layer, audio, brand font or external asset is used. Pillow, NumPy, Cairo, librsvg and FFmpeg are runtime dependencies, not bundled artwork.
+
+## Integration notes
+The loading Hold clip is a repeating four-second animation. Loop it directly; play Intro once and Complete once. All three share the same background and contiguous motion phase. The combined Loading film demonstrates one full sequence. The title film is a separate composition and should play once, then keep or freeze its final readable lockup.
+
+`verification.json` records format and source-loop checks. The actual motion is generated at every 1/60-second frame.

@@ -1,0 +1,52 @@
+{
+  "status": "ROOT_APPROVED_DELIVERY_PADDING_ALL_KNOWN_MAXIMUM_KEYS_PASS",
+  "source_authority": "R0_contract.json",
+  "source_png": "R0_ready.png",
+  "source_sha256": "2e85ff568d88562191303a1bdeabed01c20e4f0d59e10f4484409c4c94756681",
+  "delivery_png": "R0_delivery_1536.png",
+  "delivery_sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d",
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_top_left_px": [
+    768,
+    892
+  ],
+  "root_bottom_left_px": [
+    768,
+    132
+  ],
+  "root_normalized_bottom_left": [
+    0.5,
+    0.12890625
+  ],
+  "from_frozen_1024_integer_offset_px": [
+    256,
+    0
+  ],
+  "from_baseline_walk_512x640_integer_offset_px": [
+    512,
+    320
+  ],
+  "scale_change": 1.0,
+  "artwork_policy": "Pure transparent padding. Frozen source and all artwork pixels unchanged. Native registration coordinates retain frozen1024 basis; add256 to x at final delivery, no new image fitting. Preserve full source extents before compositing to avoid prior1024 clipping.",
+  "atlas_policy": {
+    "max_page_px": [
+      4096,
+      4096
+    ],
+    "rotation": false,
+    "gutter_px": 8,
+    "trim_optional": true,
+    "required_reconstruction": [
+      "sourceSize",
+      "sourceTrimRect",
+      "atlasRect",
+      "rootPivot",
+      "frameHold"
+    ],
+    "note": "Constant-canvas PNGs remain authoritative. Reconstruct exact visible RGBA and alpha from trimmed atlases; do not recenter from bounds."
+  },
+  "extent_note": "Independent QA verified known R0, attack, dash, flare and death extremes at unchanged actor scale. Death full-alpha bottom margin33px. Recheck every final sequence frame before sealing; this is a maximum-key gate, not final sequence approval."
+}

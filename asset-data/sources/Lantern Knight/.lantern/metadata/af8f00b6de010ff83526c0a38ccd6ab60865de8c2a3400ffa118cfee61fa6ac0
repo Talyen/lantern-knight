@@ -1,0 +1,141 @@
+{
+  "id": "SK02",
+  "name": "Sepulcher Warden",
+  "source_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+  "ppu": 256,
+  "baseline_dependency": {
+    "direction": "DR",
+    "package": "SK02_runtime.zip",
+    "sha256": "330452401ebdb79a55badbf9c9dd62b7a4f985d0c45e56e142163dd2924114ef",
+    "library_file_id": "libfile_37b8a7381d008191a19ec0db53ed429c",
+    "unchanged": true
+  },
+  "clips": {
+    "hit": {
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds": [
+        4,
+        4,
+        7,
+        6,
+        6,
+        9
+      ],
+      "event": 1,
+      "end": "return compatible ready after recovery",
+      "offsets": {
+        "0": [
+          -112,
+          13
+        ],
+        "1": [
+          -30,
+          15
+        ],
+        "2": [
+          54,
+          10
+        ],
+        "3": [
+          -117,
+          28
+        ],
+        "4": [
+          -12,
+          28
+        ],
+        "5": [
+          58,
+          25
+        ]
+      }
+    },
+    "defeat": {
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds": [
+        6,
+        8,
+        10,
+        10,
+        12,
+        60
+      ],
+      "event": 5,
+      "end": "hold final corpse indefinitely; no automatic recovery or despawn",
+      "offsets": {
+        "0": [
+          0,
+          -50
+        ],
+        "1": [
+          0,
+          -50
+        ],
+        "2": [
+          0,
+          -50
+        ],
+        "3": [
+          0,
+          30
+        ],
+        "4": [
+          0,
+          50
+        ],
+        "5": [
+          0,
+          50
+        ]
+      },
+      "bottom_extra": {
+        "0": 80,
+        "1": 80,
+        "2": 80
+      },
+      "clear_rects": {
+        "3": [
+          [
+            0,
+            0,
+            512,
+            80
+          ]
+        ],
+        "4": [
+          [
+            0,
+            0,
+            512,
+            80
+          ]
+        ],
+        "5": [
+          [
+            0,
+            0,
+            512,
+            80
+          ]
+        ]
+      },
+      "baseline_frame_overrides": {
+        "0": "baseline_reference/idle_still.png"
+      }
+    }
+  }
+}

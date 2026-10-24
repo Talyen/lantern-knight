@@ -1,0 +1,90 @@
+{
+  "id": "SL01",
+  "name": "Mosswell Slime",
+  "family": "05 Slimes",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "19q7d75jXPgCRvxYATqaCSXa0pwfkK3eS",
+  "source_url": "https://drive.google.com/file/d/19q7d75jXPgCRvxYATqaCSXa0pwfkK3eS/view?usp=drivesdk",
+  "source_archive": "05_slimes_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/05_slimes_selection_pack/05_slimes/assets/SL01_mosswell_slime.png",
+  "source_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "ppu": 320,
+  "mirroring": "Potentially usable for this unarmed organic silhouette, but not separately authored or approved.",
+  "move_holds": [
+    8,
+    7,
+    8,
+    7,
+    7,
+    8
+  ],
+  "attack_holds": [
+    8,
+    10,
+    5,
+    6,
+    8,
+    12
+  ],
+  "move_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      12,
+      0
+    ],
+    [
+      -8,
+      0
+    ],
+    [
+      -26,
+      0
+    ],
+    [
+      -8,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_event": "Whole-body bash extension apex",
+  "facing": "DL / southwest / screen lower-left",
+  "attack_scale": 0.91,
+  "scale_note": "One constant0.91 downscale for entire attack clip, calibrated once against baseline restwidth. No per-frame normalization; move leftnative1.0."
+}

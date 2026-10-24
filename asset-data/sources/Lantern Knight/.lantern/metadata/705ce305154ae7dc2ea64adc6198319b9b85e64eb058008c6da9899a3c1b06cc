@@ -1,0 +1,11 @@
+{
+  "frame_files_checked": 348,
+  "rgba_mode_errors": [],
+  "zero_alpha_rgb_errors": [],
+  "source_rebuild_pixel_checks": {
+    "front_attack_015": 0,
+    "rear_scuttle_006": 0
+  },
+  "independent_review_status": "Pending. Root approved drawing, footprint and three-view gates. This package includes self-inspection and numerical QA, not independent runtime certification.",
+  "zero_alpha_correction": "Post-resize transparent RGB cleared and all frame tiers rechecked."
+}

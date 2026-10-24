@@ -1,0 +1,1731 @@
+{
+  "category": "accessories",
+  "items": [
+    {
+      "id": "talisman",
+      "label": "Bone Talisman",
+      "category": "accessories",
+      "reference_extent_cm": 14,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/talisman/talisman__full_native.png",
+          "dimensions": [
+            1091,
+            1139
+          ],
+          "sha256": "bc6c621e0f3c03d320d90a75d08ee348aac8372de7528382449a58dac1e9bcf4"
+        },
+        "inventory512": {
+          "path": "accessories/talisman/talisman__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "18fca66a2846128da5c6a820b8efb708fd4dca519593880c694d0fa3a5d7f1bc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            243,
+            242,
+            269,
+            270
+          ],
+          "visible_extent": 28
+        },
+        "thumb256": {
+          "path": "accessories/talisman/talisman__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "c0c1b8eacf3707836fb55c25b88a18080a8e3285b226278fa88be8e3a8c7c620",
+          "visible_bbox": [
+            121,
+            120,
+            137,
+            136
+          ],
+          "visible_extent": 16
+        },
+        "detail512": {
+          "path": "accessories/talisman/talisman__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a9e52f37e1d959ca9961184fd90d624e423242428b802144b25788088ef66675",
+          "visible_bbox": [
+            46,
+            32,
+            466,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/talisman/talisman__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "1b62d716c21b98b740e56a4917249be7ae3168033c09fc692ac58e579cc59090",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            8,
+            116,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/talisman/talisman__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "c6021de4d8f7f57079b05f8675c71bbafa7098c66a8964ae3d143757e37ba415",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/talisman/talisman__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "50a0c49ebb76040e023e4ce44092f829da13abfbb5d05d75432d68aa205f9837",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/talisman/talisman__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0a1e4e2a762ffa32f688bd6a33091d11006228b95236e2d946a0c04f3eaf3c22",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            427,
+            266,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/talisman/talisman__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0a1e4e2a762ffa32f688bd6a33091d11006228b95236e2d946a0c04f3eaf3c22",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            427,
+            266,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "amulet",
+      "label": "Bronze Amulet",
+      "category": "accessories",
+      "reference_extent_cm": 18,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/amulet/amulet__full_native.png",
+          "dimensions": [
+            1721,
+            914
+          ],
+          "sha256": "ba7aba130c8cae205148c0f9429d89771c3a7492ce3066d4f769d966f6bcec21"
+        },
+        "inventory512": {
+          "path": "accessories/amulet/amulet__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "46f5fa6caa20440e2a8f404712accd502b07e61bca9a648efcf3b0d1b6222d52",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            247,
+            274,
+            265
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "accessories/amulet/amulet__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ae6eca97d9211a2d68bdcbc48e421ef0a06f1fa1e10e12be2dbb04d1dcd57731",
+          "visible_bbox": [
+            118,
+            121,
+            138,
+            135
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "accessories/amulet/amulet__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d85167d6f2d77c5c2ee3b3553bc41475a2da5caada32c1243256abf23c5b010d",
+          "visible_bbox": [
+            32,
+            142,
+            480,
+            369
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/amulet/amulet__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "18adee4c19fd89d1aae8838b4658b153380cdb42bf3d2dd662c49b4790916521",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            35,
+            120,
+            92
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/amulet/amulet__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "0b8ef3c500f6032bbef32dd5652f32f145709949aa51e2132b2f161057b412e7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            18,
+            60,
+            46
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/amulet/amulet__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "995259fb054a84ac1c53dbe166af46eed032f8e91159fe31cfd16c456f687c0f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/amulet/amulet__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "31a0db733bc30efc6be52131b878d3b9d77e3077038131d512e340d1aa2e0b2e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            229,
+            420,
+            282,
+            450
+          ],
+          "visible_extent": 53
+        },
+        "ground_scaled_512": {
+          "path": "accessories/amulet/amulet__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "354c5c9dc8f788c7e4be8ad1b5f8d19268bc70276d5ad8921623fad4607b62aa",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            434,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "circlet",
+      "label": "Iron Circlet",
+      "category": "accessories",
+      "reference_extent_cm": 20,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/circlet/circlet__full_native.png",
+          "dimensions": [
+            1196,
+            1199
+          ],
+          "sha256": "45b7c3fc0d1a36abb5b15735e341050b4993d2e15690e1fec0f6ccbac4683630"
+        },
+        "inventory512": {
+          "path": "accessories/circlet/circlet__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3ca1d7c7844bbb796e51bff95d14c14d396ca22f6165c9419132f954c690b4cd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            236,
+            246,
+            276,
+            266
+          ],
+          "visible_extent": 40
+        },
+        "thumb256": {
+          "path": "accessories/circlet/circlet__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "cf3f98222a5748da8e3bebb9d80689e9e90c775f6e3125f1d667144d443761e8",
+          "visible_bbox": [
+            117,
+            121,
+            139,
+            135
+          ],
+          "visible_extent": 22
+        },
+        "detail512": {
+          "path": "accessories/circlet/circlet__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5870e7b91080241bb64ecd1d7956587a06f568675796337c0996c7afd7fad833",
+          "visible_bbox": [
+            32,
+            144,
+            480,
+            368
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/circlet/circlet__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "38dab15ca9f9c731eff39db6df3f517be8037bdb0fd2b4d6d60483ea35c42a87",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            36,
+            120,
+            92
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/circlet/circlet__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "79082b786f4c199d9bfb76947d512745dea0a06c357d66488510533cca25dfbd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            18,
+            60,
+            46
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/circlet/circlet__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ae1f0d00ec0817e0d76933cfbcbdcbb80f83e68750d520308d8680a4824d44de",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/circlet/circlet__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "45a071296bd7c08a72cf7d23b44972873847dc5b6202e91f84af6203c2311800",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            433,
+            271,
+            448
+          ],
+          "visible_extent": 30,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/circlet/circlet__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "45a071296bd7c08a72cf7d23b44972873847dc5b6202e91f84af6203c2311800",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            433,
+            271,
+            448
+          ],
+          "visible_extent": 30,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "belt",
+      "label": "Leather Belt",
+      "category": "accessories",
+      "reference_extent_cm": 45,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/belt/belt__full_native.png",
+          "dimensions": [
+            1254,
+            1195
+          ],
+          "sha256": "6592b58a83f42c543090219927f4f3781d63738eb6792610c628c086161e5ca2"
+        },
+        "inventory512": {
+          "path": "accessories/belt/belt__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7f5d9cc0df441ff106d6f50350aa86c8628a0b89706d02e0e894bb11c9892008",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            211,
+            228,
+            301,
+            283
+          ],
+          "visible_extent": 90
+        },
+        "thumb256": {
+          "path": "accessories/belt/belt__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "18319d396d963fae761c5c9857f2fc86a64e448fe6b8b45453225367e566b336",
+          "visible_bbox": [
+            103,
+            112,
+            153,
+            144
+          ],
+          "visible_extent": 50
+        },
+        "detail512": {
+          "path": "accessories/belt/belt__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "abcc2d62b5124fe59cd985b1cc93cabe381a89c0999b1324ea808cc7259b4fcb",
+          "visible_bbox": [
+            32,
+            118,
+            480,
+            394
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/belt/belt__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "17448f31a0a93414c152eb94026d14e7dc76727ec4419736a87cc6ab15b8c4cc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            29,
+            120,
+            98
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/belt/belt__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "c1ea251e14900548da6e6704fd4dfa07793c7d2e9a918f42109cfcc177c8fcbf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            49
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/belt/belt__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "f381515544757ce3959efb28a3fbb16576d836307cdd621a4b8cac12b17e5ed1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/belt/belt__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "46260d68d380dfdc7fcfb63016bf658357ceb6778783d298011a160a47883aaf",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            222,
+            406,
+            290,
+            448
+          ],
+          "visible_extent": 68,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/belt/belt__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "46260d68d380dfdc7fcfb63016bf658357ceb6778783d298011a160a47883aaf",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            222,
+            406,
+            290,
+            448
+          ],
+          "visible_extent": 68,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "satchel",
+      "label": "Leather Satchel",
+      "category": "accessories",
+      "reference_extent_cm": 40,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/satchel/satchel__full_native.png",
+          "dimensions": [
+            1246,
+            1246
+          ],
+          "sha256": "e561614e3d7b67660e0b9466ddd11c5a83e46ad482384347a498051e0a7c8b28"
+        },
+        "inventory512": {
+          "path": "accessories/satchel/satchel__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e1c128d863b26bb647e95a27593f8d0ae030f9e48726b57791b3a54e8d3849b4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            216,
+            222,
+            296,
+            290
+          ],
+          "visible_extent": 80
+        },
+        "thumb256": {
+          "path": "accessories/satchel/satchel__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "decac943c196a331694af55beecec9ecd933462f1d73186159e8dd691a76d151",
+          "visible_bbox": [
+            106,
+            110,
+            150,
+            147
+          ],
+          "visible_extent": 44
+        },
+        "detail512": {
+          "path": "accessories/satchel/satchel__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "30b93acdd4dd98b69f1599b06e1d97dde2587146117dc7aaa1af438e9e0b7d09",
+          "visible_bbox": [
+            32,
+            66,
+            480,
+            446
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/satchel/satchel__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "66077838bc3ae03e73da7c7e5c3c2e9e7c9a9a7d6c26322b19b27154df9561e3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            111
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/satchel/satchel__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "81db9553bb42dc8ae9fa65124f3d6e7bb083498c7410a6a17e160bdaac42c8e5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/satchel/satchel__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "af2305dcd1e8f49689e614efca49fae620161dbabc884ae04806cd0e4d44ffeb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/satchel/satchel__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d1149d1bc7cd49fc082fde2062821a838e2c445cfb56e3eb642bb1e8e8d9e409",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            226,
+            397,
+            286,
+            448
+          ],
+          "visible_extent": 60,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/satchel/satchel__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d1149d1bc7cd49fc082fde2062821a838e2c445cfb56e3eb642bb1e8e8d9e409",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            226,
+            397,
+            286,
+            448
+          ],
+          "visible_extent": 60,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "ring",
+      "label": "Red-Stone Ring",
+      "category": "accessories",
+      "reference_extent_cm": 3,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/ring/ring__full_native.png",
+          "dimensions": [
+            1545,
+            1018
+          ],
+          "sha256": "bbe34ff62294ef7e5e6b618ffb418f463a9d36050a0d062a3118cd36ded2da2b"
+        },
+        "inventory512": {
+          "path": "accessories/ring/ring__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dd86241051eeb70daac01664e2fa6951139e69f1dcaa00b51e635d02c20b03a0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            251,
+            264,
+            261
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "accessories/ring/ring__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "06c696c0c4adf2d227d846b6d9f9b974e18eb3db9f26df86de77f816b868774c",
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            133
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "accessories/ring/ring__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "723c88cabc618e5b668113864704b52c51193422e43759ad4189d093bff39f7d",
+          "visible_bbox": [
+            32,
+            114,
+            480,
+            397
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/ring/ring__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "74dcffb7eae68f84cedd6b7772d0d443c67b1900626ea226d4837dcb2ac2d3fe",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            28,
+            120,
+            99
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/ring/ring__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "617f7872e62c4af4fa4872779e61571d56f62b47b557727af3cddb283f94506c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            49
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/ring/ring__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "fc272e359bb768324acd160e8cabab3edc4dc8730ccbb89fc36fc69bb015b3ad",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            25
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/ring/ring__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6c74e47cbadb8de56f0ec3a75d1f168d39d55a72ec6c65e4a3d4972e09bd7d0c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            428,
+            272,
+            449
+          ],
+          "visible_extent": 31
+        },
+        "ground_scaled_512": {
+          "path": "accessories/ring/ring__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b93825f4b6dc21b010fb646da747a620824461092e726037e4b92a9bf9c85621",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            440,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "brooch",
+      "label": "Raven Brooch",
+      "category": "accessories",
+      "reference_extent_cm": 8,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/brooch/brooch__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "c2d8bd9ee48c6ac16b92082d3d1c23b15c105f4e9bd475e0e084433577761219"
+        },
+        "inventory512": {
+          "path": "accessories/brooch/brooch__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ab1c82c48637ba40f860116a6d33bf23866a8f9901a104ba161b1e7b376f5957",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            264,
+            263
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "accessories/brooch/brooch__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "c2c700545bb2a8ec0c5eadfe31112354dc8833ec66fe4926efa6d4918350e5ac",
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            132
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "accessories/brooch/brooch__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "970db0b94d263c81699441f1a7da4d783ef6cefabd7573d9b6cb2529b3dc03d1",
+          "visible_bbox": [
+            32,
+            43,
+            480,
+            467
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/brooch/brooch__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "5717e4ed773d1302eadcf3720e1d53a9d4162446bce078a6dff3a89f83e0f3fa",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            11,
+            120,
+            117
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/brooch/brooch__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "ae37d9bfb228ae7c6a0569f1a491fc184a6c0f3475aea761c38cc3ac6ca93522",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/brooch/brooch__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c05f5fdcab102bf8431e91595bbac6a5ecc6f6949bf8404db09c88a8b99aa748",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/brooch/brooch__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "aabed001d292881458610dccc56d595654d49a537698d94b1d6f7948f7919e0e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            433,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/brooch/brooch__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1065ff038a826ac815264b349e191271c60614e610c7c8796df58a2f6fb59da5",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            437,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_06_pilgrim_pack",
+      "label": "Pilgrim pack",
+      "category": "accessories",
+      "reference_extent_cm": 55,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "1f203c18e486d8cc5ab5257ca42bacd14b20c00be02a0ffc094f843ec3ecf67c"
+        },
+        "inventory512": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c80dc58558652478f1f3c44264b7af472c4005b325561759a56a9dc07ed346a7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            202,
+            311,
+            310
+          ],
+          "visible_extent": 110
+        },
+        "thumb256": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "fec2614e7541d3f5a8ccb6c4cb6675b891dac5a2d08e86d904d1852eb8ef0c8a",
+          "visible_bbox": [
+            98,
+            100,
+            158,
+            157
+          ],
+          "visible_extent": 60
+        },
+        "detail512": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "567031e208fe2645e8dab652195833a5d58b98b938cf156d7e10cdf6d0e13676",
+          "visible_bbox": [
+            32,
+            35,
+            479,
+            476
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "374a184e5700053f9b12abb3d0a109be37a2900bab02311b9eec78fda6692eae",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            119
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "9d9d98da5e74868b6d5f72bf188cb2b2ab9592ad58d2eefed38a805f0b44033f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "4de4884bd4bb8ba8c02c384aa4dba62e2b01cb30df1858936437be807627d5c1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2e098f17137344e0fb4497569588d2b3db56a245b24af56ffded1942b14a2516",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            367,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/lantern_drop_concept_06_pilgrim_pack/lantern_drop_concept_06_pilgrim_pack__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2e098f17137344e0fb4497569588d2b3db56a245b24af56ffded1942b14a2516",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            367,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_09_mourning_medallion",
+      "label": "Mourning medallion",
+      "category": "accessories",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "8925c4efb75ec763648337f4cb7d1ea3695c4c72225f225b292083ed3914de93"
+        },
+        "inventory512": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ffb5e0ddcab49964fcb641f4fedc88101c9af68e9e59b4b8756582a952002d25",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            238,
+            274,
+            274
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "761a6aa1534735d7cf4c1e530505a8d91747cc65b90bcb6019f513024aeb6bb4",
+          "visible_bbox": [
+            117,
+            117,
+            138,
+            137
+          ],
+          "visible_extent": 21
+        },
+        "detail512": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5892e28b36fc3e7da01b5f5c57bc0e30a167bba28878d759a681e9a52772e0c7",
+          "visible_bbox": [
+            32,
+            33,
+            480,
+            479
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "e2d949ab4234e22e05a48d4ad1517a05cfd3b472b11a33e628345812e871e374",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            120,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "397d62f7d4645e38c1de503908ab39f595fef855b6c99d28ef5ca103e7301147",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "8bb2b7ef3a7f999cfe38f0cf61312435b8c0d0432389b66f169d9ec9ea8c2d2d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1b45ada28008f75d845dd9a0d8b4736de0938d98c17f6bf57605fcb2c0e59a07",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            421,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/lantern_concept_item_09_mourning_medallion/lantern_concept_item_09_mourning_medallion__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1b45ada28008f75d845dd9a0d8b4736de0938d98c17f6bf57605fcb2c0e59a07",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            421,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_15_ember_signet_ring",
+      "label": "Ember signet ring",
+      "category": "accessories",
+      "reference_extent_cm": 3,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "0f47b2830a2c7db97bf39ab8a125c3def5e9afde7dde4b02dd1ebb0bfeab90f4"
+        },
+        "inventory512": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "38333ed901407b50e017d8473bbd0a568ed20acc2cdc822ec6ca708c7a98b48a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            263,
+            264
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "d7ccfe49fcc65470b15771c86495b04f7365fac184e9b6da6d2c5b14ba1c1337",
+          "visible_bbox": [
+            123,
+            123,
+            134,
+            133
+          ],
+          "visible_extent": 11
+        },
+        "detail512": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d9628f3978cdc753f25e3785dd585e12a5ecc9cb2389b258d2127cc655edded1",
+          "visible_bbox": [
+            52,
+            32,
+            460,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "ac98663249fd9622876be1951a8c6aab2a2026a15d6707894541020d87c82fb2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            13,
+            8,
+            115,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "deccc4df89daf3d2a503a1cd4cb168ae2bbb194198ae8c7a243b3a20c59a4033",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            57,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "6aff65292c6540b64680cfe95d4795e84be400f258c51f260977a4c6e1da060b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            28,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2e334e009b5ffc1f6da40be1896dd720b203d037fed7e7227d1f9d387f1a3775",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            432,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "accessories/lantern_concept_item_15_ember_signet_ring/lantern_concept_item_15_ember_signet_ring__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0c356e58033a53ceea339f2d89122d40c5a47d4c3bda312bca5b5b3bdb99bbf3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            436,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

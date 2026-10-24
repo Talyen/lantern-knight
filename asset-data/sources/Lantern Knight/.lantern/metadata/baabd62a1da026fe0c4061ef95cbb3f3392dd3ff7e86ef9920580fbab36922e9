@@ -1,0 +1,19 @@
+LANTERN — READY IDLE, 19 COMPLETE DRAWINGS
+
+One loop is 1.60 seconds: 96 integer ticks at 60 Hz. The normal MP4 repeats it 8 times (12.80 seconds). The half-speed MP4 shows a 3.20-second cycle 4 times (12.80 seconds). No frame blending, tweening, optical flow or motion blur is used.
+
+The original 16 drawings are retained, with three complete newly illustrated bridge poses at the forward load, lantern return and coat settle. The ready image R0 is reused byte-for-byte in frame 001 and remains the shared action-entry image. The final distinct drawing returns cleanly to R0.
+
+IMPORT
+Full frames are authoritative 1536 by 1024 RGBA PNGs. Use root (768,892) from top-left, or (768,132) from bottom-left. Keep the accepted walk's pixels-per-world-unit. The larger canvas is only transparent padding: relative to the 512 by 640 walk it adds (512,320). Do not resize the full sprite quad to the old dimensions. See IMPORT_README.txt for exact trim-atlas reconstruction and timing fields.
+
+DRAWING AND REGISTRATION
+Each distinct frame is a complete AI-illustrated asset. Every selected native source is 1122 by 1402. All use the same uniform source-to-import scale 203/472 (approximately 0.4300847458), then whole-drawing integer translation based on boot support. No head locking, per-frame bounds fitting, anatomical warping or cutout deformation was applied. Sword remains in the near anatomical right hand with short black wrist wrap; lantern remains in the far left hand with long brown bracer. The near right boot is rearward, far left boot forward.
+
+The illustrated view matches the accepted slightly down-right walk. Prior numeric camera values are uncalibrated targets, not proof of exact d135 or 3D projection. Some small drawn boot, ink, cloth and flame variation remains; the largest measured opposed boot residual is about 7 pixels at import scale (about 2.3 pixels at the 163-pixel gameplay reference). It was reviewed in the full loop. No local distortion hides it.
+
+GENERATION
+Built-in image generation was used. Every prompt includes the requested preference 'Sunburst 2.5 (gpt-image-2.5-sunburst)'. The backend model was not exposed or independently verified. Complete native masters, prompts, references and source-registration records are in the separate source companion archive. Excluded attempts are labeled as such and never appear in this runtime package.
+
+VALIDATION
+19 unique full PNGs, 96 ticks, exact shared R0, no visible clipping, and exact alpha/visible-RGB trim-atlas reconstruction passed. The supplied previews show full-size and fixed 163/122-pixel gameplay references. These are asset exports; no repository, engine, hitbox, gameplay or runtime integration changes were made.

@@ -1,0 +1,71 @@
+{
+  "asset": "stone_crescent",
+  "generator": "built-in image_gen__imagegen",
+  "generation_mode": "generate followed by four targeted imagegen edits",
+  "source": "source_sheet.png",
+  "canvas": [
+    1536,
+    1024
+  ],
+  "grid": [
+    6,
+    4
+  ],
+  "cell_size": [
+    256,
+    256
+  ],
+  "frame_count": 24,
+  "order": "row major",
+  "prompts": [
+    "prompt.txt",
+    "revision_prompt.txt",
+    "target_revision_prompt.txt",
+    "recovery_revision_prompt.txt",
+    "alpha_revision_prompt.txt"
+  ],
+  "original_generated_paths": [
+    "/workspace/scratch/1a83d58417d5/generated_images/exec-24f58fe2-8567-4185-88d8-9126ed070446.png",
+    "/workspace/scratch/1a83d58417d5/generated_images/exec-c1bda5e9-a6e9-4f0a-bef0-fa7d81e83bef.png",
+    "/workspace/scratch/1a83d58417d5/generated_images/exec-2b45d1e0-4bf0-4004-b50b-860110e6bcf4.png",
+    "/workspace/scratch/1a83d58417d5/generated_images/exec-49f67b77-c18b-41fc-a9b1-983746544711.png",
+    "/workspace/scratch/1a83d58417d5/generated_images/exec-de4825d0-0726-4bc7-bf18-c3dc723b2f0a.png"
+  ],
+  "provenance": "All painted imagery was generated or repaired by imagegen. Only file copies, alpha measurements, and flat-background QA preview compositing performed mechanically. No painted imagery synthesized by code.",
+  "qa_caveats": [
+    "Source cel24 contains maximum alpha1 of255 generator residue. Use blank cel24 in animation assembly.",
+    "Cel17 was specifically corrected from a re-formed upright blade to separated outward fragments; use final v5, not earlier sources.",
+    "Actual cel16 contact center approximately(.68,.77). Ground short arc marks sweep but its far-right tip still extends approximately20–40px beyond contact depending on cel. Endpoint matching is approximate rather than pixel exact.",
+    "Use full square cell crops with common registration, never auto-center individual cels. Minor painterly alignment drift is present."
+  ],
+  "geometry_observed_normalized": {
+    "pivot": [
+      0.35,
+      0.77
+    ],
+    "contact": [
+      0.68,
+      0.77
+    ],
+    "telegraph_sweep_bounds": [
+      0.33,
+      0.72,
+      0.83,
+      0.8
+    ]
+  },
+  "phase_map": {
+    "formation_telegraph": [
+      1,
+      14
+    ],
+    "strike": 15,
+    "contact": 16,
+    "outward_recovery": [
+      17,
+      23
+    ],
+    "clear": 24
+  },
+  "selected_revision": "v5"
+}

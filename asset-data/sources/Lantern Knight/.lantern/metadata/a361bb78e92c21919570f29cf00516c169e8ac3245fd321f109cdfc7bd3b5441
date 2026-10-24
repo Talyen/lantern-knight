@@ -1,0 +1,15 @@
+{
+  "id": "lantern_resource_concept_07_charcoal_pouch",
+  "name": "Charcoal pouch",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/07_charcoal_pouch.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Triangulated charcoal lumps form a low-poly rock pile; hand-drawn fractured black masses needed.",
+  "pack": "Lantern - Resource Pickups 03",
+  "folder": "resources_03",
+  "destination": "lantern_revision_02/equipment/resources_03/assets/07_charcoal_pouch.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A CHARCOAL POUCH: open rough gray canvas sack holding three irregular charred wood chunks, long fractured black masses and sparse cool gray crack accents; no triangular rocks. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-2e5b26b7-4615-44c1-b7ff-6532fbf76c39.png",
+  "review": "Passed large overview and 64px light/dark proxy; native alpha preserved."
+}

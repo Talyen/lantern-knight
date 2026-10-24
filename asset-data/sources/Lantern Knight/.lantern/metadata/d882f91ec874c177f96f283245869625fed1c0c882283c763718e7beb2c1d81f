@@ -1,0 +1,430 @@
+{
+  "actor": "Halo-Veil Cantor",
+  "version": "compact_completion_v02",
+  "status": "parent review candidate, not engine tested",
+  "canvas_px": [
+    640,
+    640
+  ],
+  "pivot_top_left_px": [
+    320,
+    608
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.05
+  ],
+  "pixels_per_unit": "inherit approved compact hover PPU; no new numeric PPU invented",
+  "import_scale_relative_to_hover": 1,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "screen_facing": "DR",
+    "note": "Original approved raster perspective preserved; segmented in-plane motion is not new projected geometry."
+  },
+  "method": "Spawn and defeat: two fresh illustrated sheets, common per-sheet downsample/registration calibrated to approved compact hover, native source crops retained. Hit: original art rotation plus fresh ink accent. Exact original ready at handoffs. No per-frame bbox fit, no upscaling, no interpolated frames, no generative edit cascades.",
+  "clips": {
+    "spawn_wake": {
+      "loop": false,
+      "drawing_count": 6,
+      "duration_ticks_60hz": 44,
+      "frames": [
+        {
+          "cel": 1,
+          "file": "frames/spawn_wake/spawn_wake_01.png",
+          "hold_ticks_60hz": 8,
+          "start_tick": 0,
+          "phase": "remnant_seed",
+          "event": "",
+          "atlas_rect_xywh": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            268,
+            203,
+            431,
+            518
+          ],
+          "sha256": "1d2769750bec6c5f6affa6e73494c7d191ba5e271fb6d48dc076d26623c1aae6"
+        },
+        {
+          "cel": 2,
+          "file": "frames/spawn_wake/spawn_wake_02.png",
+          "hold_ticks_60hz": 7,
+          "start_tick": 8,
+          "phase": "crown_assembles",
+          "event": "",
+          "atlas_rect_xywh": [
+            640,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            202,
+            164,
+            428,
+            548
+          ],
+          "sha256": "820f253c995059297844e7cefd308ffc67c7dcf1afe6a79aa054821cd87841cd"
+        },
+        {
+          "cel": 3,
+          "file": "frames/spawn_wake/spawn_wake_03.png",
+          "hold_ticks_60hz": 7,
+          "start_tick": 15,
+          "phase": "sleeves_gather",
+          "event": "",
+          "atlas_rect_xywh": [
+            1280,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            166,
+            158,
+            448,
+            551
+          ],
+          "sha256": "3e62876678aa5b87870d80adc5ef19459163e65000560398a3e22022d8e48aa7"
+        },
+        {
+          "cel": 4,
+          "file": "frames/spawn_wake/spawn_wake_04.png",
+          "hold_ticks_60hz": 6,
+          "start_tick": 22,
+          "phase": "veil_unfurls",
+          "event": "",
+          "atlas_rect_xywh": [
+            0,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            231,
+            165,
+            475,
+            562
+          ],
+          "sha256": "b102c3491c73d53b2e4193cf77bc65bede3271b10025bb0c99f8c4622d96e8d2"
+        },
+        {
+          "cel": 5,
+          "file": "frames/spawn_wake/spawn_wake_05.png",
+          "hold_ticks_60hz": 6,
+          "start_tick": 28,
+          "phase": "radiance_settles",
+          "event": "",
+          "atlas_rect_xywh": [
+            640,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            213,
+            164,
+            437,
+            537
+          ],
+          "sha256": "d580f826af163d1083adc03ba0b95e0e3a125ce5a19fd0f6a5697cedf7c9ec33"
+        },
+        {
+          "cel": 6,
+          "file": "frames/spawn_wake/spawn_wake_06.png",
+          "hold_ticks_60hz": 10,
+          "start_tick": 34,
+          "phase": "ready",
+          "event": "spawn_complete",
+          "atlas_rect_xywh": [
+            1280,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            160,
+            419,
+            530
+          ],
+          "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699"
+        }
+      ],
+      "atlas": "atlases/spawn_wake.png"
+    },
+    "hit_interrupt": {
+      "loop": false,
+      "drawing_count": 6,
+      "duration_ticks_60hz": 28,
+      "frames": [
+        {
+          "cel": 1,
+          "file": "frames/hit_interrupt/hit_interrupt_01.png",
+          "hold_ticks_60hz": 2,
+          "start_tick": 0,
+          "phase": "ready",
+          "event": "",
+          "atlas_rect_xywh": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            160,
+            419,
+            530
+          ],
+          "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699"
+        },
+        {
+          "cel": 2,
+          "file": "frames/hit_interrupt/hit_interrupt_02.png",
+          "hold_ticks_60hz": 4,
+          "start_tick": 2,
+          "phase": "interrupt_impact",
+          "event": "interrupt_cancel_cast",
+          "atlas_rect_xywh": [
+            640,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            202,
+            137,
+            488,
+            516
+          ],
+          "sha256": "e81bb76aee1edbce9493eed203f83057bc42d1d77cbbaef419b496d861126eb8"
+        },
+        {
+          "cel": 3,
+          "file": "frames/hit_interrupt/hit_interrupt_03.png",
+          "hold_ticks_60hz": 4,
+          "start_tick": 6,
+          "phase": "orb_caught",
+          "event": "orb_caught",
+          "atlas_rect_xywh": [
+            1280,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            215,
+            156,
+            413,
+            522
+          ],
+          "sha256": "dcceb32275155d3ecbc5feb1d19a7518fd488d5cd92d17a9ba2ed8e38b311dab"
+        },
+        {
+          "cel": 4,
+          "file": "frames/hit_interrupt/hit_interrupt_04.png",
+          "hold_ticks_60hz": 5,
+          "start_tick": 10,
+          "phase": "counter_recoil",
+          "event": "",
+          "atlas_rect_xywh": [
+            0,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            162,
+            422,
+            531
+          ],
+          "sha256": "1e775b51591de6ca87418e47654c13eb345213081c504899e6ae74388df323f1"
+        },
+        {
+          "cel": 5,
+          "file": "frames/hit_interrupt/hit_interrupt_05.png",
+          "hold_ticks_60hz": 5,
+          "start_tick": 15,
+          "phase": "halo_settles",
+          "event": "",
+          "atlas_rect_xywh": [
+            640,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            160,
+            419,
+            530
+          ],
+          "sha256": "d31ef0befb5afbf75a6126e99fdeee38182f5f7ac2387ef94c1c592e2d1998ad"
+        },
+        {
+          "cel": 6,
+          "file": "frames/hit_interrupt/hit_interrupt_06.png",
+          "hold_ticks_60hz": 8,
+          "start_tick": 20,
+          "phase": "ready",
+          "event": "return_ready",
+          "atlas_rect_xywh": [
+            1280,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            160,
+            419,
+            530
+          ],
+          "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699"
+        }
+      ],
+      "atlas": "atlases/hit_interrupt.png"
+    },
+    "defeat": {
+      "loop": false,
+      "drawing_count": 6,
+      "duration_ticks_60hz": 62,
+      "frames": [
+        {
+          "cel": 1,
+          "file": "frames/defeat/defeat_01.png",
+          "hold_ticks_60hz": 4,
+          "start_tick": 0,
+          "phase": "ready",
+          "event": "",
+          "atlas_rect_xywh": [
+            0,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            218,
+            160,
+            419,
+            530
+          ],
+          "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699"
+        },
+        {
+          "cel": 2,
+          "file": "frames/defeat/defeat_02.png",
+          "hold_ticks_60hz": 7,
+          "start_tick": 4,
+          "phase": "light_extinguishes",
+          "event": "disable_attack",
+          "atlas_rect_xywh": [
+            640,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            208,
+            196,
+            412,
+            525
+          ],
+          "sha256": "6720dd726bc8ea86f68251c399eac8d432c684b46ebd556126e2a25e5f0fa383"
+        },
+        {
+          "cel": 3,
+          "file": "frames/defeat/defeat_03.png",
+          "hold_ticks_60hz": 8,
+          "start_tick": 11,
+          "phase": "veil_folds",
+          "event": "",
+          "atlas_rect_xywh": [
+            1280,
+            0,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            222,
+            243,
+            413,
+            524
+          ],
+          "sha256": "11e71e6ff340e894f32bb46060d95c9313d8c41d780ad2a6b0e7da240051179e"
+        },
+        {
+          "cel": 4,
+          "file": "frames/defeat/defeat_04.png",
+          "hold_ticks_60hz": 9,
+          "start_tick": 19,
+          "phase": "emptying",
+          "event": "",
+          "atlas_rect_xywh": [
+            0,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            253,
+            228,
+            387,
+            496
+          ],
+          "sha256": "0ef6d636dfd471e73ba4d6dd1055ea97c32c0dd38734857c51c007ff9f0a703e"
+        },
+        {
+          "cel": 5,
+          "file": "frames/defeat/defeat_05.png",
+          "hold_ticks_60hz": 10,
+          "start_tick": 28,
+          "phase": "last_ink",
+          "event": "disable_hitbox",
+          "atlas_rect_xywh": [
+            640,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            230,
+            232,
+            379,
+            494
+          ],
+          "sha256": "d8791c58bcb6c62a36bdcc74abfaa1aeff9f7f9b4edf32e44dbe48afe9e5ba92"
+        },
+        {
+          "cel": 6,
+          "file": "frames/defeat/defeat_06.png",
+          "hold_ticks_60hz": 24,
+          "start_tick": 38,
+          "phase": "terminal_remnant",
+          "event": "terminal_hold",
+          "atlas_rect_xywh": [
+            1280,
+            640,
+            640,
+            640
+          ],
+          "alpha_bbox_gt127": [
+            245,
+            301,
+            385,
+            474
+          ],
+          "sha256": "38575fb60d9e0a036532a17c71ca1f6fddc0504bfb694c9bbae8944d736b81e5"
+        }
+      ],
+      "atlas": "atlases/defeat.png"
+    }
+  }
+}

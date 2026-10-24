@@ -1,0 +1,114 @@
+{
+  "status": "NATIVE_ACTION_ART_TESTS_WITH_APPROXIMATE_INTEGRATION",
+  "camera_reference": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "world_up": "Y"
+  },
+  "directions": {
+    "DR": {
+      "world_heading": [
+        1,
+        0,
+        0
+      ],
+      "canvas_px": [
+        560,
+        510
+      ],
+      "approximate_common_pivot_top_left_px": [
+        230,
+        390
+      ],
+      "approximate_pixels_per_unit": 233.882,
+      "source_cels_preserved": 8,
+      "unique_cels_in_loop": 7,
+      "ticks": 54,
+      "fps": 60,
+      "native_sheet_sha256": "ae34275ecdd92bd92c6427f4f39b368240245210f3543473e4e93b5bb3769c3e",
+      "external_preview": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/lunge_lowcarry_eight_v01/extraction_playback_v01/lunge_lowcarry8_fixed_origin_native_60fps.mp4",
+      "preview_sha256": "21663367a72745753233ebe6f7c6c7a78c115c7446c94f49e0a678b6c55b121d",
+      "note": "DRoriginalpackage unchanged; integration supplied separately."
+    },
+    "DL": {
+      "world_heading": [
+        0,
+        0,
+        1
+      ],
+      "canvas_px": [
+        684,
+        576
+      ],
+      "approximate_common_pivot_top_left_px": [
+        408,
+        444
+      ],
+      "approximate_pixels_per_unit": 253.641,
+      "source_cels_preserved": 8,
+      "unique_cels_in_loop": 6,
+      "ticks": 54,
+      "fps": 60,
+      "native_sheet_sha256": "f9568f66043871e1a7b9e1710ba56cc104bfa3050a571f49e98f14871eeffdc6",
+      "external_preview": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/lunge_lowcarry8_DL_v01/native_assembly/lunge_lowcarry_DL_native_60fps.mp4",
+      "preview_sha256": "358f6a3552f03e3db5e28e62760ec746bb5c5e38e2dca1b91cc46ddabd85e2ca",
+      "note": "Generatedheading, not mirror; no per-framefit."
+    },
+    "UL": {
+      "world_heading": [
+        -1,
+        0,
+        0
+      ],
+      "canvas_px": [
+        624,
+        572
+      ],
+      "approximate_common_pivot_top_left_px": [
+        307,
+        463
+      ],
+      "approximate_pixels_per_unit": 254.706,
+      "source_cels_preserved": 8,
+      "unique_cels_in_loop": 7,
+      "ticks": 54,
+      "fps": 60,
+      "native_sheet_sha256": "862c1f7ba80d593bd96392fad118fd369d039977f8a211f8cbeafc4b0d7dda19",
+      "external_preview": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/lunge_lowcarry8_UL_v01/native_assembly/lunge_lowcarry_UL_native_60fps.mp4",
+      "preview_sha256": "41a1c7dddb0a7ee04eec750e6b7f650c37a5f50dd57dfb5f81028206f774d438",
+      "note": "Generatedheading, not mirror; no per-framefit."
+    },
+    "UR": {
+      "world_heading": [
+        0,
+        0,
+        -1
+      ],
+      "canvas_px": [
+        642,
+        566
+      ],
+      "approximate_common_pivot_top_left_px": [
+        311,
+        463
+      ],
+      "approximate_pixels_per_unit": 259.839,
+      "source_cels_preserved": 8,
+      "unique_cels_in_loop": 7,
+      "ticks": 54,
+      "fps": 60,
+      "native_sheet_sha256": "149477d8ccec32ed3221ea9227e60ab6ff0aa77b37f5d31de51adeebc4e2cb40",
+      "external_preview": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/lunge_lowcarry8_UR_v01/native_assembly/lunge_lowcarry_UR_native_60fps.mp4",
+      "preview_sha256": "1de21d00d3ee51fd7191f00a9eb06751d642f31d3fadf68f399c2d3d8fb749e8",
+      "note": "Generatedheading, not mirror; no per-framefit."
+    }
+  },
+  "ready_baseline_ppu": 350,
+  "limits": [
+    "Body-only scale estimates approximately12%uncertain; pivots12\u201315pxuncertain.",
+    "Sourcefootdrift, posevariation and finite6\u20137unique-drawingloop timing remain.",
+    "DL06blade reversal omitted; somegazeoffaxis inDL2/3.",
+    "ULfar sword chain partlyhidden; no claim of fulltraceability.",
+    "GeneratedReady endpoints are not pixelidentical to sharedreadyfamily."
+  ]
+}

@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "crypt_blank_memorial_plaque_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_blank_memorial_plaque_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_blank_memorial_plaque_01.png",
+    "sha256": "b08a123481730a4845d706a4295a8281baa09a9b85b555ea0380a907bf3566e1",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_blank_memorial_plaque_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      89,
+      12,
+      1256,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      254,
+      15,
+      1107,
+      1184
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.9823,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-03e27da0-2fae-4746-9f6d-08435aa77d10.png"
+  },
+  {
+    "asset_id": "crypt_funeral_cloth_stand_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_funeral_cloth_stand_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_funeral_cloth_stand_01.png",
+    "sha256": "d4ea565c161ca67a97426424d3faf0b7ac78b39d681fa78a2b05a09882fc0455",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_funeral_cloth_stand_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      0,
+      1450,
+      984
+    ],
+    "alpha_bounds_ge128": [
+      228,
+      24,
+      1314,
+      974
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96124,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-5984556b-feb9-4cb6-9737-2bad88b77647.png"
+  },
+  {
+    "asset_id": "crypt_leaning_sarcophagus_lid_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_leaning_sarcophagus_lid_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_leaning_sarcophagus_lid_01.png",
+    "sha256": "b87c8bfe3107e6fad15a77682bb470c0774c35c9a2d82978e7d3722dd2f7e2bc",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_leaning_sarcophagus_lid_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      71,
+      970,
+      1516
+    ],
+    "alpha_bounds_ge128": [
+      165,
+      75,
+      906,
+      1482
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98315,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-fa1490af-65d2-407d-801f-a544eaf17a34.png"
+  },
+  {
+    "asset_id": "crypt_low_wooden_bier_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_low_wooden_bier_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_low_wooden_bier_01.png",
+    "sha256": "c0364158bc2898ef222cb8d53e08fa979da4ea1a91b94b6976cc82ab8a74f98f",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_low_wooden_bier_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      53,
+      19,
+      1498,
+      984
+    ],
+    "alpha_bounds_ge128": [
+      56,
+      22,
+      1480,
+      930
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96243,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-c19f6566-229d-4d7c-92bc-2dc2f1379d78.png"
+  },
+  {
+    "asset_id": "crypt_restrained_bone_pile_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_restrained_bone_pile_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_restrained_bone_pile_01.png",
+    "sha256": "8aa157ea86e7d1710b9513d8b4308e127662ad56a27abfd2c2100c933578dcf5",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/crypt_restrained_bone_pile_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      32,
+      1436,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      316,
+      188,
+      1198,
+      861
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9579,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "crypt_stone_offering_table_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_stone_offering_table_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_stone_offering_table_01.png",
+    "sha256": "2b0a5456a0537fe551d3dfb9376a09929ae1d5fb4eae30b4a3573789ab8bcfc5",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_stone_offering_table_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      32,
+      1344,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      256,
+      50,
+      1287,
+      875
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97665,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-3e48fbb8-cbd8-4d4f-961d-668d92487e1c.png"
+  },
+  {
+    "asset_id": "crypt_urn_niche_stack_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_urn_niche_stack_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_urn_niche_stack_01.png",
+    "sha256": "d776d6fc503744587c5691eff651696b324fffab1c62d00930fb1aed18f95306",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_urn_niche_stack_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      118,
+      89,
+      978,
+      1492
+    ],
+    "alpha_bounds_ge128": [
+      122,
+      92,
+      911,
+      1489
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98267,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-74bc2291-0b4f-4c05-b973-39f5430a635d.png"
+  },
+  {
+    "asset_id": "crypt_wall_ossuary_cabinet_01",
+    "pack": "volume_12_crypt",
+    "path": "assets/crypt_wall_ossuary_cabinet_01.png",
+    "original_path": "lantern_environment_candidates/volume_12_crypt/assets/crypt_wall_ossuary_cabinet_01.png",
+    "sha256": "7bcbd8d551b34bb47c414a8b9733e6d84454cd644a69c3c0755faa87afea7f12",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/crypt_wall_ossuary_cabinet_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      34,
+      872,
+      1512
+    ],
+    "alpha_bounds_ge128": [
+      232,
+      37,
+      845,
+      1509
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9768,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-1fe54110-052b-4c77-9835-8fc90bbe5a32.png"
+  }
+]

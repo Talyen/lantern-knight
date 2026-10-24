@@ -1,0 +1,138 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2038339,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ffe6e8aadc41a1a653ac98a08f717a13391e88ceebb723ab0236e6b6cd69a13d"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 22481343,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "beeb478f5124dea80cf88f6d73b11c4ad4f4c966c00d4355f4717d28392530ef"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 6729843,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "181236dfd7405e0c977dd097bc9119d5784d01e7bebdbfe0b9bd4ca0b52f77c6"
+  },
+  "review_views/central_court_hero_context.png": {
+    "bytes": 1722461,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "d0d3ccd86a825452a1396162e20832fcbb6d5c787fb4f907b35676c64e42ac55"
+  },
+  "review_views/upper_court_AI4x_floor.png": {
+    "bytes": 1767421,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0eb7b4505dcb81ae1924cbd7de4e396ba56df8630b7bd92ecdfc1a9d5d6ae7f1"
+  },
+  "review_views/entrance_court_AI4x_floor.png": {
+    "bytes": 1781679,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "db32ed3f8c88d75a64e194d6c3b8479493d522132fa7364263fd2a62fb77f21d"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 1976143,
+    "size": [
+      2048,
+      732
+    ],
+    "sha256": "f1111b2dc65406c502a4d882ddf6522f05b7d438cffc3d57433c52015eee3ba2"
+  },
+  "review_views/entrance_court_hero_context.png": {
+    "bytes": 1795669,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "4c0449e682cbffd489e0728b7d3e38ff8ded5d2a5979c2205e8dea4146356d72"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2051606,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "cbdd293ccf3d2c6ce90f6b98001f67a670d64c0156fe09e0a3b28b794e2996b1"
+  },
+  "review_views/upper_court_hero_context.png": {
+    "bytes": 1779961,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "7ecd801fb752774e247b652c73ad28faa51857fb500497a010af3d51860acd19"
+  },
+  "review_views/central_court_AI4x_floor.png": {
+    "bytes": 1709423,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "af87c390ed61f7762a9b12f7cebb5c751192ad63d60abd0f2f13c359ceb259ca"
+  },
+  "ai_upscale/checks/avenue_junction_native.png": {
+    "bytes": 74596,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "816f03cc6897d4ff2705dc2991bb7c4244a8d66979b7eb7703533b377e758a0b"
+  },
+  "ai_upscale/checks/upper_avenue_junction_untiled4x.png": {
+    "bytes": 639243,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "d22045add225ab3e17ebc54e1fe71776b3a69460e198e0bf0cdaff31411c18d1"
+  },
+  "ai_upscale/checks/upper_avenue_junction_comparison.png": {
+    "bytes": 215411,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "8d9c33c691a881022e5acfd21152c62492f62b249e915819d11bbc1b12ca9e6b"
+  },
+  "ai_upscale/checks/avenue_junction_comparison.png": {
+    "bytes": 204588,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "8b2d2bcb930a13d2c2dabc0ee9c8532b59cf73d432e36905f31b30b87d686786"
+  },
+  "ai_upscale/checks/upper_avenue_junction_native.png": {
+    "bytes": 73378,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "bac6d1a825c9c9ae08ac7ba1f99caa2e89e739e593e2d25ecd8adf9a7660b431"
+  },
+  "ai_upscale/checks/avenue_junction_untiled4x.png": {
+    "bytes": 651740,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "5d249686ae41190be186dddc149e1dcb5d49c1f05f05e8d3de11df6d95a5e3a2"
+  }
+}

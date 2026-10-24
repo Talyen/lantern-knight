@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "entry",
+      "display_crop_box": [
+        482,
+        510,
+        2018,
+        1534
+      ],
+      "source_crop_box": [
+        192.8,
+        204.0,
+        807.2,
+        613.6
+      ],
+      "display_hero_foot": [
+        1250,
+        1150
+      ],
+      "source_hero_foot": [
+        500.0,
+        460.0
+      ]
+    },
+    {
+      "name": "middle",
+      "display_crop_box": [
+        1182,
+        985,
+        2718,
+        2009
+      ],
+      "source_crop_box": [
+        472.8,
+        394.0,
+        1087.2,
+        803.6
+      ],
+      "display_hero_foot": [
+        1950,
+        1625
+      ],
+      "source_hero_foot": [
+        780.0,
+        650.0
+      ]
+    },
+    {
+      "name": "far",
+      "display_crop_box": [
+        2182,
+        735,
+        3718,
+        1759
+      ],
+      "source_crop_box": [
+        872.8,
+        294.0,
+        1487.2,
+        703.6
+      ],
+      "display_hero_foot": [
+        2950,
+        1375
+      ],
+      "source_hero_foot": [
+        1180.0,
+        550.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

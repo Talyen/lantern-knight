@@ -1,0 +1,759 @@
+{
+  "name": "Grave-Dust Hand",
+  "id": "grave_dust_hand",
+  "canvas": [
+    1024,
+    512
+  ],
+  "alpha": "straight RGBA",
+  "color_space": "sRGB",
+  "pivot_normalized": [
+    0.5,
+    0.5
+  ],
+  "frame_count": 72,
+  "fps": 16,
+  "duration_seconds": 4.5,
+  "loop": false,
+  "playback": "forward",
+  "generated_cel_count": 16,
+  "timing": "4 temporal cross-blend exposures per generated cel; source cels preserved separately",
+  "atlas": "grave_dust_hand_runtime_atlas.png",
+  "atlas_columns": 8,
+  "frame_size": [
+    1024,
+    512
+  ],
+  "frame_order": "row-major",
+  "source_native_sheet": [
+    1536,
+    1024
+  ],
+  "registration": "fixed canvas; art center/baseline registered; no per-frame scaling",
+  "recommended_layer": "environment overlay",
+  "clear_endpoints": true,
+  "frames": [
+    {
+      "file": "frames/000.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/001.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/002.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/003.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/004.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/005.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/006.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/007.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/008.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/009.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/010.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/011.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/012.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/013.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/014.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/015.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        512,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/016.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/017.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/018.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/019.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/020.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/021.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/022.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/023.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        1024,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/024.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/025.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/026.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/027.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/028.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/029.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/030.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/031.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        1536,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/032.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/033.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/034.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/035.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/036.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/037.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/038.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/039.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        2048,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/040.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/041.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/042.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/043.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/044.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/045.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/046.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/047.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        2560,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/048.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/049.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/050.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/051.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/052.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/053.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/054.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/055.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        3072,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/056.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/057.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/058.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/059.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/060.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/061.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/062.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/063.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        3584,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/064.png",
+      "duration_ms": 62.5,
+      "rect": [
+        0,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/065.png",
+      "duration_ms": 62.5,
+      "rect": [
+        1024,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/066.png",
+      "duration_ms": 62.5,
+      "rect": [
+        2048,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/067.png",
+      "duration_ms": 62.5,
+      "rect": [
+        3072,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/068.png",
+      "duration_ms": 62.5,
+      "rect": [
+        4096,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/069.png",
+      "duration_ms": 62.5,
+      "rect": [
+        5120,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/070.png",
+      "duration_ms": 62.5,
+      "rect": [
+        6144,
+        4096,
+        1024,
+        512
+      ]
+    },
+    {
+      "file": "frames/071.png",
+      "duration_ms": 62.5,
+      "rect": [
+        7168,
+        4096,
+        1024,
+        512
+      ]
+    }
+  ],
+  "atlas_encoding": "PNG indexed RGBA palette, decodes to straight RGBA; individual frames are RGBA PNG",
+  "recommended_opacity": 0.65
+}

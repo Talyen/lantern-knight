@@ -1,0 +1,11 @@
+Lantern Hero C / Rust — respawn_DR
+
+Fully materialized kneeling hero rekindles a restrained lantern flame, loads the planted leg, then rises into ready while retaining both props. Does not include teleportation or a prone-to-kneel transition.
+
+6 distinct articulated cels, 76 integer ticks at 60 Hz (1.267 seconds). Runtime uses held drawings, not 60 unique drawings per second. Closed left lantern grip and right sword grip throughout.
+
+Native transparent PNG frames on a fixed 554×671 canvas; no AI upscale, mirroring or per-cel recenter/fit. Atlas and runtime JSON include exact duration, rect, pivot and provenance. Alpha cleanup removes isolated background residue while keeping native edge pixels.
+
+Single DR/world +X presentation only. PPU/root are approximate. The engine/controller owns actual gameplay state, collision and motion. No health, invulnerability, damage or block system is implemented by these art files. Transitions and contact motion need in-engine review.
+
+Preview: three repetitions with 36 additional ticks of ready-pose pause between repetitions. Extra pauses are presentation only and are not part of runtime timing.

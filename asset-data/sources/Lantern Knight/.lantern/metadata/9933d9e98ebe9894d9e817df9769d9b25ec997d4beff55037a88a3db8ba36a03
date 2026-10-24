@@ -1,0 +1,63 @@
+{
+  "character": "CT02 Bellbound Monk",
+  "native_processing": "lossless extraction and integer translation only; no resizing, warping, RGB repainting or per-frame fitting",
+  "canvas_px": [
+    640,
+    576
+  ],
+  "pivot_pixels_from_top_left": [
+    320,
+    500
+  ],
+  "normalized_pivot_bottom_left": [
+    0.5,
+    0.13194444444444442
+  ],
+  "fps": 60,
+  "projection": {
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "actor_heading_world": "+X",
+    "screen_forward": "down-right 30 degrees",
+    "verification": "Visually elevated, approximate generated perspective; no numeric projection proof."
+  },
+  "import_revision": "v02_import",
+  "import_contract": "metadata/import_contract_v02.json",
+  "name": "Bellbound Monk",
+  "canvas": [
+    640,
+    576
+  ],
+  "pivot_pixels": [
+    320,
+    500
+  ],
+  "schema": "lantern.sprite.v1",
+  "clips": {
+    "idle": {
+      "loop": true,
+      "tick_rate": 60,
+      "holds_ticks": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "frames": [
+        "idle_00.png",
+        "idle_01.png",
+        "idle_02.png",
+        "idle_03.png",
+        "idle_04.png",
+        "idle_05.png"
+      ],
+      "atlas": "idle_atlas.png",
+      "atlas_columns": 3,
+      "atlas_rows": 2,
+      "attack_visual_event_frame": null,
+      "end_behavior": "repeat authored forward cycle; no pingpong, crossfade or root motion"
+    }
+  }
+}

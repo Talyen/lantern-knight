@@ -1,0 +1,172 @@
+[
+  {
+    "frame": 0,
+    "expanded_source_rect": [
+      0,
+      0,
+      444,
+      444
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      62,
+      64,
+      338,
+      400
+    ],
+    "connected_components_ge3px": [
+      29942
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 1,
+    "expanded_source_rect": [
+      444,
+      0,
+      887,
+      444
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      37,
+      51,
+      372,
+      397
+    ],
+    "connected_components_ge3px": [
+      35001,
+      5,
+      4
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 2,
+    "expanded_source_rect": [
+      887,
+      0,
+      1330,
+      444
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      37,
+      51,
+      401,
+      375
+    ],
+    "connected_components_ge3px": [
+      36034,
+      5
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 3,
+    "expanded_source_rect": [
+      1330,
+      0,
+      1774,
+      444
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      98,
+      55,
+      413,
+      395
+    ],
+    "connected_components_ge3px": [
+      34259,
+      3,
+      3
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 4,
+    "expanded_source_rect": [
+      0,
+      444,
+      444,
+      887
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      73,
+      52,
+      332,
+      384
+    ],
+    "connected_components_ge3px": [
+      30013
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 5,
+    "expanded_source_rect": [
+      444,
+      444,
+      887,
+      887
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      41,
+      51,
+      311,
+      369
+    ],
+    "connected_components_ge3px": [
+      34347,
+      4,
+      3
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 6,
+    "expanded_source_rect": [
+      887,
+      444,
+      1330,
+      887
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      34,
+      54,
+      341,
+      379
+    ],
+    "connected_components_ge3px": [
+      33930,
+      5,
+      3
+    ],
+    "native_pixel_exact": true
+  },
+  {
+    "frame": 7,
+    "expanded_source_rect": [
+      1330,
+      444,
+      1774,
+      887
+    ],
+    "meaningful_border_max_alpha": 1,
+    "alpha_gt8_bbox": [
+      75,
+      51,
+      401,
+      382
+    ],
+    "connected_components_ge3px": [
+      32633,
+      4
+    ],
+    "native_pixel_exact": true
+  }
+]

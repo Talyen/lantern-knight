@@ -1,0 +1,41 @@
+{
+  "asset": "lantern_inspect_DR_v01",
+  "fps": 60,
+  "loop": false,
+  "hold_ticks": [
+    10,
+    9,
+    12,
+    30,
+    12,
+    11
+  ],
+  "duration_ticks": 84,
+  "duration_seconds": 1.4,
+  "frames": [
+    "frames/lantern_inspect_DR_v01_00.png",
+    "frames/lantern_inspect_DR_v01_01.png",
+    "frames/lantern_inspect_DR_v01_02.png",
+    "frames/lantern_inspect_DR_v01_03.png",
+    "frames/lantern_inspect_DR_v01_04.png",
+    "frames/lantern_inspect_DR_v01_05.png"
+  ],
+  "state_flow": {
+    "mode": "one_shot_or_hold",
+    "enter_frame_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "optional_host_hold_frame": 3,
+    "hold_is_static": true,
+    "exit_frame_indices": [
+      4,
+      5
+    ],
+    "default_preview_hold_ticks": 30,
+    "gameplay_effects": [],
+    "note": "Default one-shot is 84 ticks. Host may pause cel 3 to inspect until explicit input, then play 4-5; no automatic interaction success."
+  }
+}

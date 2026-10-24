@@ -1,0 +1,14 @@
+LANTERN REVISION 02 / travel_camp_05
+Eight world-prop masters, one PNG per named object or purposeful assembly.
+Fresh generations use canonical C/RUST as a style reference only; no generated-prop edit cascades. Retained originals are byte-identical and explicitly marked. The canonical hero is unchanged.
+Native RGBA masters are preserved without pixel processing. Proofs are layout-only composites/resizes and are NOT replacement masters.
+Camera is approximate 35.2643897 degree elevation / 45 degree azimuth. It is not calibrated, nor registered to the 13 m camera span. Ground pivots, physical scale, colliders, wall mounts and runtime materials require engine integration.
+Check alpha on both light and dark proof sheets. Hidden RGB in transparent texels may look noisy in raw viewers. Native partial alpha remains unchanged; validate straight/premultiplied alpha, atlas extrusion and filtering in engine.
+Game-size sheets show 96 px object-fit and 160 px full-canvas proxies, not runtime rendering.
+All old sources remain preserved. manifest.json contains IDs, exact prompts, source mapping, hashes and alpha bounds.
+
+ART REVIEW
+Six fresh redraws; bedroll and folded canvas retained byte-identical. Pot bail visibly pivots from lugs, waterskin strap attaches at both ends, tripod has three grounded legs with connected collar/chain/hook, tool roll holds tools in separate pockets. Broad leather folds replace inflated shine. Tripod and staff remain thin at 96 px, so larger world-prop display near 160 px or above is recommended; not guaranteed inventory-icon readability.
+
+ALPHA AND FORM LIMITATIONS
+Some exports have faint native alpha=1 pixels at outer edges. No alpha>=128 silhouette touches a canvas edge; all are fully framed. Native pixel data is not cleaned or thresholded. Most masters are 1254 square; star chart is 1536x1024. Requested 65% framing is not exact; consult manifest core bounds and set atlas gutters.

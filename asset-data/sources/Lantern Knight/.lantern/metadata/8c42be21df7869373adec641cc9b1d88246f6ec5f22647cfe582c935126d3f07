@@ -1,0 +1,19 @@
+Ivory Rupture — Lantern occult attack animation
+
+15 newly drawn material-state cels plus one fully transparent final cel.
+Canvas 640 × 640 RGBA; center pivot (0.5, 0.5). Atlas 4 × 4 row-major.
+Use the exact durations in timing_manifest.json. Animation plays once; the APNG and preview loop for review only.
+First three cels deliver a quick onset; cel 4 is the readable impact. The remaining art cels keep breaking and traveling outward.
+Alpha: straight RGBA. No scene, floor, bloom, matte, or background in production PNGs.
+
+Files
+- frames/00.png–15.png: transparent source animation
+- spritesheet_rgba.png: 4 × 4 transparent atlas
+- animation_rgba.apng: transparent timing preview
+- preview.mp4: detail and gameplay-scale gray-background preview
+- registered_contact.jpg: exact registered cel sequence
+- timing_manifest.json: timing, registration, hashes and alpha bounds
+- generation_provenance.json: image-generation prompt and reference provenance
+- visual_qa.txt: reviewed material, timing and cleanup checks
+
+Assembly only uniformly fits the fixed source grid into the canvas. Individual cels are never recentered or animated through scale/fade. New contours and evolving material were drawn with the built-in image generation tool. No engine files changed.

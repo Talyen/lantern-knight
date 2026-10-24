@@ -1,0 +1,9 @@
+# QA record
+
+Fresh native visual gate: all five full six-cel sheets acceptable for anatomy, gear, real rear heading, intact rigid bell, effects and crop. UR movement source cel1 has three shoes and is excluded; remaining five native drawings retained. DL impact far shoe is naturally cloth-occluded.
+
+Runtime:35 native-resolution cels +6atlases. All41 PNG hashes reproduce from a clean extract. Every atlas rect is pixel-identical to its standalone cel;4px transparent gutters; no runtime canvas clipping. Shoe midpoints remain on the prescribed fixed plane with<=0.5px integer-rounding error. Movement preserves declared native hop height. Attack uses a constant21px below-pivot midpoint, never phase-dependent drift.
+
+Four-way same-world-size contact and MP4 include unchanged DR. Each new heading uses256PPU across both clips, matching movement/rest. Inherited DR attack has a taller upright ready silhouette due to its209.836PPU convention, and an inherited0.291world-unit impact drift; both remain visible and documented, not copied into new art.
+
+No engine/live-playback verification is claimed. Final independent runtime/package review is external to this generation record.

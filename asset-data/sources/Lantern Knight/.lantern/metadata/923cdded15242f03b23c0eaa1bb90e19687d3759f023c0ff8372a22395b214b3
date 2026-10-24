@@ -1,0 +1,409 @@
+{
+  "clip_id": "Lantern_Hero_channel_hold_R_v01_cropfix01",
+  "family": "channel_hold",
+  "facing": "R",
+  "producer": "animate_use_channel_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+  "equipment_contract": "Sword anatomical right; lantern left continuously gripped. Completion pulse only success cel, no hold-loop pulse.",
+  "timing_source": "Native DR source timing preserved by producer selection manifest.",
+  "source_timing": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "timebase_hz": 60,
+  "loop": true,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "78622227987841a648fda1c3c796b7d90972b25e77a8aae63ffb44c235bf8b81",
+      "native_size_px": [
+        623,
+        630
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "c4c6f363e584e82b1d19d3992b4632717e78c97c3f30319e1dc44b9206d7f2d2",
+      "source_sha256": "f939bfe3199b1209255158f85932a297a6a0845347e10a0ba081151825818025",
+      "crop_xyxy": [
+        0,
+        0,
+        623,
+        630
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        80,
+        68
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          293,
+          603
+        ],
+        "inspection_montage_xy": [
+          116,
+          239
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 0,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        80,
+        68,
+        447,
+        446
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "5704429fd4941a4b66112fb903ba05a96638f4abbe08fcf14c07cdff70f66a86",
+      "native_size_px": [
+        624,
+        630
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "5aa6e71212c1b08a131265667bed862b325119d547fc6d2bff36ed37722ab102",
+      "source_sha256": "f939bfe3199b1209255158f85932a297a6a0845347e10a0ba081151825818025",
+      "crop_xyxy": [
+        623,
+        0,
+        1247,
+        630
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        104,
+        68
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          253,
+          603
+        ],
+        "inspection_montage_xy": [
+          347,
+          239
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 15,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        105,
+        68,
+        466,
+        446
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "12392d7fc69b066763f010d5811914f9c044d15729cff913413a022c909120b1",
+      "native_size_px": [
+        623,
+        628
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "3403139c798b23f6e98ee5de7bc421be0704d369ad3cdc8a524455bfdf02a56f",
+      "source_sha256": "f939bfe3199b1209255158f85932a297a6a0845347e10a0ba081151825818025",
+      "crop_xyxy": [
+        0,
+        633,
+        623,
+        1261
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        80,
+        73
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          293,
+          598
+        ],
+        "inspection_montage_xy": [
+          116,
+          487
+        ],
+        "manual_crop_origin_delta_xy": [
+          0,
+          3
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 30,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        80,
+        73,
+        454,
+        450
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "b576458bf08f87f627f02b7cf9f6f79f75c48ed44c920316a01ceb36d65a0aeb",
+      "native_size_px": [
+        624,
+        628
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "8ff000e88c750dc5f9f8a3c7e080858690a9b91e67cc6f9f082b70f729aed267",
+      "source_sha256": "f939bfe3199b1209255158f85932a297a6a0845347e10a0ba081151825818025",
+      "crop_xyxy": [
+        623,
+        633,
+        1247,
+        1261
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        103,
+        73
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          255,
+          598
+        ],
+        "inspection_montage_xy": [
+          348,
+          487
+        ],
+        "manual_crop_origin_delta_xy": [
+          0,
+          3
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 45,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        103,
+        73,
+        469,
+        450
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "ea9509ff95dd9e07d4f4d649ea2729b338a07f59d81a83bc45e91e83d4a39e43",
+      "native_size_px": [
+        623,
+        630
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "154f206b750e21aaff4f4a8e05ba76bace8afb30c91d68ec996daecc2c277408",
+      "source_sha256": "e48cc565a973779bdaed30b041d84de862f8b1420a22e04bd309e2f0d10f476d",
+      "crop_xyxy": [
+        0,
+        0,
+        623,
+        630
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        79,
+        67
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          295,
+          605
+        ],
+        "inspection_montage_xy": [
+          617,
+          240
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 60,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        79,
+        67,
+        443,
+        445
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "c024069cd6ef27d0def661dbf77bd8e4fdf5aac2a1528203dffe82e6a1eb2255",
+      "native_size_px": [
+        624,
+        630
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "00e5dd7cb37fa883d69466ac1a17f4947ecc4ae28d5865db07b46afbad2c4ef7",
+      "source_sha256": "e48cc565a973779bdaed30b041d84de862f8b1420a22e04bd309e2f0d10f476d",
+      "crop_xyxy": [
+        623,
+        0,
+        1247,
+        630
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        103,
+        68
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          255,
+          603
+        ],
+        "inspection_montage_xy": [
+          848,
+          239
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 75,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        115,
+        68,
+        462,
+        446
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "407f7258ccb65a9b28d8c0773a2eaef2d5a31c31fe26913afa1cb46e1d56d81c",
+      "native_size_px": [
+        623,
+        628
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "72ee86db9fc41fab34cc329d936e9aa86dd1e43a12a334c242c9422026a7df9c",
+      "source_sha256": "e48cc565a973779bdaed30b041d84de862f8b1420a22e04bd309e2f0d10f476d",
+      "crop_xyxy": [
+        0,
+        633,
+        623,
+        1261
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        77,
+        73
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          298,
+          598
+        ],
+        "inspection_montage_xy": [
+          618,
+          487
+        ],
+        "manual_crop_origin_delta_xy": [
+          0,
+          3
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 90,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        77,
+        73,
+        451,
+        450
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "4db2f7478f976cb83c1c5ad867d7a397ca555e17716c5c47629ff1624a6adf0c",
+      "native_size_px": [
+        624,
+        628
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "9b8d7722927c194afa0a1f45c08350183de69d60a0cf6f087c1264da9b62df7e",
+      "source_sha256": "e48cc565a973779bdaed30b041d84de862f8b1420a22e04bd309e2f0d10f476d",
+      "crop_xyxy": [
+        623,
+        633,
+        1247,
+        1261
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        99,
+        73
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          261,
+          598
+        ],
+        "inspection_montage_xy": [
+          850,
+          487
+        ],
+        "manual_crop_origin_delta_xy": [
+          0,
+          3
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only. Mechanical crop excludes independently identified neighboring cell fragments; visible subject preserved. R hold top strip3px removed; visible head begins at or below3px (alpha>8).",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 105,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        99,
+        73,
+        452,
+        450
+      ]
+    }
+  ],
+  "native_drawn_cels": 8,
+  "timeline_frame_count": 8,
+  "duration_ticks": 120,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "04995f7f1c259b84c09f02b25fe108aad6b2880165ef1024f4cf8536fb98a920"
+  }
+}

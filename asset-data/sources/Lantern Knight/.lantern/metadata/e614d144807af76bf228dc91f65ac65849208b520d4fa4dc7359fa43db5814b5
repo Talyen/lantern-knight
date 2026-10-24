@@ -1,0 +1,110 @@
+[
+  {
+    "tail_cel": 1,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      53,
+      156,
+      375,
+      331
+    ],
+    "alpha_mass": 6032246
+  },
+  {
+    "tail_cel": 2,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      29,
+      150,
+      365,
+      333
+    ],
+    "alpha_mass": 5913575
+  },
+  {
+    "tail_cel": 3,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      18,
+      146,
+      364,
+      341
+    ],
+    "alpha_mass": 6011219
+  },
+  {
+    "tail_cel": 4,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      53,
+      122,
+      401,
+      314
+    ],
+    "alpha_mass": 5648029
+  },
+  {
+    "tail_cel": 5,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      41,
+      135,
+      399,
+      323
+    ],
+    "alpha_mass": 4492806
+  },
+  {
+    "tail_cel": 6,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      71,
+      144,
+      380,
+      309
+    ],
+    "alpha_mass": 2000864
+  },
+  {
+    "tail_cel": 7,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      110,
+      108,
+      392,
+      285
+    ],
+    "alpha_mass": 2012744
+  },
+  {
+    "tail_cel": 8,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      103,
+      125,
+      373,
+      287
+    ],
+    "alpha_mass": 530304
+  },
+  {
+    "tail_cel": 9,
+    "source_cell_edge_max_alpha": 1,
+    "edge_pixels_alpha_gt12": 0,
+    "bbox_gt12": [
+      187,
+      145,
+      367,
+      289
+    ],
+    "alpha_mass": 129872
+  }
+]

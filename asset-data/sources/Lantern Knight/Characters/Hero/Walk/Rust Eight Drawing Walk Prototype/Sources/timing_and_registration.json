@@ -1,0 +1,509 @@
+{
+  "title": "Rust adventurer: slightly down-right eight-drawing walk prototype",
+  "status": "USER_REVIEW_PROTOTYPE_NOT_PRODUCTION_APPROVED",
+  "source_unique_drawings": 8,
+  "presentation_fps": 60,
+  "interpolation": "none; complete drawings held for integer ticks",
+  "canvas_px": [
+    512,
+    640
+  ],
+  "root_pivot_px": [
+    256,
+    572
+  ],
+  "root_pivot_normalized_top_left": [
+    0.5,
+    0.89375
+  ],
+  "intended_heading": "Nominal requested d135, horizontal screen-right under the requested camera; NOT achieved as a calibrated floor projection.",
+  "intended_camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "note": "Prompted illustration target, not measured/calibrated 3D projection."
+  },
+  "ground_registration": {
+    "method": "Prototype only: manual pelvis horizontal alignment and whole-drawing integer translation to place a selected weight-bearing heel/sole/toe on approximate sloped drawn-ground tracks. This is not engine-ready calibrated d135 registration or foot-plant certification. No resizing, body warping or prescribed bob.",
+    "root_px": [
+      256,
+      572
+    ],
+    "track_slope_dy_dx": 0.18,
+    "near_right_track_offset_y": 8,
+    "far_left_track_offset_y": -8,
+    "limitation": "Frames 04 and 08 draw the forward reaching boot lower on screen than the rear supporting toe. At exact horizontal d135 ground tracks, the reaching boot intersects the expected floor. Sloped tracks provide a reviewable approximate down-right presentation but do not solve that geometry. Camera elevation remains a prompted target, not measured calibration."
+  },
+  "model_request": "Sunburst 2.5 (gpt-image-2.5-sunburst) was included in the image prompt as requested; actual backend model was not exposed or verified.",
+  "generation": "Built-in image generation; fresh coherent eight-figure illustration from pose and original-identity references. AI-generated artwork, not a claim of human hand drawing.",
+  "timings": {
+    "measured_1s": {
+      "duration_seconds": 1.0,
+      "ticks_60hz": [
+        9,
+        8,
+        7,
+        6,
+        9,
+        8,
+        7,
+        6
+      ]
+    },
+    "brisk_08s": {
+      "duration_seconds": 0.8,
+      "ticks_60hz": [
+        7,
+        6,
+        6,
+        5,
+        7,
+        6,
+        6,
+        5
+      ]
+    }
+  },
+  "known_issues": [
+    "Actual illustrated heading is roughly 10 degrees down-right; exact requested horizontal d135 projection and floor contact are unresolved. See horizontal_d135_floor_check previews, especially 04/08.",
+    "Stride opens abruptly from passing to up in 03\u219204 and 07\u219208.",
+    "Frame 06 rear lantern appears smaller; frame 07 sword length differs.",
+    "Some frame-to-frame cloth/body detail changes remain.",
+    "Ground-plane registration is an approximate 2D import aid; foot-clearance asymmetry remains visible in ground-guide previews."
+  ],
+  "atlas": {
+    "file": "atlas/walk_right_approx_8frames.png",
+    "size_px": [
+      2112,
+      1312
+    ],
+    "layout": [
+      4,
+      2
+    ],
+    "gutter_px": 8,
+    "order": "left-to-right, top row then bottom row"
+  },
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/walk_right_approx_01.png",
+      "phase": "right_contact",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        69,
+        110,
+        418,
+        597
+      ],
+      "registration_from_diagnostic_translation_px": [
+        1,
+        40
+      ],
+      "manual_pelvis_x_in_diagnostic": 255,
+      "manual_support_landmark_in_diagnostic": [
+        340,
+        555
+      ],
+      "support_limb": "right",
+      "support_feature": "heel",
+      "registered_support_px": [
+        341,
+        595
+      ],
+      "native_opaque_height_px": 487,
+      "native_source_component_bbox": [
+        25,
+        42,
+        374,
+        529
+      ],
+      "raw_crop_origin_in_master": [
+        17,
+        38
+      ],
+      "raw_crop_size_px": [
+        397,
+        560
+      ],
+      "atlas_rect": {
+        "x": 8,
+        "y": 8,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/walk_right_approx_02.png",
+      "phase": "right_down",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        61,
+        113,
+        389,
+        597
+      ],
+      "registration_from_diagnostic_translation_px": [
+        -6,
+        36
+      ],
+      "manual_pelvis_x_in_diagnostic": 262,
+      "manual_support_landmark_in_diagnostic": [
+        345,
+        559
+      ],
+      "support_limb": "right",
+      "support_feature": "sole",
+      "registered_support_px": [
+        339,
+        595
+      ],
+      "native_opaque_height_px": 483,
+      "native_source_component_bbox": [
+        385,
+        46,
+        713,
+        529
+      ],
+      "raw_crop_origin_in_master": [
+        381,
+        19
+      ],
+      "raw_crop_size_px": [
+        417,
+        587
+      ],
+      "atlas_rect": {
+        "x": 536,
+        "y": 8,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/walk_right_approx_03.png",
+      "phase": "left_passing",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        109,
+        82,
+        320,
+        587
+      ],
+      "registration_from_diagnostic_translation_px": [
+        -14,
+        12
+      ],
+      "manual_pelvis_x_in_diagnostic": 270,
+      "manual_support_landmark_in_diagnostic": [
+        295,
+        572
+      ],
+      "support_limb": "right",
+      "support_feature": "sole",
+      "registered_support_px": [
+        281,
+        584
+      ],
+      "native_opaque_height_px": 505,
+      "native_source_component_bbox": [
+        780,
+        37,
+        991,
+        542
+      ],
+      "raw_crop_origin_in_master": [
+        739,
+        33
+      ],
+      "raw_crop_size_px": [
+        333,
+        516
+      ],
+      "atlas_rect": {
+        "x": 1064,
+        "y": 8,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/walk_right_approx_04.png",
+      "phase": "right_up",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        41,
+        93,
+        386,
+        580
+      ],
+      "registration_from_diagnostic_translation_px": [
+        -27,
+        29
+      ],
+      "manual_pelvis_x_in_diagnostic": 283,
+      "manual_support_landmark_in_diagnostic": [
+        125,
+        523
+      ],
+      "support_limb": "right",
+      "support_feature": "toe",
+      "registered_support_px": [
+        98,
+        552
+      ],
+      "native_opaque_height_px": 487,
+      "native_source_component_bbox": [
+        1097,
+        43,
+        1442,
+        530
+      ],
+      "raw_crop_origin_in_master": [
+        1071,
+        39
+      ],
+      "raw_crop_size_px": [
+        376,
+        553
+      ],
+      "atlas_rect": {
+        "x": 1592,
+        "y": 8,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/walk_right_approx_05.png",
+      "phase": "left_contact",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        42,
+        104,
+        404,
+        579
+      ],
+      "registration_from_diagnostic_translation_px": [
+        -27,
+        34
+      ],
+      "manual_pelvis_x_in_diagnostic": 283,
+      "manual_support_landmark_in_diagnostic": [
+        350,
+        542
+      ],
+      "support_limb": "left",
+      "support_feature": "heel",
+      "registered_support_px": [
+        323,
+        576
+      ],
+      "native_opaque_height_px": 475,
+      "native_source_component_bbox": [
+        27,
+        565,
+        389,
+        1040
+      ],
+      "raw_crop_origin_in_master": [
+        21,
+        548
+      ],
+      "raw_crop_size_px": [
+        377,
+        514
+      ],
+      "atlas_rect": {
+        "x": 8,
+        "y": 664,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 6,
+      "file": "frames/walk_right_approx_06.png",
+      "phase": "left_down",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        32,
+        105,
+        375,
+        578
+      ],
+      "registration_from_diagnostic_translation_px": [
+        -27,
+        27
+      ],
+      "manual_pelvis_x_in_diagnostic": 283,
+      "manual_support_landmark_in_diagnostic": [
+        350,
+        549
+      ],
+      "support_limb": "left",
+      "support_feature": "sole",
+      "registered_support_px": [
+        323,
+        576
+      ],
+      "native_opaque_height_px": 473,
+      "native_source_component_bbox": [
+        381,
+        565,
+        723,
+        1038
+      ],
+      "raw_crop_origin_in_master": [
+        347,
+        530
+      ],
+      "raw_crop_size_px": [
+        443,
+        540
+      ],
+      "atlas_rect": {
+        "x": 536,
+        "y": 664,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 7,
+      "file": "frames/walk_right_approx_07.png",
+      "phase": "right_passing",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        113,
+        84,
+        322,
+        571
+      ],
+      "registration_from_diagnostic_translation_px": [
+        -10,
+        14
+      ],
+      "manual_pelvis_x_in_diagnostic": 266,
+      "manual_support_landmark_in_diagnostic": [
+        295,
+        555
+      ],
+      "support_limb": "left",
+      "support_feature": "sole",
+      "registered_support_px": [
+        285,
+        569
+      ],
+      "native_opaque_height_px": 487,
+      "native_source_component_bbox": [
+        794,
+        568,
+        1003,
+        1055
+      ],
+      "raw_crop_origin_in_master": [
+        733,
+        564
+      ],
+      "raw_crop_size_px": [
+        325,
+        494
+      ],
+      "atlas_rect": {
+        "x": 1064,
+        "y": 664,
+        "w": 512,
+        "h": 640
+      }
+    },
+    {
+      "index": 8,
+      "file": "frames/walk_right_approx_08.png",
+      "phase": "left_up",
+      "pivot_px": [
+        256,
+        572
+      ],
+      "scale_from_native": 1.0,
+      "registered_opaque_bbox": [
+        52,
+        96,
+        424,
+        562
+      ],
+      "registration_from_diagnostic_translation_px": [
+        10,
+        32
+      ],
+      "manual_pelvis_x_in_diagnostic": 246,
+      "manual_support_landmark_in_diagnostic": [
+        130,
+        511
+      ],
+      "support_limb": "left",
+      "support_feature": "toe",
+      "registered_support_px": [
+        140,
+        543
+      ],
+      "native_opaque_height_px": 466,
+      "native_source_component_bbox": [
+        1068,
+        565,
+        1440,
+        1031
+      ],
+      "raw_crop_origin_in_master": [
+        1063,
+        516
+      ],
+      "raw_crop_size_px": [
+        382,
+        546
+      ],
+      "atlas_rect": {
+        "x": 1592,
+        "y": 664,
+        "w": 512,
+        "h": 640
+      }
+    }
+  ],
+  "illustrated_heading": {
+    "description": "Slightly down-right, approximate illustrated heading",
+    "ground_track_degrees_down_from_screen_right": 10.203973721731684,
+    "verified_exact_d135": false
+  }
+}

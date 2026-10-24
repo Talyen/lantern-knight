@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "variant": "A",
+      "file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/woodland/woodland_A_native.png",
+      "native_dimensions": [
+        1536,
+        1024
+      ],
+      "sha256": "0e5df8db2cfc49e0c332f8225ad9eac5db8198fcbf270791c381c3dc5cd89b3f",
+      "prompt_file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/woodland/woodland_A_prompt.txt",
+      "exact_prompt": "Use case: stylized-concept\nAsset type: Lantern game native gameplay environment viewport, exactly 1536x1024 pixels, landscape 3:2.\nInput image: STYLE REFERENCE ONLY. Match the illustrated dark woodland's clean bold ink contours, broad cel-painted planes, earthy ground texture, pine silhouettes, muted olive ochre and charcoal blue-green palette, fixed oblique elevated gameplay camera, and close gameplay viewport scale. Do NOT reproduce its layout or its human figure.\nPrimary request: Create a fresh Woodland biome variation: a rocky pine ravine with a broad DRY winding floor. This is one cropped gameplay viewport of a larger continuous woodland world, NOT a whole map, NOT an isolated diorama. Massive simple angular rock ledges border the upper-left side and the right side, with a few large conifers growing behind those ledges. The wide walkable ravine floor bends from the lower-left foreground through the generously open center, then continues off the upper-right edge. All walking surfaces are dry stable brown earth; the center and lower-middle remain open for later hero placement.\nStyle/medium: Grounded hand-inked illustrative 2D game environment, strong dark contours, simplified broad shapes, restrained internal marks. Enough mottled painted earth patches and sparse broken contour lines for richly illustrative ground, never a flat solid-color fill. Large purposeful rock and tree forms rather than many tiny props. Oblique top-down camera with parallel projected forms, no sky or horizon.\nComposition: Terrain fills the frame and continues beyond every edge. Trees are large at this playable viewport scale, partially cropped at edges. Broad clear navigable floor occupies at least half the image. A few scattered medium stones at edges only. Make the terrain and silhouette visibly different from the reference through a continuous curving ravine and natural rock shelves, not reference wall ruins.\nLighting: Soft diffuse muted daylight, readable painterly shadows, subtle somber woodland mood without fog obscuring the floor.\nAvoid: Any person, hero, creature, UI, text, labels, grid, frame, watermark, water, stream, pool, damp mud, hazards, chasms, traps, puzzles, candles, lantern props, carvings, rune stones, architecture, brick walls, dense tiny foliage, busy ground clutter, photorealism, 3D render, flat vector fill. Native 1536x1024 output.\n",
+      "original_generated_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-c00ab3e5-e20b-414c-a133-27dc78052b5b.png",
+      "generation": "built-in image_gen, one call per variant",
+      "reference_role": "style only",
+      "reference_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/woodland_C/woodland_C_full_central_clearing_hero_context.png",
+      "postprocessing": "none; byte-for-byte copy of native tool output"
+    },
+    {
+      "variant": "B",
+      "file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/woodland/woodland_B_native.png",
+      "native_dimensions": [
+        1536,
+        1024
+      ],
+      "sha256": "c4babbfe0adcc0a24943cbd0c1a2e876b919fadebe6674df832f542072bfce1c",
+      "prompt_file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/woodland/woodland_B_prompt.txt",
+      "exact_prompt": "Use case: stylized-concept\nAsset type: Lantern game native gameplay environment viewport, exactly 1536x1024 pixels, landscape 3:2.\nInput image: STYLE REFERENCE ONLY. Match its clean bold ink contours, broad cel-painted planes, earthy ground texture, dark pine silhouettes, muted olive ochre and charcoal blue-green palette, fixed elevated oblique gameplay camera, and close gameplay viewport scale. Do NOT reproduce its layout or any human figure.\nPrimary request: Create a fresh Woodland biome variation: a wind-fallen conifer clearing, with one HUGE old fallen pine trunk lying along one side of the clearing, making a strong diagonal from the upper-left edge toward the right-middle. Show its broad dark-brown bark planes, a few thick snapped branches and a modest root base; it lies firmly on earth outside the walking area. A broad dry clearing fills the center and lower half. Wide linked paths enter from lower-left, lower-right and upper-right, flowing around the fallen tree through a few asymmetrical groups of standing conifers. The foreground and center have ample clear walkable space for later hero placement. Use only a few large trees and a few boulders as purposeful edge anchors.\nStyle/medium: Grounded hand-inked illustrative 2D game environment, strong clean dark contours, simplified broad shapes, restrained internal marks. Richly illustrative dry earth with large irregular painted ochre and brown patches and a few broken linear texture marks, never plain flat fill. Sparse olive undergrowth in broad clumps at outer edges, no dense tiny leaves. Parallel projection and fixed oblique top-down camera, no sky or horizon.\nComposition: One playable camera viewport, not a whole map or diorama. Environment continues beyond every edge; large standing trees partially crop off edges. The fallen trunk is the memorable single landmark along the side, not a barrier across paths. Broad linked earthen paths and clearing occupy at least half the frame. This must differ genuinely in terrain and layout from the reference: no ruined stone walls, no central rock island, no repetitive branching map overview.\nLighting: Soft diffuse muted daylight, readable painterly shadows, subdued woodland atmosphere.\nAvoid: Any person, hero, creature, UI, text, labels, grid, frame, watermark, water, streams, wet mud, hazards, traps, puzzles, chasms, candles, lantern props, carvings, rune stones, architecture, brick walls, busy ground clutter, dense foliage detail, photorealism, 3D render, flat vector fill. Native 1536x1024 output.\n",
+      "original_generated_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-eb7915c3-ee0d-4ea3-8d15-3af098789c5e.png",
+      "generation": "built-in image_gen, one call per variant",
+      "reference_role": "style only",
+      "reference_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/woodland_C/woodland_C_full_central_clearing_hero_context.png",
+      "postprocessing": "none; byte-for-byte copy of native tool output"
+    }
+  ]
+}

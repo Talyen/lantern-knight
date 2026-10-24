@@ -1,0 +1,294 @@
+[
+  {
+    "oldID": "sword_arc_01__d000",
+    "newID": "sword_arc_01__d000",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d045",
+    "newID": "sword_arc_01__d045",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d090",
+    "newID": "sword_arc_01__d090",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d135",
+    "newID": "sword_arc_01__d135",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d180",
+    "newID": "sword_arc_01__d180",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d225",
+    "newID": "sword_arc_01__d225",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d270",
+    "newID": "sword_arc_01__d270",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_01__d315",
+    "newID": "sword_arc_01__d315",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d000",
+    "newID": "sword_arc_02__d000",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d045",
+    "newID": "sword_arc_02__d045",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d090",
+    "newID": "sword_arc_02__d090",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d135",
+    "newID": "sword_arc_02__d135",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d180",
+    "newID": "sword_arc_02__d180",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d225",
+    "newID": "sword_arc_02__d225",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d270",
+    "newID": "sword_arc_02__d270",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_arc_02__d315",
+    "newID": "sword_arc_02__d315",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d000",
+    "newID": "sword_finisher_03__d000",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d045",
+    "newID": "sword_finisher_03__d045",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d090",
+    "newID": "sword_finisher_03__d090",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d135",
+    "newID": "sword_finisher_03__d135",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d180",
+    "newID": "sword_finisher_03__d180",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d225",
+    "newID": "sword_finisher_03__d225",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d270",
+    "newID": "sword_finisher_03__d270",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "sword_finisher_03__d315",
+    "newID": "sword_finisher_03__d315",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "lantern_cone_flare__d000",
+    "newID": "lantern_cone_flare__d000",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d045",
+    "newID": "lantern_cone_flare__d045",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d090",
+    "newID": "lantern_cone_flare__d090",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d135",
+    "newID": "lantern_cone_flare__d135",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d180",
+    "newID": "lantern_cone_flare__d180",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d225",
+    "newID": "lantern_cone_flare__d225",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d270",
+    "newID": "lantern_cone_flare__d270",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "lantern_cone_flare__d315",
+    "newID": "lantern_cone_flare__d315",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "amber_impact__unoriented",
+    "newID": "amber_impact__unoriented",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "footstep_dust__unoriented",
+    "newID": "footstep_dust__unoriented",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "dash_wake__d000",
+    "newID": "dash_wake__d000",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d045",
+    "newID": "dash_wake__d045",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d090",
+    "newID": "dash_wake__d090",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d135",
+    "newID": "dash_wake__d135",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d180",
+    "newID": "dash_wake__d180",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d225",
+    "newID": "dash_wake__d225",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d270",
+    "newID": "dash_wake__d270",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "dash_wake__d315",
+    "newID": "dash_wake__d315",
+    "status": "repaired",
+    "oldSourceFrames": 12,
+    "newSourceFrames": 18,
+    "timingChange": true
+  },
+  {
+    "oldID": "stagger_shards__unoriented",
+    "newID": "stagger_shards__unoriented",
+    "status": "repaired",
+    "oldSourceFrames": 24,
+    "newSourceFrames": 24,
+    "timingChange": false
+  }
+]

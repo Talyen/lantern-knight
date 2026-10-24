@@ -1,0 +1,109 @@
+{
+  "name": "Pallbearer's Fan",
+  "timebase": "milliseconds",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "frame_index": 0,
+      "time_ms": 0
+    },
+    {
+      "name": "commit",
+      "frame_index": 7,
+      "time_ms": 980
+    },
+    {
+      "name": "impact",
+      "frame_index": 8,
+      "time_ms": 1020,
+      "damage_count": 1
+    },
+    {
+      "name": "clear",
+      "frame_index": 16,
+      "time_ms": 1580
+    }
+  ],
+  "damage": {
+    "event": "impact",
+    "frame_index": 8,
+    "apply_once_per_playback": true,
+    "exclude_formation_and_recovery": true,
+    "center_damaged": false,
+    "note": "Use game collision on the single impact event. Do not derive damage from sprite alpha or apply repeated damage throughout recovery."
+  },
+  "pivot_px": [
+    210,
+    430
+  ],
+  "pivot_normalized": [
+    0.205078,
+    0.559896
+  ],
+  "footprint_guide": {
+    "type": "projected_cone",
+    "origin_px": [
+      210,
+      430
+    ],
+    "forward": "right",
+    "polygon_px": [
+      [
+        210,
+        430
+      ],
+      [
+        626,
+        206
+      ],
+      [
+        704,
+        290
+      ],
+      [
+        742,
+        425
+      ],
+      [
+        716,
+        539
+      ],
+      [
+        629,
+        604
+      ]
+    ],
+    "approximate": true,
+    "world_design_dimensions": {
+      "range_m": 11,
+      "angle_deg": 105
+    },
+    "world_dimensions_status": "Proposed game-design footprint; not engine validated.",
+    "polygon_normalized": [
+      [
+        0.205078,
+        0.559896
+      ],
+      [
+        0.611328,
+        0.268229
+      ],
+      [
+        0.6875,
+        0.377604
+      ],
+      [
+        0.724609,
+        0.553385
+      ],
+      [
+        0.699219,
+        0.701823
+      ],
+      [
+        0.614258,
+        0.786458
+      ]
+    ]
+  }
+}

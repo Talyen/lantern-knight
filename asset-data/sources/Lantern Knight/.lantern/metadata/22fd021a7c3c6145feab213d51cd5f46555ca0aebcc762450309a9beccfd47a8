@@ -1,0 +1,64 @@
+LANTERN / CONTAINERS 01 / CLEAN INK REBUILD
+
+Eight illustrated containers, each closed/open/broken. New masters replace the
+original blockout art; originals and the hero reference remain unchanged.
+
+Review: proof/Before_After_All_Eight.png; proof/All_Container_States.png;
+proof/Three_Opening_Clips.mp4; proof/QA_integrity.json.
+
+24 transparent RGBA stills in png/. Three original opening clips in animation/:
+pilgrim chest, shrine reliquary, iron lockbox. Each is 24 frames, 24fps, 1 second,
+non-looping. Review films loop forward/back only for inspection. Closing can
+reuse the exported frames in reverse. Game logic owns event timing.
+
+Registered canvas 1024 square; common ground root [512,802]; source density
+440px/m. Exact orthographic projection35.2643897-degree elevation45-degree
+azimuth. Box wall/rim faces and lids are world-space source meshes: upright
+walls, curved pilgrim lid, pitched shrine roof, flat hinged lids. Barrel and
+urn use removable covers resting beside them when open. Hopper tapers at foot.
+
+source/masters/ contains untouched new generated images; source/prompts/ records
+exact built-in image_gen prompts. layers/ stores separated components with
+original generated alpha. source/build_containers.py and illustration_engine.py
+are editable deterministic source; source/registration.json and
+source/clipping_meshes.json describe placement and derived fragmentation.
+Material-specific underside artwork is separately authored. No animation frame
+was independently regenerated. No alpha threshold, grain or noise filters.
+
+Terminal damage follows construction: missing horizontal chest plank, lost
+barrel staves, curved ceramic urn fracture, cracked ivory shrine inset, torn
+toolbox corner, split crate brace, torn hopper slat and buckled metal lockbox
+corner. Source fragments and authored raw-material edge faces are editable.
+
+Generated body volumes are fixed-view illustrations. Their face meshes and
+anchors use the exact camera matrix, but painted interior recesses and curved
+vessels are artistic fixed-view material imagery, not fully calibrated or
+relightable3D surfaces. Source lighting follows moving lid surfaces. Runtime
+collision and new bounds require engine-side review. No engine import or
+performance claim is made.
+
+Migration: same eight asset IDs, three state names, original clip IDs, canvas
+and root. Old SVG source is superseded by the new master/layer/mesh/Python source.
+Independent motion audit is separate from automated endpoint/bounds checks.
+
+Rebuild: python source/build_containers.py; python source/package_proof.py.
+Requires Python3, Pillow, NumPy and ffmpeg for review movies.
+
+R02A SOURCE-PORTABILITY REPAIR (6 October 2026)
+Only source usability/documentation changed. Every previously delivered artwork,
+master, still, frame, layer, atlas and review image/movie is byte-identical to r02.
+The eight images in source/historical_before/ are unchanged original comparison
+inputs, not additional designs or runtime assets. They make package_proof.py
+self-contained. No old workspace or generated-image folder is required.
+
+Rebuild a disposable extracted copy; the builders overwrite derived outputs and
+some manifest review labels. From this pack root run:
+  python source/build_containers.py --stills-only
+  python source/package_proof.py
+Omit --stills-only to rebuild the full existing animation set. Python, Pillow and
+NumPy are required; review movies need FFmpeg with libx264. Pillow >=10.1 is
+recommended for size-aware font fallback. Font labels prefer installed DejaVu
+Sans; set LANTERN_FONT_PATH to any suitable font file, or 'default' for Pillow's
+bundled font. Fallback typography can differ; source art is unaffected.
+See SOURCE_PORTABILITY.json for the bounded replay and byte-preservation scope.
+No new engine/runtime, collision or complete cross-platform certification.

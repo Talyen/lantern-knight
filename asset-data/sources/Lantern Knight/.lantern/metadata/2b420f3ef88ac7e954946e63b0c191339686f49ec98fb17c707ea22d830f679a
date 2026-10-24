@@ -1,0 +1,48 @@
+{
+  "actor": "Mossfang Scavenger",
+  "identity_id": "GB01",
+  "new_headings": [
+    "DL",
+    "UL",
+    "UR"
+  ],
+  "baseline_DR_dependency": {
+    "archive": "mossfang_scavenger_runtime.zip",
+    "PNG_SHA256": {
+      "move_00.png": "4206575fd2eb303b1664a3e59bd349bc52e22e6802bff60bb36cb5b8563dd8da",
+      "move_01.png": "f64d551f180f7285efba0dbb80f1d2b9c74fa1fc8d2e05759935d71164c82674",
+      "move_02.png": "b377a8f1f5dcb82629feb003ccac0b629f0f73b2ba903b4cffba265bbc8a4ea6",
+      "move_03.png": "c09abdac5f61cfebde8fe6de6d4176367008c88e102a8506078b6f2c81dfd714",
+      "move_04.png": "8031384d7e6cc83aa843e5a60dce95cd5a0c1136d2c10678e2377a23e384ef66",
+      "move_05.png": "aae2691e129452e8e00aa2dcc8f10204c2e9ef532b535a6a2d24080ed66c14e1",
+      "move_atlas.png": "c5139c681b981536aa015482e00c880ec84e4bd5e8cd9eb4115f90d2e106b292",
+      "attack_00.png": "12df1b7e3bf0db1086230855f4edd5d1830c1c8faa400025ca6deca739afcc2b",
+      "attack_01.png": "d93d210c31c146731bf6f1a8169e502d9398cd9a62d302167e163304aee226f7",
+      "attack_02.png": "6a74e289d1188e5516d03c6751162bb48281cc44d916f81ab0f0c3464ce77d57",
+      "attack_03.png": "227fd15d82ad8e3ca7fa93d7f95c02fc6dec24c31c911e439fbace409867700a",
+      "attack_04.png": "dfc48ef29ace605ea37822679b655a6237ac241ff6a03bdadd0e427e25e9f5a1",
+      "attack_05.png": "e174092862de7b00f9962d89fa65a3e03d7e4135b8bc61915be6c37b813404a4",
+      "attack_atlas.png": "5cb578cab5123e39eae8d5d999189c677c6945a023bc9ab7e1f7f59c352bfee3"
+    },
+    "purpose": "DR unchanged; included in source only for reproducible four-way review"
+  },
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_PPU": 300,
+  "camera": "35.2643897 degree orthographic gameplay visual intent, not calibrated 3D",
+  "mirroring": "No mirrored drawings used; all directions independently drawn",
+  "world_motion": "Separate actor world motion. Sprite registration offsets baked once.",
+  "native_drawings": 36,
+  "clips_per_new_heading": [
+    "move",
+    "attack"
+  ],
+  "visual_attack_event_frame_zero_based": 3,
+  "limits": "Rear clothing is newly authored extrapolation of approved front identity. No engine testing or real-time playback claim."
+}

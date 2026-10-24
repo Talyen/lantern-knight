@@ -1,0 +1,21 @@
+{
+  "frame_count": 19,
+  "unique_file_hashes": 19,
+  "sum_hold_ticks_60hz": 96,
+  "cycle_seconds": 1.6,
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_px_top_left": [
+    768,
+    892
+  ],
+  "uniform_scale_all_sources": 0.4300847457627119,
+  "no_tweening_or_blending": true,
+  "source_to_import_registration": "One common uniform scale plus whole-drawing integer translations based on feet only. No bounds/head lock or part transforms.",
+  "r0_frame_matches_shared_source": true,
+  "generation_backend_verified": false,
+  "all_frame_sizes_correct": true,
+  "max_alpha_on_canvas_border": 0
+}

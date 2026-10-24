@@ -1,0 +1,45 @@
+GRAVEYARD WHOLE-SCENE SOURCE AND PROVENANCE KIT
+
+This compact kit intentionally contains no full upscaled images, large comparisons, previews, runtime/model binaries or intermediate tiles. The untouched native_floor.png is 1536x1024 RGB. Its generation prompt, exact locked style block, metadata and reference roles are included. The requested image-model name was supplied in the prompt; the actual generation backend was not exposed. Reference images are described but not duplicated here.
+
+COMPLETED TEST
+Official Real-ESRGAN x4plus anime 6B produced a 6144x4096 AI-upscaled derivative; a 3072x2048 option was derived using Pillow Lanczos. These are upscales, not native high-resolution generations or recovered ground truth. Full results are delivered separately.
+One continuous source was processed in 70 computational batches, with 160px cores, 32px context and an extra 16px reflected processing margin. Each batch ran in a fresh process; context was discarded with no blend, preserving single-source geometry. No artwork was artistically stitched.
+Total wall time: 193.1008 seconds. Maximum child RSS: 3316116 KiB. Initial larger/long-lived-model attempts were killed; successful process isolation is documented.
+Thread setting: 2 threads requested after loading the model, but NCNN reported Winograd convolutions retained the load-time 4-thread setting. OMP_NUM_THREADS=2 was also set. The archived scripts preserve this tested behavior.
+Seam checks against independent untiled reference crops: A mean absolute RGB difference 0.0178788/255, max 5/255; B mean 0.0154645/255, max 2/255. No visible seams were observed. AI changes small contours/texture and flattens fills. Raised rocky edging is already present in the native source.
+
+TESTED WORKSPACE RUNTIME
+Linux x86_64, Python 3.12.14, NCNN 1.0.20250916 CPU, NumPy 2.3.5, Pillow 12.3.0. No visible GPU. NCNN wheel download was approximately 6.1 MB. Only NCNN was installed; NumPy and Pillow were already available. The small wrapper does not use OpenCV or NCNN model-zoo helpers.
+
+EXACT COMMANDS EXECUTED IN THE WORKSPACE
+Working folder: /workspace/shared/lantern_free_upscale_tests_oct09
+python -m pip install --target /workspace/shared/lantern_free_upscale_tests_oct09/runtime --no-deps ncnn==1.0.20250916
+curl -fL --max-time 90 -o provenance/official_models_bundle.zip https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+unzip -o provenance/official_models_bundle.zip 'models/realesrgan-x4plus-anime.*'
+python run_isolated.py /workspace/shared/lantern_whole_graveyard_proof_oct09/native_floor.png /workspace/shared/lantern_whole_graveyard_proof_oct09/ai_upscale
+PYTHONPATH=$PWD/runtime python verify_whole.py
+The final verification command used the script's default workspace source folder. Logs, metrics, output hashes and source/model hashes are included. The large original archive contains additional models, but only anime 6B was extracted and used.
+
+PORTABLE REPRODUCTION GUIDANCE (NOT EXECUTED FROM THIS EXTRACTED KIT)
+The source processing script accepts source and output paths. The verification script accepts the parent folder containing native_floor.png and ai_upscale. These commands adapt the tested layout; compatibility on other operating systems, Python versions or architectures has not been tested. Use a fresh Python environment with NumPy and Pillow installed. From this extracted kit's root, on a compatible Linux/Python installation:
+python -m pip install --target inference/runtime --no-deps ncnn==1.0.20250916
+curl -fL -o official_models_bundle.zip https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+unzip official_models_bundle.zip 'models/realesrgan-x4plus-anime.*' -d inference
+python inference/run_isolated.py "$PWD/native_floor.png" "$PWD/ai_upscale"
+PYTHONPATH="$PWD/inference/runtime" python inference/verify_whole.py "$PWD"
+If NumPy or Pillow is absent, install those dependencies in the chosen environment first. Existing matching tile outputs can be resumed; a source/config hash guards accidental cross-source reuse. Computation requires several GB of free memory per process. The output folder must be writable.
+
+OFFICIAL SOURCES AND LICENSES
+Model documentation: https://github.com/xinntao/Real-ESRGAN/blob/master/docs/anime_model.md
+Official model archive: https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+Real-ESRGAN license: https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE
+NCNN: https://github.com/Tencent/ncnn
+NCNN package: https://pypi.org/project/ncnn/1.0.20250916/
+BSD-3-Clause notices and bundled dependency notices are included. Model .bin SHA256: fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc
+Model .param SHA256: 2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4
+Official archive SHA256: e5aa6eb131234b87c0c51f82b89390f5e3e642b7b70f2b9bbe95b6a285a40c96
+No paid upscaling API, Photoshop or third-party image upload was used.
+
+HASH MANIFESTS
+kit_manifest.json hashes the files actually in this kit. metrics/file_manifest.json describes the separately delivered full outputs and checks; those listed images are intentionally not bundled here.

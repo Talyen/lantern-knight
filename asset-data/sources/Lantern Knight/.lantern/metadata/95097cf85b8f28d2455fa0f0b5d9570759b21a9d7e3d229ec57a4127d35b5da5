@@ -1,0 +1,234 @@
+{
+  "name": "move",
+  "loop": true,
+  "drawing_count": 6,
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_top_left_px": [
+    320,
+    576
+  ],
+  "pivot_normalized_bottom_left": [
+    0.4166666666666667,
+    0.09999999999999998
+  ],
+  "atlas": "atlases/move_atlas.png",
+  "atlas_size_px": [
+    2304,
+    1280
+  ],
+  "source": "sources/move_source.png",
+  "source_sheet_scale": 0.9516129032258065,
+  "source_sha256": "027467f46144882760d0188d40478bd0c1a422fab403e58555c1e18b0763787e",
+  "fps_timebase": 60,
+  "frames": [
+    {
+      "cel": 1,
+      "file": "frames/move/move_01.png",
+      "hold_ticks_60hz": 8,
+      "start_tick": 0,
+      "phase": "left_contact",
+      "atlas_rect_xywh": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        68,
+        7,
+        540,
+        508
+      ],
+      "source_ground_anchor_xy": [
+        303,
+        502
+      ],
+      "registered_xy": [
+        96,
+        105
+      ],
+      "alpha_bbox_gt127": [
+        99,
+        108,
+        541,
+        578
+      ],
+      "sha256": "2dc96197c18f49703a424d2ffb66c13f41ac3ad71bc37934eccde05d1a4cd859"
+    },
+    {
+      "cel": 2,
+      "file": "frames/move/move_02.png",
+      "hold_ticks_60hz": 7,
+      "start_tick": 8,
+      "phase": "left_support",
+      "atlas_rect_xywh": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        584,
+        6,
+        1010,
+        510
+      ],
+      "source_ground_anchor_xy": [
+        797,
+        502
+      ],
+      "registered_xy": [
+        117,
+        104
+      ],
+      "alpha_bbox_gt127": [
+        121,
+        107,
+        519,
+        579
+      ],
+      "sha256": "ba297c6900517c0718c22f448bad582873bbbbc0938b53b6db72ea00dd4765ef"
+    },
+    {
+      "cel": 3,
+      "file": "frames/move/move_03.png",
+      "hold_ticks_60hz": 7,
+      "start_tick": 15,
+      "phase": "right_pass",
+      "atlas_rect_xywh": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1041,
+        5,
+        1495,
+        511
+      ],
+      "source_ground_anchor_xy": [
+        1279,
+        502
+      ],
+      "registered_xy": [
+        94,
+        103
+      ],
+      "alpha_bbox_gt127": [
+        98,
+        107,
+        523,
+        581
+      ],
+      "sha256": "d44cec401129bca1ae89b4c332caa4914158ee723aa3b67ab02af5bf7f71667e"
+    },
+    {
+      "cel": 4,
+      "file": "frames/move/move_04.png",
+      "hold_ticks_60hz": 8,
+      "start_tick": 22,
+      "phase": "right_contact",
+      "atlas_rect_xywh": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        77,
+        515,
+        555,
+        993
+      ],
+      "source_ground_anchor_xy": [
+        303,
+        1000
+      ],
+      "registered_xy": [
+        105,
+        114
+      ],
+      "alpha_bbox_gt127": [
+        108,
+        119,
+        556,
+        566
+      ],
+      "sha256": "803bfc8fc4518e2ee9351c9af8986e7eb9c3dc3e5d3fa6e3f8cdc4c9737621f6"
+    },
+    {
+      "cel": 5,
+      "file": "frames/move/move_05.png",
+      "hold_ticks_60hz": 7,
+      "start_tick": 30,
+      "phase": "right_support",
+      "atlas_rect_xywh": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        580,
+        513,
+        1018,
+        1006
+      ],
+      "source_ground_anchor_xy": [
+        797,
+        1000
+      ],
+      "registered_xy": [
+        114,
+        113
+      ],
+      "alpha_bbox_gt127": [
+        118,
+        118,
+        528,
+        578
+      ],
+      "sha256": "372bd48a9582a2f511d459a6edbbf4709660f15850638bc6519a6854f5cba7c7"
+    },
+    {
+      "cel": 6,
+      "file": "frames/move/move_06.png",
+      "hold_ticks_60hz": 7,
+      "start_tick": 37,
+      "phase": "left_pass",
+      "atlas_rect_xywh": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1040,
+        514,
+        1517,
+        1013
+      ],
+      "source_ground_anchor_xy": [
+        1279,
+        1000
+      ],
+      "registered_xy": [
+        93,
+        114
+      ],
+      "alpha_bbox_gt127": [
+        97,
+        118,
+        543,
+        586
+      ],
+      "sha256": "7983eb6f966d56d87519e4265f5834cf4a2fac09da53f6d1d03575d892b4d06f"
+    }
+  ],
+  "duration_ticks_60hz": 44,
+  "terminal_hold": false
+}

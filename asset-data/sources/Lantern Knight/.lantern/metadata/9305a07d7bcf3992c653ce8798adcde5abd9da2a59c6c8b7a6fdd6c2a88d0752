@@ -1,0 +1,33 @@
+{
+  "theme": "forest_gathering",
+  "variant": "C",
+  "title": "Rocky heath gathering",
+  "generation_method": "built-in image_gen fresh generation using original hero as style reference",
+  "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-9ec3c887-cad6-495d-9d9d-bb0fe2559f81.png",
+  "native_path": "/workspace/shared/lantern_cultist_samples_oct09/forest_gathering/C/native.png",
+  "prompt_path": "/workspace/shared/lantern_cultist_samples_oct09/forest_gathering/C/exact_prompt.txt",
+  "reference_path": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "camera_precision": "Prompt requested; exact numerical projection cannot be certified from generated image.",
+  "hypothetical_hero_height_px": 160,
+  "hero_baked_in": false,
+  "npcs_or_enemies_baked_in": false,
+  "water_present": false,
+  "native_unmodified": true,
+  "upscaled": false,
+  "edits_used": false,
+  "generation_attempts": 2,
+  "selected_attempt": 2,
+  "sha256": "e934f257928102576c6cce25ff98c1be4708228d3ba1c8a1883016e4a65b485a",
+  "qa_notes": "Slate and muted heather palette, open routes among outcrops. Heather and earth carry more small-scale detail than A/B; strongest geographical contrast.",
+  "retry_reason": "Initial generation had busier ground and foliage; one fresh generation simplified ground and grouped foliage."
+}

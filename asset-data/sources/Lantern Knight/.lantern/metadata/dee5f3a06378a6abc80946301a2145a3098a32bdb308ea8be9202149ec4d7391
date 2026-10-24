@@ -1,0 +1,31 @@
+{
+  "asset": "keepers_glade_B",
+  "packaged_on_utc": "2026-10-09",
+  "native_bytes_preserved": true,
+  "native_sha256": "f052cb0fc316f37ec3d77fd019967cecf0d35c6ec039b70ae89a2d25924b607d",
+  "exact_fullscene_prompt_available": true,
+  "exact_fullscene_prompt_file": "exact_prompt.txt",
+  "exact_fullscene_prompt_sha256": "ee0b20caf39a92e1ead8629f893bad89f4bcc186757bfaf55df69efd6703a2ac",
+  "original_generation_metadata_file": "metadata.json",
+  "original_generation_metadata_sha256": "3fe09fa17853371f9d6e63e0e82414bda4e88c12560842ad605963595d200e63",
+  "review_scale": {
+    "source_hero_equivalent_px": 64,
+    "raw4x_hero_equivalent_px": 256,
+    "scene_display_scale": 2.5,
+    "review_hero_height_px": 160,
+    "display_scene_dimensions": [
+      3840,
+      2560
+    ],
+    "viewport_dimensions": [
+      1536,
+      1024
+    ]
+  },
+  "upscale_method": "Official Real-ESRGAN x4plus anime 6B, NCNN CPU; native model 4x. The 2x deliverable is Lanczos reduction of the inferred 4x result.",
+  "processing_after_parent_review": true,
+  "geometry_validated": false,
+  "engine_integrated": false,
+  "layered_source_available": false,
+  "collision_or_occlusion_masks_included": false
+}

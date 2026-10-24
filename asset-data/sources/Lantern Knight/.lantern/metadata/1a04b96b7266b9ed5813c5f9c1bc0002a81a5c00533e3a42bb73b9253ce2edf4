@@ -1,0 +1,121 @@
+{
+  "asset": "tied_grain_sack",
+  "generated_native_sheet_resolution": [
+    1536,
+    1024
+  ],
+  "original_generation_grid": [
+    4,
+    2
+  ],
+  "original_nominal_cell_resolution": [
+    384,
+    512
+  ],
+  "selected_source_sheet_resolution": [
+    2048,
+    1152
+  ],
+  "selected_source_sheet_cell_resolution": [
+    512,
+    576
+  ],
+  "selected_source_sheet_note": "Native-size illustrated cels extracted, cleaned and registered onto a larger transparent canvas. No illustration upscaling. Unused alternate cels omitted.",
+  "source": {
+    "drive_id": "1epfTKH3BDFwwP_AsNYwr6cuOM8dlhHjf",
+    "approved_original_unchanged": true
+  },
+  "method": "Built-in image generation with approved original as edit/reference input, then lossless alpha cleanup, connected-component extraction, registration and atlas packing.",
+  "cels": [
+    {
+      "cel": 0,
+      "runtime_frame": 2,
+      "native_ink_bounds_width_px": 368,
+      "native_ink_bounds_height_px": 350,
+      "sheet_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      }
+    },
+    {
+      "cel": 1,
+      "runtime_frame": 3,
+      "native_ink_bounds_width_px": 390,
+      "native_ink_bounds_height_px": 389,
+      "sheet_rect": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      }
+    },
+    {
+      "cel": 2,
+      "runtime_frame": 4,
+      "native_ink_bounds_width_px": 389,
+      "native_ink_bounds_height_px": 381,
+      "sheet_rect": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      }
+    },
+    {
+      "cel": 3,
+      "runtime_frame": 5,
+      "native_ink_bounds_width_px": 373,
+      "native_ink_bounds_height_px": 329,
+      "sheet_rect": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      }
+    },
+    {
+      "cel": 4,
+      "runtime_frame": 6,
+      "native_ink_bounds_width_px": 373,
+      "native_ink_bounds_height_px": 260,
+      "sheet_rect": {
+        "x": 0,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      }
+    },
+    {
+      "cel": 5,
+      "runtime_frame": 7,
+      "native_ink_bounds_width_px": 374,
+      "native_ink_bounds_height_px": 266,
+      "sheet_rect": {
+        "x": 512,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      }
+    }
+  ],
+  "runtime": {
+    "frames": 10,
+    "canvas": [
+      512,
+      576
+    ],
+    "duration_ms": 850,
+    "event": {
+      "name": "loot_release",
+      "frame": 4,
+      "time_ms": 260
+    },
+    "pivot_px_top_left": [
+      256,
+      450
+    ]
+  },
+  "reward_policy": "No reward sprites or grain are included. Game handles independent drops."
+}

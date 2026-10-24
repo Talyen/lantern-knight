@@ -1,0 +1,9 @@
+standing_reach_DR corrected lantern support v02
+
+Native generated artwork, visually reviewed for lantern support; engine integration is not certified.
+All lantern-carrying poses show LEFT fingers gripping the handle. Sword remains RIGHT.
+No resampling, upscaling, mirroring, mesh warp, optical flow or programmatic art-part replacement.
+Fixed output cells and pivots are metadata; they do not certify engine root motion, IK, collisions, target contact or camera metrics.
+PPU is a clip-wide approximate starting value adjusted for native drawing density; verify relative world size in engine.
+Interaction is a brief closed-grip/knuckle reach. It does not depict free-finger grasping or pulling a handle.
+First/last are similar independently drawn ready poses, not a certified pixel-perfect shared idle seam.

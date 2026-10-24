@@ -1,0 +1,107 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "central_eclipse_hall",
+      "display_crop_box": [
+        1138,
+        712,
+        2674,
+        1736
+      ],
+      "source_crop_box": [
+        455.2,
+        284.8,
+        1069.6,
+        694.4
+      ],
+      "display_hero_foot": [
+        1862,
+        1275
+      ],
+      "source_hero_foot": [
+        744.8,
+        510.0
+      ]
+    },
+    {
+      "name": "upper_hall_crossing",
+      "display_crop_box": [
+        1138,
+        125,
+        2674,
+        1149
+      ],
+      "source_crop_box": [
+        455.2,
+        50.0,
+        1069.6,
+        459.6
+      ],
+      "display_hero_foot": [
+        1850,
+        625
+      ],
+      "source_hero_foot": [
+        740.0,
+        250.0
+      ]
+    },
+    {
+      "name": "lower_celestial_passage",
+      "display_crop_box": [
+        1000,
+        1450,
+        2536,
+        2474
+      ],
+      "source_crop_box": [
+        400.0,
+        580.0,
+        1014.4,
+        989.6
+      ],
+      "display_hero_foot": [
+        1775,
+        1975
+      ],
+      "source_hero_foot": [
+        710.0,
+        790.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation.",
+  "native_sha256": "62294e05b638a476e19d36f5704794869338f20312ce6d6f29571b92b2278b37",
+  "raw_ai_sha256": "fcb1763ab02263c06c8dfab06eca53498cb9722f2fb782d7fe82d11e6fce54e3",
+  "hero_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "hero_alpha_crop_threshold": 30,
+  "hero_original_alpha_crop_bbox": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_resized_dimensions": [
+    68,
+    160
+  ],
+  "fullscene_exact_prompt_available": false
+}

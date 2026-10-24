@@ -1,0 +1,50 @@
+IMPORT REVISION v02 — 7 OCTOBER 2026
+
+CRAWLER: current move PPU256 with native pivot(448,488); defeat PPU256 with native pivot(384,628). Both visual scales(1,1,1). Defeat visual child sprite-local offset(-0.4140625,-0.55078125,0) camera-facing units at proposed base256, equivalent screen pixel translation(-106,+141), applies once to ALL6 frames. Move position remains(0,0,0). Never add another pivot/registration correction. MONK DEATH: PPU256 and scale1 unchanged; keep original native pivot and position. Existing optional_registered assets have+88px lower-row offset already baked; never double it.
+
+This import contract supersedes older uncalibrated import notes below; native canvas, pivot, drawings, source sheets, holds, atlases and encoded previews remain unchanged. New comparison JPG documents the correction; old MP4s show prior native placement and are labelled historical by this notice. Offset axes are camera-facing sprite-local X=screen right,Y=screen up,Z=0, measured in world-size units on that sprite plane. They are NOT world XZ or actor-root translation. Map onto the renderer screen-right/screen-up basis if its local axes differ. Apply only to the visual child, never actor root, collision body or gameplay motion. Source/export regeneration must reapply metadata/import_contract_v02.json to regenerated manifests; the legacy source builders alone emit the original v01 metadata. Do not treat legacy script output as v02 without this step. 256 PPU is a proposed reference convention, not permission to change existing actor world size. If approved current move/base PPU is B, retain B for move; Monk cast PPU=B/1.22 and offset(11/B,0,0); Crawler defeat PPU=B and offset(-106/B,-141/B,0) in declared sprite-local axes. Monk death stays at B with unchanged position. No additional per-frame resizing, actor scaling or root fitting. No seamless-transition or engine-validation claim.
+
+LANTERN — ENEMY DEFEAT STATES 01
+Bellbound Monk CT02 + Shroud Crawler ZB04. 7 October 2026.
+
+TWO CLEAR END STATES
+Bellbound Monk: weighted last toll, knees/robe buckle, then the figure vanishes into EMPTY ochre cloth. One blank brass mask and one bell remain visible. The loss of body/hands is an intentional supernatural lifecycle change.
+Shroud Crawler: hands lose purchase, shoulders collapse, the closed charcoal/ivory cocoon deflates into an inert bundled husk. Face disappears into its hood; two limp connected arms remain. No exposed lower-body stump or gore.
+
+START HERE
+previews/bellbound_defeat_optional_registered_oneshot_60hz.mp4 is the recommended Monk motion review. It uses the optional common lower-row registration described below.
+previews/crawler_defeat_oneshot_60hz.mp4 is the Crawler motion review.
+previews/enemy_defeat_comparison_oneshot_60hz.mp4 shows the RAW fixed-grid exports side by side, so it also exposes their source placement drift.
+previews/bellbound_defeat_raw_vs_registered_boundary.jpg compares raw and optional registered drawings 3,4,6 with the same fixed origin marker.
+
+TIMING
+Each clip has SIX native drawings. 60 Hz is the exposure timing, not 60 unique drawings per second.
+Monk drawings 1–5 hold 8,10,8,7,16 ticks; drawing 6 begins at tick 49 (0.816667 s) and holds indefinitely.
+Crawler drawings 1–5 hold 7,10,9,11,16 ticks; drawing 6 begins at tick 53 (0.883333 s) and holds indefinitely.
+All previews play ONCE, hold their final image 3 seconds, then end. Runtime metadata specifies indefinite hold; never reset to drawing 1. Half-speed files double the nonterminal drawing holds while remaining 60 fps. No tweening, morphing or optical-flow frames.
+Event timing is advisory only. No audio, damage, hitbox, collider, despawn, loot or state-machine behavior has been implemented.
+
+NATIVE EXPORTS AND FIXED ORIGIN
+frames/: 12 transparent 768×768 PNGs, with all source pixels above alpha 16 preserved and their RGB unchanged.
+atlases/: two 3×2 native atlases, each 2304×1536.
+All files in this pack use the same 768×768 canvas and proposed import pivot (384, 628) from top-left; normalized bottom-left (0.5, 0.1822916667).
+Each raw source 512×512 cell is translated by 128 px padding on each axis; ownership masks retain complete figures that cross nominal cell boundaries. No silhouette rescaling, per-frame centering, warping, rotation or mirroring. Minimum clear raw margins: 73 px Monk, 87 px Crawler.
+The proposed pivot is not an exact anatomical/root-motion solution. This pack retains generated placement differences and is NOT calibrated as a seamless transition with earlier locomotion/attack clips. Compare global import placement and pixels-per-unit in engine before combining them; do not normalize individual frames to their bounds.
+
+OPTIONAL MONK ROW REGISTRATION: CHOOSE ONE IMPORT ROUTE
+Raw source-row 2 places the cloth/bell ground contacts visibly above the preceding row's feet. One common integer offset (0, +88) for drawings 4–6 brings the pile down near the same contact zone. Drawings 1–3 stay unchanged. This is an approximate traditional registration suggestion, not mathematically proven ground truth; no further per-pose correction is applied.
+Route A: import optional_registered/bellbound_defeat/ PNGs or its atlas. The translation is ALREADY BAKED. Apply ZERO extra runtime offset.
+Route B: import RAW frames/ or atlases/ and, only if desired, apply offsets [(0,0),(0,0),(0,0),(0,88),(0,88),(0,88)] at runtime.
+NEVER apply Route B offsets to Route A assets. The variants are mutually exclusive. Raw native exports remain source-authoritative and unchanged. metadata/bellbound_defeat_optional_registration.json records this contract explicitly.
+
+VISUAL LIMITS
+One down-right facing only. The intended orthographic camera is 35.2643897° elevation/world 45° azimuth; the generated elevated view was visually reviewed, not mathematically certified.
+These are clean, expressive native animation tests, not an approved final rig. Minor cloth volume, hand/finger simplification and prop-angle differences remain. The Monk deliberately becomes empty cloth; the Crawler deliberately remains a closed low husk. Terminal frames must not be treated as accidental missing anatomy.
+
+GENERATION AND SOURCE PACK
+Built-in imagegen. Each character received one fresh six-drawing sheet plus exactly one fresh retry. The first sheets had grainier/heavily hatched surfaces and are rejected source history only. The clean retries used original canonical and previously approved clean native animation sheets explicitly as identity/style references. They are new drawings, not generative edits or upscales.
+Every prompt includes Sunburst2.5. This is requested prompt wording; the tool does not expose proof of backend model choice.
+source/: untouched native sheets, exact prompts, copied identity/style references and deterministic build/verification helpers. Raw source image bytes are preserved.
+Alpha-only cleanup maps ≤16 to 0 and ≥250 to 255, retaining intermediate edge alpha. Runtime visible RGB equals the native source exactly. All above-threshold source pixels, including tiny edge components, survive extraction.
+qa/: extraction evidence, visual review and encoded timing checks. Contacts/videos composite art on review backgrounds only; PNG sprites and atlases retain transparency.
+Runtime and source ZIPs are separate and each below 19 MB. No repository, user computer or external artist was used, and no upload is part of this pack.

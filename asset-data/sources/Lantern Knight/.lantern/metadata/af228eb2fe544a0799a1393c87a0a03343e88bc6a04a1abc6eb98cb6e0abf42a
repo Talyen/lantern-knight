@@ -1,0 +1,145 @@
+{
+  "direction": "U",
+  "frames": [
+    {
+      "index": 0,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 1,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 2,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 3,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 4,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 5,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 6,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    },
+    {
+      "index": 7,
+      "dimensions": [
+        768,
+        768
+      ],
+      "exact_expected_native_pixels": true,
+      "border_alpha_max": 0
+    }
+  ],
+  "phase_ticks": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35
+  ],
+  "hold_total": 40,
+  "source_hash_ok": true,
+  "Lantern_run_U_native8_source_companion_v01.zip": {
+    "zip_integrity_bad_member": null,
+    "files": [
+      "source/U_native_fresh_v04.png",
+      "source/prompt_fresh_v04.txt",
+      "source/rebuild.py",
+      "manifest.json",
+      "README.txt",
+      "metadata/extraction_validation.json",
+      "metadata/visual_review.json",
+      "source/reference/canonical.png",
+      "source/reference/current_UR_style.png",
+      "source/reference/guide/U_joint_proof.png",
+      "source/reference/guide/U_labeled_contact.png",
+      "source/reference/guide/U_lowcarry_guide_sheet.png",
+      "source/reference/guide/tick_00.json",
+      "source/reference/guide/tick_00.png",
+      "source/reference/guide/tick_05.json",
+      "source/reference/guide/tick_05.png",
+      "source/reference/guide/tick_10.json",
+      "source/reference/guide/tick_10.png",
+      "source/reference/guide/tick_15.json",
+      "source/reference/guide/tick_15.png",
+      "source/reference/guide/tick_20.json",
+      "source/reference/guide/tick_20.png",
+      "source/reference/guide/tick_25.json",
+      "source/reference/guide/tick_25.png",
+      "source/reference/guide/tick_30.json",
+      "source/reference/guide/tick_30.png",
+      "source/reference/guide/tick_35.json",
+      "source/reference/guide/tick_35.png",
+      "metadata/rebuild_validation.json"
+    ]
+  },
+  "Lantern_run_U_native8_runtime_test_v01.zip": {
+    "zip_integrity_bad_member": null,
+    "files": [
+      "manifest.json",
+      "README.txt",
+      "native_sheet.png",
+      "frames/run_00.png",
+      "frames/run_01.png",
+      "frames/run_02.png",
+      "frames/run_03.png",
+      "frames/run_04.png",
+      "frames/run_05.png",
+      "frames/run_06.png",
+      "frames/run_07.png",
+      "preview/U_run_1x.mp4",
+      "preview/U_run_half_speed.mp4",
+      "preview/contact_sheet.png",
+      "metadata/extraction_validation.json",
+      "metadata/visual_review.json",
+      "metadata/rebuild_validation.json"
+    ]
+  }
+}

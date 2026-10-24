@@ -1,0 +1,209 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "enemy_id": "G6",
+  "enemy_name": "Ribcage Harpist",
+  "clip": "spawn",
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "pivot_top_left_px": [
+    512,
+    912
+  ],
+  "pivot_unity_normalized": [
+    0.5,
+    0.109375
+  ],
+  "facing": "left",
+  "body_height_reference_px": 800,
+  "scale_per_source_pixel": 1.4492753623188406,
+  "atlas": "Ribcage_Harpist_spawn_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frame_count": 6,
+  "duration_ms": 1000,
+  "loop": false,
+  "hold_last": false,
+  "interpolation": "stepped unique drawn cels; no crossfade",
+  "root_motion": "none",
+  "events": [],
+  "frames": [
+    {
+      "index": 0,
+      "file": "spawn_000.png",
+      "duration_ms": 160,
+      "start_ms": 0,
+      "phase": "huddled",
+      "source_bbox_px": [
+        79,
+        121,
+        507,
+        444
+      ],
+      "source_anchor_px": [
+        320.504,
+        444
+      ],
+      "bounds_px": [
+        163,
+        445,
+        783,
+        913
+      ],
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 1,
+      "file": "spawn_001.png",
+      "duration_ms": 160,
+      "start_ms": 160,
+      "phase": "kneel",
+      "source_bbox_px": [
+        607,
+        11,
+        971,
+        447
+      ],
+      "source_anchor_px": [
+        805.504,
+        447
+      ],
+      "bounds_px": [
+        224,
+        280,
+        752,
+        912
+      ],
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 2,
+      "file": "spawn_002.png",
+      "duration_ms": 180,
+      "start_ms": 320,
+      "phase": "rise halfway",
+      "source_bbox_px": [
+        1124,
+        8,
+        1509,
+        448
+      ],
+      "source_anchor_px": [
+        1315.504,
+        448
+      ],
+      "bounds_px": [
+        234,
+        274,
+        791,
+        912
+      ],
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 3,
+      "file": "spawn_003.png",
+      "duration_ms": 160,
+      "start_ms": 500,
+      "phase": "plant feet",
+      "source_bbox_px": [
+        105,
+        463,
+        470,
+        1005
+      ],
+      "source_anchor_px": [
+        278.504,
+        1005
+      ],
+      "bounds_px": [
+        260,
+        126,
+        789,
+        912
+      ],
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 4,
+      "file": "spawn_004.png",
+      "duration_ms": 140,
+      "start_ms": 660,
+      "phase": "unfurl",
+      "source_bbox_px": [
+        648,
+        457,
+        1016,
+        1006
+      ],
+      "source_anchor_px": [
+        806.504,
+        1006
+      ],
+      "bounds_px": [
+        282,
+        116,
+        815,
+        911
+      ],
+      "atlas_rect_px": [
+        0,
+        1024,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 5,
+      "file": "spawn_005.png",
+      "duration_ms": 200,
+      "start_ms": 800,
+      "phase": "ready",
+      "source_bbox_px": [
+        1152,
+        460,
+        1494,
+        1012
+      ],
+      "source_anchor_px": [
+        1329.504,
+        1012
+      ],
+      "bounds_px": [
+        255,
+        112,
+        751,
+        912
+      ],
+      "atlas_rect_px": [
+        1024,
+        1024,
+        1024,
+        1024
+      ]
+    }
+  ]
+}

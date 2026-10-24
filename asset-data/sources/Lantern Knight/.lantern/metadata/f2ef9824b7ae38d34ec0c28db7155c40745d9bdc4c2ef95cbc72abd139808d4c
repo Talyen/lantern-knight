@@ -1,0 +1,10 @@
+Sepulcher Warden: four-direction movement and attack extension
+
+New content: DL, UL and UR movement and hammer attack. Install alongside the unchanged DR baseline to obtain four authored diagonal facings. No mirroring is used. Both hands retain one central hammer in every heading. Plain rear armor details are minimally inferred from the approved original.
+
+Every movement cycle has six drawings and48 ticks at60Hz. Each attack has six drawings and50 ticks; zero-based frame3 is the visual apex, not a damage guarantee. Canvas640x640, pivot[320,520] measured from top-left (x right,y down), estimated256 pixels per world unit. All registration is baked into PNGs; do not apply offsets again. World movement is external.
+
+Rebuild: python rebuild.py .
+Requirements: Python3, Pillow, numpy, scipy and ffmpeg. Exact original, native generations, prompts and masking/registration configuration are included. The unchanged DR runtime is included in source only for comparison previews. No network/image generation is needed to rebuild. Runtime contains only new headings.
+
+The illustrated35.2643897-degree elevation is a visual target, not calibrated3D geometry. Preview timing is encoded at60Hz; no engine integration or real-time playback claim.

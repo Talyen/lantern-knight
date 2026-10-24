@@ -1,0 +1,33 @@
+{
+  "theme": "forest_gathering",
+  "variant": "B",
+  "title": "Gnarled tree gathering",
+  "generation_method": "built-in image_gen fresh generation using original hero as style reference",
+  "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-b73a6c2f-c43b-4f0a-b3d5-5c3d9414cfee.png",
+  "native_path": "/workspace/shared/lantern_cultist_samples_oct09/forest_gathering/B/native.png",
+  "prompt_path": "/workspace/shared/lantern_cultist_samples_oct09/forest_gathering/B/exact_prompt.txt",
+  "reference_path": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "camera_precision": "Prompt requested; exact numerical projection cannot be certified from generated image.",
+  "hypothetical_hero_height_px": 160,
+  "hero_baked_in": false,
+  "npcs_or_enemies_baked_in": false,
+  "water_present": false,
+  "native_unmodified": true,
+  "upscaled": false,
+  "edits_used": false,
+  "generation_attempts": 2,
+  "selected_attempt": 2,
+  "sha256": "de08a9134949ede1ab584932c5c8fd52cd2f8422ee615cc91e8ce6ebb8b85e88",
+  "qa_notes": "Warm smoky olive palette, gnarled trunks and off-center offering slab. Broader ground masses than first attempt; some residual earth tonal variation.",
+  "retry_reason": "Initial generation had busier ground and foliage; one fresh generation simplified ground and grouped foliage."
+}

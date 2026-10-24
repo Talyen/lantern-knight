@@ -1,0 +1,7 @@
+SOURCE COMPANION — READY IDLE
+
+SOURCE_MAP.json identifies the exact 19 selected complete drawings, prompts, holds and registration used in the runtime package. All other native_attempts images are EXCLUDED trials; they are preserved as original source evidence and must not be used as animation frames.
+
+No source master is overwritten. The R0 master is native_attempts/R0_v03_native.png. The shared-state folder retains the frozen working/delivery images and contracts. references contains original identity/detail/view material. Runtime PNGs, atlas and final timing are in the separate ready-idle runtime archive.
+
+All selected drawing sources share one scale,203/472. Registration uses integer whole-image translations only; original alpha is retained. The model name is a prompt preference, not a verified backend. Source metadata paths preserve authoring provenance and are not runtime dependencies.

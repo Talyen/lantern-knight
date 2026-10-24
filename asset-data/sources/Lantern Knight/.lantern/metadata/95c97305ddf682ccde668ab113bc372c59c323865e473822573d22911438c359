@@ -1,0 +1,2 @@
+Pillow>=9
+# ffmpeg required on PATH for MP4 preview

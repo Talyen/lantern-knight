@@ -1,0 +1,18 @@
+{
+  "README.txt": "a841d3f05379a4f17a2bce2f9b5bac108c41d0c8f82bf8364c104c726bd307e7",
+  "atlas.png": "508bd09820409c93c829a5b5f1b923b00f8324c0e46da4779852e20ab8d44c0a",
+  "frames/run_L_00.png": "a6b19f210ac69d9229c82f073da6c7dacd7ad49a0aba359d837ca48643510771",
+  "frames/run_L_01.png": "9b88297f52f4063b5449bea7566c79ab6616f79c8c8d86e47560d243b0a0daaf",
+  "frames/run_L_02.png": "45a4b47ab64d0b41e9d57ef55bb04b778350a129a92641796018677cbfa49e20",
+  "frames/run_L_03.png": "de73b0be9fa55c61e7313ce84b6bda927aa8e984faf33e0345b005f9c0e607df",
+  "frames/run_L_04.png": "0cb181b351f08523ccbf8f81d57b7f901b9a9fa258ad6b712a6ffd9171764d0a",
+  "frames/run_L_05.png": "3326bbda6dadc12325a3a7cf3fd063fe07dac5e3166d532725840a8d3ca5ca7f",
+  "frames/run_L_06.png": "6838b6b9ac10ff0fa1cc72da8b14df08e8636376ef0f646c89333311f111abbb",
+  "frames/run_L_07.png": "7b156f2efb57524c7eefb6a5c5ba19bb32c10443a620fc82bed311838756c413",
+  "manifest.json": "5c7042462dd5427ed5974297cb1dec22a262fb6f47231e948cca21e1726ad2b7",
+  "native_sheet.png": "37c741fbacf788ea235054fc291e00b934d2502adab300d36ab3ac5cfab90468",
+  "preview/contact_sheet.png": "c298904fd0e65dd32788ad3c3b12ed1a27ea44d92093476dc89bfc77d029dd72",
+  "preview/run_L_half.mp4": "f3654af42fcc64be24cf935dea288ec1e972110e2cf59a4fba05c5e413d511e3",
+  "preview/run_L_normal.mp4": "7166447f874a71da705d946efd62f80f6a5276bb1ba2a88266d4e4419380f26f",
+  "validation.json": "da522bef84cf2e93b434beb69a89b702e3b365609d85adb779b8793a26ef9b3d"
+}

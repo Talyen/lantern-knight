@@ -1,0 +1,365 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Clockwork Penitent",
+  "ability": "piston_penance",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "piston_penance_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      768,
+      768
+    ],
+    "pivot_top_left_px": [
+      400,
+      697
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": [
+      245,
+      156,
+      565,
+      698
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        51,
+        10,
+        228,
+        303
+      ],
+      [
+        320,
+        16,
+        485,
+        305
+      ],
+      [
+        565,
+        18,
+        753,
+        307
+      ],
+      [
+        819,
+        9,
+        996,
+        302
+      ],
+      [
+        61,
+        311,
+        225,
+        601
+      ],
+      [
+        333,
+        309,
+        497,
+        605
+      ],
+      [
+        580,
+        307,
+        757,
+        605
+      ],
+      [
+        833,
+        308,
+        991,
+        605
+      ],
+      [
+        18,
+        607,
+        287,
+        894
+      ],
+      [
+        304,
+        608,
+        542,
+        893
+      ],
+      [
+        576,
+        612,
+        746,
+        893
+      ],
+      [
+        850,
+        612,
+        1000,
+        893
+      ],
+      [
+        57,
+        904,
+        219,
+        1183
+      ],
+      [
+        318,
+        897,
+        490,
+        1180
+      ],
+      [
+        586,
+        900,
+        751,
+        1181
+      ],
+      [
+        832,
+        901,
+        998,
+        1183
+      ]
+    ],
+    "ordinary_resample_factor": 1.8498293515358362,
+    "placements_xywh": [
+      [
+        297,
+        156,
+        327,
+        542
+      ],
+      [
+        334,
+        163,
+        305,
+        535
+      ],
+      [
+        279,
+        163,
+        348,
+        535
+      ],
+      [
+        335,
+        156,
+        327,
+        542
+      ],
+      [
+        301,
+        162,
+        303,
+        536
+      ],
+      [
+        128,
+        150,
+        303,
+        548
+      ],
+      [
+        105,
+        147,
+        327,
+        551
+      ],
+      [
+        331,
+        149,
+        292,
+        549
+      ],
+      [
+        149,
+        167,
+        498,
+        531
+      ],
+      [
+        160,
+        171,
+        440,
+        527
+      ],
+      [
+        116,
+        178,
+        314,
+        520
+      ],
+      [
+        283,
+        178,
+        277,
+        520
+      ],
+      [
+        259,
+        182,
+        300,
+        516
+      ],
+      [
+        295,
+        174,
+        318,
+        524
+      ],
+      [
+        307,
+        178,
+        305,
+        520
+      ],
+      [
+        303,
+        176,
+        307,
+        522
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "piston_penance_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1050,
+    "offset_from_actor_pivot_px": [
+      220,
+      -270
+    ],
+    "ordinary_resample_factor": 1.35,
+    "source_cel_boxes": [
+      [
+        51,
+        1198,
+        236,
+        1350
+      ],
+      [
+        300,
+        1198,
+        498,
+        1346
+      ],
+      [
+        561,
+        1198,
+        744,
+        1351
+      ],
+      [
+        789,
+        1206,
+        983,
+        1335
+      ],
+      [
+        58,
+        1377,
+        233,
+        1518
+      ],
+      [
+        314,
+        1379,
+        480,
+        1512
+      ],
+      [
+        568,
+        1385,
+        737,
+        1511
+      ],
+      [
+        845,
+        1378,
+        960,
+        1505
+      ]
+    ]
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1050,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1swGZKza5SWWJVGf217JQJqdr5OpAoh2E",
+    "url": "https://drive.google.com/file/d/1swGZKza5SWWJVGf217JQJqdr5OpAoh2E/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right.",
+    "Raised impact effect to the extended piston-foot contact height (was below foot).",
+    "Actor recovery may begin before delayed target impact. Exactly one unchanged gameplay damage event.",
+    "Contact 1050ms; effect starts 1050ms. Current effect canvas and pivot are authoritative."
+  ],
+  "polish_revision": "physical-polish-v1"
+}

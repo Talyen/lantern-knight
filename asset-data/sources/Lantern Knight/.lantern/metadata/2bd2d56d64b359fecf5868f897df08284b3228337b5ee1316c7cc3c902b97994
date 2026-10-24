@@ -1,0 +1,144 @@
+{
+  "name": "octagonal_traveling_hatbox",
+  "revision": "generic_empty_opening",
+  "animation": "open_and_settle",
+  "canvas": [
+    640,
+    800
+  ],
+  "pivot_pixels": [
+    320,
+    750
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.9375
+  ],
+  "loop": false,
+  "frame_count": 7,
+  "durations_ms": [
+    350,
+    90,
+    100,
+    110,
+    120,
+    140,
+    700
+  ],
+  "total_ms": 1610,
+  "terminal_state": "octagonal_traveling_hatbox_open_empty.png",
+  "initial_state": "octagonal_traveling_hatbox_closed.png",
+  "atlas": "octagonal_traveling_hatbox_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frames": [
+    {
+      "file": "frames/octagonal_traveling_hatbox_00.png",
+      "rect": [
+        0,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 350
+    },
+    {
+      "file": "frames/octagonal_traveling_hatbox_01.png",
+      "rect": [
+        640,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 90
+    },
+    {
+      "file": "frames/octagonal_traveling_hatbox_02.png",
+      "rect": [
+        1280,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/octagonal_traveling_hatbox_03.png",
+      "rect": [
+        1920,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 110
+    },
+    {
+      "file": "frames/octagonal_traveling_hatbox_04.png",
+      "rect": [
+        0,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 120
+    },
+    {
+      "file": "frames/octagonal_traveling_hatbox_05.png",
+      "rect": [
+        640,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 140
+    },
+    {
+      "file": "frames/octagonal_traveling_hatbox_06.png",
+      "rect": [
+        1280,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 700
+    }
+  ],
+  "source": "Content-free opening poses edited with image_gen; extraction phase removed. No procedural pose tweening. Original endpoint pixels retained exactly.",
+  "registration": [
+    {
+      "scale": 1.0,
+      "offset": [
+        1,
+        0
+      ],
+      "correlation": 0.9470365594119194
+    },
+    {
+      "scale": 1.0,
+      "offset": [
+        1,
+        1
+      ],
+      "correlation": 0.9125410659338639
+    },
+    {
+      "scale": 0.995,
+      "offset": [
+        2,
+        1
+      ],
+      "correlation": 0.866185483492736
+    },
+    {
+      "scale": 0.995,
+      "offset": [
+        2,
+        1
+      ],
+      "correlation": 0.8173692008372478
+    }
+  ],
+  "loot_visuals": "none; interiors are empty/dark throughout"
+}

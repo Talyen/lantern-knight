@@ -1,0 +1,293 @@
+{
+  "visual_review": "All 16 authored cels reviewed on neutral background and closed/intact and open/broken endpoints inspected in actual orchard scene. Basket first candidate rejected and replaced. No code deformation or tweening. Four-frame stepped key animation; mild hand-drawn contour variation remains. Cast shadows not included.",
+  "checks": [
+    {
+      "file": "runtime/barrel_00.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        57,
+        65,
+        198,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/barrel_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        54,
+        63,
+        200,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/barrel_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        38,
+        85,
+        216,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/barrel_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        38,
+        136,
+        215,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/basket_00.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        46,
+        98,
+        200,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/basket_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        48,
+        82,
+        200,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/basket_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        49,
+        48,
+        198,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/basket_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        49,
+        9,
+        206,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/crate_00.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        38,
+        95,
+        196,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/crate_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        40,
+        97,
+        195,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/crate_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        46,
+        75,
+        199,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/crate_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        45,
+        26,
+        196,
+        234
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/slat_00.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        55,
+        110,
+        201,
+        234
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/slat_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        54,
+        109,
+        206,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/slat_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        36,
+        109,
+        213,
+        233
+      ],
+      "clear_canvas_edges": true
+    },
+    {
+      "file": "runtime/slat_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "bbox_alpha_gt_100": [
+        46,
+        142,
+        212,
+        233
+      ],
+      "clear_canvas_edges": true
+    }
+  ]
+}

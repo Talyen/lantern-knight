@@ -1,0 +1,106 @@
+{
+  "concept": "Lantern: Ruined Beacon, polished",
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "loading_seconds": {
+    "Intro": 2,
+    "Hold": 4,
+    "Complete": 2,
+    "Preview": 8
+  },
+  "title_seconds": 9,
+  "title_text": "Lantern",
+  "title_letters_settled_seconds": 3.62,
+  "full_title_settled_seconds": 4.75,
+  "fully_settled_title_hold_seconds": 4.25,
+  "renderer": "Deterministic SVG -> librsvg/Cairo -> libx264, CRF 16, fixed 2 threads",
+  "encoder_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+  "python_version": "3.12.14",
+  "files": {
+    "Lantern_D_RuinedBeacon_Polished_Intro.mp4": {
+      "bytes": 348087,
+      "sha256": "8d0dafab65f2e9e6e2ed2b92b967588aeb78c4b548e9eb241c10ad43ca4cc2fc"
+    },
+    "Lantern_D_RuinedBeacon_Polished_Hold.mp4": {
+      "bytes": 765125,
+      "sha256": "4f06407fb4fda07af5f61be2f15f59226997259ff96241e60ac91a1ad5b5329b"
+    },
+    "Lantern_D_RuinedBeacon_Polished_Complete.mp4": {
+      "bytes": 333662,
+      "sha256": "92231c08203452b4cb3d1789eaadd9a638e73b97c3de05abd0ed305ebb7c88e1"
+    },
+    "Lantern_D_RuinedBeacon_Polished_Preview.mp4": {
+      "bytes": 1405740,
+      "sha256": "3161258038a764ab943c0f59875bb9c9c696246d3bc5e8e44f19064e09fc1f4a"
+    },
+    "Lantern_D_RuinedBeacon_Polished_Title.mp4": {
+      "bytes": 1721018,
+      "sha256": "998696b64aa434230dd7a290ec5706f239dde51f8fbc54e743e3b4c8968dd8f3"
+    },
+    "beacon_master.svg": {
+      "bytes": 12655,
+      "sha256": "97cfaff896c3e4ca09e2e8e5daed9a5bcfb31202579a7e65961babf6a6234eda"
+    },
+    "title_master.svg": {
+      "bytes": 15836,
+      "sha256": "1b7bdc9b1ba59d46ab3c0a6bf4df125a531566b4dc37b12e4084942c09745691"
+    },
+    "render.py": {
+      "bytes": 19095,
+      "sha256": "6fededef9d7f37026e939c74bc5c137d8aa0a9df604668d542ea50e0db0e0385"
+    },
+    "title_glyphs.json": {
+      "bytes": 2453,
+      "sha256": "f891c049f9dfce4c32dc729a30d569afa9d77c6331ebc0993f7af299c7ebaa7e"
+    },
+    "FONT_LICENSE.txt": {
+      "bytes": 3859,
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9"
+    },
+    "requirements.txt": {
+      "bytes": 24,
+      "sha256": "d1bdad41026f4d1cdd888e4e49be6f9e4bdbf499394e67bb848341d1345b8aef"
+    },
+    "rebuild.sh": {
+      "bytes": 136,
+      "sha256": "e96f517ded21ba81bef7c836b1ec86d8a55b205573fa6a13eabb6ada3471c64b"
+    },
+    "verify.py": {
+      "bytes": 5545,
+      "sha256": "3fc7fabe88ffc0f4ff6991fa785555a1deafaf228878baa9c631f4d56000e7cd"
+    },
+    "check_clearance.py": {
+      "bytes": 1732,
+      "sha256": "3b00c2f818c6390ec039ef35ff4cec5443587ed7d4860d2989199ed7c664b059"
+    },
+    "package.py": {
+      "bytes": 1932,
+      "sha256": "4fa11a07f5433089dedfcacf0f8600a7efc867130f72e35b830438ee85917b52"
+    },
+    "README.md": {
+      "bytes": 4146,
+      "sha256": "84945912861e66da9b0e48c414e80fec5f16dc09fa3dddf5e9da407d717bfef4"
+    },
+    "CHANGELOG.md": {
+      "bytes": 552,
+      "sha256": "c53267c500c3fede8c935055677b0a2936413e0a16ccccd12a3d6fd2d8d048e7"
+    },
+    "verification.json": {
+      "bytes": 2608,
+      "sha256": "de5809d2bf0e7bf79817be196f642adba16c02e8556a4ffa97faf76269763a2f"
+    },
+    "clearance_check.json": {
+      "bytes": 236,
+      "sha256": "5d969c8e7b01edfb752b6bc6237ae13000393253d53786a3bfd124407db6bd9d"
+    },
+    "decoded_motion_contact.jpg": {
+      "bytes": 279321,
+      "sha256": "5bdffa91657c268b502d48084c0b908cb5c29df42a8eed3e45478917823c9e48"
+    },
+    "decoded_title_contact.jpg": {
+      "bytes": 213327,
+      "sha256": "efaf91d0d55eae564d147a4484bd8f5d75ee1aea2fbb9ddbfbd56c04000cc06c"
+    }
+  }
+}

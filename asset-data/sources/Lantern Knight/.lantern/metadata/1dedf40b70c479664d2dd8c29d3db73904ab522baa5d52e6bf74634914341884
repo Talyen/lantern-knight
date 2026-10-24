@@ -1,0 +1,98 @@
+{
+  "name": "gothic_manor_desk",
+  "camera": {
+    "projection": "orthographic",
+    "requestedElevationDegrees": 35.264,
+    "note": "Artist-rendered approximation; not calibrated 3D"
+  },
+  "canvas": [
+    552,
+    552
+  ],
+  "pivotPixels": [
+    283,
+    430
+  ],
+  "approximateWorldHeightMeters": 0.85,
+  "suggestedPixelsPerUnit": 270,
+  "fps": 60,
+  "loop": false,
+  "holdLastFrame": true,
+  "durationTicks": 60,
+  "events": [
+    {
+      "name": "loot_release",
+      "tick": 25,
+      "frame": 4,
+      "payload": "Spawn gameplay loot externally; artwork contains no loot."
+    }
+  ],
+  "frames": [
+    {
+      "file": "frames/search_00.png",
+      "atlasRect": [
+        0,
+        0,
+        552,
+        552
+      ],
+      "holdTicks": 9
+    },
+    {
+      "file": "frames/search_01.png",
+      "atlasRect": [
+        552,
+        0,
+        552,
+        552
+      ],
+      "holdTicks": 5
+    },
+    {
+      "file": "frames/search_02.png",
+      "atlasRect": [
+        1104,
+        0,
+        552,
+        552
+      ],
+      "holdTicks": 5
+    },
+    {
+      "file": "frames/search_03.png",
+      "atlasRect": [
+        0,
+        552,
+        552,
+        552
+      ],
+      "holdTicks": 6
+    },
+    {
+      "file": "frames/search_04.png",
+      "atlasRect": [
+        552,
+        552,
+        552,
+        552
+      ],
+      "holdTicks": 8
+    },
+    {
+      "file": "frames/search_05.png",
+      "atlasRect": [
+        1104,
+        552,
+        552,
+        552
+      ],
+      "holdTicks": 27
+    }
+  ],
+  "nativeCels": 6,
+  "runtimeUniqueCels": 5,
+  "notes": [
+    "Native cel 6 intentionally replaced with cel 5 to remove held-state drift.",
+    "Stationary tabletop and legs locked to cel 1 via deterministic acting mask."
+  ]
+}

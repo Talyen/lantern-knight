@@ -1,0 +1,67 @@
+{
+  "bellbound_defeat_oneshot_60hz.mp4": {
+    "encoded_frames": 229,
+    "expected_frames": 229,
+    "fps": 60,
+    "all_encoded_drawings_in_expected_order": true,
+    "terminal_hold_frames": 180,
+    "one_shot_no_reset": true,
+    "maximum_sampled_mse_to_expected_drawing": 6.253406524658203,
+    "decoded_dimensions_px": [
+      768,
+      844
+    ]
+  },
+  "bellbound_defeat_oneshot_half_speed_60hz.mp4": {
+    "encoded_frames": 278,
+    "expected_frames": 278,
+    "fps": 60,
+    "all_encoded_drawings_in_expected_order": true,
+    "terminal_hold_frames": 180,
+    "one_shot_no_reset": true,
+    "maximum_sampled_mse_to_expected_drawing": 5.67472505569458,
+    "decoded_dimensions_px": [
+      768,
+      844
+    ]
+  },
+  "bellbound_defeat_optional_registered_oneshot_60hz.mp4": {
+    "encoded_frames": 229,
+    "expected_frames": 229,
+    "fps": 60,
+    "all_encoded_drawings_in_expected_order": true,
+    "terminal_hold_frames": 180,
+    "one_shot_no_reset": true,
+    "maximum_sampled_mse_to_expected_drawing": 6.320328712463379,
+    "decoded_dimensions_px": [
+      768,
+      844
+    ]
+  },
+  "crawler_defeat_oneshot_60hz.mp4": {
+    "encoded_frames": 233,
+    "expected_frames": 233,
+    "fps": 60,
+    "all_encoded_drawings_in_expected_order": true,
+    "terminal_hold_frames": 180,
+    "one_shot_no_reset": true,
+    "maximum_sampled_mse_to_expected_drawing": 3.3988142013549805,
+    "decoded_dimensions_px": [
+      768,
+      844
+    ]
+  },
+  "crawler_defeat_oneshot_half_speed_60hz.mp4": {
+    "encoded_frames": 286,
+    "expected_frames": 286,
+    "fps": 60,
+    "all_encoded_drawings_in_expected_order": true,
+    "terminal_hold_frames": 180,
+    "one_shot_no_reset": true,
+    "maximum_sampled_mse_to_expected_drawing": 2.8662538528442383,
+    "decoded_dimensions_px": [
+      768,
+      844
+    ]
+  }
+}

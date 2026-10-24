@@ -1,0 +1,16 @@
+{
+  "status": "all three suitable for user art-direction comparison",
+  "review_scope": "Small full-frame comparison plus native-pixel hero crops; presentation review only.",
+  "common": {
+    "native_dimensions": [1536, 1024],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "major_realism_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false
+  },
+  "A": {"direction": "Warm candlelit ruined nave", "strength": "Quiet flagstone faces, readable open aisle and varied pew islands; hero reads clearly on open paving", "caveat": "Localized candle glows and dense decorative wall detail remain"},
+  "B": {"direction": "Daylit overgrown chapel", "strength": "Broadest clearing, strong ivy-and-arch silhouettes and clean pale stone faces", "caveat": "Long baked architectural shadows create floor contrast and imply fixed lighting"},
+  "C": {"direction": "Dark crimson sanctuary", "strength": "Strong altar focus and ragged red aisle carpet; clear hero silhouette and usable central aisle", "caveat": "More constrained pew lanes and a darker, higher-contrast atmosphere than A/B"},
+  "limits": "Tall walls, columns and pews are baked into the art. This review cannot establish in-engine occlusion, collision, perspective calibration or real gameplay clearance."
+}

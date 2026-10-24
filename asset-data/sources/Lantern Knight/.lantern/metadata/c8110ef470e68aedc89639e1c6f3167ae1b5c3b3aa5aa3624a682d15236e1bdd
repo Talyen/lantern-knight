@@ -1,0 +1,135 @@
+{
+  "name": "Hovering Broken Mask DL",
+  "reference": {
+    "id": "lantern_cave_creature_06_hovering_broken_mask",
+    "sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f"
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 274,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation, not 3D calibrated"
+  },
+  "facing": "screen lower-left front three-quarter",
+  "mirroring": "forbidden: asymmetric crown and cheek fracture; independently drawn heading",
+  "authorship": "six native hand-drawn cels per clip, deterministic alpha isolation and integer registration only",
+  "atlas": {
+    "cell": [
+      776,
+      776
+    ],
+    "frame": [
+      768,
+      768
+    ],
+    "gutter": 4,
+    "rects": [
+      [
+        4,
+        4,
+        768,
+        768
+      ],
+      [
+        780,
+        4,
+        768,
+        768
+      ],
+      [
+        1556,
+        4,
+        768,
+        768
+      ],
+      [
+        4,
+        780,
+        768,
+        768
+      ],
+      [
+        780,
+        780,
+        768,
+        768
+      ],
+      [
+        1556,
+        780,
+        768,
+        768
+      ]
+    ]
+  },
+  "rear_surface": "canonical front",
+  "world_position": "engine-owned; all drawing offsets baked; do not reapply",
+  "clips": {
+    "move": {
+      "loop": true,
+      "holds_60hz": [
+        10,
+        9,
+        10,
+        10,
+        9,
+        10
+      ],
+      "frames": [
+        "move_00.png",
+        "move_01.png",
+        "move_02.png",
+        "move_03.png",
+        "move_04.png",
+        "move_05.png"
+      ],
+      "attack_event_frame_zero_based": null,
+      "event_is_visual_reference_only": true,
+      "end": "loop"
+    },
+    "attack": {
+      "loop": false,
+      "holds_60hz": [
+        8,
+        10,
+        12,
+        5,
+        8,
+        14
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_event_frame_zero_based": 3,
+      "event_is_visual_reference_only": true,
+      "end": "hold final then return movement"
+    }
+  },
+  "png_sha256": {
+    "move_00.png": "0504994028173e2c372b69bd8632c7c6f734c7534d28292b0982f3ed3bf53093",
+    "move_01.png": "6e8dd044cbced51e803f0dcbf42c4bd8e3205eafdb3b3a86f96bb00dab5058c5",
+    "move_02.png": "c5464260627865142a0e04ffc8a2eca92cc40472a399bcbd56e2a930c49587e5",
+    "move_03.png": "36819a798938b6d9e851dd6104a442936174a0dbcd765705b0b25f0ad2bdd529",
+    "move_04.png": "c31f542513b7cd23af23e1a9e3e0999a1ff8af7e64fffd93a565a48425ccb0b7",
+    "move_05.png": "4a4717b337f4e4ad08691eea186c3325e83f522b41a1563c92380c571762a246",
+    "attack_00.png": "ef67102414f584b7fbeb652c721922070bf5cd4bf1137b8e3ddc457c70dc9004",
+    "attack_01.png": "ea7e1e15ccefa3a0b7d4712e031e6003438ce1e37833fd21b8c933c6d45b8399",
+    "attack_02.png": "14e907ea66e7e95fd4e27962df08fbf3686413ad66a49306a103baf4b6bdec3d",
+    "attack_03.png": "7193f770b25e8b2dd1fcfa70e0cd6e6e7444142f90e51904bc272615fdc9b96c",
+    "attack_04.png": "aa84917a6ee7dfd1631daad4e0e262da31c5f324f9fdc0704ceb03eaa8c2c08d",
+    "attack_05.png": "c0aeaa222806bc45feb27425c85ac1ef1741790f2ad0783aa5a270e45fe56c78"
+  }
+}

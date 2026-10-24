@@ -1,0 +1,28 @@
+{
+  "method": "Built-in image generation, one identity-referenced sheet per enemy; deterministic cel extraction/atlas packing and ordinary resampling only.",
+  "generation_prompt_summary": {
+    "layout": "4 columns x6 rows; first4rows16 full-body actor cels, last2rows8 isolated matching effect cels; transparent RGBA; no labels.",
+    "reference_identity": "Mosswell Slime",
+    "ability": "mossglue spit",
+    "timing": "Frames1\u20138 evolving anticipation;9\u201310 committed release;11\u201316 recoil and recovery. Exactly one strong hit; no multi-hit.",
+    "art": "Muted physical dark fantasy, confident ink/cel shapes, source palette/proportions, restrained light.",
+    "constraints": "Real changing anatomical poses and effect silhouettes, not transformed/faded stills. Preserve all limbs and full character.",
+    "requested_sheet_px": [
+      1536,
+      2304
+    ],
+    "actual_generated_sheet_px": [
+      1024,
+      1536
+    ]
+  },
+  "source_reference_drive_id": "1x4czQzyEyws_YIQPUZorsg_9T-1naThH",
+  "generator_source": "/workspace/shared/enemy_variety/physical/mossglue_spit/source_generated_sheet.png",
+  "preservation": "Existing attacks and get-hit assets untouched. One new ability only.",
+  "canvas_exception": "Thrall uses additional transparent rightward action room with baseline offset[64,64]; other actor canvases use baseline dimensions.",
+  "polish_revision": "physical-polish-v1",
+  "polish_changes": [
+    "Delayed separate projectile until baked-in launch cel ends; baked flight-to-ground trajectory into a fixed 768px effect canvas. Target contact remains 1160 ms."
+  ],
+  "polish_art_method": "Built-in reference-guided imagegen for Beetle cel10 and Thrall contact-chip source only; deterministic extraction/atlas packing and baked effect placement. Other actor art unchanged."
+}

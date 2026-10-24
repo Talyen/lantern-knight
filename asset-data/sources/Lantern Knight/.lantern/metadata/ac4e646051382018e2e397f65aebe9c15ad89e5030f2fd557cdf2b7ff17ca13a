@@ -1,0 +1,2450 @@
+{
+  "id": "bone_stack",
+  "label": "Bone Stack",
+  "canvas": [
+    256,
+    256
+  ],
+  "pivot_px": [
+    128,
+    224
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.875
+  ],
+  "source_native_size": [
+    1536,
+    1024
+  ],
+  "source_to_runtime_scale": 0.2572178477690289,
+  "source_cels": [
+    {
+      "index": 0,
+      "crop_rect": [
+        0,
+        0,
+        512,
+        341
+      ],
+      "source_local_anchor_px": [
+        252.5,
+        322
+      ],
+      "content_bbox": [
+        92,
+        18,
+        413,
+        322
+      ],
+      "file": "pose_cels/pose_00.png"
+    },
+    {
+      "index": 1,
+      "crop_rect": [
+        512,
+        0,
+        1024,
+        341
+      ],
+      "source_local_anchor_px": [
+        276.0,
+        331
+      ],
+      "content_bbox": [
+        144,
+        24,
+        408,
+        331
+      ],
+      "file": "pose_cels/pose_01.png"
+    },
+    {
+      "index": 2,
+      "crop_rect": [
+        1024,
+        0,
+        1536,
+        341
+      ],
+      "source_local_anchor_px": [
+        203.0,
+        331
+      ],
+      "content_bbox": [
+        73,
+        24,
+        333,
+        331
+      ],
+      "file": "pose_cels/pose_02.png"
+    },
+    {
+      "index": 3,
+      "crop_rect": [
+        0,
+        341,
+        512,
+        683
+      ],
+      "source_local_anchor_px": [
+        232.5,
+        309
+      ],
+      "content_bbox": [
+        81,
+        23,
+        384,
+        309
+      ],
+      "file": "pose_cels/pose_03.png"
+    },
+    {
+      "index": 4,
+      "crop_rect": [
+        512,
+        341,
+        1024,
+        683
+      ],
+      "source_local_anchor_px": [
+        241.0,
+        307
+      ],
+      "content_bbox": [
+        96,
+        32,
+        386,
+        307
+      ],
+      "file": "pose_cels/pose_04.png"
+    },
+    {
+      "index": 5,
+      "crop_rect": [
+        1024,
+        341,
+        1536,
+        683
+      ],
+      "source_local_anchor_px": [
+        261.0,
+        285
+      ],
+      "content_bbox": [
+        75,
+        121,
+        447,
+        285
+      ],
+      "file": "pose_cels/pose_05.png"
+    },
+    {
+      "index": 6,
+      "crop_rect": [
+        0,
+        683,
+        512,
+        1024
+      ],
+      "source_local_anchor_px": [
+        256.0,
+        265
+      ],
+      "content_bbox": [
+        78,
+        56,
+        434,
+        265
+      ],
+      "file": "pose_cels/pose_06.png"
+    },
+    {
+      "index": 7,
+      "crop_rect": [
+        512,
+        683,
+        1024,
+        1024
+      ],
+      "source_local_anchor_px": [
+        254.5,
+        266
+      ],
+      "content_bbox": [
+        70,
+        88,
+        439,
+        266
+      ],
+      "file": "pose_cels/pose_07.png"
+    },
+    {
+      "index": 8,
+      "crop_rect": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_local_anchor_px": [
+        256.5,
+        282
+      ],
+      "content_bbox": [
+        66,
+        79,
+        447,
+        282
+      ],
+      "file": "pose_cels/pose_08.png"
+    }
+  ],
+  "rest": {
+    "file": "rest.png",
+    "persistent": true,
+    "ground_contact_px": [
+      128,
+      224
+    ],
+    "visible_bbox_px": [
+      77,
+      169,
+      180,
+      226
+    ]
+  },
+  "drop": {
+    "loop": false,
+    "frame_count": 24,
+    "duration_seconds": 0.8,
+    "duration_ticks": 48,
+    "atlas": {
+      "file": "drop_atlas.png",
+      "size": [
+        1560,
+        1040
+      ],
+      "cell_size": [
+        256,
+        256
+      ],
+      "gutter_px": 4,
+      "extruded": false,
+      "filter": "bilinear",
+      "mipmaps": false,
+      "rects": [
+        [
+          2,
+          2,
+          256,
+          256
+        ],
+        [
+          262,
+          2,
+          256,
+          256
+        ],
+        [
+          522,
+          2,
+          256,
+          256
+        ],
+        [
+          782,
+          2,
+          256,
+          256
+        ],
+        [
+          1042,
+          2,
+          256,
+          256
+        ],
+        [
+          1302,
+          2,
+          256,
+          256
+        ],
+        [
+          2,
+          262,
+          256,
+          256
+        ],
+        [
+          262,
+          262,
+          256,
+          256
+        ],
+        [
+          522,
+          262,
+          256,
+          256
+        ],
+        [
+          782,
+          262,
+          256,
+          256
+        ],
+        [
+          1042,
+          262,
+          256,
+          256
+        ],
+        [
+          1302,
+          262,
+          256,
+          256
+        ],
+        [
+          2,
+          522,
+          256,
+          256
+        ],
+        [
+          262,
+          522,
+          256,
+          256
+        ],
+        [
+          522,
+          522,
+          256,
+          256
+        ],
+        [
+          782,
+          522,
+          256,
+          256
+        ],
+        [
+          1042,
+          522,
+          256,
+          256
+        ],
+        [
+          1302,
+          522,
+          256,
+          256
+        ],
+        [
+          2,
+          782,
+          256,
+          256
+        ],
+        [
+          262,
+          782,
+          256,
+          256
+        ],
+        [
+          522,
+          782,
+          256,
+          256
+        ],
+        [
+          782,
+          782,
+          256,
+          256
+        ],
+        [
+          1042,
+          782,
+          256,
+          256
+        ],
+        [
+          1302,
+          782,
+          256,
+          256
+        ]
+      ]
+    },
+    "frames": [
+      {
+        "file": "drop_frames/drop_00.png",
+        "pose_cel_file": "pose_cels/pose_00.png",
+        "generated_cel_index": 0,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          80,
+          204
+        ],
+        "baked_offset_px": [
+          -48,
+          -20
+        ],
+        "atlas_rect": [
+          2,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_01.png",
+        "pose_cel_file": "pose_cels/pose_00.png",
+        "generated_cel_index": 0,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          83,
+          186
+        ],
+        "baked_offset_px": [
+          -45,
+          -38
+        ],
+        "atlas_rect": [
+          262,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_02.png",
+        "pose_cel_file": "pose_cels/pose_00.png",
+        "generated_cel_index": 0,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          86,
+          171
+        ],
+        "baked_offset_px": [
+          -42,
+          -53
+        ],
+        "atlas_rect": [
+          522,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_03.png",
+        "pose_cel_file": "pose_cels/pose_01.png",
+        "generated_cel_index": 1,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          89,
+          158
+        ],
+        "baked_offset_px": [
+          -39,
+          -66
+        ],
+        "atlas_rect": [
+          782,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_04.png",
+        "pose_cel_file": "pose_cels/pose_01.png",
+        "generated_cel_index": 1,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          92,
+          148
+        ],
+        "baked_offset_px": [
+          -36,
+          -76
+        ],
+        "atlas_rect": [
+          1042,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_05.png",
+        "pose_cel_file": "pose_cels/pose_02.png",
+        "generated_cel_index": 2,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          95,
+          140
+        ],
+        "baked_offset_px": [
+          -33,
+          -84
+        ],
+        "atlas_rect": [
+          1302,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_06.png",
+        "pose_cel_file": "pose_cels/pose_02.png",
+        "generated_cel_index": 2,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          98,
+          135
+        ],
+        "baked_offset_px": [
+          -30,
+          -89
+        ],
+        "atlas_rect": [
+          2,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_07.png",
+        "pose_cel_file": "pose_cels/pose_02.png",
+        "generated_cel_index": 2,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          101,
+          132
+        ],
+        "baked_offset_px": [
+          -27,
+          -92
+        ],
+        "atlas_rect": [
+          262,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_08.png",
+        "pose_cel_file": "pose_cels/pose_02.png",
+        "generated_cel_index": 2,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          104,
+          132
+        ],
+        "baked_offset_px": [
+          -24,
+          -92
+        ],
+        "atlas_rect": [
+          522,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_09.png",
+        "pose_cel_file": "pose_cels/pose_03.png",
+        "generated_cel_index": 3,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          107,
+          135
+        ],
+        "baked_offset_px": [
+          -21,
+          -89
+        ],
+        "atlas_rect": [
+          782,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_10.png",
+        "pose_cel_file": "pose_cels/pose_03.png",
+        "generated_cel_index": 3,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          110,
+          140
+        ],
+        "baked_offset_px": [
+          -18,
+          -84
+        ],
+        "atlas_rect": [
+          1042,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_11.png",
+        "pose_cel_file": "pose_cels/pose_03.png",
+        "generated_cel_index": 3,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          113,
+          147
+        ],
+        "baked_offset_px": [
+          -15,
+          -77
+        ],
+        "atlas_rect": [
+          1302,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_12.png",
+        "pose_cel_file": "pose_cels/pose_04.png",
+        "generated_cel_index": 4,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          116,
+          158
+        ],
+        "baked_offset_px": [
+          -12,
+          -66
+        ],
+        "atlas_rect": [
+          2,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_13.png",
+        "pose_cel_file": "pose_cels/pose_04.png",
+        "generated_cel_index": 4,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          119,
+          170
+        ],
+        "baked_offset_px": [
+          -9,
+          -54
+        ],
+        "atlas_rect": [
+          262,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_14.png",
+        "pose_cel_file": "pose_cels/pose_04.png",
+        "generated_cel_index": 4,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          122,
+          186
+        ],
+        "baked_offset_px": [
+          -6,
+          -38
+        ],
+        "atlas_rect": [
+          522,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_15.png",
+        "pose_cel_file": "pose_cels/pose_04.png",
+        "generated_cel_index": 4,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          125,
+          204
+        ],
+        "baked_offset_px": [
+          -3,
+          -20
+        ],
+        "atlas_rect": [
+          782,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_16.png",
+        "pose_cel_file": "pose_cels/pose_05.png",
+        "generated_cel_index": 5,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          224
+        ],
+        "baked_offset_px": [
+          0,
+          0
+        ],
+        "atlas_rect": [
+          1042,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_17.png",
+        "pose_cel_file": "pose_cels/pose_06.png",
+        "generated_cel_index": 6,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          218
+        ],
+        "baked_offset_px": [
+          0,
+          -6
+        ],
+        "atlas_rect": [
+          1302,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_18.png",
+        "pose_cel_file": "pose_cels/pose_06.png",
+        "generated_cel_index": 6,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          215
+        ],
+        "baked_offset_px": [
+          0,
+          -9
+        ],
+        "atlas_rect": [
+          2,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_19.png",
+        "pose_cel_file": "pose_cels/pose_07.png",
+        "generated_cel_index": 7,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          218
+        ],
+        "baked_offset_px": [
+          0,
+          -6
+        ],
+        "atlas_rect": [
+          262,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_20.png",
+        "pose_cel_file": "pose_cels/pose_07.png",
+        "generated_cel_index": 7,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          224
+        ],
+        "baked_offset_px": [
+          0,
+          0
+        ],
+        "atlas_rect": [
+          522,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_21.png",
+        "pose_cel_file": "pose_cels/pose_08.png",
+        "generated_cel_index": 8,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          224
+        ],
+        "baked_offset_px": [
+          0,
+          0
+        ],
+        "atlas_rect": [
+          782,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_22.png",
+        "pose_cel_file": "pose_cels/pose_08.png",
+        "generated_cel_index": 8,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          224
+        ],
+        "baked_offset_px": [
+          0,
+          0
+        ],
+        "atlas_rect": [
+          1042,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "drop_frames/drop_23.png",
+        "pose_cel_file": "pose_cels/pose_08.png",
+        "generated_cel_index": 8,
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "ground_anchor_on_canvas_px": [
+          128,
+          224
+        ],
+        "baked_offset_px": [
+          0,
+          0
+        ],
+        "atlas_rect": [
+          1302,
+          782,
+          256,
+          256
+        ]
+      }
+    ],
+    "launch_position_px": [
+      80,
+      204
+    ],
+    "launch_offset_from_landing_px": [
+      -48,
+      -20
+    ],
+    "landing_position_px": [
+      128,
+      224
+    ],
+    "events": [
+      {
+        "name": "spawn_item",
+        "tick": 0,
+        "time_seconds": 0
+      },
+      {
+        "name": "first_ground_contact",
+        "tick": 32,
+        "time_seconds": 0.5333333333333333
+      },
+      {
+        "name": "settled",
+        "tick": 42,
+        "time_seconds": 0.7
+      },
+      {
+        "name": "enter_idle_or_hold_rest",
+        "tick": 48,
+        "time_seconds": 0.8
+      }
+    ],
+    "terminal": "Hold the last sprite or enter idle frame0. Do not clear or hide the item. Do not replay drop automatically."
+  },
+  "idle": {
+    "loop": true,
+    "frame_count": 60,
+    "duration_seconds": 2,
+    "duration_ticks": 120,
+    "atlas": {
+      "file": "idle_atlas.png",
+      "size": [
+        2080,
+        2080
+      ],
+      "cell_size": [
+        256,
+        256
+      ],
+      "gutter_px": 4,
+      "extruded": false,
+      "filter": "bilinear",
+      "mipmaps": false,
+      "rects": [
+        [
+          2,
+          2,
+          256,
+          256
+        ],
+        [
+          262,
+          2,
+          256,
+          256
+        ],
+        [
+          522,
+          2,
+          256,
+          256
+        ],
+        [
+          782,
+          2,
+          256,
+          256
+        ],
+        [
+          1042,
+          2,
+          256,
+          256
+        ],
+        [
+          1302,
+          2,
+          256,
+          256
+        ],
+        [
+          1562,
+          2,
+          256,
+          256
+        ],
+        [
+          1822,
+          2,
+          256,
+          256
+        ],
+        [
+          2,
+          262,
+          256,
+          256
+        ],
+        [
+          262,
+          262,
+          256,
+          256
+        ],
+        [
+          522,
+          262,
+          256,
+          256
+        ],
+        [
+          782,
+          262,
+          256,
+          256
+        ],
+        [
+          1042,
+          262,
+          256,
+          256
+        ],
+        [
+          1302,
+          262,
+          256,
+          256
+        ],
+        [
+          1562,
+          262,
+          256,
+          256
+        ],
+        [
+          1822,
+          262,
+          256,
+          256
+        ],
+        [
+          2,
+          522,
+          256,
+          256
+        ],
+        [
+          262,
+          522,
+          256,
+          256
+        ],
+        [
+          522,
+          522,
+          256,
+          256
+        ],
+        [
+          782,
+          522,
+          256,
+          256
+        ],
+        [
+          1042,
+          522,
+          256,
+          256
+        ],
+        [
+          1302,
+          522,
+          256,
+          256
+        ],
+        [
+          1562,
+          522,
+          256,
+          256
+        ],
+        [
+          1822,
+          522,
+          256,
+          256
+        ],
+        [
+          2,
+          782,
+          256,
+          256
+        ],
+        [
+          262,
+          782,
+          256,
+          256
+        ],
+        [
+          522,
+          782,
+          256,
+          256
+        ],
+        [
+          782,
+          782,
+          256,
+          256
+        ],
+        [
+          1042,
+          782,
+          256,
+          256
+        ],
+        [
+          1302,
+          782,
+          256,
+          256
+        ],
+        [
+          1562,
+          782,
+          256,
+          256
+        ],
+        [
+          1822,
+          782,
+          256,
+          256
+        ],
+        [
+          2,
+          1042,
+          256,
+          256
+        ],
+        [
+          262,
+          1042,
+          256,
+          256
+        ],
+        [
+          522,
+          1042,
+          256,
+          256
+        ],
+        [
+          782,
+          1042,
+          256,
+          256
+        ],
+        [
+          1042,
+          1042,
+          256,
+          256
+        ],
+        [
+          1302,
+          1042,
+          256,
+          256
+        ],
+        [
+          1562,
+          1042,
+          256,
+          256
+        ],
+        [
+          1822,
+          1042,
+          256,
+          256
+        ],
+        [
+          2,
+          1302,
+          256,
+          256
+        ],
+        [
+          262,
+          1302,
+          256,
+          256
+        ],
+        [
+          522,
+          1302,
+          256,
+          256
+        ],
+        [
+          782,
+          1302,
+          256,
+          256
+        ],
+        [
+          1042,
+          1302,
+          256,
+          256
+        ],
+        [
+          1302,
+          1302,
+          256,
+          256
+        ],
+        [
+          1562,
+          1302,
+          256,
+          256
+        ],
+        [
+          1822,
+          1302,
+          256,
+          256
+        ],
+        [
+          2,
+          1562,
+          256,
+          256
+        ],
+        [
+          262,
+          1562,
+          256,
+          256
+        ],
+        [
+          522,
+          1562,
+          256,
+          256
+        ],
+        [
+          782,
+          1562,
+          256,
+          256
+        ],
+        [
+          1042,
+          1562,
+          256,
+          256
+        ],
+        [
+          1302,
+          1562,
+          256,
+          256
+        ],
+        [
+          1562,
+          1562,
+          256,
+          256
+        ],
+        [
+          1822,
+          1562,
+          256,
+          256
+        ],
+        [
+          2,
+          1822,
+          256,
+          256
+        ],
+        [
+          262,
+          1822,
+          256,
+          256
+        ],
+        [
+          522,
+          1822,
+          256,
+          256
+        ],
+        [
+          782,
+          1822,
+          256,
+          256
+        ]
+      ]
+    },
+    "frames": [
+      {
+        "file": "idle_frames/idle_00.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_01.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_02.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_03.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_04.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_05.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_06.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_07.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          2,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_08.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_09.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_10.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_11.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_12.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_13.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_14.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_15.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          262,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_16.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_17.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_18.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_19.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_20.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_21.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_22.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_23.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          522,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_24.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_25.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_26.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_27.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_28.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_29.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_30.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_31.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          782,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_32.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_33.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_34.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_35.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_36.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_37.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_38.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_39.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          1042,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_40.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_41.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_42.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_43.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_44.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_45.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_46.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_47.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          1302,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_48.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_49.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_50.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_51.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_52.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1042,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_53.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1302,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_54.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1562,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_55.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          1822,
+          1562,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_56.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          2,
+          1822,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_57.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          262,
+          1822,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_58.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          522,
+          1822,
+          256,
+          256
+        ]
+      },
+      {
+        "file": "idle_frames/idle_59.png",
+        "duration_ticks": 2,
+        "duration_ms": 33.333333333333336,
+        "atlas_rect": [
+          782,
+          1822,
+          256,
+          256
+        ]
+      }
+    ],
+    "base_item_is_byte_identical_rest_sprite": true,
+    "motion": "No item translation, rotation, scale changes or bobbing. Small neutral glint only.",
+    "loop_seam": "First and last frames are byte-identical to rest."
+  },
+  "optional_layered_idle": {
+    "base": "rest.png",
+    "shimmer_atlas": {
+      "file": "shimmer_atlas.png",
+      "size": [
+        2080,
+        2080
+      ],
+      "cell_size": [
+        256,
+        256
+      ],
+      "gutter_px": 4,
+      "extruded": false,
+      "filter": "bilinear",
+      "mipmaps": false,
+      "rects": [
+        [
+          2,
+          2,
+          256,
+          256
+        ],
+        [
+          262,
+          2,
+          256,
+          256
+        ],
+        [
+          522,
+          2,
+          256,
+          256
+        ],
+        [
+          782,
+          2,
+          256,
+          256
+        ],
+        [
+          1042,
+          2,
+          256,
+          256
+        ],
+        [
+          1302,
+          2,
+          256,
+          256
+        ],
+        [
+          1562,
+          2,
+          256,
+          256
+        ],
+        [
+          1822,
+          2,
+          256,
+          256
+        ],
+        [
+          2,
+          262,
+          256,
+          256
+        ],
+        [
+          262,
+          262,
+          256,
+          256
+        ],
+        [
+          522,
+          262,
+          256,
+          256
+        ],
+        [
+          782,
+          262,
+          256,
+          256
+        ],
+        [
+          1042,
+          262,
+          256,
+          256
+        ],
+        [
+          1302,
+          262,
+          256,
+          256
+        ],
+        [
+          1562,
+          262,
+          256,
+          256
+        ],
+        [
+          1822,
+          262,
+          256,
+          256
+        ],
+        [
+          2,
+          522,
+          256,
+          256
+        ],
+        [
+          262,
+          522,
+          256,
+          256
+        ],
+        [
+          522,
+          522,
+          256,
+          256
+        ],
+        [
+          782,
+          522,
+          256,
+          256
+        ],
+        [
+          1042,
+          522,
+          256,
+          256
+        ],
+        [
+          1302,
+          522,
+          256,
+          256
+        ],
+        [
+          1562,
+          522,
+          256,
+          256
+        ],
+        [
+          1822,
+          522,
+          256,
+          256
+        ],
+        [
+          2,
+          782,
+          256,
+          256
+        ],
+        [
+          262,
+          782,
+          256,
+          256
+        ],
+        [
+          522,
+          782,
+          256,
+          256
+        ],
+        [
+          782,
+          782,
+          256,
+          256
+        ],
+        [
+          1042,
+          782,
+          256,
+          256
+        ],
+        [
+          1302,
+          782,
+          256,
+          256
+        ],
+        [
+          1562,
+          782,
+          256,
+          256
+        ],
+        [
+          1822,
+          782,
+          256,
+          256
+        ],
+        [
+          2,
+          1042,
+          256,
+          256
+        ],
+        [
+          262,
+          1042,
+          256,
+          256
+        ],
+        [
+          522,
+          1042,
+          256,
+          256
+        ],
+        [
+          782,
+          1042,
+          256,
+          256
+        ],
+        [
+          1042,
+          1042,
+          256,
+          256
+        ],
+        [
+          1302,
+          1042,
+          256,
+          256
+        ],
+        [
+          1562,
+          1042,
+          256,
+          256
+        ],
+        [
+          1822,
+          1042,
+          256,
+          256
+        ],
+        [
+          2,
+          1302,
+          256,
+          256
+        ],
+        [
+          262,
+          1302,
+          256,
+          256
+        ],
+        [
+          522,
+          1302,
+          256,
+          256
+        ],
+        [
+          782,
+          1302,
+          256,
+          256
+        ],
+        [
+          1042,
+          1302,
+          256,
+          256
+        ],
+        [
+          1302,
+          1302,
+          256,
+          256
+        ],
+        [
+          1562,
+          1302,
+          256,
+          256
+        ],
+        [
+          1822,
+          1302,
+          256,
+          256
+        ],
+        [
+          2,
+          1562,
+          256,
+          256
+        ],
+        [
+          262,
+          1562,
+          256,
+          256
+        ],
+        [
+          522,
+          1562,
+          256,
+          256
+        ],
+        [
+          782,
+          1562,
+          256,
+          256
+        ],
+        [
+          1042,
+          1562,
+          256,
+          256
+        ],
+        [
+          1302,
+          1562,
+          256,
+          256
+        ],
+        [
+          1562,
+          1562,
+          256,
+          256
+        ],
+        [
+          1822,
+          1562,
+          256,
+          256
+        ],
+        [
+          2,
+          1822,
+          256,
+          256
+        ],
+        [
+          262,
+          1822,
+          256,
+          256
+        ],
+        [
+          522,
+          1822,
+          256,
+          256
+        ],
+        [
+          782,
+          1822,
+          256,
+          256
+        ]
+      ]
+    },
+    "layer": "above_item",
+    "neutral_mask": true,
+    "tint_base": "#FFFFFF",
+    "tint_unique": "#CFAD6C",
+    "alpha_peak_multiplier": 0.64,
+    "timing_matches_idle": true
+  },
+  "optional_engine_motion": {
+    "pose_atlas": {
+      "file": "pose_atlas.png",
+      "size": [
+        780,
+        780
+      ],
+      "cell_size": [
+        256,
+        256
+      ],
+      "gutter_px": 4,
+      "extruded": false,
+      "filter": "bilinear",
+      "mipmaps": false,
+      "rects": [
+        [
+          2,
+          2,
+          256,
+          256
+        ],
+        [
+          262,
+          2,
+          256,
+          256
+        ],
+        [
+          522,
+          2,
+          256,
+          256
+        ],
+        [
+          2,
+          262,
+          256,
+          256
+        ],
+        [
+          262,
+          262,
+          256,
+          256
+        ],
+        [
+          522,
+          262,
+          256,
+          256
+        ],
+        [
+          2,
+          522,
+          256,
+          256
+        ],
+        [
+          262,
+          522,
+          256,
+          256
+        ],
+        [
+          522,
+          522,
+          256,
+          256
+        ]
+      ]
+    },
+    "mode": "Use pose_cel_file for each drop frame instead of baked drop_frames; apply your own origin/destination interpolation plus arc. Never apply both baked offset and engine path.",
+    "coordinates": "Positive x right, positive y down; sprites anchored to final ground position.",
+    "sample_path": "p = clamp(frame/16,0,1); x = lerp(-48,0,p); y = lerp(-20,0,p)-82*4*p*(1-p); after contact use listed bounce offsets.",
+    "arbitrary_launch": "lerp(launch_world,landing_world,p) + camera_up*82_pixels_world_equivalent*4*p*(1-p). Map animation source cel by frame; hold ground contact after tick32.",
+    "direction": "No container/enemy baked. Choose category separately. Engine may mirror the whole sprite card for a leftward toss if appropriate; never mirror only one frame."
+  },
+  "provenance": {
+    "new_art_method": "built-in image_gen",
+    "native_sheet": "../sources/bone_stack_native.png",
+    "exact_prompt": "../sources/bone_stack.prompt.txt",
+    "source_sheet_sha256": "a79a417029163b2187e0142988b9c2ae2b0fc019c446e009ada7323048121519",
+    "generated_cels": 9,
+    "derived_drop_frames": 24,
+    "derived_idle_frames": 60,
+    "rest_is_source_cel": 8,
+    "idle_glint_source": "../sources/existing_generic_loot_glint.png",
+    "glint_source_drive": "https://drive.google.com/file/d/1PRH1T2zXk4N3ol5Dulw3kbThWRWjTs37/view",
+    "assembly": "Common scale for every cel; alpha<8/255 and isolated components smaller than128 source pixels discarded; source cels anchor-registered; downsampled only; integer frame translation; generated existing glint white-mask extraction."
+  }
+}

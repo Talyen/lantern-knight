@@ -1,0 +1,15 @@
+{
+  "id": "lantern_drop_concept_06_pilgrim_pack",
+  "name": "Pilgrim pack",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/06_pilgrim_pack.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Bag is readable but faceted lid and neat straps feel asset-store low-poly.",
+  "pack": "Lantern - World Drop Gear 02",
+  "folder": "world_drop_gear_02",
+  "destination": "lantern_revision_02/equipment/world_drop_gear_02/assets/06_pilgrim_pack.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A PILGRIM PACK: slumped soot-brown canvas backpack, irregular overlapping flap, worn olive bedroll strapped on top, leather shoulder straps folded alongside. Large dark fabric folds. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-1d77857b-84c1-43f2-89e5-01f639bd5050.png",
+  "review": "Passed large overview and 64px light/dark proxy. Differentiated forged tools, cloth, leather, bone and book binding; native alpha preserved. Generated camera approximate."
+}

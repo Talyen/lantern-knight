@@ -1,0 +1,16 @@
+{
+  "title": "05 Slimes",
+  "variants": [
+    {
+      "id": "SL01",
+      "slug": "mosswell_slime",
+      "name": "Mosswell Slime",
+      "description": "A single classic dark-fantasy slime: low smooth broad hemispherical moss-green gelatinous body, weighted like a soft rounded dome over a scalloped footprint with FOUR broad shallow lobes. A pair of narrow dim amber eye slits recessed near the front, no mouth, no cartoon smile. One large curved sage highlight patch and two deep forest-green cel-shadow patches create clean gel volume. No limbs, no bones, no accessories, no external bubbles or droplets. Menacing simple mound silhouette. The body is illustrated as OPAQUE flat cel color even though the material suggests jelly; true transparency only outside the silhouette. Show upper dome and elliptical ground footprint from the elevated gameplay camera.",
+      "motion_hint": "Squash-hop / body lunge",
+      "move": "One squash-and-stretch hop or low gliding wobble.",
+      "attack": "Compress, then lunge the whole mound forward.",
+      "death": "Collapse to a flat puddle silhouette.",
+      "qa": "Single coherent mound, two eye slits and broad simple silhouette pass. External alpha preserved with minimal cleanup; body shading is illustrated jelly rather than a physically translucent material."
+    }
+  ]
+}

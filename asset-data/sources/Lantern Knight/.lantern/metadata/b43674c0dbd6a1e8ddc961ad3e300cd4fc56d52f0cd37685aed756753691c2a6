@@ -1,0 +1,71 @@
+{
+  "title": "Observatory A | Roofless Celestial Ruins",
+  "hero_source": "references/hero_original.png",
+  "views": [
+    {
+      "name": "central_armillary_concourse",
+      "display_box": [
+        1200,
+        725,
+        2736,
+        1749
+      ],
+      "display_foot": [
+        1650,
+        1362
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "western_telescope_terrace",
+      "display_box": [
+        0,
+        475,
+        1536,
+        1499
+      ],
+      "display_foot": [
+        788,
+        1145
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "southeastern_bridge_approach",
+      "display_box": [
+        2125,
+        1375,
+        3661,
+        2399
+      ],
+      "display_foot": [
+        3100,
+        2138
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "central_floor_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "bridge_junction",
+      "source_xy": [
+        1120,
+        800
+      ]
+    }
+  ],
+  "approved_reference_images": [
+    "references/selected_viewport_sample.png"
+  ],
+  "scene_notes": [
+    "Recovered fullscene original; exact full-expansion generation prompt unavailable. Included prompt belongs only to the earlier selected viewport sample.",
+    "Scenery, shadows and height transitions are baked. Walkability and occlusion are illustrative only; no engine integration or exact camera geometry has been validated."
+  ]
+}

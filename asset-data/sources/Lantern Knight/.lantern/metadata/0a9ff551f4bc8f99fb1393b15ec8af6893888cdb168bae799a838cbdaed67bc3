@@ -1,0 +1,34 @@
+# Lantern: essential interaction/channel reuse, v01
+
+Integration-only pack, no generated art and no project code changes. Original four-direction PNGs, atlases and manifests retain their identities and exact bytes. Source ZIP contains the original sheets, generation records, and upstream manifests. The old upstream status labels are preserved for provenance; this work does not re-certify art or engine behavior.
+
+## Minimum implementation
+- Generic inspection/acknowledgement: 01 > 02 > 03 > 06 > 07 > 08, 57 ticks (0.95 s). No touching, picking up, kneeling, free hand, or sword stow is implied.
+- Channel enter: 01 > 02 > 03 > 04, 37 ticks (0.616667 s).
+- Hold frame 04 indefinitely until the host supplies a result. This is a static pose, not a loop. Do not cycle 04/05 and do not synthesize breathing.
+- Success: optional frame 05 once, then 06 > 07 > 08. With pulse: 36 ticks (0.6 s). Without pulse: 30 ticks (0.5 s). Default pulse OFF. Enable only for a successful lantern-powered completion.
+- Cancel: 06 > 07 > 08, 30 ticks (0.5 s), never 05.
+- Original source holds at 60 Hz: 12/7/8/10/6/8/8/14. Use elapsed time and catch-up transitions, not one cel per rendered frame. Process each boundary event once even if a render frame skips across several boundaries.
+
+interaction_manifest.json is the authoritative added sequencing/state contract. Per-heading manifest_clean_native.json remains the original art contract. The original atlas is supplied for compatibility; its original full-cast playback sequence is NOT the new interaction sequence.
+
+## Three.js handoff (instructions only)
+Load the original transparent RGBA frame or atlas rectangles. Never mirror, crop to visible bounds, normalize each cel, infer PPU from the canvas, or rescale frames independently. Retain the intended billboard/camera convention of the existing hero implementation; this pack does not change camera projection.
+
+Each cast cell is 524 x 524. Pivot from top-left is (262,460). The sprite's plane width and height in world units are both 524 / directional PPU. Three.js Sprite.center, with bottom-left normalized convention, is (0.5, 64/524). Confirm UV orientation with one known upright source frame rather than guessing flipY. For a mesh, local x=(pixelX-262)/PPU and local y=(460-pixelY)/PPU. Do not add a second pivot offset. Anchor at the existing hero root, without per-frame foot repositioning.
+
+PPU: DR 257.407, DL 262.035, UL 238.953, UR 265.432. World heading: DR +X; DL +Z; UL -X; UR -Z. Heading is locked from activation through recovery. Sword and lantern sides must remain as drawn.
+
+Keep alpha-aware rendering and texture color-space conventions consistent with the existing hero. Atlas gutters are transparent canvas; guard sampling against neighboring cells. Separate-frame loading avoids accidental atlas bleed. No root-motion, collision, reward, interaction range, or controller implementation is provided.
+
+Create a fresh activation token per action; reject duplicate starts while busy. The inspection request fires after frame03 (tick27) only if still valid. The host decides whether anything actually succeeds. Channel completion requires an explicit host success, not elapsed pose time. Cancel overrides queued success, and late success after cancel is ignored. During enter, queue success/cancel until the enter finishes; then branch directly to recovery rather than entering the indefinite hold. Host death/stun/scene changes may hard-interrupt but must invalidate the activation and suppress pending events. Pulse emission is conditional, at most once; the baked glow in frame05 is not an independent VFX asset.
+
+## Honest join/pose limits
+The inspection skips 04/05 and uses the existing 03-to-06 recovery. It reads as a compact lantern look/acknowledgement, not a newly authored hand interaction. Channel cancel skips 05 and goes 04-to-06; this is a practical visual cut, not a seamless authored cancel. Success uses the original 04-to-05-to-06 progression. The static 04 hold has no pixel change at enter-to-hold, but is visibly static over long duration.
+
+Body/foot/coat motion is baked into the source cels. DR recovery visibly raises the neutral endpoint compared with the starting pose; other headings have lesser directional foot/stance shifts. Pivot values are approximate registrations inherited from the source. Shared ready is a different drawing and uses its OWN 632x688 canvas, (301,556) pivot and 350 PPU; never apply this cast pivot/PPU to ready. A hard return can pop. First integrate as documented and review in gameplay. Do not advertise seamless transitions. An optional short root-aligned opacity blend is a later host-side workaround, subject to in-engine ghosting review; it is not applied to these PNGs or certified here.
+
+## QA and preview
+Preview uses a common 210 display pixels per world unit for all cast headings, applying each exact PPU once for display. It does not fit each frame to a bounding box. Shared ready comparisons use 350 PPU and its authored pivot. Ground/root guides expose drift instead of hiding it. The contact sheet shows all eight source poses and all four headings. The MP4 demonstrates inspection, success with pulse, cancel, success without pulse, and shared-ready joins at 60 Hz. Hold demonstrations are finite only for the video; the runtime hold remains indefinite.
+
+Verified: all 32 frame hashes equal their source manifests; native dimensions/pivots/PPUs retained; all four source-sheet hashes verified; original per-heading manifests and atlases copied unchanged; sequence/timing/state event invariants checked. Visual pose/contact-sheet and selected preview frames reviewed. No Three.js code has been installed or engine playback verified. Test target cancellation, double-click activation, late completion, frame skips and repeated actions in-engine before calling this production-ready.

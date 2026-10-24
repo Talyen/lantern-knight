@@ -1,0 +1,525 @@
+{
+  "clip_id": "Lantern_Hero_pickup_kneel_D_v01",
+  "family": "pickup_kneel",
+  "facing": "D",
+  "producer": "animate_directional_pickup_actions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual anatomical-left support boot registration, constant scale preserving full crouch depth. Exact source rows adjusted to actual layout, never silhouette-fit. Source relative lantern/boot drift explicitly retained for independent runtime QA. Standing endpoint uses same anatomical support boot; no per-frame density fitting.",
+  "equipment_contract": "Sword anatomical right throughout. Lantern anatomical left, grounded at timeline3\u20138, released4\u20137, regripped8, lifted9 (one-based).",
+  "timing_source": "interaction_audit_20261017/pickup_kneel_DR_runtime/pickup_kneel_DR_timing_60hz.json",
+  "source_timing": [
+    10,
+    8,
+    10,
+    7,
+    9,
+    9,
+    7,
+    10,
+    7,
+    10,
+    12
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "ba85eb4563b18fe55452bb7e86129343a27ad8d066235a7b9893e927071280e5",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "9ea73ccc15ebc296627d81ea74bf6336b1a62e7c30a3db76bc7fd2841f095b6f",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        0,
+        0,
+        458,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        26,
+        135
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          318,
+          369
+        ],
+        "lantern_bottom_center_xy": [
+          379,
+          303
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern carried in anatomical left; sword right",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        57,
+        137,
+        391,
+        487
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "3a815509e7e4f48b631a403b9065b41ec8838284ed5503aedd5d2340b2f3aaad",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "252481fcf6e63e0a56f29098855268949263ae0c49d1af40c4631c3e0b2ecb51",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        458,
+        0,
+        916,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        60,
+        110
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          275,
+          400
+        ],
+        "lantern_bottom_center_xy": [
+          357,
+          365
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern carried in anatomical left; sword right",
+      "start_tick": 10,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        60,
+        135,
+        426,
+        453
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "667d7e54448b80f88fcbe6579b954e7be8a9e1ea0ef0ec62c58014f956a6ed26",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "d9ee413620b79faa6373d11560f3ed52ca47b015671b8b74f5c0e7357cec3165",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        916,
+        0,
+        1374,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        65,
+        104
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          269,
+          407
+        ],
+        "lantern_bottom_center_xy": [
+          346,
+          410
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern grounded and gripped",
+      "start_tick": 18,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        68,
+        119,
+        420,
+        460
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "2832294c8027cff82386926095ca4f4ecc3bdece35b61406fa53372ada08281c",
+      "native_size_px": [
+        458,
+        330
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "46ad9d3b036c31f28d72419643e6e4cb1f46acd313a415a7b2238e929bab4796",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        0,
+        445,
+        458,
+        775
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        40,
+        196
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          300,
+          293
+        ],
+        "lantern_bottom_center_xy": [
+          389,
+          289
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern grounded; released",
+      "start_tick": 28,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        74,
+        200,
+        404,
+        458
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "7d08643bed0866fd4237d36554e150502881584681dab64ddbf856b011fd4511",
+      "native_size_px": [
+        458,
+        330
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "ab7e94061d5805a5a1243f505023de6ce792eae911bc6a9a7653b8abe33a5544",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        458,
+        445,
+        916,
+        775
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        57,
+        198
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          279,
+          290
+        ],
+        "lantern_bottom_center_xy": [
+          391,
+          272
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern grounded; released",
+      "start_tick": 35,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        63,
+        199,
+        422,
+        455
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "ecd97089cda9a298df9a872e3783df61ef2b323388f3bea54ac7bd8b22fed77b",
+      "native_size_px": [
+        458,
+        330
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "a25927c236b70a3bb1e175e90c447a2d2a2c1cc68d3cf57920268b8f1305c04f",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        916,
+        445,
+        1374,
+        775
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        58,
+        195
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          278,
+          294
+        ],
+        "lantern_bottom_center_xy": [
+          358,
+          271
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern grounded; released",
+      "start_tick": 44,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        71,
+        195,
+        413,
+        459
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "24722d54bcbae72434d2c6ee754308223ae97fd427309662a995d81b942cf237",
+      "native_size_px": [
+        458,
+        370
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "9b2723d8ef3e663779561fb5f73f6176efc8218d69c2d1d9992c686198bac443",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        0,
+        775,
+        458,
+        1145
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        30,
+        189
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          312,
+          301
+        ],
+        "lantern_bottom_center_xy": [
+          399,
+          281
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern grounded; released",
+      "start_tick": 53,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        68,
+        189,
+        395,
+        472
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "a45536a9e3909c845a67fd7577b7256462d397e29e4092cd858f220e3e0f447d",
+      "native_size_px": [
+        458,
+        370
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "206c708d4006b7c86ba26c1776cd2b7c062d3aa653f80f2804d8c9d50a2eb83b",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        458,
+        775,
+        916,
+        1145
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        50,
+        176
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          288,
+          317
+        ],
+        "lantern_bottom_center_xy": [
+          374,
+          280
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern grounded and gripped",
+      "start_tick": 60,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        50,
+        179,
+        415,
+        453
+      ]
+    },
+    {
+      "index": 8,
+      "native_file": "source/native/08.png",
+      "native_sha256": "12149f08b85ae7020dedec021b740a8fd981d45922cbd23d1849e153afe30155",
+      "native_size_px": [
+        458,
+        370
+      ],
+      "runtime_file": "runtime/frames/08.png",
+      "runtime_sha256": "ab805eaf75b1d932dbdffd6f7e30d52718c457b58fef8b95165511ba58dc65a2",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        916,
+        775,
+        1374,
+        1145
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        60,
+        174
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          275,
+          320
+        ],
+        "lantern_bottom_center_xy": [
+          345,
+          211
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern carried in anatomical left; sword right",
+      "start_tick": 70,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        65,
+        174,
+        412,
+        470
+      ]
+    },
+    {
+      "index": 9,
+      "native_file": "source/native/01.png",
+      "native_sha256": "3a815509e7e4f48b631a403b9065b41ec8838284ed5503aedd5d2340b2f3aaad",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/09.png",
+      "runtime_sha256": "252481fcf6e63e0a56f29098855268949263ae0c49d1af40c4631c3e0b2ecb51",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        458,
+        0,
+        916,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        60,
+        110
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          275,
+          400
+        ],
+        "lantern_bottom_center_xy": [
+          357,
+          365
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern carried in anatomical left; sword right",
+      "start_tick": 77,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        60,
+        135,
+        426,
+        453
+      ]
+    },
+    {
+      "index": 10,
+      "native_file": "source/native/00.png",
+      "native_sha256": "ba85eb4563b18fe55452bb7e86129343a27ad8d066235a7b9893e927071280e5",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/10.png",
+      "runtime_sha256": "9ea73ccc15ebc296627d81ea74bf6336b1a62e7c30a3db76bc7fd2841f095b6f",
+      "source_sha256": "7f3546bdbc6b0351f663a3f5a77c5330108ff8de03c8731809fa1cf6366ac1d2",
+      "crop_xyxy": [
+        0,
+        0,
+        458,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        26,
+        135
+      ],
+      "observed_anchors": {
+        "anatomical_left_support_boot_sole_xy": [
+          318,
+          369
+        ],
+        "lantern_bottom_center_xy": [
+          379,
+          303
+        ]
+      },
+      "registration_note": "Constant scale 0.8. Manual support boot sole locked across descent/grounded action; head, pelvis, reaching hand remain free to descend and move. Original grounded lantern-to-foot redraw drift remains, cannot remove with rigid placement.",
+      "equipment_state": "lantern carried in anatomical left; sword right",
+      "start_tick": 87,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        57,
+        137,
+        391,
+        487
+      ]
+    }
+  ],
+  "native_drawn_cels": 9,
+  "timeline_frame_count": 11,
+  "duration_ticks": 99,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "1ccd98965942b85ffe5f22b7cab0beed0699b787368e45db4df8a02c662500d5"
+  }
+}

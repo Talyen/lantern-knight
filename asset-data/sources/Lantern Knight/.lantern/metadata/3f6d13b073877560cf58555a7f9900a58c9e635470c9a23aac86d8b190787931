@@ -1,0 +1,783 @@
+{
+  "clip_id": "rust_run_world_positive_Z_DL_mixamo7_test_v01",
+  "status": "PLAYABLE_TEST_WITH_DISCLOSED_LIMITATIONS",
+  "action_role": "run",
+  "loop": true,
+  "unique_drawings": 7,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "canvas": [
+    1536,
+    1024
+  ],
+  "root_top_left": [
+    768,
+    892
+  ],
+  "root_bottom_left": [
+    768,
+    132
+  ],
+  "authored_cell_root": [
+    245,
+    390
+  ],
+  "registration": "Native1x pixels, fixed source cell extraction, common transparent padding. No per-frame scale, mirror, pose warps or silhouette fitting. Approximate authored pivot.",
+  "heading": {
+    "world_forward": [
+      0,
+      0,
+      1
+    ],
+    "screen": "DL",
+    "world_up": "Y",
+    "camera_elevation_degrees": 35.264389682754654,
+    "camera_world_azimuth_degrees": 45,
+    "mirror": false
+  },
+  "motion_source": {
+    "body_legs_left_arm": "Standing Torch Run Forward",
+    "right_arm": "Sword And Shield Run, contact-aligned vectors mapped between torso bases and normalized to Torch arm lengths",
+    "source_torch_fbx_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+    "source_distance_m": 2.7551526452298276,
+    "source_speed_m_s": 4.132728967844741,
+    "engine_validated": false,
+    "horizontal_root_removed": true,
+    "duplicate_endpoint40_excluded": true
+  },
+  "retiming": {
+    "omitted_source_cell": 3,
+    "reason": "Wrong opposite leg phase in generated cel; excluded entirely.",
+    "remaining_source_ticks": [
+      0,
+      5,
+      15,
+      20,
+      25,
+      30,
+      35
+    ],
+    "holds_ticks": [
+      5,
+      7,
+      8,
+      5,
+      5,
+      5,
+      5
+    ],
+    "note": "Missing5ticks redistributed +2to priorcel,+3to followingcel. Full40tickcycle remains, with larger2\u21924 spacing and unequal holds; no wrongpose/duplicate filler."
+  },
+  "identity_reference": "directional_ready_idle_v01/delivery/ready_world_positive_Z_DL_native.png",
+  "source_sheet_sha256": "0f11bc55178da4b5c651d5460d5a74c2b41cab9a383caaad29492beefa5e8c6c",
+  "limits": [
+    "Larger sourcecel2\u21924 spacing and unequal holds.",
+    "Boot detail varies; one sourceboot is simpler/unstrapped, preserved without new geometry.",
+    "Original clean drawn weapon proportions retained.",
+    "Observed anchors and root/foot calibration approximate; source contacts are joint proxies."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/run_00.png",
+      "sha256": "b0d266211bb7d8895f48949028324a7499ed923197749614a16b5d769694fd90",
+      "source_sheet_cell_1based": 1,
+      "source_tick": 0,
+      "source_motion_phase": 0.0,
+      "start_tick": 0,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.0,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            758,
+            692
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            637,
+            689
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            710,
+            722
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            635,
+            702
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            541,
+            856
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            774,
+            848
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            827,
+            889
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "source_cell_exclusions": [],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        8,
+        8,
+        444,
+        444
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/run_01.png",
+      "sha256": "9bbf7ea862fddcbbef10b4eaccf29f58a594e46415f51e844df45abd1851e0c7",
+      "source_sheet_cell_1based": 2,
+      "source_tick": 5,
+      "source_motion_phase": 0.125,
+      "start_tick": 5,
+      "hold_ticks_60hz": 7,
+      "cycle_phase": 0.125,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            758,
+            693
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            636,
+            674
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            704,
+            701
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            633,
+            689
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            543,
+            854
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            871,
+            814
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            765,
+            915
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "source_cell_exclusions": [
+        [
+          436,
+          345,
+          443,
+          362
+        ]
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        468,
+        8,
+        443,
+        444
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/run_02.png",
+      "sha256": "81077cb73f8e075b26a200df2857ccbcbd3af2cf1bd28eb87c5466cca578bc80",
+      "source_sheet_cell_1based": 4,
+      "source_tick": 15,
+      "source_motion_phase": 0.375,
+      "start_tick": 12,
+      "hold_ticks_60hz": 8,
+      "cycle_phase": 0.3,
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            773,
+            705
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            638,
+            698
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            717,
+            724
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            637,
+            708
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            543,
+            847
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            901,
+            764
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            804,
+            914
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "source_cell_exclusions": [],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        928,
+        8,
+        444,
+        444
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/run_03.png",
+      "sha256": "872992319230959a9e52831a71b161cb862e5bb4ef4df42720687e50f409544a",
+      "source_sheet_cell_1based": 5,
+      "source_tick": 20,
+      "source_motion_phase": 0.5,
+      "start_tick": 20,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.5,
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            765,
+            702
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            647,
+            676
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            707,
+            696
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            641,
+            688
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            541,
+            850
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            823,
+            814
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            822,
+            904
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "source_cell_exclusions": [],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        1388,
+        8,
+        444,
+        443
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/run_04.png",
+      "sha256": "9d9624ecb32bac5354da03400e35d6215fae371d5f3e2158818990b500840d8d",
+      "source_sheet_cell_1based": 6,
+      "source_tick": 25,
+      "source_motion_phase": 0.625,
+      "start_tick": 25,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.625,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            769,
+            701
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            651,
+            670
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            722,
+            690
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            648,
+            683
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            543,
+            828
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            753,
+            893
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            887,
+            795
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "source_cell_exclusions": [],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        8,
+        468,
+        443,
+        443
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/run_05.png",
+      "sha256": "2342e9073745d6147e266b4e8936cd1a08d3917075ce289771f5df398e6f5d9e",
+      "source_sheet_cell_1based": 7,
+      "source_tick": 30,
+      "source_motion_phase": 0.75,
+      "start_tick": 30,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.75,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            768,
+            698
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            650,
+            677
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            706,
+            699
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            647,
+            691
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            545,
+            842
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            691,
+            891
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            912,
+            780
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "source_cell_exclusions": [],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        468,
+        468,
+        443,
+        443
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/run_06.png",
+      "sha256": "7aeb0be4c40d35831c010a9277cac079e7387b59d93c10dab8ce2ac10db8b599",
+      "source_sheet_cell_1based": 8,
+      "source_tick": 35,
+      "source_motion_phase": 0.875,
+      "start_tick": 35,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.875,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source toe-joint proxy at source sample, not exact drawnsole/game contact. Retimed holds differ from raw source sample spacing.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            777,
+            707
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_hand": {
+          "xy": [
+            650,
+            681
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_hand": {
+          "xy": [
+            705,
+            702
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_hilt": {
+          "xy": [
+            649,
+            692
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "sword_tip": {
+          "xy": [
+            547,
+            836
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "right_foot": {
+          "xy": [
+            765,
+            884
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        },
+        "left_foot": {
+          "xy": [
+            913,
+            801
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual observed image proxy, not guide coordinate; pelvis/feet\u00b110px, hands/weapon\u00b15px approximately."
+        }
+      },
+      "source_sheet_rect": [
+        1330,
+        444,
+        1774,
+        887
+      ],
+      "source_cell_exclusions": [],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        928,
+        468,
+        444,
+        443
+      ]
+    }
+  ],
+  "extraction_cleanup": "Isolated17visible-pixel tip fragment from discarded sourcecel3 removed from neighboring retainedcel2; see source_cell_exclusions. No retained-body pixels removed."
+}

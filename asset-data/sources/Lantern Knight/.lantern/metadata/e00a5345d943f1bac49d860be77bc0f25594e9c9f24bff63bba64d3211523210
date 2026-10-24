@@ -1,0 +1,9 @@
+{
+  "method": "Built-in image_gen; new generation",
+  "generatedAt": "2026-10-07",
+  "prompt": "prompt.txt",
+  "original": "native_sheet.png",
+  "sha256": "ad8129ea4aa795d5c93829c2652a32e2225a2c6a30c55556ec262b279bef7530",
+  "reference": "Broad style viewed from existing Lantern reference contact; no reference image passed",
+  "postprocess": "Native pixel crops, translation, acting-mask composite locking body, final hold copied from cel 5; no upscaling"
+}

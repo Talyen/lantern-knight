@@ -1,0 +1,566 @@
+{
+  "version": "2.0-clean-ink-candidate",
+  "content_status": "root_visual_gate_accepted_integrity_checked",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "world": "right-handed XZ ground / Y up"
+  },
+  "canvas": [
+    1536,
+    1536
+  ],
+  "source_density_px_per_m": 440.0,
+  "ground_pivot_px": [
+    768.0,
+    1220.0
+  ],
+  "assets": [
+    {
+      "id": "gothic_oak_door",
+      "master": "source/masters/gothic_oak_door.png",
+      "states": {
+        "closed": {
+          "png": "png/gothic_oak_door_closed.png",
+          "alpha_bounds_px": [
+            472,
+            305,
+            1127,
+            1387
+          ],
+          "sha256": "0aba487b622cdc649cf6399cb222b3d104da84120a46a689a5bbcac2228b9c95",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "open": {
+          "png": "png/gothic_oak_door_open.png",
+          "alpha_bounds_px": [
+            279,
+            305,
+            1127,
+            1387
+          ],
+          "sha256": "16fab44a9b769b50fb0922db57fdccd2091f502b91f1a33a9ab59dd06754b62d",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/gothic_oak_door_broken.png",
+          "alpha_bounds_px": [
+            270,
+            305,
+            1127,
+            1387
+          ],
+          "sha256": "1c5c4c0fde3d5e7600d8f759b153bdca8ae0a8cd0870c3fc6f760e2df2ca49bf",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/gothic_oak_door.png"
+      ]
+    },
+    {
+      "id": "iron_portcullis",
+      "master": "source/masters/iron_portcullis.png",
+      "states": {
+        "closed": {
+          "png": "png/iron_portcullis_closed.png",
+          "alpha_bounds_px": [
+            459,
+            213,
+            1146,
+            1387
+          ],
+          "sha256": "faf2e2ce890de1adc79908e45e7a80bb5d0f5392e56ddeae11bbaa1f888a8b6b",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "open": {
+          "png": "png/iron_portcullis_open.png",
+          "alpha_bounds_px": [
+            459,
+            213,
+            1146,
+            1387
+          ],
+          "sha256": "bac08fc7d567909efd613bc48a1e6314a1cd8eecccc1968e71959b6c53aec507",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/iron_portcullis_broken.png",
+          "alpha_bounds_px": [
+            459,
+            213,
+            1146,
+            1484
+          ],
+          "sha256": "42b3cd8ed8fabf1b08f48d6106207e0635f3a4a56a643555b7cab16bbcbb8164",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/iron_portcullis.png"
+      ]
+    },
+    {
+      "id": "yoke_lever",
+      "master": "source/masters/yoke_lever.png",
+      "states": {
+        "idle": {
+          "png": "png/yoke_lever_idle.png",
+          "alpha_bounds_px": [
+            593,
+            709,
+            966,
+            1321
+          ],
+          "sha256": "87e5044f06e9a2eb43405914d48cb4098cc6dd965498695f6795f6a08f84106f",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "engaged": {
+          "png": "png/yoke_lever_engaged.png",
+          "alpha_bounds_px": [
+            593,
+            865,
+            944,
+            1321
+          ],
+          "sha256": "49999df1be5e2b1ce6ef050538cdb28dec1c9f3afa2c997f91e2532df09da9c0",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/yoke_lever_broken.png",
+          "alpha_bounds_px": [
+            520,
+            912,
+            944,
+            1321
+          ],
+          "sha256": "b2431a3ad26e1425bb45db18c7c565c7c00c643f20dcea2c177522b1ed3be6d7",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/yoke_lever.png",
+        "source/masters/yoke_lever_isobase.png"
+      ]
+    },
+    {
+      "id": "octagonal_pressure_plate",
+      "master": "source/masters/octagonal_pressure_plate.png",
+      "states": {
+        "idle": {
+          "png": "png/octagonal_pressure_plate_idle.png",
+          "alpha_bounds_px": [
+            508,
+            1033,
+            1026,
+            1366
+          ],
+          "sha256": "427747e62b439a4d9592ef3434811d7b56bd2004d48e7b13d72bf9aa4da93962",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "engaged": {
+          "png": "png/octagonal_pressure_plate_engaged.png",
+          "alpha_bounds_px": [
+            508,
+            1033,
+            1026,
+            1366
+          ],
+          "sha256": "476b6ed1bba2f20989b8d7eb5017d450dc5a74b7113151113c47a4ea0bf44439",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/octagonal_pressure_plate_broken.png",
+          "alpha_bounds_px": [
+            508,
+            1033,
+            1026,
+            1366
+          ],
+          "sha256": "26ab40253d5780b788909137dde4cbd6deaa52db60195839fe7797be6a289b3d",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/octagonal_pressure_plate.png"
+      ]
+    },
+    {
+      "id": "brass_stop_valve",
+      "master": "source/masters/brass_stop_valve.png",
+      "states": {
+        "idle": {
+          "png": "png/brass_stop_valve_idle.png",
+          "alpha_bounds_px": [
+            529,
+            868,
+            1010,
+            1269
+          ],
+          "sha256": "ef4b66d065e9eee89daf40f9f77831c7b6267f5044d6317330a28ecae97cef7a",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "engaged": {
+          "png": "png/brass_stop_valve_engaged.png",
+          "alpha_bounds_px": [
+            530,
+            868,
+            1010,
+            1269
+          ],
+          "sha256": "ba61d36f2709aff705eb945528c79ba8873ac237211b0c2cf22e30356f8e5e2b",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/brass_stop_valve_broken.png",
+          "alpha_bounds_px": [
+            528,
+            868,
+            1010,
+            1390
+          ],
+          "sha256": "70188a6b5dff2cc89aa9584969346de7b38a5075ab64b3c79144ee87bcb25cdc",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/brass_stop_valve.png",
+        "source/masters/brass_stop_valve_isobody.png"
+      ]
+    },
+    {
+      "id": "oak_rope_winch",
+      "master": "source/masters/oak_rope_winch.png",
+      "states": {
+        "idle": {
+          "png": "png/oak_rope_winch_idle.png",
+          "alpha_bounds_px": [
+            496,
+            808,
+            1037,
+            1371
+          ],
+          "sha256": "443e6bcf8e9a1c8bc353569512bc7e05a14d88a9e03a8664923cef65fd9aa3b3",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "engaged": {
+          "png": "png/oak_rope_winch_engaged.png",
+          "alpha_bounds_px": [
+            496,
+            808,
+            1037,
+            1371
+          ],
+          "sha256": "d788a753161a19ddb13b6c766be869f2de9e4ceac566d8a8652f0f1061eb4e03",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/oak_rope_winch_broken.png",
+          "alpha_bounds_px": [
+            496,
+            808,
+            1037,
+            1425
+          ],
+          "sha256": "f9acf9d5279739b63d3b0515c44a084943c5e8cfa6f15e3151bec4e3892062b1",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/oak_rope_winch.png"
+      ]
+    },
+    {
+      "id": "watch_bell",
+      "master": "source/masters/watch_bell.png",
+      "states": {
+        "idle": {
+          "png": "png/watch_bell_idle.png",
+          "alpha_bounds_px": [
+            566,
+            495,
+            1015,
+            1320
+          ],
+          "sha256": "c361897ddfba1c57f70d6d9de280db7f1bc9cd9adc3577b18dc6d356d24c5184",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "engaged": {
+          "png": "png/watch_bell_engaged.png",
+          "alpha_bounds_px": [
+            566,
+            495,
+            1015,
+            1320
+          ],
+          "sha256": "40d1c96e0375e0471b4f8ae681b68bc3729a447b9aa0fef7bfba1b09aff39666",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/watch_bell_broken.png",
+          "alpha_bounds_px": [
+            497,
+            495,
+            1015,
+            1372
+          ],
+          "sha256": "6f622386ff58d48a9c447853445ff3a997de6d6b01c57ecf1c4232612a5a2b25",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/watch_bell.png",
+        "source/masters/watch_bell_isobody.png"
+      ]
+    },
+    {
+      "id": "crypt_sliding_seal",
+      "master": "source/masters/crypt_sliding_seal.png",
+      "states": {
+        "closed": {
+          "png": "png/crypt_sliding_seal_closed.png",
+          "alpha_bounds_px": [
+            512,
+            388,
+            1090,
+            1356
+          ],
+          "sha256": "f9da4d13b46df21f7cd9a0d4fce631e7a103467afa322f8bdd87a1a916cf9e85",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "open": {
+          "png": "png/crypt_sliding_seal_open.png",
+          "alpha_bounds_px": [
+            512,
+            388,
+            1090,
+            1356
+          ],
+          "sha256": "acd89c0fe2762262e186f1fe532f059f9bd685ec7de7e6594d837109efc6e49f",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/crypt_sliding_seal_broken.png",
+          "alpha_bounds_px": [
+            512,
+            388,
+            1090,
+            1356
+          ],
+          "sha256": "ed907826efc59bd69087290527003e401b0e8c39e47c691a5aad8f20ddc142a5",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "notes": "source illustration retained unchanged; editable world-space assembly",
+      "source_masters": [
+        "source/masters/crypt_sliding_seal.png"
+      ]
+    }
+  ],
+  "limitations": [
+    "Hand-painted 2.5D parts with world-space assembly; source-baked lighting follows rotating surfaces.",
+    "Door reverse shares the front illustration; separate reverse artwork recommended for view-dependent lighting.",
+    "Art extents changed; colliders and gameplay bounds require engine-side review."
+  ],
+  "art_construction": "Untouched new illustration masters, fixed-camera 2.5D world-space assembly, source-defined clipping meshes and deterministic animation.",
+  "migration": {
+    "replaces_pack": "lantern_overnight/02_mechanisms",
+    "asset_ids": "unchanged",
+    "state_names": "unchanged",
+    "clip_ids": "unchanged",
+    "canvas_and_root": "unchanged: 1536x1536, [768,1220]",
+    "source_roles": {
+      "old_svg": "superseded by editable master PNG layers, clipping meshes and Python rig source",
+      "png": "new art, same semantic states",
+      "animation": "rebuilt original four activation clips, 24 frames each"
+    },
+    "collision_status": "not migrated; engine-side collision review required"
+  },
+  "camera_provenance": {
+    "world_projection": "exact orthographic matrix at stated elevation/azimuth",
+    "front_component_registration": "source corners and hinge axes projected by the exact matrix",
+    "isometric_painted_volumes": [
+      "yoke_lever_isobase",
+      "brass_stop_valve_isobody",
+      "watch_bell_isobody"
+    ],
+    "painted_volume_caveat": "Generated isometric volumes are artistic fixed-view illustrations. Their depicted internal surfaces are not mathematically calibrated 3D meshes; the registered placement and animation anchors are controlled."
+  },
+  "revision": "clean_ink_r02_20261006"
+}

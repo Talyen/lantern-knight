@@ -1,0 +1,61 @@
+{
+  "name": "Village Barricade",
+  "native_canvas": [
+    512,
+    512
+  ],
+  "runtime_canvas": [
+    256,
+    256
+  ],
+  "authored_cels": 8,
+  "states": [
+    "standing",
+    "latch_lifting",
+    "brace_freed",
+    "legs_folding",
+    "top_descending",
+    "legs_nested",
+    "settling",
+    "collapsed"
+  ],
+  "frame_duration_ms": [
+    160,
+    160,
+    160,
+    160,
+    160,
+    160,
+    160,
+    160
+  ],
+  "start_hold": "standing",
+  "end_hold": "collapsed",
+  "loop": false,
+  "ground_anchor_native": [
+    256,
+    480
+  ],
+  "contact_anchor_native": [
+    250,
+    330
+  ],
+  "reward_marker_native": [
+    256,
+    485
+  ],
+  "completion_frame": 7,
+  "source_library_id": "libfile_6f237c0491888191b80039203a94ebde",
+  "gameplay_suggestion": "Remove self-contained temporary path obstruction",
+  "implementation": "Art metadata only; no game code",
+  "qa_status": "Root visually approved 2026-10-18",
+  "source": "Built-in imagegen, highest native quality/resolution requested; no model selector exposed",
+  "provenance": "Exact retained master visually inspected; approved global art style and source scene prompt used where locally available. Watchtower source kit unavailable locally; exact master and approved style used.",
+  "scene_placement": {
+    "ground": [
+      1900,
+      2200
+    ],
+    "canvas_width": 360
+  }
+}

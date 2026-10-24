@@ -1,0 +1,51 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_native.png",
+    "name": "village_C_variant01_native.png",
+    "size": 2550920,
+    "sha256": "7969c6ab89ecfe83007db6fcf8d17b719db911292a7e908fc4ee786e3f6cace6",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_AI4x_master_6144x4096.png",
+    "name": "village_C_variant01_AI4x_master_6144x4096.png",
+    "size": 20442860,
+    "sha256": "026cf1eee8602d8ec54c0f745077b08755c77f59e8193f4710ce80b924fe87f6",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_2x_3072x2048.png",
+    "name": "village_C_variant01_2x_3072x2048.png",
+    "size": 6223401,
+    "sha256": "315c0ca28b8909b267605297045085ed5bf4cfc1fe56e05e7ca22039dde0a749",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_overview.png",
+    "name": "village_C_variant01_overview.png",
+    "size": 1983382,
+    "sha256": "4057b18a31609146f85c423268ca2384c6aed20716f3770cff9ea0bc4ea023fb",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_entry_hero160.png",
+    "name": "village_C_variant01_entry_hero160.png",
+    "size": 1718808,
+    "sha256": "b91379c8dd3d794011bb6b3c669c66cf4ecf37525eb605fe35c6f446cce62192",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_middle_hero160.png",
+    "name": "village_C_variant01_middle_hero160.png",
+    "size": 1569561,
+    "sha256": "ec33c4d071ab27a3306e7a384bcdb1b310086362bb8bc005500c4aaa383700ee",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/village_C_variant01/village_C_variant01_far_hero160.png",
+    "name": "village_C_variant01_far_hero160.png",
+    "size": 1551556,
+    "sha256": "bfdc29c889758929a481936e8eb3b661ab3ca29400eb3d915a4fe2905a80097a",
+    "library_artifact_type": "image"
+  }
+]

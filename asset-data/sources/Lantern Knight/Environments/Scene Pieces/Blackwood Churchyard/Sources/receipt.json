@@ -1,0 +1,50 @@
+{
+  "tool": "built-in image_gen",
+  "requestedModel": "gpt-image-2.5 sunburst",
+  "modelRoutingExposed": false,
+  "requestedResolution": "highest supported native",
+  "sizeControlExposed": false,
+  "originalsPreserved": true,
+  "assets": [
+    {
+      "id": "ink-chapel-front",
+      "file": "chapel-front.png",
+      "sha256": "ca8e95e8a9187447c8414f8a9671439bb34af11fc98cdbcdcf543512fbb52566",
+      "width": 1254,
+      "height": 1254,
+      "density": 256
+    },
+    {
+      "id": "ink-blackwood-oak",
+      "file": "ancient-oak.png",
+      "sha256": "629f009fe39ace6e000db40f3e5f959e6350527d967fd088df022e25a00be4b9",
+      "width": 941,
+      "height": 1672,
+      "density": 285.4922527795566
+    },
+    {
+      "id": "ink-churchyard-roof",
+      "file": "slate-roof.png",
+      "sha256": "4e9227bccfe6b918beb9e61fb754b5f723df89d51fbe6f00ba3a2e013ca7c2e0",
+      "width": 1254,
+      "height": 1254,
+      "density": 256
+    },
+    {
+      "id": "ink-blackwood-woodland",
+      "file": "woodland-group.png",
+      "sha256": "85bf756e85ce0c3fac9a8a3257c18b63a4d0721ad2250239c4d6dfaf244cc93e",
+      "width": 1672,
+      "height": 941,
+      "density": 265.26181604773933
+    },
+    {
+      "id": "ink-graveyard-materials",
+      "file": "quiet-earth.png",
+      "sha256": "a30b1fe87b8c249d6a972ffcd7dc534cbf2bf2400cb932c9ae8ac7ead415866d",
+      "width": 1254,
+      "height": 1254,
+      "density": 256
+    }
+  ]
+}

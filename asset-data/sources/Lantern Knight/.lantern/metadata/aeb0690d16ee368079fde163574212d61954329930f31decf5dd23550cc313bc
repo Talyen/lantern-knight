@@ -1,0 +1,8 @@
+Visual QA — 2026-10-07
+Inspected all eight individual drawings and the ordered contact sheet. Re-inspected corrected extracted frames after whole-connected-component assignment resolved splinters crossing sheet gutters. All native output frames fit inside 512x512 without clipping; smallest transparent top margin is 13 px at outward apex. Original intact artwork downsampled, no upscaling. Remaining corners/floor hand-registered to fixed root (256,392), with natural pile deformation in final settle.
+
+Material identity: broad warm wood boards and diagonal braces; black contours; raw-wood splinter ends; no arbitrary triangle fragments, duplicated hinges, or detached metal shrapnel. Final frame is a low stable debris pile, substantially different from earlier localized broken-state source.
+
+Limitations: illustrative piece shape continuity rather than simulated rigid-body trajectories; camera angle was requested and visually matched, not numerically proven by 3D geometry. Backend did not expose Sunburst 2.5 selection. Returned source sheet was 1254x1254, retained at native scale. Native runtime drawing footprint is about 300 px wide.
+
+Technical QA: eight RGBA frames; 2048x1024 atlas; manifest includes per-frame alpha bounds, fixed root, PPU, 60 Hz holds, terminal infinite hold. ffprobe confirms 512x512, 60/1 fps, 123 frames, 2.05-second MP4 (33 animation ticks plus 90 preview-only terminal ticks). Standalone debris sprite exactly matches final frame. Runtime/source ZIPs tested with zipfile CRC check. No files uploaded and no game/repository/Drive changes.

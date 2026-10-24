@@ -1,0 +1,199 @@
+{
+  "scene": "dry_quarry",
+  "approved_native_sha256": "01daab80f4c2627b0c208b9a670075c5ed221b4fe0ecf56a8dac02ce14c16fd1",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "master_dimensions": [
+    6144,
+    4096
+  ],
+  "sourcekit_contents": [
+    {
+      "path": "README.txt",
+      "sha256": "36c3573cd2063ffaef5ce25374e761715437cef00322ebc02f49da754d75caaf",
+      "size_bytes": 1762
+    },
+    {
+      "path": "actual_parameters.json",
+      "sha256": "cc96ddf397ded1b256bd5e594ee1d2625145fac5a5f0ee7236622ee4b12cca85",
+      "size_bytes": 1379
+    },
+    {
+      "path": "exact_prompt.txt",
+      "sha256": "3563fa9be494fa6981bbc0b5f6874fc0dc1cde6b9b3b9c0e8ec2467c9484f555",
+      "size_bytes": 1172
+    },
+    {
+      "path": "generation_verification.json",
+      "sha256": "e1e4f30dfcd765a2e35ddb85cc18215bb03dbabfb5245c643be5ef6783bfc9b9",
+      "size_bytes": 445
+    },
+    {
+      "path": "inference/build_scene_review.py",
+      "sha256": "7cacde13cb4bc60659e3913e2aef109d88b2a17455ba20997f1381686f770c7c",
+      "size_bytes": 4048
+    },
+    {
+      "path": "inference/check_scene_seams.py",
+      "sha256": "979b505dcdd77f8ff2015d61f027d14ca18e4ac11e4bc0418f75b3c453a02cce",
+      "size_bytes": 1805
+    },
+    {
+      "path": "inference/run_isolated.py",
+      "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f",
+      "size_bytes": 3465
+    },
+    {
+      "path": "inference/run_test.py",
+      "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236",
+      "size_bytes": 2347
+    },
+    {
+      "path": "metrics/resume_config.json",
+      "sha256": "e335c403984135ede5a22042d6a754343f4398b59dc8f9062f9de6166985d6c5",
+      "size_bytes": 137
+    },
+    {
+      "path": "metrics/run_metadata.json",
+      "sha256": "3b12d6426a57e6b9c2b523d9c882e34e9c406c98d351860ad6c1244312abefcc",
+      "size_bytes": 16841
+    },
+    {
+      "path": "metrics/seam_metrics.json",
+      "sha256": "6aa935057b8c0b81e3ab112687cd56762be5c8583ffff702b036fd47511c21de",
+      "size_bytes": 589
+    },
+    {
+      "path": "native_floor.png",
+      "sha256": "01daab80f4c2627b0c208b9a670075c5ed221b4fe0ecf56a8dac02ce14c16fd1",
+      "size_bytes": 3206651
+    },
+    {
+      "path": "output_binding.json",
+      "sha256": "8063276be7f2c587ce989e9414080289beaaf1e296bb33b98717af8d3cfc403e",
+      "size_bytes": 909
+    },
+    {
+      "path": "provenance/Real-ESRGAN-LICENSE.txt",
+      "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2",
+      "size_bytes": 1519
+    },
+    {
+      "path": "provenance/ncnn-LICENSE.txt",
+      "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255",
+      "size_bytes": 6427
+    },
+    {
+      "path": "provenance/runtime_provenance.json",
+      "sha256": "2d55a8e88091bef7cfa81a80f4f133d01fe665b4f4ec4c93868411f9b8ea033a",
+      "size_bytes": 816
+    },
+    {
+      "path": "references/canonical_hero.png",
+      "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+      "size_bytes": 204034
+    },
+    {
+      "path": "review_config.json",
+      "sha256": "abf69c5a614a908ad866b8c00418f7f07b2d0887c0a0c8e3a8bdaf93560774c5",
+      "size_bytes": 1206
+    },
+    {
+      "path": "review_views_metadata.json",
+      "sha256": "b7d1142eba64cb8dfbe8a310fa13d9907db6f01be70f739a4b5d90dcacf4effd",
+      "size_bytes": 1723
+    }
+  ],
+  "deliverables": [
+    {
+      "file": "LANTERN_dry_quarry_AI2x_3072x2048.png",
+      "size_bytes": 8422983,
+      "sha256": "65295e955d0c28ff2035848d89e60018e56689acc1f656a302b31d0fc58b52c1",
+      "dimensions": [
+        3072,
+        2048
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_AI4x_Master_6144x4096.png",
+      "size_bytes": 27875620,
+      "sha256": "e151e24956d5c78203f8789d62824ed6e2f45074a078b8c7019f7236e278870f",
+      "dimensions": [
+        6144,
+        4096
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_Hero160_Display3840x2560.png",
+      "size_bytes": 12536688,
+      "sha256": "353068be2715bf4d3ac82aaf93ab9a002ab39544445ce8422c04db6a874e39ca",
+      "dimensions": [
+        3840,
+        2560
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_README.txt",
+      "size_bytes": 1762,
+      "sha256": "36c3573cd2063ffaef5ce25374e761715437cef00322ebc02f49da754d75caaf",
+      "dimensions": null
+    },
+    {
+      "file": "LANTERN_dry_quarry_central_quarry_floor_Hero160.png",
+      "size_bytes": 2012482,
+      "sha256": "ef393260484262213fe4859cd750a4ffab18774770fc5c2698403660a9fb2964",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_gameplay_contact_sheet.png",
+      "size_bytes": 920327,
+      "sha256": "4cd81fe4e69db125f468babaeba081f256dbad84d1c9e1d7dd0d464a12e45966",
+      "dimensions": [
+        1536,
+        399
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_lower_haul_road_Hero160.png",
+      "size_bytes": 1965984,
+      "sha256": "0d270090a41aa1b97f68ef4878b819a01cad135c4b2a226e2361f7b2f4f679b4",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_same_crop_Lanczos_vs_AI.png",
+      "size_bytes": 2188179,
+      "sha256": "1e3e0ea3ff787d3b9fae411a0c3899bb92271c2ecb4aa82b39a9d17cd64d9845",
+      "dimensions": [
+        2048,
+        740
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_upper_crane_approach_Hero160.png",
+      "size_bytes": 1952203,
+      "sha256": "cc541f14badb25fb171fdb57943079ec3cab2ccaa9d0943d7287a1f4b5ed1c88",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "file": "LANTERN_dry_quarry_whole_map_crop_overview.png",
+      "size_bytes": 2607408,
+      "sha256": "b25e598cc4bb26c22af12987cbc9fb402a0d97fdfd28640e55801b7d396b30f4",
+      "dimensions": [
+        1536,
+        1110
+      ]
+    }
+  ],
+  "created_utc": "2026-10-09T17:21:56.252103+00:00"
+}

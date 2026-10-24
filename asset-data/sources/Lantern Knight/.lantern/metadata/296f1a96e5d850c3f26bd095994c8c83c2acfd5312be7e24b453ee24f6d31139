@@ -1,0 +1,142 @@
+{
+  "scene_master_id": "1rOs84moUWjQs9thVaf2vmFzsBRuEAK0o",
+  "source_kit_id": "1mR89eIx-r-01qHFZaMkC-sVSw2oI50EA",
+  "props": {
+    "gravegoods_coffer": {
+      "prompt": "Use case stylized-concept. Create ONE Lantern Knight Graveyard scenic interactable animation source sheet. Highest native quality; preferred gpt-image-2.5-sunburst if available. Reference image is exact approved scene MATERIAL and CAMERA only. Pale neutral limestone, muted dark earth-brown, dull olive moss accents, black iron; no crypt amber glow. Confident expressive tapered black ink, clean smooth three-tone flat cel shading, most faces clean with sparse deliberate seams. Orthographic isometric elevation35.264 azimuth45. Four equally spaced cells in ONE horizontal row, generous transparent gutters, consistent scale/camera and anchored ground pivot. Genuine transparent background. No ground patch, text, labels, grids, characters, exposed rewards, bones or gore. No hatching, grain, speckles or photographic texture. Compact squat pale limestone gravegoods coffer, fitted sloping stone hinged lid with one understated carved cross and dark empty cavity. Four actually authored cels: closed; lid raised 25 degrees; raised65 degrees; permanent fully open lid105 degrees. Keep base and seam design fixed, empty hidden storage.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/gravegoods_coffer_authored_sheet.png",
+          "file_id": "file_0000000091b481fdac85913a8545e193",
+          "library_file_id": "libfile_c254dbd65c188191a9236a30ae032475",
+          "file_name": "gravegoods_coffer_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1294180,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-97cad739-15e2-4746-944e-6ba96736d9c6.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "groundskeeper_chest": {
+      "prompt": "Use case stylized-concept. Create ONE Lantern Knight Graveyard scenic interactable animation source sheet. Highest native quality; preferred gpt-image-2.5-sunburst if available. Reference image is exact approved scene MATERIAL and CAMERA only. Pale neutral limestone, muted dark earth-brown, dull olive moss accents, black iron; no crypt amber glow. Confident expressive tapered black ink, clean smooth three-tone flat cel shading, most faces clean with sparse deliberate seams. Orthographic isometric elevation35.264 azimuth45. Four equally spaced cells in ONE horizontal row, generous transparent gutters, consistent scale/camera and anchored ground pivot. Genuine transparent background. No ground patch, text, labels, grids, characters, exposed rewards, bones or gore. No hatching, grain, speckles or photographic texture. Create a WOODEN groundskeeper tool chest. This must be a small dark brown OAK PLANK WOODEN chest with black iron straps, flat wooden lid, plain front iron latch and two iron carrying handles. NO STONE. NO TOMB. NO CROSS. NO IVY. No carving. Clearly carpentry with broad horizontal oak boards, subtle muted olive stain at its bottom corner. Four separately drawn opening cels: closed flat cover, hinged cover lifted25degrees, lifted65degrees, terminal105degrees open showing empty dark hollow wooden storage. Same grounded wooden base and all details throughout. Reference material crop is only drawing technique and camera; do not copy its subject.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "replace_library_file",
+          "status": "succeeded",
+          "path": "/groundskeeper_chest_authored_sheet.png",
+          "file_id": "file_00000000459481fd941728abd0f50c3f",
+          "library_file_id": "libfile_4896de42ede4819196db8d3580d542bc",
+          "file_name": "groundskeeper_chest_authored_sheet.png",
+          "current_version_number": 1,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "1"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1212816,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-0d7c5c19-b87b-49b6-b448-196738a18afc.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "sealed_votive_urn": {
+      "prompt": "Use case stylized-concept. Create ONE Lantern Knight Graveyard scenic interactable animation source sheet. Highest native quality; preferred gpt-image-2.5-sunburst if available. Reference image is exact approved scene MATERIAL and CAMERA only. Pale neutral limestone, muted dark earth-brown, dull olive moss accents, black iron; no crypt amber glow. Confident expressive tapered black ink, clean smooth three-tone flat cel shading, most faces clean with sparse deliberate seams. Orthographic isometric elevation35.264 azimuth45. Four equally spaced cells in ONE horizontal row, generous transparent gutters, consistent scale/camera and anchored ground pivot. Genuine transparent background. No ground patch, text, labels, grids, characters, exposed rewards, bones or gore. No hatching, grain, speckles or photographic texture. Small sealed funerary votive storage urn of pale grey-tan unglazed clay with olive glaze collar, squat rounded body and fitted lid. Four authored cels: intact sealed; impact cracks and slightly lifted lid; actual large shards breaking outward exposing empty dark cavity; permanent settled low debris with curved shards and lid, no airborne fragments. No dust hiding fracture.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/sealed_votive_urn_authored_sheet.png",
+          "file_id": "file_00000000bc9082309db0ae1f0f84ad1c",
+          "library_file_id": "libfile_9531118a3888819191d6cae3a415db9c",
+          "file_name": "sealed_votive_urn_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 910187,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-1fce1485-2332-4fd8-a5c7-09be0056c469.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "burial_cache_crate": {
+      "prompt": "Use case stylized-concept. Create ONE Lantern Knight Graveyard scenic interactable animation source sheet. Highest native quality; preferred gpt-image-2.5-sunburst if available. Reference image is exact approved scene MATERIAL and CAMERA only. Pale neutral limestone, muted dark earth-brown, dull olive moss accents, black iron; no crypt amber glow. Confident expressive tapered black ink, clean smooth three-tone flat cel shading, most faces clean with sparse deliberate seams. Orthographic isometric elevation35.264 azimuth45. Four equally spaced cells in ONE horizontal row, generous transparent gutters, consistent scale/camera and anchored ground pivot. Genuine transparent background. No ground patch, text, labels, grids, characters, exposed rewards, bones or gore. No hatching, grain, speckles or photographic texture. Small closed weathered dark brown wooden burial-goods cache crate with plain cover and sparse olive stain, no decorative items. Four authored cels: intact; split impact boards while base grounded; actual boards breaking out and falling exposing hollow empty storage; permanent low settled pile of splintered boards. No dust hiding fracture. IMPORTANT object is WOODEN crate, NOT the stone tomb in reference. Reference only provides ink rendering. All wooden boards must read as wood.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/burial_cache_crate_authored_sheet.png",
+          "file_id": "file_00000000e71081fd9afd922d6f68c3df",
+          "library_file_id": "libfile_c4ecede71e9c8191848fca76c8a8933d",
+          "file_name": "burial_cache_crate_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1221770,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-b10ec2e2-5b56-434b-9ec4-34859b3e46bd.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  }
+}

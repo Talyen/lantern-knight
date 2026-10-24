@@ -1,0 +1,51 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_native.png",
+    "name": "full_scenic_graveyard_variant01_native.png",
+    "size": 2912484,
+    "sha256": "087ea39b659b4bd3548f685483cf88eb221fb510612a2e88f9f3d1b3c046a437",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_AI4x_master_6144x4096.png",
+    "name": "full_scenic_graveyard_variant01_AI4x_master_6144x4096.png",
+    "size": 24321001,
+    "sha256": "994300f0a805b4e013911275c877ec8522bb3101c2733b75720cfbea0f94ef1a",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_2x_3072x2048.png",
+    "name": "full_scenic_graveyard_variant01_2x_3072x2048.png",
+    "size": 7214170,
+    "sha256": "26cbe06448a0f6fa7dc83fd47f73a23d46ec384a58aa269530f4b699e3375dbc",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_overview.png",
+    "name": "full_scenic_graveyard_variant01_overview.png",
+    "size": 2265301,
+    "sha256": "94625be2c4325d45a58e237b91fa4935f07d7cf07b9464b00c287d00b9fbed52",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_central_processional_court_hero160.png",
+    "name": "full_scenic_graveyard_variant01_central_processional_court_hero160.png",
+    "size": 2175317,
+    "sha256": "1420798ffb109b03235343b9c8cc93e47e0b0faa5216b80b5d6f9ed8033b0704",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_lower_mausoleum_court_hero160.png",
+    "name": "full_scenic_graveyard_variant01_lower_mausoleum_court_hero160.png",
+    "size": 1963616,
+    "sha256": "1a67618b475de7b0f642ef1597be80fa0d7136799b59b2fc414f596a83b8ab87",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/full_scenic_graveyard_variant01/full_scenic_graveyard_variant01_upper_burial_terrace_hero160.png",
+    "name": "full_scenic_graveyard_variant01_upper_burial_terrace_hero160.png",
+    "size": 2028082,
+    "sha256": "c3ec7225382d85e6441968c876ff460ce171dad2716af068ed317aff14b83c10",
+    "library_artifact_type": "image"
+  }
+]

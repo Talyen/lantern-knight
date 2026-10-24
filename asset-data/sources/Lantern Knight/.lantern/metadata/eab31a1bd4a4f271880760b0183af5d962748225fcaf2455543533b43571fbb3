@@ -1,0 +1,5 @@
+Shroud Wisp / Get Hit / Polish revision 02
+Explicit actor/effect atlas filenames and sampler/ending metadata; kit and loose JSON match.
+Removed premature upright recovery cels 09-11; added four progressive cloth-settle cels before exact ready. Immediate recoil unchanged.
+Original visual design retained. Exact ready endpoint retained. No engine changes or gameplay certification.
+Damage reaction begins at 0 ms. No attack windup or damage events.

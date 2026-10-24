@@ -1,0 +1,144 @@
+{
+  "name": "lidded_stone_font",
+  "revision": "generic_empty_opening",
+  "animation": "open_and_settle",
+  "canvas": [
+    640,
+    800
+  ],
+  "pivot_pixels": [
+    320,
+    750
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.9375
+  ],
+  "loop": false,
+  "frame_count": 7,
+  "durations_ms": [
+    350,
+    90,
+    100,
+    110,
+    120,
+    140,
+    700
+  ],
+  "total_ms": 1610,
+  "terminal_state": "lidded_stone_font_open_empty.png",
+  "initial_state": "lidded_stone_font_closed.png",
+  "atlas": "lidded_stone_font_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frames": [
+    {
+      "file": "frames/lidded_stone_font_00.png",
+      "rect": [
+        0,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 350
+    },
+    {
+      "file": "frames/lidded_stone_font_01.png",
+      "rect": [
+        640,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 90
+    },
+    {
+      "file": "frames/lidded_stone_font_02.png",
+      "rect": [
+        1280,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/lidded_stone_font_03.png",
+      "rect": [
+        1920,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 110
+    },
+    {
+      "file": "frames/lidded_stone_font_04.png",
+      "rect": [
+        0,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 120
+    },
+    {
+      "file": "frames/lidded_stone_font_05.png",
+      "rect": [
+        640,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 140
+    },
+    {
+      "file": "frames/lidded_stone_font_06.png",
+      "rect": [
+        1280,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 700
+    }
+  ],
+  "source": "Content-free opening poses edited with image_gen; extraction phase removed. No procedural pose tweening. Original endpoint pixels retained exactly.",
+  "registration": [
+    {
+      "scale": 1.02,
+      "offset": [
+        0,
+        1
+      ],
+      "correlation": 0.955182746231146
+    },
+    {
+      "scale": 1.05,
+      "offset": [
+        0,
+        1
+      ],
+      "correlation": 0.9469276538243953
+    },
+    {
+      "scale": 1.0350000000000001,
+      "offset": [
+        1,
+        -1
+      ],
+      "correlation": 0.9304224071432426
+    },
+    {
+      "scale": 1.05,
+      "offset": [
+        2,
+        1
+      ],
+      "correlation": 0.9153303988375376
+    }
+  ],
+  "loot_visuals": "none; interiors are empty/dark throughout"
+}

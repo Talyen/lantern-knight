@@ -1,0 +1,22 @@
+{
+  "number": 12,
+  "scene": "Haunted Woodland/Full Scene C",
+  "location": "Haunted Woodland",
+  "master_id": "134Xae-b3ysLnJpwdyPOVV5WMFTxQv_xv",
+  "master_url": "https://drive.google.com/file/d/134Xae-b3ysLnJpwdyPOVV5WMFTxQv_xv/view?usp=drivesdk",
+  "master_filename": "woodland_c_full_full_upscaled4x.png",
+  "source_kit_id": "1xaqZ0STYf2weBXSz2-Bbz5OUIw7LKaco",
+  "source_kit_url": "https://drive.google.com/file/d/1xaqZ0STYf2weBXSz2-Bbz5OUIw7LKaco/view?usp=drivesdk",
+  "source_kit_filename": "woodland_c_source_provenance_kit.zip",
+  "lootables": [
+    "root-side cache chest",
+    "covered bark hamper"
+  ],
+  "breakables": [
+    "hollow rotten stump",
+    "abandoned wooden crate"
+  ],
+  "production_status": "QUEUED",
+  "approval_status": "SUPPORTED retained original/current master from post-deletion audited index; distinct from rejected overnight variant",
+  "production_gate": "Inspect exact master, actual pixel crops and matched source prompt before generation. Proposed themes adjustable to references; same-family variants separately tracked."
+}

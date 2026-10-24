@@ -1,0 +1,464 @@
+{
+  "title": "Eight fresh fullbody in-betweens for immutable 8-key walk",
+  "canvas_px": [
+    512,
+    640
+  ],
+  "root_pivot_px": [
+    256,
+    572
+  ],
+  "track_slope_dy_dx": 0.18,
+  "near_right_track_offset_y": 8,
+  "far_left_track_offset_y": -8,
+  "model_requested": "Sunburst 2.5 (gpt-image-2.5-sunburst)",
+  "backend_verified": false,
+  "generation": "Built-in image generator, fresh complete illustrations from immutable original keys, original identity and pose guides. No editing cascade.",
+  "registration": "Manual pelvis-x and load-bearing sole/toe registration, whole-drawing integer translation only after source-scale normalization. Six figures extracted at1.0 native scale; two higher-resolution fresh sources downsampled isotropically once to baseline anatomical scale. No per-limb deformation, image blending, optical flow, or synthetic tween frames.",
+  "source_selection": {
+    "inbetween_master_01.png": "Rejected: wrong scale and B3/B7 poses",
+    "inbetween_master_02.png": "Selected B1,B2,B4,B5,B6,B8 only",
+    "critical_pair_03.png": "Rejected: wide stride and near-coat patch regression",
+    "b7_04.png": "Selected B7",
+    "b3_05.png": "Rejected: far bracer wrong",
+    "b3_06.png": "Selected B3"
+  },
+  "known_issues": [
+    "Original 8 key drawings are untouched; original approximate camera/ground and prop variation remain.",
+    "New source drawings add small costume/face/prop and anatomical differences; this is an animation-density review test, not certified production artwork.",
+    "In-betweens are newly illustrated interpretations; some phases are closer to one neighboring key rather than a mathematically interpolated midpoint.",
+    "No frame blending or temporal interpolation.",
+    "B3 and B7 passed visual review as genuine short-reach stages between their original neighbors; this is a qualitative illustration review, not motion-capture or anatomical certification.",
+    "B1 sword wrist swings approximately 30 px farther back than either original O01/O02 before returning, which can cause flicker.",
+    "B6 sword arm and lantern remain close to O06 rather than halfway toward O07, so the arm/prop transition is uneven.",
+    "B1 and B5 trailing-foot/arm silhouettes can be wider than a strict midpoint between neighboring originals.",
+    "Leg poses progress and all sixteen frames are distinct illustrations, but residual pose/detail flicker remains; this test does not claim completely smooth animation.",
+    "B7/N07 lantern appears slimmer than its neighboring original drawings; residual prop, body, and line variation can still flicker."
+  ],
+  "frames": [
+    {
+      "index": 1,
+      "file": "inbetween_01.png",
+      "between_original_keys": [
+        1,
+        2
+      ],
+      "source_master": "inbetween_master_02.png",
+      "source_master_sha256": "2d945b70b3790269fc6ef70bb1f723672688b18362c3a0ff71746a277e782e7a",
+      "source_master_px": [
+        1448,
+        1086
+      ],
+      "native_opaque_bbox_in_source_px": [
+        19,
+        45,
+        395,
+        530
+      ],
+      "native_opaque_height_px": 485,
+      "source_crop_box_px": [
+        7,
+        33,
+        407,
+        542
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 1.0,
+      "resampling": "none",
+      "manual_pelvis_x_in_source_px": 240,
+      "manual_support_landmark_in_source_px": [
+        321,
+        527
+      ],
+      "support_limb": "right",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        23,
+        101
+      ],
+      "registered_support_px": [
+        337.0,
+        595.0
+      ],
+      "registered_opaque_bbox": [
+        35,
+        113,
+        411,
+        598
+      ],
+      "registered_opaque_height_px": 485,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 2,
+      "file": "inbetween_02.png",
+      "between_original_keys": [
+        2,
+        3
+      ],
+      "source_master": "inbetween_master_02.png",
+      "source_master_sha256": "2d945b70b3790269fc6ef70bb1f723672688b18362c3a0ff71746a277e782e7a",
+      "source_master_px": [
+        1448,
+        1086
+      ],
+      "native_opaque_bbox_in_source_px": [
+        400,
+        45,
+        703,
+        529
+      ],
+      "native_opaque_height_px": 484,
+      "source_crop_box_px": [
+        388,
+        33,
+        715,
+        541
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 1.0,
+      "resampling": "none",
+      "manual_pelvis_x_in_source_px": 590,
+      "manual_support_landmark_in_source_px": [
+        601,
+        526
+      ],
+      "support_limb": "right",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        54,
+        89
+      ],
+      "registered_support_px": [
+        267.0,
+        582.0
+      ],
+      "registered_opaque_bbox": [
+        66,
+        101,
+        369,
+        585
+      ],
+      "registered_opaque_height_px": 484,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 3,
+      "file": "inbetween_03.png",
+      "between_original_keys": [
+        3,
+        4
+      ],
+      "source_master": "b3_06.png",
+      "source_master_sha256": "c6ea4a314d142e23e3f4408c4a7f089f873c959a2ea3d329e06cff0d4fec1cbc",
+      "source_master_px": [
+        1122,
+        1402
+      ],
+      "native_opaque_bbox_in_source_px": [
+        252,
+        87,
+        940,
+        1300
+      ],
+      "native_opaque_height_px": 1213,
+      "source_crop_box_px": [
+        236,
+        71,
+        956,
+        1316
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 0.41,
+      "resampling": "single whole-drawing premultiplied-alpha bicubic uniform downsample; never upscale",
+      "manual_pelvis_x_in_source_px": 620,
+      "manual_support_landmark_in_source_px": [
+        575,
+        1293
+      ],
+      "support_limb": "right",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        99,
+        76
+      ],
+      "registered_support_px": [
+        237.99,
+        577.02
+      ],
+      "registered_opaque_bbox": [
+        106,
+        83,
+        388,
+        580
+      ],
+      "registered_opaque_height_px": 497,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 4,
+      "file": "inbetween_04.png",
+      "between_original_keys": [
+        4,
+        5
+      ],
+      "source_master": "inbetween_master_02.png",
+      "source_master_sha256": "2d945b70b3790269fc6ef70bb1f723672688b18362c3a0ff71746a277e782e7a",
+      "source_master_px": [
+        1448,
+        1086
+      ],
+      "native_opaque_bbox_in_source_px": [
+        1085,
+        42,
+        1446,
+        526
+      ],
+      "native_opaque_height_px": 484,
+      "source_crop_box_px": [
+        1073,
+        30,
+        1448,
+        538
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 1.0,
+      "resampling": "none",
+      "manual_pelvis_x_in_source_px": 1310,
+      "manual_support_landmark_in_source_px": [
+        1150,
+        502
+      ],
+      "support_limb": "right",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        19,
+        79
+      ],
+      "registered_support_px": [
+        96.0,
+        551.0
+      ],
+      "registered_opaque_bbox": [
+        31,
+        91,
+        392,
+        575
+      ],
+      "registered_opaque_height_px": 484,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 5,
+      "file": "inbetween_05.png",
+      "between_original_keys": [
+        5,
+        6
+      ],
+      "source_master": "inbetween_master_02.png",
+      "source_master_sha256": "2d945b70b3790269fc6ef70bb1f723672688b18362c3a0ff71746a277e782e7a",
+      "source_master_px": [
+        1448,
+        1086
+      ],
+      "native_opaque_bbox_in_source_px": [
+        30,
+        566,
+        411,
+        1039
+      ],
+      "native_opaque_height_px": 473,
+      "source_crop_box_px": [
+        18,
+        554,
+        423,
+        1051
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 1.0,
+      "resampling": "none",
+      "manual_pelvis_x_in_source_px": 243,
+      "manual_support_landmark_in_source_px": [
+        329,
+        1034
+      ],
+      "support_limb": "left",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        31,
+        99
+      ],
+      "registered_support_px": [
+        342.0,
+        579.0
+      ],
+      "registered_opaque_bbox": [
+        43,
+        111,
+        424,
+        584
+      ],
+      "registered_opaque_height_px": 473,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 6,
+      "file": "inbetween_06.png",
+      "between_original_keys": [
+        6,
+        7
+      ],
+      "source_master": "inbetween_master_02.png",
+      "source_master_sha256": "2d945b70b3790269fc6ef70bb1f723672688b18362c3a0ff71746a277e782e7a",
+      "source_master_px": [
+        1448,
+        1086
+      ],
+      "native_opaque_bbox_in_source_px": [
+        390,
+        568,
+        736,
+        1036
+      ],
+      "native_opaque_height_px": 468,
+      "source_crop_box_px": [
+        378,
+        556,
+        748,
+        1048
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 1.0,
+      "resampling": "none",
+      "manual_pelvis_x_in_source_px": 608,
+      "manual_support_landmark_in_source_px": [
+        637,
+        1032
+      ],
+      "support_limb": "left",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        26,
+        93
+      ],
+      "registered_support_px": [
+        285.0,
+        569.0
+      ],
+      "registered_opaque_bbox": [
+        38,
+        105,
+        384,
+        573
+      ],
+      "registered_opaque_height_px": 468,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 7,
+      "file": "inbetween_07.png",
+      "between_original_keys": [
+        7,
+        8
+      ],
+      "source_master": "b7_04.png",
+      "source_master_sha256": "f9ebb4c1a1269e5da825a3d028492555917d4f9fd2a8e00b1c72f7ec58bf285c",
+      "source_master_px": [
+        1122,
+        1402
+      ],
+      "native_opaque_bbox_in_source_px": [
+        219,
+        85,
+        871,
+        1252
+      ],
+      "native_opaque_height_px": 1167,
+      "source_crop_box_px": [
+        203,
+        69,
+        887,
+        1268
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 0.42,
+      "resampling": "single whole-drawing premultiplied-alpha bicubic uniform downsample; never upscale",
+      "manual_pelvis_x_in_source_px": 620,
+      "manual_support_landmark_in_source_px": [
+        551,
+        1235
+      ],
+      "support_limb": "left",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        81,
+        69
+      ],
+      "registered_support_px": [
+        227.16,
+        558.72
+      ],
+      "registered_opaque_bbox": [
+        88,
+        76,
+        362,
+        566
+      ],
+      "registered_opaque_height_px": 490,
+      "edge_alpha_max": 0
+    },
+    {
+      "index": 8,
+      "file": "inbetween_08.png",
+      "between_original_keys": [
+        8,
+        1
+      ],
+      "source_master": "inbetween_master_02.png",
+      "source_master_sha256": "2d945b70b3790269fc6ef70bb1f723672688b18362c3a0ff71746a277e782e7a",
+      "source_master_px": [
+        1448,
+        1086
+      ],
+      "native_opaque_bbox_in_source_px": [
+        1070,
+        568,
+        1444,
+        1033
+      ],
+      "native_opaque_height_px": 465,
+      "source_crop_box_px": [
+        1058,
+        556,
+        1448,
+        1045
+      ],
+      "source_crop_note": "Preserves original soft alpha around the full figure; trims only distant transparent padding and disconnected background speckles. Master retained unchanged.",
+      "isotropic_scale_from_native_source": 1.0,
+      "resampling": "none",
+      "manual_pelvis_x_in_source_px": 1290,
+      "manual_support_landmark_in_source_px": [
+        1160,
+        1010
+      ],
+      "support_limb": "left",
+      "support_feature": "selected load-bearing sole/toe on inherited approximate track",
+      "translation_after_crop_and_scale_px": [
+        24,
+        87
+      ],
+      "registered_support_px": [
+        126.0,
+        541.0
+      ],
+      "registered_opaque_bbox": [
+        36,
+        99,
+        410,
+        564
+      ],
+      "registered_opaque_height_px": 465,
+      "edge_alpha_max": 0
+    }
+  ]
+}
