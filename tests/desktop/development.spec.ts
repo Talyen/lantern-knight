@@ -6,8 +6,47 @@ import fs from 'node:fs/promises';
 import { constants } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { gunzipSync } from 'node:zlib';
 import { runProcess } from '../../tools/run-process';
 import { projectRoot } from '../../tools/assets/paths';
+import { readLock, PackSchema } from '../../tools/assets/pack';
+import { openRepositoryWorkspace } from '../../tools/assets/repository';
+import { selectedFiles } from '../../tools/select-runtime-assets';
+
+async function copyRuntimeAssets(root: string) {
+  const pin = await readLock();
+  if (pin.schemaVersion !== 5) throw new Error('Fresh checkout requires repository-owned assets');
+  const relative = `asset-data/inventories/${pin.inventorySha256}.json.gz`;
+  const inventory = PackSchema.parse(
+    JSON.parse(gunzipSync(await fs.readFile(path.join(projectRoot, relative))).toString()),
+  );
+  const workspace = await openRepositoryWorkspace(pin, 'runtime', true);
+  const required = new Set<string>();
+  try {
+    // Include every metadata read as well as selected pages; the launched Game
+    // must authenticate its own copies through the normal repository workspace.
+    await selectedFiles(workspace.publicDirectory, 'runtime', async (name) => {
+      required.add('public/' + name);
+      return workspace.ensurePublicFile(name);
+    });
+  } finally {
+    await workspace.release();
+  }
+  const files = new Set([
+    relative,
+    ...[...required].map((name) => {
+      const hash = inventory.files[name]!.sha256;
+      return `asset-data/objects/${hash.slice(0, 2)}/${hash}`;
+    }),
+  ]);
+  for (const name of files) {
+    const target = path.join(root, name);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.copyFile(path.join(projectRoot, name), target, constants.COPYFILE_FICLONE);
+  }
+  console.log(`Copied ${files.size} owned runtime asset files into the fresh checkout`);
+}
+
 test('fresh source checkout: renderer reload, main/preload restart and owned shutdown', async () => {
   test.setTimeout(8 * 60_000);
   // Expand Windows 8.3 temp aliases before Vite starts native filesystem watchers.
@@ -25,7 +64,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
   const port = (reservation.address() as net.AddressInfo).port;
   await new Promise<void>((resolve) => reservation.close(() => resolve()));
   try {
-    for (const directory of ['src', 'electron', 'tools', 'authoring', 'assets', 'asset-data'])
+    for (const directory of ['src', 'electron', 'tools', 'authoring', 'assets'])
       await fs.cp(path.join(projectRoot, directory), path.join(root, directory), {
         recursive: true,
         mode: constants.COPYFILE_FICLONE,
@@ -41,6 +80,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
       'effects.html',
     ])
       await fs.copyFile(path.join(projectRoot, file), path.join(root, file));
+    await copyRuntimeAssets(root);
     // CI verifies npm ci once. This copy keeps dependencies and watcher caches checkout-local.
     const dependencies = path.join(projectRoot, 'node_modules');
     await fs.cp(dependencies, path.join(root, 'node_modules'), {
