@@ -1,0 +1,71 @@
+{
+  "asset": "Selected Woodland C whole scene",
+  "method": "built-in image_gen; one fresh whole-scene generation using approved Woodland C and original hero as style references; not a sample edit or upscale",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-a1a2dd72-3cb3-4f2f-bdf8-85c9d3d45e54.png",
+  "reference_images": [
+    "/workspace/shared/lantern_next_scene_samples_oct09/woodland/C/native.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_pixels_native": 64,
+  "proposed_upscale": {
+    "factor": 4,
+    "target_dimensions": [
+      6144,
+      4096
+    ],
+    "executed": false,
+    "hero_equivalent_asset_pixels_after_4x": 256
+  },
+  "planned_display": {
+    "scale_relative_to_native": 2.5,
+    "hero_height_pixels": 160,
+    "display_scale_relative_to_4x_asset": 0.625,
+    "executed": false
+  },
+  "camera_requested": {
+    "projection": "orthographic isometric",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_verified": false
+  },
+  "upscaled": false,
+  "sha256": "0bb98c38baf98ab79419dcffc8b817fb3e5cd6ea9599840fef229eb99666126a",
+  "status": "one native source candidate ready for independent review and root approval before upscaling",
+  "visual_review": {
+    "strengths": [
+      "quiet slate-blue pine palette and clean ink silhouettes closely retained from selected C",
+      "broader whole-scene composition with multiple connected clearings and generous routes",
+      "scenery distributed through interior islands as well as margins",
+      "trees and stone walls visually plausible against intended 64px hero scale",
+      "no water, human, horizon or text"
+    ],
+    "caveats": [
+      "subtle flat tonal earth patches remain, similar to approved C",
+      "exact 2.5-fold linear coverage and camera angles not measured",
+      "64px physical scale is a prompt target awaiting hero-context review",
+      "tree, rock and wall occluders baked into the single preview image"
+    ]
+  },
+  "suggested_hero_feet_native": [
+    [
+      760,
+      560
+    ],
+    [
+      305,
+      322
+    ],
+    [
+      1125,
+      820
+    ]
+  ],
+  "generation_attempts": 1
+}

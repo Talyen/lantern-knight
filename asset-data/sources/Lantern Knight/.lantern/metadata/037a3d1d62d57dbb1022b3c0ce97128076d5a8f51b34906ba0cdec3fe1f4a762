@@ -1,0 +1,7 @@
+Keeper's Glade native scene samples — October 9, 2026
+
+A: Keeper's cottage under the oak. B: Canvas adventurer camp. C: Reclaimed ruins cottage.
+
+Three fresh built-in image_gen generations at 1536x1024, using the original locked hero only as style and scale reference. Native images are untouched. Hero context previews alpha-crop and Lanczos-resize the unchanged canonical hero to 160 pixels, with a small grounding shadow. This only assembles the expressly requested established scene preview workflow; no scene painting. Exact prompts, input hero, generation provenance and deterministic preview script are included. Rebuild: python review/build_contexts.py keepers_glade
+
+Concept samples only. Camera geometry is prompted rather than mathematically validated. Scenery is baked, with no separated upgrades, collision or engine validation. Ground retains some secondary tonal patches; it is not literally limited to three colors. C's ruin walls will need runtime occlusion rules in a future implementation. No full-scale expansion or engine work performed.

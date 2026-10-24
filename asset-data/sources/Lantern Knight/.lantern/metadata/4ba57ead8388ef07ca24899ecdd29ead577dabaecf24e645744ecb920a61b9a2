@@ -1,0 +1,361 @@
+{
+  "character": "Gallows Gardener",
+  "clip": "defeat",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_px": [
+    360,
+    530
+  ],
+  "pivot_normalized": [
+    0.5625,
+    0.828125
+  ],
+  "facing": "three-quarter screen-left",
+  "loop": false,
+  "duration_ms": 2040,
+  "frames": [
+    {
+      "file": "frames/defeat_000.png",
+      "atlas_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 90,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    },
+    {
+      "file": "frames/defeat_001.png",
+      "atlas_rect": [
+        640,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_a.png",
+        "source_cel": 2,
+        "source_bbox": [
+          510,
+          56,
+          1015,
+          513
+        ],
+        "source_anchor": [
+          850.0,
+          513.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_002.png",
+      "atlas_rect": [
+        1280,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_a.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1009,
+          87,
+          1508,
+          522
+        ],
+        "source_anchor": [
+          1360.0,
+          522.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_003.png",
+      "atlas_rect": [
+        1920,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 120,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_b.png",
+        "source_cel": 1,
+        "source_bbox": [
+          12,
+          108,
+          537,
+          522
+        ],
+        "source_anchor": [
+          320.0,
+          522.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_004.png",
+      "atlas_rect": [
+        0,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 120,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_a.png",
+        "source_cel": 4,
+        "source_bbox": [
+          16,
+          594,
+          535,
+          1002
+        ],
+        "source_anchor": [
+          330.0,
+          1002.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_005.png",
+      "atlas_rect": [
+        640,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_b.png",
+        "source_cel": 2,
+        "source_bbox": [
+          515,
+          146,
+          1038,
+          551
+        ],
+        "source_anchor": [
+          850.0,
+          551.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_006.png",
+      "atlas_rect": [
+        1280,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_b.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1027,
+          210,
+          1530,
+          528
+        ],
+        "source_anchor": [
+          1340.0,
+          528.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_007.png",
+      "atlas_rect": [
+        1920,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_a.png",
+        "source_cel": 5,
+        "source_bbox": [
+          539,
+          611,
+          1039,
+          1000
+        ],
+        "source_anchor": [
+          850.0,
+          1000.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_008.png",
+      "atlas_rect": [
+        0,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 110,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_b.png",
+        "source_cel": 4,
+        "source_bbox": [
+          11,
+          637,
+          546,
+          959
+        ],
+        "source_anchor": [
+          320.0,
+          959.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_009.png",
+      "atlas_rect": [
+        640,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 120,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_a.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1023,
+          649,
+          1525,
+          996
+        ],
+        "source_anchor": [
+          1360.0,
+          996.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_010.png",
+      "atlas_rect": [
+        1280,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_b.png",
+        "source_cel": 5,
+        "source_bbox": [
+          476,
+          683,
+          1052,
+          962
+        ],
+        "source_anchor": [
+          850.0,
+          962.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/defeat_011.png",
+      "atlas_rect": [
+        1920,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 800,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/defeat_b.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1006,
+          699,
+          1528,
+          956
+        ],
+        "source_anchor": [
+          1340.0,
+          956.0
+        ],
+        "downsample": 0.72
+      }
+    }
+  ],
+  "events": [],
+  "atlas": "defeat_atlas.png",
+  "source_resolution": "native imagegen 1536x1024; six drawn cels per source; runtime downsample only",
+  "root_motion": "in-place; no engine behavior added"
+}

@@ -1,0 +1,15 @@
+LANTERN — WAYPOINT & RESPAWN
+
+Runtime: fixture_inactive.png, four six-drawing neutral effect actions, and amber activation/active composites. Each action has loose RGBA PNGs and a 3x2 atlas. No hero, floor, trap, hazard, or puzzle is baked in.
+
+Import: 512x512 cells, 256 pixels/unit, straight alpha; bilinear sampling, clamp, no mipmaps recommended. Foot pivot is (256,480) measured from top-left, Unity normalized pivot (0.5,0.0625). Keep the common canvas; do not auto-trim each cel or recenter by its visible bounds. At this PPU the canvas is 2 world units wide.
+
+Layer order: draw fixture_inactive once; add activation or active effect at the same sprite transform. The supplied amber composites demonstrate this. Draw actor-independent departure/arrival at the actor's foot origin using the same pivot; actor is a separate layer. Tint neutral FX with desired material color. Normal alpha is default; optional additive rendering is engine-specific. Effects are flattened aura layers, not split front/back occlusion passes.
+
+Playback: animation.json gives integer tick holds on a 60Hz simulation clock. Do not play six drawings at 60 drawings/sec. Activation 36 ticks -> active 48-tick loop. Departure 38 ticks; arrival 39 ticks. At elapsed tick 38 disable the departure effect renderer; at elapsed tick 39 disable the arrival effect renderer. Both actions are one-shots: do not loop or hold the final cel, which still contains fading sparks. Re-enable and reset elapsed time only for a new gameplay event. Inactive is deliberately one still. Peak event suggestions are metadata, not gameplay code. Distinct drawings are generated cels, not interpolated timing duplicates.
+
+Camera: requested orthographic 35.2643897 degree elevation, 45 degree azimuth. These are artist-directed 2D assets, not geometrically rendered 3D sprites; exact projection is not independently calibratable. The fixture is identical in every composite; only neutral flame artwork changes. Display every supplied sprite on an upright camera-facing quad/SpriteRenderer (screen-aligned billboard) anchored at its foot pivot. The ground ellipses are already painted in projected screen space. Do not rotate the full FX sprite flat onto the world ground, tilt it to the ground plane, or apply a second isometric projection; doing so double-projects and flattens the baked ellipse. Use the world foot position to place the billboard; keep its image axes aligned with camera right/up.
+
+Source archive includes raw generated images, prompts, deterministic rebuild.py and QA report. Built-in image_gen used. Sunburst2.5 was the user's style label; the tool exposes no such model selector. Source art is native resolution. Runtime is downsampled and padded, never enlarged.
+
+Rebuild: Python 3 + Pillow + NumPy + ffmpeg on PATH; run python source/rebuild.py from an extracted pack containing source/. It recreates runtime, preview contact sheet and 60fps MP4. No API or remote generation required to rebuild; re-generation from prompts is nondeterministic.

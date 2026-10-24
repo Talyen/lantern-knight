@@ -1,0 +1,124 @@
+{
+  "scene_number": 14,
+  "scene": "Initiation Chamber/Full Scene A",
+  "prop": "a closed travel backpack",
+  "source_master_url": "https://drive.google.com/file/d/1m3Df7yPtufPw3xi__QCxBvT7OYGt_JYV/view?usp=drivesdk",
+  "animation": {
+    "name": "open",
+    "loop": false,
+    "frame_durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "hold_final": true,
+    "final_state": "open_empty",
+    "trigger": "interaction"
+  },
+  "frame_count": 6,
+  "runtime_frame_size": [
+    41,
+    41
+  ],
+  "runtime_anchor_bottom_contact": [
+    21,
+    40
+  ],
+  "native_frame_size": [
+    411,
+    407
+  ],
+  "native_anchor_bottom_contact": [
+    213,
+    395
+  ],
+  "runtime_scale_from_native": 0.10057471264367816,
+  "source_cells": [
+    512,
+    512
+  ],
+  "source_bounds": [
+    [
+      74,
+      114,
+      422,
+      466
+    ],
+    [
+      80,
+      113,
+      433,
+      466
+    ],
+    [
+      67,
+      111,
+      433,
+      466
+    ],
+    [
+      70,
+      50,
+      447,
+      433
+    ],
+    [
+      70,
+      91,
+      453,
+      435
+    ],
+    [
+      55,
+      86,
+      442,
+      433
+    ]
+  ],
+  "source_contact_anchors": [
+    [
+      255,
+      466
+    ],
+    [
+      263,
+      466
+    ],
+    [
+      255,
+      466
+    ],
+    [
+      263,
+      433
+    ],
+    [
+      268,
+      435
+    ],
+    [
+      256,
+      433
+    ]
+  ],
+  "preview_scene_size": [
+    1200,
+    800
+  ],
+  "preview_anchor": [
+    700,
+    530
+  ],
+  "native_note": "Imagegen-produced cels, translated to shared ground contact; no AI upscaling. Runtime is a mechanical downsample.",
+  "qa": {
+    "alpha": true,
+    "frame_clipping": false,
+    "fixed_ground_contact": true,
+    "distinct_hand_drawn_cels": true,
+    "empty_interior": true,
+    "scene_fit": "Reviewed at gameplay distance on original master; all previews are mechanical composites."
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "name": "Lantern \u2014 Gentle Headsman I",
+  "version": "1.0",
+  "cell_size": [
+    512,
+    512
+  ],
+  "native_sheet_size": [
+    1536,
+    1024
+  ],
+  "upscaled": false,
+  "atlas": "atlas.png",
+  "columns": 3,
+  "timing_hz": 60,
+  "animation": {
+    "name": "delicate_tea_ritual",
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      2,
+      4,
+      5
+    ],
+    "duration_ticks": [
+      62,
+      12,
+      14,
+      46,
+      12,
+      14,
+      20
+    ],
+    "loop": true
+  },
+  "pivot_pixels_top_left": [
+    262,
+    498
+  ],
+  "pivot_unity_normalized": [
+    0.51171875,
+    0.02734375
+  ],
+  "estimated_pixels_per_unit": 225,
+  "ppu_note": "Estimated assuming roughly 2.2 game units for standing body height. Adjust to project world scale.",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "note": "Art-directed raster target, not a calibrated 3D camera."
+  },
+  "alpha": "straight RGBA; native generated alpha, values below 8 cleared",
+  "registration_offsets_pixels": [
+    [
+      0,
+      0
+    ],
+    [
+      23,
+      0
+    ],
+    [
+      28,
+      0
+    ],
+    [
+      9,
+      0
+    ],
+    [
+      33,
+      0
+    ],
+    [
+      34,
+      1
+    ]
+  ],
+  "deterministic_static_locks": {
+    "lower_body_y": 235,
+    "screen_right_anatomical_left_arm_rect": [
+      325,
+      0,
+      512,
+      235
+    ]
+  },
+  "direction_variants": false,
+  "generation": {
+    "tool": "built-in image_gen",
+    "requested_style_phrase": "Sunburst 2.5",
+    "model_guarantee": false,
+    "reference": "original.png",
+    "fresh_generation": true,
+    "generated_draft_editing": false
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "asset": "observatory",
+  "variant": "A",
+  "label": "Roofless night observatory",
+  "method": "built-in image_gen; fresh generation, hero viewed in conversation as art-style guidance",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-6593f4ec-8cb0-424a-be33-9bf830d4a2f6.png",
+  "style_reference_viewed": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "reference_image_parameters_used": false,
+  "prompt_path": "/workspace/shared/lantern_cultist_samples_oct09/observatory/A/exact_prompt.txt",
+  "intended_hero_height_pixels": 160,
+  "requested_projection": {
+    "type": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_validated": false
+  },
+  "hero_scale_validated_in_engine": false,
+  "hero_baked_in": false,
+  "live_characters_baked_in": false,
+  "water_observed": false,
+  "active_hazards_observed": false,
+  "sha256": "71cee24b35b41b39c7816b12c3829fcfc2b1edb37d89ef3df602e85a0b4e292a",
+  "upscaled": false,
+  "edited": false,
+  "fresh_generation_attempt": 1,
+  "status": "native viewport sample ready for review; not full map or engine-ready layered asset",
+  "visual_review": {
+    "strengths": [
+      "Pale-slate floor and broken brass instruments establish a distinct roofless observatory",
+      "Readable circular circulation around central armillary dais",
+      "Suspended celestial relics replace the need for a horizon"
+    ],
+    "caveats": [
+      "Dense architectural details and chart linework exceed the minimalist treatment",
+      "Floor has restrained broad mottling",
+      "Raised central armillary is a substantial occluder"
+    ],
+    "suggested_hero_feet": [
+      793,
+      809
+    ]
+  }
+}

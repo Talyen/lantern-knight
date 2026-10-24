@@ -1,0 +1,266 @@
+[
+  {
+    "old_id": "lantern_utility_prop_01_lantern_oil_flask",
+    "name": "Lantern-oil flask",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/01_lantern_oil_flask.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/01_lantern_oil_flask.png",
+    "disposition": "rebuild",
+    "sha256": "a18aa7cc5aede7d13df6c901ffd0309e97b9cd31d7b3bd7bbb19816fc4a1d4fd",
+    "original_sha256": "c730f84887e2565ba5125d2a86ccfdeb408d176accc3f21c76ca8a468d493a78",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        51,
+        1208,
+        1222
+      ],
+      "visible_bbox_alpha_gt127": [
+        164,
+        132,
+        1205,
+        1089
+      ],
+      "transparent_pixel_fraction": 0.6264470441000283,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 14
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/01_lantern_oil_flask.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_utility_prop_02_tinderbox",
+    "name": "Open tinderbox",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/02_tinderbox.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/02_tinderbox.png",
+    "disposition": "rebuild",
+    "sha256": "f1b6cc65968ee5e153e2afd0b39a758d3a3351f1ecfb0c7ad8c4ae8164963993",
+    "original_sha256": "06a29944add50171c3dddd6d7a7cfc930a9b8e11fb3ab8c395220277ff1a138b",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        113,
+        62,
+        1202,
+        1212
+      ],
+      "visible_bbox_alpha_gt127": [
+        119,
+        66,
+        1136,
+        1137
+      ],
+      "transparent_pixel_fraction": 0.5262553767338456,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/02_tinderbox.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_utility_prop_03_rolled_bandages",
+    "name": "Paired bandage rolls",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/03_rolled_bandages.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/03_rolled_bandages.png",
+    "disposition": "rebuild",
+    "sha256": "4f531986cd6a861f1542299ea2b6ab8ffea504af5128b2aacf0a7b42b15ed410",
+    "original_sha256": "9c11037fc320120e92b0fb49cfe54fdb7634d129234f147569a9883c151098e2",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        69,
+        1170,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        136,
+        164,
+        1167,
+        1114
+      ],
+      "transparent_pixel_fraction": 0.6694971625089983,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 24
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/03_rolled_bandages.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_utility_prop_04_waxed_ration_parcel",
+    "name": "Waxed ration parcel",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/04_waxed_ration_parcel.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/04_waxed_ration_parcel.png",
+    "disposition": "rebuild",
+    "sha256": "6cff08ed91d8fa20021958e2cf3e9b4e89394edf6081141db8c3756fad2f20d2",
+    "original_sha256": "6736fb747c7dcef2b3f6cf4961a3a3f8d4c75fc2afa23ca528965d4942af0a7d",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        53,
+        1234,
+        1214
+      ],
+      "visible_bbox_alpha_gt127": [
+        110,
+        222,
+        1148,
+        1032
+      ],
+      "transparent_pixel_fraction": 0.6648307552991511,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 10
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/04_waxed_ration_parcel.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_utility_prop_05_salt_pouch",
+    "name": "Salt pouch",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/05_salt_pouch.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/05_salt_pouch.png",
+    "disposition": "keep",
+    "sha256": "769d44f56cadf9c0aea2ac7099faab6ce2223250e8d3589e3114594a9cb5e4ca",
+    "original_sha256": "769d44f56cadf9c0aea2ac7099faab6ce2223250e8d3589e3114594a9cb5e4ca",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        103,
+        45,
+        1058,
+        1182
+      ],
+      "visible_bbox_alpha_gt127": [
+        214,
+        145,
+        1051,
+        1057
+      ],
+      "transparent_pixel_fraction": 0.6678800088520562,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/05_salt_pouch.json",
+    "generation_method": "retained original"
+  },
+  {
+    "old_id": "lantern_utility_prop_06_stoppered_antidote_vial",
+    "name": "Amber stoppered vial",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/06_stoppered_antidote_vial.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/06_stoppered_antidote_vial.png",
+    "disposition": "rebuild",
+    "sha256": "18c8833e7edf845b31ff616bdf834a8535aad0941e3eb9020ee0524b1ff299fc",
+    "original_sha256": "94be976eeae2e825c6f450bf513bdd9e86dbde14db1b484df2f703994ef44fb6",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        97,
+        39,
+        1057,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        320,
+        98,
+        934,
+        1147
+      ],
+      "transparent_pixel_fraction": 0.6894638909874367,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 61
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/06_stoppered_antidote_vial.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_utility_prop_07_sealed_powder_pot",
+    "name": "Sealed ceramic powder pot",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/07_sealed_powder_pot.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/07_sealed_powder_pot.png",
+    "disposition": "rebuild",
+    "sha256": "c1e9e4503feef4e8bd26dcab8471ba9e9944f09a44c23bd8364518449f07cf40",
+    "original_sha256": "6657078014897c1550b144453079f00d9a342e13f72e0fd1161c9bbffb100fdc",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        105,
+        168,
+        1154,
+        1181
+      ],
+      "visible_bbox_alpha_gt127": [
+        193,
+        172,
+        1061,
+        1082
+      ],
+      "transparent_pixel_fraction": 0.6182042026917374,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/07_sealed_powder_pot.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_utility_prop_08_folded_ward_papers",
+    "name": "Folded ward papers",
+    "pack": "Lantern - Utility Pickups 09",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/08_folded_ward_papers.png",
+    "image": "lantern_revision_02/equipment/utility_pickups_09/assets/08_folded_ward_papers.png",
+    "disposition": "rebuild",
+    "sha256": "33141596beca5978d09e2c3ef6a806b780f4ceee9044e0e9bb301e6377fb05f5",
+    "original_sha256": "b0a858e9ca31becde78f14769e6d0be8dff3db706f90e40c66c8ee63e0823d2b",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        19,
+        189,
+        1210,
+        1205
+      ],
+      "visible_bbox_alpha_gt127": [
+        207,
+        192,
+        1107,
+        1082
+      ],
+      "transparent_pixel_fraction": 0.7704080594410486,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/utility_pickups_09/assets/08_folded_ward_papers.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  }
+]

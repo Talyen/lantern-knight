@@ -1,0 +1,16 @@
+{
+  "move_00.png": "9188dca41298663c21e3df04bc95bd26e7f92b9aacae0fdab9543b74f868ffff",
+  "move_01.png": "c16d2c9c17c4b7c5de3e9d55cad2966a0c40316a62fa28a7db34e70a8921693f",
+  "move_02.png": "b7ef9ba2fbc69739151bbf7b832e9687f228fa00fea0f671ee50cdf228a47723",
+  "move_03.png": "3eeed1fa3da1ebd23298a4bfb1b4f2470bc22eeb705a9dc59be96483a02a495f",
+  "move_04.png": "799f9952098d1c4e349d47ac00487ce095e63ebeb4acbe3ca9e6257c97c22f0f",
+  "move_05.png": "f05299d40936740f4f65ddbfc5373d323ef7310686eed2ce5fdcd346fa913cb7",
+  "move_atlas.png": "c876ef42879084eea03558c2a21b01c00eae68dac8271042b4a9aa8d09cbc9e9",
+  "attack_00.png": "a4f1e2eefe1efd0817f606a3bb3d7648bf3d926a528be710aafc091197fad04c",
+  "attack_01.png": "c9beb1ddb18b8ffa19a16920d13ed67cb776cd8faed5cfd57289cb8efc559d4b",
+  "attack_02.png": "6daeac9e3180dcedaeac38b1b51498e27846496de60fdacf328c0e36b4bf9667",
+  "attack_03.png": "55799e41911ab2e5448484c34d01f4a76b466e6e69b7a0fcb294683de63f7c1a",
+  "attack_04.png": "a1d85a4ecc93f8d74f0318fbdac7bcbd751cc2fd16c165313d3703b7fec755c6",
+  "attack_05.png": "ae383aeefd91c6b162153ea4229b7bfbfa72e6b601e74caec3fe7b351769368a",
+  "attack_atlas.png": "4a32e09837da28578d0e278c5028934031909c295dc3097a324e9e3436cd31cf"
+}

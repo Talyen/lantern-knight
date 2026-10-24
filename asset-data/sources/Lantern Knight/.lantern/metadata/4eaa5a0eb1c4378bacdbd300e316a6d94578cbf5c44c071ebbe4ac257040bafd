@@ -1,0 +1,1444 @@
+{
+  "title": "ROOT ERUPTION",
+  "slug": "root_eruption",
+  "canvas": [
+    512,
+    512
+  ],
+  "pixel_format": "straight RGBA",
+  "source_sheet": "source_sheet.png",
+  "source_size": [
+    1536,
+    1024
+  ],
+  "source_grid": [
+    6,
+    4
+  ],
+  "source_grid_pitch": [
+    256.0,
+    256.0
+  ],
+  "source_grid_origin": [
+    0.0,
+    0.0
+  ],
+  "source_scale": 1.5,
+  "source_padding": [
+    64.0,
+    64.0
+  ],
+  "registration": "Fixed virtual source grid; crop offsets compensate for uneven extraction boundaries. No silhouette bounding-box recentering.",
+  "atlas": "spritesheet_rgba.png",
+  "atlas_grid": [
+    6,
+    4
+  ],
+  "frame_count": 24,
+  "unique_drawn_cels": 23,
+  "fully_clear_terminal_cels": 1,
+  "loop": false,
+  "apng_play_count": 1,
+  "mp4_preview_cycles": 3,
+  "mp4_fps": 200,
+  "mp4_time_basis_ms": 5,
+  "formation_comparison": {
+    "enemy_ms": 840,
+    "hero_ms": 120,
+    "ratio": 7.0,
+    "hero_formation_source_cels": [
+      1,
+      6,
+      10,
+      14
+    ]
+  },
+  "coordinate_guide_note": "Art-direction guides only; no engine collision or gameplay implementation. Cosmetic recovery debris does not create extra damage events.",
+  "pivot_pixels": [
+    256.0,
+    349.0
+  ],
+  "target_pixels": [
+    256.0,
+    349.0
+  ],
+  "intended_attack_footprint_pixels": [
+    [
+      419.5,
+      346.0
+    ],
+    [
+      371.83,
+      382.06
+    ],
+    [
+      256.75,
+      397.0
+    ],
+    [
+      141.67,
+      382.06
+    ],
+    [
+      94.0,
+      346.0
+    ],
+    [
+      141.67,
+      309.94
+    ],
+    [
+      256.75,
+      295.0
+    ],
+    [
+      371.83,
+      309.94
+    ]
+  ],
+  "timelines": {
+    "enemy": {
+      "cycle_ms": 1670,
+      "formation_ms": 840,
+      "strike_ms": 40,
+      "contact_ms": 90,
+      "recovery_ms": 350,
+      "clear_pause_ms": 350,
+      "contact_event": {
+        "source_index": 15,
+        "source_cel": 16,
+        "sequence_index": 15,
+        "time_ms": 880
+      },
+      "frame_count": 24,
+      "entries": [
+        {
+          "sequence_index": 0,
+          "source_index": 0,
+          "source_cel": 1,
+          "file": "frames/00.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 0,
+          "end_ms": 60,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 1,
+          "source_index": 1,
+          "source_cel": 2,
+          "file": "frames/01.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 60,
+          "end_ms": 120,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 2,
+          "source_index": 2,
+          "source_cel": 3,
+          "file": "frames/02.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 120,
+          "end_ms": 180,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 3,
+          "source_index": 3,
+          "source_cel": 4,
+          "file": "frames/03.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 180,
+          "end_ms": 240,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 4,
+          "source_index": 4,
+          "source_cel": 5,
+          "file": "frames/04.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 240,
+          "end_ms": 300,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 5,
+          "source_index": 5,
+          "source_cel": 6,
+          "file": "frames/05.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 300,
+          "end_ms": 360,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 6,
+          "source_index": 6,
+          "source_cel": 7,
+          "file": "frames/06.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 360,
+          "end_ms": 420,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 7,
+          "source_index": 7,
+          "source_cel": 8,
+          "file": "frames/07.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 420,
+          "end_ms": 480,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 8,
+          "source_index": 8,
+          "source_cel": 9,
+          "file": "frames/08.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 480,
+          "end_ms": 540,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 9,
+          "source_index": 9,
+          "source_cel": 10,
+          "file": "frames/09.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 540,
+          "end_ms": 600,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 10,
+          "source_index": 10,
+          "source_cel": 11,
+          "file": "frames/10.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 600,
+          "end_ms": 660,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 11,
+          "source_index": 11,
+          "source_cel": 12,
+          "file": "frames/11.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 660,
+          "end_ms": 720,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 12,
+          "source_index": 12,
+          "source_cel": 13,
+          "file": "frames/12.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 720,
+          "end_ms": 780,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 13,
+          "source_index": 13,
+          "source_cel": 14,
+          "file": "frames/13.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 780,
+          "end_ms": 840,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 14,
+          "source_index": 14,
+          "source_cel": 15,
+          "file": "frames/14.png",
+          "phase": "STRIKE",
+          "start_ms": 840,
+          "end_ms": 880,
+          "duration_ms": 40,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 15,
+          "source_index": 15,
+          "source_cel": 16,
+          "file": "frames/15.png",
+          "phase": "CONTACT",
+          "start_ms": 880,
+          "end_ms": 970,
+          "duration_ms": 90,
+          "damage_event": true
+        },
+        {
+          "sequence_index": 16,
+          "source_index": 16,
+          "source_cel": 17,
+          "file": "frames/16.png",
+          "phase": "RECOVERY",
+          "start_ms": 970,
+          "end_ms": 1020,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 17,
+          "source_index": 17,
+          "source_cel": 18,
+          "file": "frames/17.png",
+          "phase": "RECOVERY",
+          "start_ms": 1020,
+          "end_ms": 1070,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 18,
+          "source_index": 18,
+          "source_cel": 19,
+          "file": "frames/18.png",
+          "phase": "RECOVERY",
+          "start_ms": 1070,
+          "end_ms": 1120,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 19,
+          "source_index": 19,
+          "source_cel": 20,
+          "file": "frames/19.png",
+          "phase": "RECOVERY",
+          "start_ms": 1120,
+          "end_ms": 1170,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 20,
+          "source_index": 20,
+          "source_cel": 21,
+          "file": "frames/20.png",
+          "phase": "RECOVERY",
+          "start_ms": 1170,
+          "end_ms": 1220,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 21,
+          "source_index": 21,
+          "source_cel": 22,
+          "file": "frames/21.png",
+          "phase": "RECOVERY",
+          "start_ms": 1220,
+          "end_ms": 1270,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 22,
+          "source_index": 22,
+          "source_cel": 23,
+          "file": "frames/22.png",
+          "phase": "RECOVERY",
+          "start_ms": 1270,
+          "end_ms": 1320,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 23,
+          "source_index": 23,
+          "source_cel": 24,
+          "file": "frames/23.png",
+          "phase": "CLEAR / HOLD",
+          "start_ms": 1320,
+          "end_ms": 1670,
+          "duration_ms": 350,
+          "damage_event": false
+        }
+      ]
+    },
+    "hero": {
+      "cycle_ms": 950,
+      "formation_ms": 120,
+      "strike_ms": 40,
+      "contact_ms": 90,
+      "recovery_ms": 350,
+      "clear_pause_ms": 350,
+      "contact_event": {
+        "source_index": 15,
+        "source_cel": 16,
+        "sequence_index": 5,
+        "time_ms": 160
+      },
+      "frame_count": 14,
+      "entries": [
+        {
+          "sequence_index": 0,
+          "source_index": 0,
+          "source_cel": 1,
+          "file": "frames/00.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 0,
+          "end_ms": 30,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 1,
+          "source_index": 5,
+          "source_cel": 6,
+          "file": "frames/05.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 30,
+          "end_ms": 60,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 2,
+          "source_index": 9,
+          "source_cel": 10,
+          "file": "frames/09.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 60,
+          "end_ms": 90,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 3,
+          "source_index": 13,
+          "source_cel": 14,
+          "file": "frames/13.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 90,
+          "end_ms": 120,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 4,
+          "source_index": 14,
+          "source_cel": 15,
+          "file": "frames/14.png",
+          "phase": "STRIKE",
+          "start_ms": 120,
+          "end_ms": 160,
+          "duration_ms": 40,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 5,
+          "source_index": 15,
+          "source_cel": 16,
+          "file": "frames/15.png",
+          "phase": "CONTACT",
+          "start_ms": 160,
+          "end_ms": 250,
+          "duration_ms": 90,
+          "damage_event": true
+        },
+        {
+          "sequence_index": 6,
+          "source_index": 16,
+          "source_cel": 17,
+          "file": "frames/16.png",
+          "phase": "RECOVERY",
+          "start_ms": 250,
+          "end_ms": 300,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 7,
+          "source_index": 17,
+          "source_cel": 18,
+          "file": "frames/17.png",
+          "phase": "RECOVERY",
+          "start_ms": 300,
+          "end_ms": 350,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 8,
+          "source_index": 18,
+          "source_cel": 19,
+          "file": "frames/18.png",
+          "phase": "RECOVERY",
+          "start_ms": 350,
+          "end_ms": 400,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 9,
+          "source_index": 19,
+          "source_cel": 20,
+          "file": "frames/19.png",
+          "phase": "RECOVERY",
+          "start_ms": 400,
+          "end_ms": 450,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 10,
+          "source_index": 20,
+          "source_cel": 21,
+          "file": "frames/20.png",
+          "phase": "RECOVERY",
+          "start_ms": 450,
+          "end_ms": 500,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 11,
+          "source_index": 21,
+          "source_cel": 22,
+          "file": "frames/21.png",
+          "phase": "RECOVERY",
+          "start_ms": 500,
+          "end_ms": 550,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 12,
+          "source_index": 22,
+          "source_cel": 23,
+          "file": "frames/22.png",
+          "phase": "RECOVERY",
+          "start_ms": 550,
+          "end_ms": 600,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 13,
+          "source_index": 23,
+          "source_cel": 24,
+          "file": "frames/23.png",
+          "phase": "CLEAR / HOLD",
+          "start_ms": 600,
+          "end_ms": 950,
+          "duration_ms": 350,
+          "damage_event": false
+        }
+      ]
+    }
+  },
+  "frames": [
+    {
+      "index": 0,
+      "cel": 1,
+      "file": "frames/00.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source_grid_origin": [
+        0.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 4078,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        215,
+        332,
+        299,
+        374
+      ],
+      "visible_alpha_pixels": 510,
+      "nonzero_alpha_pixels": 10194
+    },
+    {
+      "index": 1,
+      "cel": 2,
+      "file": "frames/01.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        256,
+        0,
+        512,
+        256
+      ],
+      "source_grid_origin": [
+        256.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 15837,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        97,
+        300,
+        409,
+        398
+      ],
+      "visible_alpha_pixels": 5377,
+      "nonzero_alpha_pixels": 37360
+    },
+    {
+      "index": 2,
+      "cel": 3,
+      "file": "frames/02.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        512,
+        0,
+        768,
+        256
+      ],
+      "source_grid_origin": [
+        512.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 18589,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        96,
+        293,
+        417,
+        402
+      ],
+      "visible_alpha_pixels": 14140,
+      "nonzero_alpha_pixels": 42625
+    },
+    {
+      "index": 3,
+      "cel": 4,
+      "file": "frames/03.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        768,
+        0,
+        1024,
+        256
+      ],
+      "source_grid_origin": [
+        768.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 18998,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        95,
+        294,
+        418,
+        400
+      ],
+      "visible_alpha_pixels": 17978,
+      "nonzero_alpha_pixels": 43725
+    },
+    {
+      "index": 4,
+      "cel": 5,
+      "file": "frames/04.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1024,
+        0,
+        1280,
+        256
+      ],
+      "source_grid_origin": [
+        1024.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 17731,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        96,
+        295,
+        418,
+        404
+      ],
+      "visible_alpha_pixels": 23488,
+      "nonzero_alpha_pixels": 40417
+    },
+    {
+      "index": 5,
+      "cel": 6,
+      "file": "frames/05.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1280,
+        0,
+        1536,
+        256
+      ],
+      "source_grid_origin": [
+        1280.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 17004,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        94,
+        287,
+        420,
+        403
+      ],
+      "visible_alpha_pixels": 26168,
+      "nonzero_alpha_pixels": 38660
+    },
+    {
+      "index": 6,
+      "cel": 7,
+      "file": "frames/06.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "source_grid_origin": [
+        0.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 19702,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        95,
+        214,
+        420,
+        400
+      ],
+      "visible_alpha_pixels": 29389,
+      "nonzero_alpha_pixels": 44784
+    },
+    {
+      "index": 7,
+      "cel": 8,
+      "file": "frames/07.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        256,
+        256,
+        512,
+        512
+      ],
+      "source_grid_origin": [
+        256.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 22102,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        93,
+        233,
+        422,
+        404
+      ],
+      "visible_alpha_pixels": 33115,
+      "nonzero_alpha_pixels": 50093
+    },
+    {
+      "index": 8,
+      "cel": 9,
+      "file": "frames/08.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        512,
+        256,
+        768,
+        512
+      ],
+      "source_grid_origin": [
+        512.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 23426,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        87,
+        234,
+        430,
+        400
+      ],
+      "visible_alpha_pixels": 36496,
+      "nonzero_alpha_pixels": 53249
+    },
+    {
+      "index": 9,
+      "cel": 10,
+      "file": "frames/09.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        768,
+        256,
+        1024,
+        480
+      ],
+      "source_grid_origin": [
+        768.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        336
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 10,
+      "source_nonzero_alpha_pixels": 23158,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        85,
+        249,
+        429,
+        400
+      ],
+      "visible_alpha_pixels": 34929,
+      "nonzero_alpha_pixels": 52528
+    },
+    {
+      "index": 10,
+      "cel": 11,
+      "file": "frames/10.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1024,
+        256,
+        1280,
+        512
+      ],
+      "source_grid_origin": [
+        1024.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 22725,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        86,
+        273,
+        430,
+        403
+      ],
+      "visible_alpha_pixels": 33031,
+      "nonzero_alpha_pixels": 51749
+    },
+    {
+      "index": 11,
+      "cel": 12,
+      "file": "frames/11.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1280,
+        256,
+        1536,
+        512
+      ],
+      "source_grid_origin": [
+        1280.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 26000,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        83,
+        258,
+        430,
+        408
+      ],
+      "visible_alpha_pixels": 36350,
+      "nonzero_alpha_pixels": 59293
+    },
+    {
+      "index": 12,
+      "cel": 13,
+      "file": "frames/12.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        0,
+        512,
+        256,
+        784
+      ],
+      "source_grid_origin": [
+        0.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        408
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 23871,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        81,
+        255,
+        434,
+        401
+      ],
+      "visible_alpha_pixels": 36620,
+      "nonzero_alpha_pixels": 54256
+    },
+    {
+      "index": 13,
+      "cel": 14,
+      "file": "frames/13.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        256,
+        512,
+        512,
+        784
+      ],
+      "source_grid_origin": [
+        256.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        408
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 24479,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        80,
+        257,
+        433,
+        408
+      ],
+      "visible_alpha_pixels": 37439,
+      "nonzero_alpha_pixels": 55694
+    },
+    {
+      "index": 14,
+      "cel": 15,
+      "file": "frames/14.png",
+      "phase": "STRIKE",
+      "source_crop": [
+        512,
+        512,
+        766,
+        784
+      ],
+      "source_grid_origin": [
+        512.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        381,
+        408
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 34318,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        86,
+        131,
+        424,
+        410
+      ],
+      "visible_alpha_pixels": 45814,
+      "nonzero_alpha_pixels": 77629
+    },
+    {
+      "index": 15,
+      "cel": 16,
+      "file": "frames/15.png",
+      "phase": "CONTACT",
+      "source_crop": [
+        766,
+        480,
+        1024,
+        784
+      ],
+      "source_grid_origin": [
+        768.0,
+        512.0
+      ],
+      "paste_xy": [
+        61,
+        16
+      ],
+      "scaled_crop_size": [
+        387,
+        456
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 12,
+      "source_nonzero_alpha_pixels": 63682,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        63,
+        16,
+        448,
+        460
+      ],
+      "visible_alpha_pixels": 96890,
+      "nonzero_alpha_pixels": 143541
+    },
+    {
+      "index": 16,
+      "cel": 17,
+      "file": "frames/16.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        1024,
+        512,
+        1280,
+        784
+      ],
+      "source_grid_origin": [
+        1024.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        408
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 49526,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        87,
+        106,
+        436,
+        442
+      ],
+      "visible_alpha_pixels": 57766,
+      "nonzero_alpha_pixels": 111621
+    },
+    {
+      "index": 17,
+      "cel": 18,
+      "file": "frames/17.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        1280,
+        512,
+        1536,
+        784
+      ],
+      "source_grid_origin": [
+        1280.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        408
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 35325,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        74,
+        198,
+        430,
+        425
+      ],
+      "visible_alpha_pixels": 46375,
+      "nonzero_alpha_pixels": 79913
+    },
+    {
+      "index": 18,
+      "cel": 19,
+      "file": "frames/18.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        0,
+        784,
+        256,
+        1024
+      ],
+      "source_grid_origin": [
+        0.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        88
+      ],
+      "scaled_crop_size": [
+        384,
+        360
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 46416,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        79,
+        119,
+        444,
+        429
+      ],
+      "visible_alpha_pixels": 51797,
+      "nonzero_alpha_pixels": 104585
+    },
+    {
+      "index": 19,
+      "cel": 20,
+      "file": "frames/19.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        256,
+        784,
+        518,
+        1024
+      ],
+      "source_grid_origin": [
+        256.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        88
+      ],
+      "scaled_crop_size": [
+        393,
+        360
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 36270,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        68,
+        139,
+        452,
+        409
+      ],
+      "visible_alpha_pixels": 26121,
+      "nonzero_alpha_pixels": 81877
+    },
+    {
+      "index": 20,
+      "cel": 21,
+      "file": "frames/20.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        518,
+        784,
+        768,
+        1024
+      ],
+      "source_grid_origin": [
+        512.0,
+        768.0
+      ],
+      "paste_xy": [
+        73,
+        88
+      ],
+      "scaled_crop_size": [
+        375,
+        360
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 31578,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        86,
+        122,
+        423,
+        401
+      ],
+      "visible_alpha_pixels": 15023,
+      "nonzero_alpha_pixels": 71482
+    },
+    {
+      "index": 21,
+      "cel": 22,
+      "file": "frames/21.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        768,
+        784,
+        1024,
+        1024
+      ],
+      "source_grid_origin": [
+        768.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        88
+      ],
+      "scaled_crop_size": [
+        384,
+        360
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 15727,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        115,
+        256,
+        399,
+        389
+      ],
+      "visible_alpha_pixels": 5258,
+      "nonzero_alpha_pixels": 36103
+    },
+    {
+      "index": 22,
+      "cel": 23,
+      "file": "frames/22.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        1024,
+        784,
+        1280,
+        1024
+      ],
+      "source_grid_origin": [
+        1024.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        88
+      ],
+      "scaled_crop_size": [
+        384,
+        360
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 2162,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        212,
+        314,
+        324,
+        355
+      ],
+      "visible_alpha_pixels": 431,
+      "nonzero_alpha_pixels": 5516
+    },
+    {
+      "index": 23,
+      "cel": 24,
+      "file": "frames/23.png",
+      "phase": "CLEAR / HOLD",
+      "source_crop": [
+        1280,
+        784,
+        1536,
+        1024
+      ],
+      "source_grid_origin": [
+        1280.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        88
+      ],
+      "scaled_crop_size": [
+        384,
+        360
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 3817,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": true,
+      "alpha_bbox": null,
+      "visible_alpha_pixels": 0,
+      "nonzero_alpha_pixels": 0
+    }
+  ],
+  "assembly_method": "Crop, common uniform scale, fixed-coordinate paste, all-zero final hold, atlas/timeline packaging. No art synthesis, opacity fading, interpolation, morphing, or per-frame recentering.",
+  "protected_source_sha256": {
+    "source_sheet.png": "92f69fc3a2e1808bf7d8293c9e9ae0e2f4d5bfa6bbfaa8d1e88d388614af3439",
+    "prompt.txt": "0ada9dc8395264b7c0680b7eaba03669a2f301ca1298a335099f1c8002f906da",
+    "generation_provenance.json": "3c65bd2def9e33f1975bc3850254b94026dce93146ade70413685f92c898810c"
+  }
+}

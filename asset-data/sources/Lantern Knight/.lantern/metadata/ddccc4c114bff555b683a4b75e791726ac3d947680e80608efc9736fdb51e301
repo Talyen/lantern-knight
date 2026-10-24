@@ -1,0 +1,35 @@
+CANTOR CAMERA-GUIDED v03 IMPORT CALIBRATION — 7 OCTOBER2026
+
+Compact v02 artwork is preserved. Clear hover/spell growth is corrected with one fixed importer mapping for all6 spell frames. No new generation, native resizing, drawing changes, per-frame fitting or tall-concept substitution. Original frontal Cantor remains a separate concept archive.
+
+IMPORT: native640x640 cells, native pivot top-left(320,608), normalized bottom-left(0.5,0.05) for both clips. Let B be your approved hover/base PPU, preserving existing actor world size. Hover PPU=B, visual scale1, offset(0,0,0). Spell PPU=B/0.87, visual scale1, offset(-18/B,+34/B,0). At proposed B256: spell PPU294.2528735632184; offset(-0.0703125,+0.1328125,0).256 is a proposed reference convention, not a requirement to resize the actor.
+
+Offset is camera-facing sprite-local X=screen right,Y=screen up,Z=0 in world-size units on the sprite plane, NOT world XZ or actor-root translation. Map to renderer screen-right/screen-up basis if its local axes differ. Apply to visual child once. Importer PPU already provides0.87 relative scale: NEVER additionally multiply transform scale by0.87. Do not change actor root/collider/world movement. Existing hover lower-row+24Y registration is already baked: NEVER apply again.
+
+Read metadata/import_contract_v03.json and new before/after/overlay proof. Original encoded MP4s and old review art are unchanged historical native-v02 previews; new JPGs show v03 import mapping. Small eye/fold differences, roughly9% residual orb size, hand pose and return bob remain. Not a seamless transition or exact numerical camera/engine certification. Legacy source builder regenerates originalv02 metadata; reapply this v03 contract to generated manifests before import.
+
+HISTORICAL v02 NOTES BELOW
+
+HALO-VEIL CANTOR — CAMERA-GUIDED v02 TEST
+
+A separate camera-focused alternative to the previously delivered frontal motion concept. Original delivered files are untouched. Two fresh clean-ink six-drawing sheets were made with built-in imagegen,  one call per clip,  using exact-camera ghost proxies and cropped identity materials. Creative wording:  Sunburst2.5; no backend claim.
+
+CONTENTS
+- drift_veil_breath: 6 drawings, 1.2s loop. Hover row2 translated down24 native pixels; no pixel edits.
+- resonant_spell: 6 drawings, 1.5s one-shot:  rest, gather, present, release, recoil, settle. No individual or row registration beyond uniform grid/padding.
+- frames/: twelve native RGBA 640x640 padded frames.
+- atlases/: two 3x2 native atlases, 1920x1280.
+- previews/: 60Hz full-drawing holds on charcoal. Hover4.8s; spell4.5s.
+- metadata/: native rectangles, padding, hover translation, timing, provisional anchors and scale notes.
+- source/: unchanged generated sheets, prompts and scripts.
+- guides/: exact projected ghost geometry and material-only identity crops.
+- qa/: native contacts, comparison panels and review.
+
+TRADEOFFS
+The elevated hood/shoulder view is more convincing than the original portrait-conditioned art. Hover remains compact/angular; spell is longer, slenderer and more flowing. Spell is less explosive than the original star-like animation. These are camera-focused test candidates, not unconditional replacements or certified seamless runtime clips. The exact numeric camera is proven for technical guides only.
+
+NO UPSCALING
+All art stays at generated native pixel size. Uniform 64px padding gives 640px frames. Hover has only the documented common row translation. There is no per-frame scaling, warping, alpha cleanup, redrawing, interpolation or morphing. Independent gameplay comparison may use a single documented body ruler per clip.
+
+PIVOT / SCALE
+Shared review display anchor is[320, 608] on 640px canvas,  normalized bottom-left[0.5, 0.05]. It is provisional and is not a calibrated world root. Native neutral crown-to-robe-tip ruler is approximately 320px for hover and 370px for spell; no scale normalization was applied.

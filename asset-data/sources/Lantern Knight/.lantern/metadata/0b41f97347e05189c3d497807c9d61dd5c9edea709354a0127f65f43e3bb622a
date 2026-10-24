@@ -1,0 +1,49 @@
+{
+  "pack": "11 Fungi and Plants",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "FP02",
+      "slug": "ironcap_fungus",
+      "name": "Ironcap Fungus",
+      "description": "One broad nonhumanoid predatory mushroom. A single huge smooth low-domed rust-red mushroom cap, noticeably wider than tall, over a short stout warm-ivory stalk. Exactly four large simple ivory oval spots spaced in a balanced ring on cap, no speckled texture. A simple deep-plum gill band directly under the rim, with only six broad gill divisions. Two narrow black eye slits set low on the stalk facing screen-down-right; no mouth. At the stalk base exactly four blunt thick root lobes splay outward, no human hands or feet and no arm branches. Broad umbrella silhouette, threatening and weighty. Cap top is prominently visible from above. No frills, spores, moss, accessories or ground.",
+      "motion_hint": "Cap bob / heavy slam",
+      "move": "Root base scoots with a single delayed cap bob.",
+      "attack": "Stalk compresses then drives the heavy cap down.",
+      "death": "Cap folds over the shortened stalk as one mass.",
+      "qa": "One connected broad cap, four ivory spots and two eye slits pass. Three root lobes are visible with the rear lobe occluded; six gill divisions are not exact. Cap volume reads clearly at small sizes. The red cap is brighter than muted rust and painted highlights will flip when mirrored.",
+      "native_file": "source/FP02_ironcap_fungus_native.png",
+      "asset_file": "assets/FP02_ironcap_fungus.png",
+      "native_dimensions": [
+        1223,
+        1286
+      ],
+      "asset_dimensions": [
+        1287,
+        1303
+      ],
+      "native_sha256": "5990924b47c23ad806a3fd6c53ea1264fa8d02de2652b0d6ce25b9cc68355be7",
+      "asset_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 777832,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          43,
+          63,
+          1202,
+          1238
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

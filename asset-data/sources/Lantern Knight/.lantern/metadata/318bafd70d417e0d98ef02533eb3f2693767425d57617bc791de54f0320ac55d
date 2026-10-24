@@ -1,0 +1,258 @@
+{
+  "clip": "basic_attack",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": false,
+  "durations_ms": [
+    180,
+    180,
+    180,
+    180,
+    220,
+    60,
+    60,
+    90,
+    110,
+    110,
+    100,
+    120
+  ],
+  "total_ms": 1590,
+  "atlas": "atlases/basic_attack_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/basic_attack/basic_attack_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/basic_attack/basic_attack_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        77,
+        262,
+        619,
+        550
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/basic_attack/basic_attack_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        77,
+        235,
+        650,
+        550
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/basic_attack/basic_attack_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        88,
+        249,
+        633,
+        550
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/basic_attack/basic_attack_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        50,
+        193,
+        656,
+        550
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/basic_attack/basic_attack_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        25,
+        221,
+        626,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/basic_attack/basic_attack_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        58,
+        249,
+        594,
+        550
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/basic_attack/basic_attack_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        47,
+        199,
+        584,
+        550
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/basic_attack/basic_attack_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        12,
+        192,
+        623,
+        550
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/basic_attack/basic_attack_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        32,
+        215,
+        610,
+        550
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/basic_attack/basic_attack_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        72,
+        221,
+        633,
+        550
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/basic_attack/basic_attack_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0
+    },
+    {
+      "name": "single_damage_impact",
+      "time_ms": 1000,
+      "frame": 6,
+      "damage_windows": 1
+    },
+    {
+      "name": "recovery",
+      "time_ms": 1060
+    }
+  ],
+  "target_footprint": {
+    "offset_px": [
+      -145,
+      0
+    ],
+    "ellipse_radii_px": [
+      100,
+      48
+    ],
+    "facing": "screen_left"
+  }
+}

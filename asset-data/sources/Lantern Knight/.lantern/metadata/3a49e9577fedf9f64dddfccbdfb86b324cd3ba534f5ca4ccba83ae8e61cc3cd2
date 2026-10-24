@@ -1,0 +1,362 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Mossfang Scavenger",
+  "ability": "gravegrit_fling",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "gravegrit_fling_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      320,
+      540
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": [
+      85,
+      41,
+      555,
+      540
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        12,
+        19,
+        247,
+        283
+      ],
+      [
+        273,
+        71,
+        481,
+        273
+      ],
+      [
+        535,
+        75,
+        774,
+        284
+      ],
+      [
+        797,
+        71,
+        1011,
+        279
+      ],
+      [
+        31,
+        325,
+        251,
+        567
+      ],
+      [
+        280,
+        336,
+        571,
+        570
+      ],
+      [
+        545,
+        308,
+        811,
+        569
+      ],
+      [
+        818,
+        313,
+        1017,
+        573
+      ],
+      [
+        10,
+        597,
+        320,
+        832
+      ],
+      [
+        267,
+        591,
+        574,
+        830
+      ],
+      [
+        527,
+        620,
+        791,
+        832
+      ],
+      [
+        777,
+        624,
+        1008,
+        842
+      ],
+      [
+        14,
+        866,
+        245,
+        1110
+      ],
+      [
+        281,
+        902,
+        490,
+        1111
+      ],
+      [
+        554,
+        870,
+        752,
+        1115
+      ],
+      [
+        791,
+        858,
+        1012,
+        1114
+      ]
+    ],
+    "ordinary_resample_factor": 1.8901515151515151,
+    "placements_xywh": [
+      [
+        192,
+        41,
+        444,
+        499
+      ],
+      [
+        12,
+        158,
+        393,
+        382
+      ],
+      [
+        4,
+        145,
+        452,
+        395
+      ],
+      [
+        232,
+        147,
+        404,
+        393
+      ],
+      [
+        220,
+        83,
+        416,
+        457
+      ],
+      [
+        86,
+        98,
+        550,
+        442
+      ],
+      [
+        133,
+        47,
+        503,
+        493
+      ],
+      [
+        260,
+        49,
+        376,
+        491
+      ],
+      [
+        50,
+        96,
+        586,
+        444
+      ],
+      [
+        56,
+        88,
+        580,
+        452
+      ],
+      [
+        137,
+        139,
+        499,
+        401
+      ],
+      [
+        185,
+        128,
+        437,
+        412
+      ],
+      [
+        199,
+        79,
+        437,
+        461
+      ],
+      [
+        101,
+        145,
+        395,
+        395
+      ],
+      [
+        242,
+        77,
+        374,
+        463
+      ],
+      [
+        214,
+        56,
+        418,
+        484
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "gravegrit_fling_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1000,
+    "offset_from_actor_pivot_px": [
+      230,
+      -75
+    ],
+    "ordinary_resample_factor": 1.35,
+    "source_cel_boxes": [
+      [
+        42,
+        1181,
+        209,
+        1292
+      ],
+      [
+        275,
+        1159,
+        493,
+        1310
+      ],
+      [
+        528,
+        1153,
+        758,
+        1324
+      ],
+      [
+        789,
+        1160,
+        996,
+        1300
+      ],
+      [
+        23,
+        1363,
+        226,
+        1494
+      ],
+      [
+        278,
+        1366,
+        489,
+        1495
+      ],
+      [
+        530,
+        1370,
+        739,
+        1483
+      ],
+      [
+        794,
+        1360,
+        990,
+        1478
+      ]
+    ]
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1100,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1le9SXiYN_elWy6KfmwnQiiSO_Gnh-x1w",
+    "url": "https://drive.google.com/file/d/1le9SXiYN_elWy6KfmwnQiiSO_Gnh-x1w/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Contact event1100ms; effect starts1000ms.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right."
+  ]
+}

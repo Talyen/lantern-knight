@@ -1,0 +1,335 @@
+{
+  "clip_id": "Lantern_Hero_lantern_inspect_L_selected01",
+  "family": "lantern_inspect",
+  "facing": "L",
+  "producer": "animate_reach_inspection_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+  "equipment_contract": "Sword anatomical right; lantern anatomical left continuously held. No mirrored angles.",
+  "timing_source": "interaction_audit_20261017 original DR action hold timing; producer explicit selected source map.",
+  "source_timing": [
+    10,
+    9,
+    12,
+    30,
+    12,
+    11
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "b2014a2f79d4fb53581f10910a92b2797ed4354db5b1c747f7a05990f4d9718a",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "2e24828f84ad647d5d8b813c1a43fe54caeab47906eef0222fa4077c55a1f180",
+      "source_sha256": "7c5242235af04789e03d427be7ab3dd7052f6c2ce6bbed611fc398184051d5bf",
+      "crop_xyxy": [
+        0,
+        0,
+        384,
+        512
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        101,
+        102
+      ],
+      "observed_anchors": {
+        "manually_observed_two_boot_ground_midpoint_xy": [
+          221,
+          468
+        ],
+        "selected_contact_observation_xy": [
+          115,
+          264
+        ],
+        "source_cell_size_px": [
+          384,
+          512
+        ],
+        "uniform_density_note": "Shared0.7 scale for sheets. Standalone1254px hold reference uses0.7*512/1254 to match native head/forearm dimensions to512px cels."
+      },
+      "registration_note": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        101,
+        105,
+        359,
+        456
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "2f1f3bba9f6c1631dc40344d71434ec20a7987ddfe0bc599c14a42b727bc75c0",
+      "native_size_px": [
+        512,
+        512
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "2cc4c615bddd8d77d1f2473712a0725a1b215d5c61a6a6dbedeb3cfe206c410a",
+      "source_sha256": "90f646a3b52b75b75df6be42137e56f519b5eea56d9e1503d71bbd399dcf85ab",
+      "crop_xyxy": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        73,
+        100
+      ],
+      "observed_anchors": {
+        "manually_observed_two_boot_ground_midpoint_xy": [
+          261,
+          471
+        ],
+        "selected_contact_observation_xy": [
+          302,
+          204
+        ],
+        "source_cell_size_px": [
+          512,
+          512
+        ],
+        "uniform_density_note": "Shared0.7 scale for sheets. Standalone1254px hold reference uses0.7*512/1254 to match native head/forearm dimensions to512px cels."
+      },
+      "registration_note": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 10,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        74,
+        112,
+        431,
+        458
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "8baa0730fc3d80c094a98ecd31eae25c925539c851d21c75f6a1c68979ce5448",
+      "native_size_px": [
+        512,
+        512
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "a1cc5411bd9410ea5df99fc8d4c35cf1f5df0e3feac46a54b395021e4ac51600",
+      "source_sha256": "90f646a3b52b75b75df6be42137e56f519b5eea56d9e1503d71bbd399dcf85ab",
+      "crop_xyxy": [
+        1024,
+        0,
+        1536,
+        512
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        70,
+        100
+      ],
+      "observed_anchors": {
+        "manually_observed_two_boot_ground_midpoint_xy": [
+          266,
+          471
+        ],
+        "selected_contact_observation_xy": [
+          504,
+          204
+        ],
+        "source_cell_size_px": [
+          512,
+          512
+        ],
+        "uniform_density_note": "Shared0.7 scale for sheets. Standalone1254px hold reference uses0.7*512/1254 to match native head/forearm dimensions to512px cels."
+      },
+      "registration_note": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 19,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        75,
+        112,
+        418,
+        458
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "9f7adb3f4278b78c6c9f2b23e1045d061a0519e41b54bcefee387284ffcae5b8",
+      "native_size_px": [
+        512,
+        512
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "65752706e186eb2ea59c91d4db1e976741eb581152eb952fe4c31ca51f51d692",
+      "source_sha256": "90f646a3b52b75b75df6be42137e56f519b5eea56d9e1503d71bbd399dcf85ab",
+      "crop_xyxy": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        48,
+        102
+      ],
+      "observed_anchors": {
+        "manually_observed_two_boot_ground_midpoint_xy": [
+          297,
+          468
+        ],
+        "selected_contact_observation_xy": [
+          716,
+          203
+        ],
+        "source_cell_size_px": [
+          512,
+          512
+        ],
+        "uniform_density_note": "Shared0.7 scale for sheets. Standalone1254px hold reference uses0.7*512/1254 to match native head/forearm dimensions to512px cels."
+      },
+      "registration_note": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 31,
+      "hold_ticks": 30,
+      "runtime_alpha_bbox": [
+        48,
+        104,
+        406,
+        460
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "45aa943cc9c71cad099f6fc73a16a7e172e844f6a9c942e8693721f0a95179e8",
+      "native_size_px": [
+        512,
+        512
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "01e2a5b672126cd226cead89ef7af793547248a535afb1eb16dd3f43eda79bab",
+      "source_sha256": "90f646a3b52b75b75df6be42137e56f519b5eea56d9e1503d71bbd399dcf85ab",
+      "crop_xyxy": [
+        512,
+        512,
+        1024,
+        1024
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        70,
+        102
+      ],
+      "observed_anchors": {
+        "manually_observed_two_boot_ground_midpoint_xy": [
+          266,
+          468
+        ],
+        "selected_contact_observation_xy": [
+          904,
+          203
+        ],
+        "source_cell_size_px": [
+          512,
+          512
+        ],
+        "uniform_density_note": "Shared0.7 scale for sheets. Standalone1254px hold reference uses0.7*512/1254 to match native head/forearm dimensions to512px cels."
+      },
+      "registration_note": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 61,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        70,
+        103,
+        428,
+        449
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "84c02a6fda52c00c1d2fa47e3064088a8f0f92a0f465e8ab28c3a388fdf3a319",
+      "native_size_px": [
+        384,
+        512
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "203b431d4623b40f307636845be6b715402acd3e9b743fe1c9467d69eb2713eb",
+      "source_sha256": "7c5242235af04789e03d427be7ab3dd7052f6c2ce6bbed611fc398184051d5bf",
+      "crop_xyxy": [
+        1152,
+        512,
+        1536,
+        1024
+      ],
+      "uniform_scale": 0.7,
+      "translation_xy": [
+        116,
+        104
+      ],
+      "observed_anchors": {
+        "manually_observed_two_boot_ground_midpoint_xy": [
+          200,
+          466
+        ],
+        "selected_contact_observation_xy": [
+          1104,
+          263
+        ],
+        "source_cell_size_px": [
+          384,
+          512
+        ],
+        "uniform_density_note": "Shared0.7 scale for sheets. Standalone1254px hold reference uses0.7*512/1254 to match native head/forearm dimensions to512px cels."
+      },
+      "registration_note": "Manual two-planted-boot midpoint, constant sheet density. Arm/gaze/torso movement preserved. Selected repeated contact poses use identical transforms. No head-height fitting. Standalone UL inspect hold uniformly downsampled by source-resolution ratio, cross-checked visual head/forearm size.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 73,
+      "hold_ticks": 11,
+      "runtime_alpha_bbox": [
+        118,
+        108,
+        375,
+        451
+      ]
+    }
+  ],
+  "native_drawn_cels": 6,
+  "timeline_frame_count": 6,
+  "duration_ticks": 84,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "c70cc3a760bacec392054ff40753beaadcdfc457dfcca19122ed8b645fd9a291"
+  }
+}

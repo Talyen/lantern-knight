@@ -1,0 +1,6 @@
+Lantern: Five darker home-base concepts, October 9, 2026
+
+One fresh built-in image_gen sample each: Blackthorn Lodge, Last Watchtower, Gravedigger’s Rest, Raven Abbey, Hollow Cairn.
+All native scenes are untouched 1536x1024. Hero context previews reuse the unchanged canonical hero at 160px visible height; no scene painting or upscaling. Exact prompts and provenance accompany each sample. Run python review/build_contexts.py to rebuild previews and package.
+
+Concepts only. Geometry was prompted, not mathematically validated. Scenery is baked; collisions, occlusion, navigation and engine rendering are not validated. Raven Abbey has substantial foreground walls that would require an occlusion solution. Simplified shapes were requested throughout, though some foliage and ground texture remain more detailed than the brief. Hollow Cairn offers the simplest structure. No full-scale expansion performed.

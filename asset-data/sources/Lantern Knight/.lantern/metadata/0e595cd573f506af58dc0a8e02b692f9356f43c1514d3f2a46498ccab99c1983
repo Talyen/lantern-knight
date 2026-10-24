@@ -1,0 +1,1078 @@
+{
+  "stills": [
+    {
+      "asset": "watch_lantern",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        640,
+        854,
+        903,
+        1280
+      ]
+    },
+    {
+      "asset": "watch_lantern",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        640,
+        854,
+        903,
+        1280
+      ]
+    },
+    {
+      "asset": "watch_lantern",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        558,
+        854,
+        903,
+        1280
+      ]
+    },
+    {
+      "asset": "crook_street_lamp",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        617,
+        466,
+        1014,
+        1288
+      ]
+    },
+    {
+      "asset": "crook_street_lamp",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        617,
+        466,
+        1014,
+        1288
+      ]
+    },
+    {
+      "asset": "crook_street_lamp",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        617,
+        466,
+        1014,
+        1323
+      ]
+    },
+    {
+      "asset": "tripod_brazier",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        477,
+        785,
+        1064,
+        1311
+      ]
+    },
+    {
+      "asset": "tripod_brazier",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        477,
+        728,
+        1064,
+        1311
+      ]
+    },
+    {
+      "asset": "tripod_brazier",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        473,
+        785,
+        1064,
+        1311
+      ]
+    },
+    {
+      "asset": "wall_cresset",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        467,
+        646,
+        860,
+        1006
+      ]
+    },
+    {
+      "asset": "wall_cresset",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        467,
+        602,
+        860,
+        1006
+      ]
+    },
+    {
+      "asset": "wall_cresset",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        500,
+        646,
+        860,
+        1250
+      ]
+    },
+    {
+      "asset": "votive_candelabrum",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        531,
+        733,
+        1021,
+        1256
+      ]
+    },
+    {
+      "asset": "votive_candelabrum",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        531,
+        680,
+        1021,
+        1256
+      ]
+    },
+    {
+      "asset": "votive_candelabrum",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        570,
+        733,
+        1021,
+        1269
+      ]
+    },
+    {
+      "asset": "tomb_beacon",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        582,
+        676,
+        950,
+        1268
+      ]
+    },
+    {
+      "asset": "tomb_beacon",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        582,
+        603,
+        950,
+        1268
+      ]
+    },
+    {
+      "asset": "tomb_beacon",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        556,
+        676,
+        950,
+        1271
+      ]
+    },
+    {
+      "asset": "hanging_cage_lamp",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        551,
+        436,
+        880,
+        1167
+      ]
+    },
+    {
+      "asset": "hanging_cage_lamp",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        551,
+        436,
+        880,
+        1167
+      ]
+    },
+    {
+      "asset": "hanging_cage_lamp",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        551,
+        436,
+        880,
+        1240
+      ]
+    },
+    {
+      "asset": "alchemist_stove",
+      "state": "unlit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        532,
+        787,
+        999,
+        1283
+      ]
+    },
+    {
+      "asset": "alchemist_stove",
+      "state": "lit",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        532,
+        787,
+        999,
+        1283
+      ]
+    },
+    {
+      "asset": "alchemist_stove",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "edge_contact": false,
+      "bounds": [
+        532,
+        833,
+        988,
+        1399
+      ]
+    }
+  ],
+  "layer_composition": [
+    {
+      "asset": "watch_lantern",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "crook_street_lamp",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "tripod_brazier",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "wall_cresset",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "votive_candelabrum",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "tomb_beacon",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "hanging_cage_lamp",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    },
+    {
+      "asset": "alchemist_stove",
+      "unlit_plus_pane_warmth_plus_emission_equals_lit": true
+    }
+  ],
+  "clips": [
+    {
+      "asset": "watch_lantern",
+      "frame_count": 24,
+      "phase0_matches_lit_still": true,
+      "hardware_outside_emission_union_pixel_fixed": true,
+      "emission_bounds_by_frame": [
+        [
+          726,
+          1067,
+          751,
+          1113
+        ],
+        [
+          726,
+          1066,
+          751,
+          1113
+        ],
+        [
+          726,
+          1066,
+          751,
+          1113
+        ],
+        [
+          726,
+          1066,
+          751,
+          1113
+        ],
+        [
+          726,
+          1066,
+          751,
+          1113
+        ],
+        [
+          726,
+          1066,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1065,
+          751,
+          1113
+        ],
+        [
+          726,
+          1066,
+          751,
+          1113
+        ],
+        [
+          725,
+          1067,
+          751,
+          1113
+        ],
+        [
+          725,
+          1067,
+          751,
+          1113
+        ],
+        [
+          726,
+          1067,
+          751,
+          1113
+        ],
+        [
+          726,
+          1067,
+          751,
+          1113
+        ]
+      ],
+      "source_anchor_contract": "Every flame is deformed around v=1; base vertices are invariant for all phases."
+    },
+    {
+      "asset": "tripod_brazier",
+      "frame_count": 24,
+      "phase0_matches_lit_still": true,
+      "hardware_outside_emission_union_pixel_fixed": true,
+      "emission_bounds_by_frame": [
+        [
+          644,
+          728,
+          889,
+          971
+        ],
+        [
+          647,
+          732,
+          890,
+          971
+        ],
+        [
+          647,
+          736,
+          891,
+          971
+        ],
+        [
+          646,
+          740,
+          892,
+          971
+        ],
+        [
+          645,
+          742,
+          893,
+          971
+        ],
+        [
+          645,
+          742,
+          895,
+          971
+        ],
+        [
+          642,
+          739,
+          895,
+          971
+        ],
+        [
+          638,
+          735,
+          896,
+          971
+        ],
+        [
+          637,
+          730,
+          895,
+          971
+        ],
+        [
+          639,
+          727,
+          894,
+          971
+        ],
+        [
+          637,
+          725,
+          893,
+          971
+        ],
+        [
+          641,
+          725,
+          893,
+          971
+        ],
+        [
+          647,
+          728,
+          891,
+          971
+        ],
+        [
+          651,
+          732,
+          891,
+          971
+        ],
+        [
+          650,
+          736,
+          890,
+          971
+        ],
+        [
+          647,
+          740,
+          895,
+          971
+        ],
+        [
+          645,
+          742,
+          891,
+          971
+        ],
+        [
+          643,
+          742,
+          896,
+          971
+        ],
+        [
+          642,
+          739,
+          894,
+          971
+        ],
+        [
+          642,
+          735,
+          892,
+          971
+        ],
+        [
+          642,
+          730,
+          892,
+          971
+        ],
+        [
+          642,
+          727,
+          890,
+          971
+        ],
+        [
+          645,
+          725,
+          890,
+          971
+        ],
+        [
+          640,
+          725,
+          889,
+          971
+        ]
+      ],
+      "source_anchor_contract": "Every flame is deformed around v=1; base vertices are invariant for all phases."
+    },
+    {
+      "asset": "votive_candelabrum",
+      "frame_count": 24,
+      "phase0_matches_lit_still": true,
+      "hardware_outside_emission_union_pixel_fixed": true,
+      "emission_bounds_by_frame": [
+        [
+          590,
+          680,
+          963,
+          921
+        ],
+        [
+          590,
+          678,
+          963,
+          921
+        ],
+        [
+          590,
+          678,
+          963,
+          921
+        ],
+        [
+          589,
+          676,
+          963,
+          921
+        ],
+        [
+          589,
+          676,
+          965,
+          921
+        ],
+        [
+          589,
+          677,
+          963,
+          921
+        ],
+        [
+          589,
+          677,
+          966,
+          921
+        ],
+        [
+          590,
+          679,
+          963,
+          921
+        ],
+        [
+          590,
+          681,
+          963,
+          921
+        ],
+        [
+          590,
+          681,
+          963,
+          921
+        ],
+        [
+          590,
+          682,
+          963,
+          921
+        ],
+        [
+          590,
+          681,
+          963,
+          921
+        ],
+        [
+          590,
+          680,
+          963,
+          921
+        ],
+        [
+          590,
+          679,
+          963,
+          921
+        ],
+        [
+          589,
+          678,
+          963,
+          921
+        ],
+        [
+          589,
+          676,
+          964,
+          921
+        ],
+        [
+          589,
+          676,
+          964,
+          921
+        ],
+        [
+          589,
+          677,
+          964,
+          921
+        ],
+        [
+          589,
+          677,
+          964,
+          921
+        ],
+        [
+          589,
+          678,
+          964,
+          921
+        ],
+        [
+          589,
+          680,
+          964,
+          921
+        ],
+        [
+          589,
+          681,
+          963,
+          921
+        ],
+        [
+          589,
+          681,
+          963,
+          921
+        ],
+        [
+          589,
+          681,
+          963,
+          921
+        ]
+      ],
+      "source_anchor_contract": "Every flame is deformed around v=1; base vertices are invariant for all phases."
+    },
+    {
+      "asset": "hanging_cage_lamp",
+      "frame_count": 24,
+      "phase0_matches_lit_still": true,
+      "hardware_outside_emission_union_pixel_fixed": true,
+      "emission_bounds_by_frame": [
+        [
+          746,
+          891,
+          791,
+          980
+        ],
+        [
+          746,
+          892,
+          792,
+          980
+        ],
+        [
+          746,
+          892,
+          792,
+          980
+        ],
+        [
+          746,
+          891,
+          792,
+          980
+        ],
+        [
+          746,
+          890,
+          792,
+          980
+        ],
+        [
+          746,
+          888,
+          792,
+          980
+        ],
+        [
+          746,
+          887,
+          792,
+          980
+        ],
+        [
+          747,
+          886,
+          792,
+          980
+        ],
+        [
+          746,
+          886,
+          791,
+          980
+        ],
+        [
+          746,
+          888,
+          791,
+          980
+        ],
+        [
+          746,
+          889,
+          791,
+          980
+        ],
+        [
+          746,
+          890,
+          791,
+          980
+        ],
+        [
+          746,
+          891,
+          791,
+          980
+        ],
+        [
+          746,
+          892,
+          791,
+          980
+        ],
+        [
+          746,
+          893,
+          791,
+          980
+        ],
+        [
+          746,
+          891,
+          791,
+          980
+        ],
+        [
+          746,
+          890,
+          791,
+          980
+        ],
+        [
+          746,
+          889,
+          791,
+          980
+        ],
+        [
+          746,
+          887,
+          791,
+          980
+        ],
+        [
+          746,
+          887,
+          791,
+          980
+        ],
+        [
+          746,
+          887,
+          791,
+          980
+        ],
+        [
+          746,
+          886,
+          791,
+          980
+        ],
+        [
+          746,
+          889,
+          791,
+          980
+        ],
+        [
+          746,
+          890,
+          791,
+          980
+        ]
+      ],
+      "source_anchor_contract": "Every flame is deformed around v=1; base vertices are invariant for all phases."
+    }
+  ],
+  "loop_seams": [
+    {
+      "asset": "watch_lantern",
+      "phase_0_equals_phase_1": true,
+      "no_duplicate_endpoint_exported": true,
+      "frames": 24
+    },
+    {
+      "asset": "tripod_brazier",
+      "phase_0_equals_phase_1": true,
+      "no_duplicate_endpoint_exported": true,
+      "frames": 24
+    },
+    {
+      "asset": "votive_candelabrum",
+      "phase_0_equals_phase_1": true,
+      "no_duplicate_endpoint_exported": true,
+      "frames": 24
+    },
+    {
+      "asset": "hanging_cage_lamp",
+      "phase_0_equals_phase_1": true,
+      "no_duplicate_endpoint_exported": true,
+      "frames": 24
+    }
+  ],
+  "untouched_master_sha256": {
+    "watch_lantern.png": "58afda280123e0fb0afe3fd1f6a6c70d53574b6d7345dc574563c151fe03544b",
+    "alchemist_stove.png": "56719cdd8bef50512e8cfc24c657d1e36f2d69d95f3e390e2d4ea79c34490909",
+    "wall_cresset.png": "3bda3b6b339b2d0107c0ec89ca35a7f34aefdedb968a39179e36bd27c9561515",
+    "tripod_brazier.png": "0da7d9d04a08524d30aa1a9a340200cae5f477be5a39b832c2e1ffe3be85b35e",
+    "flame_masters.png": "ee8d442ff3d32ff233ca79ed27942689f3e5ba1f805ba5a7770173eca4157a7f",
+    "crook_street_lamp.png": "6d18863916ec356bc5ad37bb45899f88807df6cdb56caecf8119d90df6ddb8e6",
+    "hanging_cage_lamp.png": "6e4a884b2017d492739b916b0700d28a81fc648791c7af16f2c98e95e33713a3",
+    "tomb_beacon.png": "ccc74d940d49434dd7657609aad3fa99a3dc8e54b0ea12a51c9e4cb1ab7cf740",
+    "votive_candelabrum.png": "a5e945c1a7a6b7d263f446ca945f51bb074309d586ea89911e95e30439ae463a"
+  },
+  "flame_contact_test": {
+    "phase_samples": 25,
+    "all_fixtures_and_flames_tested": true,
+    "base_vertex_exactly_invariant": true
+  }
+}

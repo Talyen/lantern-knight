@@ -1,0 +1,41 @@
+{
+  "asset": "Graveyard whole-map floor proof",
+  "tool": "built-in image_gen.imagegen",
+  "generation_intent": "fresh original whole-scene generation",
+  "requested_model": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst (prompt only; actual backend not exposed)",
+  "actual_native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "generation_attempts": 1,
+  "source_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-90fb909a-e382-4a0f-b8a6-58741f387a2e.png",
+  "sha256": "8eede1ce2649caae63b5da14d1c699ecf0a3a17c1e08d69613ee91904b324465",
+  "upscaled": false,
+  "stitched": false,
+  "old_viewport_resized": false,
+  "target_evaluation": "4x AI output6144x4096;1536x1024 gameplaycrop with160px visiblehero; nativeheroequivalent40px",
+  "camera_requested": "orthographic elevation35.264degrees,azimuth45degrees",
+  "camera_validated": false,
+  "reference_roles": [
+    {
+      "path": "/workspace/shared/lantern_biome_floor_samples_oct09/graveyard_crypt/graveyard_native.png",
+      "role": "Viewed in context for palette/material direction only; explicitly not scale or composition reference"
+    },
+    {
+      "path": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+      "role": "Viewed in context for ink style and physical scale only; character excluded from output"
+    }
+  ],
+  "guide": "No compositional diagram used; full-map layout and40pxheroequivalent specified in text. No triangle markers.",
+  "locked_style": "Exact source block appended verbatim to exact_prompt.txt",
+  "visual_review": {
+    "scale": "New whole-map looping network; paving mostly small relative to40pxhero equivalent. Not a singleviewport closeup.",
+    "composition": "Connected lower entrance, looping paths, multiple large clearings, entire canvas filled",
+    "caveats": [
+      "Raised rocklike edging/small boulder forms appear despite flat floor request",
+      "Groundcover has more mottling than requested;2/3quiet target imperfect",
+      "No actualherooverlay inspected by this worker; parent conducts gameplay4x review"
+    ]
+  }
+}

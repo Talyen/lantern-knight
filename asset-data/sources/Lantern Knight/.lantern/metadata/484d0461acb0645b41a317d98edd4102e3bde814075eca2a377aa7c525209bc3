@@ -1,0 +1,23 @@
+{
+  "chapel/A/exact_prompt.txt": "e20432f69b2e851e03bf00b68cdc76b3e07703a4540d3eded49318898d418fcb",
+  "chapel/A/hero160_context.png": "1e029a97035ecc2b83ad8f6cc89bc6fad0a361b53dca8d0d76d4752d3113b44c",
+  "chapel/A/hero_context_metadata.json": "b8167cf72673ebc379842329aed128e0de40714b2382224960806e68320c9b15",
+  "chapel/A/metadata.json": "0c0f9a0fef0d5eaa7718fcea9a8578b87c75434af085059779ad65850a95dd12",
+  "chapel/A/native.png": "36422a0b2ac5f689f38fabce7f190ff9e1d5ffe580b38105b5113e59eb560f6b",
+  "chapel/ABC_hero_comparison.png": "1b62bbeaf50b1eb8cf7934bfbaf201cefd2be9f269b4cb6aa5893b74f497b1a0",
+  "chapel/B/exact_prompt.txt": "9f533f02f6cf74ae8acac901f1c0431987bb1843be5bfd6422c7f80fc75a7a09",
+  "chapel/B/hero160_context.png": "ff4a477fca2b22129df2f71dc73b1a3f1c687e36e1c67528e497e951d20e2dc6",
+  "chapel/B/hero_context_metadata.json": "a615b239483631c9b920c1261359fea69672c377e81e155311d9dfbf7e5917f7",
+  "chapel/B/metadata.json": "acb0cb2f75ac25fe153825f52da8b5f4c87e2cbacfdd30958dc341dff5bf27c0",
+  "chapel/B/native.png": "d20688943f62be9f27d1595cca50a01bac0140dbf016093afd799a43f3f3e4b5",
+  "chapel/C/exact_prompt.txt": "a9625ae573d314ec00903af5f01f1b5dda5a592cccd50bfb6d94e7e34218c0e2",
+  "chapel/C/hero160_context.png": "0e3e665dd70e8979377fd1ec474e386959c41205e82ada350687ab54c0396112",
+  "chapel/C/hero_context_metadata.json": "863ec610c8b6fd74d822ba49eb5bbeb9fc57dad7641644f6838f6a7427f03486",
+  "chapel/C/metadata.json": "669d83d342e94df4bf0bf01bce7f303d05534345ea0dd50fc18fc57bcc8a0651",
+  "chapel/C/native.png": "e64095f3d3480da79daaa2702004c16a475f44763ae2b4b7c64aa022af52d504",
+  "chapel/hero_placements.json": "1ec1b019627bb094f85dcdf16208dc8a1a2caa11b9d83a813128bec33b26c126",
+  "chapel/review_summary.json": "3f172a9dd8fb01a3a7756e7229e86a95f12da28718d454970f116c136aa7db85",
+  "review/build_contexts.py": "53cd87cb3919934beaa65512ad1eabf8657da68a1270d3eee32f69137838f45d",
+  "review/package_theme.py": "93bdb6ed0d5d7f0917f05414bf8317836ed609e59d4b1930ef0c9e74bfe7a31d",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

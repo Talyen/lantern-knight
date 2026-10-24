@@ -1,0 +1,103 @@
+{
+  "sheet_pixels": [
+    2048,
+    1024
+  ],
+  "layout": [
+    4,
+    2
+  ],
+  "cell_pixels": [
+    512,
+    512
+  ],
+  "source_ticks": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35
+  ],
+  "master_pixels": [
+    1280,
+    1000
+  ],
+  "master_pixels_per_meter": 350,
+  "master_ground_root": [
+    635,
+    800
+  ],
+  "common_crop_master": [
+    350,
+    260,
+    1050,
+    960
+  ],
+  "cell_pixels_per_meter": 256,
+  "cell_ground_root": [
+    208.45714285714286,
+    394.9714285714286
+  ],
+  "global_sheet_roots": [
+    {
+      "tick": 0,
+      "pixel": [
+        208.45714285714286,
+        394.9714285714286
+      ]
+    },
+    {
+      "tick": 5,
+      "pixel": [
+        720.4571428571428,
+        394.9714285714286
+      ]
+    },
+    {
+      "tick": 10,
+      "pixel": [
+        1232.4571428571428,
+        394.9714285714286
+      ]
+    },
+    {
+      "tick": 15,
+      "pixel": [
+        1744.4571428571428,
+        394.9714285714286
+      ]
+    },
+    {
+      "tick": 20,
+      "pixel": [
+        208.45714285714286,
+        906.9714285714285
+      ]
+    },
+    {
+      "tick": 25,
+      "pixel": [
+        720.4571428571428,
+        906.9714285714285
+      ]
+    },
+    {
+      "tick": 30,
+      "pixel": [
+        1232.4571428571428,
+        906.9714285714285
+      ]
+    },
+    {
+      "tick": 35,
+      "pixel": [
+        1744.4571428571428,
+        906.9714285714285
+      ]
+    }
+  ],
+  "scope": "These are deterministic guide anchors; generated art requires observed extraction/registration, not presumed exact pixel copying."
+}

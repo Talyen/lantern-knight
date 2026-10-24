@@ -1,0 +1,342 @@
+{
+  "asset": "lantern_DR",
+  "version": "v01",
+  "status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+  "heading": {
+    "world": "+X",
+    "screen": "down-right",
+    "mirrored": false
+  },
+  "native_source": {
+    "file": "source/lantern_DR_native_sheet.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "d7bfc65581631fd65614f54118f02ff06b8d79875885e82d65cb0907aea05787",
+    "generation": "built-in image_gen",
+    "requested_model": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "backend_model_verified": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      1048
+    ],
+    "atlas": "frames_clean_native/lantern_DR_atlas_native.png",
+    "grid": [
+      4,
+      2
+    ],
+    "frame_count": 8,
+    "unique_native_drawings": 8,
+    "fps": 60,
+    "duration_seconds": 1.2166666666666666,
+    "loop": false,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015267
+    ],
+    "pivot_status": "Fixed-cell integration estimate, not calibrated skeleton/ground solve",
+    "recommended_pixels_per_unit": 257.407,
+    "density_method": {
+      "reference_nominal_ppu": 350,
+      "reference_family": "directional_ready_idle_v01/delivery",
+      "reference_heading_body_crown_to_boot_px": 567,
+      "clip_neutral_body_heights_px": [
+        420,
+        414
+      ],
+      "mean_clip_body_px": 417.0,
+      "ratio": 0.7354497354497355,
+      "measurement": "First and last neutral-cel crown-to-lowest-boot span, visually checked extrema are body not sword/coat",
+      "confidence": "Approximate: pose/anatomy variation prevents exact world-height certification"
+    },
+    "root_motion": "Original cell-relative body motion retained; no root-motion track",
+    "gameplay_logic_implemented": false
+  },
+  "processing": {
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "per_frame_autofit": false,
+    "nominal_native_cell": [
+      444,
+      444
+    ],
+    "uniform_added_margin_each_side": 40,
+    "alpha_cleanup": "Main human component selected from alpha>=16 with1px connectivity dilation, then2px ownership allowance; native RGB and retained edge alpha preserved. Removes distant low-alpha fuzz and excludes neighboring cels. No pixels translated within original cell coordinate system.",
+    "source_native_retained": true
+  },
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "world_up": "+Y",
+    "ground": "XZ",
+    "gameplay_vertical_span_m": 13,
+    "unity_orthographic_size": 6.5,
+    "verification": "Exact guide matrix exists; illustration only visually conditioned, not geometrically certified"
+  },
+  "suggested_timing_tags": {
+    "gather_cel": 3,
+    "present_cel": 4,
+    "pulse_cel": 5,
+    "recover_cels": [
+      6,
+      7,
+      8
+    ]
+  },
+  "known_limits": [
+    "Art-review candidate, not final production integration approval.",
+    "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+    "Endpoints are new drawings, not pixel-identical to sharedready.",
+    "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+    "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+    "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+    "Warm lantern pulse material lighting is baked into cel5; no separate FX layer."
+  ],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames_clean_native/lantern_DR_01.png",
+      "label": "ready",
+      "hold_ticks_60hz": 12,
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        170,
+        55,
+        384,
+        479
+      ],
+      "visible_bbox_alpha16": [
+        173,
+        57,
+        381,
+        477
+      ],
+      "sha256": "0c26df712c430feaa55f6d2369a591fcea1beaf836f532e4bb60d9f4c6a6a502"
+    },
+    {
+      "index": 2,
+      "file": "frames_clean_native/lantern_DR_02.png",
+      "label": "brace",
+      "hold_ticks_60hz": 7,
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        136,
+        70,
+        389,
+        476
+      ],
+      "visible_bbox_alpha16": [
+        138,
+        72,
+        386,
+        473
+      ],
+      "sha256": "b3827d943b7fa33cd8971ef300a407fb81424fcd7867bd363f8e05223441a62f"
+    },
+    {
+      "index": 3,
+      "file": "frames_clean_native/lantern_DR_03.png",
+      "label": "gather",
+      "hold_ticks_60hz": 8,
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        139,
+        59,
+        384,
+        475
+      ],
+      "visible_bbox_alpha16": [
+        142,
+        62,
+        382,
+        472
+      ],
+      "sha256": "c7c2defe95bc401bc1467eb29848ea3fd4cfc1cbc451db85aef0e56c4567342e"
+    },
+    {
+      "index": 4,
+      "file": "frames_clean_native/lantern_DR_04.png",
+      "label": "present",
+      "hold_ticks_60hz": 10,
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        113,
+        57,
+        403,
+        480
+      ],
+      "visible_bbox_alpha16": [
+        116,
+        59,
+        400,
+        477
+      ],
+      "sha256": "429a53ea7ac2b92fe06283cb3e295c630c9b728fa5647a06a46f3c938d064ced"
+    },
+    {
+      "index": 5,
+      "file": "frames_clean_native/lantern_DR_05.png",
+      "label": "pulse",
+      "hold_ticks_60hz": 6,
+      "atlas_rect": [
+        0,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        122,
+        41,
+        470,
+        461
+      ],
+      "visible_bbox_alpha16": [
+        125,
+        44,
+        467,
+        458
+      ],
+      "sha256": "9f7276509b20f548ff0a947a04a5a8fa12fc8af42e4a3c2e3697f6b1a16cc09a"
+    },
+    {
+      "index": 6,
+      "file": "frames_clean_native/lantern_DR_06.png",
+      "label": "settle",
+      "hold_ticks_60hz": 8,
+      "atlas_rect": [
+        524,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        146,
+        40,
+        404,
+        463
+      ],
+      "visible_bbox_alpha16": [
+        149,
+        43,
+        402,
+        460
+      ],
+      "sha256": "e94ae4067c2d57d2d14e0311b1dae68b7f925cd7518aeff4f7771f8df2976d00"
+    },
+    {
+      "index": 7,
+      "file": "frames_clean_native/lantern_DR_07.png",
+      "label": "lower",
+      "hold_ticks_60hz": 8,
+      "atlas_rect": [
+        1048,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        129,
+        44,
+        375,
+        459
+      ],
+      "visible_bbox_alpha16": [
+        132,
+        47,
+        372,
+        456
+      ],
+      "sha256": "24687eb0cff69835de2c8a74fd5a736bdfcc3f8c5d88ccad8b2e1bac2bf9ac27"
+    },
+    {
+      "index": 8,
+      "file": "frames_clean_native/lantern_DR_08.png",
+      "label": "ready_restored",
+      "hold_ticks_60hz": 14,
+      "atlas_rect": [
+        1572,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        157,
+        41,
+        366,
+        461
+      ],
+      "visible_bbox_alpha16": [
+        159,
+        44,
+        363,
+        458
+      ],
+      "sha256": "f07fc086718baa1255be8054732b8c6e3f66c739c394ed2c1a940bce6e1f7ed4"
+    }
+  ]
+}

@@ -1,0 +1,519 @@
+{
+  "version": "2.0-clean-ink-illustrated",
+  "content_status": "independent_visual_motion_review_passed_candidate_not_runtime_integrated",
+  "projection": "orthographic",
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "world": "right-handed XZ ground / Y up"
+  },
+  "source_density_px_per_m": 440.0,
+  "canvas": [
+    1536,
+    1536
+  ],
+  "ground_pivot_px": [
+    768.0,
+    1220.0
+  ],
+  "assets": [
+    {
+      "id": "weathered_satchel",
+      "source_master": "source/masters/weathered_satchel.png",
+      "source_prompt": "source/prompts/weathered_satchel.txt",
+      "states": {
+        "closed": {
+          "png": "png/weathered_satchel_closed.png",
+          "alpha_bounds_px": [
+            514,
+            761,
+            1038,
+            1335
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "d95235f9485dec5d0edff0731187a0d105d1f963697c2a5529c86a649a3c3b99"
+        },
+        "open": {
+          "png": "png/weathered_satchel_open.png",
+          "alpha_bounds_px": [
+            514,
+            591,
+            1038,
+            1335
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "0c5a92a6201ad92695ab58df0bc131e02b5d548060ef30d8427083eab90418d2"
+        },
+        "broken": {
+          "png": "png/weathered_satchel_broken.png",
+          "alpha_bounds_px": [
+            514,
+            591,
+            1029,
+            1335
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "ac2cfd8fd06d3d5d7369ba051ab08cf91d681ba0592085300277a5ce4115c352"
+        }
+      }
+    },
+    {
+      "id": "tied_grain_sack",
+      "source_master": "source/masters/tied_grain_sack.png",
+      "source_prompt": "source/prompts/tied_grain_sack.txt",
+      "states": {
+        "closed": {
+          "png": "png/tied_grain_sack_closed.png",
+          "alpha_bounds_px": [
+            527,
+            773,
+            1027,
+            1321
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "e6c036fd6d51c52adddab003a31031a38c1ee8d7a13a896c6a3fd04f72b3f54e"
+        },
+        "open": {
+          "png": "png/tied_grain_sack_open.png",
+          "alpha_bounds_px": [
+            527,
+            778,
+            1027,
+            1321
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "b3839f44303fddbe4b1405e5270c3e115b38df7d605e6621de51cb90eae8ac42"
+        },
+        "broken": {
+          "png": "png/tied_grain_sack_broken.png",
+          "alpha_bounds_px": [
+            396,
+            773,
+            1027,
+            1321
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "24ebfe37bf0c07ec8986487f66f20dd5e3b8b647da87b7751340fd58ad98055d"
+        }
+      }
+    },
+    {
+      "id": "reed_hamper",
+      "source_master": "source/masters/reed_hamper.png",
+      "source_prompt": "source/prompts/reed_hamper.txt",
+      "states": {
+        "closed": {
+          "png": "png/reed_hamper_closed.png",
+          "alpha_bounds_px": [
+            503,
+            793,
+            1048,
+            1342
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "ea6bc320b3fcb76492839c067faa690611e75dcd2d81b45a006c1291a0232f3a"
+        },
+        "open": {
+          "png": "png/reed_hamper_open.png",
+          "alpha_bounds_px": [
+            503,
+            793,
+            1107,
+            1426
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "d94945b5fd294fdd54721869bcad3457c8d844f695454be6659a4b45927b92f1"
+        },
+        "broken": {
+          "png": "png/reed_hamper_broken.png",
+          "alpha_bounds_px": [
+            503,
+            793,
+            1107,
+            1426
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "e8e390deac5b5257b3785a3b157ade9b830a6c32db91cc5f9ba866cdcc087ede"
+        }
+      }
+    },
+    {
+      "id": "burial_coffin",
+      "source_master": "source/masters/burial_coffin.png",
+      "source_prompt": "source/prompts/burial_coffin.txt",
+      "states": {
+        "closed": {
+          "png": "png/burial_coffin_closed.png",
+          "alpha_bounds_px": [
+            394,
+            723,
+            1146,
+            1413
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "393039c0b69998fecbbe1a5e5255d00a3330e7038b786c82b1b861b81fb60042"
+        },
+        "open": {
+          "png": "png/burial_coffin_open.png",
+          "alpha_bounds_px": [
+            394,
+            496,
+            1168,
+            1413
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "cc71f54ad8a66cf07bac35c7f65f796f6ee569f311457ae306b4b738e6876841"
+        },
+        "broken": {
+          "png": "png/burial_coffin_broken.png",
+          "alpha_bounds_px": [
+            260,
+            523,
+            1146,
+            1413
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "efba519ffa28ce2b430c76e55633bd25b0dbad4c72b62f051867edf4c39a6462"
+        }
+      }
+    },
+    {
+      "id": "bowed_apothecary_cabinet",
+      "source_master": "source/masters/bowed_apothecary_cabinet.png",
+      "source_prompt": "source/prompts/bowed_apothecary_cabinet.txt",
+      "states": {
+        "closed": {
+          "png": "png/bowed_apothecary_cabinet_closed.png",
+          "alpha_bounds_px": [
+            546,
+            491,
+            981,
+            1380
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "d976ac82604d9fa78cc76fdf3f9a9ce52bf472831737fc6499e80a490c0d5a36"
+        },
+        "open": {
+          "png": "png/bowed_apothecary_cabinet_open.png",
+          "alpha_bounds_px": [
+            478,
+            491,
+            981,
+            1380
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "0eedb24bd3b6b51b1cb60a542f788dc73d476bdd6aa9357e9c6ca7bcd6fc233e"
+        },
+        "broken": {
+          "png": "png/bowed_apothecary_cabinet_broken.png",
+          "alpha_bounds_px": [
+            497,
+            491,
+            981,
+            1380
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "3d5da804c85cd9fb1dc77bf3b5dee50a64306c2a1a9387f153df0a47b31a249e"
+        }
+      }
+    },
+    {
+      "id": "spouted_coal_scuttle",
+      "source_master": "source/masters/spouted_coal_scuttle.png",
+      "source_prompt": "source/prompts/spouted_coal_scuttle.txt",
+      "states": {
+        "closed": {
+          "png": "png/spouted_coal_scuttle_closed.png",
+          "alpha_bounds_px": [
+            536,
+            731,
+            1058,
+            1339
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "925ff073b964ccea68e61bfbdc6e6b5341ff0fa6d56f42eae542e6d3c666f7e0"
+        },
+        "open": {
+          "png": "png/spouted_coal_scuttle_open.png",
+          "alpha_bounds_px": [
+            536,
+            731,
+            1058,
+            1499
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "0c729c524fb445c901310487c02dbbd21cb16c2febac7826783f2aaaee9069e6"
+        },
+        "broken": {
+          "png": "png/spouted_coal_scuttle_broken.png",
+          "alpha_bounds_px": [
+            536,
+            731,
+            1055,
+            1499
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "7674d528b6ef62e84b733329c0a1cfc79879b1331cf6b4c6a4875c629ded1013"
+        }
+      }
+    },
+    {
+      "id": "canvas_rollcase",
+      "source_master": "source/masters/canvas_rollcase.png",
+      "source_prompt": "source/prompts/canvas_rollcase.txt",
+      "states": {
+        "closed": {
+          "png": "png/canvas_rollcase_closed.png",
+          "alpha_bounds_px": [
+            458,
+            810,
+            1063,
+            1330
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "27cb48310eeafdea3a1210068ad4d8f7dbd9f6fc8a14dd72bcbdef8d5847e0c1"
+        },
+        "open": {
+          "png": "png/canvas_rollcase_open.png",
+          "alpha_bounds_px": [
+            458,
+            810,
+            1063,
+            1510
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "97b79bc966563b27950f65579666dda97d4ab3ab4d7fbd7e057fe4aaf08f8a95"
+        },
+        "broken": {
+          "png": "png/canvas_rollcase_broken.png",
+          "alpha_bounds_px": [
+            458,
+            810,
+            1076,
+            1510
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "cc6c0bd41a6531bff6d52ef92a7b73f22aec3fabe220d8eda23780791ebedbe1"
+        }
+      }
+    },
+    {
+      "id": "curved_spice_drawer",
+      "source_master": "source/masters/curved_spice_drawer.png",
+      "source_prompt": "source/prompts/curved_spice_drawer.txt",
+      "states": {
+        "closed": {
+          "png": "png/curved_spice_drawer_closed.png",
+          "alpha_bounds_px": [
+            460,
+            811,
+            1064,
+            1333
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "ce77e4886f30ccaa4a83cd8232f7eaed1892d28a59ca6da8c9bdfdaaf0fd0dd4"
+        },
+        "open": {
+          "png": "png/curved_spice_drawer_open.png",
+          "alpha_bounds_px": [
+            391,
+            811,
+            1064,
+            1339
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "fbf2ece008b1ea01897143720e810b7252c0e17e1ceb5dfd274e22f1b9d48df0"
+        },
+        "broken": {
+          "png": "png/curved_spice_drawer_broken.png",
+          "alpha_bounds_px": [
+            259,
+            811,
+            1064,
+            1333
+          ],
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ],
+          "sha256": "6ca23ce4760dcbbd909e55e3935a07e817784b152a4bd3d5a0d913cbb8c2affd"
+        }
+      }
+    }
+  ],
+  "source_method": "Eight NEW built-in imagegen component atlases. No animation frame was independently generated. Masters and alpha are immutable; exported sprites are clipped/registered component assemblies.",
+  "projection_caveat": "Body volumes are fixed-view generated isometric illustrations. Their baked perspective, rounded surfaces, lighting and painted recesses are not mathematically calibrated 3D. Moving parts use reproducible source landmarks and world-space projected transforms under the declared orthographic camera; this does not turn the painted body into exact world geometry.",
+  "migration_caveats": [
+    "Original 1536x1536 canvases, root (768,1220), 440px/m registration and semantic state/clip IDs are retained. Visual silhouettes/extents changed and require collision, sorting and bounds review.",
+    "Original SVG procedural surfaces have been replaced by raster illustration masters plus editable Python/JSON clipping/assembly; these are not pure vector assets.",
+    "Opening clips remain 24 frames at 24fps, one-shot, reverseable for closing. Preview playback is a ping-pong review loop only.",
+    "Damage is static source fragmentation with authored exposed material lips. No destruction physics or gameplay timings are supplied.",
+    "Original references are comparison-only and not active runtime art. Original master alpha is never thresholded or recolored."
+  ],
+  "runtime_integration": false
+}

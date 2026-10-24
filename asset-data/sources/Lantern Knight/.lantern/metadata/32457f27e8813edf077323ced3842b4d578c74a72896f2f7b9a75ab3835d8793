@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_alchemist_still_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_alchemist_still_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_arcane_dynamo_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_arcane_dynamo_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_occult_armillary_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_occult_armillary_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_ritual_altar_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_ritual_altar_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_riveted_boiler_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_riveted_boiler_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_unlit_brazier_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_unlit_brazier_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_valve_pipe_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_valve_pipe_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_03_occult_industrial/assets/prop_wooden_handcart_01.png",
+    "new": "volume_03_occult_industrial/assets/prop_wooden_handcart_01.png"
+  }
+]

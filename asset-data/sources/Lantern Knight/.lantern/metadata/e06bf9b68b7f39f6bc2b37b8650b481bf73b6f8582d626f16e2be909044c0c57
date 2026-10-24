@@ -1,0 +1,61 @@
+{
+  "biome": "crypt",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "native_upscaled": false,
+  "generation": "built-in image_gen.imagegen, fresh generation conditioned on two reference images; no previous floor edited",
+  "generation_attempts": 1,
+  "model_requested": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model": "Not exposed by built-in tool; unverified",
+  "exact_prompt": "crypt_prompt_exact.txt",
+  "exact_prompt_sha256": "b1c62d1d9095eb8ebdc394b8752cad799160962a5b739eff0eedc3f6384b78c2",
+  "requested_camera_elevation_degrees": 35.264,
+  "requested_camera_azimuth_degrees": 45,
+  "camera_engine_validated": false,
+  "references": [
+    {
+      "path": "references/hero_original.png",
+      "role": "Image 1: approved hero style and human-scale reference, not an edit target; also exact original compositing input"
+    },
+    {
+      "path": "references/direction_v04.png",
+      "role": "Image 2: approved ground direction/camera/detail reference, not an edit target"
+    }
+  ],
+  "hero_source": "references/hero_original.png",
+  "hero_crop_alpha_threshold": 30,
+  "hero_source_crop": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_visible_height_px": 160,
+  "hero_resized_dimensions": [
+    68,
+    160
+  ],
+  "hero_center_x": 843,
+  "hero_bottom_y": 501,
+  "contact_shadow": {
+    "ellipse": [
+      822,
+      489,
+      865,
+      501
+    ],
+    "rgba": [
+      12,
+      14,
+      13,
+      95
+    ],
+    "gaussian_blur_px": 3
+  },
+  "context_recipe": "build_context.py",
+  "context_method": "Deterministic original approved hero alpha composite and small contact shadow; native floor unchanged.",
+  "status": "Selection candidate pending root/reviewer decision",
+  "quality_notes": "Clear flush octagonal chamber and inlaid aisle. Residual surface mottling and full joint lattice; paving scale reads larger than requested 3\u20135% width."
+}

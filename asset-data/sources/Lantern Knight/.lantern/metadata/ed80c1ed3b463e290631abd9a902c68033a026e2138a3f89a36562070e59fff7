@@ -1,0 +1,16 @@
+LANTERN KNIGHT — Cooper Barrel
+
+10 frames, fixed 512 x 576 RGBA canvas, 850 ms, one-shot with persistent final state.
+Use cooper_barrel_clip.json for exact durations, atlas rectangles and pivot.
+Pivot: (256,450) measured from top-left. Unity bottom-left normalized: (0.5,0.21875).
+A single generic loot_release event occurs on frame 04 at 260 ms.
+Spawn the game's independently selected rewards on that event. There are no baked rewards.
+Start at states/intact.png; play once on interaction; hold states/empty_persistent.png.
+Do not loop the interaction or emit loot_release more than once per interactable.
+Import all frames at the same scale and pivot, with Full Rect meshes, bilinear filter,
+no mipmaps, and lossless texture settings. All frames share one anchor.
+
+Original approved artwork is retained unchanged in the separate source kit.
+Runtime cels are genuinely transparent with clean straight-alpha edges.
+Generated native cel sheet is 1536 x 1024, with 384 x 512 cells; no upscaling.
+Runtime canvas includes transparent margins and is not artwork upscaling.

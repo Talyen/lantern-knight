@@ -1,0 +1,38 @@
+{
+  "name": "keepers_glade_B",
+  "status": "independent_untiled_seam_comparison_complete",
+  "metrics": [
+    {
+      "name": "central_hedge_junction",
+      "junction_source_xy": [
+        960,
+        480
+      ],
+      "check_source_box": [
+        912,
+        432,
+        1008,
+        528
+      ],
+      "mean_abs_rgb_difference": 0.022833930121527776,
+      "max_abs_rgb_difference": 5.0,
+      "pct_pixels_over_2": 0.018310546875
+    },
+    {
+      "name": "western_clearing_junction",
+      "junction_source_xy": [
+        480,
+        640
+      ],
+      "check_source_box": [
+        432,
+        592,
+        528,
+        688
+      ],
+      "mean_abs_rgb_difference": 0.011603461371527778,
+      "max_abs_rgb_difference": 2.0,
+      "pct_pixels_over_2": 0.0
+    }
+  ]
+}

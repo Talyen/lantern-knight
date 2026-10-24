@@ -1,0 +1,1894 @@
+{
+  "category": "gems",
+  "items": [
+    {
+      "id": "amethyst",
+      "label": "Amethyst",
+      "category": "gems",
+      "reference_extent_cm": 4.4,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/amethyst/amethyst__full_native.png",
+          "dimensions": [
+            888,
+            1771
+          ],
+          "sha256": "c875b684a6f1fde538fb4d005c2e3b6182ac39c3f1a7baf669b21d6184048911"
+        },
+        "inventory512": {
+          "path": "gems/amethyst/amethyst__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "15de135f7bd321a1ef36a8001e65846afa90fc66a11161f5ceaeafa27294cf6e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            252,
+            248,
+            260,
+            264
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/amethyst/amethyst__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ad04b70ca939737b789b2952dcbb6108c0ff65f083d9b2df868e3d4f1d6222a6",
+          "visible_bbox": [
+            125,
+            124,
+            131,
+            132
+          ],
+          "visible_extent": 8
+        },
+        "detail512": {
+          "path": "gems/amethyst/amethyst__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6884358e2c0a41e9235f52697af60e76f3acecefedf8bd0cdb3e3b708e4f0d70",
+          "visible_bbox": [
+            144,
+            32,
+            367,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/amethyst/amethyst__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "79664befdc01876703d1111ef477c2a89ff03caba9cbe11175f6a85ded3a7924",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            36,
+            8,
+            92,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/amethyst/amethyst__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "3fd4c8a14cc1d07cf63e268235befbe77418fc4f18e348ab02661ed823927b1a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            18,
+            4,
+            46,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/amethyst/amethyst__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "e34bda5f54e2e1d4fa8eb598228099fed6414d3d154560a2e0ca38ec74c0e2ce",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            9,
+            2,
+            23,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/amethyst/amethyst__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "eedcc82a75f75bf8cc10dc3da7e9ba291986a075f20dc8a86f3f3898123d45cc",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            420,
+            265,
+            449
+          ],
+          "visible_extent": 29
+        },
+        "ground_scaled_512": {
+          "path": "gems/amethyst/amethyst__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cfc1eb79babd04f1f0b9828f2a1d156cfbf58a7b6eaa1c578def563b50402ec1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            253,
+            436,
+            259,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "diamond",
+      "label": "Diamond",
+      "category": "gems",
+      "reference_extent_cm": 3.5,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/diamond/diamond__full_native.png",
+          "dimensions": [
+            1525,
+            1031
+          ],
+          "sha256": "84c36310b662e8d536625ae283d6aafe1ed2c5e3f4bde88fbad7456fb1bd7fc2"
+        },
+        "inventory512": {
+          "path": "gems/diamond/diamond__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "900a000e8eee48ca9d118d1bb6ecd034a36a648ab0d4a8062dc09e9fd3001b5c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            250,
+            264,
+            261
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/diamond/diamond__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "e078dbb59c31eb1b05ab392ac1e42cf8654e75d318812a36ddf67454b542f07e",
+          "visible_bbox": [
+            123,
+            124,
+            132,
+            131
+          ],
+          "visible_extent": 9
+        },
+        "detail512": {
+          "path": "gems/diamond/diamond__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "198cbcd4c929cbedcefcff4c58014653f05ef9fc4ff10a3a8bc80864822b287f",
+          "visible_bbox": [
+            32,
+            104,
+            480,
+            407
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/diamond/diamond__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "5f02dc3e93da07651aceb88cd2714f22c65975ca168288e74adab2184b9a01a6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            26,
+            120,
+            102
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/diamond/diamond__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "44e4a0666433795720a5be590c4b0ca4f684a29850a20506ecb41846606acf79",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            13,
+            60,
+            51
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/diamond/diamond__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "8da590d0400329ef5e60ae5f910fc1d8d66541f905d653960deeadeb9d934978",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            25
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/diamond/diamond__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d9abc2c0604264e6a83ed2b2b2f2511151d4a949690c743c6c905e2529783066",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            430,
+            270,
+            451
+          ],
+          "visible_extent": 27
+        },
+        "ground_scaled_512": {
+          "path": "gems/diamond/diamond__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b61d59d0830aba4edfd31875ee753deef398bdb4715919704a69523125c6b4be",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            440,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "emerald",
+      "label": "Emerald",
+      "category": "gems",
+      "reference_extent_cm": 3.8,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/emerald/emerald__full_native.png",
+          "dimensions": [
+            1439,
+            1093
+          ],
+          "sha256": "a40ffc3f16658d54d992bf33515d7c587dacba989f8c0ac345fd41274c8a22b5"
+        },
+        "inventory512": {
+          "path": "gems/emerald/emerald__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "149687a07e1f292368b748938a656123b4df59b9f9c9f3f4762a08880d528a4f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            250,
+            264,
+            261
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/emerald/emerald__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "9893472c2a3eac95deb1ecd2bbd6e53bbcf010558d498539c954c1ebe51bf24c",
+          "visible_bbox": [
+            123,
+            124,
+            133,
+            133
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "gems/emerald/emerald__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b70ef35922368ba787c8a9651ea9069ef0ad0e5e29041788e4b15aa1cb877fa3",
+          "visible_bbox": [
+            32,
+            96,
+            480,
+            415
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/emerald/emerald__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "871ec5c8753a257572ff1e1c5a13c2815cdac92694a5aa2db6ebff728322ce9c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            24,
+            120,
+            104
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/emerald/emerald__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "03055b3d467d60a42b57b360e1c128ba1829d77a88835b0098b3c54d0b9efd15",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            12,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/emerald/emerald__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "3d2b4448f72e60ec2e842e10ca42d74e1fabb83d31dbef041f7c4a448305a582",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/emerald/emerald__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cb4a5b044241d8da42a0441fa5b986362cd4f4789db2e23097d651d6ad59476c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            428,
+            270,
+            449
+          ],
+          "visible_extent": 29
+        },
+        "ground_scaled_512": {
+          "path": "gems/emerald/emerald__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2e26089c1dc829bce9edfc98440643f69a7b508cdbc531ccdbf75feb8ccdf8f3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            439,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "onyx",
+      "label": "Onyx",
+      "category": "gems",
+      "reference_extent_cm": 3.8,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/onyx/onyx__full_native.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "ccde9bfa126a7176ba71fd2b81a458b4d4490df47076ac7b83d56b859e70c577"
+        },
+        "inventory512": {
+          "path": "gems/onyx/onyx__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "449a26beeaa0d73b13f1524f131a70116c73123e4ead85127df1863bf3a2fc64",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            252,
+            264,
+            260
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/onyx/onyx__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "9334a875307dc7e99451f973924f9d6de12dea6f81f0220537e1547849aa72f7",
+          "visible_bbox": [
+            123,
+            125,
+            133,
+            131
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "gems/onyx/onyx__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c8667c48f794ba281565ba8480cd315a4863da46d9b349f06f6608108b662def",
+          "visible_bbox": [
+            32,
+            150,
+            480,
+            361
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/onyx/onyx__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "70a830a20eca7eb2be9c9cdcf2d26647e50271743c8a367d3d155e4c2578fb3f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            37,
+            120,
+            90
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/onyx/onyx__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a842a2846fcf12c1f895b380fcc678dad478d82a46c4582c56e5c43ff661cb97",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            19,
+            60,
+            45
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/onyx/onyx__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ab9aa27c38b93de6e5c339f534d780c54ac1f243f5cbcecc42d0271cd07c8aa9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            22
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/onyx/onyx__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "27e46a2471ae2a9c257e6116fe1e7305c578456075b42876fe25a67d4f15be64",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            434,
+            271,
+            450
+          ],
+          "visible_extent": 30
+        },
+        "ground_scaled_512": {
+          "path": "gems/onyx/onyx__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d7b53bd1b4f6d8ddb3982d76eaafe2d2b227c1cbe5158dd3ac0f817f47884b5a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            442,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "ruby",
+      "label": "Ruby",
+      "category": "gems",
+      "reference_extent_cm": 3.2,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/ruby/ruby__full_native.png",
+          "dimensions": [
+            1601,
+            983
+          ],
+          "sha256": "cfe100d381404a9a03d901b988cb172ae6b8d666b9cb3043a51e8196e4f8df7f"
+        },
+        "inventory512": {
+          "path": "gems/ruby/ruby__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b8a93d0857c6d05d4375cbc9df024dd29eb018ba2a11529dcb60d8622a1d9861",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            251,
+            264,
+            261
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/ruby/ruby__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "7979610ee5b92e030370136a8e8cb0a4fc6e408ead92fcce22fa1a58f095cecd",
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            133
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "gems/ruby/ruby__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "82fb4be4f598914e344f93de3b10c5e04574e26a8e8690543529d80605a66509",
+          "visible_bbox": [
+            32,
+            121,
+            480,
+            390
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/ruby/ruby__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "b8c916a5880329d4baa107fa600ae577661e5d3452f34d9ba96d40592dd2fd84",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            30,
+            120,
+            97
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/ruby/ruby__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "40dae8eabcb1d5c9557b763a6e8c5bd622eac376fb042546dcc1eb5502b71ff4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            15,
+            60,
+            49
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/ruby/ruby__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "6d0d298599aecc1f4e4a48bbe4c72b586a5b5715ac20deb2b878875a9a4322f2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/ruby/ruby__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dd6731a8fb3defe64ee26c34fff65b725abc5e8e2c3bed2c421ca19d379a2442",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            433,
+            269,
+            450
+          ],
+          "visible_extent": 25
+        },
+        "ground_scaled_512": {
+          "path": "gems/ruby/ruby__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cbf51e5c93551163b1b3c7142b40aaebb1491d06230c35142409808015addff7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            441,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "sapphire",
+      "label": "Sapphire",
+      "category": "gems",
+      "reference_extent_cm": 3.2,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/sapphire/sapphire__full_native.png",
+          "dimensions": [
+            1316,
+            1195
+          ],
+          "sha256": "703290b31ef2e675721b6702c3f07d9ba3cd9affb374ffdf7d115cf3f56ed69c"
+        },
+        "inventory512": {
+          "path": "gems/sapphire/sapphire__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "30309b79322f5efff32de7279e68e2c5a638aa3429b66ee69c5b3c1145ffcd7e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            249,
+            264,
+            263
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/sapphire/sapphire__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "9f64c6c68fce76c4970d53d1fafe96fab39d69b27bdbd4b523b944b31110a2af",
+          "visible_bbox": [
+            123,
+            122,
+            133,
+            134
+          ],
+          "visible_extent": 12
+        },
+        "detail512": {
+          "path": "gems/sapphire/sapphire__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "92c54bd02b2952876b6005c23b0800c0dcefa664f032f4c886ac97c77f463e76",
+          "visible_bbox": [
+            32,
+            55,
+            480,
+            456
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/sapphire/sapphire__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d42393f315e7f28155bba6a4aff7d92aca462749acab8d30253f58032c14718f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            114
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/sapphire/sapphire__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "264c394a56d1a6fbf7ef3736bac6ea91d340699438c6b3efc9d35603805b1a72",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/sapphire/sapphire__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "28bd4b00107bd170f2abe24db05619bcc6162849c6b07a42ee6ead731a3604c3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/sapphire/sapphire__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7218a0e2ea3b8bcc9f271efdcb65753771b4315644f41b8143cdccb94752278e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            427,
+            268,
+            450
+          ],
+          "visible_extent": 25
+        },
+        "ground_scaled_512": {
+          "path": "gems/sapphire/sapphire__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9eff978609c90affbeb88c84208a485ff8fd9aeef5f0fa335395a904664fcd6d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            437,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "topaz",
+      "label": "Topaz",
+      "category": "gems",
+      "reference_extent_cm": 3.8,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/topaz/topaz__full_native.png",
+          "dimensions": [
+            938,
+            1677
+          ],
+          "sha256": "41aadd3ef36fd97895020e86db856779921788bfb4079d32ad22604d6b941bc8"
+        },
+        "inventory512": {
+          "path": "gems/topaz/topaz__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "22e4c218d39aa843e3190fd0b04026503ea02c79d07e940480e97d0ce84f645e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            253,
+            248,
+            259,
+            264
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/topaz/topaz__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "56a204843c1a43e1efe368d1b8d6b55a22cd0a6bf37c7deee8a35cb74c02464f",
+          "visible_bbox": [
+            124,
+            124,
+            132,
+            132
+          ],
+          "visible_extent": 8
+        },
+        "detail512": {
+          "path": "gems/topaz/topaz__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f753873736192d9a027fffa2f718dddd8b2d74d8935ed11e049e106bf7829769",
+          "visible_bbox": [
+            168,
+            32,
+            343,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/topaz/topaz__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "7802fdfb49c0127550f169c964c0e713855a824af50e7693108fc192c26f4971",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            42,
+            8,
+            86,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/topaz/topaz__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "de7e93c5699465319ed7f393ba993657d97660235bf9bb2b4694dcbaf82605f1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            21,
+            4,
+            43,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/topaz/topaz__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "4530309880912165dbabf9c8a5d8451e9fa23b8ee602458dc01e43a90d4d9495",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            2,
+            21,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/topaz/topaz__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9a3bb341ec421a2cb34d6901937790709097dec84dbec5bd0757aa4e6bfb1def",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            423,
+            263,
+            449
+          ],
+          "visible_extent": 26
+        },
+        "ground_scaled_512": {
+          "path": "gems/topaz/topaz__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c926451a062e4cb631fc375ccf7681246961db6ab02938162f60f0b89a623842",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            254,
+            436,
+            259,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "garnet",
+      "label": "Garnet",
+      "category": "gems",
+      "reference_extent_cm": 3,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/garnet/garnet__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "6597d5bf08ac333807f8f53006bd4c3206d5cbfe35b168ed7c884bf77bbd4a41"
+        },
+        "inventory512": {
+          "path": "gems/garnet/garnet__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a1d3a8a05cb6c666842d00bd31566cf9e7139b907f29e79afba9bbc96576c094",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            264,
+            264
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/garnet/garnet__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "614813082c653da75e814c3b2a0565baaf0a91652279e6995fc790cd0456110f",
+          "visible_bbox": [
+            123,
+            124,
+            133,
+            133
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "gems/garnet/garnet__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "12107257c3e17ff95bf4143341abaf4f81b076a8f72cfc3e45dd5e846cb9c711",
+          "visible_bbox": [
+            32,
+            34,
+            480,
+            477
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/garnet/garnet__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "6a026f85ee92ae285a4d570f475942a75265953391924393f2cc0aec188e9eaa",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            120,
+            119
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/garnet/garnet__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "5760a25a3a0398673e383eea2df4299fb53ee47bce9fb0bfdce47b9aa5a4b125",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/garnet/garnet__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "52ffb57d8c412aa0eacc79fd5ece064a2e2d284c49cc7ae2d00e4ca070cddd9a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/garnet/garnet__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4ee1480a751e3ec28a73f935aa42d7862845edc3eef480c246b9b1eebd5d7d95",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            432,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "gems/garnet/garnet__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ce15d61491506200b5d07b71e3d5d8744ceaecbd20c15d7367a5b8f9be99c392",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            436,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "aquamarine",
+      "label": "Aquamarine",
+      "category": "gems",
+      "reference_extent_cm": 6,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/aquamarine/aquamarine__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "66bf19fc11d6cd52280bba743db51a6c4f3917ef5abc51e97854d156cccd8337"
+        },
+        "inventory512": {
+          "path": "gems/aquamarine/aquamarine__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1211d36765d955555eff2a0dc01d3037dc69acb12768c66f02c683f579b014a3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            264,
+            263
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/aquamarine/aquamarine__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "3c3442a3999d0b7eb10d203c100a3fdafb676bbd5a63d43068f993cc397bb381",
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            134
+          ],
+          "visible_extent": 11
+        },
+        "detail512": {
+          "path": "gems/aquamarine/aquamarine__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "533644685e3ed421ea4c86434c820c8b9192eadd0691e630be4196c20ce160f8",
+          "visible_bbox": [
+            32,
+            40,
+            480,
+            471
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/aquamarine/aquamarine__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "2f121fceeb34642ff24fc2ded78286f0c9760ec18da749192554c9534cc0e41b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/aquamarine/aquamarine__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "967bda4c74d50e41e7ef692723fca1230a708ec981f9b9c71498f18bf6e67657",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/aquamarine/aquamarine__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c6c65831e53c2f68a4e3a147097b6c1a2adce418e74b876a1dab69d83e677cbf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/aquamarine/aquamarine__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f6a01ee8aea12a55716b59dffc56b8248b12629238d6c0e56f5f40accc0b7c73",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            433,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "gems/aquamarine/aquamarine__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ddb97b5e7a091bdbf3bc4d0a915f0e66481fac8ca77faffc944bb05fdcdbb8d2",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            436,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "pearl",
+      "label": "Pearl",
+      "category": "gems",
+      "reference_extent_cm": 1.5,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/pearl/pearl__full_native.png",
+          "dimensions": [
+            1291,
+            1218
+          ],
+          "sha256": "aae171c052774ca4e0ddfb3f423bdecad4ed2c87f516efb6beab64b82bd529a6"
+        },
+        "inventory512": {
+          "path": "gems/pearl/pearl__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2d4b33ac58b699c7dfe3fdd9defba9bb30db01be84f0a59e405d552ca73faabd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            264,
+            264
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/pearl/pearl__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "c21b44fef98d6bca302efc67bd8cfd7315279c21a397f563a18f507591dc844f",
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            133
+          ],
+          "visible_extent": 10
+        },
+        "detail512": {
+          "path": "gems/pearl/pearl__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "355ed4d530caaeed6bf9b94881d7a48a57b43c318d7c7a250f81666a3c5c0e37",
+          "visible_bbox": [
+            33,
+            35,
+            479,
+            476
+          ],
+          "visible_extent": 446
+        },
+        "ui128": {
+          "path": "gems/pearl/pearl__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "81cd40ef2feff34250c6b1c729206f156155ba80e2aa873875c5b1a25edacc2d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            119
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/pearl/pearl__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "c1e9d0bce039b400362c5b75f7f8f4f87f627d7a26df0acc301136532cfe145f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/pearl/pearl__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "fdcbca2a126ee14db03c6f9f705eace7a5677845e92935735fe5431bfd277a5a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/pearl/pearl__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ad89b2a026bd24a0167b768f5adb2b303850a0720a42b59fb5b4e84d2bb95b80",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            432,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "gems/pearl/pearl__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a43bbbdec9bd663035aad6c9bf7e1f8c38c775f037048d69375104b2723649e3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            436,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "opal",
+      "label": "Opal",
+      "category": "gems",
+      "reference_extent_cm": 3,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "gems/opal/opal__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "7b8d4ba689e1e23dbf7c593294cc6b9fc3136c1fa772d4b30e6db8e843c648cb"
+        },
+        "inventory512": {
+          "path": "gems/opal/opal__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9fb2498a5cbc92377541a7fcc773d40ce485da979ff2381a3bde352106263206",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            248,
+            249,
+            264,
+            263
+          ],
+          "visible_extent": 16
+        },
+        "thumb256": {
+          "path": "gems/opal/opal__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5fddfa3133470ec3dd84655ba941113ee44741aa9f55a00c6d0b3ff746f97192",
+          "visible_bbox": [
+            123,
+            122,
+            133,
+            134
+          ],
+          "visible_extent": 12
+        },
+        "detail512": {
+          "path": "gems/opal/opal__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b7baefda953bd4d5a7e59635be2db8c0e5f950a596c1c2fff1a8325de0048cc4",
+          "visible_bbox": [
+            32,
+            60,
+            480,
+            452
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "gems/opal/opal__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c7be951f6a0736fb44d87db6080f5bea86c140684a67e5ce706f05d7aeb216be",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            15,
+            120,
+            113
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "gems/opal/opal__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "0e95fc19d7a1626d38b34e79ea3b9f8119b59de84e3c2f19bb4522af190394ef",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            56
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "gems/opal/opal__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b5a45acf6466df900d6d9d79f1dc67286ecd3ac5ee22320955264a9f6a157cc4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "gems/opal/opal__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4c6e965dd4b830b1cc69e2819cb041b4b1ffcf774a3c121bef18c3ad93aed0e7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            434,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "gems/opal/opal__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fc1cdeab69814a68fd5f6819a77e943abb88c09a3119ee66e27654a355bf0038",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            437,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

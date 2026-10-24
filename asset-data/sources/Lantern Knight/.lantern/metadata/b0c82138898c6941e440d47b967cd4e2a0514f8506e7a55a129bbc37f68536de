@@ -1,0 +1,2 @@
+Movement: measured processional shuffle cycle. Attack: compact two-handed censer staff press, maintaining right-hand lower/left-hand upper grips. Six drawn cels per clip. Ground registration baked, world actor motion separate.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

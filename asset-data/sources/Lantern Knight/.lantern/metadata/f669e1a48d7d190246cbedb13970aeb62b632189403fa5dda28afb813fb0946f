@@ -1,0 +1,1582 @@
+[
+  {
+    "id": "gothic_oak_door_activate",
+    "asset": "gothic_oak_door",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_mechanisms.py",
+    "frames": [
+      {
+        "file": "animation/gothic_oak_door/activate_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "0aba487b622cdc649cf6399cb222b3d104da84120a46a689a5bbcac2228b9c95"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "2145ddc31eb7c2655e9439ffd2f543527f4dfeecae8a6ce19200cf475df4c1df"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "3fbe254299c1761b2c50cc256bf2330db8addc96617d60930ce7ae75501da70c"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "af3f4f9d46bbd06bf3168f5a7cbc53e30552fd1a439fbf106272abc73e485ea8"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "302774cdd0caa59cb3bfa10ee56d04bc648aa6cb82f4eaaac4ddfdf4b3fa746a"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "c28dd03760c993d2955b745ee6e471fbdef6f8aa2ff96de761579e09a574aed3"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "71dbfa489f20dfe9e9ec270aa5e9b319f677c3d5a289025aeffa72400886f0d9"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "980a8b2db11f476d572839d4019b37fe3a0c0d0b06d67bcba633dcf9416410d5"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "5f960669112316c650d78ab7f54bae8a5c94e36331c3ccacafa47aa31102788c"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "359bd1e4ff2a79bb1aed6c011f6e173a89e8c0090de05d72b81dac8db13addd7"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "847924ea85b1fb69e5ee67e7fe0c55ac59adcc05f0f55488029b0a85062b263d"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "62b2567d2723055b2ae52943d1293461a8a570b874f7ef8194d819411362e7b1"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "ed4313e91f6489ea41339007732e8856c385359aa73803325f6cdf1d31b67d79"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          472,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "321abfa4038622799cc4dac75b84d665b82bdfe2eac83b6011dce06596f42ec0"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          468,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "8aabfc7c419da1b9b7413e70292a64114f7f00d03a917446e8daacdfce9d9b29"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          428,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "0872704a0acb205fadce1aec7c045003fd1cfe27eb34c15a31e845d3ee1bd5ca"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          393,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "a71b6ef217727a38801b2f381ebc89c61c75fe51c93657dbe0f5985049608de4"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          362,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "cd70ca378eec9342b9384bac7f781ef6ae0a01471adfa4b4f6d6350c102757d0"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          336,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "5cd854aac8a619f2b7fbe4d192f0c07e159a7fb9ac0aeb8da80190bc714db236"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          315,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "29c36a0023f0f8575289fb211f0de98b22db6e3d49d18deeb17a534b9473fb83"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          299,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "2fe3ed2f16132c1b7a6da518203cf889032d138d119da416db0d781f1f70c93b"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          288,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "63a1d5dab2198a88ec975df4e69f32798f6173c38d02e8bbd5a8996469bedac4"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          281,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "b3902b4deb522c6bed8a010895c8af646edb29651219e96739df0e878e330e79"
+      },
+      {
+        "file": "animation/gothic_oak_door/activate_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          279,
+          305,
+          1127,
+          1387
+        ],
+        "sha256": "16fab44a9b769b50fb0922db57fdccd2091f502b91f1a33a9ab59dd06754b62d"
+      }
+    ]
+  },
+  {
+    "id": "iron_portcullis_activate",
+    "asset": "iron_portcullis",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_mechanisms.py",
+    "frames": [
+      {
+        "file": "animation/iron_portcullis/activate_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "faf2e2ce890de1adc79908e45e7a80bb5d0f5392e56ddeae11bbaa1f888a8b6b"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "038101ba28bc99a88092e2071cb4006b5b5690b3b80632c44dd373f8e75edb35"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "f7baa2cc260a4aa785709f3ff2e455419715c2b124add734d69ecdfb52fc0779"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "bf16aab092b49e8775a5b95dda07c19b5e191ee8a525fb5230ee07c538f95467"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "5b6ca07b963f06eb766380c78bb5a5a9d2b9421a2e61d8980f5d342bf5e3017c"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "3806037fa12ccec887e086b8410b4750ec5235faef02411e0d82ac6338a0d7e5"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "18606e67cbd4359d7c1be51df8d548efdf65925da0f2510583d9a64607457405"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "a14c3571dfcabf91bdac38701993a2a826c4068c111ca90e09d332b3db939065"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "7c5eb8da8959aea7376a84288046d82fb12bdc11db7766f9f206c371a6968033"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "679fed590fbaea14f6babdbd842794d5f00c31e0ed694677a10edf17762ce38c"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "2190acc161b5fe994089fe35d8a7a6f984c01d6577ca750b8489eca8346e6b0e"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "03532d2dfcb379a6cd71124d4948357f27fde76f316cb27984fc0f9776c596c6"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "79b89a6b4d7339ea9599e40000c7eac1d669812da4bc73d43a50705d61b6de38"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "f01583793083e9d1e7e091308b274681535c2a0f9c370f039df532b5acaf93d9"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "b831d7e764ef1a31e6072b2a91861aed5cced112b9fe285de2c17e614252471d"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "5c1d1281c82c11f20f0b0e460745a154ddbf6ceee2a933377ce3725a7e0bcdc8"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "e3f25f67682eb86beeac6f042e0baf440f0f18be422133778a8c2a80bb95e6fe"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "ccd2341b5fd4aa59d5a3df9e72472b9e189c281a587ef63976a621c23466fc51"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "e78ffeb96f6033f5be9a1af42b7c9697ff086f1b97641ea8cb814692b126e342"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "6ca07c2fea8cbfd2df55fbcdec0cec17bc2e3cb74901c785bafea40c5bffce46"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "9f7384b2058e7d14a2eb27cb63b2d1947ff0ee5359ad19f0348dc3c2a91705f9"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "bac08fc7d567909efd613bc48a1e6314a1cd8eecccc1968e71959b6c53aec507"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "bac08fc7d567909efd613bc48a1e6314a1cd8eecccc1968e71959b6c53aec507"
+      },
+      {
+        "file": "animation/iron_portcullis/activate_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          459,
+          213,
+          1146,
+          1387
+        ],
+        "sha256": "bac08fc7d567909efd613bc48a1e6314a1cd8eecccc1968e71959b6c53aec507"
+      }
+    ]
+  },
+  {
+    "id": "yoke_lever_activate",
+    "asset": "yoke_lever",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_mechanisms.py",
+    "frames": [
+      {
+        "file": "animation/yoke_lever/activate_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          709,
+          966,
+          1321
+        ],
+        "sha256": "87e5044f06e9a2eb43405914d48cb4098cc6dd965498695f6795f6a08f84106f"
+      },
+      {
+        "file": "animation/yoke_lever/activate_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          709,
+          965,
+          1321
+        ],
+        "sha256": "1bbb7d6fe105f972b233e5128349856010322f05f75983c686601ea34cbe25f5"
+      },
+      {
+        "file": "animation/yoke_lever/activate_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          708,
+          961,
+          1321
+        ],
+        "sha256": "ea61f598f95b9d5171bde2d84ad6f7559d7fa3a5b54cc98d605c25e7c71adb12"
+      },
+      {
+        "file": "animation/yoke_lever/activate_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          707,
+          955,
+          1321
+        ],
+        "sha256": "cb18bf75286d2a73bcedb0b1bc640d2f9a075169d774aa9872d20e7a430f4f83"
+      },
+      {
+        "file": "animation/yoke_lever/activate_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          706,
+          946,
+          1321
+        ],
+        "sha256": "869e98d790c60480ae7874e0310c4bc0587ae64e4f2ec67ed5f4b55fda9c5c19"
+      },
+      {
+        "file": "animation/yoke_lever/activate_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          706,
+          944,
+          1321
+        ],
+        "sha256": "de1ed70f017856fa9973908b97a9eb9ca21d60958b069dfd8d3a95a014cf69bc"
+      },
+      {
+        "file": "animation/yoke_lever/activate_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          707,
+          944,
+          1321
+        ],
+        "sha256": "77f0956743243ed6661b82f45865c8ff41b40fbd0f7bffd3eb25ed6bbbb924d0"
+      },
+      {
+        "file": "animation/yoke_lever/activate_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          710,
+          944,
+          1321
+        ],
+        "sha256": "f4bbdf3ad094fa5df693883a27e711cb697e847089420f60bc4ac2bc77a8810f"
+      },
+      {
+        "file": "animation/yoke_lever/activate_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          714,
+          944,
+          1321
+        ],
+        "sha256": "70a19556bf5279d9eb0913f4ab286000e4a6c3438339e4c01f9781d95cf4fde0"
+      },
+      {
+        "file": "animation/yoke_lever/activate_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          720,
+          944,
+          1321
+        ],
+        "sha256": "edd3c12dbb156afc020b6f021d566a26b35673a6f494b93bb3c017861e95ed29"
+      },
+      {
+        "file": "animation/yoke_lever/activate_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          728,
+          944,
+          1321
+        ],
+        "sha256": "f4a8c7edd3c959c7d352bd23960757974ecd2bac47c93811464c618e6856345f"
+      },
+      {
+        "file": "animation/yoke_lever/activate_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          738,
+          944,
+          1321
+        ],
+        "sha256": "8b255dcdf430cee93526c519bad69354812cc8b592583351be945d708771cfbc"
+      },
+      {
+        "file": "animation/yoke_lever/activate_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          750,
+          944,
+          1321
+        ],
+        "sha256": "05b39f84090daf907d49abf0773e17e9bc189fa3d90db374ebecc74b38ba9055"
+      },
+      {
+        "file": "animation/yoke_lever/activate_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          762,
+          944,
+          1321
+        ],
+        "sha256": "3369897885cfc02962220daca4a411830d66dffd462c14eea295091744421550"
+      },
+      {
+        "file": "animation/yoke_lever/activate_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          775,
+          944,
+          1321
+        ],
+        "sha256": "e6fa419061f966c8f028c5a3696791038103ffcdedb172a52b0e7de4295382d3"
+      },
+      {
+        "file": "animation/yoke_lever/activate_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          789,
+          944,
+          1321
+        ],
+        "sha256": "027961e2228b1db9533959aca1e294af7d8255f0cafde5ad58ef29287bb8999b"
+      },
+      {
+        "file": "animation/yoke_lever/activate_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          803,
+          944,
+          1321
+        ],
+        "sha256": "4f96304b0c6b5c43e43d194fe425ec3f11fad9b19838cd0177e8051add7fe462"
+      },
+      {
+        "file": "animation/yoke_lever/activate_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          817,
+          944,
+          1321
+        ],
+        "sha256": "f3155419b7501ce0aef6b8dc0c262a9c5d42c0a119c6b067d98a53b4c42c7159"
+      },
+      {
+        "file": "animation/yoke_lever/activate_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          830,
+          944,
+          1321
+        ],
+        "sha256": "7fb5f4b901bfcf7b84612680cb721dfa7aeb28994455ca0bb57edbc555f3b9b5"
+      },
+      {
+        "file": "animation/yoke_lever/activate_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          842,
+          944,
+          1321
+        ],
+        "sha256": "1281fd39ec6e76431e9c23b3c845cc30f2427b9c39c3a9df147b89fbbae5b251"
+      },
+      {
+        "file": "animation/yoke_lever/activate_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          852,
+          944,
+          1321
+        ],
+        "sha256": "0bcf3827b78e269256f646ec38438fc31ee8ab0d1e9a9a082f0db9215b47602c"
+      },
+      {
+        "file": "animation/yoke_lever/activate_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          859,
+          944,
+          1321
+        ],
+        "sha256": "f8e7d6067f604c8b36c9c8d9d24127303cb933d793466eadb520db04b8c4c5c3"
+      },
+      {
+        "file": "animation/yoke_lever/activate_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          864,
+          944,
+          1321
+        ],
+        "sha256": "31ab188d279fc057e0ba201220b7cc51d91c167cf9f15c68c1bb7b7e6e128147"
+      },
+      {
+        "file": "animation/yoke_lever/activate_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          593,
+          865,
+          944,
+          1321
+        ],
+        "sha256": "49999df1be5e2b1ce6ef050538cdb28dec1c9f3afa2c997f91e2532df09da9c0"
+      }
+    ]
+  },
+  {
+    "id": "octagonal_pressure_plate_activate",
+    "asset": "octagonal_pressure_plate",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_mechanisms.py",
+    "frames": [
+      {
+        "file": "animation/octagonal_pressure_plate/activate_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "427747e62b439a4d9592ef3434811d7b56bd2004d48e7b13d72bf9aa4da93962"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "8b591bedfaca2b0bd20243134b12e522c409ab1baa59b86af35205ed2decfc6f"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1021,
+          1026,
+          1366
+        ],
+        "sha256": "9ea7a292c63f86931d1e357d7c081c25e7f32341e341d71e4a1781efa00cdc6c"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "5fc3cb5535a1850cf8b06a35ebef7335b5b81942e2087bdf4eb5ab6e8877b978"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "026c8139a8108bd2ceb2219c6cd6f4836540de7edaae34b282aa3ac697e48cf7"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1024,
+          1026,
+          1366
+        ],
+        "sha256": "98a911acd5a291d4380648bfe47fd99718afbc52053ac88791800f5c99fdd41a"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "3912e1ca2135805d6bcead1398e7572bc21230e9a242f3e34938be07e32a7b8f"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "e5825adfd5fc6f1e11f70a45f63385aa21dba88094cc02486038ed0d2bf0bd86"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "c8e5a755a906867245d6d98b43205d65d8489c44280966fdc66eabf2e95bc8af"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "bd3af6feca23701bc35c5b1fc8f283e44e751770172bd4cb62a6e86902c5a120"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1032,
+          1026,
+          1366
+        ],
+        "sha256": "161843ee3c8b71736fa3c04512171b45af0a08a57f6b0076ac4b913353949dca"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "26755d40d1b675f5dd910ceeaf6844ccfe204309bed6d40ecb393e9b7809a0a6"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "cfa6b9d731e80e9e8b01b6f9af07b607676559c7968634061409356886412945"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "a10e4065a578adc4935b049aac6e6714b831832bf659c233cd124a16ab07bd75"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "ba05c259f14eab7c51d3c5fd73698af8db7bb91514ecb12fbc49b8fb6997cca6"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "e481300f8a239d7697c7a88a4d8857f3bd2a14f982490acc22dc9f4b7eb74d78"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "9b74c4acf02806c136cf518f0f7030fc8382bea1efbbf19bd08529855cae50cd"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "55dbf9b74366defea4b41ae8c6e4915ac293a767f5b5fd6e0154899ab877e49a"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "14b6e158582bf6989fb3535e305e1c1740d5e00683d2f45a9d7cceb2b6339c11"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "6fef090742f29acfdf0c567c0749fc4c5e32e021227f0344a77c69ba1fd9345c"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "dcdbbe7761cf418e120f6c567abe5240997866b36d424864c9546ed8783f16f8"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "75bae6fbe6c24fa6c4c153f0747a6c54ff04124bdd0a57a05fda80a5cbb1ca72"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "c5c0608532d57fff66e53121e25eb0350aa55bf19c1c9705a26252065c76e429"
+      },
+      {
+        "file": "animation/octagonal_pressure_plate/activate_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          508,
+          1033,
+          1026,
+          1366
+        ],
+        "sha256": "476b6ed1bba2f20989b8d7eb5017d450dc5a74b7113151113c47a4ea0bf44439"
+      }
+    ]
+  }
+]

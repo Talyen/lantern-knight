@@ -1,0 +1,34 @@
+{
+  "locomotion": {
+    "source_alpha_range": [
+      0,
+      254
+    ],
+    "alpha_cleanup": {
+      "alpha_le_16_to_zero_pixels": 915007,
+      "alpha_ge_250_to_255_pixels": 636202,
+      "intermediate_antialias_preserved": true
+    },
+    "all_owned_source_alpha_pixels_retained": true,
+    "runtime_dimensions_identical": true,
+    "no_resize": true,
+    "no_per_frame_fitting": true,
+    "nonuniform_ownership_regions_are_only_gutter_separators": true
+  },
+  "cast": {
+    "source_alpha_range": [
+      0,
+      255
+    ],
+    "alpha_cleanup": {
+      "alpha_le_16_to_zero_pixels": 872415,
+      "alpha_ge_250_to_255_pixels": 662339,
+      "intermediate_antialias_preserved": true
+    },
+    "all_owned_source_alpha_pixels_retained": true,
+    "runtime_dimensions_identical": true,
+    "no_resize": true,
+    "no_per_frame_fitting": true,
+    "nonuniform_ownership_regions_are_only_gutter_separators": true
+  }
+}

@@ -1,0 +1,4 @@
+Dry Quarry INTERACTABLES
+Two opening lootables and two breakable containers. Four individually authored cels per prop, genuine transparent PNG.
+Native cells preserve source pixels; runtime cells/atlases are 256px downsampled derivatives. See timing.json for pivot and state timing. End states persist.
+Previews repeat solely for demonstration; game animation should play once and hold. No interpolation or sprite deformation. Scene placement is an example alpha overlay on the unchanged approved scene. No loot/reward art included.

@@ -1,0 +1,66 @@
+{
+  "catalogue_source": "Lantern_Overnight_Asset_Index_v02.json",
+  "supersession": [
+    {
+      "superseded_catalogue_pack_id": "occult_pack_v1",
+      "superseded_archive_roots": [
+        "occult_pack_v1"
+      ],
+      "superseded_archives": [
+        "Lantern_Occult_Effects_v1_Assets.zip",
+        "Lantern_Occult_Effects_v1_Source_and_Review.zip"
+      ],
+      "replacement_root": "Lantern_Illustrated_Occult_Material_v02/occult",
+      "replacement_clip_ids": [
+        "cold_shard_burst",
+        "cursed_chain_strike",
+        "ink_shadow_burst",
+        "lightning_fork",
+        "pale_ghost_flame",
+        "poison_mist_puff",
+        "ritual_circle_activation",
+        "soul_leech_ribbon",
+        "spectral_bolt_flight",
+        "spectral_bolt_impact",
+        "spectral_bolt_launch",
+        "summoning_vortex",
+        "thorn_eruption",
+        "ward_break"
+      ],
+      "disposition": "full rebuild; preserve original outside latest-only collection"
+    },
+    {
+      "superseded_catalogue_pack_id": "material_impacts_v1",
+      "superseded_archive_roots": [
+        "material_impacts_v1"
+      ],
+      "superseded_archives": [
+        "Lantern_Material_Impacts_v1_Assets.zip",
+        "Lantern_Material_Impacts_v1_Source_and_Review.zip"
+      ],
+      "replacement_root": "Lantern_Illustrated_Occult_Material_v02/materials",
+      "replacement_clip_ids": [
+        "cloth_tear_scraps",
+        "glass_chips",
+        "metal_dent_sparks",
+        "pottery_shards",
+        "stone_crumble",
+        "wood_splinter_burst"
+      ],
+      "disposition": "full rebuild; preserve original outside latest-only collection"
+    }
+  ],
+  "counts": {
+    "source_frame_files": 828,
+    "per_clip_unique_rgba_images_total": 760,
+    "clip_count": 20,
+    "distinct_families": 18,
+    "occult_clips": 14,
+    "occult_families": 12,
+    "material_clips": 6,
+    "source_fps": 30,
+    "preview_fps": 60,
+    "note": "Source frame files count includes intentional repeated holds and clear endpoints. Unique images count is summed per clip, not globally deduplicated."
+  },
+  "scenic_included": false
+}

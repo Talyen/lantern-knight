@@ -22,13 +22,16 @@ export async function selectedFiles(
   publicRoot: string,
   profile: BuildProfile | 'runtime' = 'game',
   ensureFile?: (relative: string) => Promise<boolean>,
+  catalogOverride?: Readonly<Record<string, string>>,
 ): Promise<SelectedFiles> {
   const dev = profile === 'authoring';
-  const catalog = dev
-    ? { ...(await readAuthoringCatalog(publicRoot)), ...playgroundCatalog }
-    : profile === 'runtime'
-      ? { ...assetCatalog, ...(await import('../src/content/game-content')).gameAssetCatalog }
-      : (await import('../src/content/game-content')).gameAssetCatalog;
+  const catalog =
+    catalogOverride ??
+    (dev
+      ? { ...(await readAuthoringCatalog(publicRoot)), ...playgroundCatalog }
+      : profile === 'runtime'
+        ? { ...assetCatalog, ...(await import('../src/content/game-content')).gameAssetCatalog }
+        : (await import('../src/content/game-content')).gameAssetCatalog);
   const files = new Set([
     'build-mode.json',
     'generated/calibration.json',
@@ -131,7 +134,7 @@ export async function selectedFiles(
   )
     for (const name of ['basis_transcoder.js', 'basis_transcoder.wasm'])
       files.add('decoders/' + name);
-  if (dev) {
+  if (dev && !catalogOverride) {
     for (const file of [
       'generated/library/index.json',
       'generated/library/inventory.json',

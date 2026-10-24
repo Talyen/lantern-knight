@@ -1,0 +1,9 @@
+# Empty lantern revision
+
+- Removed both humanoid figures and their complete constituent geometry.
+- Removed the full oar, grip/arm transforms, rowing state and blade-contact ripples.
+- Enlarged the existing lantern by 38% and moved it inward on an extended prow hook.
+- Preserved exact physical attachment through the full swing, transformed reflection, animated flame, passive hull float and wake.
+- Reused the revised scene in both loading and animated Lantern title exports.
+- Preserved the paper-cut palette, original ruins, moon, river, reeds, boat and outlined letter assembly.
+- Retained native 1920 × 1080 / 60 fps and 2 + 4 + 2-second modular loading phases.

@@ -1,0 +1,68 @@
+{
+  "native_sheet_size": [
+    1536,
+    1024
+  ],
+  "output_cell_size": [
+    576,
+    576
+  ],
+  "upscale": false,
+  "native_drawings": 6,
+  "distinct_runtime_sha256": [
+    "c43fd024da93d22f2262c0870c52a07061c87ace6a90c75a3ff2aa53b214a65d",
+    "51eebef9bed225e8e1f9cc5c7f3ad39edd8edcd886c1319f94c5321e09e85300",
+    "997786488af0b6493bd327995283ca582d5e701fc2e7bd15d3c0ccc6ad03c62d",
+    "5ccf14e80278bc3a272cda846dcb7242efb76ed231bafeb9967bdecbab996aad",
+    "1f0671155f2175a2cfd7035c3815d7740848c71b014fd5e0e375633841edac69",
+    "2d1ea64d4e334c266605b50079ff15102cd1b31a6199abf186abac6b1bcc0ea8"
+  ],
+  "fixed_region_max_pixel_difference": 0,
+  "alpha_edge_nonzero": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "duration_ticks": 300,
+  "registration_integer_offsets": [
+    [
+      -17,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      13,
+      1
+    ],
+    [
+      -17,
+      57
+    ],
+    [
+      0,
+      58
+    ],
+    [
+      13,
+      55
+    ]
+  ],
+  "visual_review": "See QA.md. Native poses composited with fixed sack, face, and body silhouette.",
+  "rebuild_verified": true,
+  "runtime_sha256_verified": {
+    "runtime/atlas.png": "c8387a6c5ab2dc009119679028b95dcc1cfcc6b6c29d77a31779ff6616c9343b",
+    "runtime/manifest.json": "2db1ebad2489e1345706ba00a09cc6f8ffbd25aca5633d3ea3018a53a81c5962",
+    "runtime/frames/sleep_01.png": "a418a170f59aaf8350999e67f2303b7af81205df4b6efadca01446e7d1dfe147",
+    "runtime/frames/sleep_03.png": "8c3580f3d5d35d1153bd9ba37d93620daf32ae44473f368b49a4693885f78d4b",
+    "runtime/frames/sleep_00.png": "10693c6e341b4bd6f7fa3370b6447c1a149895e6f8c876038bfdab6397b33c83",
+    "runtime/frames/sleep_02.png": "0fc6f062af28e9f4d687718616521b2d808b31d9409b6f57bc3862b322d614e9",
+    "runtime/frames/sleep_05.png": "82da9a6c958598d0d55dbed7678e9912a34b448dfb7052bd7ebbb35a927f91dc",
+    "runtime/frames/sleep_04.png": "17210940fe452d603198de78ce3bdeea189b5c5132ca438e723f980f1d24b1ea"
+  }
+}

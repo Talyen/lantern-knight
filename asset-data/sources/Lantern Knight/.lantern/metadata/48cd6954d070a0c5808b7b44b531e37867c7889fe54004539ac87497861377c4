@@ -1,0 +1,124 @@
+{
+  "scene_number": 13,
+  "scene": "Highland Watchpost",
+  "prop": "a small wooden chest",
+  "source_master_url": "https://drive.google.com/file/d/1jWDa__NFVs4L-T69SL4pJZuBfwxjKsNL/view?usp=drivesdk",
+  "animation": {
+    "name": "open",
+    "loop": false,
+    "frame_durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "hold_final": true,
+    "final_state": "open_empty",
+    "trigger": "interaction"
+  },
+  "frame_count": 6,
+  "runtime_frame_size": [
+    65,
+    66
+  ],
+  "runtime_anchor_bottom_contact": [
+    45,
+    64
+  ],
+  "native_frame_size": [
+    437,
+    444
+  ],
+  "native_anchor_bottom_contact": [
+    303,
+    432
+  ],
+  "runtime_scale_from_native": 0.1483375959079284,
+  "source_cells": [
+    512,
+    512
+  ],
+  "source_bounds": [
+    [
+      84,
+      122,
+      475,
+      442
+    ],
+    [
+      60,
+      120,
+      454,
+      440
+    ],
+    [
+      48,
+      109,
+      443,
+      442
+    ],
+    [
+      96,
+      39,
+      496,
+      431
+    ],
+    [
+      70,
+      9,
+      464,
+      428
+    ],
+    [
+      54,
+      11,
+      446,
+      431
+    ]
+  ],
+  "source_contact_anchors": [
+    [
+      370,
+      442
+    ],
+    [
+      349,
+      440
+    ],
+    [
+      339,
+      442
+    ],
+    [
+      374,
+      431
+    ],
+    [
+      343,
+      428
+    ],
+    [
+      329,
+      431
+    ]
+  ],
+  "preview_scene_size": [
+    1200,
+    800
+  ],
+  "preview_anchor": [
+    555,
+    440
+  ],
+  "native_note": "Imagegen-produced cels, translated to shared ground contact; no AI upscaling. Runtime is a mechanical downsample.",
+  "qa": {
+    "alpha": true,
+    "frame_clipping": false,
+    "fixed_ground_contact": true,
+    "distinct_hand_drawn_cels": true,
+    "empty_interior": true,
+    "scene_fit": "Reviewed at gameplay distance on original master; all previews are mechanical composites."
+  }
+}

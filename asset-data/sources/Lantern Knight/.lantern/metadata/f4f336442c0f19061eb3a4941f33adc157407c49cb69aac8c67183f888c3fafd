@@ -1,0 +1,12 @@
+Ossuary Thrall: four-direction movement and claw attack extension
+
+New content: DL, UL and UR movement and attacks. Install alongside unchanged DR baseline for four authored diagonal facings. No mirroring or resizing is used. Rear skeletal anatomy and plain loincloth back are minimally inferred from the approved original. Front buckle and gold-edged tabard remain on the front.
+
+Movements have six native drawings and48 ticks at60Hz. UL/UR attacks have six native action drawings. DL attack uses four native action drawings plus two distinct movement ready poses as its first and last cels; its two wrong-facing generated endpoints are excluded. All attacks total50 ticks; zero-based frame3 is the visual apex, not a damage guarantee.
+
+Canvas640x640, pivot[320,520] from top-left (x right,y down), estimated256 pixels per world unit. Registration is baked into PNGs. Do not apply offsets again. World movement is external. Long-reach peaks use wide stances within the same canvas.
+
+Rebuild: python rebuild.py .
+Requires Python3, Pillow, numpy, scipy and ffmpeg. Source includes exact original, native generations, prompts, masking and registration configuration; unchanged DR runtime is included only for comparison previews. Rebuild needs no network or generation calls. Runtime contains only new headings.
+
+Camera35.2643897-degree elevation is an illustrated visual target, not calibrated3D. Preview is encoded at60Hz, not an engine test or real-time playback claim.

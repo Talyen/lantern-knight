@@ -1,0 +1,403 @@
+{
+  "title": "Pilgrim's Brand",
+  "slug": "pilgrims_brand",
+  "category": "hero_attack",
+  "canvas": [
+    384,
+    384
+  ],
+  "source_grid": [
+    6,
+    4
+  ],
+  "registration": "Fixed nominal256px source grid with64px padding; no per-frame recentring, transformation or opacity fade. Only crop boundaries adjust to avoid adjacent cel contamination.",
+  "crops": [
+    [
+      0,
+      0,
+      256,
+      256
+    ],
+    [
+      256,
+      0,
+      512,
+      256
+    ],
+    [
+      512,
+      0,
+      768,
+      256
+    ],
+    [
+      768,
+      0,
+      1024,
+      256
+    ],
+    [
+      1024,
+      0,
+      1280,
+      256
+    ],
+    [
+      1280,
+      0,
+      1536,
+      256
+    ],
+    [
+      0,
+      256,
+      256,
+      512
+    ],
+    [
+      256,
+      256,
+      512,
+      512
+    ],
+    [
+      512,
+      256,
+      768,
+      512
+    ],
+    [
+      768,
+      256,
+      1024,
+      512
+    ],
+    [
+      1024,
+      256,
+      1280,
+      512
+    ],
+    [
+      1280,
+      256,
+      1536,
+      512
+    ],
+    [
+      0,
+      512,
+      256,
+      768
+    ],
+    [
+      256,
+      512,
+      512,
+      768
+    ],
+    [
+      512,
+      512,
+      768,
+      768
+    ],
+    [
+      768,
+      512,
+      1024,
+      768
+    ],
+    [
+      1024,
+      512,
+      1280,
+      768
+    ],
+    [
+      1280,
+      512,
+      1536,
+      768
+    ],
+    [
+      0,
+      768,
+      256,
+      1024
+    ],
+    [
+      256,
+      768,
+      512,
+      1024
+    ],
+    [
+      512,
+      768,
+      768,
+      1024
+    ],
+    [
+      768,
+      768,
+      1024,
+      1024
+    ],
+    [
+      1024,
+      768,
+      1280,
+      1024
+    ],
+    [
+      1280,
+      768,
+      1536,
+      1024
+    ]
+  ],
+  "source_scale": 1,
+  "pivot_pixels": [
+    192,
+    215
+  ],
+  "target_guide_note": "Experimental visual guide. Confirm gameplay collision footprint separately; aftermath particles cosmetic.",
+  "action_description": "Four dark charcoal strokes crawl together across the ground to form one squat cross-shaped footprint, thin copper seams fill from the center, then the entire cross erupts upward ONCE as four fused low curtains of ember and soot. Curtains buckle outward into torn flakes then drift away. One bounded cross-shaped hit, no sequential explosions.",
+  "contact_source_index": 10,
+  "formation_ms": 120,
+  "entries": [
+    {
+      "source_index": 0,
+      "duration_ms": 30,
+      "start_ms": 0,
+      "end_ms": 30,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 2,
+      "duration_ms": 30,
+      "start_ms": 30,
+      "end_ms": 60,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 5,
+      "duration_ms": 30,
+      "start_ms": 60,
+      "end_ms": 90,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 8,
+      "duration_ms": 30,
+      "start_ms": 90,
+      "end_ms": 120,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 9,
+      "duration_ms": 40,
+      "start_ms": 120,
+      "end_ms": 160,
+      "phase": "STRIKE",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 10,
+      "duration_ms": 90,
+      "start_ms": 160,
+      "end_ms": 250,
+      "phase": "CONTACT",
+      "damage_event": true,
+      "utility_event": false
+    },
+    {
+      "source_index": 11,
+      "duration_ms": 45,
+      "start_ms": 250,
+      "end_ms": 295,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 12,
+      "duration_ms": 45,
+      "start_ms": 295,
+      "end_ms": 340,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 13,
+      "duration_ms": 45,
+      "start_ms": 340,
+      "end_ms": 385,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 14,
+      "duration_ms": 45,
+      "start_ms": 385,
+      "end_ms": 430,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 15,
+      "duration_ms": 45,
+      "start_ms": 430,
+      "end_ms": 475,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 16,
+      "duration_ms": 45,
+      "start_ms": 475,
+      "end_ms": 520,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 17,
+      "duration_ms": 45,
+      "start_ms": 520,
+      "end_ms": 565,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 18,
+      "duration_ms": 45,
+      "start_ms": 565,
+      "end_ms": 610,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 19,
+      "duration_ms": 45,
+      "start_ms": 610,
+      "end_ms": 655,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 20,
+      "duration_ms": 45,
+      "start_ms": 655,
+      "end_ms": 700,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 21,
+      "duration_ms": 45,
+      "start_ms": 700,
+      "end_ms": 745,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 22,
+      "duration_ms": 45,
+      "start_ms": 745,
+      "end_ms": 790,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 23,
+      "duration_ms": 350,
+      "start_ms": 790,
+      "end_ms": 1140,
+      "phase": "CLEAR",
+      "damage_event": false,
+      "utility_event": false
+    }
+  ],
+  "cycle_ms": 1140,
+  "loop": false,
+  "clear_final_frame": true,
+  "source_art": "Image-generated evolving cels; original alpha preserved. Final cel forced all-zero.",
+  "target_pixels": [
+    192,
+    215
+  ],
+  "intended_footprint_pixels": [
+    [
+      146,
+      182
+    ],
+    [
+      192,
+      207
+    ],
+    [
+      237,
+      182
+    ],
+    [
+      247,
+      194
+    ],
+    [
+      203,
+      217
+    ],
+    [
+      247,
+      239
+    ],
+    [
+      235,
+      253
+    ],
+    [
+      192,
+      229
+    ],
+    [
+      146,
+      253
+    ],
+    [
+      136,
+      239
+    ],
+    [
+      180,
+      217
+    ],
+    [
+      136,
+      194
+    ]
+  ],
+  "footprint_shape": "bounded X footprint",
+  "coordinate_space": "384x384 output canvas",
+  "interpretation": "Experimental intended damage/utility footprint; cosmetic debris may extend outside. Verify actual collision in engine. No engine files changed."
+}

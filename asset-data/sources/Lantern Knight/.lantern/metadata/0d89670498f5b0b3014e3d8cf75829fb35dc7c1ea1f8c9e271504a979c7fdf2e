@@ -1,0 +1,433 @@
+{
+  "prior_package": "lantern_overnight/09_material_impacts/material_impacts_v1",
+  "prior_camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 35.264389682754654,
+    "azimuthDegrees": 45.0,
+    "azimuthConvention": "from +Z toward +X",
+    "worldAxes": "right-handed XZ ground +Y vertical",
+    "sourcePixelsPerWorldMetre": 112.0,
+    "sourceCanvasPx": [
+      512,
+      448
+    ],
+    "rootPivotPx": [
+      256,
+      286
+    ],
+    "imageOrigin": "top_left",
+    "screenRight": [
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "screenUp": [
+      -0.4082482904638631,
+      0.816496580927726,
+      -0.4082482904638631
+    ],
+    "matrixConvention": "basis row dot world; image y negates screen-up; multiply by density then add pivot"
+  },
+  "prior_source_fps": 30,
+  "clips": {
+    "wood_splinter_burst": {
+      "id": "wood_splinter_burst",
+      "label": "Wood / splitting grain",
+      "description": "Five long tapered splinters and two short chips open in an uneven fan; their pointed grain ends stay distinct from masonry chunks.",
+      "geometry": "Seven different extruded wood wedges with two-value faces and broad dark edges.",
+      "trajectory": "Fast lateral fan, low independent parabolic arcs, short grounded coast; no rebound.",
+      "maxFragments": 7,
+      "previewFrame": 10,
+      "family": "wood_splinter_burst",
+      "loop": false,
+      "space": "projected_world",
+      "pivotMeaning": "Fixed ground contact/root at local world (0,0,0)",
+      "visualStages": [
+        {
+          "stage": "release",
+          "frameRangeInclusive": [
+            0,
+            5
+          ]
+        },
+        {
+          "stage": "flight / deformation",
+          "frameRangeInclusive": [
+            6,
+            17
+          ]
+        },
+        {
+          "stage": "settle / clear",
+          "frameRangeInclusive": [
+            18,
+            29
+          ]
+        }
+      ],
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/wood_splinter_burst.png",
+      "atlasSizePx": [
+        1890,
+        980
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; illustrative material response only",
+      "directionVariantCount": 1
+    },
+    "stone_crumble": {
+      "id": "stone_crumble",
+      "label": "Stone / heavy crumble",
+      "description": "Five broad irregular chunks peel from a low pile, fall close to the root and make a small first bounce; two quiet contact scuffs.",
+      "geometry": "Five angular, blunt convex solids, deliberately unequal sizes and simple stone planes.",
+      "trajectory": "Staggered falling chunks, short low kicks, one damped ground bounce then rest.",
+      "maxFragments": 5,
+      "previewFrame": 11,
+      "family": "stone_crumble",
+      "loop": false,
+      "space": "projected_world",
+      "pivotMeaning": "Fixed ground contact/root at local world (0,0,0)",
+      "visualStages": [
+        {
+          "stage": "release",
+          "frameRangeInclusive": [
+            0,
+            5
+          ]
+        },
+        {
+          "stage": "flight / deformation",
+          "frameRangeInclusive": [
+            6,
+            17
+          ]
+        },
+        {
+          "stage": "settle / clear",
+          "frameRangeInclusive": [
+            18,
+            29
+          ]
+        }
+      ],
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/stone_crumble.png",
+      "atlasSizePx": [
+        1440,
+        712
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; illustrative material response only",
+      "directionVariantCount": 1,
+      "elementCountNote": "Five moving chunks plus two brief, quiet contact scuffs made of two ground facets each."
+    },
+    "pottery_shards": {
+      "id": "pottery_shards",
+      "label": "Pottery / curved shell shards",
+      "description": "Four broad curved vessel-wall pieces spin apart, retaining a clay body, pale broken lip and a readable shell curvature.",
+      "geometry": "Four distinct annular shell segments with real thickness, curved faces and pale fracture rims.",
+      "trajectory": "Radial high release with axial tumble and one low landing hop.",
+      "maxFragments": 4,
+      "previewFrame": 11,
+      "family": "pottery_shards",
+      "loop": false,
+      "space": "projected_world",
+      "pivotMeaning": "Fixed ground contact/root at local world (0,0,0)",
+      "visualStages": [
+        {
+          "stage": "release",
+          "frameRangeInclusive": [
+            0,
+            5
+          ]
+        },
+        {
+          "stage": "flight / deformation",
+          "frameRangeInclusive": [
+            6,
+            17
+          ]
+        },
+        {
+          "stage": "settle / clear",
+          "frameRangeInclusive": [
+            18,
+            29
+          ]
+        }
+      ],
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/pottery_shards.png",
+      "atlasSizePx": [
+        1720,
+        872
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; illustrative material response only",
+      "directionVariantCount": 1
+    },
+    "glass_chips": {
+      "id": "glass_chips",
+      "label": "Glass / sharp chips",
+      "description": "Five asymmetrical pointed panes separate in a narrow directional spray; dark edge, muted clear fill and one bright edge identify glass.",
+      "geometry": "Five real thin polygonal prisms, translucent faces and opaque selective edges. No additive fill.",
+      "trajectory": "Quick directional spray, shallow arcs and short outward ground slides.",
+      "maxFragments": 5,
+      "previewFrame": 10,
+      "family": "glass_chips",
+      "loop": false,
+      "space": "projected_world",
+      "pivotMeaning": "Fixed ground contact/root at local world (0,0,0)",
+      "visualStages": [
+        {
+          "stage": "release",
+          "frameRangeInclusive": [
+            0,
+            5
+          ]
+        },
+        {
+          "stage": "flight / deformation",
+          "frameRangeInclusive": [
+            6,
+            17
+          ]
+        },
+        {
+          "stage": "settle / clear",
+          "frameRangeInclusive": [
+            18,
+            29
+          ]
+        }
+      ],
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/glass_chips.png",
+      "atlasSizePx": [
+        1956,
+        1000
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; illustrative material response only",
+      "directionVariantCount": 1
+    },
+    "metal_dent_sparks": {
+      "id": "metal_dent_sparks",
+      "label": "Metal / dent and sparks",
+      "description": "One short-lived creased metal patch buckles at the root; four broad tapered hot streaks flick outward and fade, without a particle cloud.",
+      "geometry": "A five-panel concave metal patch plus four real world-space vertical streak planes; no billboard sprites.",
+      "trajectory": "Patch contracts into a shallow dent; sparks travel on outward arcs and fade before landing.",
+      "maxFragments": 4,
+      "previewFrame": 8,
+      "family": "metal_dent_sparks",
+      "loop": false,
+      "space": "projected_world",
+      "pivotMeaning": "Fixed ground contact/root at local world (0,0,0)",
+      "visualStages": [
+        {
+          "stage": "release",
+          "frameRangeInclusive": [
+            0,
+            5
+          ]
+        },
+        {
+          "stage": "flight / deformation",
+          "frameRangeInclusive": [
+            6,
+            17
+          ]
+        },
+        {
+          "stage": "settle / clear",
+          "frameRangeInclusive": [
+            18,
+            29
+          ]
+        }
+      ],
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/metal_dent_sparks.png",
+      "atlasSizePx": [
+        1992,
+        628
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; illustrative material response only",
+      "directionVariantCount": 1,
+      "elementCountNote": "Four moving spark streaks plus one temporary five-panel crease at the root; no persistent dent state."
+    },
+    "cloth_tear_scraps": {
+      "id": "cloth_tear_scraps",
+      "label": "Cloth / torn drifting scraps",
+      "description": "Three broad uneven cloth scraps separate, fold over, and drift down. Their changing folds and slow drag contrast with hard fragments.",
+      "geometry": "Three double-sided curved strip meshes with torn corners, one broad fold plane and dark outer contours.",
+      "trajectory": "Slow asymmetric lateral drift, gently lifted release and delayed descent with deterministic flutter.",
+      "maxFragments": 3,
+      "previewFrame": 13,
+      "family": "cloth_tear_scraps",
+      "loop": false,
+      "space": "projected_world",
+      "pivotMeaning": "Fixed ground contact/root at local world (0,0,0)",
+      "visualStages": [
+        {
+          "stage": "release",
+          "frameRangeInclusive": [
+            0,
+            5
+          ]
+        },
+        {
+          "stage": "flight / deformation",
+          "frameRangeInclusive": [
+            6,
+            17
+          ]
+        },
+        {
+          "stage": "settle / clear",
+          "frameRangeInclusive": [
+            18,
+            29
+          ]
+        }
+      ],
+      "frameCount": 30,
+      "sourceFPS": 30,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        30,
+        30
+      ],
+      "atlas": "atlases/cloth_tear_scraps.png",
+      "atlasSizePx": [
+        1808,
+        680
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; illustrative material response only",
+      "directionVariantCount": 1
+    }
+  },
+  "changes_in_revision_02": {
+    "art": "original native vector illustration, no old frames transformed",
+    "canvas": "640x560 replaces 512x448; root pivot (320,386) replaces (256,286)",
+    "timing": "per-clip lengths intentionally re-authored; see each timing.json. Consumers must use revised manifest, not assume prior frame counts.",
+    "projection": "world-anchored ground and fixed roots retained; effect body contours and material trajectories are authored screen-space rather than literal 3D geometry. Original world-axis descriptions below are historical contracts, not new exact-camera claims.",
+    "engine": "no runtime code or engine integration supplied"
+  }
+}

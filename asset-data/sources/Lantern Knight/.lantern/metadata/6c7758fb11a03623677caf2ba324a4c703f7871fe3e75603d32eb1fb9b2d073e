@@ -1,0 +1,221 @@
+{
+  "clip_id": "Lantern_Hero_selfheal_exit_D_v01",
+  "family": "selfheal_exit",
+  "facing": "D",
+  "producer": "animate_healing_interaction_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual anatomical-left planted boot anchor. Uniform source-density correction shared by sheet, judged from head width and forearm dimensions; never normalize head height. Full kneel/rise preserved. Shared exact entry04 boundary has identical crop/scale/translation in loop endpoints and exit01; shared entry01 exact exit04.",
+  "equipment_contract": "Sword anatomical right and lantern anatomical left continuously held. Healing mechanics external.",
+  "timing_source": "interaction_audit_20261017/selfheal_exit_DR_runtime",
+  "source_timing": [
+    10,
+    14,
+    12,
+    14
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "25a3dc86ab3b8f7d829c8a12daf66b6efa5cb0d3c3bcd567b5704c8ebe842dd9",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "d05e923ef4781b935455013ffc35a121fc89bf4ac2c4894514003ea3df3266db",
+      "source_sha256": "910d2d9aacb9038dcd49708ced5625c6f257e15c52580b62d92d1c273191eeac",
+      "crop_xyxy": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        18,
+        109
+      ],
+      "observed_anchors": {
+        "anatomical_left_planted_boot_sole_xy": [
+          468,
+          574
+        ],
+        "observation_display_xy": [
+          786,
+          862
+        ],
+        "density_basis": "Manual head-width and forearm-length cross-sheet comparison, not crouched silhouette height. Loop source density approx12% larger than entry; apply shared0.5 versus0.56 entry/exit."
+      },
+      "registration_note": "Manual anatomical-left planted boot anchor. Uniform source-density correction shared by sheet, judged from head width and forearm dimensions; never normalize head height. Full kneel/rise preserved. Shared exact entry04 boundary has identical crop/scale/translation in loop endpoints and exit01; shared entry01 exact exit04.",
+      "equipment_state": "Sword anatomical right, lantern anatomical left continuously held; no ground release.",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        18,
+        111,
+        359,
+        449
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "79e0f2bc82be4985a26f1358e32de99442261d77ad7dde1c44b40719e3d0d21f",
+      "native_size_px": [
+        647,
+        545
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "7e3130ea4562e09d55e159d5d613c0d8121d686679e5d0e932e24978e4c928a0",
+      "source_sha256": "bef411634a41d12df4f05d7343b43b2dc12400a4d24b1cad3c1521f9b9d9b088",
+      "crop_xyxy": [
+        648,
+        0,
+        1295,
+        545
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        90,
+        127
+      ],
+      "observed_anchors": {
+        "anatomical_left_planted_boot_sole_xy": [
+          339,
+          541
+        ],
+        "observation_display_xy": [
+          686,
+          376
+        ],
+        "density_basis": "Manual head-width and forearm-length cross-sheet comparison, not crouched silhouette height. Loop source density approx12% larger than entry; apply shared0.5 versus0.56 entry/exit."
+      },
+      "registration_note": "Manual anatomical-left planted boot anchor. Uniform source-density correction shared by sheet, judged from head width and forearm dimensions; never normalize head height. Full kneel/rise preserved. Shared exact entry04 boundary has identical crop/scale/translation in loop endpoints and exit01; shared entry01 exact exit04.",
+      "equipment_state": "Sword anatomical right, lantern anatomical left continuously held; no ground release.",
+      "start_tick": 10,
+      "hold_ticks": 14,
+      "runtime_alpha_bbox": [
+        90,
+        127,
+        421,
+        432
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "87a5f8e81a1808dbb523db137f21caec5a8180ea5e073707eb22fd0f72444972",
+      "native_size_px": [
+        648,
+        669
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "08ace21b6af33fe097df64121444dd71dd23c37a09c932a36a85db975f55ffb0",
+      "source_sha256": "bef411634a41d12df4f05d7343b43b2dc12400a4d24b1cad3c1521f9b9d9b088",
+      "crop_xyxy": [
+        0,
+        545,
+        648,
+        1214
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        10,
+        95
+      ],
+      "observed_anchors": {
+        "anatomical_left_planted_boot_sole_xy": [
+          482,
+          599
+        ],
+        "observation_display_xy": [
+          335,
+          795
+        ],
+        "density_basis": "Manual head-width and forearm-length cross-sheet comparison, not crouched silhouette height. Loop source density approx12% larger than entry; apply shared0.5 versus0.56 entry/exit."
+      },
+      "registration_note": "Manual anatomical-left planted boot anchor. Uniform source-density correction shared by sheet, judged from head width and forearm dimensions; never normalize head height. Full kneel/rise preserved. Shared exact entry04 boundary has identical crop/scale/translation in loop endpoints and exit01; shared entry01 exact exit04.",
+      "equipment_state": "Sword anatomical right, lantern anatomical left continuously held; no ground release.",
+      "start_tick": 24,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        10,
+        95,
+        373,
+        470
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "20bf794eb146a2a3270c67da90eb9c2dea2abafd934656677172e593b4a095aa",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "9426067a64b08fa049e23f97e623078c6120eedc4a9699160d0d7e9a47ed9c5a",
+      "source_sha256": "910d2d9aacb9038dcd49708ced5625c6f257e15c52580b62d92d1c273191eeac",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        38,
+        91
+      ],
+      "observed_anchors": {
+        "anatomical_left_planted_boot_sole_xy": [
+          433,
+          605
+        ],
+        "observation_display_xy": [
+          311,
+          434
+        ],
+        "density_basis": "Manual head-width and forearm-length cross-sheet comparison, not crouched silhouette height. Loop source density approx12% larger than entry; apply shared0.5 versus0.56 entry/exit."
+      },
+      "registration_note": "Manual anatomical-left planted boot anchor. Uniform source-density correction shared by sheet, judged from head width and forearm dimensions; never normalize head height. Full kneel/rise preserved. Shared exact entry04 boundary has identical crop/scale/translation in loop endpoints and exit01; shared entry01 exact exit04.",
+      "equipment_state": "Sword anatomical right, lantern anatomical left continuously held; no ground release.",
+      "start_tick": 36,
+      "hold_ticks": 14,
+      "runtime_alpha_bbox": [
+        48,
+        96,
+        386,
+        442
+      ]
+    }
+  ],
+  "native_drawn_cels": 4,
+  "timeline_frame_count": 4,
+  "duration_ticks": 50,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "877b6d6a6c7b9c905097de77f5ccae315f5198ee7d3d08ff2129f57848901d86"
+  }
+}

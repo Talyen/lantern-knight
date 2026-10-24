@@ -1,0 +1,223 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "enemy_id": "G6",
+  "enemy_name": "Ribcage Harpist",
+  "clip": "signature_fx",
+  "canvas_px": [
+    1024,
+    384
+  ],
+  "pivot_top_left_px": [
+    960,
+    192
+  ],
+  "pivot_unity_normalized": [
+    0.9375,
+    0.5
+  ],
+  "facing": "left",
+  "body_height_reference_px": null,
+  "scale_per_source_pixel": 0.94,
+  "atlas": "Ribcage_Harpist_signature_fx_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frame_count": 6,
+  "duration_ms": 600,
+  "loop": false,
+  "hold_last": false,
+  "interpolation": "stepped unique drawn cels; no crossfade",
+  "root_motion": "none",
+  "events": [],
+  "frames": [
+    {
+      "index": 0,
+      "file": "signature_fx_000.png",
+      "duration_ms": 60,
+      "start_ms": 0,
+      "phase": "compression",
+      "source_bbox_px": [
+        865,
+        99,
+        974,
+        224
+      ],
+      "source_anchor_px": [
+        976,
+        161.5
+      ],
+      "bounds_px": [
+        856,
+        134,
+        958,
+        251
+      ],
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        384
+      ]
+    },
+    {
+      "index": 1,
+      "file": "signature_fx_001.png",
+      "duration_ms": 80,
+      "start_ms": 60,
+      "phase": "launch",
+      "source_bbox_px": [
+        490,
+        293,
+        976,
+        462
+      ],
+      "source_anchor_px": [
+        976,
+        377.5
+      ],
+      "bounds_px": [
+        503,
+        112,
+        959,
+        272
+      ],
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        384
+      ]
+    },
+    {
+      "index": 2,
+      "file": "signature_fx_002.png",
+      "duration_ms": 100,
+      "start_ms": 140,
+      "phase": "long narrow thrust",
+      "source_bbox_px": [
+        23,
+        589,
+        990,
+        713
+      ],
+      "source_anchor_px": [
+        976,
+        651.0
+      ],
+      "bounds_px": [
+        64,
+        133,
+        972,
+        250
+      ],
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        384
+      ]
+    },
+    {
+      "index": 3,
+      "file": "signature_fx_003.png",
+      "duration_ms": 100,
+      "start_ms": 240,
+      "phase": "crest travel",
+      "source_bbox_px": [
+        68,
+        839,
+        983,
+        963
+      ],
+      "source_anchor_px": [
+        976,
+        901.0
+      ],
+      "bounds_px": [
+        107,
+        134,
+        967,
+        250
+      ],
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        384
+      ]
+    },
+    {
+      "index": 4,
+      "file": "signature_fx_004.png",
+      "duration_ms": 100,
+      "start_ms": 340,
+      "phase": "split streaks",
+      "source_bbox_px": [
+        63,
+        1055,
+        748,
+        1226
+      ],
+      "source_anchor_px": [
+        976,
+        1140.5
+      ],
+      "bounds_px": [
+        102,
+        111,
+        746,
+        272
+      ],
+      "atlas_rect_px": [
+        0,
+        384,
+        1024,
+        384
+      ]
+    },
+    {
+      "index": 5,
+      "file": "signature_fx_005.png",
+      "duration_ms": 160,
+      "start_ms": 440,
+      "phase": "last fragments",
+      "source_bbox_px": [
+        72,
+        1324,
+        246,
+        1434
+      ],
+      "source_anchor_px": [
+        976,
+        1379.0
+      ],
+      "bounds_px": [
+        110,
+        141,
+        274,
+        244
+      ],
+      "atlas_rect_px": [
+        1024,
+        384,
+        1024,
+        384
+      ]
+    }
+  ],
+  "trigger": {
+    "actor_clip": "signature_ability",
+    "actor_time_ms": 1100,
+    "actor_socket_px": [
+      385,
+      485
+    ]
+  },
+  "attach_once_then_world_space": true,
+  "direction": [
+    -1,
+    0
+  ],
+  "lifetime_ms": 600
+}

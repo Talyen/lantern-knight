@@ -1,0 +1,39 @@
+{
+  "pivot_pixels": [
+    192,
+    292
+  ],
+  "target_pixels": [
+    192,
+    292
+  ],
+  "intended_footprint_pixels": [
+    [
+      138,
+      282
+    ],
+    [
+      192,
+      270
+    ],
+    [
+      249,
+      282
+    ],
+    [
+      249,
+      298
+    ],
+    [
+      192,
+      311
+    ],
+    [
+      138,
+      298
+    ]
+  ],
+  "footprint_shape": "small ground oval",
+  "coordinate_space": "384x384 output canvas",
+  "interpretation": "Experimental intended damage/utility footprint; cosmetic debris may extend outside. Verify actual collision in engine. No engine files changed."
+}

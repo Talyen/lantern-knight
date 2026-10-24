@@ -1,0 +1,2 @@
+Pallid Spore Fan — revised physical-action animation
+13 frames including transparent end. Use durations in timing_manifest.json; frame order is numeric. PNG/APNG use straight RGBA alpha. Play once for gameplay. Preview repeats with rest. Source art and exact imagegen prompt included. Registered by retained physical anchor at fixed scale; no per-frame resize or opacity fade.

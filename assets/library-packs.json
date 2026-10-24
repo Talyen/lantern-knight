@@ -15,7 +15,8 @@
     {
       "group": "library-c625ca9179c1",
       "archive": "Lantern_Candlebone_Oracle_Animations_Runtime_v01.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-5aa3532f7ef6",
@@ -50,7 +51,8 @@
     {
       "group": "library-4012fa323859",
       "archive": "oracle_enemy_states_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-ae5d185dc4d7",
@@ -150,7 +152,8 @@
     {
       "group": "library-3576c3616c42",
       "archive": "SK03_Candlebone_Oracle_DL_UL_UR_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-c5bf4a5441d2",
@@ -280,17 +283,20 @@
     {
       "group": "library-08a0f4323bd2",
       "archive": "SK01_four_direction_extension_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-31c4d66192a0",
       "archive": "SK01_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-48a3dd38a323",
       "archive": "SK01_DR_hit_defeat_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-974d4cec922d",
@@ -310,17 +316,20 @@
     {
       "group": "library-aa937813726a",
       "archive": "SK02_four_direction_extension_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-f4dc6f36e0d7",
       "archive": "SK02_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-e080bba25830",
       "archive": "SK02_DR_hit_defeat_runtime.zip",
-      "category": 2
+      "category": 2,
+      "requires": ["enemy_animation_handoff_20261007.zip", "enemy_defeat_states_01_runtime_native.zip", "lantern_enemy_hit_recovery_runtime_v01.zip", "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip"]
     },
     {
       "group": "library-f3f3e38d0cd8",

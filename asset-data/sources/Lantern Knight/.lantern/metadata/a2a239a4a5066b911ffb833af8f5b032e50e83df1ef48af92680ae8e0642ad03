@@ -1,0 +1,51 @@
+LANTERN / TWO REUSED INK CONTAINERS / OPEN AND HOLD
+
+Assets: masons_tool_chest and provision_hopper. These extend existing static art,
+not the already animated pilgrim chest, iron lockbox, or shrine reliquary.
+
+ART AND MOTION
+Seven distinct transparent 1024 x 1024 raster poses each. Clean ink/cel artwork
+reused from Lantern_Containers01_CleanInk. This is component-animated illustrated
+art: source-painted surfaces rendered through the original exact orthographic
+hinge rig, with authored discrete pose timing. It is not seven independently
+redrawn cels, a freshly generated design, or a 3D character animation.
+No image generation or generative editing occurred for this extension.
+No upscaling. Original texture sampling is bicubic. Proofs are downsampled.
+
+PLAYBACK
+Use runtime/<asset>/clip.json. 60 Hz tick holds, no interpolation, no blending.
+Idle holds frame 00 until an authorized interaction. Play open once, then hold
+frame 06 indefinitely. The tiny hinge overshoot in frame 05 settles to the original
+open geometry in frame 06. Do not automatically reverse or restart.
+Loot is not painted in any frame. Invoke loot_spawn once on entry to frame 04,
+using the specified tick. Gate interactions to prevent repeated rewards.
+Unlocking/access checks and all loot spawning are game logic.
+
+REGISTRATION
+1024 px untrimmed canvas. Fixed ground pivot top-left origin: [512, 802].
+Unity-style bottom-left normalized pivot: [0.5, 0.216796875]. Camera elevation
+35.2643897 degrees; azimuth 45 degrees; exact original orthographic matrix.
+All base geometry is fixed, and the lower-body pixel region is regression-tested.
+Atlas 4 columns x 2 rows, 1024 px cells, row-major. Last cell empty.
+No atlas padding: add engine extrusion if using bilinear atlas sampling, or import
+individual PNGs. Disable automatic trimming and preserve canvas/pivot on import.
+
+REBUILD
+Python 3.10+, Pillow and NumPy. Run: python rebuild.py
+Optional MP4 proof: install ffmpeg and run: python rebuild.py --video
+Source files, original masters and original prompts are included. Rebuild needs
+no network, model call, machine-specific absolute path, or Unity installation.
+Source build_containers.py is the preserved original helper; use rebuild.py as
+entry point because this focused pack deliberately includes only two designs.
+
+QA AND LIMITATIONS
+proof/qa.json records distinct poses, fixed lower body, clipping and endpoint handling.
+The closed endpoint is the original static render. The open endpoint preserves
+the original design and geometry; its lower-body alpha is normalized to the closed
+body to fix an inherited double-composite edge-opacity discontinuity.
+The body wall/rim mapping is coherent; painted recess detail remains artistic.
+Baked shading does not relight. Validate engine colliders, sorting, PPU and chosen
+on-screen scale. No engine import or gameplay test was performed. The MP4 uses
+an opaque dark review background; runtime PNGs retain native transparency.
+The original art has fixed handles and keyplates; no unlocking character/hand is
+shown. These clips open the lid after game logic grants access.

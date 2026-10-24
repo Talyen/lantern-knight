@@ -18,11 +18,24 @@ export async function codeFiles(root = projectRoot) {
       },
     )
   ) {
-    names = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], {
-      cwd: root,
-      encoding: 'utf8',
-      maxBuffer: 8 * 1024 ** 2,
-    }).split('\0');
+    names = execFileSync(
+      'git',
+      [
+        'ls-files',
+        '--cached',
+        '--others',
+        '--exclude-standard',
+        '-z',
+        '--',
+        '.',
+        ':(exclude)asset-data/**',
+      ],
+      {
+        cwd: root,
+        encoding: 'utf8',
+        maxBuffer: 8 * 1024 ** 2,
+      },
+    ).split('\0');
   } else {
     names = [];
     const walk = async (directory: string) => {

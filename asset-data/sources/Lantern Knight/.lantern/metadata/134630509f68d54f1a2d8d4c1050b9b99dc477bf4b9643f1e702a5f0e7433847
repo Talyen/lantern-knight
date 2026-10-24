@@ -1,0 +1,210 @@
+{
+  "name": "Root-entangled stone saint",
+  "identity_id": "lantern_elite_concept_06_rootbound_stone_saint",
+  "original_sha256": "bce07386e2a424c6b3232e4d4a9efc08272e10e362ca4f81ea53ca17a7e1e98d",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 220,
+  "facing": "southeast / screen lower-right",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Drawn visual approximation, not calibrated 3D geometry"
+  },
+  "mirroring": "Forbidden: asymmetric root wrap and broken halo must retain authored sides.",
+  "offsets": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+  "clips": {
+    "move": {
+      "loop": true,
+      "frames": [
+        {
+          "file": "move_00.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            121,
+            6,
+            445,
+            513
+          ],
+          "baked_translation": [
+            158,
+            33
+          ]
+        },
+        {
+          "file": "move_01.png",
+          "hold_ticks_60hz": 9,
+          "source_box": [
+            587,
+            10,
+            1005,
+            512
+          ],
+          "baked_translation": [
+            111,
+            38
+          ]
+        },
+        {
+          "file": "move_02.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            1107,
+            7,
+            1447,
+            511
+          ],
+          "baked_translation": [
+            150,
+            31
+          ]
+        },
+        {
+          "file": "move_03.png",
+          "hold_ticks_60hz": 9,
+          "source_box": [
+            90,
+            517,
+            527,
+            1016
+          ],
+          "baked_translation": [
+            102,
+            41
+          ]
+        },
+        {
+          "file": "move_04.png",
+          "hold_ticks_60hz": 9,
+          "source_box": [
+            582,
+            515,
+            979,
+            1014
+          ],
+          "baked_translation": [
+            122,
+            38
+          ]
+        },
+        {
+          "file": "move_05.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            1109,
+            516,
+            1461,
+            1016
+          ],
+          "baked_translation": [
+            144,
+            40
+          ]
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "end": "hold last recovery cel until state transition",
+      "visual_event": {
+        "frame_index": 3,
+        "meaning": "Connected ground-root burst apex; both palms press forward",
+        "not_gameplay_damage_guarantee": true
+      },
+      "frames": [
+        {
+          "file": "attack_00.png",
+          "hold_ticks_60hz": 9,
+          "source_box": [
+            144,
+            4,
+            468,
+            516
+          ],
+          "baked_translation": [
+            158,
+            28
+          ]
+        },
+        {
+          "file": "attack_01.png",
+          "hold_ticks_60hz": 11,
+          "source_box": [
+            646,
+            5,
+            944,
+            516
+          ],
+          "baked_translation": [
+            169,
+            29
+          ]
+        },
+        {
+          "file": "attack_02.png",
+          "hold_ticks_60hz": 9,
+          "source_box": [
+            1102,
+            3,
+            1426,
+            516
+          ],
+          "baked_translation": [
+            155,
+            24
+          ]
+        },
+        {
+          "file": "attack_03.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            56,
+            518,
+            596,
+            1017
+          ],
+          "baked_translation": [
+            58,
+            41
+          ]
+        },
+        {
+          "file": "attack_04.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            617,
+            518,
+            995,
+            1021
+          ],
+          "baked_translation": [
+            131,
+            37
+          ]
+        },
+        {
+          "file": "attack_05.png",
+          "hold_ticks_60hz": 14,
+          "source_box": [
+            1108,
+            517,
+            1428,
+            1022
+          ],
+          "baked_translation": [
+            160,
+            35
+          ]
+        }
+      ]
+    }
+  },
+  "idle": "First move cel only, not animated idle",
+  "qa_limits": "All cels visually inspected on light/dark; native timing preview encoded. No engine test or real-time playback claim."
+}

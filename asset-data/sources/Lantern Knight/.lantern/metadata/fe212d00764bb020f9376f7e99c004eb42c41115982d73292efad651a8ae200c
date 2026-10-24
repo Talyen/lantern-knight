@@ -1,0 +1,69 @@
+{
+  "asset": "Charcoal Burner's Field Kiln",
+  "authored_cels": 8,
+  "native_canvas": [
+    512,
+    576
+  ],
+  "runtime_canvas": [
+    256,
+    288
+  ],
+  "states": [
+    "sealed",
+    "first_crack",
+    "split_seal",
+    "center_falling",
+    "side_plates_loosen",
+    "plates_dropped",
+    "dust_settles",
+    "open_empty_hold"
+  ],
+  "timing_ms": [
+    700,
+    130,
+    130,
+    130,
+    130,
+    130,
+    160,
+    1200
+  ],
+  "start_hold": "states/start.png",
+  "persistent_final_hold": "states/end.png",
+  "one_shot": true,
+  "completion_frame": 7,
+  "ground_anchor_native": [
+    256,
+    552
+  ],
+  "contact_anchor_native": [
+    255,
+    380
+  ],
+  "reward_anchor_native": [
+    255,
+    455
+  ],
+  "suggested_gameplay": "One-time fuel salvage. Spawn any charcoal resource separately after the seal breaks; chamber remains empty.",
+  "implementation": "Suggested hooks only, no gameplay integration",
+  "source_native_size": [
+    1536,
+    1024
+  ],
+  "processing": "Mechanical extraction of authored cels, alpha-isolation, translation-only alignment, runtime downsampling and preview encoding. No code-created art or interpolated poses.",
+  "model_note": "Built-in imagegen; highest native quality/resolution requested. Preferred model naming was prompt intent, selection not exposed or verified.",
+  "qa": "Root approved",
+  "ground_anchor_runtime": [
+    128.0,
+    276.0
+  ],
+  "contact_anchor_runtime": [
+    127.5,
+    190.0
+  ],
+  "reward_anchor_runtime": [
+    127.5,
+    227.5
+  ]
+}

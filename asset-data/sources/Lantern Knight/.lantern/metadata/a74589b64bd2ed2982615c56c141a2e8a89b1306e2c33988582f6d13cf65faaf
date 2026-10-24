@@ -1,0 +1,19 @@
+{
+  "built": 64,
+  "target": 64,
+  "issues": [],
+  "transparent_pngs": 320,
+  "validation": "Passed final visual review and automated bounds, format, scale, unique native source, exact thumbnail and portable rebuild validation.",
+  "scale_check": {
+    "spear": 440,
+    "axe": 150,
+    "belt": 90,
+    "ring": 16,
+    "ruby": 16
+  },
+  "manual_visual_review": "passed",
+  "review_date_utc": "2026-10-13",
+  "exact_measured_inventory_extents": 64,
+  "source_preservation": "All 27 reused source crops match approved artwork; native masters preserve original pixels.",
+  "rebuild_files_matched": 320
+}

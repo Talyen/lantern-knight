@@ -1,0 +1,825 @@
+{
+  "schema": "lantern.vfx.flipbook.v2",
+  "name": "Bellfounder's Furrow",
+  "slug": "bellfounders_furrow",
+  "role": "enemy",
+  "shape_group": "long_line",
+  "canvas_px": [
+    1024,
+    704
+  ],
+  "coordinate_origin": "top_left",
+  "pivot_px": [
+    164,
+    431
+  ],
+  "pivot_normalized": [
+    0.160156,
+    0.612216
+  ],
+  "alpha": "straight RGBA; alpha preserved exactly from source",
+  "color_space": "sRGB artwork; import to match engine project",
+  "drawn_cel_count": 16,
+  "clear_cel_count": 1,
+  "duration_ms": 1700,
+  "loop": false,
+  "interpolation": "none; exact drawn cels with holds",
+  "timing_status": "Authored prototype; not gameplay balanced or engine tested.",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "frame_index": 0,
+      "time_ms": 0
+    },
+    {
+      "name": "commit",
+      "frame_index": 7,
+      "time_ms": 980
+    },
+    {
+      "name": "impact",
+      "frame_index": 8,
+      "time_ms": 1020,
+      "damage_count": 1
+    },
+    {
+      "name": "clear",
+      "frame_index": 16,
+      "time_ms": 1580
+    }
+  ],
+  "damage": {
+    "event": "impact",
+    "frame_index": 8,
+    "apply_once_per_playback": true,
+    "exclude_formation_and_recovery": true,
+    "center_damaged": false,
+    "note": "Use game collision on the single impact event. Do not derive damage from sprite alpha or apply repeated damage throughout recovery."
+  },
+  "footprint_guide": {
+    "type": "lane",
+    "polygon_px": [
+      [
+        164,
+        414
+      ],
+      [
+        866,
+        414
+      ],
+      [
+        866,
+        450
+      ],
+      [
+        164,
+        450
+      ]
+    ],
+    "approximate": true,
+    "world_design_dimensions": {
+      "length_m": 14,
+      "width_m": 2.2
+    },
+    "world_dimensions_status": "Proposed game-design footprint; not engine validated.",
+    "polygon_normalized": [
+      [
+        0.160156,
+        0.588068
+      ],
+      [
+        0.845703,
+        0.588068
+      ],
+      [
+        0.845703,
+        0.639205
+      ],
+      [
+        0.160156,
+        0.639205
+      ]
+    ]
+  },
+  "footprint_note": "Approximate screen-space authoring guide fitted to the registered telegraph, not a tested collision mesh.",
+  "transform_support": {
+    "horizontal_mirror": true,
+    "vertical_flip": false,
+    "arbitrary_screen_rotation": false,
+    "mirror_rule": "Mirror sprite, pivot and footprint together; x_new = 1024 - x.",
+    "rotation_note": "Ground-projected artwork. Reproject or author direction variants for arbitrary world headings; do not spin the raster in screen space."
+  },
+  "atlas": {
+    "file": "atlas.png",
+    "size_px": [
+      4096,
+      3520
+    ],
+    "cell_px": [
+      1024,
+      704
+    ],
+    "columns": 4,
+    "rows": 5,
+    "frame_order": "row-major; cells after index 16 are empty"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/00.png",
+      "phase": "formation / telegraph",
+      "start_ms": 0,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        704
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        128,
+        40
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        128,
+        40
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/01.png",
+      "phase": "formation / telegraph",
+      "start_ms": 140,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        704
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        768,
+        0,
+        1536,
+        512
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        128,
+        38
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        128,
+        38
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/02.png",
+      "phase": "formation / telegraph",
+      "start_ms": 280,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        704
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        0,
+        512,
+        768,
+        1024
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        128,
+        70
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        128,
+        70
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/03.png",
+      "phase": "formation / telegraph",
+      "start_ms": 420,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        704
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        768,
+        512,
+        1536,
+        1024
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        128,
+        69
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        128,
+        69
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/04.png",
+      "phase": "formation / telegraph",
+      "start_ms": 560,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        0,
+        704,
+        1024,
+        704
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        37
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        37
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/05.png",
+      "phase": "formation / telegraph",
+      "start_ms": 700,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        1024,
+        704,
+        1024,
+        704
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        768,
+        0,
+        1536,
+        512
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        37
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        37
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/06.png",
+      "phase": "formation / telegraph",
+      "start_ms": 840,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        2048,
+        704,
+        1024,
+        704
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        0,
+        512,
+        768,
+        1024
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        87
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        87
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/07.png",
+      "phase": "committed strike",
+      "start_ms": 980,
+      "duration_ms": 40,
+      "atlas_rect_px": [
+        3072,
+        704,
+        1024,
+        704
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        768,
+        512,
+        1536,
+        1024
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        87
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        87
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/08.png",
+      "phase": "single impact",
+      "start_ms": 1020,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        0,
+        1408,
+        1024,
+        704
+      ],
+      "source_file": "part_03_clean.png",
+      "source_part": 3,
+      "source_rect_px": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        37
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        37
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/09.png",
+      "phase": "outward breakup",
+      "start_ms": 1090,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        1024,
+        1408,
+        1024,
+        704
+      ],
+      "source_file": "part_03_clean.png",
+      "source_part": 3,
+      "source_rect_px": [
+        768,
+        0,
+        1536,
+        512
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        36
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        36
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/10.png",
+      "phase": "outward breakup",
+      "start_ms": 1160,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        2048,
+        1408,
+        1024,
+        704
+      ],
+      "source_file": "part_03_clean.png",
+      "source_part": 3,
+      "source_rect_px": [
+        0,
+        512,
+        768,
+        1024
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        86
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        86
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/11.png",
+      "phase": "outward breakup",
+      "start_ms": 1230,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        3072,
+        1408,
+        1024,
+        704
+      ],
+      "source_file": "part_03_clean.png",
+      "source_part": 3,
+      "source_rect_px": [
+        768,
+        512,
+        1536,
+        1024
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        87
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        87
+      ]
+    },
+    {
+      "index": 12,
+      "file": "frames/12.png",
+      "phase": "outward breakup",
+      "start_ms": 1300,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        0,
+        2112,
+        1024,
+        704
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        36
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        36
+      ]
+    },
+    {
+      "index": 13,
+      "file": "frames/13.png",
+      "phase": "outward breakup",
+      "start_ms": 1370,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        1024,
+        2112,
+        1024,
+        704
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        768,
+        0,
+        1536,
+        512
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        0
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        36
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        36
+      ]
+    },
+    {
+      "index": 14,
+      "file": "frames/14.png",
+      "phase": "outward breakup",
+      "start_ms": 1440,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        2048,
+        2112,
+        1024,
+        704
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        0,
+        512,
+        768,
+        1024
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        86
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        86
+      ]
+    },
+    {
+      "index": 15,
+      "file": "frames/15.png",
+      "phase": "outward breakup",
+      "start_ms": 1510,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        3072,
+        2112,
+        1024,
+        704
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        768,
+        512,
+        1536,
+        1024
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        768,
+        512
+      ],
+      "source_separator_x_px": 768,
+      "native_destination_offset_px": [
+        140,
+        86
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        140,
+        86
+      ]
+    },
+    {
+      "index": 16,
+      "file": "frames/16.png",
+      "phase": "clear",
+      "start_ms": 1580,
+      "duration_ms": 120,
+      "atlas_rect_px": [
+        0,
+        2816,
+        1024,
+        704
+      ]
+    }
+  ],
+  "provenance": {
+    "generator": "built-in image generation",
+    "source_sheets": [
+      {
+        "file": "part_01.png",
+        "sha256": "9148ac444f4cb57c463952de4a05aeaab5d962914d609561a4491435c875cfca",
+        "native_size_px": [
+          1536,
+          1024
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      },
+      {
+        "file": "part_02.png",
+        "sha256": "42810903f439640bb913db68556be0211e3ca8d7d740034a0cb0bb426d3c7d8b",
+        "native_size_px": [
+          1536,
+          1024
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      },
+      {
+        "file": "part_03_clean.png",
+        "sha256": "f4f99db9a91b2740b34be9a3d10832f020f65d39645a2ac820d5e9c4a7884472",
+        "native_size_px": [
+          1536,
+          1024
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      },
+      {
+        "file": "part_04.png",
+        "sha256": "e6501e92a74e61e9ce0ee68ab80831d828041fd72876738edda9fd1200febb0d",
+        "native_size_px": [
+          1536,
+          1024
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      }
+    ],
+    "native_cell_sizes_px": [
+      [
+        768,
+        512
+      ],
+      [
+        768,
+        512
+      ],
+      [
+        768,
+        512
+      ],
+      [
+        768,
+        512
+      ]
+    ],
+    "processing": "Native-pixel extraction, transparent padding, integer translation-only registration. No scaling, warping, alpha thresholding, recoloring, interpolation or invented animation cels.",
+    "registration_note": "Lower bronze lane boundary is registered to y=450 through frame 11. X registration uses the persistent rear edge of the lane. Frames 12\u201315 inherit the prior source-row registration, so scattered tail fragments are never re-centered.",
+    "alpha_analysis_threshold": 16,
+    "alpha_analysis_only": true,
+    "source_sheet_note": "Final chosen sheet hashes identify provenance. Raw source sheets are omitted from this compact runtime kit."
+  }
+}

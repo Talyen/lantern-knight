@@ -1,0 +1,49 @@
+{
+  "pack": "05 Slimes",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "SL01",
+      "slug": "mosswell_slime",
+      "name": "Mosswell Slime",
+      "description": "A single classic dark-fantasy slime: low smooth broad hemispherical moss-green gelatinous body, weighted like a soft rounded dome over a scalloped footprint with FOUR broad shallow lobes. A pair of narrow dim amber eye slits recessed near the front, no mouth, no cartoon smile. One large curved sage highlight patch and two deep forest-green cel-shadow patches create clean gel volume. No limbs, no bones, no accessories, no external bubbles or droplets. Menacing simple mound silhouette. The body is illustrated as OPAQUE flat cel color even though the material suggests jelly; true transparency only outside the silhouette. Show upper dome and elliptical ground footprint from the elevated gameplay camera.",
+      "motion_hint": "Squash-hop / body lunge",
+      "move": "One squash-and-stretch hop or low gliding wobble.",
+      "attack": "Compress, then lunge the whole mound forward.",
+      "death": "Collapse to a flat puddle silhouette.",
+      "qa": "Single coherent mound, two eye slits and broad simple silhouette pass. External alpha preserved with minimal cleanup; body shading is illustrated jelly rather than a physically translucent material.",
+      "native_file": "source/SL01_mosswell_slime_native.png",
+      "asset_file": "assets/SL01_mosswell_slime.png",
+      "native_dimensions": [
+        1536,
+        1024
+      ],
+      "asset_dimensions": [
+        1278,
+        954
+      ],
+      "native_sha256": "337c4ff1761e7e7773ce0c577f17842fa0f891e12a7b840dee7dc4a0c42556b7",
+      "asset_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 665855,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          194,
+          80,
+          1344,
+          906
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

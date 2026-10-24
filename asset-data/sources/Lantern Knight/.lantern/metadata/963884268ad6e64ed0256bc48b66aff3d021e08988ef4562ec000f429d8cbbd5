@@ -1,0 +1,17 @@
+Use case: stylized-concept. Asset: new production animation drawings for Lantern enemy ZB04 Shroud Crawler.
+Sunburst 2.5. Create a FRESHLY DRAWN transparent sprite sheet, not an edit or rearrangement of the reference. Input image 1 is IDENTITY AND CLEAN INK STYLE REFERENCE ONLY. Native detail only.
+Exactly EIGHT complete distinct animation poses in a precise 4-column x 2-row grid, chronological left-to-right top row then bottom row. Wide 2048x1024 image, each cell 512x512. No lettering, numbers, grid lines, floor or shadows outside the figure. Real alpha transparency.
+One low adult undead shroud crawler per cell: completely enclosed charcoal funerary cocoon tapering to an intact cloth tail at screen upper-left; close ivory linen hood and center ivory seam, gray gaunt adult human face, tiny dim amber eyes; exactly TWO adult arms and TWO five-digit hands visibly connected to the same shoulders. No legs, no feet, no stumps, no extra limbs. Preserve identical head size, hand size, material colors and costume construction across ALL cells.
+Clean stylized ink illustration: confident expressive outlines, broad deliberate hard-edged shadow shapes, smooth solid colors. Dark-fantasy horror. Match the reference silhouette but simplify minor cloth wrinkles for readable motion. No grain, texture overlay, CGI, photorealism or airbrushing.
+Camera fixed throughout: orthographic gameplay elevation 35.2643897 degrees, world azimuth 45 degrees; creature faces screen-down-right, long closed cocoon extends screen-up-left. Same scale, same imaginary floor plane, same world direction. Never turn into side view/front view. All drawings framed with at least 40 native pixels of empty alpha on EVERY side of each cell including fingertips and cloth tail; no cell crossovers. Keep the base cocoon contact/root fixed at cell coordinate (256,350), with the pose deforming about it. Do NOT fit or resize each pose independently.
+Action: full seamless eerie ELASTIC COCOON SCOOT locomotion cycle, a deliberate alternating hand-pull followed by a soft body-flop, not humanoid walking. The lower body remains one soft bundled taper at all times. Exaggerate contraction/extension visibly while preserving volume and scale. Low grounded forward movement, no aggressive leap.
+Eight drawings:
+1. Long low rest/extension; near hand reaches ahead, far hand planted under shoulder, both readable.
+2. Near hand plants farther ahead, elbows beginning to bend; closed cocoon wrinkles gather.
+3. Near arm pulls body forward relative to hands; cocoon bunches into a shorter raised hump, far hand starts recovery just off ground.
+4. Belly slumps softly down from that hump; far hand reaches forward, near hand under shoulder.
+5. Opposite-hand extended pose; far hand now ahead and near hand still grounded. Clear alternating hand order.
+6. Far hand plants and pulls, opposite elbow bends; shroud compresses into the next hump.
+7. Cocoon briefly lifts its middle for the soft scoot/flop; near hand recovers forward and far hand remains planted.
+8. Body settles low and extends, near hand almost at pose-1 reach for a smooth loop. Both hands separate and clear.
+The move must read as one coherent cyclic hand-drag/body-flop performance. Exactly eight cels and two hands each, same fixed camera and size. No motion trails, dust, particles, speed lines, duplicate or ghost body parts.

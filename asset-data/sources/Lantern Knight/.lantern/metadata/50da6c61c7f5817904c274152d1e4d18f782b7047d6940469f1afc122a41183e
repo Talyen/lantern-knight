@@ -1,0 +1,156 @@
+{
+  "id": "provision_hopper",
+  "label": "Brass-bound provision hopper",
+  "frame_count": 7,
+  "open_duration_ticks": 39,
+  "states": {
+    "idle": {
+      "frame": 0,
+      "hold": "until interaction"
+    },
+    "open": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "loop": false
+    },
+    "looted": {
+      "frame": 6,
+      "hold": "indefinite"
+    }
+  },
+  "events": [
+    {
+      "name": "loot_spawn",
+      "tick": 21,
+      "frame": 4,
+      "once_per_open": true,
+      "note": "Spawn loot in game; no loot pixels in asset."
+    }
+  ],
+  "hinge": {
+    "world_axis": "X",
+    "pivot_world": [
+      0,
+      0.94,
+      -0.34
+    ]
+  },
+  "atlas": {
+    "file": "runtime/provision_hopper/atlas_4x2.png",
+    "columns": 4,
+    "rows": 2,
+    "cell_px": [
+      1024,
+      1024
+    ],
+    "order": "row-major; final cell empty",
+    "padding_px": 0
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "runtime/provision_hopper/00.png",
+      "hold_ticks": 4,
+      "start_tick": 0,
+      "angle_degrees": 0,
+      "alpha_bounds_px": [
+        268,
+        311,
+        756,
+        903
+      ],
+      "sha256": "1e29ba75feb0ddab0e3c95c9dd1d3110aa1572c5511d490ea85d2340bcafe775"
+    },
+    {
+      "index": 1,
+      "file": "runtime/provision_hopper/01.png",
+      "hold_ticks": 5,
+      "start_tick": 4,
+      "angle_degrees": 6.580000000000001,
+      "alpha_bounds_px": [
+        269,
+        309,
+        757,
+        903
+      ],
+      "sha256": "f03f8dc3d893a79b85cf4c9d07768bf877d568c2e6c74ef18273244ec20d8ce0"
+    },
+    {
+      "index": 2,
+      "file": "runtime/provision_hopper/02.png",
+      "hold_ticks": 6,
+      "start_tick": 9,
+      "angle_degrees": 20.68,
+      "alpha_bounds_px": [
+        269,
+        307,
+        759,
+        903
+      ],
+      "sha256": "4c4505f6704d8056f9c77fbbe9fa2a8afce9cc005e6cfb1e81385ee99e28b982"
+    },
+    {
+      "index": 3,
+      "file": "runtime/provision_hopper/03.png",
+      "hold_ticks": 6,
+      "start_tick": 15,
+      "angle_degrees": 35.72,
+      "alpha_bounds_px": [
+        269,
+        265,
+        761,
+        903
+      ],
+      "sha256": "2a9146f003e0409b7741cc771e7ca10090092254330eb7ae6bdcf98268114920"
+    },
+    {
+      "index": 4,
+      "file": "runtime/provision_hopper/04.png",
+      "hold_ticks": 6,
+      "start_tick": 21,
+      "angle_degrees": 73.32000000000001,
+      "alpha_bounds_px": [
+        269,
+        118,
+        764,
+        903
+      ],
+      "sha256": "801a65d58ad9e5c0416251f5c8127187b7f3c8b1f07229333371ca0ed8c53b31"
+    },
+    {
+      "index": 5,
+      "file": "runtime/provision_hopper/05.png",
+      "hold_ticks": 5,
+      "start_tick": 27,
+      "angle_degrees": 97.76,
+      "alpha_bounds_px": [
+        269,
+        62,
+        793,
+        903
+      ],
+      "sha256": "c2dd89dcc785ea2d4954fdb621e9011c4f08b7ec0af6a3a137ddba1b60300d79"
+    },
+    {
+      "index": 6,
+      "file": "runtime/provision_hopper/06.png",
+      "hold_ticks": 7,
+      "start_tick": 32,
+      "angle_degrees": 94,
+      "alpha_bounds_px": [
+        269,
+        67,
+        779,
+        903
+      ],
+      "sha256": "ff50ab388f13ade73d1848e9f5d2f8b3afcf5bacccd0afa1eef43d793773472f"
+    }
+  ]
+}

@@ -5,3 +5,6 @@ references/** -text
 staging/** -text
 public/** -text
 evidence/** -text
+
+# Repository-owned originals and prepared objects retain exact bytes.
+asset-data/** -text

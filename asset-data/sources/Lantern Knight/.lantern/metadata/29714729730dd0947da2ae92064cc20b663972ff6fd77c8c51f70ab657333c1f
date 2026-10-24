@@ -1,0 +1,27 @@
+[
+  {
+    "id": "t01_earth_stone_border",
+    "left_right_RGBA_MAE": 0.533447265625,
+    "status": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified"
+  },
+  {
+    "id": "t02_moss_invasion",
+    "left_right_RGBA_MAE": 1.238037109375,
+    "status": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified"
+  },
+  {
+    "id": "t03_broken_pavement_edge",
+    "left_right_RGBA_MAE": 1.337158203125,
+    "status": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified"
+  },
+  {
+    "id": "t04_plank_threshold",
+    "left_right_RGBA_MAE": 1.932373046875,
+    "status": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified"
+  },
+  {
+    "id": "t05_metal_walkway_edging",
+    "left_right_RGBA_MAE": 0.365234375,
+    "status": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified"
+  }
+]

@@ -1,0 +1,89 @@
+LANTERN / MECHANISMS 02 / CLEAN INK REBUILD
+Review candidate. Original pack and hero were not modified.
+
+WHAT IS INCLUDED
+Eight reillustrated mechanisms, three registered transparent states each:
+Gothic oak door; iron portcullis; yoke lever; octagonal pressure plate;
+brass stop valve; oak rope winch; watch bell; crypt sliding seal.
+
+All four activation clips from the original pack are rebuilt from the same
+source layers, each 24 frames / 24 fps / 1 second / non-looping runtime clip:
+door, portcullis, lever and pressure plate. Review GIFs loop forward/reverse
+for inspection; those are not runtime timing specifications.
+
+REVIEW FIRST
+proof/Before_After_All_Eight.png
+proof/All_Mechanism_States.png
+proof/Four_Activation_Clips.mp4
+proof/Four_Activation_Clips.gif
+proof/QA_integrity.json
+
+FILES
+png/: 24 transparent 1536 x 1536 RGBA stills.
+animation/: 96 transparent frames, four GIF/MP4 review clips, clips.json.
+source/masters/: fresh, untouched generated illustration masters.
+source/prompts/: exact new-generation prompts, built-in image_gen.
+layers/: separated source components. Original generated alpha is preserved.
+source/build_mechanisms.py: deterministic editable assembly/rig/occlusion source.
+source/clipping_meshes.json: editable fragmentation and isolation meshes.
+source/package_proof.py: review and integrity checks.
+manifest.json: per-state bounds, registration, hashes and camera.
+
+ART AND REGISTRATION
+Camera: orthographic, elevation 35.2643897 degrees, azimuth 45 degrees.
+World: right-handed XZ ground, Y up. Source density 440 px per metre.
+Canvas: 1536 square. Common ground root: [768, 1220].
+
+Front-elevation illustrated masters supply the door, masonry portals and moving
+mechanical surfaces. Authored contour depth supports the masonry. The lever
+pedestal, valve body and bell volume have additional freshly illustrated
+isometric masters. The winch barrel uses the same rope painting wrapped on a
+curved surface; the lever grip uses an axial billboard around a fixed world
+hinge so a round handle does not collapse edge-on during its swing.
+
+Broken states use editable clipping meshes and rigid source fragments; masters
+are never overwritten. Selected exposed raw wood/metal faces are source-authored.
+No animation frame was independently regenerated. No alpha thresholding, grain
+or texture filters are applied. Some raw viewers show RGB beneath transparent
+pixels; composited proof surfaces are the reliable alpha preview.
+
+FUNCTIONAL CONTRACTS
+Door: fixed left hinge, 100-degree swing.
+Portcullis: 2.08 m upward travel into an opaque overhead shaft, clipped above
+world y=2.08. An overhead shaft is still required in the scene.
+Lever: 70-degree throw around its source-registered axle.
+Pressure plate: 0.08 m vertical depression.
+Valve: wheel rotates on its fixed spindle between static endpoint states.
+Winch: crank rotates about its fixed drum axle. Symmetric fully wrapped drum
+appearance is invariant between the two static states.
+Bell: shell and clapper swing from a fixed mount; broken shell loses a cast
+fragment and clapper.
+Crypt seal: 1.27 m downward slab travel into the sill, geometrically occluded
+below its threshold. Static open state matches the original travel amount.
+
+KNOWN LIMITS / INTEGRATION
+This is hand-illustrated 2.5D art, not a relightable 3D asset pack. Source-baked
+lighting follows moving surfaces. The door's reverse shares its front artwork.
+The bell is a volumetrically painted cutout on a fixed-camera skeletal rig.
+New silhouettes differ from the original blockouts: engine colliders and bounds
+need review. No engine import, gameplay collision or runtime timing is claimed.
+Root visual gate passed. Registered source geometry uses the exact camera matrix; generated isometric volumes are fixed-view illustrations with artistic internal perspective, not calibrated 3D meshes. Asset IDs, state names, original clip IDs, canvas and root are preserved. Engine collision review remains required.
+
+R02A SOURCE-PORTABILITY REPAIR (6 October 2026)
+Only source usability/documentation changed. Every previously delivered artwork,
+master, still, frame, layer, atlas and review image/movie is byte-identical to r02.
+The eight images in source/historical_before/ are unchanged original comparison
+inputs, not additional designs or runtime assets. They make package_proof.py
+self-contained. No old workspace or generated-image folder is required.
+
+Rebuild a disposable extracted copy; the builders overwrite derived outputs and
+some manifest review labels. From this pack root run:
+  python source/build_mechanisms.py --stills-only
+  python source/package_proof.py
+Omit --stills-only to rebuild the full existing animation set. Python, Pillow and
+NumPy are required; review movies need FFmpeg with libx264. Pillow >=10.1 is
+recommended for size-aware font fallback. Font labels prefer installed DejaVu
+Sans; set LANTERN_FONT_PATH to any suitable font file, or 'default' for Pillow's
+bundled font. Fallback typography can differ; source art is unaffected.
+See SOURCE_PORTABILITY.json for the bounded replay and byte-preservation scope.
+No new engine/runtime, collision or complete cross-platform certification.

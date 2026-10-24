@@ -1,0 +1,7 @@
+{
+  "all_frames_512_rgba": true,
+  "terminal_fully_clear": true,
+  "unique_nonempty_frames": true,
+  "source_cut_alpha_pixels": 0,
+  "minimum_output_margin": 84
+}

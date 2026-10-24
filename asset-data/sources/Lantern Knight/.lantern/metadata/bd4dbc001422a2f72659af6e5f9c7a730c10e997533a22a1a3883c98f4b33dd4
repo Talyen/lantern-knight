@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "furn_blacksmith_anvil_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_blacksmith_anvil_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_blacksmith_anvil_01.png",
+    "sha256": "c5d27ab7ddd1b81a960c66f226901a8e131f158159d7f55e75190a116e4921cd",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_blacksmith_anvil_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      95,
+      57,
+      1256,
+      1183
+    ],
+    "alpha_bounds_ge128": [
+      117,
+      61,
+      1149,
+      1175
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97822,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-37add4c2-42ca-45d3-ba6f-fe7e135f0d5b.png"
+  },
+  {
+    "asset_id": "furn_bookcase_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_bookcase_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_bookcase_01.png",
+    "sha256": "eb805c33782fa73c31187877524512d7c00eae8916c348bd47b1d00dbad20ae4",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_bookcase_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      145,
+      9,
+      1250,
+      1186
+    ],
+    "alpha_bounds_ge128": [
+      266,
+      12,
+      1038,
+      1183
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98312,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-cb2fcea1-3bbb-4a9c-ac5b-a1c1d9a33e52.png"
+  },
+  {
+    "asset_id": "furn_grindstone_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_grindstone_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_grindstone_01.png",
+    "sha256": "a0a2d4080de2b6a2c31e2e8200d1000297f7d71b5f63cb6f7476fafbc973d5d9",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_grindstone_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      21,
+      1278,
+      1166
+    ],
+    "alpha_bounds_ge128": [
+      125,
+      62,
+      1242,
+      1151
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.9709,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-ba6de1c2-f40d-4652-bee6-7300c204c7ea.png"
+  },
+  {
+    "asset_id": "furn_hand_plough_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_hand_plough_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_hand_plough_01.png",
+    "sha256": "36bcc03d30b4c2b0273d5714558c52b2260cfe9190780af79a13e7f48a2dc2cc",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_hand_plough_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      123,
+      21,
+      1509,
+      1008
+    ],
+    "alpha_bounds_ge128": [
+      127,
+      24,
+      1506,
+      978
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.92565,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-eea6d17b-6242-4243-9aba-3f885ab05090.png"
+  },
+  {
+    "asset_id": "furn_shop_counter_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_shop_counter_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_shop_counter_01.png",
+    "sha256": "4d2c4adeacf090d558ebe425652b82bab8f7a50001ec4f3e48e8de7c118d6d60",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_shop_counter_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      9,
+      1469,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      82,
+      74,
+      1451,
+      979
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98087,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-c7ba064f-d483-4e80-ac71-79de52a6552b.png"
+  },
+  {
+    "asset_id": "furn_simple_bed_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_simple_bed_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_simple_bed_01.png",
+    "sha256": "c5df172bcf8e0f9a36e418094a944abb1987ef0b9b2c746bb746966cc2c0c852",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_simple_bed_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      12,
+      1490,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      199,
+      15,
+      1357,
+      992
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97486,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-f6949c31-84aa-4fda-92b4-b4cda5370ea2.png"
+  },
+  {
+    "asset_id": "furn_wooden_bench_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_wooden_bench_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_wooden_bench_01.png",
+    "sha256": "e787df19aad8f6c46e77f75c474c8fc77e82a36de9e7d3a9eee443427c73247e",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_wooden_bench_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      10,
+      1484,
+      1006
+    ],
+    "alpha_bounds_ge128": [
+      194,
+      13,
+      1418,
+      1003
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.94386,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-9774aee2-dc37-44ca-af57-1f685ed24e66.png"
+  },
+  {
+    "asset_id": "furn_workbench_01",
+    "pack": "volume_05_furnishings",
+    "path": "assets/furn_workbench_01.png",
+    "original_path": "lantern_environment_candidates/volume_05_furnishings/assets/furn_workbench_01.png",
+    "sha256": "7cd9bf0004f459dac5c6925930ff31399b51b6d33757f47459252b0c6c95f255",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/furn_workbench_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      37,
+      17,
+      1458,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      168,
+      21,
+      1371,
+      1009
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96067,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-56da3afc-5d91-491b-84f2-1dd3ab558517.png"
+  }
+]

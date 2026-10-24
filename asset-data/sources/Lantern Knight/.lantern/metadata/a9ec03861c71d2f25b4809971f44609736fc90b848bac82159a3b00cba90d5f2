@@ -1,0 +1,35 @@
+{
+  "status": "Three usable art-direction comparisons; A/B have sky or exterior glimpses and C is the cleanest enclosed viewport option",
+  "review_scope": "Independent full-frame contact sheets, native-pixel hero crops and native-pixel architecture detail crops; presentation review only.",
+  "common": {
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "live_characters_baked_in": false,
+    "readable_floor_and_routes": true,
+    "major_style_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false,
+    "style_note": "Strong structural ink and quiet primary floor areas. Brass highlights and broad floor value variation are more rendered than strict three-tone cel shading, but do not obscure the hero."
+  },
+  "A": {
+    "direction": "Pale-slate roofless astronomical ruin",
+    "strength": "Strongest immediate observatory silhouette, a clearly readable slate fighting ring and good hero separation. Broad shapes keep the playable floor quiet.",
+    "caveat": "A large raised central armillary creates baked visual obstruction. Dark blue sky-like voids appear through upper broken arches; no uninterrupted ground-only viewport is claimed."
+  },
+  "B": {
+    "direction": "Warm collapsed chart library",
+    "strength": "Most specific abandoned research setting, with broken telescopes, books and chart tables. Light floor gives the hero excellent contrast and leaves broad routes.",
+    "caveat": "More fine architectural/chart detail and subtle brass gradients. Upper openings show starry night on the left and a daylight-like exterior sliver on the right, an environmental-coherence caveat."
+  },
+  "C": {
+    "direction": "Enclosed black-stone eclipse chamber",
+    "strength": "Cleanest enclosed viewport and simplest large floor design; wide space around the low dais. The approved hero still reads clearly on dark paving.",
+    "caveat": "Very dark, formal and nearly symmetric. Dark enemy sprites need a future contrast check; rings could constrain later placement visually."
+  },
+  "suggested_starting_point": "C for an enclosed dark cultist setting; A if a brighter ruined observatory and stronger instrument centerpiece are preferred.",
+  "limits": "Tall scenery and instruments are baked into viewport art-direction samples. No in-engine occlusion, collision, exact camera calibration or gameplay-clearance validation is claimed. No source repainting, expansion or upscaling was performed. C uses the producer\u2019s final second-generation native; archival first attempt is excluded."
+}

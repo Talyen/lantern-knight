@@ -1,0 +1,57 @@
+{
+  "asset": "crypt",
+  "style_prompt_mode": "approved_condensed_style_approach; whole-scene framing",
+  "method": "built-in image_gen; fresh generation using approved viewport sample and original hero as style references",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-61d28fe1-6155-4e22-b190-feb247015b2d.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_method_tests_oct09/fresh/crypt/native_floor.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "style_verbatim_preserved": false,
+  "intended_hero_height_pixels_native": 40,
+  "proposed_upscale": {
+    "factor": 4,
+    "target_dimensions": [
+      6144,
+      4096
+    ],
+    "hero_height_pixels_after_upscale": 160,
+    "executed": false
+  },
+  "camera_requested": {
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "projection": "orthographic isometric",
+    "geometrically_verified": false
+  },
+  "scenery": "allowed throughout by user; baked occluders not separated",
+  "user_approval_message_ids": [
+    "Sentinel_970d258cf2888191bfbcf14852e8a077",
+    "Sentinel_883951b416348191b49a15065fb5edc3"
+  ],
+  "sha256": "e7dc72676b2d29e018b4c6fbae58973c758e00bd8d74f223c8768c23b2db5d23",
+  "upscaled": false,
+  "status": "initial native candidate; clean style retained; pending independent 40px hero-scale review and root source approval",
+  "visual_review": {
+    "strengths": [
+      "approved clean viewport style retained",
+      "visibly expanded ground area",
+      "distributed environmental scenery",
+      "readable open floor/routes",
+      "no water"
+    ],
+    "caveats": [
+      "exact fourfold linear ground coverage not established; apparent landmarks may be closer to half viewport size",
+      "requested camera angles not geometrically verified",
+      "architecture and other tall occluders baked into one image",
+      "not engine integrated"
+    ]
+  }
+}

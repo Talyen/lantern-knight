@@ -1,0 +1,432 @@
+{
+  "enemy": "Clockwork Beetle",
+  "ability": "Death",
+  "version": 1,
+  "actor": {
+    "canvas": [
+      384,
+      384
+    ],
+    "source_canvas": [
+      384,
+      384
+    ],
+    "pivot_top_left": [
+      192,
+      260
+    ],
+    "source_pivot_top_left": [
+      192,
+      260
+    ],
+    "atlas": "clockwork_beetle_death_actor_atlas.png",
+    "atlas_columns": 4,
+    "atlas_gutter": 4,
+    "frame_count": 13,
+    "frame_durations_ms": [
+      100,
+      145,
+      110,
+      100,
+      100,
+      100,
+      110,
+      120,
+      140,
+      150,
+      180,
+      200,
+      600
+    ],
+    "end_behavior": "hold_last",
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "4px transparent gutters; clamp sample UVs to frame or import individual PNGs."
+    }
+  },
+  "rects": [
+    {
+      "frame": 0,
+      "file": "frames/clockwork_beetle_death_000.png",
+      "rect": [
+        4,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 100
+    },
+    {
+      "frame": 1,
+      "file": "frames/clockwork_beetle_death_001.png",
+      "rect": [
+        396,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 145
+    },
+    {
+      "frame": 2,
+      "file": "frames/clockwork_beetle_death_002.png",
+      "rect": [
+        788,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 110
+    },
+    {
+      "frame": 3,
+      "file": "frames/clockwork_beetle_death_003.png",
+      "rect": [
+        1180,
+        4,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 100
+    },
+    {
+      "frame": 4,
+      "file": "frames/clockwork_beetle_death_004.png",
+      "rect": [
+        4,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 100
+    },
+    {
+      "frame": 5,
+      "file": "frames/clockwork_beetle_death_005.png",
+      "rect": [
+        396,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 100
+    },
+    {
+      "frame": 6,
+      "file": "frames/clockwork_beetle_death_006.png",
+      "rect": [
+        788,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 110
+    },
+    {
+      "frame": 7,
+      "file": "frames/clockwork_beetle_death_007.png",
+      "rect": [
+        1180,
+        396,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 120
+    },
+    {
+      "frame": 8,
+      "file": "frames/clockwork_beetle_death_008.png",
+      "rect": [
+        4,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 140
+    },
+    {
+      "frame": 9,
+      "file": "frames/clockwork_beetle_death_009.png",
+      "rect": [
+        396,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 150
+    },
+    {
+      "frame": 10,
+      "file": "frames/clockwork_beetle_death_010.png",
+      "rect": [
+        788,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 180
+    },
+    {
+      "frame": 11,
+      "file": "frames/clockwork_beetle_death_011.png",
+      "rect": [
+        1180,
+        788,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 200
+    },
+    {
+      "frame": 12,
+      "file": "frames/clockwork_beetle_death_012.png",
+      "rect": [
+        4,
+        1180,
+        384,
+        384
+      ],
+      "pivot_px": [
+        192,
+        260
+      ],
+      "duration_ms": 600
+    }
+  ],
+  "timing": {
+    "loop": false,
+    "total_ms": 2155,
+    "damage_event_count": 0
+  },
+  "art": {
+    "method": "Built-in image generation, 12 newly illustrated cels; code only extraction, alpha-preserving resampling, registration and assembly. Exact canonical baseline endpoint. No procedural artwork.",
+    "native_sheet_size": [
+      1448,
+      1086
+    ],
+    "requested_model": "gpt-image-2.5-sunburst (preference only; tool does not expose model selection)",
+    "registration": [
+      {
+        "source_bbox": [
+          6,
+          87,
+          356,
+          363
+        ],
+        "translation": [
+          51,
+          113
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          373,
+          92,
+          719,
+          363
+        ],
+        "translation": [
+          55,
+          117
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          743,
+          122,
+          1102,
+          363
+        ],
+        "translation": [
+          61,
+          141
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          1107,
+          155,
+          1441,
+          377
+        ],
+        "translation": [
+          63,
+          156
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          8,
+          490,
+          348,
+          711
+        ],
+        "translation": [
+          52,
+          157
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          371,
+          513,
+          719,
+          710
+        ],
+        "translation": [
+          53,
+          176
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          737,
+          528,
+          1083,
+          715
+        ],
+        "translation": [
+          56,
+          184
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          1106,
+          548,
+          1436,
+          718
+        ],
+        "translation": [
+          62,
+          198
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          16,
+          853,
+          339,
+          1019
+        ],
+        "translation": [
+          59,
+          201
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          375,
+          858,
+          698,
+          1012
+        ],
+        "translation": [
+          56,
+          211
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          741,
+          859,
+          1077,
+          1019
+        ],
+        "translation": [
+          60,
+          206
+        ],
+        "scale": 0.8
+      },
+      {
+        "source_bbox": [
+          1110,
+          869,
+          1432,
+          1021
+        ],
+        "translation": [
+          65,
+          212
+        ],
+        "scale": 0.8
+      }
+    ],
+    "source": "source/native_cels.png",
+    "ppu": "Preserve existing runtime PPU; no new PPU assumption.",
+    "reference_drive_file_id": "12A3t_KCgbuO54r_hzZltMoBG5JEU7scT"
+  },
+  "qa": {
+    "engine_tested": false,
+    "visually_reviewed": true,
+    "rgba_alpha_preserved": true,
+    "canvas_edges_transparent": true,
+    "atlas_crops_match_frames": true,
+    "exact_canonical_start": true,
+    "notes": [
+      "Native source art and final contact sheets inspected.",
+      "Mechanical collapse ground registration fixed at y334; Wisp row registration compensates source sheet layout without per-frame scaling.",
+      "No new PPU or engine integration assumed."
+    ]
+  }
+}

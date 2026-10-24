@@ -1,0 +1,19 @@
+{
+  "purpose": "Completes the recorded glass-only mask extent without changing any artwork or sealed package bytes.",
+  "applies_to_source_archive_sha256": "94c4cab9222cf6f823d70de0c8bc8ddca432532502ffcc541b5a5430a400543b",
+  "native_corrected_file": "source/death_UL_kneel_v01_terminal5_dark_native.png",
+  "native_corrected_sha256": "9693e0197db5c367d06ff9868ea9ae88347bb6de9c534bb552a031a77df51547",
+  "old_recorded_mask_omitted_changed_rgb_pixels": 111,
+  "omitted_change_bbox_xyxy": [
+    636,
+    887,
+    641,
+    912
+  ],
+  "full_mask_file": "qa/death_UL_terminal5_glass_masks.png",
+  "rgb_changes_outside_complete_mask": 0,
+  "alpha_changed_pixels": 0,
+  "visual_scope": "Only chosen terminal cel5 lantern-glass pane and adjacent inner-pane edge darkening. No head, arm, hand, blade, lamp cage silhouette or body pose changed.",
+  "supersedes": "qa/death_UL_terminal5_glass_masks.png extent in the sealed NativeSources archive. The original remains intact as history.",
+  "unchanged_runtime_archive_sha256": "840d1feff54e635219ac4091bf0b6e6cb1941c4844400087ea84fa16cbdd281e"
+}

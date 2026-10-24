@@ -1,3 +1,4 @@
+import { openRepositoryWorkspace } from './repository';
 import { onAsyncExit } from '../scope-exit';
 import path from 'node:path';
 import { shaFile } from './sources';
@@ -19,6 +20,7 @@ export async function acquirePinnedPack(
   scope: AssetScope = 'authoring',
   request: typeof fetch = fetch,
 ) {
+  if (lock.schemaVersion === 5) return openRepositoryWorkspace(lock, scope, false);
   if (lock.schemaVersion !== 4)
     return lock.schemaVersion === 3
       ? ensureBundlePack(lock, cache, request, scope)

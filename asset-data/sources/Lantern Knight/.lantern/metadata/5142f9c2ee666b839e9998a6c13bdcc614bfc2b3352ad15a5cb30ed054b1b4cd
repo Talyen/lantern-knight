@@ -1,0 +1,349 @@
+{
+  "category": "currency",
+  "items": [
+    {
+      "id": "gold_coin_pile",
+      "label": "Gold Coin Pile",
+      "category": "currency",
+      "reference_extent_cm": 12,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__full_native.png",
+          "dimensions": [
+            1540,
+            1021
+          ],
+          "sha256": "9813d831d5902373473896cfe212b531ecc17247e11b982639fd5586f2dccfc2"
+        },
+        "inventory512": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dbf2a49c9793e168ec237765d64d237b7fb363b5d99621cbf4b5c2ff75adffd9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            244,
+            249,
+            268,
+            262
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "cd95118afe42d6f7a9ab5e63a07606598aea4592e5c9827c4008953ec45c1595",
+          "visible_bbox": [
+            121,
+            124,
+            135,
+            132
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "412dc04341eb3094d87a5f123f68224f9d6383886ef0e638c227c6baf92a5f41",
+          "visible_bbox": [
+            32,
+            134,
+            480,
+            377
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "bcfd1797d55e721f3610f3f66e8368cd9a146f3aabbe227d58fd1d5aefae8542",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            33,
+            120,
+            94
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "62411059a897b2920f07abb2b34c32f766ff8e51f4d5e76a1fc02a5ed55ef9e7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            17,
+            60,
+            47
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "3f4de60146a2e6d3d3ed36a90a0c9f9af9a81a1e6893a04121333f7fe5f228d4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            8,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9971509e53fd855cd49d6b456b23730d8feff6c67cacc7bb961bf3ec84926ea7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            206,
+            397,
+            306,
+            450
+          ],
+          "visible_extent": 100
+        },
+        "ground_scaled_512": {
+          "path": "currency/gold_coin_pile/gold_coin_pile__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "87af295b8d88d23594148c5105941d9d1b23dc4792e9984858e4822e4ac35e02",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            438,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_12_coin_purse",
+      "label": "Coin purse",
+      "category": "currency",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "84022edfb3a4c9fde3a90ba2b220be281d683a0cc438e3134b53a43a4dc241e3"
+        },
+        "inventory512": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "68885e006fbf66d61357a8f069fba04a678e056cf91bea72c831a471945026c5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            240,
+            243,
+            272,
+            268
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "445592faddd228a396a00058b47536cab18518fbaa88a753981efa1db4932b40",
+          "visible_bbox": [
+            119,
+            119,
+            136,
+            135
+          ],
+          "visible_extent": 17
+        },
+        "detail512": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b1741b4c03cb1a5f4e426bb9b301769ae66d47d8f3619da0f546048abcd457b5",
+          "visible_bbox": [
+            33,
+            83,
+            480,
+            429
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "3de1c72378af4cfad60826985e04c66a91c13fdfc74ef329e6a35102da055f8f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            21,
+            120,
+            107
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "ca0d53f35d1bd529fae523cc26731c1d0a81dc05abdae994a8c13be2785ffac0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            10,
+            60,
+            53
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "8cecf2396e85c781b0fbc12f50088ad80f89bc3eaa1a0d7e188a7dcf623289c4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5a581ec4da1be366243873bb95225bef761137d41e4a259dedd7d1db2fa9dd4e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            429,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "currency/lantern_concept_item_12_coin_purse/lantern_concept_item_12_coin_purse__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5a581ec4da1be366243873bb95225bef761137d41e4a259dedd7d1db2fa9dd4e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            429,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

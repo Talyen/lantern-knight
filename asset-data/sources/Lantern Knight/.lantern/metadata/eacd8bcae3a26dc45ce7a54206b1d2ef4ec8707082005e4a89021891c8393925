@@ -1,0 +1,278 @@
+{
+  "title": "Additive Cantor camera comparison v02",
+  "created_utc": "2026-10-07",
+  "preview_only": true,
+  "hero_status": "Current ready frame; canonical design approval does not imply user approval of this generated frame.",
+  "scale_policy": "Match neutral projected body spans with ONE uniform scale per clip, then keep that scale for the release. Halo/effects excluded. Not physical calibration or an import prescription.",
+  "actors": [
+    {
+      "name": "Current hero",
+      "short": "HERO",
+      "target_body_span_px": 125,
+      "status": "CURRENT READY REFERENCE",
+      "neutral": {
+        "source": "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_X_DR_native.png",
+        "pivot": [
+          301,
+          556
+        ],
+        "body_ruler_y": [
+          42,
+          609
+        ],
+        "phase": "Ready reference",
+        "frame_id": "ready_world_positive_X_DR_native",
+        "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+        "source_size": [
+          632,
+          688
+        ],
+        "scale": 0.2204585537918871,
+        "ruler_source_frame": "ready_world_positive_X_DR_native",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          152
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_X_DR_native.png",
+        "pivot": [
+          301,
+          556
+        ],
+        "body_ruler_y": [
+          42,
+          609
+        ],
+        "phase": "Ready reference",
+        "frame_id": "ready_world_positive_X_DR_native",
+        "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+        "source_size": [
+          632,
+          688
+        ],
+        "scale": 0.2204585537918871,
+        "ruler_source_frame": "ready_world_positive_X_DR_native",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          152
+        ]
+      },
+      "action": {
+        "source": "lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_positive_X_DR_native.png",
+        "pivot": [
+          301,
+          556
+        ],
+        "body_ruler_y": [
+          42,
+          609
+        ],
+        "phase": "Ready reference",
+        "frame_id": "ready_world_positive_X_DR_native",
+        "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+        "source_size": [
+          632,
+          688
+        ],
+        "scale": 0.2204585537918871,
+        "ruler_source_frame": "ready_world_positive_X_DR_native",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          139,
+          152
+        ]
+      },
+      "notes": [
+        "125 px hair-to-sole; sword excluded.",
+        "Current hero ready frame repeated."
+      ],
+      "title": "CURRENT HERO"
+    },
+    {
+      "name": "Halo-Veil Cantor",
+      "short": "HALO-VEIL CANTOR",
+      "target_body_span_px": 138,
+      "status": "CAMERA UNRESOLVED / MOTION CONCEPT",
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor/frames/drift_veil_breath/drift_veil_breath_01.png",
+        "pivot": [
+          328,
+          595
+        ],
+        "body_ruler_y": [
+          126,
+          578
+        ],
+        "phase": "Low float",
+        "frame_id": "drift_veil_breath_01",
+        "sha256": "7ba1efe5d7810fbf331a18fc8707017e82daf394ce1037fdabe8272d4e594eab",
+        "source_size": [
+          640,
+          640
+        ],
+        "scale": 0.3053097345132743,
+        "ruler_source_frame": "drift_veil_breath_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          195,
+          195
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor/frames/resonant_spell/resonant_spell_01.png",
+        "pivot": [
+          328,
+          595
+        ],
+        "body_ruler_y": [
+          115,
+          550
+        ],
+        "phase": "Rest",
+        "frame_id": "resonant_spell_01",
+        "sha256": "d983b9e6cb8aef29ff59f44fa876ad5c8659736893536090689dcaa2c5a63f1d",
+        "source_size": [
+          640,
+          640
+        ],
+        "scale": 0.31724137931034485,
+        "ruler_source_frame": "resonant_spell_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          203,
+          203
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor/frames/resonant_spell/resonant_spell_04.png",
+        "pivot": [
+          328,
+          595
+        ],
+        "body_ruler_y": null,
+        "phase": "Radiant resonance",
+        "frame_id": "resonant_spell_04",
+        "sha256": "6ac142be1979fab5e1a69d1f27fadbab6fc724b49fbe91723f3aaccb5c487e0f",
+        "source_size": [
+          640,
+          640
+        ],
+        "scale": 0.31724137931034485,
+        "ruler_source_frame": "resonant_spell_01",
+        "scale_policy": "One uniform preview multiplier per clip, estimated once from neutral body ruler. No per-frame fitting.",
+        "preview_canvas_px": [
+          203,
+          203
+        ]
+      },
+      "notes": [
+        "MOTION CONCEPT: frontal/portrait read.",
+        "Halo and pale veil are easy to identify."
+      ],
+      "title": "ORIGINAL CANTOR"
+    },
+    {
+      "name": "Camera-guided Cantor v02",
+      "title": "CAMERA-GUIDED CANTOR v02",
+      "status": "ELEVATED CANDIDATE / APPROXIMATE PROJECTION",
+      "target_body_span_px": 138,
+      "neutral": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor_camera_guided_v02/frames/drift_veil_breath/drift_veil_breath_01.png",
+        "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699",
+        "pivot": [
+          320,
+          608
+        ],
+        "body_ruler_y": [
+          210,
+          530
+        ],
+        "scale": 0.43125,
+        "frame_id": "drift_veil_breath_01",
+        "source_size": [
+          640,
+          640
+        ],
+        "preview_canvas_px": [
+          276,
+          276
+        ]
+      },
+      "action_ready": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor_camera_guided_v02/frames/resonant_spell/resonant_spell_01.png",
+        "sha256": "46ba91c8b9a7196833b7fe53040e9c59e4bb543ff2e4901aac96b205f43e7a2a",
+        "pivot": [
+          320,
+          608
+        ],
+        "body_ruler_y": [
+          190,
+          560
+        ],
+        "scale": 0.372972972972973,
+        "frame_id": "resonant_spell_01",
+        "source_size": [
+          640,
+          640
+        ],
+        "preview_canvas_px": [
+          239,
+          239
+        ]
+      },
+      "action": {
+        "source": "lantern_enemy_animations_20261007/halo_veil_cantor_camera_guided_v02/frames/resonant_spell/resonant_spell_04.png",
+        "sha256": "7d8d36884e17027c4831795d52787fb9d73f1b3caebac6a9713b464e2b683541",
+        "pivot": [
+          320,
+          608
+        ],
+        "body_ruler_y": null,
+        "scale": 0.372972972972973,
+        "frame_id": "resonant_spell_04",
+        "source_size": [
+          640,
+          640
+        ],
+        "preview_canvas_px": [
+          239,
+          239
+        ]
+      }
+    }
+  ],
+  "source_hashes_verified_unchanged": true,
+  "v01_zip_untouched_sha256": "15da608edcd981db2565153979104ba14de1db9dda5a09efc77bf01a1885d079",
+  "camera_target": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "main_viewport": [
+      1920,
+      1080
+    ],
+    "vertical_span_m_reference": 13,
+    "numeric_projection_certification_for_art": false
+  },
+  "source_path_base": "Original task workspace root",
+  "candidate_manifest": "lantern_enemy_animations_20261007/halo_veil_cantor_camera_guided_v02/metadata/animation_manifest.json",
+  "candidate_registration": "Hover: native fixed grid crops + uniform 64 px padding + one shared [0,+24] lower-row translation for cels 4-6. Spell: native fixed grid crops + uniform 64 px padding; no row correction. This comparison adds none.",
+  "anchor_policy": "Keep original source anchor [328,595] and candidate provisional display anchor [320,608]. No per-frame recentering. Vertical gaps are not a physically comparable hover height.",
+  "compositing": "Shared neutral floor, Pillow RGBA Lanczos preview downsampling, 2x nearest-neighbor close magnification. All native alpha and glow retained. No relighting or character edits.",
+  "findings": [
+    "Candidate crown and shoulder top planes read more elevated next to the hero. This does not mathematically certify projection.",
+    "Candidate hover is compact/angular; spell is more flowing/slender. They do not have perfectly matched proportions.",
+    "Candidate release is less explosive and broad than original star-like release; it is an alternative, not unconditional style replacement.",
+    "Projected neutral height normalization separates raw native density from residual shape/pose differences."
+  ],
+  "not_tested": [
+    "Metric world scale",
+    "Engine pivots/root motion",
+    "Animation playback/loop quality",
+    "Materials and lighting integration",
+    "Collision",
+    "Performance"
+  ]
+}

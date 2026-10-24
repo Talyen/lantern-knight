@@ -1,0 +1,189 @@
+{
+  "schema": "lantern.revision02.illustrated-effects",
+  "pack": "materials",
+  "clip_count": 6,
+  "source_fps": 30,
+  "preview_fps": 60,
+  "source_native": "deterministic authored vector paths, editable per-frame SVG; PNGs are direct 3x antialiased renders",
+  "camera": {
+    "elevation": 35.264389682754654,
+    "azimuth": 45,
+    "registration": "fixed; effect roots and ground ellipses registered; contour artwork is art-directed, not a true volumetric renderer"
+  },
+  "clips": [
+    {
+      "id": "cloth_tear_scraps",
+      "family": "cloth_tear_scraps",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 48,
+      "duration_seconds": 1.6,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; illustrative contours",
+      "world_density_px_per_metre": 112,
+      "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "glass_chips",
+      "family": "glass_chips",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; illustrative contours",
+      "world_density_px_per_metre": 112,
+      "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "metal_dent_sparks",
+      "family": "metal_dent_sparks",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 36,
+      "duration_seconds": 1.2,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; illustrative contours",
+      "world_density_px_per_metre": 112,
+      "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "pottery_shards",
+      "family": "pottery_shards",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; illustrative contours",
+      "world_density_px_per_metre": 112,
+      "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "stone_crumble",
+      "family": "stone_crumble",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; illustrative contours",
+      "world_density_px_per_metre": 112,
+      "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "wood_splinter_burst",
+      "family": "wood_splinter_burst",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; illustrative contours",
+      "world_density_px_per_metre": 112,
+      "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    }
+  ]
+}

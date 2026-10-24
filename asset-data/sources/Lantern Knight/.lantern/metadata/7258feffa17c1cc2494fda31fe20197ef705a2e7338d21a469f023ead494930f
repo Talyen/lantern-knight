@@ -1,0 +1,4 @@
+Install the pinned Python packages in source/requirements.txt and make ffmpeg available on PATH, then run: python build.py
+The script rebuilds runtime PNGs, atlases, metadata, hash manifest, review contacts and a DR-rest/state comparison MP4. This state extension requires the previously delivered masked_cultist_runtime.zip for movement and attack. The approved DR rest included here is a still reference, not a new idle animation. Use the same world actor transform and 240 PPU; do not apply baked registration offsets again.
+
+Atlas layout is a 3-by-2 grid. Each cel rectangle is explicit in animation.json. Every rectangle contains at least 4 fully transparent pixels around its art, verified during rebuild; no edge extrusion is applied.

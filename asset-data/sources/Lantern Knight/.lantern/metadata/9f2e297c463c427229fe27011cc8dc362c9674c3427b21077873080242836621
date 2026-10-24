@@ -1,0 +1,39 @@
+{
+  "approved_compact_DR": {
+    "file": "approved_compact_DR.png",
+    "sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699",
+    "drive_runtime_id": "1dAZGl8OVPHbfGz85dcbp67zJle1pOZdR"
+  },
+  "original_details": {
+    "file": "original_material_details.png",
+    "sha256": "03ece8402e7758dd9101a2b0d61216b523d383904535cee6b52fdba71754d131",
+    "drive_source_id": "1CG6Pdmfjn2xZIOqx_R1v722NbNoLDUHs"
+  },
+  "generation": "Six built-in imagegen fresh original-reference calls. Exact approved compact DR and original identity/material detail crops referenced; no old near-frontal wholebody concept, no generative edit cascade, no mirrored directions. New matching move supplemental reference for attacks. Sunburst2.5 is user creative wording, no backend model claim.",
+  "sheets": {
+    "DL_attack.png": {
+      "sha256": "5665820b49a9cd5d38d017e793da54b83da9f313bbba4e724b653b9c5b5d68f9",
+      "prompt": "DL_attack.prompt.txt"
+    },
+    "UL_attack.png": {
+      "sha256": "10ac6eced168fd7de8afc085875785fb7e602747f4d73f187578d6e6e4095d9a",
+      "prompt": "UL_attack.prompt.txt"
+    },
+    "DL_move.png": {
+      "sha256": "f404ccab8fb420a772b5ae7af544b66aaacd809bf43d27ad8e9015005cf6a1a7",
+      "prompt": "DL_move.prompt.txt"
+    },
+    "UR_move.png": {
+      "sha256": "133e080a6546f45e361489b5430883a9e0678103d51b373e365efec1e017d07f",
+      "prompt": "UR_move.prompt.txt"
+    },
+    "UL_move.png": {
+      "sha256": "08e244600468de7731660023783c714a99015875809f351c80ac28dc5c2fd913",
+      "prompt": "UL_move.prompt.txt"
+    },
+    "UR_attack.png": {
+      "sha256": "8cf74738efda60dfdead42a0bf0851fd9cd2b1e6be578834be679c6ffe97ae4a",
+      "prompt": "UR_attack.prompt.txt"
+    }
+  }
+}

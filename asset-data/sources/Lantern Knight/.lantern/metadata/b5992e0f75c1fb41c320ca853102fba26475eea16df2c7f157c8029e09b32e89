@@ -1,0 +1,34 @@
+{
+  "drawings_reviewed": 14,
+  "all_frames_same_canvas": true,
+  "alpha_crop_edges_clear": true,
+  "anatomy": "Two connected arms and two clasped gloved hands; one dagger; no apparent hand swaps or detached weapons. Tiny lighter neckline detail in attack03 is minor design drift.",
+  "glide_review": "Stable recognizable hood/mask and held dagger. Intentional broad backward robe deformation. Source upper-body drift and scale variation remain; source06 to01 has a small loop seam.",
+  "attack_review": "Clear lift, bow, seal press, sharp3-tick wax eruption, falling wax and recovery. Source08 to01 has a small loop seam. Effects are baked in.",
+  "camera_status": "approximate elevated three-quarter; closer to frontal portrait than exact production guide; production camera cleanup deferred",
+  "root_status": "fixed common canvas and authoring pivot, not anatomical root registration. No per-frame correction.",
+  "ordered_review": "All drawings inspected in order on contact boards and native hand/face crops. Encoded video frame rate and frame count verified; tick schedule reviewed. No engine test.",
+  "native_sources": {
+    "ritual_attack_native.png": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "sha256": "4cd79eae1fb0e69070bec30f32e9ce812f57c80f8cf4e98ad73d3901856791cd"
+    },
+    "glide_native.png": {
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sha256": "07284f5ffeb37630fdd26b075752e045471e3ac0590a37865e405b1932b2798b"
+    },
+    "glide_retry_native.png": {
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sha256": "9850fce2ba5b795ec5cd40bf5f6a6aa1948353995b6f087e7f6511524ea93306"
+    }
+  }
+}

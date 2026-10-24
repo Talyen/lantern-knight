@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "legacy_import_schema_aliases_verified": true,
+  "root_and_packaged_registration_byte_identical": true,
+  "reviewer_residuals_in_readme_and_test_metadata": true,
+  "original_keys_byte_identical": true,
+  "atlas_rgba_roundtrips": true,
+  "all_16_distinct": true,
+  "no_art_changes_during_finalization": true,
+  "videos": {
+    "test16_100s.mp4": {
+      "ffprobe": {
+        "codec_name": "h264",
+        "width": 736,
+        "height": 784,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "5.000000",
+        "nb_read_frames": "300"
+      },
+      "all_300_pts_exact_60hz": true,
+      "first_cycle_all_60_decoded_frames_match_expected_held_drawing": true,
+      "decoded_to_source_max_sampled_mean_absolute_rgb_error": 1.8256802558898926
+    },
+    "AB_original8_vs_test16_100s.mp4": {
+      "ffprobe": {
+        "codec_name": "h264",
+        "width": 1472,
+        "height": 784,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "5.000000",
+        "nb_read_frames": "300"
+      },
+      "all_300_pts_exact_60hz": true,
+      "first_cycle_all_60_decoded_frames_match_expected_held_drawing": true,
+      "decoded_to_source_max_sampled_mean_absolute_rgb_error": 1.6916778087615967
+    },
+    "AB_original8_vs_test16_ground_guide.mp4": {
+      "ffprobe": {
+        "codec_name": "h264",
+        "width": 1472,
+        "height": 784,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "5.000000",
+        "nb_read_frames": "300"
+      },
+      "all_300_pts_exact_60hz": true,
+      "first_cycle_all_60_decoded_frames_match_expected_held_drawing": true,
+      "decoded_to_source_max_sampled_mean_absolute_rgb_error": 1.7049689292907715
+    }
+  }
+}

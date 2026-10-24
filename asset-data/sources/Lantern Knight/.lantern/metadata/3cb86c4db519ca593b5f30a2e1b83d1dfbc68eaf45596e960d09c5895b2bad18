@@ -1,0 +1,25 @@
+Requested image model: gpt-image-2.5 sunburst / gpt-image-2.5-sunburst. Highest available quality and maximum supported NATIVE resolution. Do not upscale a lower-resolution image and describe it as native high-resolution artwork.
+
+Create NEW illustrated LANTERN game art: a clean CEL-SHADED PEN AND BRUSH INK DRAWING, NOT a realistic rendered object. Match mature graphic-novel dark-fantasy character art. Confident expressive variable-width black contours, large connected charcoal brush-shadow masses, smoothly filled very limited 3-4 FLAT tones per material. Strong variation between bold silhouette and restrained interior marks. Forceful tapered dark contours, sharply cut broad irregular near-black shadow planes, restrained warm cream or ochre edge highlights, cool slate shadows, muted olive/deep moss foliage. Elegant irregular silhouettes and deliberate asymmetry; purposeful clean ink shadows and strong gameplay readability.
+
+Keep TWO THIRDS of surfaces quiet, smooth and clean, with just a few deliberate descriptive clusters. Material character and age come from a few meaningful angular cuts, tapered bark creases, structural cracks and large designed shape changes, NOT texture sprinkled everywhere. Tactile material through carefully chosen tapered strokes, NOT texture. Large imperfect square-edged chipped limestone forms with clean broad UNTEXTURED cel-shaded faces; large foliage masses and leaflike silhouette scallops rather than tiny leaf confetti.
+
+Absolutely NO boiled texture, grain, flecks, pores, speckles, stipple, mottling, pepper noise, fine hatching, watercolor, photographic surface texture, smooth airbrush fades, glossy 3D shading or shiny bevels. NOT rounded marshmallow blocks, NOT uniform line weight, NOT vector geometry, NOT bland rectangles, NOT a low-poly/faceted rendering. Smooth clean painted ink fills, decisive connected black shadows and sparse selected detail.
+
+For cutouts: genuine transparent RGBA outside the silhouette and inside intended openings; no glow, halo, mist, residual backdrop, ground rectangle or cast-shadow matte. Keep the complete intended object and comfortable transparent margins. For opaque repeatable materials: fill the texture and make its intended repeat edges compatible. No text, labels, logos, UI or borders unless explicitly requested.
+
+GRAVEYARD FLOOR SAMPLE
+
+Create one NEW opaque, full-bleed landscape ground illustration at a 3:2 aspect ratio. This is the floor beneath separately placed characters, gravestones, walls, foliage props and effects, not a complete furnished graveyard scene. Use the style block above unchanged.
+
+Fixed orthographic gameplay view: camera elevation 35.264 degrees above horizontal, azimuth 45 degrees. No horizon, no vanishing point, no dramatic perspective or depth-of-field blur.
+
+Design a mature dark-fantasy graveyard floor: cool dark umber earth, subdued olive ground-cover, worn pale limestone path fragments and a few low exposed roots. A slightly curved main burial path enters from the lower-left and branches toward the upper-left and upper-right. Offset from the junction, leave a broad, naturally shaped clearing for a future mausoleum entrance or encounter POI. Hint at old burial plots with a few quiet elongated changes in soil color, not open graves, raised mounds or objects. Keep the layout asymmetrical and intentional.
+
+The whole frame must feel like cohesive illustrated ground, with connected material shapes and carefully designed transitions. Keep two-thirds of each material's surface smooth and quiet. Concentrate descriptive ink marks around selected path edges, a few stone joints and occasional root creases. No uniform carpet of cracks, tiny leaves, pebbles or grass blades. Avoid both empty flat-color expanses and busy realistic texture.
+
+Human scale is essential: imagine a 1.8-metre character occupying approximately 15% of the image height, but DO NOT draw the character. Ordinary paving fragments are roughly 35–60 cm across, generally about 3–5% of image width. Ground-cover is cropped and low, roughly 5–15 cm high; individual grass accents should usually be less than 1% of image height. No giant paving blocks or waist-high grass. Higher pixel resolution must add cleaner drawing, not enlarge the depicted objects or increase texture density.
+
+Use restrained cool charcoal shadows, muted dark earth, low-saturation olive moss, and soft limestone/ochre accents. Preserve the exact clean cel-shaded ink style. Keep the ground lower-contrast than the characters and props that will sit over it, while still looking fully authored and finished.
+
+GROUND ONLY. No characters, gravestones, headstones, coffins, fences, buildings, statues, upright trees, tall bushes, bones, loot or decorative objects. No standing water, puddles, reflective surfaces, fog, particles, animated effects, traps or hazards. No baked shadows from absent props. No repeated texture pattern, no tile grid, no labels, text, UI, logos or borders.

@@ -1,0 +1,20 @@
+LANTERN — FOUR-DIRECTION READY / RESTRAINED IDLE TEST
+
+CONTENTS
+4 static-ready native PNGs and24 unique full-body idle drawings:6 per heading.
+Transparent native atlases, individual cels, frame timing, common per-clip pivots/PPU, source prompts, shared camera/prop target contracts, and small MP4 previews.
+
+PLAYBACK
+Each idle loops in order00–05 at3fps, about2seconds. These are restrained hand-drawn liveliness with small flame, cloth, line and prop changes. They are not a pronounced inhale/exhale performance. Minor redraw shimmer remains. Static-ready fallback PNGs are supplied for a quieter held cel.
+
+NATIVE PIXELS
+All delivered PNG artwork retains original generated/cropped pixels, with uniform padding. No source image enlargement, mirroring, per-frame fitting or mesh warping. Atlas assembly is lossless placement. Only MP4/gameplay comparison previews downsample for display.
+
+INTEGRATION
+Use one PPU and one pivot per clip from clip.json. Different native densities are mapped to the same approximate world size without resizing assets. Ready sprites use350PPM and top-left pixel pivot(301,556); normalized bottom-left pivots are also supplied. Each clip's single PPU is based on the median body-only projected crown-to-boot-sole span; sword and coat extremities are excluded. These are approximate settings with moderate confidence. The equal-world-size preview was visually checked, but small pose/prop differences remain. Engine state transitions are not certified seamless.
+
+DIRECTIONS AND CAMERA
+DR=world+X; DL=world+Z; UL=world−X; UR=world−Z. Actor yaw is independent of the locked Y-up orthographic camera: elevation35.264389682754654degrees, world azimuth45degrees. Anatomical right always owns sword/short black wrist wrap; anatomical left owns lantern/long brown bracer. Natural prop occlusion in backviews is intentional. The exact camera and prop dimensions are construction targets; generated art is a visual approximation.
+
+QA
+Human-first anatomy, handedness, back-coat design and actual light/dark alpha composites passed independent review. All24 idle cels have clear alpha borders. Ready-only corrections removed a wrong-side patch and incorrectly exposed rear-view sword through bounded traditional editing. Source prompts name the requested Sunburst2.5(gpt-image-2.5-sunburst); backend selection is not independently exposed by the built-in tool.

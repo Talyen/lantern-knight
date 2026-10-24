@@ -1,0 +1,274 @@
+[
+  {
+    "asset_id": "service_cellar_bulkhead_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_cellar_bulkhead_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_cellar_bulkhead_01.png",
+    "sha256": "b4f22b8043990210db5a7f7e1ca6c4c89cffbc1c068c58e05ebea3f4afd28e7a",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_cellar_bulkhead_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      106,
+      33,
+      1522,
+      1002
+    ],
+    "alpha_bounds_ge128": [
+      109,
+      40,
+      1430,
+      999
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98402,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-3afec49d-a4bd-40a5-95a8-d76f768a03e6.png"
+  },
+  {
+    "asset_id": "service_closed_window_shutters_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_closed_window_shutters_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_closed_window_shutters_01.png",
+    "sha256": "6d0570fc9bb1f8eb3d1c2664d645bf4f0db27ffa1f370f77cfb5a4bf67b13729",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_closed_window_shutters_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      77,
+      0,
+      1250,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      215,
+      37,
+      1100,
+      1183
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98112,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-aa4e6973-2739-48f0-ad2f-48e14bbf2625.png"
+  },
+  {
+    "asset_id": "service_masonry_chimney_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_masonry_chimney_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_masonry_chimney_01.png",
+    "sha256": "efba24778fc10164c68ff7d0066f0b6bd424d2187b81dc35842a2556c020e43e",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_masonry_chimney_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      19,
+      832,
+      1503
+    ],
+    "alpha_bounds_ge128": [
+      190,
+      22,
+      828,
+      1500
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97637,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-9929fe4b-ef58-417b-ad00-3490094ae731.png"
+  },
+  {
+    "asset_id": "service_roof_dormer_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_roof_dormer_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_roof_dormer_01.png",
+    "sha256": "c04f82401404cae083da87988256a2d9ffdb33008b37426b61a629a19ed74b31",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_roof_dormer_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      89,
+      16,
+      1236,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      144,
+      19,
+      1188,
+      1173
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97866,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-8e270665-cc47-4585-b444-d8e6682391cf.png"
+  },
+  {
+    "asset_id": "service_squat_water_cistern_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_squat_water_cistern_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_squat_water_cistern_01.png",
+    "sha256": "55aadc989a127a6a8b84692f76946992db0b327600796ebc5f69086c25a32c73",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_squat_water_cistern_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      32,
+      1404,
+      990
+    ],
+    "alpha_bounds_ge128": [
+      258,
+      75,
+      1278,
+      954
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98403,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-76e1ec7a-18a6-4b99-852c-fecbb49ec841.png"
+  },
+  {
+    "asset_id": "service_stone_hearth_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_stone_hearth_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_stone_hearth_01.png",
+    "sha256": "b2f2e5f401da3b2b069ddfd64f34ba8e0bb30763d7ae443d536c2b4d204bcb31",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_stone_hearth_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      63,
+      9,
+      1231,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      83,
+      11,
+      1223,
+      1188
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98555,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-e308ddcb-91db-4cc3-b570-7141dd462a69.png"
+  },
+  {
+    "asset_id": "service_stone_wash_trough_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_stone_wash_trough_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_stone_wash_trough_01.png",
+    "sha256": "1f582d78970d058462b77a18f5006ef175b52643eb4e729c7cf5dbcfb076523a",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_stone_wash_trough_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      69,
+      1456,
+      984
+    ],
+    "alpha_bounds_ge128": [
+      213,
+      72,
+      1416,
+      959
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9792,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-ca474137-b520-477a-9136-d78f813395a5.png"
+  },
+  {
+    "asset_id": "service_wooden_dovecote_01",
+    "pack": "volume_13_service_architecture",
+    "path": "assets/service_wooden_dovecote_01.png",
+    "original_path": "lantern_environment_candidates/volume_13_service_architecture/assets/service_wooden_dovecote_01.png",
+    "sha256": "141b5140154f5591a014d882db51e38775dc1f562254bf6ef8f5138469704f34",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/service_wooden_dovecote_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      11,
+      1010,
+      1536
+    ],
+    "alpha_bounds_ge128": [
+      115,
+      14,
+      909,
+      1501
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96141,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-20e813d4-f63c-4ec7-a66f-f6e78c717cad.png"
+  }
+]

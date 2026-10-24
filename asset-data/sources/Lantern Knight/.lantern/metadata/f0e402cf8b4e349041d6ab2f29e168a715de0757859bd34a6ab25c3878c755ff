@@ -1,0 +1,157 @@
+{
+  "merchant": {
+    "cels": [
+      {
+        "cel": 0,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Rest: left hand rests on cloth; right hand touches jar; two coherent arms."
+      },
+      {
+        "cel": 1,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Lift: right hand grips jar lid/neck; no unsupported jar."
+      },
+      {
+        "cel": 2,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Placement: same right-hand jar, clear elbow and wrist."
+      },
+      {
+        "cel": 3,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Set/inspect: jar rests on table; head dips; no extra hand."
+      },
+      {
+        "cel": 4,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Release: right fingertips beside jar; three jars only."
+      },
+      {
+        "cel": 5,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Return: both arms settle coherently; silhouette continuous."
+      }
+    ],
+    "work_lower_station_identical": true,
+    "all_native_runtime_cels_distinct": true
+  },
+  "smith": {
+    "cels": [
+      {
+        "cel": 0,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Ready: right-hand hammer; left-hand tongs gripping bar."
+      },
+      {
+        "cel": 1,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Lift: hammer handle remains in right fist; natural bent elbow."
+      },
+      {
+        "cel": 2,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Apex: shoulder/elbow/wrist form a plausible overhead strike."
+      },
+      {
+        "cel": 3,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Impact: hammer contacts metal; sparse sparks; tongs stay in left hand."
+      },
+      {
+        "cel": 4,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Recoil: hammer lifted; arm chain intact, no floating tool."
+      },
+      {
+        "cel": 5,
+        "size": [
+          512,
+          512
+        ],
+        "alpha_nonempty": true,
+        "alpha_border_max": 0,
+        "transparent_rgb_cleared": true,
+        "visual_review": "Inspect: hammer low by thigh; tongs continue gripping bar."
+      }
+    ],
+    "work_lower_station_identical": true,
+    "all_native_runtime_cels_distinct": true
+  },
+  "video": {
+    "frames": "720",
+    "frame_rate": "60/1",
+    "duration_seconds": "12.000000"
+  },
+  "limitations": [
+    "Raster camera is an art-direction target, not 3D calibration.",
+    "Small upper-station native illustration variation remains.",
+    "Talk-ready is a held work cel, not a distinct acknowledgement.",
+    "No engine-side import or gameplay test performed."
+  ]
+}

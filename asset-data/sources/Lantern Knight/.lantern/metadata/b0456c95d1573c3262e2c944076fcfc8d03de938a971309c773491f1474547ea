@@ -1,0 +1,23 @@
+{
+  "visual_aid_only": true,
+  "applied_to_sprite_art": false,
+  "source_root": [
+    768,
+    892
+  ],
+  "canvas": [
+    1536,
+    1024
+  ],
+  "display_scale": 0.65,
+  "proposed_distance_standing_heights": 1.8,
+  "standing_reference_px": 504,
+  "direction_degrees_down_right": 10.2039737,
+  "pose_sampling": "Exact integer holds; no interpolated character drawing.",
+  "world_root_sampling": "Piecewise linear between advisory cumulative fractions, evaluated at60Hz solely for this review aid.",
+  "invulnerability": "Undefined, game-owned.",
+  "physics_calibrated": false,
+  "action_repeat_count": 3,
+  "reset_pauses": true,
+  "world_translation_stops_at_first_heel_receipt": true
+}

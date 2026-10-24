@@ -1,0 +1,409 @@
+{
+  "clip": "hit",
+  "direction": "DR",
+  "source": "source/hit_DR_v01_native.png",
+  "output": "delivery/hit_DR",
+  "status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+  "variant": "recoil_and_recovery",
+  "loop": false,
+  "terminal_hold_indefinite": false,
+  "exit": "return to same-direction ready; exact join unverified",
+  "grid": {
+    "columns": 4,
+    "origin": [
+      0,
+      0
+    ],
+    "step": [
+      442,
+      445
+    ],
+    "cell_size": [
+      442,
+      445
+    ],
+    "padding": 96
+  },
+  "component_ownership": true,
+  "excluded_source_cels": {},
+  "runtime_integration": {
+    "ppu": 254.6,
+    "common_pivot_xy": [
+      315,
+      511
+    ],
+    "common_pivot_normalized_bottom_left": [
+      0.4968454258675079,
+      0.19780219780219777
+    ],
+    "shared_ready_ppu": 350,
+    "shared_ready_pivot_xy": [
+      301,
+      556
+    ],
+    "density_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+    "observed_entry_body_height_px": 411,
+    "reference_ready_body_height_px": 565,
+    "registration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review."
+  },
+  "camera_contract": "../contracts/camera_contract.json",
+  "prop_target_contract": "../contracts/shared_prop_contract.json",
+  "guide_facing_normalization_degrees": 0,
+  "limits": [
+    "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+    "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+    "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+    "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified."
+  ],
+  "readme": "LANTERN HIT DR \u2014 recoil_and_recovery.\n8 complete unique native drawings. Presentation at60Hz using unequal integer holds. Complete hit response and recovery; non-looping. \nHuman articulation reviewed by producer, independent reviewer and parent. Native test integration remains approximate; read limitations in clip.json.",
+  "frames": [
+    {
+      "source_cel": 1,
+      "phase": "ready",
+      "hold_ticks_60hz": 3,
+      "observations": {
+        "visible_support_marker_xy": [
+          163,
+          427
+        ],
+        "original_source_marker_xy": [
+          163,
+          427
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 1,
+      "file": "frames/hit_DR_01.png",
+      "source_box": [
+        0,
+        0,
+        442,
+        445
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          259,
+          523
+        ],
+        "original_source_marker_xy": [
+          163,
+          427
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "c24fab96ef0ff9530055f0f28ed114dfde3b80cbb82aad6f496540d9dd11f2bb"
+    },
+    {
+      "source_cel": 2,
+      "phase": "impact snap",
+      "hold_ticks_60hz": 2,
+      "observations": {
+        "visible_support_marker_xy": [
+          152,
+          429
+        ],
+        "original_source_marker_xy": [
+          594,
+          429
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 2,
+      "file": "frames/hit_DR_02.png",
+      "source_box": [
+        442,
+        0,
+        884,
+        445
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          248,
+          525
+        ],
+        "original_source_marker_xy": [
+          594,
+          429
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "8bd5b7686b14ccf7572fcc866a1cf01582b8870c7ad9be417e3dad3967a7f87b"
+    },
+    {
+      "source_cel": 3,
+      "phase": "recoil",
+      "hold_ticks_60hz": 3,
+      "observations": {
+        "visible_support_marker_xy": [
+          140,
+          429
+        ],
+        "original_source_marker_xy": [
+          1024,
+          429
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 3,
+      "file": "frames/hit_DR_03.png",
+      "source_box": [
+        884,
+        0,
+        1326,
+        445
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          236,
+          525
+        ],
+        "original_source_marker_xy": [
+          1024,
+          429
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "e94975d8799ea1d2f642a55daab091e72fa37f62ba49e9e211dd04d2b59c9ec9"
+    },
+    {
+      "source_cel": 4,
+      "phase": "recoil apex",
+      "hold_ticks_60hz": 2,
+      "observations": {
+        "visible_support_marker_xy": [
+          134,
+          429
+        ],
+        "original_source_marker_xy": [
+          1460,
+          429
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 4,
+      "file": "frames/hit_DR_04.png",
+      "source_box": [
+        1326,
+        0,
+        1768,
+        445
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          230,
+          525
+        ],
+        "original_source_marker_xy": [
+          1460,
+          429
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "e9698929da628aeec0f176d461606e11cd137ed3616e2aafd091a3ce04e3551f"
+    },
+    {
+      "source_cel": 5,
+      "phase": "low catch",
+      "hold_ticks_60hz": 2,
+      "observations": {
+        "visible_support_marker_xy": [
+          181,
+          406
+        ],
+        "original_source_marker_xy": [
+          181,
+          851
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 5,
+      "file": "frames/hit_DR_05.png",
+      "source_box": [
+        0,
+        445,
+        442,
+        890
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          277,
+          502
+        ],
+        "original_source_marker_xy": [
+          181,
+          851
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "3b94f7a05dd7161ddaf9bdd339efcc6ab04cadd57e80fbc1e3f14217fa90f184"
+    },
+    {
+      "source_cel": 6,
+      "phase": "rise",
+      "hold_ticks_60hz": 4,
+      "observations": {
+        "visible_support_marker_xy": [
+          156,
+          408
+        ],
+        "original_source_marker_xy": [
+          598,
+          853
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 6,
+      "file": "frames/hit_DR_06.png",
+      "source_box": [
+        442,
+        445,
+        884,
+        890
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          252,
+          504
+        ],
+        "original_source_marker_xy": [
+          598,
+          853
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "bbada29f0d44d4dfa7b010dc7b5c3736f3e4785cba6a8249eefdd6d782036884"
+    },
+    {
+      "source_cel": 7,
+      "phase": "guard recovery",
+      "hold_ticks_60hz": 5,
+      "observations": {
+        "visible_support_marker_xy": [
+          139,
+          415
+        ],
+        "original_source_marker_xy": [
+          1023,
+          860
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 7,
+      "file": "frames/hit_DR_07.png",
+      "source_box": [
+        884,
+        445,
+        1326,
+        890
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          235,
+          511
+        ],
+        "original_source_marker_xy": [
+          1023,
+          860
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "2cf5b8d579b7af95e75976ca3e2318e3e7af4512f70e178de19d3352fabe9db1"
+    },
+    {
+      "source_cel": 8,
+      "phase": "ready settle",
+      "hold_ticks_60hz": 9,
+      "observations": {
+        "visible_support_marker_xy": [
+          130,
+          413
+        ],
+        "original_source_marker_xy": [
+          1456,
+          858
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 8,
+      "file": "frames/hit_DR_08.png",
+      "source_box": [
+        1326,
+        445,
+        1768,
+        890
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          226,
+          509
+        ],
+        "original_source_marker_xy": [
+          1456,
+          858
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "near boot sole approximate point",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "2b80ec28521d11214ec2966f55fb0c55179ed6650f54fe7ef6864cb656de89ba"
+    }
+  ],
+  "native_cell_size": [
+    634,
+    637
+  ],
+  "source_size": [
+    1768,
+    889
+  ],
+  "source_sha256": "fbb1b63d09f251dbc7ed53f921fd34728e9d982f5a27fd5f1050b8d580ab9717",
+  "native_drawings": 8,
+  "total_ticks_60hz": 30,
+  "duration_seconds": 0.5,
+  "world_forward": [
+    1,
+    0,
+    0
+  ],
+  "operations": [
+    "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+    "Uniform transparent padding",
+    "Native atlas reassembly",
+    "Native-pixel preview compositing"
+  ],
+  "resized": false,
+  "mirrored": false,
+  "interpolated": false,
+  "source_backend": "Built-in image_gen; requested Sunburst2.5(gpt-image-2.5-sunburst) phrase included. Backend selection not verified.",
+  "camera_claim_limit": "Deterministic reference camera is exact; generated art is visually approximate and requires human review."
+}

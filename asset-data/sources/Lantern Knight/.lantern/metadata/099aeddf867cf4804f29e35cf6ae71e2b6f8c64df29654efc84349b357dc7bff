@@ -1,0 +1,73 @@
+{
+  "design": "Wickwake / Lantern Concept C",
+  "source_art": "Original flat vector geometry; no raster textures or random noise",
+  "media": [
+    {
+      "filename": "Lantern_C_Wickwake_Preview.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "avg_fps": "60/1",
+      "duration": 8.0,
+      "frames": 480,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "bytes": 791970
+    },
+    {
+      "filename": "Lantern_C_Wickwake_Intro.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "avg_fps": "60/1",
+      "duration": 2.0,
+      "frames": 120,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "bytes": 305324
+    },
+    {
+      "filename": "Lantern_C_Wickwake_Hold_Loop.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "avg_fps": "60/1",
+      "duration": 4.0,
+      "frames": 240,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "bytes": 346242
+    },
+    {
+      "filename": "Lantern_C_Wickwake_Complete.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "avg_fps": "60/1",
+      "duration": 2.0,
+      "frames": 120,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "bytes": 134800
+    }
+  ],
+  "source_loop": {
+    "mathematical_endpoint_identical": true,
+    "start_sha256": "cc9c41b1b2767bfaf17cf1f2bea4bd2f9e190f7b3b35eea790b9ff457c9f2543",
+    "end_sha256": "cc9c41b1b2767bfaf17cf1f2bea4bd2f9e190f7b3b35eea790b9ff457c9f2543",
+    "wrap_step_full_frame_mae": 0.04782130111882716,
+    "first_step_full_frame_mae": 0.048579041280864196,
+    "completion_join_identical": true
+  },
+  "source_joins": {
+    "intro_to_loop_mae": 0.04782130111882716,
+    "loop_to_complete_mae": 0.04782130111882716
+  },
+  "decoded_hold": {
+    "frames": 240,
+    "unique_frames": 240,
+    "all_frames_unique": true
+  },
+  "svg_raster_assets": 0,
+  "passed": true
+}

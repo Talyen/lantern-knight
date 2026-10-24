@@ -1,0 +1,219 @@
+[
+  {
+    "id": "lantern_npc_concept_01_foundry_smith",
+    "name": "Foundry smith",
+    "audit_verdict": "selective repair",
+    "audit_direction": "Practical silhouette; face/apron too evenly clean. Sharpen work-worn folds and ink hands without adding dirt texture.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/01_foundry_smith.png",
+    "revised_image": "packs/02_townsfolk_01/assets/01_foundry_smith.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/01_foundry_smith.png",
+    "sha256": "9a0925094a7a143e3a108905eedb05b31362ed8816d2899724b363304a1df426",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      355,
+      62,
+      1046,
+      1174
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_npc_concept_02_roadside_herbalist",
+    "name": "Roadside herbalist",
+    "audit_verdict": "keep",
+    "audit_direction": "Hunched herbalist and large pale apron read well; retain warm civilian contrast.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/02_roadside_herbalist.png",
+    "revised_image": "packs/02_townsfolk_01/assets/02_roadside_herbalist.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/02_roadside_herbalist.png",
+    "sha256": "27ad95dd1b9c75bf23ef25462ae4feeed57c2e75061ca87f8760528624f4cf2b",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      315,
+      80,
+      972,
+      1163
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_npc_concept_03_river_ferryman",
+    "name": "River ferryman",
+    "audit_verdict": "selective repair",
+    "audit_direction": "Very narrow low-detail body and long pole; camera is more upright than peers, enlarge key hat/arm shapes.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/03_river_ferryman.png",
+    "revised_image": "packs/02_townsfolk_01/assets/03_river_ferryman.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/03_river_ferryman.png",
+    "sha256": "9ad65d0f956ac0890e95469b2d29848f24b684d4dbf739625a5d477b0c95c5af",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      447,
+      47,
+      810,
+      1195
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_npc_concept_04_court_astrologer",
+    "name": "Court astrologer",
+    "audit_verdict": "keep",
+    "audit_direction": "Good angular collar and long coat with ivory/burgundy separation; preserve.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/04_court_astrologer.png",
+    "revised_image": "packs/02_townsfolk_01/assets/04_court_astrologer.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/04_court_astrologer.png",
+    "sha256": "9ad436cc0fc6e5ffa0179dc62669c39d44c7d02d89140e65c7b91c39148cf7a2",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      403,
+      43,
+      844,
+      1209
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_npc_concept_05_key_steward",
+    "name": "Key steward",
+    "audit_verdict": "selective repair",
+    "audit_direction": "Pleasant clean silhouette but face and jacket are generic; make keys and coat shadow more deliberate.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/05_key_steward.png",
+    "revised_image": "packs/02_townsfolk_01/assets/05_key_steward.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/05_key_steward.png",
+    "sha256": "6d4bc241d28c59535727136bddb52c3c449a6bb6d27d6abf74289879c987a98e",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      395,
+      39,
+      901,
+      1228
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_npc_concept_06_clockwork_tinker",
+    "name": "Clockwork tinker",
+    "audit_verdict": "rebuild",
+    "audit_direction": "Round smiling mascot proportions, plush shading and modern-looking adjustable wrench strongly mismatch RUST; keep role and clockwork bird, redesign figure.",
+    "status": "REBUILT \u2014 fresh ink drawing",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_townsfolk_01/assets/06_clockwork_tinker.png",
+    "revised_image": "packs/02_townsfolk_01/assets/06_clockwork_tinker.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/characters/source/06_clockwork_tinker.png",
+    "sha256": "5203dccf6432e0a286e498604dee445dd07865fe1f856d313ac7a5df7c46fdb5",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      354,
+      37,
+      1057,
+      1227
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated",
+    "padded_import": {
+      "id": "lantern_npc_concept_06_clockwork_tinker",
+      "native_asset": "packs/02_townsfolk_01/assets/06_clockwork_tinker.png",
+      "padded_asset": "import_padded/02_townsfolk_01/06_clockwork_tinker.png",
+      "native_canvas": [
+        1254,
+        1254
+      ],
+      "padded_canvas": [
+        1254,
+        1382
+      ],
+      "source_offset_xy": [
+        0,
+        59
+      ],
+      "added_padding_ltrb": [
+        0,
+        59,
+        0,
+        69
+      ],
+      "visible_bounds_alpha_gt_16_native": [
+        354,
+        37,
+        1057,
+        1227
+      ],
+      "visible_bounds_alpha_gt_16_padded": [
+        354,
+        96,
+        1057,
+        1286
+      ],
+      "provisional_ground_pivot_native_px": [
+        705.5,
+        1227
+      ],
+      "provisional_ground_pivot_padded_px": [
+        705.5,
+        1286
+      ],
+      "ground_pivot_shift_xy": [
+        0,
+        59
+      ],
+      "provisional_ground_pivot_padded_normalized": [
+        0.5625996810207337,
+        0.9305354558610709
+      ],
+      "pivot_caveat": "Bottom-center of visible bounds is a provisional import anchor, not a certified ground/rig pivot; especially review hovering or flying creatures.",
+      "pixel_preservation_verified": true,
+      "operation": "Pure transparent canvas extension; no crop, resampling, recoloring, matte extraction or alpha modification",
+      "sha256": "03dfc9c4663f192d58b4bc05552516ac3b27793d3a503b073415ddf5a9e12b36"
+    }
+  }
+]

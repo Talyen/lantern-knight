@@ -1,0 +1,32 @@
+{
+  "unique_rgba_hashes": 8,
+  "all_rgba": true,
+  "all_bounds_inside_canvas": true,
+  "native_source_pixels_preserved_frames_1_to_7": true,
+  "output_pixels_upscaled": false,
+  "manual_visual_review": "Passed: all eight native frames; independent source and assembled registration review; parent contact sheet review.",
+  "first_frame_source": "Original shipped static, downsampled0.716; not byte-identical native1024asset",
+  "terminal_frame_matches_debris_file": true,
+  "atlas_cells_match_frames": true,
+  "terminal_rgba_matches_persistent_file": true,
+  "review_video": {
+    "resolution": [
+      1024,
+      1024
+    ],
+    "fps": 60,
+    "frame_count": 129,
+    "duration_seconds": 2.15,
+    "loop": false,
+    "initial_review_hold_ticks": 12,
+    "terminal_review_hold_ticks": 90
+  },
+  "all_eight_frames_visually_reviewed_native": true,
+  "independent_registration_review": {
+    "body_scale_transition": "Compatible; no material scale pop",
+    "stationary_foot_ring": "Ground region about y822\u2013829; settle remains anchored",
+    "native_source_rgba": "All visible pixels preserved cels1\u20137 at integer placement",
+    "clipping": "Transparent output borders; no neighbor fragments",
+    "method": "Ordered native stills and encoded video metadata, not real-time playback"
+  }
+}

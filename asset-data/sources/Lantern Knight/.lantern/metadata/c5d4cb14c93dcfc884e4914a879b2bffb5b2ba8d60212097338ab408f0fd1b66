@@ -1,0 +1,259 @@
+{
+  "type": "character",
+  "name": "Orchard Feral Boar",
+  "canvas_px": [
+    384,
+    384
+  ],
+  "pivot_px": [
+    192,
+    320
+  ],
+  "pixels_per_unit": 160,
+  "directions": {
+    "DR": {
+      "clips": {
+        "idle": {
+          "frames": [
+            "frames/DR/00.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": true
+        },
+        "move": {
+          "frames": [
+            "frames/DR/01.png",
+            "frames/DR/02.png"
+          ],
+          "holds_ticks": [
+            8,
+            8
+          ],
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "frames/DR/03.png",
+            "frames/DR/04.png",
+            "frames/DR/05.png"
+          ],
+          "holds_ticks": [
+            30,
+            6,
+            18
+          ],
+          "loop": false,
+          "markers": [
+            {
+              "id": "contact",
+              "atMs": 500
+            }
+          ]
+        },
+        "hit": {
+          "frames": [
+            "frames/DR/06.png"
+          ],
+          "holds_ticks": [
+            12
+          ],
+          "loop": false
+        },
+        "defeat": {
+          "frames": [
+            "frames/DR/07.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": false
+        }
+      }
+    },
+    "DL": {
+      "clips": {
+        "idle": {
+          "frames": [
+            "frames/DL/00.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": true
+        },
+        "move": {
+          "frames": [
+            "frames/DL/01.png",
+            "frames/DL/02.png"
+          ],
+          "holds_ticks": [
+            8,
+            8
+          ],
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "frames/DL/03.png",
+            "frames/DL/04.png",
+            "frames/DL/05.png"
+          ],
+          "holds_ticks": [
+            30,
+            6,
+            18
+          ],
+          "loop": false,
+          "markers": [
+            {
+              "id": "contact",
+              "atMs": 500
+            }
+          ]
+        },
+        "hit": {
+          "frames": [
+            "frames/DL/06.png"
+          ],
+          "holds_ticks": [
+            12
+          ],
+          "loop": false
+        },
+        "defeat": {
+          "frames": [
+            "frames/DL/07.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": false
+        }
+      }
+    },
+    "UL": {
+      "clips": {
+        "idle": {
+          "frames": [
+            "frames/UL/00.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": true
+        },
+        "move": {
+          "frames": [
+            "frames/UL/01.png",
+            "frames/UL/02.png"
+          ],
+          "holds_ticks": [
+            8,
+            8
+          ],
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "frames/UL/03.png",
+            "frames/UL/04.png",
+            "frames/UL/05.png"
+          ],
+          "holds_ticks": [
+            30,
+            6,
+            18
+          ],
+          "loop": false,
+          "markers": [
+            {
+              "id": "contact",
+              "atMs": 500
+            }
+          ]
+        },
+        "hit": {
+          "frames": [
+            "frames/UL/06.png"
+          ],
+          "holds_ticks": [
+            12
+          ],
+          "loop": false
+        },
+        "defeat": {
+          "frames": [
+            "frames/UL/07.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": false
+        }
+      }
+    },
+    "UR": {
+      "clips": {
+        "idle": {
+          "frames": [
+            "frames/UR/00.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": true
+        },
+        "move": {
+          "frames": [
+            "frames/UR/01.png",
+            "frames/UR/02.png"
+          ],
+          "holds_ticks": [
+            8,
+            8
+          ],
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "frames/UR/03.png",
+            "frames/UR/04.png",
+            "frames/UR/05.png"
+          ],
+          "holds_ticks": [
+            30,
+            6,
+            18
+          ],
+          "loop": false,
+          "markers": [
+            {
+              "id": "contact",
+              "atMs": 500
+            }
+          ]
+        },
+        "hit": {
+          "frames": [
+            "frames/UR/06.png"
+          ],
+          "holds_ticks": [
+            12
+          ],
+          "loop": false
+        },
+        "defeat": {
+          "frames": [
+            "frames/UR/07.png"
+          ],
+          "holds_ticks": [
+            60
+          ],
+          "loop": false
+        }
+      }
+    }
+  }
+}

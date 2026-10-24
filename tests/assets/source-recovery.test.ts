@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
 
-test('external source recovery survives reorganization through normal readers and source health checks', () => {
+test('owned source recovery enforces confinement and preserves identity through local moves', () => {
   execFileSync('python3', ['-B', path.join(projectRoot, 'tests/assets/source_recovery.py')], {
     cwd: projectRoot,
     stdio: 'pipe',
@@ -16,7 +16,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import { pathToFileURL } from 'node:url';
 
-test('TypeScript tooling reads recover a renamed library and sidecar without a relink step', async () => {
+test('TypeScript tooling recovers owned moves and rejects cached external sources', async () => {
   const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-source-entry-')),
     home = await fs.realpath(tmp);
   try {
@@ -48,13 +48,18 @@ test('TypeScript tooling reads recover a renamed library and sidecar without a r
    const location={root:${JSON.stringify(root)},indexPath:${JSON.stringify(indexPath)}};
    const read=()=>readLibrarySource('collection/README_Import.txt','ink-collection-01',location);
    const before=await read();
-   const library=process.env.ASSET_LIBRARY_ROOT,renamed=path.join(process.env.HOME,'Documents','Reorganized');
-   await fs.rename(library,renamed);
-   await fs.rename(path.join(renamed,'2d Assets','Lantern Knight','README_Import.txt'),path.join(renamed,'renamed-sidecar.data'));
+   await fs.rename(path.join(location.root,'README_Import.txt'),path.join(location.root,'renamed-sidecar.data'));
    const after=await read();
-   if(!before.equals(after))throw new Error('Preparation source bytes changed after reorganization');
+   if(!before.equals(after))throw new Error('Source bytes changed after an owned move');
    const concurrent=await Promise.all(Array.from({length:4},()=>read()));
    if(concurrent.some(data=>!data.equals(before)))throw new Error('Concurrent preparation reads differ');
+   const library=process.env.ASSET_LIBRARY_ROOT,renamed=path.join(process.env.HOME,'Documents','Reorganized');
+   await fs.rename(library,renamed);
+   let rejected=false;try{await read();}catch{rejected=true;}
+   if(!rejected)throw new Error('Reader escaped its owned root to recover an external source');
+   await fs.mkdir(location.root,{recursive:true});
+   await fs.writeFile(path.join(location.root,'README_Import.txt'),before);
+   if(!(await read()).equals(before))throw new Error('Explicitly restored source did not recover');
    console.log(createHash('sha256').update(after).digest('hex'));
   `;
     const result = execFileSync(

@@ -1,0 +1,241 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "asset": "tied_grain_sack",
+  "animation": "open_tear",
+  "loop": false,
+  "playback": "play_once_then_hold_last",
+  "alpha": "straight",
+  "color_space": "sRGB",
+  "canvas": {
+    "width": 512,
+    "height": 576
+  },
+  "pivot_px": {
+    "x": 256,
+    "y": 450,
+    "origin": "top_left"
+  },
+  "pivot_normalized": {
+    "x": 0.5,
+    "y": 0.21875,
+    "origin": "bottom_left"
+  },
+  "atlas": {
+    "file": "tied_grain_sack_atlas_5x2.png",
+    "columns": 5,
+    "rows": 2,
+    "cell_width": 512,
+    "cell_height": 576,
+    "padding": 0
+  },
+  "duration_ms": 850,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/00.png",
+      "duration_ms": 100,
+      "start_ms": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        76,
+        57,
+        436,
+        451
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/01.png",
+      "duration_ms": 55,
+      "start_ms": 100,
+      "rect": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        70,
+        72,
+        444,
+        451
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/02.png",
+      "duration_ms": 50,
+      "start_ms": 155,
+      "rect": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        70,
+        100,
+        438,
+        450
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/03.png",
+      "duration_ms": 55,
+      "start_ms": 205,
+      "rect": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        73,
+        62,
+        463,
+        451
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/04.png",
+      "duration_ms": 65,
+      "start_ms": 260,
+      "rect": {
+        "x": 2048,
+        "y": 0,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        70,
+        70,
+        459,
+        451
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/05.png",
+      "duration_ms": 75,
+      "start_ms": 325,
+      "rect": {
+        "x": 0,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        80,
+        121,
+        453,
+        450
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/06.png",
+      "duration_ms": 85,
+      "start_ms": 400,
+      "rect": {
+        "x": 512,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        69,
+        191,
+        442,
+        451
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/07.png",
+      "duration_ms": 95,
+      "start_ms": 485,
+      "rect": {
+        "x": 1024,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        69,
+        185,
+        443,
+        451
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/08.png",
+      "duration_ms": 110,
+      "start_ms": 580,
+      "rect": {
+        "x": 1536,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        68,
+        188,
+        444,
+        451
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/09.png",
+      "duration_ms": 160,
+      "start_ms": 690,
+      "rect": {
+        "x": 2048,
+        "y": 576,
+        "w": 512,
+        "h": 576
+      },
+      "bounds_alpha_px": [
+        69,
+        185,
+        443,
+        451
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "loot_release",
+      "frame": 4,
+      "time_ms": 260,
+      "payload": null,
+      "trigger": "once_on_enter_frame"
+    }
+  ],
+  "states": {
+    "intact": "states/intact.png",
+    "persistent_empty": "states/empty_persistent.png"
+  },
+  "reward_policy": "No rewards or grain are drawn. Game creates its own drops from one generic loot_release event.",
+  "import": {
+    "texture_type": "Sprite (2D and UI)",
+    "mesh": "Full Rect",
+    "filter": "Bilinear",
+    "mipmaps": false,
+    "compression": "None",
+    "pixels_per_unit": 100
+  },
+  "source_native_sheet_px": [
+    1536,
+    1024
+  ],
+  "artwork_note": "New image-generated illustrated cels; exact approved original used for intact and pre-impact frames. Mechanical extraction, alpha cleanup, registration and subtle squash only. No upscaling."
+}

@@ -1,0 +1,8 @@
+{
+  "inbetween_master_01.png": "Rejected: wrong scale and B3/B7 poses",
+  "inbetween_master_02.png": "Selected B1,B2,B4,B5,B6,B8 only",
+  "critical_pair_03.png": "Rejected: wide stride and near-coat patch regression",
+  "b7_04.png": "Selected B7",
+  "b3_05.png": "Rejected: far bracer wrong",
+  "b3_06.png": "Selected B3"
+}

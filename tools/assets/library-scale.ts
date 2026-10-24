@@ -104,13 +104,18 @@ export function libraryFrameScales(asset: ScaleAsset, recipe: LibraryScaleRecipe
   const { baseline, notes, clips, frames } = review;
   return actorFrameScales({ baseline, notes, clips, frames }, scaleClips(asset));
 }
-export function validateScaleCoverage(assets: readonly ScaleAsset[], value: unknown) {
+export function validateScaleCoverage(
+  assets: readonly ScaleAsset[],
+  value: unknown,
+  activeAssets?: ReadonlySet<string>,
+) {
   const recipe = LibraryScaleSchema.parse(value);
   const required = enemyScaleAssets(assets);
   for (const asset of required)
     if (!Object.hasOwn(recipe.assets, asset.id))
       throw new Error('Enemy animation needs scale review: ' + asset.id);
   for (const id of Object.keys(recipe.assets)) {
+    if (activeAssets && !activeAssets.has(id)) continue;
     const asset = assets.find((asset) => asset.id === id);
     if (!asset) throw new Error('Unknown actor scale asset: ' + id);
     libraryFrameScales(asset, recipe);

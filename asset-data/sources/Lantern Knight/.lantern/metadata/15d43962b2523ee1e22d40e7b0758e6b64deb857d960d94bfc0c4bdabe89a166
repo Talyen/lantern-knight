@@ -1,0 +1,104 @@
+{
+  "all_frames_512_rgba": true,
+  "frame_count": 24,
+  "terminal_fully_clear": true,
+  "nonempty_drawn_frame_count": 23,
+  "unique_drawn_frame_count": 23,
+  "expected_drawn_frames": 23,
+  "source_has_transparent_pixels": true,
+  "source_cut_alpha_pixels": 0,
+  "output_clipped_alpha_pixels": 0,
+  "minimum_output_margin_pixels": 79,
+  "one_contact_event_per_timeline": true,
+  "shared_contact_source_index": 15,
+  "no_per_frame_bbox_recentering": true,
+  "apng": {
+    "enemy": {
+      "path": "enemy_rgba.apng",
+      "frames": 24,
+      "durations_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        40,
+        90,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        350
+      ],
+      "duration_ms": 1670,
+      "play_count": 1,
+      "loop_forever": false
+    },
+    "hero": {
+      "path": "hero_rgba.apng",
+      "frames": 14,
+      "durations_ms": [
+        30,
+        30,
+        30,
+        30,
+        40,
+        90,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        350
+      ],
+      "duration_ms": 950,
+      "play_count": 1,
+      "loop_forever": false
+    }
+  },
+  "mp4": {
+    "enemy": {
+      "path": "enemy_preview.mp4",
+      "fps": 200,
+      "frames": 1002,
+      "duration_ms": 5010,
+      "width": 512,
+      "height": 584,
+      "cycles": 3
+    },
+    "hero": {
+      "path": "hero_preview.mp4",
+      "fps": 200,
+      "frames": 570,
+      "duration_ms": 2850,
+      "width": 512,
+      "height": 584,
+      "cycles": 3
+    }
+  },
+  "original_source_prompt_provenance_unchanged": true,
+  "critical_pass": true,
+  "warnings": [],
+  "pixel_identity_verification": {
+    "atlas_matches_all_png_frames": true,
+    "apng_matches_selected_png_frames": {
+      "enemy": true,
+      "hero": true
+    },
+    "terminal_png_and_apng_clear": true
+  }
+}

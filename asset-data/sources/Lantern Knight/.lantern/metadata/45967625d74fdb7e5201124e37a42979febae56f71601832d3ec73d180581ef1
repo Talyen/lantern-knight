@@ -1,0 +1,21 @@
+LANTERN — FOUR TRUE-HEADING SWEEP NATIVE TESTS
+
+Four complete ready-to-ready tests: world+X/down-right, world+Z/down-left, world−X/up-left, world−Z/up-right. Each uses nine unique drawings. Repeated ready or recovery cels are not additional drawings. No hero mirroring.
+
+OPEN
+preview/sweep_four_directions_playable.html is a self-contained offline player with direction, replay, speed and scrub controls. Gameplay view uses the13m vertical span; close-up changes viewing size only. preview/sweep_four_directions_equal_worldsize.mp4 shows all four at matching approximate world size.
+
+IMPORT
+Each clips/<direction>/animation.json uses the same drawing/timeline schema. Sprite files, per-texture pixels_per_unit, image dimensions and pivots in both top-left pixels and normalized bottom-left coordinates are provided. Play the timed drawing IDs once and hold the final ready. Keep ready and action textures separate when their sampling densities differ. Do not apply one PPU to every texture indiscriminately.
+
+The new+Z,−X,−Z action pixels were cropped and placed by integer translation only. Their one global sampling density is243,258 and220PPU respectively; shared ready uses nominal350PPU. Native action atlases are separate from ready. The earlier+X runtime uses350PPU with uniform whole-source registration from higher-resolution individual drawings; its original natives are included. Neither method uses anatomical deformation.
+
+CAMERA
+Orthographic, elevation35.264389682754654degrees, world bearing45degrees, Y-up. Gameplay vertical span13m / orthographic size6.5. These are guide contracts; generated art adherence is visually approximate.
+
+QUALITY / LIMITS
+Selected poses were reviewed first as ordinary, believable human movement. A failed detached-sword sheet and doubtful high-lantern cel are excluded. The +Z repeated horizontal recovery cel softens the large arm return; its chamber remains visually crowded at sword/lantern hand. The −X direct return is coarse but preferable to the rejected knee re-lift trial. −Z has a small final foot/hip settle. Minor native shape, footprint, costume and prop variation remains.
+
+The up-left ready sword is fully hidden behind the coat along its projected far-side wrist-to-tip segment. Complete occlusion is physically defensible, though unseen pixels cannot prove a drawing. The +X test still uses its earlier approved ready source; it was not silently swapped for the later directional-ready sheet.
+
+No combat hitboxes or event timings are included. Clip durations are provisional visual timings. The offline player logic was tested; a browser visual playback test was unavailable in the execution environment. MP4 decoding and ZIP integrity were checked.

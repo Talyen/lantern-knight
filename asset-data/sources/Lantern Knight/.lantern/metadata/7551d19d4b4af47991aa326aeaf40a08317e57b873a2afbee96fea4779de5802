@@ -1,0 +1,468 @@
+{
+  "name": "Mourning Moth",
+  "reference": {
+    "id": "BT03",
+    "sha256": "e71d196ee30ef3ae2e95efc8aaee2f4a1111a9d1f783abf080769737b67137b5"
+  },
+  "scope": "DR hit and defeat extension only; baseline untouched",
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation"
+  },
+  "facing": "DR screen lower-right three-quarter",
+  "world_root": "engine-owned; stabilized drawing offsets already baked; do not reapply",
+  "clips": {
+    "hit": {
+      "loop": false,
+      "holds_60hz": [
+        4,
+        5,
+        7,
+        6,
+        7,
+        10
+      ],
+      "frames": [
+        "hit_00.png",
+        "hit_01.png",
+        "hit_02.png",
+        "hit_03.png",
+        "hit_04.png",
+        "hit_05.png"
+      ],
+      "end_behavior": "return_to_baseline_move",
+      "events": [
+        {
+          "frame": 0,
+          "name": "hit_visual_start",
+          "visual_only": true
+        }
+      ],
+      "atlas": "hit_atlas.png",
+      "atlas_rects": [
+        {
+          "frame": "hit_00.png",
+          "x": 4,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_01.png",
+          "x": 780,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_02.png",
+          "x": 1556,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_03.png",
+          "x": 4,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_04.png",
+          "x": 780,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_05.png",
+          "x": 1556,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        }
+      ],
+      "atlas_gutter_pixels": 4
+    },
+    "defeat": {
+      "loop": false,
+      "holds_60hz": [
+        6,
+        8,
+        10,
+        10,
+        14,
+        26
+      ],
+      "frames": [
+        "defeat_00.png",
+        "defeat_01.png",
+        "defeat_02.png",
+        "defeat_03.png",
+        "defeat_04.png",
+        "defeat_05.png"
+      ],
+      "end_behavior": "hold_final_remnant",
+      "events": [
+        {
+          "frame": 0,
+          "name": "defeat_visual_start",
+          "visual_only": true
+        }
+      ],
+      "atlas": "defeat_atlas.png",
+      "atlas_rects": [
+        {
+          "frame": "defeat_00.png",
+          "x": 4,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_01.png",
+          "x": 780,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_02.png",
+          "x": 1556,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_03.png",
+          "x": 4,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_04.png",
+          "x": 780,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_05.png",
+          "x": 1556,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        }
+      ],
+      "atlas_gutter_pixels": 4
+    }
+  },
+  "png_sha256": {
+    "hit_00.png": "eb52da1be86cb3b33bec2105fd0de2a4dd9c373929b100306297729e55611f52",
+    "hit_01.png": "d067bcf2d4e11b1d63bf5172bf7394cc2f67612d6fdd427a8172e7fc60313786",
+    "hit_02.png": "cb8d4c7ec7ff4cfba446fd032d526eba476549ea4045934715019c785f2271ed",
+    "hit_03.png": "2c95dc81db67a625e90057157b67a500afdf97a9939d3f1ea1a637d90700813f",
+    "hit_04.png": "16b8902308883e31e01802cc05c358d5f0a3b61a2263efa0e2c00f7b94c43d94",
+    "hit_05.png": "0a9dd2c04e64bcc1ae5aed1d8d4ef527b4ee55211e96c880c4d4ad497f313c7b",
+    "defeat_00.png": "804e720a939984247eac6e5819389254ef6e3b5f19c29a7121868ab9a5fd73fa",
+    "defeat_01.png": "74c835f95167911da02a12c46b3df6e0c1299627b7be6e719462edb946c80d2f",
+    "defeat_02.png": "8a296dff4a18b176aa62041ef2144fe169fd4a3d2cd2908f251aeffd0eca554a",
+    "defeat_03.png": "fe7ea3f0ceb44e555ee5a5f2ed7c4dc304dfe2486cdb1785ba75a11c971ca631",
+    "defeat_04.png": "8953cbd8c46896c61e6df34c27ae5fbf3b3e9912785f6f44b14aedafad11b2ff",
+    "defeat_05.png": "29c9ee86b184de9be92b99c2324829fcdf062a2f6ce0f1716b9784691409cee4"
+  },
+  "processing": {
+    "hit": [
+      {
+        "native_bbox": [
+          71,
+          22,
+          518,
+          501
+        ],
+        "native_anchor": [
+          393,
+          499
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          235,
+          197
+        ],
+        "output_bbox": [
+          235,
+          197,
+          593,
+          580
+        ]
+      },
+      {
+        "native_bbox": [
+          536,
+          183,
+          1024,
+          496
+        ],
+        "native_anchor": [
+          968,
+          491
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          147,
+          333
+        ],
+        "output_bbox": [
+          147,
+          333,
+          537,
+          583
+        ]
+      },
+      {
+        "native_bbox": [
+          1165,
+          243,
+          1502,
+          504
+        ],
+        "native_anchor": [
+          1440,
+          500
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          273,
+          373
+        ],
+        "output_bbox": [
+          273,
+          373,
+          543,
+          582
+        ]
+      },
+      {
+        "native_bbox": [
+          61,
+          530,
+          487,
+          979
+        ],
+        "native_anchor": [
+          415,
+          975
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          210,
+          223
+        ],
+        "output_bbox": [
+          210,
+          223,
+          551,
+          582
+        ]
+      },
+      {
+        "native_bbox": [
+          521,
+          607,
+          1019,
+          964
+        ],
+        "native_anchor": [
+          939,
+          960
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          159,
+          297
+        ],
+        "output_bbox": [
+          159,
+          297,
+          557,
+          583
+        ]
+      },
+      {
+        "native_bbox": [
+          1025,
+          585,
+          1513,
+          986
+        ],
+        "native_anchor": [
+          1424,
+          983
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          174,
+          261
+        ],
+        "output_bbox": [
+          174,
+          261,
+          564,
+          582
+        ]
+      }
+    ],
+    "defeat": [
+      {
+        "native_bbox": [
+          37,
+          41,
+          543,
+          518
+        ],
+        "native_anchor": [
+          462,
+          515
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          153,
+          200
+        ],
+        "output_bbox": [
+          153,
+          200,
+          558,
+          582
+        ]
+      },
+      {
+        "native_bbox": [
+          601,
+          119,
+          1053,
+          537
+        ],
+        "native_anchor": [
+          952,
+          528
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          212,
+          263
+        ],
+        "output_bbox": [
+          212,
+          263,
+          574,
+          597
+        ]
+      },
+      {
+        "native_bbox": [
+          1082,
+          229,
+          1512,
+          534
+        ],
+        "native_anchor": [
+          1441,
+          530
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          206,
+          364
+        ],
+        "output_bbox": [
+          206,
+          364,
+          550,
+          608
+        ]
+      },
+      {
+        "native_bbox": [
+          58,
+          648,
+          555,
+          948
+        ],
+        "native_anchor": [
+          458,
+          930
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          173,
+          402
+        ],
+        "output_bbox": [
+          173,
+          402,
+          571,
+          642
+        ]
+      },
+      {
+        "native_bbox": [
+          621,
+          675,
+          1029,
+          932
+        ],
+        "native_anchor": [
+          954,
+          927
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          227,
+          433
+        ],
+        "output_bbox": [
+          227,
+          433,
+          553,
+          639
+        ]
+      },
+      {
+        "native_bbox": [
+          1110,
+          675,
+          1510,
+          954
+        ],
+        "native_anchor": [
+          1448,
+          935
+        ],
+        "uniform_clip_scale": 0.8,
+        "placement": [
+          223,
+          427
+        ],
+        "output_bbox": [
+          223,
+          427,
+          543,
+          650
+        ]
+      }
+    ]
+  }
+}

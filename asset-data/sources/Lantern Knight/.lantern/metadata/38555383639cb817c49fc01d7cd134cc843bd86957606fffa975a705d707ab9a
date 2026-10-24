@@ -1,0 +1,31 @@
+# Candlebone Oracle: missing enemy states
+
+Review candidate completing spawn/wake, hit/interruption, and defeat for the identity-corrected v02 Oracle. No gameplay or repository integration was performed.
+
+- Spawn: 6 unique drawings, 58 held ticks (0.967 s).
+- Hit: 5 unique drawings in 6 entries, 42 held ticks (0.700 s).
+- Defeat: 6 unique drawings, 79 held ticks (1.317 s); hold final remnant afterward.
+- All clips are one-shots. No optical interpolation or synthetic tween frames.
+- Ready endpoints are byte-identical to v02 hover_01. Spawn ends on it; hit starts/ends on it; defeat starts on it.
+
+## Native scale and import
+
+Pixels were not resized, upscaled, warped, fitted per frame, or repainted. Generated source drawings retain RGB and alpha except alpha values <=16 are cleared to remove negligible extraction noise. Fixed layout translations preserve pose motion and lift. New frame canvas is 600x700 with root (300,600). Exact shared-ready files keep their original 400x620 canvas and root (204,554).
+
+Set PPU using each manifest frame entry, relative to CURRENT corrected v02, not old hover:
+- generated hit drawings: 1.056644880174292 × v02 PPU
+- generated spawn drawings: 1.0849673202614378 × v02 PPU
+- generated defeat drawings: 1.1525054466230937 × v02 PPU
+- shared-ready endpoints: 1 × v02 PPU
+
+These are clip-constant scale mappings based on neutral standing silhouette, not per-frame resizing. If v02 PPU is 100, use approximately 105.664488, 108.496732 and 115.250545. Retain exact values where supported. Ready remains 100.
+
+Standalone frame imports are recommended. Atlases use six 600x700 cells, ready padded at (96,46), shared root (300,600), and require PER-SPRITE PPU from the manifest; do not apply one PPU to the whole atlas. A plain uniform-PPU atlas importer would produce an endpoint size pop.
+
+## Identity and QA
+
+Canonical SK03 and corrected v02 ready were supplied independently as references to each of three fresh built-in image-generation calls. There was no generative edit cascade. Adult skull/jaw, rigid pointed cowl, sunburst clasp/pendant, long dark robe, lavender-lined pointed cuffs, ankle bands, separated skeletal feet and single large-inset bone orb remain legible. No extra hands, arms, feet or orbs observed in complete-body drawings. Spawn's fragments and partially formed feet are intentional. Defeat retains one orb and ends as an empty robe remnant.
+
+Every extracted drawing was visually inspected on checkerboard and against the canonical and ready reference. All 18 entries have zero opaque border pixels. Native contacts are in the source archive's proof folder; world-scale contacts and MP4s simulate manifest PPU using display-only downsampling. Runtime pixels remain untouched.
+
+Limitations: generated pose/cowl/fold variation remains; these are held drawings rather than a rigid skeletal rig. Source sheets do not certify the exact numerical camera projection. The target remains DR at 35.2643897° elevation and 45° azimuth, visibly consistent with elevated v02. World size is matched by standing silhouette, so skull perspective/proportion and foot spread can vary slightly between independently drawn clips. Engine import and in-engine visual QA remain outstanding. No glow layer is included: these clips use an inert physical bone orb and sparse dry fragments, with no emitted spell effect to separate.

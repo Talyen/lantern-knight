@@ -1,0 +1,6 @@
+SOURCE COMPANION
+Final artwork: source/native_sheet_v03_clean.png. Original fresh built-in imagegen result: source/native_sheet_v03.png. Sunburst2.5 is only a prompt preference phrase, not a claimed backend. Final came from canonical hero + exact cardinal guide + approved UR style reference; no generated sheet was used as edit target for this deliverable. An earlier rejected draft and an excluded generative correction are not part of these deliverables.
+
+Run remove_external_slivers.py then package_left.py then seal_left.py from equivalent project directory to rebuild native artifacts. Requires Pillow,numpy,ffmpeg. The source guide builder preserves original camera/joint provenance and may reference shared project renderer dependencies; it is provenance, not a standalone rig. Exact per-tick guide joints accompany it.
+
+All RGB bytes preserved through cleanup, alpha cleared only inside3 traced external blade masks. Hidden arm/sword connectivity is not independently observed. Source and runtime hashes verify native delivery.

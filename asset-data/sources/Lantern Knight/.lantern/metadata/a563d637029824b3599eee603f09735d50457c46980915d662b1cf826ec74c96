@@ -1,0 +1,394 @@
+{
+  "name": "Hoarfrost Rupture | Snapburst v3",
+  "physical_character": "Brittle snapburst: ice plates fan outward, fracture, fall and skitter to far landing points.",
+  "authored_tail_cels": 9,
+  "total_encoded_frames": 14,
+  "all_13_art_frames_distinct": true,
+  "apng_decodes_match_source_rgba_on_nontransparent_pixels": true,
+  "encoded_durations_ms": [
+    20.0,
+    20.0,
+    30.0,
+    70.0,
+    40.0,
+    40.0,
+    50.0,
+    50.0,
+    60.0,
+    70.0,
+    80.0,
+    80.0,
+    80.0,
+    500.0
+  ],
+  "clear_frame_alpha_extrema": [
+    0,
+    0
+  ],
+  "zero_output_edge_alpha": true,
+  "source_layout": [
+    3,
+    3
+  ],
+  "source_cell_size": [
+    418,
+    418
+  ],
+  "source_cell_boundaries": [
+    {
+      "tail_cel": 1,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        63,
+        103,
+        395,
+        372
+      ],
+      "alpha_mass": 8981669
+    },
+    {
+      "tail_cel": 2,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        27,
+        113,
+        394,
+        373
+      ],
+      "alpha_mass": 7465177
+    },
+    {
+      "tail_cel": 3,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        10,
+        132,
+        388,
+        377
+      ],
+      "alpha_mass": 6972905
+    },
+    {
+      "tail_cel": 4,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        22,
+        108,
+        413,
+        360
+      ],
+      "alpha_mass": 6895075
+    },
+    {
+      "tail_cel": 5,
+      "source_cell_edge_max_alpha": 2,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        20,
+        142,
+        403,
+        355
+      ],
+      "alpha_mass": 4516545
+    },
+    {
+      "tail_cel": 6,
+      "source_cell_edge_max_alpha": 36,
+      "edge_pixels_alpha_gt12": 3,
+      "bbox_gt12": [
+        0,
+        152,
+        389,
+        360
+      ],
+      "alpha_mass": 2582660
+    },
+    {
+      "tail_cel": 7,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        35,
+        157,
+        392,
+        323
+      ],
+      "alpha_mass": 1668199
+    },
+    {
+      "tail_cel": 8,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        12,
+        184,
+        401,
+        325
+      ],
+      "alpha_mass": 699269
+    },
+    {
+      "tail_cel": 9,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        27,
+        239,
+        375,
+        319
+      ],
+      "alpha_mass": 264185
+    }
+  ],
+  "fixed_tail_placement": [
+    111,
+    111
+  ],
+  "per_tail_frame_transforms": false,
+  "original_opening_transform": {
+    "scale": 0.7,
+    "placement": [
+      96,
+      83
+    ]
+  },
+  "reference_anchor_for_metrics": [
+    320,
+    443
+  ],
+  "frame_metrics": [
+    {
+      "frame": 0,
+      "phase": "Gather",
+      "alpha_mass_gt12": 1615744,
+      "centroid": [
+        321.7,
+        429.5
+      ],
+      "mean_distance_from_reference_anchor": 39.6,
+      "bbox_gt12": [
+        229,
+        364,
+        413,
+        468
+      ],
+      "horizontal_span_gt12": 184
+    },
+    {
+      "frame": 1,
+      "phase": "Onset",
+      "alpha_mass_gt12": 2953105,
+      "centroid": [
+        321.7,
+        416.2
+      ],
+      "mean_distance_from_reference_anchor": 53.2,
+      "bbox_gt12": [
+        217,
+        340,
+        434,
+        467
+      ],
+      "horizontal_span_gt12": 217
+    },
+    {
+      "frame": 2,
+      "phase": "Strike",
+      "alpha_mass_gt12": 5881292,
+      "centroid": [
+        314.7,
+        388.6
+      ],
+      "mean_distance_from_reference_anchor": 80.1,
+      "bbox_gt12": [
+        188,
+        278,
+        442,
+        470
+      ],
+      "horizontal_span_gt12": 254
+    },
+    {
+      "frame": 3,
+      "phase": "Peak",
+      "alpha_mass_gt12": 9843371,
+      "centroid": [
+        318.2,
+        359.4
+      ],
+      "mean_distance_from_reference_anchor": 108.0,
+      "bbox_gt12": [
+        172,
+        200,
+        456,
+        471
+      ],
+      "horizontal_span_gt12": 284
+    },
+    {
+      "frame": 4,
+      "phase": "Snap fracture",
+      "alpha_mass_gt12": 8922105,
+      "centroid": [
+        322.4,
+        374.0
+      ],
+      "mean_distance_from_reference_anchor": 99.2,
+      "bbox_gt12": [
+        174,
+        214,
+        506,
+        483
+      ],
+      "horizontal_span_gt12": 332
+    },
+    {
+      "frame": 5,
+      "phase": "Plates detach",
+      "alpha_mass_gt12": 7372122,
+      "centroid": [
+        318.5,
+        375.5
+      ],
+      "mean_distance_from_reference_anchor": 102.7,
+      "bbox_gt12": [
+        138,
+        224,
+        505,
+        484
+      ],
+      "horizontal_span_gt12": 367
+    },
+    {
+      "frame": 6,
+      "phase": "Ballistic fan",
+      "alpha_mass_gt12": 6850402,
+      "centroid": [
+        296.7,
+        392.1
+      ],
+      "mean_distance_from_reference_anchor": 109.7,
+      "bbox_gt12": [
+        121,
+        243,
+        499,
+        488
+      ],
+      "horizontal_span_gt12": 378
+    },
+    {
+      "frame": 7,
+      "phase": "Outward fall",
+      "alpha_mass_gt12": 6776960,
+      "centroid": [
+        310.7,
+        388.6
+      ],
+      "mean_distance_from_reference_anchor": 106.4,
+      "bbox_gt12": [
+        133,
+        219,
+        524,
+        471
+      ],
+      "horizontal_span_gt12": 391
+    },
+    {
+      "frame": 8,
+      "phase": "Chip scatter",
+      "alpha_mass_gt12": 4399346,
+      "centroid": [
+        303.0,
+        402.6
+      ],
+      "mean_distance_from_reference_anchor": 101.5,
+      "bbox_gt12": [
+        131,
+        253,
+        514,
+        466
+      ],
+      "horizontal_span_gt12": 383
+    },
+    {
+      "frame": 9,
+      "phase": "Ground skitter",
+      "alpha_mass_gt12": 2475941,
+      "centroid": [
+        298.6,
+        412.9
+      ],
+      "mean_distance_from_reference_anchor": 108.7,
+      "bbox_gt12": [
+        111,
+        263,
+        500,
+        471
+      ],
+      "horizontal_span_gt12": 389
+    },
+    {
+      "frame": 10,
+      "phase": "Outer chips",
+      "alpha_mass_gt12": 1575693,
+      "centroid": [
+        309.7,
+        386.9
+      ],
+      "mean_distance_from_reference_anchor": 122.7,
+      "bbox_gt12": [
+        146,
+        268,
+        503,
+        434
+      ],
+      "horizontal_span_gt12": 357
+    },
+    {
+      "frame": 11,
+      "phase": "Powder trails",
+      "alpha_mass_gt12": 609688,
+      "centroid": [
+        306.7,
+        395.5
+      ],
+      "mean_distance_from_reference_anchor": 127.5,
+      "bbox_gt12": [
+        123,
+        295,
+        512,
+        436
+      ],
+      "horizontal_span_gt12": 389
+    },
+    {
+      "frame": 12,
+      "phase": "Last frost grains",
+      "alpha_mass_gt12": 211944,
+      "centroid": [
+        308.4,
+        403.0
+      ],
+      "mean_distance_from_reference_anchor": 136.4,
+      "bbox_gt12": [
+        138,
+        350,
+        486,
+        430
+      ],
+      "horizontal_span_gt12": 348
+    }
+  ],
+  "mp4_duration_seconds": 4.76,
+  "inspection": "All 9 tail cels inspected on a neutral composite; all 13 registered art frames inspected in temporal contact order. APNG decoded and compared with source PNGs. Final clear and output-edge alpha verified.",
+  "limitations": [
+    "Authored key-cel illustration rather than a physical simulation; small contour/fragment identity changes remain.",
+    "Source material remains at fixed cell/world placement. Opening is rescaled once by a constant to match tail material scale, not animated resizing.",
+    "Imagegen did not enforce full35px requested cell padding, but no substantial geometry was cut at cell boundaries.",
+    "Hoarfrost tail cel6 has3 faint antialias edge pixels, maximum alpha36/255; no opaque geometry reaches that boundary. They are preserved unchanged."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "format": "1280x720, H.264, 60 fps, silent",
+  "frames": {
+    "Lantern_01_Complete_60fps.mp4": {
+      "codec_name": "h264",
+      "width": 1280,
+      "height": 720,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "duration": "1.500000",
+      "nb_frames": "90",
+      "bytes": 132581,
+      "decoded_frames": 90,
+      "unique_decoded_frames": 90
+    },
+    "Lantern_01_Hold_Loop_60fps.mp4": {
+      "codec_name": "h264",
+      "width": 1280,
+      "height": 720,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "duration": "4.000000",
+      "nb_frames": "240",
+      "bytes": 209806,
+      "decoded_frames": 240,
+      "unique_decoded_frames": 240
+    },
+    "Lantern_01_Ignition_Preview_60fps.mp4": {
+      "codec_name": "h264",
+      "width": 1280,
+      "height": 720,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "duration": "8.000000",
+      "nb_frames": "480",
+      "bytes": 397105,
+      "decoded_frames": 480,
+      "unique_decoded_frames": 480
+    },
+    "Lantern_01_Intro_60fps.mp4": {
+      "codec_name": "h264",
+      "width": 1280,
+      "height": 720,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "duration": "2.500000",
+      "nb_frames": "150",
+      "bytes": 155217,
+      "decoded_frames": 150,
+      "unique_decoded_frames": 150
+    }
+  },
+  "source_motion": {
+    "hold_0s_equals_4s": true,
+    "hold_last_to_first_mean_abs_RGB": 0.040224247685185184,
+    "hold_first_to_second_mean_abs_RGB": 0.0394165943287037,
+    "source_unique_sampled_frames": 60
+  }
+}

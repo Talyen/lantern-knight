@@ -1,0 +1,409 @@
+{
+  "clip": "death",
+  "direction": "DL",
+  "source": "source/death_DL_v01_native.png",
+  "output": "delivery/death_DL",
+  "status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+  "variant": "backward_collapse",
+  "loop": false,
+  "terminal_hold_indefinite": true,
+  "exit": "last cel holds indefinitely; game owns reset/fade",
+  "grid": {
+    "columns": 4,
+    "origin": [
+      0,
+      0
+    ],
+    "step": [
+      490,
+      402
+    ],
+    "cell_size": [
+      490,
+      402
+    ],
+    "padding": 96
+  },
+  "component_ownership": true,
+  "excluded_source_cels": {},
+  "runtime_integration": {
+    "ppu": 246.3,
+    "common_pivot_xy": [
+      361,
+      484
+    ],
+    "common_pivot_normalized_bottom_left": [
+      0.5293255131964809,
+      0.18518518518518523
+    ],
+    "shared_ready_ppu": 350,
+    "shared_ready_pivot_xy": [
+      301,
+      556
+    ],
+    "density_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+    "observed_entry_body_height_px": 399,
+    "reference_ready_body_height_px": 567,
+    "registration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review."
+  },
+  "camera_contract": "../contracts/camera_contract.json",
+  "prop_target_contract": "../contracts/shared_prop_contract.json",
+  "guide_facing_normalization_degrees": -45,
+  "limits": [
+    "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+    "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+    "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+    "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified."
+  ],
+  "readme": "LANTERN DEATH DL \u2014 backward_collapse.\n8 complete unique native drawings. Presentation at60Hz using unequal integer holds. Terminal drawing remains held indefinitely; this is not a loop. \nHuman articulation reviewed by producer, independent reviewer and parent. Native test integration remains approximate; read limitations in clip.json.",
+  "frames": [
+    {
+      "source_cel": 1,
+      "phase": "ready",
+      "hold_ticks_60hz": 3,
+      "observations": {
+        "visible_support_marker_xy": [
+          348,
+          415
+        ],
+        "original_source_marker_xy": [
+          348,
+          415
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 1,
+      "file": "frames/death_DL_01.png",
+      "source_box": [
+        0,
+        0,
+        490,
+        402
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          444,
+          511
+        ],
+        "original_source_marker_xy": [
+          348,
+          415
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "8f0973a8c9a2695609c9e6b9495734abe3940546e8f1093ff2aaa5a29a409f91"
+    },
+    {
+      "source_cel": 2,
+      "phase": "fatal recoil",
+      "hold_ticks_60hz": 4,
+      "observations": {
+        "visible_support_marker_xy": [
+          342,
+          414
+        ],
+        "original_source_marker_xy": [
+          832,
+          414
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 2,
+      "file": "frames/death_DL_02.png",
+      "source_box": [
+        490,
+        0,
+        980,
+        402
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          438,
+          510
+        ],
+        "original_source_marker_xy": [
+          832,
+          414
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "a4a23856ccf9091c8d773c4a6ad51fa9ddfe2bfc4e101c0de198bb2f78c20987"
+    },
+    {
+      "source_cel": 3,
+      "phase": "buckle",
+      "hold_ticks_60hz": 5,
+      "observations": {
+        "visible_support_marker_xy": [
+          350,
+          399
+        ],
+        "original_source_marker_xy": [
+          1330,
+          399
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 3,
+      "file": "frames/death_DL_03.png",
+      "source_box": [
+        980,
+        0,
+        1470,
+        402
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          446,
+          495
+        ],
+        "original_source_marker_xy": [
+          1330,
+          399
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "47ec29a99738b19a7627cc08d055d42d143876651fa16548e1c0dd81e0faf8b7"
+    },
+    {
+      "source_cel": 4,
+      "phase": "kneeling descent",
+      "hold_ticks_60hz": 5,
+      "observations": {
+        "visible_support_marker_xy": [
+          295,
+          381
+        ],
+        "original_source_marker_xy": [
+          1765,
+          381
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 4,
+      "file": "frames/death_DL_04.png",
+      "source_box": [
+        1470,
+        0,
+        1960,
+        402
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          391,
+          477
+        ],
+        "original_source_marker_xy": [
+          1765,
+          381
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "9ce1cb6c91c2b29dc2b8684daca258ce89aa9c18f504539e6e0b487938c5f2de"
+    },
+    {
+      "source_cel": 5,
+      "phase": "pelvis contact",
+      "hold_ticks_60hz": 5,
+      "observations": {
+        "visible_support_marker_xy": [
+          336,
+          276
+        ],
+        "original_source_marker_xy": [
+          336,
+          678
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 5,
+      "file": "frames/death_DL_05.png",
+      "source_box": [
+        0,
+        402,
+        490,
+        804
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          432,
+          372
+        ],
+        "original_source_marker_xy": [
+          336,
+          678
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "78bc5f86139090e62f7e6123b3a20d76ef454cdf81e813a0c0ce47e774285dd3"
+    },
+    {
+      "source_cel": 6,
+      "phase": "back contact",
+      "hold_ticks_60hz": 6,
+      "observations": {
+        "visible_support_marker_xy": [
+          442,
+          238
+        ],
+        "original_source_marker_xy": [
+          932,
+          640
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 6,
+      "file": "frames/death_DL_06.png",
+      "source_box": [
+        490,
+        402,
+        980,
+        804
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          538,
+          334
+        ],
+        "original_source_marker_xy": [
+          932,
+          640
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "23e88350721b7ca8e96ad6fda68135230e7b38cf78947be916bfecd62e0f9dcd"
+    },
+    {
+      "source_cel": 7,
+      "phase": "settle",
+      "hold_ticks_60hz": 8,
+      "observations": {
+        "visible_support_marker_xy": [
+          420,
+          193
+        ],
+        "original_source_marker_xy": [
+          1400,
+          595
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 7,
+      "file": "frames/death_DL_07.png",
+      "source_box": [
+        980,
+        402,
+        1470,
+        804
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          516,
+          289
+        ],
+        "original_source_marker_xy": [
+          1400,
+          595
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "8f42a285f8fbbe55fda2fb95b873fbf73b1c4676e11a5512a50913fbb9e65254"
+    },
+    {
+      "source_cel": 8,
+      "phase": "terminal dead hold",
+      "hold_ticks_60hz": 54,
+      "observations": {
+        "visible_support_marker_xy": [
+          417,
+          192
+        ],
+        "original_source_marker_xy": [
+          1887,
+          594
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "index": 8,
+      "file": "frames/death_DL_08.png",
+      "source_box": [
+        1470,
+        402,
+        1960,
+        804
+      ],
+      "observations_native_padded": {
+        "visible_support_marker_xy": [
+          513,
+          288
+        ],
+        "original_source_marker_xy": [
+          1887,
+          594
+        ],
+        "confidence": "moderate for visible boot sole; low for inferred knee/hip/back support hidden by garment",
+        "kind": "visible boot/heel or inferred garment support region; not a calibrated collision contact",
+        "observation_method": "Manual visual point on original native sheet, rounded to nearest few pixels. Fixed source-grid origin, never per-frame fitted."
+      },
+      "sha256": "e306a5afa3c876f2e6ab3e47e9dfe35d038df306bf4330428d64fe48dec5ce83"
+    }
+  ],
+  "native_cell_size": [
+    682,
+    594
+  ],
+  "source_size": [
+    1959,
+    803
+  ],
+  "source_sha256": "71e7314f3a6a7d4a381fcc153809e67d9239e03ffa74fcf76ff1a3cc6c637a40",
+  "native_drawings": 8,
+  "total_ticks_60hz": 90,
+  "duration_seconds": 1.5,
+  "world_forward": [
+    0,
+    0,
+    1
+  ],
+  "operations": [
+    "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+    "Uniform transparent padding",
+    "Native atlas reassembly",
+    "Native-pixel preview compositing"
+  ],
+  "resized": false,
+  "mirrored": false,
+  "interpolated": false,
+  "source_backend": "Built-in image_gen; requested Sunburst2.5(gpt-image-2.5-sunburst) phrase included. Backend selection not verified.",
+  "camera_claim_limit": "Deterministic reference camera is exact; generated art is visually approximate and requires human review."
+}

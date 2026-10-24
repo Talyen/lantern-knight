@@ -1,0 +1,42 @@
+{
+  "03_ember_etching_intro.mp4": {
+    "bytes": 814237,
+    "frames": 120,
+    "fps": 60,
+    "duration": 2.0,
+    "resolution": "1920x1080",
+    "sha256": "3f49edb6e303471f250b9c9dec4ffab8001443518f96dcf2aa9567ea45e3870a"
+  },
+  "03_ember_etching_hold_loop.mp4": {
+    "bytes": 1247066,
+    "frames": 240,
+    "fps": 60,
+    "duration": 4.0,
+    "resolution": "1920x1080",
+    "sha256": "4f3e55051eb0ce8a131fb2faff82791004ccda2649f3752edc6afb503e7b225d"
+  },
+  "03_ember_etching_complete.mp4": {
+    "bytes": 687990,
+    "frames": 120,
+    "fps": 60,
+    "duration": 2.0,
+    "resolution": "1920x1080",
+    "sha256": "959e425bc00692259883aca2c2fc42b3b33141a83963dad9605fa86981d259b3"
+  },
+  "03_ember_etching_preview.mp4": {
+    "bytes": 2747706,
+    "frames": 480,
+    "fps": 60,
+    "duration": 8.0,
+    "resolution": "1920x1080",
+    "sha256": "3ca18231d0988510111104355b1f8f43af48d901db7565d59a9e2c293654b3fa"
+  },
+  "motion": {
+    "hold_decoded_frames": 240,
+    "hold_unique_frames": 240,
+    "normal_mean_absolute_delta": 0.04621963948011398,
+    "largest_normal_delta": 0.06579861044883728,
+    "loop_wrap_delta": 0.41631942987442017,
+    "wrap_to_largest_normal_ratio": 6.327176623253096
+  }
+}

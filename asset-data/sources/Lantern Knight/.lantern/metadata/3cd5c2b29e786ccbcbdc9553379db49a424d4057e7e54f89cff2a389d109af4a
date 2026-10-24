@@ -1,0 +1,499 @@
+{
+  "name": "Summoned Ivory Bell",
+  "version": 1,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "frame_count": 16,
+  "straight_alpha": true,
+  "origin": "top-left",
+  "anchor_px": [
+    256,
+    383
+  ],
+  "total_ms": 1090,
+  "loop": "single attack followed by 250 ms completely clear reset; optional repeat",
+  "single_hit": {
+    "count_per_cycle": 1,
+    "onset_ms": 435,
+    "contact_window_ms": 90,
+    "rebound_is_damage": false
+  },
+  "phase_totals_ms": {
+    "almost_empty_seeds": 35,
+    "formation": 180,
+    "upward_telegraph": 170,
+    "downward_strike": 50,
+    "contact": 90,
+    "release_rebound_dispersal": 315,
+    "clear_reset": 250
+  },
+  "target_footprint": {
+    "type": "ellipse",
+    "center_px": [
+      258,
+      383
+    ],
+    "radii_px": [
+      54,
+      12
+    ],
+    "center_normalized": [
+      0.50390625,
+      0.748046875
+    ],
+    "radii_normalized": [
+      0.10546875,
+      0.0234375
+    ],
+    "telegraph_cels_1based": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "coordinate_basis": "Measured final generated dashed ellipse after the common fixed grid mapping. Do not use dispersed debris bounds as additional targets.",
+    "fixed": true
+  },
+  "registration": {
+    "method": "Equal 4x4 source cells mapped identically to 352x352 then pasted at [80,80] in every 512x512 frame.",
+    "per_frame_bbox_recentering": false,
+    "individual_transform_animation": false,
+    "source_dimensions": [
+      1254,
+      1254
+    ]
+  },
+  "frames": [
+    {
+      "index": 0,
+      "cel_number": 1,
+      "file": "frames/00.png",
+      "start_ms": 0,
+      "duration_ms": 35,
+      "phase": "seed",
+      "description": "Three tiny seeds; no bell.",
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "source_rectangle_float": [
+        0.0,
+        0.0,
+        313.5,
+        313.5
+      ],
+      "alpha_bounds_over_16": [
+        219,
+        262,
+        304,
+        308
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 1,
+      "cel_number": 2,
+      "file": "frames/01.png",
+      "start_ms": 35,
+      "duration_ms": 45,
+      "phase": "formation",
+      "description": "Separated converging shards and single ground telegraph.",
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "source_rectangle_float": [
+        313.5,
+        0.0,
+        627.0,
+        313.5
+      ],
+      "alpha_bounds_over_16": [
+        186,
+        229,
+        334,
+        396
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 2,
+      "cel_number": 3,
+      "file": "frames/02.png",
+      "start_ms": 80,
+      "duration_ms": 45,
+      "phase": "formation",
+      "description": "Disconnected rim and crown construction.",
+      "source_grid_cell": [
+        2,
+        0
+      ],
+      "source_rectangle_float": [
+        627.0,
+        0.0,
+        940.5,
+        313.5
+      ],
+      "alpha_bounds_over_16": [
+        186,
+        213,
+        339,
+        396
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 3,
+      "cel_number": 4,
+      "file": "frames/03.png",
+      "start_ms": 125,
+      "duration_ms": 45,
+      "phase": "formation",
+      "description": "Half-formed bell with open gaps.",
+      "source_grid_cell": [
+        3,
+        0
+      ],
+      "source_rectangle_float": [
+        940.5,
+        0.0,
+        1254.0,
+        313.5
+      ],
+      "alpha_bounds_over_16": [
+        189,
+        216,
+        325,
+        396
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 4,
+      "cel_number": 5,
+      "file": "frames/04.png",
+      "start_ms": 170,
+      "duration_ms": 45,
+      "phase": "formation",
+      "description": "First complete bell above target.",
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "source_rectangle_float": [
+        0.0,
+        313.5,
+        313.5,
+        627.0
+      ],
+      "alpha_bounds_over_16": [
+        202,
+        221,
+        314,
+        395
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 5,
+      "cel_number": 6,
+      "file": "frames/05.png",
+      "start_ms": 215,
+      "duration_ms": 75,
+      "phase": "draw_up",
+      "description": "Bell draws upward away from the fixed ground target.",
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "source_rectangle_float": [
+        313.5,
+        313.5,
+        627.0,
+        627.0
+      ],
+      "alpha_bounds_over_16": [
+        202,
+        197,
+        315,
+        395
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 6,
+      "cel_number": 7,
+      "file": "frames/06.png",
+      "start_ms": 290,
+      "duration_ms": 95,
+      "phase": "load_hold",
+      "description": "Highest anticipation pose.",
+      "source_grid_cell": [
+        2,
+        1
+      ],
+      "source_rectangle_float": [
+        627.0,
+        313.5,
+        940.5,
+        627.0
+      ],
+      "alpha_bounds_over_16": [
+        203,
+        169,
+        315,
+        395
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 7,
+      "cel_number": 8,
+      "file": "frames/07.png",
+      "start_ms": 385,
+      "duration_ms": 50,
+      "phase": "downward_strike",
+      "description": "Fast downward strike; material smear above.",
+      "source_grid_cell": [
+        3,
+        1
+      ],
+      "source_rectangle_float": [
+        940.5,
+        313.5,
+        1254.0,
+        627.0
+      ],
+      "alpha_bounds_over_16": [
+        202,
+        166,
+        314,
+        395
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 8,
+      "cel_number": 9,
+      "file": "frames/08.png",
+      "start_ms": 435,
+      "duration_ms": 40,
+      "phase": "contact",
+      "description": "Initial single contact and compression.",
+      "source_grid_cell": [
+        0,
+        2
+      ],
+      "source_rectangle_float": [
+        0.0,
+        627.0,
+        313.5,
+        940.5
+      ],
+      "alpha_bounds_over_16": [
+        147,
+        275,
+        365,
+        391
+      ],
+      "damage_event": true,
+      "damage_window_active": true
+    },
+    {
+      "index": 9,
+      "cel_number": 10,
+      "file": "frames/09.png",
+      "start_ms": 475,
+      "duration_ms": 50,
+      "phase": "contact_hold",
+      "description": "Maximum compression; low sideways debris ring.",
+      "source_grid_cell": [
+        1,
+        2
+      ],
+      "source_rectangle_float": [
+        313.5,
+        627.0,
+        627.0,
+        940.5
+      ],
+      "alpha_bounds_over_16": [
+        97,
+        282,
+        415,
+        385
+      ],
+      "damage_event": false,
+      "damage_window_active": true
+    },
+    {
+      "index": 10,
+      "cel_number": 11,
+      "file": "frames/10.png",
+      "start_ms": 525,
+      "duration_ms": 55,
+      "phase": "release",
+      "description": "Release from contact, recovery only.",
+      "source_grid_cell": [
+        2,
+        2
+      ],
+      "source_rectangle_float": [
+        627.0,
+        627.0,
+        940.5,
+        940.5
+      ],
+      "alpha_bounds_over_16": [
+        101,
+        244,
+        414,
+        386
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 11,
+      "cel_number": 12,
+      "file": "frames/11.png",
+      "start_ms": 580,
+      "duration_ms": 60,
+      "phase": "rebound_breakup",
+      "description": "Small recovery rebound, bell separates into plates.",
+      "source_grid_cell": [
+        3,
+        2
+      ],
+      "source_rectangle_float": [
+        940.5,
+        627.0,
+        1254.0,
+        940.5
+      ],
+      "alpha_bounds_over_16": [
+        148,
+        172,
+        373,
+        385
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 12,
+      "cel_number": 13,
+      "file": "frames/12.png",
+      "start_ms": 640,
+      "duration_ms": 65,
+      "phase": "dispersal",
+      "description": "Crown and rim fragments disperse.",
+      "source_grid_cell": [
+        0,
+        3
+      ],
+      "source_rectangle_float": [
+        0.0,
+        940.5,
+        313.5,
+        1254.0
+      ],
+      "alpha_bounds_over_16": [
+        182,
+        195,
+        336,
+        364
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 13,
+      "cel_number": 14,
+      "file": "frames/13.png",
+      "start_ms": 705,
+      "duration_ms": 70,
+      "phase": "dispersal",
+      "description": "Small fragment dissolution.",
+      "source_grid_cell": [
+        1,
+        3
+      ],
+      "source_rectangle_float": [
+        313.5,
+        940.5,
+        627.0,
+        1254.0
+      ],
+      "alpha_bounds_over_16": [
+        169,
+        233,
+        326,
+        327
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 14,
+      "cel_number": 15,
+      "file": "frames/14.png",
+      "start_ms": 775,
+      "duration_ms": 65,
+      "phase": "last_grit",
+      "description": "Few final grit flecks.",
+      "source_grid_cell": [
+        2,
+        3
+      ],
+      "source_rectangle_float": [
+        627.0,
+        940.5,
+        940.5,
+        1254.0
+      ],
+      "alpha_bounds_over_16": [
+        226,
+        243,
+        312,
+        309
+      ],
+      "damage_event": false,
+      "damage_window_active": false
+    },
+    {
+      "index": 15,
+      "cel_number": 16,
+      "file": "frames/15.png",
+      "start_ms": 840,
+      "duration_ms": 250,
+      "phase": "clear",
+      "description": "Fully transparent reset.",
+      "source_grid_cell": [
+        3,
+        3
+      ],
+      "source_rectangle_float": [
+        940.5,
+        940.5,
+        1254.0,
+        1254.0
+      ],
+      "alpha_bounds_over_16": null,
+      "damage_event": false,
+      "damage_window_active": false
+    }
+  ]
+}

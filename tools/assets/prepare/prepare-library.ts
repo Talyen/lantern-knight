@@ -1,3 +1,4 @@
+import { retainedAssetCatalog } from '../selection';
 import { readJson } from '../../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -77,7 +78,10 @@ export async function prepare(context: PreparationContext, check = false) {
         ],
         {
           cwd: projectRoot,
-          env: context.environment,
+          env: {
+            ...context.environment,
+            LANTERN_RETAINED_ASSETS: JSON.stringify(Object.keys(await retainedAssetCatalog())),
+          },
           idleTimeoutMs: 10 * 60_000,
           output: (chunk) => {
             progress = (progress + chunk.toString()).slice(-4000);
@@ -101,7 +105,14 @@ export async function prepare(context: PreparationContext, check = false) {
     media?: { group: string; member: string; sha256: string; path: string }[];
   };
   const catalog: Record<string, string> = {};
-  const reviewedScale = validateScaleCoverage(plan.assets, scaleRecipe);
+  const retained = await retainedAssetCatalog();
+  plan.assets = plan.assets.filter((item) => item.id in retained);
+  plan.media = [];
+  const reviewedScale = validateScaleCoverage(
+    plan.assets,
+    scaleRecipe,
+    new Set(Object.keys(retained)),
+  );
   const receipts: {
     asset: string;
     group: string;

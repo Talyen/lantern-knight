@@ -1,0 +1,336 @@
+{
+  "format": "Lantern illustrated component cel pack 1.0",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "pivot_top_left_px": [
+    512,
+    802
+  ],
+  "pivot_bottom_left_normalized": [
+    0.5,
+    0.216796875
+  ],
+  "tick_rate_hz": 60,
+  "interpolation": "none; hold raster cels",
+  "assets": [
+    {
+      "id": "masons_tool_chest",
+      "label": "Mason's travel tool chest",
+      "frame_count": 7,
+      "open_duration_ticks": 42,
+      "states": {
+        "idle": {
+          "frame": 0,
+          "hold": "until interaction"
+        },
+        "open": {
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "loop": false
+        },
+        "looted": {
+          "frame": 6,
+          "hold": "indefinite"
+        }
+      },
+      "events": [
+        {
+          "name": "loot_spawn",
+          "tick": 23,
+          "frame": 4,
+          "once_per_open": true,
+          "note": "Spawn loot in game; no loot pixels in asset."
+        }
+      ],
+      "hinge": {
+        "world_axis": "X",
+        "pivot_world": [
+          0,
+          0.44,
+          -0.32
+        ]
+      },
+      "atlas": {
+        "file": "runtime/masons_tool_chest/atlas_4x2.png",
+        "columns": 4,
+        "rows": 2,
+        "cell_px": [
+          1024,
+          1024
+        ],
+        "order": "row-major; final cell empty",
+        "padding_px": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "runtime/masons_tool_chest/00.png",
+          "hold_ticks": 5,
+          "start_tick": 0,
+          "angle_degrees": 0,
+          "alpha_bounds_px": [
+            174,
+            444,
+            850,
+            988
+          ],
+          "sha256": "e8d420c0ba0ececcbfc488a484f807ae835fe9a81b666405703750dd8e020de3"
+        },
+        {
+          "index": 1,
+          "file": "runtime/masons_tool_chest/01.png",
+          "hold_ticks": 5,
+          "start_tick": 5,
+          "angle_degrees": 6.580000000000001,
+          "alpha_bounds_px": [
+            175,
+            441,
+            850,
+            988
+          ],
+          "sha256": "b11fbae7b74fead796116936c16f7373ee6c1ea7622421f4231e3007407c2821"
+        },
+        {
+          "index": 2,
+          "file": "runtime/masons_tool_chest/02.png",
+          "hold_ticks": 6,
+          "start_tick": 10,
+          "angle_degrees": 20.68,
+          "alpha_bounds_px": [
+            175,
+            438,
+            852,
+            988
+          ],
+          "sha256": "9c28a6cee2cb2326cb106ee03a98a97e67aa40b14ed16557dae992ad9ebde155"
+        },
+        {
+          "index": 3,
+          "file": "runtime/masons_tool_chest/03.png",
+          "hold_ticks": 7,
+          "start_tick": 16,
+          "angle_degrees": 35.72,
+          "alpha_bounds_px": [
+            175,
+            398,
+            854,
+            988
+          ],
+          "sha256": "1e0cffc1457b90c3a71e0236adff20023a7e78c3956190fee3e395d14d4fce74"
+        },
+        {
+          "index": 4,
+          "file": "runtime/masons_tool_chest/04.png",
+          "hold_ticks": 7,
+          "start_tick": 23,
+          "angle_degrees": 73.32000000000001,
+          "alpha_bounds_px": [
+            175,
+            255,
+            857,
+            988
+          ],
+          "sha256": "dbb175debb09b62c846f1a88b494508ac8e1000341efeb7fd27487e0bcb1e843"
+        },
+        {
+          "index": 5,
+          "file": "runtime/masons_tool_chest/05.png",
+          "hold_ticks": 5,
+          "start_tick": 30,
+          "angle_degrees": 97.76,
+          "alpha_bounds_px": [
+            175,
+            203,
+            884,
+            988
+          ],
+          "sha256": "25fa6196251ed3a1560433ea1966a2db8423d8fcc1fed19c3ea84bba9c937337"
+        },
+        {
+          "index": 6,
+          "file": "runtime/masons_tool_chest/06.png",
+          "hold_ticks": 7,
+          "start_tick": 35,
+          "angle_degrees": 94,
+          "alpha_bounds_px": [
+            175,
+            208,
+            871,
+            988
+          ],
+          "sha256": "f97ca57584e646225fc463186ff4e403763feccf637cfa5094ea406055b7a884"
+        }
+      ]
+    },
+    {
+      "id": "provision_hopper",
+      "label": "Brass-bound provision hopper",
+      "frame_count": 7,
+      "open_duration_ticks": 39,
+      "states": {
+        "idle": {
+          "frame": 0,
+          "hold": "until interaction"
+        },
+        "open": {
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "loop": false
+        },
+        "looted": {
+          "frame": 6,
+          "hold": "indefinite"
+        }
+      },
+      "events": [
+        {
+          "name": "loot_spawn",
+          "tick": 21,
+          "frame": 4,
+          "once_per_open": true,
+          "note": "Spawn loot in game; no loot pixels in asset."
+        }
+      ],
+      "hinge": {
+        "world_axis": "X",
+        "pivot_world": [
+          0,
+          0.94,
+          -0.34
+        ]
+      },
+      "atlas": {
+        "file": "runtime/provision_hopper/atlas_4x2.png",
+        "columns": 4,
+        "rows": 2,
+        "cell_px": [
+          1024,
+          1024
+        ],
+        "order": "row-major; final cell empty",
+        "padding_px": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "runtime/provision_hopper/00.png",
+          "hold_ticks": 4,
+          "start_tick": 0,
+          "angle_degrees": 0,
+          "alpha_bounds_px": [
+            268,
+            311,
+            756,
+            903
+          ],
+          "sha256": "1e29ba75feb0ddab0e3c95c9dd1d3110aa1572c5511d490ea85d2340bcafe775"
+        },
+        {
+          "index": 1,
+          "file": "runtime/provision_hopper/01.png",
+          "hold_ticks": 5,
+          "start_tick": 4,
+          "angle_degrees": 6.580000000000001,
+          "alpha_bounds_px": [
+            269,
+            309,
+            757,
+            903
+          ],
+          "sha256": "f03f8dc3d893a79b85cf4c9d07768bf877d568c2e6c74ef18273244ec20d8ce0"
+        },
+        {
+          "index": 2,
+          "file": "runtime/provision_hopper/02.png",
+          "hold_ticks": 6,
+          "start_tick": 9,
+          "angle_degrees": 20.68,
+          "alpha_bounds_px": [
+            269,
+            307,
+            759,
+            903
+          ],
+          "sha256": "4c4505f6704d8056f9c77fbbe9fa2a8afce9cc005e6cfb1e81385ee99e28b982"
+        },
+        {
+          "index": 3,
+          "file": "runtime/provision_hopper/03.png",
+          "hold_ticks": 6,
+          "start_tick": 15,
+          "angle_degrees": 35.72,
+          "alpha_bounds_px": [
+            269,
+            265,
+            761,
+            903
+          ],
+          "sha256": "2a9146f003e0409b7741cc771e7ca10090092254330eb7ae6bdcf98268114920"
+        },
+        {
+          "index": 4,
+          "file": "runtime/provision_hopper/04.png",
+          "hold_ticks": 6,
+          "start_tick": 21,
+          "angle_degrees": 73.32000000000001,
+          "alpha_bounds_px": [
+            269,
+            118,
+            764,
+            903
+          ],
+          "sha256": "801a65d58ad9e5c0416251f5c8127187b7f3c8b1f07229333371ca0ed8c53b31"
+        },
+        {
+          "index": 5,
+          "file": "runtime/provision_hopper/05.png",
+          "hold_ticks": 5,
+          "start_tick": 27,
+          "angle_degrees": 97.76,
+          "alpha_bounds_px": [
+            269,
+            62,
+            793,
+            903
+          ],
+          "sha256": "c2dd89dcc785ea2d4954fdb621e9011c4f08b7ec0af6a3a137ddba1b60300d79"
+        },
+        {
+          "index": 6,
+          "file": "runtime/provision_hopper/06.png",
+          "hold_ticks": 7,
+          "start_tick": 32,
+          "angle_degrees": 94,
+          "alpha_bounds_px": [
+            269,
+            67,
+            779,
+            903
+          ],
+          "sha256": "ff50ab388f13ade73d1848e9f5d2f8b3afcf5bacccd0afa1eef43d793773472f"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "generated_at_utc": "2026-10-10",
+  "transparent_background_requested": true,
+  "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-07f58d92-0c61-4289-82f9-fee5dfb9353e.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "prompt_file": "prompt.txt",
+  "artwork": "Newly image-generated 24-cel sprite sheet. Code assembly only; no procedural painted VFX."
+}

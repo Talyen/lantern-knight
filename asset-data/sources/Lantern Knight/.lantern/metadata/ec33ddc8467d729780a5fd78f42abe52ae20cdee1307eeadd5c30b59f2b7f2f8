@@ -1,0 +1,455 @@
+{
+  "stills": [
+    {
+      "asset": "gothic_oak_door",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        472,
+        305,
+        1127,
+        1387
+      ]
+    },
+    {
+      "asset": "gothic_oak_door",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        279,
+        305,
+        1127,
+        1387
+      ]
+    },
+    {
+      "asset": "gothic_oak_door",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        270,
+        305,
+        1127,
+        1387
+      ]
+    },
+    {
+      "asset": "iron_portcullis",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        459,
+        213,
+        1146,
+        1387
+      ]
+    },
+    {
+      "asset": "iron_portcullis",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        459,
+        213,
+        1146,
+        1387
+      ]
+    },
+    {
+      "asset": "iron_portcullis",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        459,
+        213,
+        1146,
+        1484
+      ]
+    },
+    {
+      "asset": "yoke_lever",
+      "state": "idle",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        593,
+        709,
+        966,
+        1321
+      ]
+    },
+    {
+      "asset": "yoke_lever",
+      "state": "engaged",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        593,
+        865,
+        944,
+        1321
+      ]
+    },
+    {
+      "asset": "yoke_lever",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        520,
+        912,
+        944,
+        1321
+      ]
+    },
+    {
+      "asset": "octagonal_pressure_plate",
+      "state": "idle",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        508,
+        1033,
+        1026,
+        1366
+      ]
+    },
+    {
+      "asset": "octagonal_pressure_plate",
+      "state": "engaged",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        508,
+        1033,
+        1026,
+        1366
+      ]
+    },
+    {
+      "asset": "octagonal_pressure_plate",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        508,
+        1033,
+        1026,
+        1366
+      ]
+    },
+    {
+      "asset": "brass_stop_valve",
+      "state": "idle",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        529,
+        868,
+        1010,
+        1269
+      ]
+    },
+    {
+      "asset": "brass_stop_valve",
+      "state": "engaged",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        530,
+        868,
+        1010,
+        1269
+      ]
+    },
+    {
+      "asset": "brass_stop_valve",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        528,
+        868,
+        1010,
+        1390
+      ]
+    },
+    {
+      "asset": "oak_rope_winch",
+      "state": "idle",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        496,
+        808,
+        1037,
+        1371
+      ]
+    },
+    {
+      "asset": "oak_rope_winch",
+      "state": "engaged",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        496,
+        808,
+        1037,
+        1371
+      ]
+    },
+    {
+      "asset": "oak_rope_winch",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        496,
+        808,
+        1037,
+        1425
+      ]
+    },
+    {
+      "asset": "watch_bell",
+      "state": "idle",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        566,
+        495,
+        1015,
+        1320
+      ]
+    },
+    {
+      "asset": "watch_bell",
+      "state": "engaged",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        566,
+        495,
+        1015,
+        1320
+      ]
+    },
+    {
+      "asset": "watch_bell",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        497,
+        495,
+        1015,
+        1372
+      ]
+    },
+    {
+      "asset": "crypt_sliding_seal",
+      "state": "closed",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        512,
+        388,
+        1090,
+        1356
+      ]
+    },
+    {
+      "asset": "crypt_sliding_seal",
+      "state": "open",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        512,
+        388,
+        1090,
+        1356
+      ]
+    },
+    {
+      "asset": "crypt_sliding_seal",
+      "state": "broken",
+      "rgba": true,
+      "canvas": [
+        1536,
+        1536
+      ],
+      "alpha_edge_contact": false,
+      "bounds": [
+        512,
+        388,
+        1090,
+        1356
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "asset": "gothic_oak_door",
+      "endpoint_exact_matches": {
+        "closed": true,
+        "open": true
+      },
+      "frame_count": 24
+    },
+    {
+      "asset": "iron_portcullis",
+      "endpoint_exact_matches": {
+        "closed": true,
+        "open": true
+      },
+      "frame_count": 24
+    },
+    {
+      "asset": "yoke_lever",
+      "endpoint_exact_matches": {
+        "idle": true,
+        "engaged": true
+      },
+      "frame_count": 24
+    },
+    {
+      "asset": "octagonal_pressure_plate",
+      "endpoint_exact_matches": {
+        "idle": true,
+        "engaged": true
+      },
+      "frame_count": 24
+    }
+  ],
+  "untouched_generated_master_sha256": {
+    "crypt_sliding_seal.png": "39660b4866567bb98bfebb71b88fae1cdfd57d38d9aa678a3270af2c05e1bf5c",
+    "iron_portcullis.png": "41ec2191dabe14015bfca95eae7b0f941b02e848a42673a12fad0558976c2374",
+    "watch_bell.png": "d82beafcbb315d047fdff0c597fdc8214ab4bf70f6833febe958c88797f61f30",
+    "brass_stop_valve_isobody.png": "a7cb8ac49dab9eda6c71a5c60547e11f1e69e9596b4d59ffe8a1e86da2dcdd88",
+    "gothic_oak_door.png": "41bc3fe6aacc9c098d3aeec226eab8deffad5f1373ef2316b12ac32e07350d49",
+    "yoke_lever.png": "7e5d76b5ba2c76c10a80b81e8779bf0d91a9850a7ce700e4af4e7bfd21a54bd0",
+    "watch_bell_isobody.png": "afedf2c1c28c8c14ddf5d2d8d890a3c4f9c6ff7586e0f19e850c02253c3b16a6",
+    "oak_rope_winch.png": "75c63c7156bdc98268d763b30286ef781c4ab9fce7946e25241902aa48614e57",
+    "octagonal_pressure_plate.png": "859d0824cd02fac17a6ca3425d5a7bc38ad13e0c0bfdec9b957d93dd43d087ae",
+    "brass_stop_valve.png": "982e0a82a9ef86de645a26229adfdbfc982ec8e5936d890e03d4e2431bdd712d",
+    "yoke_lever_isobase.png": "d7c1236db3eb3f19f30f4d76c3c68e54782596b6b601348d8c2dabb22a9a1c35"
+  },
+  "evaluation": "Automated integrity checks only; independent art/motion audit pending.",
+  "valve_body_invariance": {
+    "comparison": "idle vs broken, body-only windows",
+    "pixel_exact": true,
+    "rectangles": [
+      [
+        730,
+        800,
+        1200,
+        1240
+      ],
+      [
+        770,
+        780,
+        1200,
+        1230
+      ]
+    ],
+    "contact_sheet_difference": "independent thumbnail fit accommodates fallen fragment; runtime root is unchanged"
+  }
+}

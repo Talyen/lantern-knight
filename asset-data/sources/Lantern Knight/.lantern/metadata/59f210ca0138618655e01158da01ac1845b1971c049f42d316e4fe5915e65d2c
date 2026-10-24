@@ -1,0 +1,88 @@
+{
+  "id": "lantern_elite_concept_06_rootbound_stone_saint",
+  "name": "Root-entangled stone saint",
+  "family": "02_elites_05",
+  "collection": "current_ink_revision02",
+  "canonical_status": "REBUILT \u2014 fresh ink drawing; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "15QNekPiObQwJwJpOiKocL1Sr8AdOfLOn",
+  "source_url": "https://drive.google.com/file/d/15QNekPiObQwJwJpOiKocL1Sr8AdOfLOn/view?usp=drivesdk",
+  "source_archive": "02_elites_05_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_elites_05_ink_revision02/packs/02_elites_05/assets/06_rootbound_stone_saint.png",
+  "source_sha256": "bce07386e2a424c6b3232e4d4a9efc08272e10e362ca4f81ea53ca17a7e1e98d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "ppu": 220,
+  "mirroring": "Forbidden: asymmetric root wrap and broken halo must retain authored sides.",
+  "move_holds": [
+    10,
+    9,
+    10,
+    9,
+    9,
+    10
+  ],
+  "attack_holds": [
+    9,
+    11,
+    9,
+    7,
+    10,
+    14
+  ],
+  "move_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      -5
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      -3
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      -2,
+      0
+    ],
+    [
+      -3,
+      -3
+    ],
+    [
+      8,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_event": "Connected ground-root burst apex; both palms press forward"
+}

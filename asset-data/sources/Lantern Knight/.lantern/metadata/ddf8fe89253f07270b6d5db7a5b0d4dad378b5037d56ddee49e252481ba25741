@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_blank_hanging_sign_01.png",
+    "new": "volume_06_town/assets/town_blank_hanging_sign_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_bridge_rail_01.png",
+    "new": "volume_06_town/assets/town_bridge_rail_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_chain_bollards_01.png",
+    "new": "volume_06_town/assets/town_chain_bollards_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_hand_pump_01.png",
+    "new": "volume_06_town/assets/town_hand_pump_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_iron_drain_01.png",
+    "new": "volume_06_town/assets/town_iron_drain_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_market_awning_01.png",
+    "new": "volume_06_town/assets/town_market_awning_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_notice_post_01.png",
+    "new": "volume_06_town/assets/town_notice_post_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_06_town/assets/town_rain_barrel_01.png",
+    "new": "volume_06_town/assets/town_rain_barrel_01.png"
+  }
+]

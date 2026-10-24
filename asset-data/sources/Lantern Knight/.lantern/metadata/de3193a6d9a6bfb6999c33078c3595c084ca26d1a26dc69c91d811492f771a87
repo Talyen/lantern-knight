@@ -1,0 +1,171 @@
+{
+  "source": "/workspace/shared/lantern_floor_method_tests_oct09/ai_cleanup/graveyard/native_crop.png",
+  "source_size": [
+    384,
+    384
+  ],
+  "tile_core": 160,
+  "context_overlap": 32,
+  "extra_reflection_pad": 16,
+  "model": "official realesrgan-x4plus-anime 6B",
+  "native_model_scale": 4,
+  "derived_scale": 2,
+  "process_isolated": true,
+  "tiling_is_computation_only": true,
+  "blend": false,
+  "elapsed_seconds": 19.625713330999133,
+  "tiles": [
+    {
+      "core": [
+        0,
+        0,
+        160,
+        160
+      ],
+      "context": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "seconds": 3.0257266640001035,
+      "max_rss_kib": 2535836
+    },
+    {
+      "core": [
+        160,
+        0,
+        320,
+        160
+      ],
+      "context": [
+        128,
+        0,
+        352,
+        192
+      ],
+      "seconds": 2.4232853330013313,
+      "max_rss_kib": 2840820
+    },
+    {
+      "core": [
+        320,
+        0,
+        384,
+        160
+      ],
+      "context": [
+        288,
+        0,
+        384,
+        192
+      ],
+      "seconds": 1.2267809719996876,
+      "max_rss_kib": 1602624
+    },
+    {
+      "core": [
+        0,
+        160,
+        160,
+        320
+      ],
+      "context": [
+        0,
+        128,
+        192,
+        352
+      ],
+      "seconds": 2.480199735999122,
+      "max_rss_kib": 2840924
+    },
+    {
+      "core": [
+        160,
+        160,
+        320,
+        320
+      ],
+      "context": [
+        128,
+        128,
+        352,
+        352
+      ],
+      "seconds": 2.645469626999329,
+      "max_rss_kib": 3315792
+    },
+    {
+      "core": [
+        320,
+        160,
+        384,
+        320
+      ],
+      "context": [
+        288,
+        128,
+        384,
+        352
+      ],
+      "seconds": 1.2995151760005683,
+      "max_rss_kib": 1736692
+    },
+    {
+      "core": [
+        0,
+        320,
+        160,
+        384
+      ],
+      "context": [
+        0,
+        288,
+        192,
+        384
+      ],
+      "seconds": 1.1997826440001518,
+      "max_rss_kib": 1602696
+    },
+    {
+      "core": [
+        160,
+        320,
+        320,
+        384
+      ],
+      "context": [
+        128,
+        288,
+        352,
+        384
+      ],
+      "seconds": 1.3449462959997618,
+      "max_rss_kib": 1736632
+    },
+    {
+      "core": [
+        320,
+        320,
+        384,
+        384
+      ],
+      "context": [
+        288,
+        288,
+        384,
+        384
+      ],
+      "seconds": 0.7129345089997514,
+      "max_rss_kib": 955884
+    }
+  ],
+  "threads_requested": 2,
+  "threads_at_model_load": 4,
+  "thread_setting_caveat": "Winograd convolutions retain load-time4threads despite later2thread request",
+  "final_cleanup_size": [
+    384,
+    384
+  ],
+  "cleanup_method": "actual4x model output reduced to original crop dimensions with Pillow Lanczos"
+}

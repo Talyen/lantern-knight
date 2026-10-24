@@ -1,0 +1,18 @@
+LANTERN HERO — KNOWN-VIEW IDLE STUDY v01
+
+Start with layered2d/README.txt for the exact scope, source and rebuild instructions.
+
+Watch layered2d/preview/Lamplighter_KnownView_Idle_1080p60.mp4.
+Open layered2d/source/Lamplighter_C_RUST_KnownView_Layered_Idle_v01.blend
+for the editable, packed source.
+
+This accepted limited idle study preserves the original known-view design.
+It is not camera-calibrated and is not a walk, attack or multi-direction hero.
+The original production gate remains blocked.
+
+The untouched original image is in reference/. The 24 transparent source-size
+samples are in layered2d/frames_native/. Explicit rational durations, hashes
+and stable registration are in layered2d/study_manifest_native.json.
+
+24 source samples at 12 fps form a two-second loop. The 60 fps, 1080p video
+presents three repeats using held samples. It is not a runtime performance test.

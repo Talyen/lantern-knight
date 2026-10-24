@@ -1,0 +1,17 @@
+RUN IMPORT COMPANION V02 — ADDITIVE FOUR-HEADING TEST INDEX
+
+DR8, DL7, UL8 and the NEW UR low-carry8 each form one 40-tick / 0.666667-second stride at 60Hz. DR/UL/UR use five ticks per cel; DL uses 5,7,8,5,5,5,5. Earlier high-carry UR trials remain held and are not substitutes.
+
+Approximate starting Pixels Per Unit: DR275, DL320, UL295, UR235, relative to shared-ready350. These are one body-only cranial-width estimate per clip, about ±15%, not engine calibration. Use one density across the entire cycle. No raster resizing or compensating second transform is needed.
+
+Choose one representation:
+- Padded PNG frames:1536×1024, top-left pivot(768,892), normalized bottom-left(0.5,0.12890625). Padding is already baked.
+- Exact native atlas slices: local top-left pivots DR(218,359), DL/UL(245,390), UR(220,380). Slice dimensions vary443/444. Use per-slice rectangles and normalized values in run_import_companion_v02.json. Do not add the padded translation again.
+
+The v02 combined companion retains the three original clip records unchanged and adds UR coordinates copied from import_companion_UR_lowcarry.json. All four exact runtime-manifest hashes were verified. The UR producer companion is also included unchanged.
+
+The new UR guide preserves Torch Run body, legs and right arm; its left elbow/wrist were deliberately adapted by exact-length two-bone IK to a low carry. This is not unaltered mocap. Native art then received isolated traditional right-sleeve patch cleanup, with alpha/outside-mask pixels unchanged. See its source companion for the raw art and mask evidence.
+
+UR observed art anchors are null. Never substitute source-guide joints for missing observations or treat source contact flags as drawn-foot contact proof. Preserve authored body bob and apply controller movement once. Existing stabilization must not add another recentering, padding or density pass.
+
+Exact coordinate arithmetic does not make the chosen ground root physically calibrated. Review all ready/action transitions and gameplay contact. All packages remain selected animation tests, not user-approved or game-integrated production assets.

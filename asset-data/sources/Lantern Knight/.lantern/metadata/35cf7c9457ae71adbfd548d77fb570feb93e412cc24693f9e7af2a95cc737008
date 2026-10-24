@@ -1,0 +1,864 @@
+{
+  "category": "runes",
+  "items": [
+    {
+      "id": "rune_boneetched_hex",
+      "label": "Bone-Etched Hex Rune",
+      "category": "runes",
+      "reference_extent_cm": 10,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__full_native.png",
+          "dimensions": [
+            1514,
+            1039
+          ],
+          "sha256": "136eb9b252341ebd1c0067352b2ad3b193f86ba957f019b7062d1439b10b0c4b"
+        },
+        "inventory512": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "94d138135da1063cd446fd4730195e4fbc7a14a60ac2537948bebee2eb78b559",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            246,
+            248,
+            266,
+            263
+          ],
+          "visible_extent": 20
+        },
+        "thumb256": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "71326b946ba31a2cd4c0e4865959e38e66a14afa65b0437231c1a32d4872e34f",
+          "visible_bbox": [
+            122,
+            123,
+            134,
+            134
+          ],
+          "visible_extent": 12
+        },
+        "detail512": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2013ebe7d65b7fa7805e459d2a593c1545e04d43e378708c0b8472f9b1f2a7f8",
+          "visible_bbox": [
+            32,
+            88,
+            480,
+            424
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "4bf418d3fc1ff0c6bafdcf42eb16f59d7c58d36b4535391d3aa82aa4aa62bb79",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            22,
+            120,
+            106
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "698685e6418f701bfc2b47fd312cb39578d6e11868e4a63be759530d12773bdf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            53
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "67650061bf13573352cec3be90287ad118ed58731ad1b1d9aeb22ff0bec4295e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "43b00fd1ef2fb95ea01cfce37231a64bcb8c6f47df69e62c171acfd1a054c62e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            213,
+            384,
+            299,
+            449
+          ],
+          "visible_extent": 86
+        },
+        "ground_scaled_512": {
+          "path": "runes/rune_boneetched_hex/rune_boneetched_hex__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ae45141c7bceb92dd40ae26787dbbe6262741d7450ddc1fdda705dc8f3c934f8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            437,
+            264,
+            448
+          ],
+          "visible_extent": 15,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "rune_ironbound_ward",
+      "label": "Ironbound Ward Rune",
+      "category": "runes",
+      "reference_extent_cm": 10,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__full_native.png",
+          "dimensions": [
+            1662,
+            946
+          ],
+          "sha256": "7fe4ca41ce6f1391084103e84fecf673d8e64b4a79ad6843a8da63e6bdfff6e6"
+        },
+        "inventory512": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "acfed9a02811f08e199156ecf6647128d2a6a42fc17897a652be4db2cfd64b9e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            246,
+            248,
+            266,
+            263
+          ],
+          "visible_extent": 20
+        },
+        "thumb256": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "bd666833fc162c4cedd8c8adcb61c1e42069f3bf0bd86d791e95c60aa772f228",
+          "visible_bbox": [
+            122,
+            123,
+            134,
+            134
+          ],
+          "visible_extent": 12
+        },
+        "detail512": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "adae31283cf48605e2dcd87024ebe007b8da2d2817607c1249eebf79cc6c368d",
+          "visible_bbox": [
+            32,
+            91,
+            480,
+            421
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9cba57bf519dc36d2b14298b174a6038e9d21febd6276e000cc90e63f2bdd9e7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            22,
+            120,
+            105
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "33c7edd4caa32f97be8694d6c5fc5e248d757c3bfa0875ee81085de126a83ed4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "a2004c80142ba312f03bf9e1704ec446e728c323cd9f3c563c5a9b33a1142019",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "840f5cba71c11242ab5ff4dbe6bd203e8d6fd1976a64a681c447d0180cefbdd7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            213,
+            385,
+            297,
+            450
+          ],
+          "visible_extent": 84
+        },
+        "ground_scaled_512": {
+          "path": "runes/rune_ironbound_ward/rune_ironbound_ward__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "94f564a3f9aef3b462c461762e34c5f6e0ace843e37c2d1015a09ead977cd39b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            437,
+            264,
+            448
+          ],
+          "visible_extent": 15,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "rune_split_ember",
+      "label": "Split Ember Rune",
+      "category": "runes",
+      "reference_extent_cm": 10,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "runes/rune_split_ember/rune_split_ember__full_native.png",
+          "dimensions": [
+            1509,
+            1042
+          ],
+          "sha256": "257ab768ae673196ddc0905564b53eca0af1a96846ac15ee20a5a616ecf98d76"
+        },
+        "inventory512": {
+          "path": "runes/rune_split_ember/rune_split_ember__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cf413faeb3b2f41ec85793a3a7782c37f1a10d64809280b55f8b70bf41461a37",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            246,
+            247,
+            266,
+            265
+          ],
+          "visible_extent": 20
+        },
+        "thumb256": {
+          "path": "runes/rune_split_ember/rune_split_ember__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "88011efc90ac5115588853f80048b4c52f7c0ef6455ef54d23821d240c458920",
+          "visible_bbox": [
+            122,
+            123,
+            134,
+            135
+          ],
+          "visible_extent": 12
+        },
+        "detail512": {
+          "path": "runes/rune_split_ember/rune_split_ember__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "db335d1add99c5ad966bfd358fb978401666142a0f3f2a80f1d829cc07f66f4b",
+          "visible_bbox": [
+            32,
+            50,
+            480,
+            461
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "runes/rune_split_ember/rune_split_ember__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8ffbfccb2ef1d2caf7780296756d9a8bada6852e354326ea98bc5dd3ab2f2311",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            115
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "runes/rune_split_ember/rune_split_ember__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "7c77fa69667989bb860f04a8c325e5081484624cb3bddf2ea45a40a766591c7a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "runes/rune_split_ember/rune_split_ember__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "840019aa94794c2c30c82624070ddfd746af0d8dfd4c3c43671d8763c7dd8452",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "runes/rune_split_ember/rune_split_ember__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0fedd59c5480dcf02335e93a823927e9bf15c370ad1165df8e235514203c0449",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            206,
+            357,
+            305,
+            449
+          ],
+          "visible_extent": 99
+        },
+        "ground_scaled_512": {
+          "path": "runes/rune_split_ember/rune_split_ember__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "07ec15b12c3fcbe818754f100303e451901866631f801de53871e7fdfab9d748",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            434,
+            264,
+            448
+          ],
+          "visible_extent": 15,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "rune_frost",
+      "label": "Rune Frost",
+      "category": "runes",
+      "reference_extent_cm": 11,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "runes/rune_frost/rune_frost__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "988b461b9468c8e914f5d2f29b2bee2a48f26cd00342b65834b0ec9bc8a67557"
+        },
+        "inventory512": {
+          "path": "runes/rune_frost/rune_frost__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a4a6bf929976151f9acf57749da6e392945dd1e3fa9a4ca1a0c9a7c6b879371f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            245,
+            249,
+            267,
+            263
+          ],
+          "visible_extent": 22
+        },
+        "thumb256": {
+          "path": "runes/rune_frost/rune_frost__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "8cb54638ffb03e3406443b2fbab0869c42b1bc747c4639ed63d1111a7fed1251",
+          "visible_bbox": [
+            120,
+            122,
+            136,
+            134
+          ],
+          "visible_extent": 16
+        },
+        "detail512": {
+          "path": "runes/rune_frost/rune_frost__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6a16f07e08ea243fd794d7d13fcd5dcb08529b5d8f142b2c374187d540d506cd",
+          "visible_bbox": [
+            32,
+            113,
+            480,
+            399
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "runes/rune_frost/rune_frost__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "099c2e5e0b6dd04d11ac285c5467324974943745e60038e9c027b76a20f9d4c9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            28,
+            120,
+            100
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "runes/rune_frost/rune_frost__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "024b1fede5c2b9c6806d0c181020ecc175dca6ed03ce47a808403de55ca266fb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            50
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "runes/rune_frost/rune_frost__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "4f87abf6bf44eaafd10f32c811108b04d05f341af30ba64df3163045d08aeafc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            25
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "runes/rune_frost/rune_frost__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8d66c9de42015945424e90b6741e6f3a6e247fc424195576667808f5500d2dfd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            438,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "runes/rune_frost/rune_frost__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8d66c9de42015945424e90b6741e6f3a6e247fc424195576667808f5500d2dfd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            438,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "rune_storm",
+      "label": "Rune Storm",
+      "category": "runes",
+      "reference_extent_cm": 11,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "runes/rune_storm/rune_storm__full_native.png",
+          "dimensions": [
+            1319,
+            1193
+          ],
+          "sha256": "9565bfb91d0e96512a7642adc777c09ac28014baf83c2bf848ad716677df2578"
+        },
+        "inventory512": {
+          "path": "runes/rune_storm/rune_storm__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b7429c54b610d302fd7250452fbb25fe42fec7e321e33e4261ee0233285b7e27",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            249,
+            245,
+            263,
+            267
+          ],
+          "visible_extent": 22
+        },
+        "thumb256": {
+          "path": "runes/rune_storm/rune_storm__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "e91dbf58ef4ba7722cc643383cf9d5bfca02c872473b06ea5248e7c8653f60f4",
+          "visible_bbox": [
+            122,
+            120,
+            134,
+            134
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "runes/rune_storm/rune_storm__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "025a71d303289d73b8b67e0adf657bdba1bd9a9726986c36d6709157ae075611",
+          "visible_bbox": [
+            111,
+            32,
+            400,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "runes/rune_storm/rune_storm__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "609de9f9c18aecbfa0352fd72059bba82710bcdfbb84569d495dda18d4421607",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            28,
+            8,
+            100,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "runes/rune_storm/rune_storm__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "ece8bdcd81d169bf3b86e12a3af6ae831c9ed2a869743defbe0de846ca2e5133",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            14,
+            4,
+            50,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "runes/rune_storm/rune_storm__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "adf8bce940a8640285d0bae6968d268ffe51bb5698a1c19b002a54bf3422d193",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            25,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "runes/rune_storm/rune_storm__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b2e85406d6e01b80599be6c0dbef6e7dda6683f693b92d099182658d05c1c6fa",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            432,
+            261,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "runes/rune_storm/rune_storm__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b2e85406d6e01b80599be6c0dbef6e7dda6683f693b92d099182658d05c1c6fa",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            432,
+            261,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

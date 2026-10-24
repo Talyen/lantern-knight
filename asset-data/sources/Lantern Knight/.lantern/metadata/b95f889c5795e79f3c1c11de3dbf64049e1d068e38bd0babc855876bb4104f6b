@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen",
+  "model_claim": "Sunburst 2.5 was prompt phrase, not verified backend model selection",
+  "canonical_original_sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f",
+  "native_sha256": {
+    "move_native.png": "2cd259b1f9e9db0c037d0b3f4ada2b6b2151e77501ef25b217e2a73d496d2f8e",
+    "attack_native.png": "28be68164e6c82a1c09211d62223da8dde52143fc9ec366aaa0450d631b2e8b2"
+  },
+  "deterministic_processing": "Alpha-connected-component selection, fringe threshold, integer registration, transparent padding; no upscaling, no generative edit of draft.",
+  "alpha_repair": {
+    "mask": "move_eye_alpha_repair_mask.png",
+    "sha256": "a9608b1b7f80ddd7adae13ade8ffbdfd9881bb708512d632e4cd33223b7944ab",
+    "purpose": "Restore opaque recessed eye interiors from original hidden RGB; native source untouched"
+  }
+}

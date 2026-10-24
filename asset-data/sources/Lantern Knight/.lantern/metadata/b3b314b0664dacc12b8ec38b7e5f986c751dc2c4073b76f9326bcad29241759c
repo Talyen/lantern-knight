@@ -1,0 +1,37 @@
+{
+  "asset": "observatory_C",
+  "title": "Observatory C | Black-stone Eclipse Halls",
+  "source_file": "/workspace/scratch/1a83d58417d5/generated_images/exec-d2acf963-1461-4ea3-b61a-b0e982c28024.png",
+  "source_sha256": "62294e05b638a476e19d36f5704794869338f20312ce6d6f29571b92b2278b37",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_bytes_preserved": true,
+  "recovered_on_utc": "2026-10-09",
+  "generation_prompt_status": "Exact full-expansion generation prompt unavailable; no replacement invented.",
+  "generation_model_status": "Original full-expansion model/backend metadata unavailable.",
+  "generation_reference_parameter_status": "Original full-expansion reference arguments unavailable.",
+  "sample_prompt_scope": "Only the earlier selected viewport sample; not the full-expansion prompt.",
+  "sample_native_sha256": "82e9e2c30c225aea927092895ce3ae05f5dc3ee6f3d6547169754e2b67f47623",
+  "review_scale": {
+    "source_hero_equivalent_px": 64,
+    "raw4x_hero_equivalent_px": 256,
+    "display_scene_scale": 2.5,
+    "display_scene_dimensions": [
+      3840,
+      2560
+    ],
+    "review_hero_height_px": 160,
+    "viewport_dimensions": [
+      1536,
+      1024
+    ]
+  },
+  "upscale_method": "Restored official Real-ESRGAN x4plus anime 6B model using isolated NCNN CPU contextual tiles; 2x is Lanczos reduction of 4x output.",
+  "camera_geometry_validated": false,
+  "engine_integrated": false,
+  "collision_or_occlusion_masks_included": false,
+  "layered_source_available": false
+}

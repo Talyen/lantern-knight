@@ -1,0 +1,27 @@
+# Lantern — Town Portal / Crooked Flame
+
+A crooked ink-black flame doorway with a warm ivory/gold passage. No hero is included.
+
+## Import
+- Native drawn cels were sliced from three 1536×1024 generated sheets. Source cells are 512×512; runtime canvases are **640×704** with transparent padding. No upscaling, downscaling, warping, rotated copies, or interpolation was used to manufacture animation.
+- Sprite pivot: **(320, 560)** measured from the top-left; Unity normalized bottom-left pivot **(0.5, 0.20454545)**. PPU **160** is a convention: ready doorway is roughly 3 world units high. Set the PPU for your game's established scale without resampling the files.
+- Use straight-alpha RGBA, sRGB colour, clamp, no texture compression for review. Mipmaps off for fixed-scale 2D. Native PNGs retain original generated alpha and its warm edge glow.
+- Camera art-direction target: orthographic elevation **35.2643897°**, azimuth **45°**. Hand-drawn projection is illustrative, not geometry-certified.
+
+## Animation
+Manifest durations are integer ticks at **60 Hz**, with individually held hand-drawn cels. Do not display each cel for only one engine frame.
+- Opening: 7 distinct cels, 36 ticks / 0.600 s → open_idle
+- Open idle: 6 distinct cels, 36 ticks / 0.600 s, loop
+- Passage pulse: 6 pulse cels bracketed by the identical ready cel, 30 ticks / 0.500 s → open_idle
+- Closing: opening drawings in reverse, followed by absent; 31 ticks / 0.517 s → absent
+- Interrupted summon: five rising drawings, then four reverse collapse drawings and absent; 31 ticks / 0.517 s → absent
+
+Closing and interrupted summon intentionally reuse hand-drawn opening cels. These are economical reverse transitions, not separately generated closing or cancellation drawings. The supplied interrupted action is a self-contained aborted summon. For interruption at an arbitrary opening time, begin the reverse sequence at the last displayed opening cel instead of restarting the supplied action. Only enable passage after opening finishes; disable passage at the start of closing or interruption. Restart idle at cel 0 after a pulse.
+
+## Occlusion
+Each combined cel also has exact complementary `_back` and `_front` layers. Draw back → your actor → front at the same transform/pivot. Foreground contains the conservative near/right lip and ground sill. The cut is a practical 2D pixel partition, not a depth map. It is intended for an actor passing through the central opening; it is not an all-direction occlusion solution. Never draw combined alongside split layers. Combined equals front-over-back exactly when no actor is present. Fade or hide the actor upon successful traversal in game logic; this pack supplies no actor animation.
+
+## Files
+`frames/` provides individual combined/back/front PNGs. `atlas/` provides untrimmed horizontal strips per action and per layer. `manifest.json` provides frame order, integer durations, terminal states, source provenance, and atlas rectangles. Atlases may exceed 4096px width; use an 8192px texture import ceiling or import individual frames. Transparent padding is intentional and preserves stable pivots.
+
+Source/prompts/rebuild materials are in the separate source package. Generated art uses the built-in image tool; “Sunburst 2.5” was included as a prompt preference, not a selected-model claim.

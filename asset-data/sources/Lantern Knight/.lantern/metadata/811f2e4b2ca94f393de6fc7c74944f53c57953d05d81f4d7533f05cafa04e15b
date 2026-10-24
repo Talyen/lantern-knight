@@ -1,0 +1,9 @@
+SOURCE COMPANION: UR LOW-CARRY NATIVE RUN TEST
+
+Current accepted image is source/UR_lowcarry8_cloth_cleanup_v01.png. Its original generated source remains immutable. One built-in imagegen call; no generative retries/edits. Sunburst2.5 was a prompt preference phrase, not a claimed backend.
+
+metadata/acceptance_after_cleanup.json is the current decision. metadata/visual_review.json records the earlier uncorrected-sheet wardrobe hold; it is explicitly superseded for the cleaned candidate. Older high-carry UR attempts elsewhere remain held.
+
+Guide adaptation preserves source body/legs/right-arm and upper/forearm lengths while intentionally lowering the left wrist through two-bone IK. Source shoulder yaw drives small carriage sway. Individual left-finger points are not rendered; source finger geometry is translated with the wrist and no hand axial orientation is claimed. Technical camera and source joint data are included. Generator scripts record the method and paths; they depend on the shared renderer in the project workspace and are provenance, not a standalone application.
+
+Traditional cleanup changes only right-sleeve patch/stitch RGB. Alpha and outside-mask pixels are exact; all art remains native. No 3D rig, retargeting file, manufactured inbetweens or engine validation is included.

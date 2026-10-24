@@ -1,0 +1,58 @@
+{
+  "generation_tool": "built-in image_gen.imagegen",
+  "backend_model_unverified": true,
+  "prompt_phrase": "Sunburst2.5",
+  "attempt_limit": "One first sheet and one fresh retry per enemy. No further generation.",
+  "selected_attempt": "v02",
+  "rejected_v01_reason": "Visible surface grain/hatching inconsistent with established clean cels.",
+  "retry_source_references": {
+    "bellbound_defeat_v02": [
+      "source/references/bellbound_canonical.png",
+      "source/references/bellbound_clean_locomotion.png"
+    ],
+    "crawler_defeat_v02": [
+      "source/references/crawler_canonical.png",
+      "source/references/crawler_clean_attack.png"
+    ]
+  },
+  "reference_files": {
+    "bellbound_canonical.png": {
+      "file": "source/references/bellbound_canonical.png",
+      "sha256": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7",
+      "role": "Identity / clean style reference only, not edit target."
+    },
+    "crawler_clean_attack.png": {
+      "file": "source/references/crawler_clean_attack.png",
+      "sha256": "7432122653f4f11dba2bf79dc8cdee1c365e6ad9645bd1641a79b88d634511d7",
+      "role": "Identity / clean style reference only, not edit target."
+    },
+    "bellbound_clean_locomotion.png": {
+      "file": "source/references/bellbound_clean_locomotion.png",
+      "sha256": "5af2487048258c8bcc41ace10f715a188d3ade8bd06042173c598b6288822c23",
+      "role": "Identity / clean style reference only, not edit target."
+    },
+    "crawler_canonical.png": {
+      "file": "source/references/crawler_canonical.png",
+      "sha256": "ab4d67f1de815498ceb2751ce42d248bdfa57914a153740e9cf110cf861b03b8",
+      "role": "Identity / clean style reference only, not edit target."
+    }
+  },
+  "source_native_files": {
+    "bellbound_defeat_v02_native.png": {
+      "sha256": "8e92a7585e03c9cc8dde0c712597f6a9671a0ccf9a89506ac26f434a9b55b0bc",
+      "bytes": 1803140
+    },
+    "crawler_defeat_v02_native.png": {
+      "sha256": "b24a4f2288d6e02b36943f45e9b47b41d9dae8795e598d8863b4a9b693f412f4",
+      "bytes": 1743482
+    },
+    "crawler_defeat_v01_native.png": {
+      "sha256": "50b9083f93a2fae1b275ab3b519b5d7b7cd95de29fbb911a83ac9eddaa4f7dc7",
+      "bytes": 1960398
+    },
+    "bellbound_defeat_v01_native.png": {
+      "sha256": "976690b0ae56b83dad48d73d5e99ae74f120b9e59555892a02a278cb57808f1b",
+      "bytes": 2029416
+    }
+  }
+}

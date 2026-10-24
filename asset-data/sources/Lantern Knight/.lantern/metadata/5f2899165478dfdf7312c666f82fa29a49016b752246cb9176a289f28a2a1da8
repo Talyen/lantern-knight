@@ -1,0 +1,282 @@
+LANTERN REVISION 02 — SOURCE REBUILD GUIDE
+Audit date: 6 October 2026
+Applies to the final selected source releases named below.
+Containers, Mechanisms and Lighting use the repaired r02a COMPLETE archives;
+Tree Forms uses v02a. Earlier failures are retained only in the audit history.
+
+START SAFELY
+Rebuild a disposable copy of an extracted pack. The scripts overwrite outputs,
+source-derived layers, manifests and some review-status labels. Keep the frozen
+ZIPs unchanged. For split releases, extract all parts into the same destination;
+they contribute files to one pack root. Do not nest one part inside another.
+
+“Passed command” means that exact script stage completed. “Sampled replay” means
+representative frames were rebuilt and compared with the frozen exports, not
+that every frame, movie or helper was re-created. All tested art samples matched
+pixel-for-pixel. This verifies offline source reconstruction, not game-engine
+integration, collision, runtime performance or every operating system.
+
+DEPENDENCIES
+Python 3 with Pillow and NumPy. Beetle, Scenic and Hero also require SciPy.
+Hero rendering requires Blender 4.3.2. Review movies require FFmpeg with libx264.
+The audit used Python 3.12, Pillow 12.3.0, NumPy 2.3.5 and SciPy 1.17.0.
+
+Remaining font limitation: the Scenic exporter, scene diagnostics and Hero
+finishing use DejaVu Sans at the Linux path
+/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf; Hero finishing also uses its Bold
+variant. These fonts are not bundled. A system with a different font layout
+needs a configured/fallback font-path source repair before those commands are
+cross-platform. Asset-frame functions generally do not require these fonts.
+The three repaired props packs use configurable/fallback fonts: set
+LANTERN_FONT_PATH to a font file, or default for Pillow's bundled font. Their
+preferred-font commands and explicit bundled-font fallback smoke test passed.
+Pillow >=10.1 is recommended for size-aware fallback; typography can vary.
+
+ACTORS
+
+Clockwork Beetle r02b
+Working directory: Lantern_Clockwork_Beetle_Ink_Revision02_r02b
+Recommended frame rebuild: python source/rebuild.py
+Dependencies: Python, Pillow, NumPy, SciPy.
+Tested: sampled replay of all six clip roles, one interior phase per role, using
+bundled front/side/rear masters and rigs. All six 768px samples matched exactly.
+The full two-tier export was not rerun. rebuild.py writes frames; it does not
+rebuild atlases, movies or the complete delivery package.
+
+Do not use source/export_all.py as the standalone frame-rebuild entrypoint:
+its historical before/after image and Blender-copy steps still refer to old
+lantern_overnight folders. The supplied technical_reference files are historical
+construction evidence. source/layered_actors.py is a shared imported module;
+running it directly invokes a Wisp demo whose master is absent from this pack.
+
+Shroud Wisp r02a
+Working directory: Lantern_Shroud_Wisp_Ink_Revision02_r02a
+Recommended frame rebuild: python source/rebuild.py
+Dependencies: Python, Pillow, NumPy.
+Tested: frames 0, 20 and 59 rebuilt from the bundled master, all exact at 768px.
+The full two-tier export, atlas and movies were not rerun.
+
+PROPS
+
+Containers r02a COMPLETE
+Working directory: Lantern_Containers01_CleanInk
+Art rebuild: python source/build_containers.py
+Shorter still rebuild: python source/build_containers.py --stills-only
+Tested: shorter command completed; all 24 regenerated stills matched the frozen
+pixels. One interior frame from each of the three opening clips also matched.
+
+Mechanisms r02a COMPLETE
+Working directory: Lantern_Mechanisms02_CleanInk
+Art rebuild: python source/build_mechanisms.py
+Shorter still rebuild: python source/build_mechanisms.py --stills-only
+Tested: shorter command completed; all 24 stills matched. One interior frame from
+each of the four activation clips also matched.
+
+Lighting r02a COMPLETE
+Working directory: Lantern_Lighting03_CleanInk
+Art rebuild: python source/build_lighting.py
+Shorter still rebuild: python source/build_lighting.py --stills-only
+Tested: shorter command completed; all 24 stills matched. One interior frame from
+each of the four flame loops also matched.
+
+For all three: Python, Pillow and NumPy are needed; FFmpeg with libx264 is needed
+for review-movie packaging. Full animation generation was sampled rather than
+exhaustively rerun.
+
+Portable proof/review command in each r02a pack:
+  python source/package_proof.py
+Tested: all three commands completed, including review-movie generation. Eight
+unchanged historical comparison PNGs are now bundled in source/historical_before/.
+No old workspace is needed. Each pack's 24 regenerated stills plus its all-states
+and before/after proof sheets matched the original pixels (26 comparisons each).
+These bundled comparison inputs are not additional designs or runtime assets.
+
+Exact source-only replacements:
+  Lantern_Containers01_CleanInk_r02a_COMPLETE.zip
+  Lantern_Mechanisms02_CleanInk_r02a_COMPLETE.zip
+  Lantern_Lighting03_CleanInk_r02a_COMPLETE.zip
+All existing masters, states, frames, layers, atlases and review images/movies
+are preserved byte-for-byte. The original r02 archives remain unchanged.
+
+HAZARDS 05 r02a COMPLETE
+Exact release: Lantern_Hazards05_CleanInk_r02a_COMPLETE.zip
+Working directory: Lantern_Hazards05_CleanInk
+Art rebuild: python source/build_hazards.py
+Shorter still rebuild: python source/build_hazards.py --stills-only
+Proof/review rebuild: python source/package_proof.py
+Optional context diagrams: python source/context_proofs.py
+Dependencies: Python 3, Pillow 12.3.0, NumPy 2.3.5; FFmpeg with libx264 for movies.
+A licensed DejaVu Sans font and all six historical comparison PNGs are bundled;
+there is a Pillow default-font fallback. No Linux font location or old workspace
+is required. Absolute script paths also work from an unrelated working directory.
+
+Independently tested: the still-only command completed from an unrelated working
+directory; all 18 state PNGs reproduced byte-for-byte. Three frames per each of
+the three runtime clips (nine samples total) reproduced byte-for-byte. The bundled
+font loaded, all four source scripts passed syntax review, six comparison inputs
+were present, and no old-workspace/generated-image runtime path strings were found.
+The independent audit did not rerun the full frame set, proof movies or context
+diagrams. Separate producer evidence in proof/portable_rebuild_validation.json
+reports a complete standalone rebuild with all 90 state/runtime PNGs identical.
+Archive integrity and the unchanged final ZIP hash were independently verified.
+This remains presentation art with the mounting, canvas/root and integration
+limitations in its README; no engine or gameplay-safety claim is added.
+
+WORKSHOP CONTAINERS 04 — FINAL COMPLETE RELEASE
+Exact release: Lantern_Workshop04_Clean_Ink_Complete.zip
+Working directory: 04_containers_workshop
+Art/proof rebuild: python source/build_delivery.py
+Stills/comparison rebuild: python source/build_delivery.py --stills-only
+Dependencies: Python 3.10+ recommended, Pillow and NumPy. A licensed DejaVu Sans
+font and 24 historical state PNGs are bundled, including the eight before-images
+used by the comparison sheet. FFmpeg is optional;
+when present, the full command also encodes the MP4. PNGs, GIFs and proof sheets
+do not require FFmpeg. Absolute script paths work from another directory.
+
+Independently tested: the stills-only command ran from an unrelated directory,
+regenerated the intentionally omitted layer cache from complete bundled masters,
+and reproduced all 24 state PNGs plus both overview/comparison PNGs byte-for-byte.
+Three samples per each of four clips (12 frames total) also matched byte-for-byte.
+Bundled font loading, the eight required before-images, source syntax/path checks,
+archive CRC
+and unchanged ZIP hash passed. The independent audit did not rerun all 96 frames
+or the movie; producer evidence in proof/portable_rebuild_check.json separately
+reports a full isolated rebuild of all 120 state/runtime PNGs byte-identically.
+The archive-packaging helper was inspected, not rerun.
+
+The compact ZIP omits only reproducible layer-cache PNGs, not required masters
+or runtime state/animation PNGs. Body art remains fixed-view 2.5D illustration
+with baked artistic perspective and shading. Moving component landmarks and
+hinge/rail transforms use the declared world projection; they do not make the
+painted bodies exact 3D geometry or rotatable models. No engine claim is added.
+
+SCENIC MECHANISMS v02a
+Extract all three ZIP parts together.
+Working directory: Lantern_Illustrated_Scenic_Mechanisms_v02a
+Rebuild all baked loops: python source/export_scenic.py
+Rebuild selected loop: python source/export_scenic.py waterwheel
+Rebuild compact part atlases: python source/package_scenic.py
+Dependencies: Python, Pillow, NumPy, SciPy; font and FFmpeg for loop export.
+Tested: one interior frame for each of the six loops matched exactly. The part-
+atlas command completed. Full baked loops and review movies were not rerun.
+The compact layers, PART_SPRITES.json and analytic motion are the editable source;
+optional baked frame sequences are not the only way to use this art.
+
+FOUR MOTION r02 PACKS
+Working directory: combat, environment, weather or flare_treatments
+Recommended standalone repaired-export replay:
+  python source/revision/replay_repaired.py replay_output
+Use a new output directory for each run. This command reconstructs repaired
+frames/atlases and compares its PNG files against the frozen exports.
+Dependencies: Python, Pillow, NumPy. The replay does not need FFmpeg.
+Tested: one interior frame per repaired effect family, with exact matches:
+  Combat: 3 families
+  Environment: 4 families, including the bundled hanging-banner master
+  Weather: 2 families
+  Flare treatments: 3 families
+Other headings, complete replay/atlases and retained-original builders were not
+rerun. The full replay command itself was statically checked; its renderer was
+sampled. Follow source/revision/REPRODUCTION.txt.
+
+source/revision/build_pack.py --full is the documented historical development
+orchestrator. It expects original sibling packs; it is not the standalone
+rebuild command. source/retained_original contains historical builders whose
+output layouts predate this release; treat those as separately scoped sources.
+
+RETAINED AMBIENT AND INTERACTION
+
+Quiet Ambient Effects v1
+Working directory: ambient_pack_v1
+Rebuild: python source/build_ambient.py
+Dependencies: Python, Pillow, NumPy, FFmpeg with libx264.
+Tested: one interior Canvas.export frame per all six clips, exact matches.
+Complete export, QA and movie generation were not rerun.
+
+Interaction Cues v1
+Extract Assets and Source_and_Review together.
+Working directory: interaction_pack_v1
+Rebuild: python source/build_cues.py
+Without movie: python source/build_cues.py --skip-preview
+Dependencies: Python, Pillow, NumPy; FFmpeg with libx264 for the movie.
+Tested: one interior Canvas.export frame per all nine clips, exact matches.
+Complete export and its built-in QA were not rerun.
+
+Both builders intentionally resolve their named delivered root back to its
+parent before writing a same-named output folder. Keep the delivered folder
+name unchanged when using these commands.
+
+ILLUSTRATED OCCULT / MATERIAL v02
+Working directory: Lantern_Illustrated_Occult_Material_v02
+Art rebuild: python source/occult.py
+             python source/materials.py
+Package atlases/reviews: python source/package.py
+Verify bounded source replay: python source/verify.py
+Dependencies: Python, Pillow, NumPy; font and FFmpeg for packaging.
+Tested: verify.py completed, rebuilding three samples per each of 20 clips and
+checking loop closure where applicable. All 60 replay samples matched exactly.
+The complete art-generation and packaging commands were not rerun.
+
+SCENE COMPOSITIONS v02
+Working directory: Lantern_Crypt_Entry_CleanInk_v02 or
+                   Lantern_Canal_Workshop_CleanInk_v02
+Rebuild: python source/compose_scenes.py
+Dependencies: Python, Pillow, NumPy.
+Tested: both commands completed using bundled inputs; both sizes of each scene
+matched their frozen pixels. The renderer checks bundled input hashes.
+Optional diagnostic: python source/diagnostic_scales.py
+The diagnostic was inspected, not rerun; it needs the font noted above.
+
+RETAINED HERO KNOWN-VIEW IDLE STUDY v01
+Extract all three volumes together. Work inside
+Lantern_Hero_KnownView_Idle_Study_v01/layered2d.
+Preparation:
+  python source/build_static_layers.py
+  python source/prepare_control_fields.py
+Rig and three proof renders:
+  blender -b --python-exit-code 1 --python source/build_continuous_rig.py
+Then, for the complete native-sample workflow:
+  blender -b --python-exit-code 1 --python source/render_idle_samples.py
+  python source/finish_study.py
+If your Blender launcher resolves relative script arguments from another folder,
+use the absolute path to that script in your extracted copy.
+Dependencies: Python, Pillow, NumPy, SciPy, Blender 4.3.2; font for finishing.
+Tested: both preparation commands passed; the rig rebuilt and all three included
+proof phases rendered using Blender 4.3.2. The original C/RUST hash remained
+74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c.
+The complete 24-sample rendering/finishing/movie workflow was not rerun. The listed
+finishing script creates native frames and preview stills; it does not itself
+encode the supplied MP4. The packed .blend is also available for direct editing.
+This remains a limited known-view study, not a production hero or turnaround.
+
+TREE FORMS AND OTHER STATIC ILLUSTRATIONS
+The static illustrations are directly usable source PNGs; no regeneration script
+is required to read or place them. Exact saved prompts are provenance, not a
+promise of deterministic image-generator regeneration.
+
+Tree Forms v02a
+Exact source-only replacement: Lantern_volume_15_tree_forms_CleanInk_v02a.zip
+Working directory: volume_15_tree_forms
+Rebuild composition proof: python placement_proof/build_tree_placement.py
+Dependencies: Python and Pillow.
+Tested: the command completed; both regenerated composition proofs matched their
+frozen pixels exactly. Three unchanged Gothic proof inputs are now bundled in
+placement_proof/reference_assets/. They are composition dependencies, not three
+additional Tree Forms designs. All six primary tree PNGs and every previous proof
+image remain byte-identical. The original v02 ZIP is unchanged.
+
+SOURCE-ONLY REPLACEMENT PRESERVATION
+Lantern_Containers01_CleanInk_r02a_COMPLETE.zip
+  103,669,578 bytes; 139 pre-existing artwork files preserved
+  byte-identically; 154 total pre-existing files unchanged.
+Lantern_Mechanisms02_CleanInk_r02a_COMPLETE.zip
+  102,058,546 bytes; 165 pre-existing artwork files preserved
+  byte-identically; 180 total pre-existing files unchanged.
+Lantern_Lighting03_CleanInk_r02a_COMPLETE.zip
+  51,990,236 bytes; 256 pre-existing artwork files preserved
+  byte-identically; 272 total pre-existing files unchanged.
+Lantern_volume_15_tree_forms_CleanInk_v02a.zip
+  13,262,057 bytes; 12 pre-existing artwork files preserved
+  byte-identically; 21 total pre-existing files unchanged.
+The only modified existing files are the named rebuild/proof source scripts and
+README documents. Each replacement contains SOURCE_PORTABILITY.json with exact
+changed-file hashes and bounded test scope. No full-game/runtime claim is made.

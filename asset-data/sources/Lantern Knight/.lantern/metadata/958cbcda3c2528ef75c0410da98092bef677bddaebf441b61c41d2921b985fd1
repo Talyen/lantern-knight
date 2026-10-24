@@ -1,0 +1,61 @@
+{
+  "title": "rootwood_B fresh variant 01",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "entry",
+      "display_box": [
+        482,
+        510,
+        2018,
+        1534
+      ],
+      "display_foot": [
+        1250,
+        1150
+      ]
+    },
+    {
+      "name": "middle",
+      "display_box": [
+        1182,
+        985,
+        2718,
+        2009
+      ],
+      "display_foot": [
+        1950,
+        1625
+      ]
+    },
+    {
+      "name": "far",
+      "display_box": [
+        2182,
+        735,
+        3718,
+        1759
+      ],
+      "display_foot": [
+        2950,
+        1375
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "terrain_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "landmark_junction",
+      "source_xy": [
+        960,
+        640
+      ]
+    }
+  ]
+}

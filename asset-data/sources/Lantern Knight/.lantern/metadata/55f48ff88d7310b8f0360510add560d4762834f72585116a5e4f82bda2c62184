@@ -1,0 +1,21 @@
+{
+  "BUILD_CURRENT_RUNTIME_V02.py": "928ded8760bde8bdefb327750adf6315e2703b6afcd0a0efeaf8074e7e2ecb94",
+  "README_CURRENT_V02.txt": "dbffcb4ba61e879aafc156f7ca2a627b3ad80367ad7f5d32f04db93176ece2e0",
+  "guides/UL/manifest.json": "5925e9dd39efba0a625ca287fae8d27d38756e0aa16b6e69f6b9d1a71aa84ee1",
+  "guides/UL/run8_guide_sheet.png": "6a0d7588660c9a111c1b1d9af93a39babc0c0cec5dc0e4829aff119ca9fc9906",
+  "metadata/UL_readyref_clean_mask_v01.png": "74ba6f531888a941eb4954a806c4cf25b5310b850f870d4d7e9104588a446e4e",
+  "metadata/UL_readyref_clean_v01.json": "8915cfc065188846c4e98e186f85feb7657a535dc1a0e3a1a8d1f2a003dcb584",
+  "prompts/UL_run8_v02_readyref.txt": "12a61d72025f9b1427d526b2fee5d6c7847b9a12e8f42b61120fc0a8032233a8",
+  "qa_v02/UL_fragment_mask.png": "740e8d8a95fce2492b81ab3f3196d0bed3ad1204a1f797d2887589c7024d9cb0",
+  "qa_v02/exact_changed_pixel_mask.png": "740e8d8a95fce2492b81ab3f3196d0bed3ad1204a1f797d2887589c7024d9cb0",
+  "qa_v02/frame_patch_rgba.png": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+  "qa_v02/original_authoring_script.py": "d8310d53fe9f4c34f55000f4871bf6ca179b187aca74b25d296a6a1c7ee8b416",
+  "qa_v02/original_runtime_manifest_v01.json": "69518598b38aaf8f80b07f0c74ede1e4d86756f94faa45eab0b68ec11fd9a684",
+  "qa_v02/original_v01_file_hashes.json": "ac8db298e16492b619921a8334e533795acee9c60504e417d252aaaec6288ae3",
+  "qa_v02/rebuild_contract.json": "0959d2c48ffa0d7446b99b1654553b7348c16f4b256e9beb024ec6a403f47dbd",
+  "qa_v02/runtime_manifest_v02.json": "2388d001000e6b595ee3bfbe61ace6d309dbebbd48ac244469d8926a1ec3dc4d",
+  "qa_v02/verified_rebuild_hashes.json": "08a15d8af58c3a0bac3d3eda8daef03e031128d94c9eb3a19d92805f07ed694f",
+  "render_rotated_guides.py": "3d067ee11f587f359de2cd25f2c75674925230a6df022ca39dc27e43c71f748e",
+  "source/UL_readyref_clean_v01.png": "a760ee69171f2b13f6bf177ebb324b936e04e5ceb398a376e4c1fda36604a887",
+  "source/UL_run8_v02_readyref_native.png": "cd8b1c42bb4b155f6dd274b8023ed38b5ac4eed842f4b6382c9704eec18a78bf"
+}

@@ -1,0 +1,248 @@
+{
+  "total_assets": 56,
+  "fresh_rebuilds": 30,
+  "audit_rebuilds_completed": 23,
+  "selective_repairs_completed": 7,
+  "retained_originals": 26,
+  "byte_integrity": [
+    {
+      "id": "lantern_concept_enemy_01_gaunt_graveworker",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_02_skeleton_halberdier",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_03_masked_cultist",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_04_iron_revenant",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_05_shadowhound",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_06_gargoyle",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_07_swamp_witch",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy_08_clockwork_penitent",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy02_01_drowned_mariner",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy02_02_mirror_duelist",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy02_03_furnace_imp",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy02_04_bell_widow",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_concept_enemy02_05_raven_magistrate",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_creature_concept_01_rootbound_sentry",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_creature_concept_02_rat_marshal",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_creature_concept_03_moth_oracle",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_npc_concept_01_foundry_smith",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_npc_concept_02_roadside_herbalist",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_npc_concept_03_river_ferryman",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_npc_concept_04_court_astrologer",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_npc_concept_05_key_steward",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_npc_concept_06_clockwork_tinker",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_nonhumanoid_concept_01_vault_crawler",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_nonhumanoid_concept_02_crypt_bat",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_nonhumanoid_concept_03_ironback_boar",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_nonhumanoid_concept_04_orbit_warden",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_elite_concept_01_bellbearing_pilgrim",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_elite_concept_02_ash_stag",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_elite_concept_03_drowned_armored_crab",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_elite_concept_04_broken_cathedral_automaton",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_elite_concept_05_candle_procession_wraith",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_elite_concept_06_rootbound_stone_saint",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_archetype_concept_01_skeletal_archer",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_archetype_concept_02_armored_grave_spider",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_archetype_concept_03_walking_fungal_pod",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_archetype_concept_04_plague_alchemist",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_archetype_concept_05_ragged_axe_brigand",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_archetype_concept_06_floating_torn_spellbook",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_hostile_faction_concept_01_shield_bearer",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_hostile_faction_concept_02_crossbow_scout",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_hostile_faction_concept_03_hook_carrier",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_hostile_faction_concept_04_censer_keeper",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_hostile_faction_concept_05_knife_fighter",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_hostile_faction_concept_06_bellhammer_bearer",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_fauna_concept_01_lean_marsh_hound",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_fauna_concept_02_carrion_raven",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_fauna_concept_03_antlerless_cave_doe",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_fauna_concept_04_armored_toad",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_fauna_concept_05_bog_lizard",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_fauna_concept_06_small_root_mimic",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_cave_creature_01_plated_tunnel_slug",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_cave_creature_02_longneck_stone_lizard",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_cave_creature_03_root_crab",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_cave_creature_04_eyeless_cave_bird",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_cave_creature_05_thornback_burrower",
+      "selected_asset_matches_source_bytes": true
+    },
+    {
+      "id": "lantern_cave_creature_06_hovering_broken_mask",
+      "selected_asset_matches_source_bytes": true
+    }
+  ],
+  "visual_checks": {
+    "all_new_drawings": "Inspected complete light/dark composites and reduced-size contact sheets. No clipped visible subject detected; several native canvases have narrow margins.",
+    "weapon_grips": "Revenant hammer, hook carrier, bellhammer bearer, scout, rat, knife fighter and censer keeper grips inspected; plausible static drawn holds.",
+    "crossbows": "Scout and rat bow limbs, string meeting rear stock, fore-end support, rear grip and visible bolt axis inspected. Static drawings do not establish functional rigging.",
+    "grave_spider": "Seven leg tips clearly exposed: four on near/left side and three on far/right. Fourth far leg is occluded by abdomen/rear grouping in this three-quarter view; no extra duplicated limb detected. Eight-limb rig must be established in later model/rig work.",
+    "camera": "Elevated three-quarter concept approximation, not calibrated 35.2643897/45 bake. Mirror duelist remains shallower than target; do not claim exact camera.",
+    "alpha": "Native generator alpha preserved without matte extraction or painted edits. Viewer-only hidden RGB halos absent from actual light/dark composites.",
+    "style": "Strong ink and cel-shadow improvement across selected set. Sparse surface irregularities remain in some iron/wood assets; no generic grain overlay applied.",
+    "canonical_hero": "Never edited or copied over; used only for style understanding."
+  },
+  "padded_imports": {
+    "count": 30,
+    "pixel_preservation": "Each native RGBA image exactly equals its corresponding rectangle in padded output, verified byte-wise after decoding.",
+    "padding": "96px minimum clear margin around alpha >16 visible bound; no source cropping or resampling."
+  }
+}

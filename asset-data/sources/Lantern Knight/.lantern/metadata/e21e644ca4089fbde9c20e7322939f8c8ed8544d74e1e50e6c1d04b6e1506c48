@@ -1,0 +1,142 @@
+{
+  "scene_master_id": "17zbPUVN2NyeUv60mvs15jYPPj1Gl9qsn",
+  "source_kit_id": "1z0j-SSnYdUN2uASiPpva_NlECTwpR7Rn",
+  "props": {
+    "formal_offering_box": {
+      "prompt": "Create ONE Lantern Knight Structured Graveyard interactable animation source sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual scene reference supplies PALETTE ONLY: pale warm limestone beige, very dark olive earthy shadows, subdued brown wood. Confident black ink contour with slightly irregular intentional edges, restrained flat 3-tone shading, most surfaces quiet and clean, no fine texture. Orthographic isometric elevation35.264 azimuth45. Object must be isolated with NO TERRAIN, NO STONE TILE, NO SOIL, NO GROUND PATCH, NO PLANTS, NO separate rock. Genuine transparent alpha around object only. FOUR clearly separated authored animation cels in ONE horizontal row, exact same camera scale and grounded base anchor, generous gutters and outer padding. No labels/text, exposed rewards, bones, gore, characters or effects. A compact upright rectangular pale limestone offering box with two small recessed front panels, a flat hinged slab lid, spare formal straight-sided silhouette suitable to orderly cemetery. Four cels closed, lid25degrees, lid65degrees, fully open105degrees persistent, dark empty storage cavity. Stable base.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/formal_offering_box_authored_sheet.png",
+          "file_id": "file_000000004e5c8230805f80c6aaa8a0aa",
+          "library_file_id": "libfile_2a329edf169881918d024255ec2f1672",
+          "file_name": "formal_offering_box_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1324618,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-f2c64e94-0bf8-4176-a9da-0d9fe19e1eb1.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "sextons_wooden_coffer": {
+      "prompt": "Create ONE Lantern Knight Structured Graveyard interactable animation source sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual scene reference supplies PALETTE ONLY: pale warm limestone beige, very dark olive earthy shadows, subdued brown wood. Confident black ink contour with slightly irregular intentional edges, restrained flat 3-tone shading, most surfaces quiet and clean, no fine texture. Orthographic isometric elevation35.264 azimuth45. Object must be isolated with NO TERRAIN, NO STONE TILE, NO SOIL, NO GROUND PATCH, NO PLANTS, NO separate rock. Genuine transparent alpha around object only. FOUR clearly separated authored animation cels in ONE horizontal row, exact same camera scale and grounded base anchor, generous gutters and outer padding. No labels/text, exposed rewards, bones, gore, characters or effects. A small low dark brown wooden sexton's storage coffer, neat broad planks, black iron corner brackets, flat hinged lid and plain central latch. NOT a stone tomb. Four cels closed, lid25degrees, lid65degrees, fully open105degrees persistent, dark empty storage cavity. Stable base.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/sextons_wooden_coffer_authored_sheet.png",
+          "file_id": "file_00000000c2308230a1579a5186732ec9",
+          "library_file_id": "libfile_9ffcecebe4b0819186d9552a421c876e",
+          "file_name": "sextons_wooden_coffer_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1025166,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-2a705cc6-4bff-4600-8c43-07fde646c9b8.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "sealed_memorial_jar": {
+      "prompt": "Create ONE Lantern Knight Structured Graveyard interactable animation source sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual scene reference supplies PALETTE ONLY: pale warm limestone beige, very dark olive earthy shadows, subdued brown wood. Confident black ink contour with slightly irregular intentional edges, restrained flat 3-tone shading, most surfaces quiet and clean, no fine texture. Orthographic isometric elevation35.264 azimuth45. Object must be isolated with NO TERRAIN, NO STONE TILE, NO SOIL, NO GROUND PATCH, NO PLANTS, NO separate rock. Genuine transparent alpha around object only. FOUR clearly separated authored animation cels in ONE horizontal row, exact same camera scale and grounded base anchor, generous gutters and outer padding. No labels/text, exposed rewards, bones, gore, characters or effects. A small sealed warm grey-beige ceramic memorial storage jar with simple shoulder, flat round lid and tiny dark olive horizontal band. Four cels intact, impact spreading cracks, actual large shards separate while lid falls and lower base grounded, terminal settled low pile of ceramic shards and lid. Hollow empty storage.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/sealed_memorial_jar_authored_sheet.png",
+          "file_id": "file_000000008fd48230828218e74bbcc564",
+          "library_file_id": "libfile_5ce72fd644c08191a66f9a40efa9cfa8",
+          "file_name": "sealed_memorial_jar_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 834481,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-53884c24-25b5-43e6-8d4d-a04d18a49984.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "ordered_supply_crate": {
+      "prompt": "Create ONE Lantern Knight Structured Graveyard interactable animation source sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual scene reference supplies PALETTE ONLY: pale warm limestone beige, very dark olive earthy shadows, subdued brown wood. Confident black ink contour with slightly irregular intentional edges, restrained flat 3-tone shading, most surfaces quiet and clean, no fine texture. Orthographic isometric elevation35.264 azimuth45. Object must be isolated with NO TERRAIN, NO STONE TILE, NO SOIL, NO GROUND PATCH, NO PLANTS, NO separate rock. Genuine transparent alpha around object only. FOUR clearly separated authored animation cels in ONE horizontal row, exact same camera scale and grounded base anchor, generous gutters and outer padding. No labels/text, exposed rewards, bones, gore, characters or effects. A small square sealed dark brown wooden supply crate with clean sparse slats, simple crossbrace and flat wooden cover. Four cels intact, impact splintered crossbrace, actual separated boards bursting from hollow crate base, terminal low settled pile of broken boards. No ground patch, hollow empty storage.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/ordered_supply_crate_authored_sheet.png",
+          "file_id": "file_00000000b5f88230849a6a25f0596d26",
+          "library_file_id": "libfile_8d38b8ec77848191a6bb159f2712c1f1",
+          "file_name": "ordered_supply_crate_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1142368,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-8fb0dd82-147a-4d8d-911c-063c70366174.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  }
+}

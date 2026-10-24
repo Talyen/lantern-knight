@@ -1,0 +1,473 @@
+{
+  "name": "09-roadside-ember-pit",
+  "revision": 2,
+  "canvas": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    256,
+    484
+  ],
+  "fps_clock": 60,
+  "loop": true,
+  "interpolation": "none",
+  "duration_ticks": 168,
+  "atlas_size": [
+    3168,
+    3168
+  ],
+  "padding_px": 8,
+  "rotation": false,
+  "frames": [
+    {
+      "index": 0,
+      "rect": [
+        8,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.58985151800474,
+        0.2756077227065719
+      ]
+    },
+    {
+      "index": 1,
+      "rect": [
+        536,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.5201646670409055,
+        0.25251705659034923
+      ]
+    },
+    {
+      "index": 2,
+      "rect": [
+        1064,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.440401216989426,
+        0.27565221283516245
+      ]
+    },
+    {
+      "index": 3,
+      "rect": [
+        1592,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.35609458890217704,
+        0.3433417358236334
+      ]
+    },
+    {
+      "index": 4,
+      "rect": [
+        2120,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.28655284819688237,
+        0.4187032632954485
+      ]
+    },
+    {
+      "index": 5,
+      "rect": [
+        2648,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.24305677065672537,
+        0.44385859567876906
+      ]
+    },
+    {
+      "index": 6,
+      "rect": [
+        8,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.21688956813820143,
+        0.38701669291321195
+      ]
+    },
+    {
+      "index": 7,
+      "rect": [
+        536,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.1986213534747878,
+        0.3142234982681254
+      ]
+    },
+    {
+      "index": 8,
+      "rect": [
+        1064,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.1874849388449715,
+        0.3292039827909142
+      ]
+    },
+    {
+      "index": 9,
+      "rect": [
+        1592,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.1967196209483431,
+        0.45026528340659205
+      ]
+    },
+    {
+      "index": 10,
+      "rect": [
+        2120,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.2326607127566258,
+        0.5730959529687196
+      ]
+    },
+    {
+      "index": 11,
+      "rect": [
+        2648,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.27735591275307286,
+        0.5744277402198036
+      ]
+    },
+    {
+      "index": 12,
+      "rect": [
+        8,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.29674490496983136,
+        0.4536321549936566
+      ]
+    },
+    {
+      "index": 13,
+      "rect": [
+        536,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.27864623382932674,
+        0.3097720673465795
+      ]
+    },
+    {
+      "index": 14,
+      "rect": [
+        1064,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.2673952554562488,
+        0.22304729111786303
+      ]
+    },
+    {
+      "index": 15,
+      "rect": [
+        1592,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.3206963091638697,
+        0.19903760885372784
+      ]
+    },
+    {
+      "index": 16,
+      "rect": [
+        2120,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.456069760353714,
+        0.20219704844011663
+      ]
+    },
+    {
+      "index": 17,
+      "rect": [
+        2648,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.6337470326846195,
+        0.21282607248202692
+      ]
+    },
+    {
+      "index": 18,
+      "rect": [
+        8,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.7951204740774807,
+        0.2322637853530422
+      ]
+    },
+    {
+      "index": 19,
+      "rect": [
+        536,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.9004953369965913,
+        0.26064012382222485
+      ]
+    },
+    {
+      "index": 20,
+      "rect": [
+        1064,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.9373882838819897,
+        0.29103739735230927
+      ]
+    },
+    {
+      "index": 21,
+      "rect": [
+        1592,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.9256011364424166,
+        0.3147817702195439
+      ]
+    },
+    {
+      "index": 22,
+      "rect": [
+        2120,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.9015193077575512,
+        0.335121100788329
+      ]
+    },
+    {
+      "index": 23,
+      "rect": [
+        2648,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.8901928471686867,
+        0.3626980965330457
+      ]
+    },
+    {
+      "index": 24,
+      "rect": [
+        8,
+        2120,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.8836169182104574,
+        0.39695921796956374
+      ]
+    },
+    {
+      "index": 25,
+      "rect": [
+        536,
+        2120,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.8639005579038028,
+        0.4236313129058925
+      ]
+    },
+    {
+      "index": 26,
+      "rect": [
+        1064,
+        2120,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.8376925942929448,
+        0.4326991206697985
+      ]
+    },
+    {
+      "index": 27,
+      "rect": [
+        1592,
+        2120,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.825057449681461,
+        0.4274985667079495
+      ]
+    },
+    {
+      "index": 28,
+      "rect": [
+        2120,
+        2120,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.8206265128174806,
+        0.4175214027058918
+      ]
+    },
+    {
+      "index": 29,
+      "rect": [
+        2648,
+        2120,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.7947841766835345,
+        0.40297522849104195
+      ]
+    },
+    {
+      "index": 30,
+      "rect": [
+        8,
+        2648,
+        512,
+        512
+      ],
+      "hold_60hz": 5,
+      "flame_energy_left_right": [
+        0.7352662386958794,
+        0.3729402928944796
+      ]
+    },
+    {
+      "index": 31,
+      "rect": [
+        536,
+        2648,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.6601470591141045,
+        0.3242038824457735
+      ]
+    }
+  ],
+  "compositing": "Normal straight-alpha order: unlit, illumination, rear-flames, front-flames. Rear alpha already occluded by selected interior fuel and outer rim; front alpha occluded only by outer rim. Front/rear are nonoverlapping partitions of distinct illustrated cels, never duplicated drawings. effects equals rear over transparent then front. lit still is frame02."
+}

@@ -1,0 +1,1447 @@
+{
+  "title": "RUST CHAIN",
+  "slug": "rust_chain",
+  "canvas": [
+    512,
+    512
+  ],
+  "pixel_format": "straight RGBA",
+  "source_sheet": "source_sheet.png",
+  "source_size": [
+    1536,
+    1024
+  ],
+  "source_grid": [
+    6,
+    4
+  ],
+  "source_grid_pitch": [
+    256.0,
+    256.0
+  ],
+  "source_grid_origin": [
+    0.0,
+    0.0
+  ],
+  "source_scale": 1.5,
+  "source_padding": [
+    64.0,
+    64.0
+  ],
+  "registration": "Fixed virtual source grid; crop offsets compensate for uneven extraction boundaries. No silhouette bounding-box recentering.",
+  "source_registration_note": "The generated landing marker has modest row-to-row drift (about29 source pixels in y). Fixed nominal grid registration is preserved; no individual cel or row recentering. Contact target records the chain tip within the marker right side; flying scrape chips are cosmetic.",
+  "atlas": "spritesheet_rgba.png",
+  "atlas_grid": [
+    6,
+    4
+  ],
+  "frame_count": 24,
+  "unique_drawn_cels": 23,
+  "fully_clear_terminal_cels": 1,
+  "loop": false,
+  "apng_play_count": 1,
+  "mp4_preview_cycles": 3,
+  "mp4_fps": 200,
+  "mp4_time_basis_ms": 5,
+  "formation_comparison": {
+    "enemy_ms": 840,
+    "hero_ms": 120,
+    "ratio": 7.0,
+    "hero_formation_source_cels": [
+      1,
+      6,
+      10,
+      14
+    ]
+  },
+  "coordinate_guide_note": "Art-direction guides only; no engine collision or gameplay implementation. Cosmetic recovery debris does not create extra damage events.",
+  "pivot_pixels": [
+    161.92,
+    405.76
+  ],
+  "target_pixels": [
+    371.5,
+    398.5
+  ],
+  "intended_attack_footprint_pixels": [
+    [
+      392.5,
+      405.25
+    ],
+    [
+      377.35,
+      414.265
+    ],
+    [
+      340.75,
+      418.0
+    ],
+    [
+      304.15,
+      414.265
+    ],
+    [
+      289.0,
+      405.25
+    ],
+    [
+      304.15,
+      396.235
+    ],
+    [
+      340.75,
+      392.5
+    ],
+    [
+      377.35,
+      396.235
+    ]
+  ],
+  "timelines": {
+    "enemy": {
+      "cycle_ms": 1670,
+      "formation_ms": 840,
+      "strike_ms": 40,
+      "contact_ms": 90,
+      "recovery_ms": 350,
+      "clear_pause_ms": 350,
+      "contact_event": {
+        "source_index": 15,
+        "source_cel": 16,
+        "sequence_index": 15,
+        "time_ms": 880
+      },
+      "frame_count": 24,
+      "entries": [
+        {
+          "sequence_index": 0,
+          "source_index": 0,
+          "source_cel": 1,
+          "file": "frames/00.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 0,
+          "end_ms": 60,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 1,
+          "source_index": 1,
+          "source_cel": 2,
+          "file": "frames/01.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 60,
+          "end_ms": 120,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 2,
+          "source_index": 2,
+          "source_cel": 3,
+          "file": "frames/02.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 120,
+          "end_ms": 180,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 3,
+          "source_index": 3,
+          "source_cel": 4,
+          "file": "frames/03.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 180,
+          "end_ms": 240,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 4,
+          "source_index": 4,
+          "source_cel": 5,
+          "file": "frames/04.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 240,
+          "end_ms": 300,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 5,
+          "source_index": 5,
+          "source_cel": 6,
+          "file": "frames/05.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 300,
+          "end_ms": 360,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 6,
+          "source_index": 6,
+          "source_cel": 7,
+          "file": "frames/06.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 360,
+          "end_ms": 420,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 7,
+          "source_index": 7,
+          "source_cel": 8,
+          "file": "frames/07.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 420,
+          "end_ms": 480,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 8,
+          "source_index": 8,
+          "source_cel": 9,
+          "file": "frames/08.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 480,
+          "end_ms": 540,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 9,
+          "source_index": 9,
+          "source_cel": 10,
+          "file": "frames/09.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 540,
+          "end_ms": 600,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 10,
+          "source_index": 10,
+          "source_cel": 11,
+          "file": "frames/10.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 600,
+          "end_ms": 660,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 11,
+          "source_index": 11,
+          "source_cel": 12,
+          "file": "frames/11.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 660,
+          "end_ms": 720,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 12,
+          "source_index": 12,
+          "source_cel": 13,
+          "file": "frames/12.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 720,
+          "end_ms": 780,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 13,
+          "source_index": 13,
+          "source_cel": 14,
+          "file": "frames/13.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 780,
+          "end_ms": 840,
+          "duration_ms": 60,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 14,
+          "source_index": 14,
+          "source_cel": 15,
+          "file": "frames/14.png",
+          "phase": "STRIKE",
+          "start_ms": 840,
+          "end_ms": 880,
+          "duration_ms": 40,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 15,
+          "source_index": 15,
+          "source_cel": 16,
+          "file": "frames/15.png",
+          "phase": "CONTACT",
+          "start_ms": 880,
+          "end_ms": 970,
+          "duration_ms": 90,
+          "damage_event": true
+        },
+        {
+          "sequence_index": 16,
+          "source_index": 16,
+          "source_cel": 17,
+          "file": "frames/16.png",
+          "phase": "RECOVERY",
+          "start_ms": 970,
+          "end_ms": 1020,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 17,
+          "source_index": 17,
+          "source_cel": 18,
+          "file": "frames/17.png",
+          "phase": "RECOVERY",
+          "start_ms": 1020,
+          "end_ms": 1070,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 18,
+          "source_index": 18,
+          "source_cel": 19,
+          "file": "frames/18.png",
+          "phase": "RECOVERY",
+          "start_ms": 1070,
+          "end_ms": 1120,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 19,
+          "source_index": 19,
+          "source_cel": 20,
+          "file": "frames/19.png",
+          "phase": "RECOVERY",
+          "start_ms": 1120,
+          "end_ms": 1170,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 20,
+          "source_index": 20,
+          "source_cel": 21,
+          "file": "frames/20.png",
+          "phase": "RECOVERY",
+          "start_ms": 1170,
+          "end_ms": 1220,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 21,
+          "source_index": 21,
+          "source_cel": 22,
+          "file": "frames/21.png",
+          "phase": "RECOVERY",
+          "start_ms": 1220,
+          "end_ms": 1270,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 22,
+          "source_index": 22,
+          "source_cel": 23,
+          "file": "frames/22.png",
+          "phase": "RECOVERY",
+          "start_ms": 1270,
+          "end_ms": 1320,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 23,
+          "source_index": 23,
+          "source_cel": 24,
+          "file": "frames/23.png",
+          "phase": "CLEAR / HOLD",
+          "start_ms": 1320,
+          "end_ms": 1670,
+          "duration_ms": 350,
+          "damage_event": false
+        }
+      ]
+    },
+    "hero": {
+      "cycle_ms": 950,
+      "formation_ms": 120,
+      "strike_ms": 40,
+      "contact_ms": 90,
+      "recovery_ms": 350,
+      "clear_pause_ms": 350,
+      "contact_event": {
+        "source_index": 15,
+        "source_cel": 16,
+        "sequence_index": 5,
+        "time_ms": 160
+      },
+      "frame_count": 14,
+      "entries": [
+        {
+          "sequence_index": 0,
+          "source_index": 0,
+          "source_cel": 1,
+          "file": "frames/00.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 0,
+          "end_ms": 30,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 1,
+          "source_index": 5,
+          "source_cel": 6,
+          "file": "frames/05.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 30,
+          "end_ms": 60,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 2,
+          "source_index": 9,
+          "source_cel": 10,
+          "file": "frames/09.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 60,
+          "end_ms": 90,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 3,
+          "source_index": 13,
+          "source_cel": 14,
+          "file": "frames/13.png",
+          "phase": "FORMATION / WINDUP",
+          "start_ms": 90,
+          "end_ms": 120,
+          "duration_ms": 30,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 4,
+          "source_index": 14,
+          "source_cel": 15,
+          "file": "frames/14.png",
+          "phase": "STRIKE",
+          "start_ms": 120,
+          "end_ms": 160,
+          "duration_ms": 40,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 5,
+          "source_index": 15,
+          "source_cel": 16,
+          "file": "frames/15.png",
+          "phase": "CONTACT",
+          "start_ms": 160,
+          "end_ms": 250,
+          "duration_ms": 90,
+          "damage_event": true
+        },
+        {
+          "sequence_index": 6,
+          "source_index": 16,
+          "source_cel": 17,
+          "file": "frames/16.png",
+          "phase": "RECOVERY",
+          "start_ms": 250,
+          "end_ms": 300,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 7,
+          "source_index": 17,
+          "source_cel": 18,
+          "file": "frames/17.png",
+          "phase": "RECOVERY",
+          "start_ms": 300,
+          "end_ms": 350,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 8,
+          "source_index": 18,
+          "source_cel": 19,
+          "file": "frames/18.png",
+          "phase": "RECOVERY",
+          "start_ms": 350,
+          "end_ms": 400,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 9,
+          "source_index": 19,
+          "source_cel": 20,
+          "file": "frames/19.png",
+          "phase": "RECOVERY",
+          "start_ms": 400,
+          "end_ms": 450,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 10,
+          "source_index": 20,
+          "source_cel": 21,
+          "file": "frames/20.png",
+          "phase": "RECOVERY",
+          "start_ms": 450,
+          "end_ms": 500,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 11,
+          "source_index": 21,
+          "source_cel": 22,
+          "file": "frames/21.png",
+          "phase": "RECOVERY",
+          "start_ms": 500,
+          "end_ms": 550,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 12,
+          "source_index": 22,
+          "source_cel": 23,
+          "file": "frames/22.png",
+          "phase": "RECOVERY",
+          "start_ms": 550,
+          "end_ms": 600,
+          "duration_ms": 50,
+          "damage_event": false
+        },
+        {
+          "sequence_index": 13,
+          "source_index": 23,
+          "source_cel": 24,
+          "file": "frames/23.png",
+          "phase": "CLEAR / HOLD",
+          "start_ms": 600,
+          "end_ms": 950,
+          "duration_ms": 350,
+          "damage_event": false
+        }
+      ]
+    }
+  },
+  "frames": [
+    {
+      "index": 0,
+      "cel": 1,
+      "file": "frames/00.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source_grid_origin": [
+        0.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 5708,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        135,
+        389,
+        384,
+        441
+      ],
+      "visible_alpha_pixels": 3316,
+      "nonzero_alpha_pixels": 13554
+    },
+    {
+      "index": 1,
+      "cel": 2,
+      "file": "frames/01.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        256,
+        0,
+        512,
+        256
+      ],
+      "source_grid_origin": [
+        256.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 11912,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        125,
+        305,
+        386,
+        442
+      ],
+      "visible_alpha_pixels": 7085,
+      "nonzero_alpha_pixels": 27778
+    },
+    {
+      "index": 2,
+      "cel": 3,
+      "file": "frames/02.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        512,
+        0,
+        768,
+        256
+      ],
+      "source_grid_origin": [
+        512.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 10329,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        128,
+        285,
+        388,
+        443
+      ],
+      "visible_alpha_pixels": 8448,
+      "nonzero_alpha_pixels": 24045
+    },
+    {
+      "index": 3,
+      "cel": 4,
+      "file": "frames/03.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        768,
+        0,
+        1024,
+        256
+      ],
+      "source_grid_origin": [
+        768.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 13028,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        137,
+        256,
+        390,
+        442
+      ],
+      "visible_alpha_pixels": 10432,
+      "nonzero_alpha_pixels": 30214
+    },
+    {
+      "index": 4,
+      "cel": 5,
+      "file": "frames/04.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1024,
+        0,
+        1280,
+        256
+      ],
+      "source_grid_origin": [
+        1024.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 15323,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        122,
+        220,
+        391,
+        443
+      ],
+      "visible_alpha_pixels": 12932,
+      "nonzero_alpha_pixels": 34776
+    },
+    {
+      "index": 5,
+      "cel": 6,
+      "file": "frames/05.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1280,
+        0,
+        1536,
+        256
+      ],
+      "source_grid_origin": [
+        1280.0,
+        0.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 13740,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        139,
+        159,
+        393,
+        442
+      ],
+      "visible_alpha_pixels": 14186,
+      "nonzero_alpha_pixels": 31425
+    },
+    {
+      "index": 6,
+      "cel": 7,
+      "file": "frames/06.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "source_grid_origin": [
+        0.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 15379,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        119,
+        185,
+        385,
+        434
+      ],
+      "visible_alpha_pixels": 14919,
+      "nonzero_alpha_pixels": 34984
+    },
+    {
+      "index": 7,
+      "cel": 8,
+      "file": "frames/07.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        256,
+        256,
+        512,
+        512
+      ],
+      "source_grid_origin": [
+        256.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 22336,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        116,
+        178,
+        388,
+        433
+      ],
+      "visible_alpha_pixels": 20885,
+      "nonzero_alpha_pixels": 50467
+    },
+    {
+      "index": 8,
+      "cel": 9,
+      "file": "frames/08.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        512,
+        256,
+        768,
+        512
+      ],
+      "source_grid_origin": [
+        512.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 18833,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        118,
+        208,
+        388,
+        434
+      ],
+      "visible_alpha_pixels": 17825,
+      "nonzero_alpha_pixels": 42409
+    },
+    {
+      "index": 9,
+      "cel": 10,
+      "file": "frames/09.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        768,
+        256,
+        1024,
+        512
+      ],
+      "source_grid_origin": [
+        768.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 16504,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        114,
+        217,
+        391,
+        433
+      ],
+      "visible_alpha_pixels": 17994,
+      "nonzero_alpha_pixels": 37305
+    },
+    {
+      "index": 10,
+      "cel": 11,
+      "file": "frames/10.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1024,
+        256,
+        1280,
+        512
+      ],
+      "source_grid_origin": [
+        1024.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 16492,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        111,
+        244,
+        393,
+        433
+      ],
+      "visible_alpha_pixels": 18261,
+      "nonzero_alpha_pixels": 37444
+    },
+    {
+      "index": 11,
+      "cel": 12,
+      "file": "frames/11.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        1280,
+        256,
+        1536,
+        512
+      ],
+      "source_grid_origin": [
+        1280.0,
+        256.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 18475,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        96,
+        164,
+        394,
+        434
+      ],
+      "visible_alpha_pixels": 18007,
+      "nonzero_alpha_pixels": 41772
+    },
+    {
+      "index": 12,
+      "cel": 13,
+      "file": "frames/12.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        0,
+        512,
+        256,
+        768
+      ],
+      "source_grid_origin": [
+        0.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 17055,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        115,
+        232,
+        384,
+        419
+      ],
+      "visible_alpha_pixels": 18542,
+      "nonzero_alpha_pixels": 39032
+    },
+    {
+      "index": 13,
+      "cel": 14,
+      "file": "frames/13.png",
+      "phase": "FORMATION / WINDUP",
+      "source_crop": [
+        256,
+        512,
+        512,
+        768
+      ],
+      "source_grid_origin": [
+        256.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 15748,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        116,
+        237,
+        388,
+        418
+      ],
+      "visible_alpha_pixels": 17669,
+      "nonzero_alpha_pixels": 35856
+    },
+    {
+      "index": 14,
+      "cel": 15,
+      "file": "frames/14.png",
+      "phase": "STRIKE",
+      "source_crop": [
+        512,
+        512,
+        768,
+        768
+      ],
+      "source_grid_origin": [
+        512.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 17503,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        118,
+        169,
+        417,
+        418
+      ],
+      "visible_alpha_pixels": 21216,
+      "nonzero_alpha_pixels": 39295
+    },
+    {
+      "index": 15,
+      "cel": 16,
+      "file": "frames/15.png",
+      "phase": "CONTACT",
+      "source_crop": [
+        768,
+        512,
+        1032,
+        768
+      ],
+      "source_grid_origin": [
+        768.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        396,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 21654,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        119,
+        170,
+        457,
+        419
+      ],
+      "visible_alpha_pixels": 26821,
+      "nonzero_alpha_pixels": 48682
+    },
+    {
+      "index": 16,
+      "cel": 17,
+      "file": "frames/16.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        1032,
+        512,
+        1280,
+        768
+      ],
+      "source_grid_origin": [
+        1024.0,
+        512.0
+      ],
+      "paste_xy": [
+        76,
+        64
+      ],
+      "scaled_crop_size": [
+        372,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 23238,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        130,
+        157,
+        436,
+        418
+      ],
+      "visible_alpha_pixels": 22789,
+      "nonzero_alpha_pixels": 52401
+    },
+    {
+      "index": 17,
+      "cel": 18,
+      "file": "frames/17.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        1280,
+        512,
+        1536,
+        768
+      ],
+      "source_grid_origin": [
+        1280.0,
+        512.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 29264,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        113,
+        175,
+        419,
+        419
+      ],
+      "visible_alpha_pixels": 19235,
+      "nonzero_alpha_pixels": 65749
+    },
+    {
+      "index": 18,
+      "cel": 19,
+      "file": "frames/18.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        0,
+        768,
+        256,
+        1024
+      ],
+      "source_grid_origin": [
+        0.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 23661,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        133,
+        167,
+        414,
+        395
+      ],
+      "visible_alpha_pixels": 14614,
+      "nonzero_alpha_pixels": 53178
+    },
+    {
+      "index": 19,
+      "cel": 20,
+      "file": "frames/19.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        256,
+        768,
+        512,
+        1024
+      ],
+      "source_grid_origin": [
+        256.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 16659,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        122,
+        179,
+        388,
+        394
+      ],
+      "visible_alpha_pixels": 10510,
+      "nonzero_alpha_pixels": 37689
+    },
+    {
+      "index": 20,
+      "cel": 21,
+      "file": "frames/20.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        512,
+        768,
+        768,
+        1024
+      ],
+      "source_grid_origin": [
+        512.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 4873,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        170,
+        198,
+        388,
+        393
+      ],
+      "visible_alpha_pixels": 4577,
+      "nonzero_alpha_pixels": 11330
+    },
+    {
+      "index": 21,
+      "cel": 22,
+      "file": "frames/21.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        768,
+        768,
+        1024,
+        1024
+      ],
+      "source_grid_origin": [
+        768.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 1642,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        245,
+        270,
+        269,
+        300
+      ],
+      "visible_alpha_pixels": 516,
+      "nonzero_alpha_pixels": 4175
+    },
+    {
+      "index": 22,
+      "cel": 23,
+      "file": "frames/22.png",
+      "phase": "RECOVERY",
+      "source_crop": [
+        1024,
+        768,
+        1280,
+        1024
+      ],
+      "source_grid_origin": [
+        1024.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 2566,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": false,
+      "alpha_bbox": [
+        249,
+        276,
+        267,
+        298
+      ],
+      "visible_alpha_pixels": 278,
+      "nonzero_alpha_pixels": 6651
+    },
+    {
+      "index": 23,
+      "cel": 24,
+      "file": "frames/23.png",
+      "phase": "CLEAR / HOLD",
+      "source_crop": [
+        1280,
+        768,
+        1536,
+        1024
+      ],
+      "source_grid_origin": [
+        1280.0,
+        768.0
+      ],
+      "paste_xy": [
+        64,
+        64
+      ],
+      "scaled_crop_size": [
+        384,
+        384
+      ],
+      "source_scale": 1.5,
+      "source_boundary_alpha_pixels": 0,
+      "source_nonzero_alpha_pixels": 1639,
+      "output_clipped_alpha_pixels": 0,
+      "terminal_forced_empty": true,
+      "alpha_bbox": null,
+      "visible_alpha_pixels": 0,
+      "nonzero_alpha_pixels": 0
+    }
+  ],
+  "assembly_method": "Crop, common uniform scale, fixed-coordinate paste, all-zero final hold, atlas/timeline packaging. No art synthesis, opacity fading, interpolation, morphing, or per-frame recentering.",
+  "protected_source_sha256": {
+    "source_sheet.png": "5293f43203671ec7f72e5e7987b19b28008d3911af8cd86203b1d90c7bbf66a8",
+    "prompt.txt": "e530816c1575e20c9ace8fc0956a382ec960144ca37351110be79c234720e32e",
+    "prompt_v3.txt": "a4b945ba7337bcf279ece9b6361a87786e02fc0106a7d584f1941a2e2de48d70",
+    "revision_prompt.txt": "572df5da80a315fadf260a99c69844d94c28aa37c8340d4c223aab54530d89e0",
+    "generation_provenance.json": "526401941280e5fd13343f4eba170402adf8a54c32835e22cba727e865a85922"
+  }
+}

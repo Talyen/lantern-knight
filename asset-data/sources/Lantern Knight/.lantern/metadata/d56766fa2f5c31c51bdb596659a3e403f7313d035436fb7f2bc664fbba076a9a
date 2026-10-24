@@ -1,0 +1,5 @@
+APPROXIMATE integration companion for delivered native lowcarry8.
+
+Start with one common560x510 canvas pivot[230, 390] in top-left pixels and approximately233.882 pixels per world unit. These are visual estimates, not calibrated anatomy or ground contact. Estimated scale uncertainty12%, pivot uncertainty12px. They derive from actual first Ready crown/sole and the shared elevated camera reference. All cels retain original sheet placement. Do not independently refit frames. No source pixels are modified.
+
+JSON contains manually observed foot/hand/crown points for all8 actual source cels with confidence, source hashes and separate guide contacts. The loop preview uses01Ready instead of08at closure. This companion does not turn the native action-art test into a certified drop-in runtime clip.

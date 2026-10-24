@@ -1,0 +1,8 @@
+drawing,start_tick,hold_ticks,phase
+1,0,16,Dormant folded robe
+2,16,8,Gather shoulders
+3,24,8,Heavy rise
+4,32,6,Grounded settle
+5,38,5,Guard settles
+6,43,5,Guard recovery
+7,48,10,Exact existing move-ready

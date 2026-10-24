@@ -1,0 +1,142 @@
+{
+  "scene_master_id": "1jXOLwE8YQ9slKrAjACGB56c0AerNqGFh",
+  "source_kit_id": "1Ioq0mc97jFOuCJr4I9gzTFKXMa8Q2VXe",
+  "props": {
+    "abbey_linen_chest": {
+      "prompt": "Create ONE Lantern Knight Raven Abbey interactable animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Reference actual Abbey material style: very dark charcoal, warm muted umber, dull black iron, quiet olive shadow undertone and fine restrained warm amber edge accents. Reference only drawing/material/camera, do not copy doorway/floor. Clean decisive tapered black ink contour, broad smooth 3-tone cel shading, sparse structural marks, NO bright cream limestone, no photoreal texture/hatching/noise. Orthographic isometric elevation35.264 azimuth45. FOUR distinct authored cels in one horizontal row with generous transparent gutters and margins; same scale/camera and grounded base pivot throughout. Genuine alpha background. Object ONLY, no ground, floor patch, platform, surrounding stone, characters, text or labels. No exposed rewards, coins, bones or gore. Small dark umber WOODEN linen storage chest with broad plank sides, modest iron straps and simple flat hinged lid, very subtle amber upper edge matching existing Abbey stash. Four cels closed, opening25degrees, opening65degrees, fully open105degrees persistent. Dark EMPTY storage inside, no visible linen or contents. Stable wooden base.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/abbey_linen_chest_authored_sheet.png",
+          "file_id": "file_00000000a8d481fda38d9de76b4569c1",
+          "library_file_id": "libfile_7c2bfbfd08c88191aa501f83eba3ce0c",
+          "file_name": "abbey_linen_chest_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 867369,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-0ac1ec00-89c7-406f-b2be-34406cf1a6d9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "archival_coffer": {
+      "prompt": "Create ONE Lantern Knight Raven Abbey interactable animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Reference actual Abbey material style: very dark charcoal, warm muted umber, dull black iron, quiet olive shadow undertone and fine restrained warm amber edge accents. Reference only drawing/material/camera, do not copy doorway/floor. Clean decisive tapered black ink contour, broad smooth 3-tone cel shading, sparse structural marks, NO bright cream limestone, no photoreal texture/hatching/noise. Orthographic isometric elevation35.264 azimuth45. FOUR distinct authored cels in one horizontal row with generous transparent gutters and margins; same scale/camera and grounded base pivot throughout. Genuine alpha background. Object ONLY, no ground, floor patch, platform, surrounding stone, characters, text or labels. No exposed rewards, coins, bones or gore. Small low charcoal-stained WOODEN archival coffer, two dark iron corner plates, a tiny plain front keyhole, slightly pitched hinged plank lid. Four cels closed, opening25degrees, opening65degrees, fully open105degrees persistent. Dark EMPTY storage inside, no papers or contents. Stable wooden base.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/archival_coffer_authored_sheet.png",
+          "file_id": "file_0000000095f481f8a4f64bb926b899bb",
+          "library_file_id": "libfile_a51b557807988191ad72cb061881eb61",
+          "file_name": "archival_coffer_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 861094,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-59a2c8e2-5f37-4a9a-b12b-a1c464637e5c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "sealed_abbey_urn": {
+      "prompt": "Create ONE Lantern Knight Raven Abbey interactable animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Reference actual Abbey material style: very dark charcoal, warm muted umber, dull black iron, quiet olive shadow undertone and fine restrained warm amber edge accents. Reference only drawing/material/camera, do not copy doorway/floor. Clean decisive tapered black ink contour, broad smooth 3-tone cel shading, sparse structural marks, NO bright cream limestone, no photoreal texture/hatching/noise. Orthographic isometric elevation35.264 azimuth45. FOUR distinct authored cels in one horizontal row with generous transparent gutters and margins; same scale/camera and grounded base pivot throughout. Genuine alpha background. Object ONLY, no ground, floor patch, platform, surrounding stone, characters, text or labels. No exposed rewards, coins, bones or gore. Small sealed rounded umber ceramic pantry storage urn, dark charcoal base and fitted low round lid, quiet amber edge highlights. Four cels intact, impact cracks with lid lifting, structural fracture with large curved ceramic fragments separating from base, terminal low settled ceramic shard pile with lid. Empty hollow interior, no liquid or contents.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/sealed_abbey_urn_authored_sheet.png",
+          "file_id": "file_00000000c24881fdabed835926972c98",
+          "library_file_id": "libfile_247170e3f5788191967bafc7efa76299",
+          "file_name": "sealed_abbey_urn_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 899009,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-0c577ef1-2076-41bd-bd13-a1d3b25477b4.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "candle_store_crate": {
+      "prompt": "Create ONE Lantern Knight Raven Abbey interactable animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Reference actual Abbey material style: very dark charcoal, warm muted umber, dull black iron, quiet olive shadow undertone and fine restrained warm amber edge accents. Reference only drawing/material/camera, do not copy doorway/floor. Clean decisive tapered black ink contour, broad smooth 3-tone cel shading, sparse structural marks, NO bright cream limestone, no photoreal texture/hatching/noise. Orthographic isometric elevation35.264 azimuth45. FOUR distinct authored cels in one horizontal row with generous transparent gutters and margins; same scale/camera and grounded base pivot throughout. Genuine alpha background. Object ONLY, no ground, floor patch, platform, surrounding stone, characters, text or labels. No exposed rewards, coins, bones or gore. A SMALL SQUARE CUBIC NAILED WOODEN SHIPPING CRATE. Dark umber wooden boards with a large X-brace on front and side. NO latch, NO hinge, NO lock, NO curved lid, NOT a chest. Four different authored frames: intact closed cubic crate; impact cracks center crossbrace and splits top slats; actual structural fracture into large boards spreading outward from lower hollow base; final low flat settled broken board pile. NO contents. Same camera and scale throughout. Black ink bold clean style, very dark brown sides, soft muted amber upper edges, fit dark Abbey reference palette. Reference is ONLY material rendering.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "replace_library_file",
+          "status": "succeeded",
+          "path": "/candle_store_crate_authored_sheet.png",
+          "file_id": "file_000000005cc4823090fa2de3a757f801",
+          "library_file_id": "libfile_f9caebb205148191878cb7120185d6cf",
+          "file_name": "candle_store_crate_authored_sheet.png",
+          "current_version_number": 1,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "1"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1146338,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-c0ad8d9c-303d-482e-b09f-4dc818c6e99a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  }
+}

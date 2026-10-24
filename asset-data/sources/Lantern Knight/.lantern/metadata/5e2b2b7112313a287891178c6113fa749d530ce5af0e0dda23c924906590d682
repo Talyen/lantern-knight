@@ -1,0 +1,362 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Root Entangled Stone Saint",
+  "ability": "root_constriction",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "root_constriction_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      320,
+      540
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": [
+      158,
+      33,
+      482,
+      539
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        37,
+        5,
+        232,
+        309
+      ],
+      [
+        301,
+        21,
+        483,
+        309
+      ],
+      [
+        564,
+        34,
+        743,
+        309
+      ],
+      [
+        819,
+        50,
+        999,
+        308
+      ],
+      [
+        39,
+        315,
+        209,
+        609
+      ],
+      [
+        301,
+        315,
+        465,
+        609
+      ],
+      [
+        562,
+        314,
+        722,
+        609
+      ],
+      [
+        822,
+        317,
+        991,
+        610
+      ],
+      [
+        37,
+        619,
+        211,
+        896
+      ],
+      [
+        279,
+        631,
+        494,
+        898
+      ],
+      [
+        534,
+        623,
+        757,
+        898
+      ],
+      [
+        793,
+        621,
+        1008,
+        896
+      ],
+      [
+        36,
+        899,
+        233,
+        1195
+      ],
+      [
+        295,
+        898,
+        467,
+        1194
+      ],
+      [
+        548,
+        898,
+        745,
+        1193
+      ],
+      [
+        811,
+        899,
+        1000,
+        1193
+      ]
+    ],
+    "ordinary_resample_factor": 1.6644736842105263,
+    "placements_xywh": [
+      [
+        218,
+        33,
+        325,
+        506
+      ],
+      [
+        231,
+        60,
+        303,
+        479
+      ],
+      [
+        227,
+        81,
+        298,
+        458
+      ],
+      [
+        208,
+        110,
+        300,
+        429
+      ],
+      [
+        233,
+        50,
+        283,
+        489
+      ],
+      [
+        210,
+        50,
+        273,
+        489
+      ],
+      [
+        202,
+        48,
+        266,
+        491
+      ],
+      [
+        197,
+        51,
+        281,
+        488
+      ],
+      [
+        212,
+        78,
+        290,
+        461
+      ],
+      [
+        212,
+        95,
+        358,
+        444
+      ],
+      [
+        185,
+        81,
+        371,
+        458
+      ],
+      [
+        167,
+        81,
+        358,
+        458
+      ],
+      [
+        220,
+        46,
+        328,
+        493
+      ],
+      [
+        214,
+        46,
+        286,
+        493
+      ],
+      [
+        207,
+        48,
+        328,
+        491
+      ],
+      [
+        204,
+        50,
+        315,
+        489
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "root_constriction_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1000,
+    "offset_from_actor_pivot_px": [
+      230,
+      0
+    ],
+    "ordinary_resample_factor": 1.35,
+    "source_cel_boxes": [
+      [
+        15,
+        1241,
+        244,
+        1330
+      ],
+      [
+        270,
+        1234,
+        502,
+        1333
+      ],
+      [
+        523,
+        1224,
+        753,
+        1338
+      ],
+      [
+        784,
+        1225,
+        1008,
+        1338
+      ],
+      [
+        22,
+        1398,
+        245,
+        1515
+      ],
+      [
+        278,
+        1391,
+        494,
+        1513
+      ],
+      [
+        521,
+        1396,
+        755,
+        1519
+      ],
+      [
+        779,
+        1406,
+        1006,
+        1501
+      ]
+    ]
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1160,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "19LTqWDswnBRg_deagH6O8W3u4wHYbYeU",
+    "url": "https://drive.google.com/file/d/19LTqWDswnBRg_deagH6O8W3u4wHYbYeU/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Contact event1160ms; effect starts1000ms.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right."
+  ]
+}

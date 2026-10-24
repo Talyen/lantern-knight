@@ -1,0 +1,12 @@
+{
+  "graveyard": {
+    "source_sha256": "caa68a646715edfccd87bddb7999472d0d3f31c260f1036722e6cbb89dad02b8",
+    "crop_sha256": "00f1c45627d57913b4f659036ac58135b7a8ae1ef1d1785386b2945e042885b0",
+    "processed_sha256": "d7ef59ba189e9d4a22726b4b2b54355e4877a3cd75fb24d4bc068939967b11e6"
+  },
+  "crypt": {
+    "source_sha256": "9c92a96f977bd07f8a0adc6754b4d35f8113eedb7ec4503fba10c5d4c55fa250",
+    "crop_sha256": "2d95578d99296b9cb22e8e144aaef584543038a67d223573465e01eb6a0261dc",
+    "processed_sha256": "56fee4fb26561293807e97836bbc8efb39f4f770b9fe4e46aed995b821305656"
+  }
+}

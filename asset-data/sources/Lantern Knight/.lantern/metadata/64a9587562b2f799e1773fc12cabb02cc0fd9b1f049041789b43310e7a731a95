@@ -1,0 +1,14 @@
+Use case: stylized-concept. Asset: a production 2D game animation contact sheet with exactly EIGHT DISTINCT FULL-BODY HAND-DRAWN CELS, 4 columns by 2 rows, read left-to-right then next row. True transparent alpha, no ground shadows, no background, no boxes, no text. Prefer 2048x1536 sheet with eight equal 512x768 native cells. Every figure entirely inside its cell, identical character scale, fixed camera, generous transparent gutters. Feet at the same floor line within each cell. DO NOT make a lineup of translated copies.
+References: image1 is canonical character identity/color/garments ONLY; image2 is canonical down-right world +X elevated orthographic stance, camera and prop hands.
+Subject: mature gray-templed dark hair, short gray beard; rust longcoat tan patches, rolled cream cuffs, dark vest and trousers, brown boots. Confident variable-weight black ink, clean simple flat/cel shading with 2-3 shadow masses. Match original art, avoid glossy render/detail inflation. Anatomical RIGHT HAND (near arm, plain sleeve, short black wrist wrap) ALWAYS grips sword. Anatomical LEFT HAND (far arm, tan sleeve patch, long brown bracer) ALWAYS holds brass lantern BY CLOSED FINGERS AROUND TOP HANDLE. Do not swap or mirror either prop. Lantern must be visibly attached to the CLOSED LEFT FIST in EVERY cell. No straps or floating objects.
+Animation: severe upright STAGGER caused by a heavy hit, NOT block/parry, NOT attack, NOT knockdown, no enemy or impact FX. Keep facing down-right throughout. Each cel has real anatomical articulation at knees/hips/shoulders/elbows, coat lag and recoil, continuous prop arcs.
+Cels:
+1 normal down-right lowcarry ready as reference, knees soft, sword diagonally down, lantern beside thigh.
+2 compact startled compression: shoulders hunch, chin tucks, knees sharply flex, sword elbow folds inward; lantern fist stays closed and close to left hip.
+3 forceful chest recoil backward, head snaps back, hips still over boots, rear heel lifts, coat front opens, sword held low away from legs; left fist carries lantern pulled close.
+4 largest off-balance recoil: torso leans back and twists slightly, one recovery step rearward, knees remain bent, feet remain on floor, continuous closed-grip props.
+5 catches balance in a wide low staggered stance with torso pitching slightly forward, sword arm extends low, lantern still firmly in left hand.
+6 deep stabilizing bend forward with both boots planted, shoulders sinking, looking down-right.
+7 pushes upright, legs extend and coat settles, sword returns to ready angle.
+8 settled down-right lowcarry ready as reference.
+No hand opens. No fall. No shield. No invented glow. Eight clearly different drawn poses with readable weight and recovery. Native un-upscaled cel style.

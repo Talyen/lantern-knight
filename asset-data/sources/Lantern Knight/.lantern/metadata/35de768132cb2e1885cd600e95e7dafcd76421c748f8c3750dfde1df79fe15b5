@@ -1,0 +1,51 @@
+{
+  "schema": "lantern.sprite.v1",
+  "id": "skeletal_archer_primary_attack_dl",
+  "name": "Skeletal Archer",
+  "facing": "DL",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    320,
+    520
+  ],
+  "estimated_pixels_per_unit": 256,
+  "mirroring": "Not approved; independently authored",
+  "root_motion": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+  "clips": {
+    "attack": {
+      "atlas": "attack_atlas.png",
+      "atlas_columns": 3,
+      "atlas_rows": 2,
+      "loop": false,
+      "tick_rate": 60,
+      "holds_ticks": [
+        8,
+        10,
+        5,
+        8,
+        7,
+        12
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_visual_event_frame": 3,
+      "event_note": "Spawn one gameplay arrow on entry to frame 3; visuals contain no traveling projectile.",
+      "end_behavior": "Return compatible rest; hold last pose"
+    }
+  },
+  "state_transitions": {
+    "entry": "From canonical facing idle/move or ready pose; no turn during attack.",
+    "exit": "After frame 5 return to canonical same-facing idle/move.",
+    "interrupt": "Gameplay can interrupt; death/hit states take priority.",
+    "projectile": "One gameplay projectile emitted only on entry to frame 3; reloaded arrow in frame 5 is visual readiness only."
+  }
+}

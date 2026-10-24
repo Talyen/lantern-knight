@@ -1,0 +1,146 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2590941,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "e85b9409ddf18cda8d32edc180efbe2e632151a0c1829d10d71f583d286e385e"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 29450448,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "794befb258c079fb61c6b8acd98c27787c49243bdd72d0ddfe83248d2078f73b"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 8659330,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "0c2e551df7b31cbc44baa6e732743ce9c84bfd7afc142730073bba543735a9f5"
+  },
+  "review_views/central_grove_AI_display2p5x_ground.png": {
+    "bytes": 1765148,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "d381a30df21979fe50c2914b334edfd0e56254582b9132900aa695dea47c622a"
+  },
+  "review_views/upper_trail_hero_context.png": {
+    "bytes": 2192533,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "5c967cf949033a31492b120e010377f5cd8e3335610672cc2cbc646867743e46"
+  },
+  "review_views/lower_rootway_AI_display2p5x_ground.png": {
+    "bytes": 1936573,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "e557b96f39a6cc21990b1a0ddbc2026308255e67ba31f49f605dd36ae1c9c6c2"
+  },
+  "review_views/gameplay_contact_sheet.png": {
+    "bytes": 869602,
+    "size": [
+      1536,
+      399
+    ],
+    "sha256": "1cbb70d20fe07c9b9d1b64f83c792d00f6a5ad5a3e17d8f353c57c19bca591ab"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 2216340,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "43f5d75f5698d4e38d01da0b4ae7d4eb279ab37f9727da630681de349185ebc0"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2610269,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "90e8d7218e7744843fb4a6caeadc422b1df9c57023c9ecbaf564ff94ad222bad"
+  },
+  "review_views/central_grove_hero_context.png": {
+    "bytes": 1783620,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "7450100888becb3fc7dc52ea9f13afe28b25b95a2b23cb5004aa037523c9d9ed"
+  },
+  "review_views/upper_trail_AI_display2p5x_ground.png": {
+    "bytes": 2183678,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "2cb842a51deb9bccbda1319aee3b992681be1c43822e66313fffb4fd4bbf786f"
+  },
+  "review_views/lower_rootway_hero_context.png": {
+    "bytes": 1950272,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "905d3d2f85351f8394e6bbe81bccd955eafb34cbb20b42f0155fb8e604281ab0"
+  },
+  "ai_upscale/checks/central_root_bark_comparison.png": {
+    "bytes": 256238,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "168727b0486054ee9a97aa331a49bf6cfa58da4811e15005c8f1a59b0270973c"
+  },
+  "ai_upscale/checks/central_root_bark_native.png": {
+    "bytes": 73825,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "804931ec4289a09d3dfe76db0b88a674e66e80f7e965f46d7ba8e98b160bd310"
+  },
+  "ai_upscale/checks/central_root_bark_untiled4x.png": {
+    "bytes": 781308,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "45fe789155b29c854637d23d02e8794664ef360cb0630f9fba0c3bbd585542ed"
+  },
+  "ai_upscale/checks/right_root_boundary_native.png": {
+    "bytes": 76401,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "4c18a6408c00a9d424bb55e277aa29721cb4d966c1398f660bac815946cc287d"
+  },
+  "ai_upscale/checks/right_root_boundary_comparison.png": {
+    "bytes": 228099,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "65d3852333144b4fa8361acf7c19ea5a60d64a1a528be62f639f4a93886518e9"
+  },
+  "ai_upscale/checks/right_root_boundary_untiled4x.png": {
+    "bytes": 790670,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "2c3a10d5b33be34e6a8fcc6cdbbe17f8376a837f70a5bc53c113f24459b1d686"
+  }
+}

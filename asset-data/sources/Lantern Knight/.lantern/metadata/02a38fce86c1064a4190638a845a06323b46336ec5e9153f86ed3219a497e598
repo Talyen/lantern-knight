@@ -1,0 +1,74 @@
+{
+  "render.py": {
+    "bytes": 9141,
+    "sha256": "823af2e10b26fb2958a0a3cc3d1159bd1dec9abc7691c9b99ed57d833ab39f97"
+  },
+  "verify.py": {
+    "bytes": 3184,
+    "sha256": "a39569097aeedf2fe77001c3724e436fd36f99566037612a014067466d082f9f"
+  },
+  "package.py": {
+    "bytes": 1179,
+    "sha256": "8eee7778361fdbb97a771586a2c2ba8c6e2e97fa115b5cd4d80c13c4086cfe93"
+  },
+  "rebuild.sh": {
+    "bytes": 494,
+    "sha256": "5b3828d994e0ca0e17a9b16a3e272c531fc81f26e46d2c6f454f155ac6424d7b"
+  },
+  "README.md": {
+    "bytes": 3640,
+    "sha256": "8f8df0e7432802e0553afb86a0e1ffeaebdccfc294a8e89e07a1c6c4510761ec"
+  },
+  "validation.json": {
+    "bytes": 2059,
+    "sha256": "1e136afb4ceb31f3f0967f29eea77d01c70e41d122a3b0ada6a01bde6717fc13"
+  },
+  "contact_sheet.jpg": {
+    "bytes": 56891,
+    "sha256": "a3eb8c70ca507ee75749e88c0b3d01aa119764a3c6a93ff60686483902553775"
+  },
+  "loading_master.svg": {
+    "bytes": 80152,
+    "sha256": "9fa0f0ac01f4515c1ac3a0a4682d0259657a4028ea0bf9cb7dedc816273851f0"
+  },
+  "loading_complete_master.svg": {
+    "bytes": 88459,
+    "sha256": "8a9fd82a75ab1ac5c011bd9737a8b352c698dc8247558af2cc3a4afa5a383d6b"
+  },
+  "title_master.svg": {
+    "bytes": 141407,
+    "sha256": "c62e2eada3af72d8a8ab3da30d9bd5f6c489808d8313dae79aa771d241d3f138"
+  },
+  "loading_poster.png": {
+    "bytes": 53513,
+    "sha256": "bd83357c30c2d12d15d8fec72857e0453eeb093d1d1943e89e8ccf0904f81e92"
+  },
+  "loading_complete_poster.png": {
+    "bytes": 62433,
+    "sha256": "c6bb0ddcb92797aee470aa9717923de5a54c2ab1469b2118d81fc95244b832b9"
+  },
+  "title_poster.png": {
+    "bytes": 89930,
+    "sha256": "a1ef2220d9028f67164dd3df6b12564aaf3d39d87a16888bdb01522c2492518c"
+  },
+  "Lantern_InkMoths_Loading.mp4": {
+    "bytes": 485927,
+    "sha256": "01088287263cb2c0343b69c5646414bb8fdb7c3d8e3cd0dfca89bfd1d654a78a"
+  },
+  "Lantern_InkMoths_Title.mp4": {
+    "bytes": 505536,
+    "sha256": "2b950093938298f801b5cf33f7aa8369e4faee0e4c942e002cd774d681026a16"
+  },
+  "Lantern_InkMoths_Loading_Intro.mp4": {
+    "bytes": 102444,
+    "sha256": "41b588cc541f2416a37d944fae66c67127603ccf395a50b944dc63584cabfe56"
+  },
+  "Lantern_InkMoths_Loading_Hold.mp4": {
+    "bytes": 245385,
+    "sha256": "db498801802d4208ef1e5a14e56f6bae7c567546429815f7139285a0e0dbebb9"
+  },
+  "Lantern_InkMoths_Loading_Complete.mp4": {
+    "bytes": 133125,
+    "sha256": "d247dbec7d55181abd1538489cc4846493d2c451f55c34dadb035851b0ca8c15"
+  }
+}

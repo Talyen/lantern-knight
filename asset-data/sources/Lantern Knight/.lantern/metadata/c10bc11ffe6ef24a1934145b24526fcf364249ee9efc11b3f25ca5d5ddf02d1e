@@ -1,0 +1,59 @@
+{
+  "rulers": [
+    {
+      "base_world": [
+        0.583581014229161,
+        0.0,
+        1.7751868862287135
+      ],
+      "top_world": [
+        0.583581014229161,
+        1.8,
+        1.7751868862287135
+      ],
+      "height_metres": 1.8,
+      "projected_height_pixels": 122.09764256334614
+    },
+    {
+      "base_world": [
+        0.1427300863017664,
+        0.0,
+        5.164497689728451
+      ],
+      "top_world": [
+        0.1427300863017664,
+        1.8,
+        5.164497689728451
+      ],
+      "height_metres": 1.8,
+      "projected_height_pixels": 122.0976425633462
+    }
+  ],
+  "no_hero_used": true,
+  "nominal_card_dimensions": [
+    {
+      "Crypt_threshold_focal_arch": {
+        "width": 3.5,
+        "height": 4.8,
+        "depth": 1.2
+      }
+    },
+    {
+      "arch_stone_tomb_01_10": {
+        "length": 2.5,
+        "width": 1.0,
+        "height": 0.85
+      }
+    },
+    {
+      "Threshold_lantern_0_65m": {
+        "height": 0.6
+      }
+    },
+    {
+      "Grave_lantern_0_58m": {
+        "height": 0.6
+      }
+    }
+  ]
+}

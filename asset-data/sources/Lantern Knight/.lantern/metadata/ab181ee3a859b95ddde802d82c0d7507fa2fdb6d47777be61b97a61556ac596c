@@ -1,0 +1,10 @@
+lantern_inspect_DR_v01
+
+Generated test animation artwork; engine integration, collisions, gameplay state changes and root motion are not implemented.
+Native 1536 x 1024 source sheet cropped on one exact 3 x 2 grid. No scaling, mirroring, warping, interpolation, per-frame recentering, background repainting or AI upscaling.
+Fixed canvas and import pivot do not solve generated pose/foot drift. Natural source foot drift and slight costume/prop shape variation remain; inspect in engine before shipping.
+Native alpha includes a few alpha=1 background/border pixels; visible silhouette is separated from cell borders. Native bytes were kept unchanged rather than retouching the approved frames.
+Camera and PPU are visual approximations. Suggested PPU 292 is a clip-wide starting estimate based on upright body height versus canonical ready at nominal 350 PPU; it is not a metric camera solve.
+First and last cels are distinct drawings and are not pixel-identical to the existing ready or idle. Host should review seams; no seamless cross-clip transition certification.
+
+Both props stay held. MP4 is an opaque review preview, not a runtime transparency format. Atlas rectangles and PNGs are native 512px. Use supplied 60Hz holds, not one cel per rendered frame.

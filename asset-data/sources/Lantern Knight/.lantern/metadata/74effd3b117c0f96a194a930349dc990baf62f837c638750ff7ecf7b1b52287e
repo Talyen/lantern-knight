@@ -1,0 +1,23 @@
+{
+  "method": "Built-in image generation, original canonical+exactDguide references; six clean sourcecels selected and retimed. No edited/composited attempts enter selected runtime.",
+  "rejected_source_cels": [
+    6,
+    7
+  ],
+  "rejection_reason": "Right shoulder/cuff projection appeared abnormally raised. Those pixels are excluded.",
+  "unused_attempts": [
+    "arm_detail.png",
+    "rejected_v02.png",
+    "repair_v05.png",
+    "translated_v09.png",
+    "rejected_v07.png",
+    "composite_v08.png",
+    "composite_cel_6.png",
+    "rejected_v04.png",
+    "composite_cel_7.png",
+    "translated_cel_6.png",
+    "rejected_v06.png",
+    "draft_v01.png",
+    "translated_cel_7.png"
+  ]
+}

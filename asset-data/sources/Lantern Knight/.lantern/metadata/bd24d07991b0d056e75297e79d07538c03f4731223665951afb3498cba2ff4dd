@@ -1,0 +1,11 @@
+{
+  "operation": "Lossless PNG encoding optimization only",
+  "original_inference_png_sha256": "8796f17fdd9a30c3b951a4c7d4b32af6164eddebeceeab205a7b348b59a5a0b4",
+  "optimized_png_sha256": "0e2f9f92607ecbad175b0d84d89bafb9bbb25979a3a15bd57ebf0235cb838bac",
+  "decoded_rgb_pixels_identical": true,
+  "decoded_rgb_sha256": "897cbaf0bb5296e9db2a9fa8dabd29bbe977f4a45e4e12e4e545d42a8c5a9371",
+  "original_size_bytes": 33699337,
+  "optimized_size_bytes": 32265836,
+  "encoder": "Pillow 12.3.0 PNG optimize=True, compress_level=9",
+  "reason": "Preserve every image pixel while allowing full download-back verification within the transfer size limit."
+}

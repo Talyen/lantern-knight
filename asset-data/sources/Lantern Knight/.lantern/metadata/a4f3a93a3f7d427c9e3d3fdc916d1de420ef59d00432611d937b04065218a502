@@ -1,0 +1,14 @@
+{
+  "runtime": {
+    "file": "oracle_runtime.zip",
+    "drive_id": "1p4Agdwzy2RBkUAm3ZiL5arLptfvg8_A7",
+    "sha256": "5bc3bf7f320351efa09b08314e473f0a1c79cde1823f87d58589523e22e62bf6",
+    "unchanged": true
+  },
+  "source": {
+    "file": "oracle_source.zip",
+    "drive_id": "128xWZ5tt7e0vujRLLRUZ8hUR_pT7jglr",
+    "sha256": "cbd8bcde9a204a813ded1e15decbc096f4411a7f5fd1c81df85aac05f9f4eb1a",
+    "unchanged": true
+  }
+}

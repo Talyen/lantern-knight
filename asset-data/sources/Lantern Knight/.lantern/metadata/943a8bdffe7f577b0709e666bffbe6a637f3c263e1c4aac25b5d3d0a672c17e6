@@ -1,0 +1,72 @@
+{
+  "scene_number": 2,
+  "scene": "Cloister/Full Scene B",
+  "prop": "a small wooden chest",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    140,
+    160,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold final frame indefinitely",
+  "native_canvas": [
+    640,
+    640
+  ],
+  "native_anchor": [
+    320,
+    560
+  ],
+  "runtime_scale": 0.1873198847262248,
+  "runtime_anchor": [
+    60,
+    105
+  ],
+  "placement_on_1536_scene": [
+    760,
+    420
+  ],
+  "source_boxes": [
+    [
+      88,
+      115,
+      435,
+      428
+    ],
+    [
+      84,
+      114,
+      433,
+      428
+    ],
+    [
+      79,
+      102,
+      446,
+      437
+    ],
+    [
+      97,
+      43,
+      463,
+      421
+    ],
+    [
+      81,
+      10,
+      455,
+      422
+    ],
+    [
+      83,
+      24,
+      446,
+      423
+    ]
+  ],
+  "source_master_url": "https://drive.google.com/file/d/1G7PRVb1J5WHymY26y8M_4N5dNSxmBerU/view?usp=drivesdk"
+}

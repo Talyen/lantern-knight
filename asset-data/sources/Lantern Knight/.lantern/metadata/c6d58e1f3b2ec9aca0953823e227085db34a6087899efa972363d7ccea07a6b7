@@ -1,0 +1,69 @@
+{
+  "title": "Observatory A Variant 01 | Lunar Terrace Ascent",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "central_terrace_crossing",
+      "display_box": [
+        1350,
+        975,
+        2886,
+        1999
+      ],
+      "display_foot": [
+        2218,
+        1638
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "upper_telescope_court",
+      "display_box": [
+        1750,
+        0,
+        3286,
+        1024
+      ],
+      "display_foot": [
+        2830,
+        690
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "lower_armillary_court",
+      "display_box": [
+        0,
+        1050,
+        1536,
+        2074
+      ],
+      "display_foot": [
+        882,
+        1772
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "main_terrace_junction",
+      "source_xy": [
+        800,
+        640
+      ]
+    },
+    {
+      "name": "upper_court_junction",
+      "source_xy": [
+        960,
+        320
+      ]
+    }
+  ],
+  "scene_notes": [
+    "Fresh whole-map variant from text and canonical hero style reference only. No prior scenery generation references.",
+    "Native is original generated PNG, unchanged. Review preview uses conventional Lanczos solely to inspect scale and hero placement.",
+    "Scenery, shadows and height transitions baked. No collision, occlusion layers or engine validation."
+  ]
+}

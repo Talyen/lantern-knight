@@ -1,0 +1,7 @@
+LANTERN — New dry scene concept samples
+
+Native 1536x1024 RGB imagegen outputs, copied byte-for-byte without upscaling or editing. Three selected concepts: dry quarry retry, highland watchpost retry, abandoned orchard. No environment image inputs; canonical hero is only an ink-style and physical-scale reference.
+
+These are concept samples for review, not approved final game art. The quarry still includes generator-added small props; all three retain more surface detail than the intended clean ink style. No visible water.
+
+Each scene folder contains its submitted exact prompt, actual tool parameters, native PNG, and output-to-prompt binding metadata. Backend model, quality and seed were not exposed by the tool.

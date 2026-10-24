@@ -1,0 +1,365 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Gravetoll Hauler",
+  "ability": "coffinshoulder_rush",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "coffinshoulder_rush_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      320,
+      520
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": [
+      128,
+      74,
+      526,
+      556
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        27,
+        12,
+        236,
+        278
+      ],
+      [
+        284,
+        36,
+        513,
+        278
+      ],
+      [
+        529,
+        67,
+        746,
+        278
+      ],
+      [
+        779,
+        81,
+        994,
+        275
+      ],
+      [
+        14,
+        337,
+        259,
+        565
+      ],
+      [
+        257,
+        351,
+        536,
+        563
+      ],
+      [
+        514,
+        362,
+        805,
+        564
+      ],
+      [
+        769,
+        329,
+        1012,
+        566
+      ],
+      [
+        0,
+        623,
+        300,
+        836
+      ],
+      [
+        228,
+        620,
+        558,
+        834
+      ],
+      [
+        513,
+        639,
+        793,
+        841
+      ],
+      [
+        777,
+        617,
+        1021,
+        848
+      ],
+      [
+        9,
+        888,
+        253,
+        1132
+      ],
+      [
+        280,
+        879,
+        497,
+        1131
+      ],
+      [
+        537,
+        863,
+        749,
+        1139
+      ],
+      [
+        806,
+        862,
+        1002,
+        1138
+      ]
+    ],
+    "ordinary_resample_factor": 1.8120300751879699,
+    "placements_xywh": [
+      [
+        250,
+        74,
+        379,
+        482
+      ],
+      [
+        221,
+        117,
+        415,
+        439
+      ],
+      [
+        243,
+        174,
+        393,
+        382
+      ],
+      [
+        246,
+        204,
+        390,
+        352
+      ],
+      [
+        192,
+        143,
+        444,
+        413
+      ],
+      [
+        130,
+        172,
+        506,
+        384
+      ],
+      [
+        109,
+        190,
+        527,
+        366
+      ],
+      [
+        196,
+        127,
+        440,
+        429
+      ],
+      [
+        92,
+        170,
+        544,
+        386
+      ],
+      [
+        38,
+        168,
+        598,
+        388
+      ],
+      [
+        129,
+        190,
+        507,
+        366
+      ],
+      [
+        194,
+        137,
+        442,
+        419
+      ],
+      [
+        194,
+        114,
+        442,
+        442
+      ],
+      [
+        243,
+        99,
+        393,
+        457
+      ],
+      [
+        227,
+        56,
+        384,
+        500
+      ],
+      [
+        237,
+        56,
+        355,
+        500
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "coffinshoulder_rush_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      768,
+      768
+    ],
+    "pivot_top_left_px": [
+      384,
+      560
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1050,
+    "offset_from_actor_pivot_px": [
+      230,
+      -75
+    ],
+    "ordinary_resample_factor": 1.3333333333333333,
+    "source_cel_boxes": [
+      [
+        79,
+        1211,
+        203,
+        1299
+      ],
+      [
+        290,
+        1176,
+        470,
+        1324
+      ],
+      [
+        532,
+        1164,
+        741,
+        1335
+      ],
+      [
+        796,
+        1201,
+        998,
+        1335
+      ],
+      [
+        18,
+        1396,
+        230,
+        1509
+      ],
+      [
+        256,
+        1361,
+        511,
+        1521
+      ],
+      [
+        522,
+        1359,
+        766,
+        1520
+      ],
+      [
+        785,
+        1381,
+        1002,
+        1517
+      ]
+    ],
+    "baked_ground_scuff_note": "Late four ground-scuff cels moved135px down from waist to baseline foot plane. Early airborne impact debris unchanged."
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1050,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1n2adIp7Zwj73i3XUKUpHRiL0L125n2qX",
+    "url": "https://drive.google.com/file/d/1n2adIp7Zwj73i3XUKUpHRiL0L125n2qX/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Contact event1050ms; effect starts1050ms.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right.",
+    "Baked late ground-scuff effect cels down to the foot plane; previously floated at waist height. Early contact debris, actor art and hit timing preserved."
+  ],
+  "polish_revision": "physical-polish-v1"
+}

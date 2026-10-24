@@ -1,0 +1,1 @@
+Six-cel, 1.6-second idle loop. Runtime metadata is additive: merge clips.idle into existing actor animation metadata; preserve all other clips. Registration is baked into PNG frames. Use atlas or individual frames.

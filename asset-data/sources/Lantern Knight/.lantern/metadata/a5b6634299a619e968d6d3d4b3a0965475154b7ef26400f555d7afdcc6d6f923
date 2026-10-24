@@ -1,0 +1,16 @@
+{
+  "id": "lantern_resource_concept_02_iron_ingot_stack",
+  "name": "Iron ingot stack",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/02_iron_ingot_stack.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Bevelled ingots with soft uniform shading and rectangle stamp are textbook low-poly icon.",
+  "pack": "Lantern - Resource Pickups 03",
+  "folder": "resources_03",
+  "destination": "lantern_revision_02/equipment/resources_03/assets/02_iron_ingot_stack.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: An IRON INGOT STACK: three roughly cast iron bars offset irregularly, softly battered un-bevelled edges, one shallow hammer dent and a simple foundry notch. Flat slate top and deep black contact shadows. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-2cc0279c-9869-4020-bcb5-ffb0557077f2.png",
+  "revision_note": "Fresh retry for cleaner flat ink; rejected first candidate preserved separately.",
+  "review": "Passed large overview and 64px light/dark proxy; native alpha preserved. Ingots freshly retried to remove mottling."
+}

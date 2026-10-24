@@ -1,0 +1,245 @@
+[
+  {
+    "tail_cel": 1,
+    "source_rect": [
+      0,
+      0,
+      418,
+      418
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      75,
+      96,
+      366,
+      392
+    ],
+    "alpha_weighted_centroid": [
+      220.4534618815535,
+      257.99315892344913
+    ],
+    "alpha_mass": 10740561,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 2,
+    "source_rect": [
+      418,
+      0,
+      836,
+      418
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      60,
+      88,
+      366,
+      385
+    ],
+    "alpha_weighted_centroid": [
+      211.3906662342135,
+      262.94413288142107
+    ],
+    "alpha_mass": 10661656,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 3,
+    "source_rect": [
+      836,
+      0,
+      1254,
+      418
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      26,
+      84,
+      383,
+      395
+    ],
+    "alpha_weighted_centroid": [
+      204.60596573282277,
+      269.2684175139778
+    ],
+    "alpha_mass": 10948261,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 4,
+    "source_rect": [
+      0,
+      418,
+      418,
+      836
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      29,
+      57,
+      408,
+      406
+    ],
+    "alpha_weighted_centroid": [
+      212.035588353787,
+      249.50381581866236
+    ],
+    "alpha_mass": 12085611,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 5,
+    "source_rect": [
+      418,
+      418,
+      836,
+      836
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      24,
+      81,
+      416,
+      390
+    ],
+    "alpha_weighted_centroid": [
+      211.72035734365852,
+      251.74920606252942
+    ],
+    "alpha_mass": 9645281,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 6,
+    "source_rect": [
+      836,
+      418,
+      1254,
+      836
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      20,
+      99,
+      397,
+      387
+    ],
+    "alpha_weighted_centroid": [
+      196.61458174752389,
+      251.94850615812774
+    ],
+    "alpha_mass": 5333764,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 7,
+    "source_rect": [
+      0,
+      836,
+      418,
+      1254
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      29,
+      103,
+      408,
+      379
+    ],
+    "alpha_weighted_centroid": [
+      211.01373787072188,
+      258.31525785746703
+    ],
+    "alpha_mass": 2776340,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 8,
+    "source_rect": [
+      418,
+      836,
+      836,
+      1254
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      38,
+      138,
+      392,
+      369
+    ],
+    "alpha_weighted_centroid": [
+      213.27243982218502,
+      265.59062735421554
+    ],
+    "alpha_mass": 1137587,
+    "uniform_tail_scale": 0.8803827751196173
+  },
+  {
+    "tail_cel": 9,
+    "source_rect": [
+      836,
+      836,
+      1254,
+      1254
+    ],
+    "identical_placement": [
+      136,
+      136
+    ],
+    "source_edge_max_alpha": 1,
+    "substantive_edge_pixels_gt12": 0,
+    "alpha_bbox_gt12": [
+      42,
+      127,
+      390,
+      359
+    ],
+    "alpha_weighted_centroid": [
+      218.1357119761163,
+      251.4652916049761
+    ],
+    "alpha_mass": 411327,
+    "uniform_tail_scale": 0.8803827751196173
+  }
+]

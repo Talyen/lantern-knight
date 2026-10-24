@@ -1,0 +1,116 @@
+[
+  {
+    "id": "cloth_tear_scraps",
+    "frame_count": 48,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      166,
+      246,
+      455,
+      457
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 43
+  },
+  {
+    "id": "glass_chips",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      143,
+      163,
+      479,
+      441
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 39
+  },
+  {
+    "id": "metal_dent_sparks",
+    "frame_count": 36,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      166,
+      239,
+      485,
+      425
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 31
+  },
+  {
+    "id": "pottery_shards",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      168,
+      211,
+      474,
+      449
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 40
+  },
+  {
+    "id": "stone_crumble",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      167,
+      230,
+      463,
+      448
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 41
+  },
+  {
+    "id": "wood_splinter_burst",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      136,
+      161,
+      526,
+      445
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 41
+  }
+]

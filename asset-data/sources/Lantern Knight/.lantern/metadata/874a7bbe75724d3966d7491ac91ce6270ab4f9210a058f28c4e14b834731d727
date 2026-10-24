@@ -1,0 +1,316 @@
+{
+  "source_package": "scenic_mechanisms_v1",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 35.264389682754654,
+    "azimuthDegrees": 45.0,
+    "azimuthConvention": "from +Z toward +X",
+    "worldAxes": "right-handed XZ ground +Y vertical",
+    "sourcePixelsPerWorldMetre": 112.0,
+    "sourceCanvasPx": [
+      512,
+      448
+    ],
+    "rootPivotPx": [
+      256,
+      286
+    ],
+    "imageOrigin": "top_left",
+    "screenRight": [
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "screenUp": [
+      -0.4082482904638631,
+      0.816496580927726,
+      -0.4082482904638631
+    ],
+    "matrixConvention": "basis row dot world; image y negates screen-up; multiply by density then add pivot"
+  },
+  "sourceFPS": 30,
+  "clips": [
+    {
+      "id": "exposed_gear_pair",
+      "family": "exposed_gear_pair",
+      "label": "Exposed gears / 12 : 8",
+      "loop": true,
+      "space": "projected_world",
+      "axis": "two fixed parallel +Z shafts; XY gear planes",
+      "pivotMeaning": "fixed wall-mount datum midway between shaft centres",
+      "description": "A large 12-tooth solid-web gear and small 8-tooth gear counter-rotate by one tooth over two seconds, with a 3:2 angular ratio. Simplified scenic teeth, not manufacturing geometry.",
+      "mechanism": {
+        "teeth": [
+          12,
+          8
+        ],
+        "pitchRadiiMetres": [
+          0.42,
+          0.28
+        ],
+        "centreDistanceMetres": 0.7,
+        "angularTravelDegreesPerLoop": [
+          30,
+          -45
+        ],
+        "rotationRatio": "opposite 3:2 small:large",
+        "mountFixed": true
+      },
+      "frameCount": 60,
+      "sourceFPS": 30,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        60,
+        30
+      ],
+      "atlas": "atlases/exposed_gear_pair.png",
+      "atlasSizePx": [
+        1416,
+        1584
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; scenic mechanism candidate only"
+    },
+    {
+      "id": "pulley_chain_sway",
+      "family": "pulley_chain_sway",
+      "label": "Suspended pulley / chain sway",
+      "loop": true,
+      "space": "projected_world",
+      "axis": "whole suspended assembly swings in XY about fixed top +Z pivot",
+      "pivotMeaning": "fixed top suspension hinge at local (0,0,0)",
+      "description": "An iron pulley block and closed return-chain loop swing together through four degrees. Links remain attached and interlocked; there is no hand-pull or operating state.",
+      "mechanism": {
+        "swingAmplitudeDegrees": 4,
+        "chainLinkCount": 16,
+        "mountFixed": true,
+        "pulleyWheelTurns": false
+      },
+      "frameCount": 60,
+      "sourceFPS": 30,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        60,
+        30
+      ],
+      "atlas": "atlases/pulley_chain_sway.png",
+      "atlasSizePx": [
+        608,
+        1136
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; scenic mechanism candidate only"
+    },
+    {
+      "id": "waterwheel",
+      "family": "waterwheel",
+      "label": "Waterwheel / eight paddles",
+      "loop": true,
+      "space": "projected_world",
+      "axis": "fixed world +X axle; wheel in YZ plane",
+      "pivotMeaning": "fixed ground datum below the axle; axle height 0.74 m",
+      "description": "Eight wood paddles and paired spoke/rim assemblies advance together by 45 degrees per two-second loop, held by two fixed bearings.",
+      "mechanism": {
+        "paddleCount": 8,
+        "spokesPerRim": 8,
+        "angularTravelDegreesPerLoop": 45,
+        "axleHeightMetres": 0.74,
+        "mountFixed": true
+      },
+      "frameCount": 60,
+      "sourceFPS": 30,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        60,
+        30
+      ],
+      "atlas": "atlases/waterwheel.png",
+      "atlasSizePx": [
+        1328,
+        1640
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; scenic mechanism candidate only"
+    },
+    {
+      "id": "tower_bell",
+      "family": "tower_bell",
+      "label": "Tower bell / corbel swing",
+      "loop": true,
+      "space": "projected_world",
+      "axis": "bell swings in XY on a fixed corbel yoke",
+      "pivotMeaning": "fixed wall-corbel attachment datum; bell hinge offset (0,-0.14,0.10) m",
+      "description": "A broad bronze bell hangs from a stone wall corbel and iron yoke. The shell swings gently while a connected clapper lags inside.",
+      "mechanism": {
+        "bellAmplitudeDegrees": 6,
+        "clapperRelativeAmplitudeDegrees": 8,
+        "mountFixed": true,
+        "distinction": "wall/tower corbel silhouette, not the existing two-post wooden watch bell"
+      },
+      "frameCount": 60,
+      "sourceFPS": 30,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        60,
+        30
+      ],
+      "atlas": "atlases/tower_bell.png",
+      "atlasSizePx": [
+        968,
+        1344
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; scenic mechanism candidate only"
+    },
+    {
+      "id": "bubble_chamber",
+      "family": "bubble_chamber",
+      "label": "Alchemical chamber / three bubbles",
+      "loop": true,
+      "space": "projected_fixture_with_world_centred_billboard_bubbles",
+      "axis": "fixed vertical Y chamber; contained rising bubbles",
+      "pivotMeaning": "fixed bottom-centre base on local XZ ground",
+      "description": "A fixed glass-and-metal vessel holds a steady green fluid level and three staggered, fading bubble rings. No gauge icons or glow.",
+      "mechanism": {
+        "bubbleCount": 3,
+        "fluidLevelMetres": 0.89,
+        "fixtureHeightMetres": 1.225,
+        "mountFixed": true,
+        "bubbleContourSpace": "facing camera; centres are projected world positions"
+      },
+      "frameCount": 60,
+      "sourceFPS": 30,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        60,
+        30
+      ],
+      "atlas": "atlases/bubble_chamber.png",
+      "atlasSizePx": [
+        744,
+        1320
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; scenic mechanism candidate only"
+    },
+    {
+      "id": "astrolabe",
+      "family": "astrolabe",
+      "label": "Astrolabe / linked gimbal rings",
+      "loop": true,
+      "space": "projected_world",
+      "axis": "middle ring rotates about Y; inner ring rotates about its carried local X",
+      "pivotMeaning": "fixed ground-centred plinth; ring centre height 0.83 m",
+      "description": "Three plain metal hoops form a linked gimbal. Fixed Y trunnions carry the middle ring; local X pins carry the inner ring and central shaft.",
+      "mechanism": {
+        "ringRadiiMetres": [
+          0.5,
+          0.405,
+          0.31
+        ],
+        "middleTravelDegreesPerLoop": 180,
+        "innerRelativeTravelDegreesPerLoop": -180,
+        "mountFixed": true,
+        "loopClosure": "unmarked circular rings and symmetric pins return to identical geometry after paired half-turns"
+      },
+      "frameCount": 60,
+      "sourceFPS": 30,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        60,
+        30
+      ],
+      "atlas": "atlases/astrolabe.png",
+      "atlasSizePx": [
+        912,
+        1336
+      ],
+      "atlasPaddingPx": 4,
+      "atlasCropPolicy": "constant union crop for whole clip, untrimmed loose PNGs",
+      "finishBehavior": "wrap with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false,
+        "additiveWarning": "Do not use additive blend for this artwork: ink outlines, dark masses and layered translucent fills rely on source-over."
+      },
+      "gameplayAuthority": "none; scenic mechanism candidate only"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "title": "03 Zombies",
+  "variants": [
+    {
+      "id": "ZB01",
+      "slug": "ashen_shambler",
+      "name": "Ashen Shambler",
+      "description": "A gaunt adult reanimated human corpse with gray-blue skin, hollow cheeks, a bald domed head and two pale dull eyes. Tired open mouth, no blood, no open wounds. Two arms and two legs. Both empty five-fingered hands reach gently forward at equal height. Wears a short charcoal work tunic with a centered neck opening, matching cuffs, plain brown waist cord, torn-but-balanced trouser hems and matching simple ankle shoes. Long narrow silhouette with a slight forward hunch. No weapon, no props, no isolated scars or left-only costume details.",
+      "motion_hint": "Drag-step / double reach",
+      "move": "Slow short drag-steps with a restrained torso sway.",
+      "attack": "Both arms reach, clamp, then pull back.",
+      "death": "Knees buckle and torso folds forward.",
+      "qa": "Both five-digit hands and two legs pass; clear hunched adult silhouette, no gore. Garment tears and one small trouser hole are not perfectly bilateral; simplify these details in the selected final model before literal mirroring."
+    },
+    {
+      "id": "ZB02",
+      "slug": "gravetoll_hauler",
+      "name": "Gravetoll Hauler",
+      "description": "A massive broad-shouldered adult zombie laborer with a small bald gray-green head, a heavy square jaw, dull pale eyes and smooth simplified corpse skin. Huge long arms end in matching five-digit clenched fists, carried low near knees. Two thick short legs planted widely. A large plain muted oxblood leather work apron with a centered vertical seam, simple dark waist belt and centered iron square buckle. Matching black wrist wraps and heavy simple boots. No tools, chains, carried objects, wounds or gore. Broad blocky inverted-triangle silhouette, shoulders wider than belly, menacing adult proportions.",
+      "motion_hint": "Weighty plod / paired crush",
+      "move": "Heavy plod with delayed long-arm swing.",
+      "attack": "Both fists rise a little and crush downward.",
+      "death": "Drop to knees then face forward, arms falling last.",
+      "qa": "Complete paired fists, boots and broad shoulders pass. Centered apron and matched wraps are simple to mirror; layered skin shadow shapes are denser than a strict three-mass target."
+    },
+    {
+      "id": "ZB04",
+      "slug": "shroud_crawler",
+      "name": "Shroud Crawler",
+      "description": "An adult undead burial-shroud crawler, a low long horizontal mummy-like body fully enclosed in a smooth charcoal funerary cocoon from shoulders to a tapered lower-body tail. A pale gray human head emerges from a close-fitting ivory linen hood, eyes as two tiny dim amber points, expression blank. Exactly TWO visible adult human arms emerge symmetrically near the shoulders, reach forward and plant two five-fingered hands on invisible ground. No exposed legs or feet, lower limbs stay entirely bundled together inside the one fabric cocoon. Two simple large folded shroud panels, central seam; no loose hanging ribbons or wrappings. The cocoon stretches backward toward screen upper-left; the head and both planted hands face screen down-right. No bloody stump, wounds or gore. Low triangular silhouette and compact crawling pose.",
+      "motion_hint": "Hand-pull / short pounce",
+      "move": "Alternating hand pulls with one simple cocoon contraction.",
+      "attack": "Both hands plant and drag the head forward in a short pounce.",
+      "death": "Hands fold inward; cocoon relaxes flat.",
+      "qa": "Two planted five-digit hands and a fully enclosed lower-body cocoon pass; no exposed lower limb or stump. Low horizontal silhouette is distinct; many cloth folds can be simplified when animated. No rig or exact projected length is supplied."
+    }
+  ]
+}

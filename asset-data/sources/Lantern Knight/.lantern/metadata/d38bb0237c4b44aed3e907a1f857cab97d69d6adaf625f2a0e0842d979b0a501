@@ -1,0 +1,25 @@
+SQUARE CANVAS, SQUARE 4×4 SPRITE SHEET. Exactly sixteen cel thumbnails in four columns and four rows. True transparent RGBA. Equal cells, no borders, no numbers, no backdrop. This is a sparse sprite sheet with HUGE EMPTY GUTTERS: ALL artwork in EVERY cel must fit inside the center 48% of that cell's width AND center 48% of its height. Thus each cel has at least 26% completely blank margin on all four sides. Make every sprite MUCH SMALLER than typical sprite sheets. Never exceed that center region. Sheet width MUST equal sheet height.
+
+Hand-painted dark fantasy game VFX: a cracked hollow ivory ceramic funeral bell assembles itself from curved fragments in the air, draws upward, then makes ONE fast heavy DOWNWARD SLAM into ONE fixed spot, rebounds during recovery, and completely disperses. Muted bone-white cracked plates, charcoal gaps, dull lavender-gray bell interior, tiny ivory clapper. Same size when fully formed. No shine, neon, orange, fire, light bloom, shadows or ground. Every cel genuinely redrawn with meaningful shape changes.
+
+FIXED ATTACK AXIS x50%. Target ellipse center x50%, y69% in ALL cels. Small quiet thin nonluminous broken ivory target dashes form a 34%-wide, 4%-high ellipse in cels 2–7, exact same location. Strong single contact occurs on y69%, same spot. Assembled bell is only 18% cell width and 22% cell height. Frame5 bell center y48%; frame6 center y42%; frame7 center y37%; frame8 center y54%; contact rim y69%. Preserve this vertical travel. ALL debris fits inside middle48% of cell. DO NOT recenter each pose by its own bounding box.
+
+Chronological left to right, top to bottom:
+1. Three minute seeds near y45%, almost empty, NO bell.
+2. Six separate inward moving ivory shards, target dashes underneath.
+3. Curved rim quarters and loop pieces partially assembled, big gaps, target dashes.
+4. Half-complete bell with transparent holes between attaching plates, target dashes.
+5. First complete bell center y48%, last shard joins, target dashes.
+6. Complete bell visibly moves UP to center y42%, target dashes.
+7. Highest full loading anticipation at center y37%, target dashes.
+8. FAST DOWNWARD STRIKE, bell center y54%, short narrow opaque-ivory directional smear above.
+9. Bell reaches fixed y69% ground-contact line, squashes low and wide, tiny sideways chips. SINGLE collision begins.
+10. Same contact, strongest compressed squat bell and low sideways oval debris ring. No light or vertical blast.
+11. Bell begins recovery lifting very slightly, same debris ring spreads outward. NO new hit.
+12. Small upward recovery rebound, bell divides into five big curved plates; clapper drops separately. NO new strike.
+13. Only detached crown and two rim pieces plus small debris, no complete silhouette.
+14. Ten small separated dissolving fragments, no bell.
+15. Four minute grit flecks, almost empty.
+16. Absolutely EMPTY transparent square.
+
+IMPORTANT: tiny cels centered within their squares with AT LEAST26% blank margin everywhere, so absolutely nothing touches row/column boundaries. One target footprint, one downward hit. First cel almost empty, last completely empty. Generate one SQUARE 4-by-4 transparent image.

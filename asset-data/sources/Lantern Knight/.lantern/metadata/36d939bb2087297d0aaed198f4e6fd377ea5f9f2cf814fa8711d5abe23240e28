@@ -1,0 +1,265 @@
+{
+  "name": "Sweep world+X / down-right",
+  "world_forward": [
+    1,
+    0,
+    0
+  ],
+  "actor_heading_degrees": 0,
+  "unique_drawings": 9,
+  "duration_ms": 1170,
+  "status": "Root-reviewed compact native test; minor registration limits remain",
+  "drawings": [
+    {
+      "id": 0,
+      "label": "ready",
+      "file": "runtime/frames/00_ready.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/00_ready.png",
+      "native_source_sha256": "529b541b2f20d820ee81a6826afb3d6cd83ae6b6612790c50df1f9c3171d117d",
+      "runtime_sha256": "b79a4d3a92ee804ad41e1b86d5c2c7a2ccc9e7c5c7b402b5a15ad9cb5d4897f5"
+    },
+    {
+      "id": 1,
+      "label": "load_settle",
+      "file": "runtime/frames/01_load_settle.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/01_load_settle.png",
+      "native_source_sha256": "f70044b2e1b94db7b7ab07a6b1057905184e9d29fa454d5f08a706d7415992a5",
+      "runtime_sha256": "ac941442b7c3e5eaea3828b5039f6d5c479548acdac6259c4c459d8c7941b7a9"
+    },
+    {
+      "id": 2,
+      "label": "turn_chamber",
+      "file": "runtime/frames/02_turn_chamber.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/02_turn_chamber.png",
+      "native_source_sha256": "1398a4adb506653076dc2f96519efa57c1eba8c5b0db21f457b8f657b21ab883",
+      "runtime_sha256": "db7ee228f29c8774c13ed24f7e0fa4603aa772306a8fa43745cbfa234d4aace4"
+    },
+    {
+      "id": 3,
+      "label": "windup",
+      "file": "runtime/frames/03_windup.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/03_windup.png",
+      "native_source_sha256": "71e74069a5b8d6a1c115894c8a981966aa2737f55ff8934e9c37f51da8857be4",
+      "runtime_sha256": "fb3b0410a0b231d9c50cc5572187cfd046353945e058bdf9ccd73f8469f7251d"
+    },
+    {
+      "id": 4,
+      "label": "release",
+      "file": "runtime/frames/04_release.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/04_release.png",
+      "native_source_sha256": "dd500236b6993b373c41c551947895c3bf47b8f250387a0794cd69baf85df9aa",
+      "runtime_sha256": "061ffdd8c1c9ea4358ec58e526776363fbb71f0c36b4351b2cefa1e67ca077c6"
+    },
+    {
+      "id": 5,
+      "label": "crossing_cut",
+      "file": "runtime/frames/05_crossing_cut.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/05_crossing_cut.png",
+      "native_source_sha256": "55421c4ffd228f25a9efeb9cbd425fe9f0d9a9cb1e1ecde0a182a4bd954abb80",
+      "runtime_sha256": "e2b2e30916d0d5cfc9d2d0979c63889d989deb8229cfe61075e512841b8e4f29"
+    },
+    {
+      "id": 6,
+      "label": "cut_exit",
+      "file": "runtime/frames/06_cut_exit.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/06_cut_exit.png",
+      "native_source_sha256": "51cf6e709110ef97362244f0e3df047767779a61dad9eea61b5770b25518a03f",
+      "runtime_sha256": "21c9d677ef3ad13ca34ede16d4785ec2f81d872e6210944177e17f23d512f8dc"
+    },
+    {
+      "id": 7,
+      "label": "followthrough",
+      "file": "runtime/frames/07_followthrough.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/07_followthrough.png",
+      "native_source_sha256": "ce555649bb57069a9aef3b5e8354c6d25eb2846d0d4b9ac4889cd1c9d3323b1a",
+      "runtime_sha256": "e4c6de6a7fd0a4cea70a7590a223f8a219bdca041e1f1a218d4d8d5ba9a2204b"
+    },
+    {
+      "id": 8,
+      "label": "recover",
+      "file": "runtime/frames/08_recover.png",
+      "size": [
+        1280,
+        1000
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        635,
+        800
+      ],
+      "pivot_normalized_bottom_left": [
+        0.49609375,
+        0.2
+      ],
+      "native_source": "native/08_recover.png",
+      "native_source_sha256": "891dc653f001f60925a154053f3ca390b8d7e72d8172c71b75583894a71e1ab6",
+      "runtime_sha256": "bca65deb29f6f2f830bbbc7ddc125dcf3cbef54348ed7026a2621ddfd362f3cf"
+    }
+  ],
+  "timeline": [
+    {
+      "drawing": 0,
+      "duration_ms": 100,
+      "beat": "Ready"
+    },
+    {
+      "drawing": 1,
+      "duration_ms": 80,
+      "beat": "Load"
+    },
+    {
+      "drawing": 2,
+      "duration_ms": 110,
+      "beat": "Turn / chamber"
+    },
+    {
+      "drawing": 3,
+      "duration_ms": 130,
+      "beat": "Wind-up"
+    },
+    {
+      "drawing": 4,
+      "duration_ms": 55,
+      "beat": "Release"
+    },
+    {
+      "drawing": 5,
+      "duration_ms": 45,
+      "beat": "Crossing cut"
+    },
+    {
+      "drawing": 6,
+      "duration_ms": 65,
+      "beat": "Cut exit"
+    },
+    {
+      "drawing": 7,
+      "duration_ms": 115,
+      "beat": "Follow-through"
+    },
+    {
+      "drawing": 8,
+      "duration_ms": 110,
+      "beat": "Recover"
+    },
+    {
+      "drawing": 1,
+      "duration_ms": 100,
+      "beat": "Settle step"
+    },
+    {
+      "drawing": 0,
+      "duration_ms": 260,
+      "beat": "Ready return"
+    }
+  ],
+  "notes": [
+    "Earlier approved high-resolution independent masters, with whole-source uniform scale/translation in runtime frames. Original high-resolution natives included.",
+    "This +X clip retains the earlier approved shared ready artwork. It has not been silently replaced by the later four-direction ready sheet.",
+    "Final settling step reuses the existing load drawing. Minor foot/body repositioning remains."
+  ]
+}

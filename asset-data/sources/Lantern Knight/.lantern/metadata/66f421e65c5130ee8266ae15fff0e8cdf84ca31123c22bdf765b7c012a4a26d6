@@ -1,0 +1,399 @@
+{
+  "character": "Gallows Gardener",
+  "clip": "special",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_px": [
+    360,
+    530
+  ],
+  "pivot_normalized": [
+    0.5625,
+    0.828125
+  ],
+  "facing": "three-quarter screen-left",
+  "loop": false,
+  "duration_ms": 1790,
+  "frames": [
+    {
+      "file": "frames/special_000.png",
+      "atlas_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    },
+    {
+      "file": "frames/special_001.png",
+      "atlas_rect": [
+        640,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_a.png",
+        "source_cel": 2,
+        "source_bbox": [
+          519,
+          53,
+          1023,
+          498
+        ],
+        "source_anchor": [
+          850.0,
+          498.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/special_002.png",
+      "atlas_rect": [
+        1280,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_a.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1021,
+          16,
+          1528,
+          491
+        ],
+        "source_anchor": [
+          1360.0,
+          491.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/special_003.png",
+      "atlas_rect": [
+        1920,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_a.png",
+        "source_cel": 4,
+        "source_bbox": [
+          12,
+          506,
+          531,
+          994
+        ],
+        "source_anchor": [
+          340.0,
+          994.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/special_004.png",
+      "atlas_rect": [
+        0,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_a.png",
+        "source_cel": 5,
+        "source_bbox": [
+          519,
+          535,
+          1033,
+          1006
+        ],
+        "source_anchor": [
+          850.0,
+          1006.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/special_005.png",
+      "atlas_rect": [
+        640,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 180,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_a.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1037,
+          553,
+          1523,
+          1013
+        ],
+        "source_anchor": [
+          1360.0,
+          1013.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/special_006.png",
+      "atlas_rect": [
+        1280,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_b.png",
+        "source_cel": 1,
+        "source_bbox": [
+          13,
+          62,
+          505,
+          495
+        ],
+        "source_anchor": [
+          350.0,
+          495.0
+        ],
+        "downsample": 0.75
+      }
+    },
+    {
+      "file": "frames/special_007.png",
+      "atlas_rect": [
+        1920,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_b.png",
+        "source_cel": 2,
+        "source_bbox": [
+          515,
+          63,
+          1002,
+          471
+        ],
+        "source_anchor": [
+          850.0,
+          471.0
+        ],
+        "downsample": 0.75
+      }
+    },
+    {
+      "file": "frames/special_008.png",
+      "atlas_rect": [
+        0,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 110,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_b.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1015,
+          16,
+          1519,
+          478
+        ],
+        "source_anchor": [
+          1360.0,
+          478.0
+        ],
+        "downsample": 0.75
+      }
+    },
+    {
+      "file": "frames/special_009.png",
+      "atlas_rect": [
+        640,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 120,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_b.png",
+        "source_cel": 4,
+        "source_bbox": [
+          16,
+          505,
+          506,
+          967
+        ],
+        "source_anchor": [
+          330.0,
+          967.0
+        ],
+        "downsample": 0.75
+      }
+    },
+    {
+      "file": "frames/special_010.png",
+      "atlas_rect": [
+        1280,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 120,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_b.png",
+        "source_cel": 5,
+        "source_bbox": [
+          530,
+          484,
+          1021,
+          969
+        ],
+        "source_anchor": [
+          850.0,
+          969.0
+        ],
+        "downsample": 0.75
+      }
+    },
+    {
+      "file": "frames/special_011.png",
+      "atlas_rect": [
+        1920,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/special_b.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1024,
+          492,
+          1521,
+          971
+        ],
+        "source_anchor": [
+          1360.0,
+          971.0
+        ],
+        "downsample": 0.75
+      }
+    },
+    {
+      "file": "frames/special_012.png",
+      "atlas_rect": [
+        0,
+        1920,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    }
+  ],
+  "events": [
+    {
+      "time_ms": 1140,
+      "frame": 7,
+      "event": "bind_once",
+      "target_local_px": [
+        -240,
+        0
+      ],
+      "maximum_hit_events": 1
+    }
+  ],
+  "atlas": "special_atlas.png",
+  "source_resolution": "native imagegen 1536x1024; six drawn cels per source; runtime downsample only",
+  "root_motion": "in-place; no engine behavior added",
+  "effect": {
+    "clip": "rootfx",
+    "start_ms": 800,
+    "offset_px": [
+      -240,
+      0
+    ],
+    "bind_event_ms": 1140,
+    "note": "target effect starts during final anticipation, cage closes on single bind event"
+  }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_curved_rail_section_01.png",
+    "new": "volume_10_mine/assets/mine_curved_rail_section_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_empty_ore_cart_01.png",
+    "new": "volume_10_mine/assets/mine_empty_ore_cart_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_hoist_frame_01.png",
+    "new": "volume_10_mine/assets/mine_hoist_frame_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_ore_seam_rock_01.png",
+    "new": "volume_10_mine/assets/mine_ore_seam_rock_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_scaffold_bay_02.png",
+    "new": "volume_10_mine/assets/mine_scaffold_bay_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_timber_support_arch_01.png",
+    "new": "volume_10_mine/assets/mine_timber_support_arch_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_tool_rack_01.png",
+    "new": "volume_10_mine/assets/mine_tool_rack_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_10_mine/assets/mine_wooden_wheelbarrow_01.png",
+    "new": "volume_10_mine/assets/mine_wooden_wheelbarrow_01.png"
+  }
+]

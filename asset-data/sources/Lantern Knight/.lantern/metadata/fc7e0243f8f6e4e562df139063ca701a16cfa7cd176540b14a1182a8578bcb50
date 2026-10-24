@@ -1,0 +1,35 @@
+# Lantern — Stained Light
+
+A paired loading and title-screen concept for a dark-fantasy ARPG. A leaded-glass lantern assembles from luminous flat panes in antique gold, ivory, muted teal and plum. An angular flame moves inside it. The title spells **Lantern** as a customized faceted slab-serif wordmark: separate glass fragments translate and rotate into every letter, with continuous mitered joins and dark lead seams.
+
+## Deliverables
+
+- `Lantern_StainedLight_Loading.mp4`: 8 seconds, 1920×1080, native 60 fps, H.264 / yuv420p, silent.
+- `Lantern_StainedLight_Title.mp4`: 10 seconds, same native specification.
+- `Lantern_StainedLight_Loading_Intro.mp4`: 0–2 seconds.
+- `Lantern_StainedLight_Loading_Hold.mp4`: 2–6 seconds, one seamless four-second hold loop.
+- `Lantern_StainedLight_Loading_Complete.mp4`: 6–8 seconds.
+- Three editable all-vector SVG masters, three full-size PNG posters, and a contact sheet.
+- `render.py`, `verify.py`, `package.py`, `rebuild.sh`, manifest and validation report.
+
+Loading contains no text. The title contains only Lantern, including capital L and lowercase antern. Previews are opaque on a deliberately flat navy-black background. All light is represented as controlled flat colored geometry. No grain, photographic plates, raster art assets, or fonts are used.
+
+## Timing
+
+Loading: individual lantern panes travel and rotate into position during 0–2 s. The 2–6 s hold is a seamless four-second cycle of flame contours, small internal glints and restrained outer rays. During 6–8 s, balanced fans of glass diamonds open around the frame. The source image at 2.0 s equals 6.0 s before completion develops.
+
+Title: the top lantern assembles during 0–2 s. Letter fragments begin at 1.7 s and assemble with staggered local translation and rotation. The lettering is fully assembled before 6.5 s; small geometric underline ornaments finish at 7.4 s. The complete wordmark remains fixed for more than the final 2 s while the lantern continues its subtle light cycle. This is piece-based letter animation, not a whole-logo fade.
+
+## Edit and rebuild
+
+Requires Python 3.9+, pycairo, FFmpeg with libx264, and ffprobe. Verification also uses Pillow and NumPy. On Debian/Ubuntu, the packages are `python3-cairo python3-pil python3-numpy ffmpeg`. Rendering itself uses only Python's standard library and pycairo. No network or external media is required.
+
+Run `PYTHON=/usr/bin/python3 ./rebuild.sh` on a system with these dependencies. Alternatively, `python3 render.py` rebuilds just the two full previews and masters. `python3 render.py --proof` builds half-size motion proofs. `python3 render.py --stills` rebuilds only SVG and PNG masters.
+
+The source's `PANES` array contains the complete lantern glass geometry and colors. `GLYPHS` contains the original letter paths. `segment_quads()` computes clean shared mitered corners and subdivides strokes into individually animated glass panes. Colors and timing are explicit in the source. Animation is deterministic, sampled freshly at every 1/60 s. SVG masters are outlined paths, editable in vector editors without fonts. The animated source is the Python renderer; the SVGs are static key states.
+
+## Provenance and validation
+
+All letterforms, glass polygons, lantern shapes and motion paths were drawn specifically for this concept. No installed or third-party font is used. There are no licensed font dependencies to recover or substitute.
+
+`verify.py` fully decodes all five movies; checks dimensions, frame rate, frame counts, silent tracks and individual sizes; compares the exact loading loop endpoints; compares the complete wordmark at 8 and 9.98 s; and checks SVGs contain no text nodes or embedded images. `package.py` records SHA-256 hashes and CRC-tests the delivery ZIP. Files and the ZIP remain below 12 MB each.

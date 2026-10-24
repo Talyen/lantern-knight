@@ -1,0 +1,468 @@
+{
+  "name": "Candle-procession wraith",
+  "reference": {
+    "id": "lantern_elite_concept_05_candle_procession_wraith",
+    "sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a"
+  },
+  "scope": "DR hit and defeat extension only; baseline untouched",
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation"
+  },
+  "facing": "DR screen lower-right three-quarter",
+  "world_root": "engine-owned; stabilized drawing offsets already baked; do not reapply",
+  "clips": {
+    "hit": {
+      "loop": false,
+      "holds_60hz": [
+        4,
+        5,
+        7,
+        6,
+        7,
+        11
+      ],
+      "frames": [
+        "hit_00.png",
+        "hit_01.png",
+        "hit_02.png",
+        "hit_03.png",
+        "hit_04.png",
+        "hit_05.png"
+      ],
+      "end_behavior": "return_to_baseline_move",
+      "events": [
+        {
+          "frame": 0,
+          "name": "hit_visual_start",
+          "visual_only": true
+        }
+      ],
+      "atlas": "hit_atlas.png",
+      "atlas_rects": [
+        {
+          "frame": "hit_00.png",
+          "x": 4,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_01.png",
+          "x": 780,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_02.png",
+          "x": 1556,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_03.png",
+          "x": 4,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_04.png",
+          "x": 780,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "hit_05.png",
+          "x": 1556,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        }
+      ],
+      "atlas_gutter_pixels": 4
+    },
+    "defeat": {
+      "loop": false,
+      "holds_60hz": [
+        7,
+        9,
+        11,
+        13,
+        15,
+        30
+      ],
+      "frames": [
+        "defeat_00.png",
+        "defeat_01.png",
+        "defeat_02.png",
+        "defeat_03.png",
+        "defeat_04.png",
+        "defeat_05.png"
+      ],
+      "end_behavior": "hold_final_remnant",
+      "events": [
+        {
+          "frame": 0,
+          "name": "defeat_visual_start",
+          "visual_only": true
+        }
+      ],
+      "atlas": "defeat_atlas.png",
+      "atlas_rects": [
+        {
+          "frame": "defeat_00.png",
+          "x": 4,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_01.png",
+          "x": 780,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_02.png",
+          "x": 1556,
+          "y": 4,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_03.png",
+          "x": 4,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_04.png",
+          "x": 780,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        },
+        {
+          "frame": "defeat_05.png",
+          "x": 1556,
+          "y": 780,
+          "w": 768,
+          "h": 768
+        }
+      ],
+      "atlas_gutter_pixels": 4
+    }
+  },
+  "png_sha256": {
+    "hit_00.png": "4eaac4fdd43ac1665868732e3ed25735ef12b7b3eb02ee3464920cd09fe4c44c",
+    "hit_01.png": "2feb7fc814416527d75913006273be0a736a3d370ef1f1d32c6d67ef89ed501d",
+    "hit_02.png": "59c541edcf397a6cb61ecc3625318314936a4c81f0b5f7eaee10f9d63afce7c5",
+    "hit_03.png": "0649d2c71e252cc904a0ea37949755da007d80cdd2c8a879f17b7466ed27093d",
+    "hit_04.png": "2c21873fc6ff3946ce4ad92c55831365951085485e13a8929e764aaf1378caf2",
+    "hit_05.png": "ff2adceaef83fbb6dacb12354a94e831f4466d97ca0802f2b0d276d8430bbc32",
+    "defeat_00.png": "121621f0625643a966699049d4242cbd16b7c7ceedc20783c2be5e7ba313900d",
+    "defeat_01.png": "776e177059fd918484d18d6e72a9066d3beb6916b8ff5a04f21f92927635d15b",
+    "defeat_02.png": "77848073f80df3e0bf8f5fbe2743d1adb8a8a867304cabcf620ed90ada8d3773",
+    "defeat_03.png": "a5562970a0de013fc40f9086ef16a5635d0a4a6919f6824a80b50252f90b6b22",
+    "defeat_04.png": "44d626dba1690b93829f091cdab12b01387f2b36dfa3ca27e61cb2d9b1717033",
+    "defeat_05.png": "c94ca823b8f0fe97632bccbf80575f97b0e24ab27087b9b3f0f6f030c231ee68"
+  },
+  "processing": {
+    "hit": [
+      {
+        "native_bbox": [
+          127,
+          15,
+          459,
+          511
+        ],
+        "native_anchor": [
+          358,
+          508
+        ],
+        "uniform_clip_scale": 0.96,
+        "placement": [
+          256,
+          147
+        ],
+        "output_bbox": [
+          256,
+          147,
+          575,
+          623
+        ]
+      },
+      {
+        "native_bbox": [
+          565,
+          14,
+          953,
+          499
+        ],
+        "native_anchor": [
+          889,
+          497
+        ],
+        "uniform_clip_scale": 0.96,
+        "placement": [
+          167,
+          156
+        ],
+        "output_bbox": [
+          167,
+          156,
+          539,
+          622
+        ]
+      },
+      {
+        "native_bbox": [
+          1097,
+          36,
+          1409,
+          505
+        ],
+        "native_anchor": [
+          1322,
+          502
+        ],
+        "uniform_clip_scale": 0.96,
+        "placement": [
+          262,
+          173
+        ],
+        "output_bbox": [
+          262,
+          173,
+          562,
+          623
+        ]
+      },
+      {
+        "native_bbox": [
+          104,
+          526,
+          438,
+          1004
+        ],
+        "native_anchor": [
+          341,
+          1001
+        ],
+        "uniform_clip_scale": 0.96,
+        "placement": [
+          250,
+          164
+        ],
+        "output_bbox": [
+          250,
+          164,
+          571,
+          623
+        ]
+      },
+      {
+        "native_bbox": [
+          584,
+          529,
+          949,
+          992
+        ],
+        "native_anchor": [
+          852,
+          990
+        ],
+        "uniform_clip_scale": 0.96,
+        "placement": [
+          221,
+          177
+        ],
+        "output_bbox": [
+          221,
+          177,
+          571,
+          621
+        ]
+      },
+      {
+        "native_bbox": [
+          1087,
+          526,
+          1419,
+          1004
+        ],
+        "native_anchor": [
+          1323,
+          1001
+        ],
+        "uniform_clip_scale": 0.96,
+        "placement": [
+          251,
+          164
+        ],
+        "output_bbox": [
+          251,
+          164,
+          570,
+          623
+        ]
+      }
+    ],
+    "defeat": [
+      {
+        "native_bbox": [
+          80,
+          14,
+          491,
+          581
+        ],
+        "native_anchor": [
+          370,
+          578
+        ],
+        "uniform_clip_scale": 0.84,
+        "placement": [
+          234,
+          146
+        ],
+        "output_bbox": [
+          234,
+          146,
+          579,
+          622
+        ]
+      },
+      {
+        "native_bbox": [
+          603,
+          114,
+          968,
+          583
+        ],
+        "native_anchor": [
+          769,
+          580
+        ],
+        "uniform_clip_scale": 0.84,
+        "placement": [
+          339,
+          229
+        ],
+        "output_bbox": [
+          339,
+          229,
+          646,
+          623
+        ]
+      },
+      {
+        "native_bbox": [
+          1050,
+          237,
+          1471,
+          586
+        ],
+        "native_anchor": [
+          1294,
+          583
+        ],
+        "uniform_clip_scale": 0.84,
+        "placement": [
+          273,
+          329
+        ],
+        "output_bbox": [
+          273,
+          329,
+          627,
+          622
+        ]
+      },
+      {
+        "native_bbox": [
+          42,
+          643,
+          491,
+          978
+        ],
+        "native_anchor": [
+          303,
+          975
+        ],
+        "uniform_clip_scale": 0.84,
+        "placement": [
+          259,
+          341
+        ],
+        "output_bbox": [
+          259,
+          341,
+          636,
+          622
+        ]
+      },
+      {
+        "native_bbox": [
+          554,
+          705,
+          1013,
+          974
+        ],
+        "native_anchor": [
+          785,
+          971
+        ],
+        "uniform_clip_scale": 0.84,
+        "placement": [
+          284,
+          397
+        ],
+        "output_bbox": [
+          284,
+          397,
+          670,
+          623
+        ]
+      },
+      {
+        "native_bbox": [
+          1038,
+          733,
+          1506,
+          981
+        ],
+        "native_anchor": [
+          1267,
+          978
+        ],
+        "uniform_clip_scale": 0.84,
+        "placement": [
+          286,
+          414
+        ],
+        "output_bbox": [
+          286,
+          414,
+          679,
+          622
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "canonical_identity": "All9poses reviewed: tall oxblood hood, ivory mask with two eyeholes/short slit, charcoal robe, ivory cuffs, two hands/one dagger retained. No fluid wax.",
+  "canonical_proportions": "New ready silhouette height / mask major-axis std=37.60 versus canonical40.58 and oldglide31.89. New sheet is closer to canonical long-body proportion; elevated camera/pose prevents exact scalar certification.",
+  "mask_landmarks": [
+    {
+      "pose": 1,
+      "mask_center_native": [
+        241.51344086021504,
+        92.09005376344086
+      ],
+      "mask_principal_std_px": [
+        6.036683292506792,
+        11.06391342378063
+      ],
+      "mask_bbox_size_px": [
+        28,
+        43
+      ]
+    },
+    {
+      "pose": 2,
+      "mask_center_native": [
+        688.7917847025495,
+        111.70396600566572
+      ],
+      "mask_principal_std_px": [
+        5.7158254259169485,
+        11.154282689600976
+      ],
+      "mask_bbox_size_px": [
+        28,
+        42
+      ]
+    },
+    {
+      "pose": 3,
+      "mask_center_native": [
+        1137.6319018404909,
+        128.52300613496934
+      ],
+      "mask_principal_std_px": [
+        5.330204688651065,
+        11.129505556702535
+      ],
+      "mask_bbox_size_px": [
+        30,
+        40
+      ]
+    },
+    {
+      "pose": 4,
+      "mask_center_native": [
+        318.7507418397626,
+        535.1943620178041
+      ],
+      "mask_principal_std_px": [
+        5.487784406708257,
+        11.12870435622917
+      ],
+      "mask_bbox_size_px": [
+        30,
+        41
+      ]
+    },
+    {
+      "pose": 5,
+      "mask_center_native": [
+        668.7066666666667,
+        507.46933333333334
+      ],
+      "mask_principal_std_px": [
+        6.043511543198004,
+        11.180743598583396
+      ],
+      "mask_bbox_size_px": [
+        28,
+        43
+      ]
+    },
+    {
+      "pose": 6,
+      "mask_center_native": [
+        1053.9129438717068,
+        494.11454753722796
+      ],
+      "mask_principal_std_px": [
+        6.537730757333223,
+        11.931617647554136
+      ],
+      "mask_bbox_size_px": [
+        28,
+        46
+      ]
+    },
+    {
+      "pose": 7,
+      "mask_center_native": [
+        292.976897689769,
+        1014.8052805280528
+      ],
+      "mask_principal_std_px": [
+        3.2944592775535813,
+        9.041223531834202
+      ],
+      "mask_bbox_size_px": [
+        38,
+        15
+      ]
+    },
+    {
+      "pose": 8,
+      "mask_center_native": [
+        673.9060402684564,
+        946.8305369127517
+      ],
+      "mask_principal_std_px": [
+        5.1466705543007665,
+        10.67913483540481
+      ],
+      "mask_bbox_size_px": [
+        37,
+        33
+      ]
+    },
+    {
+      "pose": 9,
+      "mask_center_native": [
+        1065.2699055330634,
+        920.9136302294197
+      ],
+      "mask_principal_std_px": [
+        6.079094977533707,
+        10.992841551352335
+      ],
+      "mask_bbox_size_px": [
+        28,
+        42
+      ]
+    }
+  ],
+  "mask_consistency": "Movement upright/slanted masks major-axis std11.06\u201311.18px; anticipation11.93px has a more front-facing raised-head view; deep bow mask naturally foreshortens. No per-pose resize applied.",
+  "shared_ready_exact": true,
+  "runtime_edges_clear": true,
+  "alpha_cleanup": "Native alpha<=16 to0; >=250 to255; intermediate coverage retained, RGB unchanged.",
+  "layer_reconstruction": [
+    {
+      "cel": 1,
+      "reconstruction_exact": true
+    },
+    {
+      "cel": 2,
+      "reconstruction_exact": true
+    },
+    {
+      "cel": 3,
+      "reconstruction_exact": true
+    },
+    {
+      "cel": 4,
+      "reconstruction_exact": true
+    },
+    {
+      "cel": 5,
+      "reconstruction_exact": true
+    }
+  ],
+  "layers_scope": "Independent visible actor/effect pixels. Contact blade tip isolated from ground seal with native mask. No unseen anatomy reconstructed.",
+  "camera": "Fixed elevated three-quarter reference used; hand-drawn projection not mathematically certified.",
+  "status": "Revised test assets, visually reviewed; requires actual gameplay spot check. No repo/game changes.",
+  "recovery_shard_retention": {
+    "source_component": 19,
+    "pixels": 38,
+    "source_bbox": [
+      1188,
+      1176,
+      1198,
+      1183
+    ],
+    "runtime_offset": [
+      -646,
+      -651
+    ],
+    "actor_unchanged": true
+  }
+}

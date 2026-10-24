@@ -1,3 +1,4 @@
+import { openRepositoryWorkspace } from './repository';
 import { readJson } from '../json-file';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
@@ -26,13 +27,18 @@ export async function openWorkspace(
   demand = false,
 ): Promise<AssetWorkspace> {
   const started = performance.now();
+  const accepted = await readLock();
+  if (mode === 'pinned' && accepted.schemaVersion === 5)
+    return openRepositoryWorkspace(accepted, scope, demand);
   const cache = new AssetCache();
   const fallback =
     demand && scope === 'authoring'
       ? async (lock: AssetLock) =>
-          lock.schemaVersion === 3 || lock.schemaVersion === 4
-            ? openDemandWorkspace(lock, cache)
-            : undefined
+          lock.schemaVersion === 5
+            ? openRepositoryWorkspace(lock, scope, true)
+            : lock.schemaVersion === 3 || lock.schemaVersion === 4
+              ? openDemandWorkspace(lock, cache)
+              : undefined
       : undefined;
   if (mode === 'pinned' && fallback) {
     const workspace = await fallback(await readLock());

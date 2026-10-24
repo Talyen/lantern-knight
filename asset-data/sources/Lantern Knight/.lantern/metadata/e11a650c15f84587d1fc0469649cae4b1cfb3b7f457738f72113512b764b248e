@@ -1,0 +1,41 @@
+{
+  "asset": "ancient_rootwood",
+  "variant": "B",
+  "variant_title": "Pale deadwood in the dark root grove",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-9976378a-a40a-482e-97ad-d8bd31360718.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "upscaled": false,
+  "edited": false,
+  "expanded": false,
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "sha256": "e0a4d6ab582e257708768c9f0903138753712a7ea6482eb78639d9910392118b",
+  "attempts": 1,
+  "status": "ready_for_reviewer",
+  "visual_review": {
+    "strengths": [
+      "Strong pale split-wood landmark shapes in a dark green grove",
+      "Large connected dry-earth combat space",
+      "No horizon, sky, ruins, buildings, props, water or characters",
+      "Cropped tree bases and root masses maintain an elevated viewport feel"
+    ],
+    "caveats": [
+      "Subtle medium-size tonal patches remain on ground rather than strictly three flat tones",
+      "Exact orthographic camera is prompted, not geometrically validated",
+      "Tall trees and roots remain baked scenery"
+    ]
+  }
+}

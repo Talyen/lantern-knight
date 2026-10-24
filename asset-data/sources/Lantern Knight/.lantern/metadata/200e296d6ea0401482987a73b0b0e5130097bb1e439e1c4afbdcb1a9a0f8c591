@@ -1,0 +1,84 @@
+{
+  "name": "Veil Wisp DL",
+  "reference": {
+    "id": "SP01",
+    "sha256": "80f8802796d5f44eb4acdfcbf262cf039f9515cf302f6ca43ee6c627b350b795"
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation, not 3D calibrated"
+  },
+  "facing": "DL front three-quarter",
+  "mirroring": "not validated; use authored facing",
+  "world_position": "engine-owned; all drawing offsets baked; do not reapply",
+  "clips": {
+    "move": {
+      "loop": true,
+      "holds_60hz": [
+        9,
+        8,
+        8,
+        8,
+        8,
+        9
+      ],
+      "frames": [
+        "move_00.png",
+        "move_01.png",
+        "move_02.png",
+        "move_03.png",
+        "move_04.png",
+        "move_05.png"
+      ],
+      "attack_event_frame_zero_based": null,
+      "event_is_visual_reference_only": true,
+      "end": "loop"
+    },
+    "attack": {
+      "loop": false,
+      "holds_60hz": [
+        8,
+        9,
+        12,
+        5,
+        9,
+        14
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_event_frame_zero_based": 3,
+      "event_is_visual_reference_only": true,
+      "end": "hold final then return movement"
+    }
+  },
+  "png_sha256": {
+    "move_00.png": "66f619445d9a58fd8c53e8a578ec4316fba406a8f731dec39da8bfa302cb185c",
+    "move_01.png": "c8448bbe42c0d6c4e410cfe59bd15e9e9b96b6c30847e922db5e75923d575bd6",
+    "move_02.png": "2389e66611822733a29fba54ab7b7f1649826199c7b28f15d02e0a0f4a8669ac",
+    "move_03.png": "f7b8987708d4388cbc663e2b57e9867963b829bbc090d7ad10e7a118b6875e96",
+    "move_04.png": "2a8f0320216290a6021825f778de2123156b9596d6364c0cb138da0982b3b229",
+    "move_05.png": "3273d7e68776bbac0776138a7d13f636de22ef5317335f2e45b1ebbd8f82b5c5",
+    "attack_00.png": "f02b798e87b343cf284d06d605d786b2b544ace354147cc27bd4cc9895001888",
+    "attack_01.png": "a5b61d7b01a9edc31e4f9c50bf07e2397865fc673896b365cb946f766e46afc7",
+    "attack_02.png": "08596eae430771465214d2b8bc61cfefdc575d2778071a559bdf999f78af728f",
+    "attack_03.png": "0b334af356802c3b71d23895459b671c38d885450f228e3cf1ba75258b12bc2c",
+    "attack_04.png": "c4d9f237467c915e4fc42bf1dfb984187176ea88a5118ebfb177f54316908053",
+    "attack_05.png": "ad59cbfdde56ff1ec0de43047f00cdd7dd56d5a89cefa11c23344e428a4cca9c"
+  }
+}

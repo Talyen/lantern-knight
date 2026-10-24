@@ -1,0 +1,65 @@
+id,label,category,reference_extent_cm,rendered_extent_512_px,legibility_boost,suggested_footprint_cells,source_drop_id
+quiver,Arrow Quiver,weapons,75,150,1.0,"[1, 3]",
+bow,Ashwood Bow,weapons,120,240,1.0,"[2, 3]",bow
+spear,Ashwood Spear,weapons,220,440,1.0,"[1, 4]",
+greatsword,Greatsword,weapons,160,320,1.0,"[2, 4]",
+wand,Hazel Wand,weapons,35,70,1.0,"[1, 2]",
+crossbow,Hunting Crossbow,weapons,85,170,1.0,"[2, 2]",
+axe,Iron Axe,weapons,75,150,1.0,"[2, 3]",axe
+dagger,Iron Dagger,weapons,35,70,1.0,"[1, 2]",
+mace,Iron Mace,weapons,65,130,1.0,"[1, 3]",
+sword,Iron Sword,weapons,110,220,1.0,"[2, 3]",weapon
+scythe,Reaping Scythe,weapons,180,360,1.0,"[2, 4]",
+throwing_knife,Throwing Knife,weapons,22,44,1.0,"[1, 1]",
+warhammer,War Hammer,weapons,100,200,1.0,"[2, 3]",
+staff,Wooden Staff,weapons,160,320,1.0,"[1, 4]",staff
+chainmail,Chainmail Shirt,armor,75,150,1.0,"[2, 3]",
+breastplate,Iron Breastplate,armor,65,130,1.0,"[2, 3]",armor
+gauntlets,Iron Gauntlets,armor,32,64,1.0,"[2, 1]",
+greaves,Iron Greaves,armor,50,100,1.0,"[2, 2]",
+helmet,Iron Helmet,armor,32,64,1.0,"[2, 2]",helmet
+shield,Kite Shield,armor,65,130,1.0,"[2, 2]",shield
+boots,Leather Boots,armor,38,76,1.0,"[2, 2]",boots
+leather_vest,Leather Vest,armor,65,130,1.0,"[2, 3]",
+hood,Traveler Hood,armor,35,70,1.0,"[1, 2]",
+cloak,Wool Cloak,armor,60,120,1.0,"[2, 3]",
+talisman,Bone Talisman,accessories,14,28,1.0,"[1, 1]",
+amulet,Bronze Amulet,accessories,18,36,1.0,"[1, 1]",amulet
+circlet,Iron Circlet,accessories,20,40,1.0,"[1, 1]",
+belt,Leather Belt,accessories,45,90,1.0,"[2, 1]",
+satchel,Leather Satchel,accessories,40,80,1.0,"[2, 2]",
+ring,Red-Stone Ring,accessories,3,16,2.6667,"[1, 1]",ring
+antidote,Antidote Vial,consumables,12,24,1.0,"[1, 1]",
+dried_meat,Dried Meat,consumables,22,44,1.0,"[1, 1]",
+healing_potion,Healing Potion,consumables,16,32,1.0,"[1, 1]",healing_potion
+bomb,Iron Bomb,consumables,16,32,1.0,"[1, 1]",
+bandages,Linen Bandages,consumables,18,36,1.0,"[1, 1]",
+mana_potion,Mana Potion,consumables,18,36,1.0,"[1, 1]",
+oil_flask,Oil Flask,consumables,24,48,1.0,"[1, 2]",
+bread,Rye Bread,consumables,25,50,1.0,"[1, 1]",
+scroll,Spell Scroll,consumables,30,60,1.0,"[1, 2]",
+stamina_potion,Stamina Tonic,consumables,18,36,1.0,"[1, 1]",
+gold_coin_pile,Gold Coin Pile,currency,12,24,1.0,"[1, 1]",gold_coin_pile
+bone_stack,Bone Stack,materials,28,56,1.0,"[2, 1]",bone_stack
+cloth_bolt,Cloth Bolt,materials,55,110,1.0,"[2, 2]",cloth_bolt
+coal,Coal Chunk,materials,16,32,1.0,"[1, 1]",
+crystal_shard,Crystal Shard,materials,15,30,1.0,"[1, 1]",
+herb_bundle,Healing Herbs,materials,25,50,1.0,"[1, 1]",
+iron_ingot,Iron Ingot,materials,25,50,1.0,"[2, 1]",iron_ingot
+iron_ore,Iron Ore,materials,20,40,1.0,"[1, 1]",
+rolled_hide,Rolled Hide,materials,55,110,1.0,"[2, 2]",rolled_hide
+wood_bundle,Wood Bundle,materials,60,120,1.0,"[2, 2]",wood_bundle
+rune_boneetched_hex,Bone-Etched Hex Rune,runes,10,20,1.0,"[1, 1]",rune_boneetched_hex
+rune_ironbound_ward,Ironbound Ward Rune,runes,10,20,1.0,"[1, 1]",rune_ironbound_ward
+rune_split_ember,Split Ember Rune,runes,10,20,1.0,"[1, 1]",rune_split_ember
+amethyst,Amethyst,gems,4.4,16,1.8182,"[1, 1]",amethyst
+diamond,Diamond,gems,3.5,16,2.2857,"[1, 1]",diamond
+emerald,Emerald,gems,3.8,16,2.1053,"[1, 1]",emerald
+onyx,Onyx,gems,3.8,16,2.1053,"[1, 1]",onyx
+ruby,Ruby,gems,3.2,16,2.5,"[1, 1]",ruby
+sapphire,Sapphire,gems,3.2,16,2.5,"[1, 1]",sapphire
+topaz,Topaz,gems,3.8,16,2.1053,"[1, 1]",topaz
+relic,Broken Sun Relic,quest,20,40,1.0,"[1, 1]",
+key,Iron Dungeon Key,quest,18,36,1.0,"[1, 1]",
+sealed_letter,Sealed Letter,quest,22,44,1.0,"[1, 1]",
+book,Worn Grimoire,quest,32,64,1.0,"[2, 2]",

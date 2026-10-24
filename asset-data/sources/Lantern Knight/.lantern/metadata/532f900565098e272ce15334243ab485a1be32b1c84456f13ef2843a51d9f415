@@ -1,0 +1,205 @@
+{
+  "clip_id": "Lantern_Hero_selfheal_enter_UR_v01",
+  "family": "selfheal_enter",
+  "facing": "UR",
+  "producer": "animate_healing_interaction_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manually observed planted left boot registration with stable head-width/upper-arm source-density matching. Whole-cel transforms retain intentional kneel/rise; exact rest and ready boundary crops and transforms reused across all3clips.",
+  "equipment_contract": "Sword anatomical right, box lantern left. No mirroring.",
+  "timing_source": "Original DR selfheal source timing, preserved in archived matching-direction family manifests.",
+  "source_timing": [
+    10,
+    12,
+    14,
+    16
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; originals retained in provenance.",
+  "runtime_pixel_policy": "Uniform resampling and integer whole-cel translation only; no masking or pose-height normalization.",
+  "frames": [
+    {
+      "crop_xyxy": [
+        0,
+        0,
+        660,
+        630
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        72,
+        61
+      ],
+      "observed_anchors": {
+        "manual_planted_forward_left_boot_xy": [
+          460,
+          605
+        ],
+        "density_evidence": "Stable head width/upper-arm scale across source densities; never normalized crouched silhouette height."
+      },
+      "registration_note": "Manually observed planted left boot registration with stable head-width/upper-arm source-density matching. Whole-cel transforms retain intentional kneel/rise; exact rest and ready boundary crops and transforms reused across all3clips.",
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "25cb4954b65b4ecb11bd1d30eebb4fcb2a8769990a302268d4345bf6089d1fc9",
+      "native_size_px": [
+        660,
+        630
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "a42499bc552640d3ea9aed6b12cb5ac1e3714df55824f51a9a5dbcb6cef4c343",
+      "source_sha256": "047337d087c10b527fe5ac117689da5467a6255f33bf260d181d14859de08eca",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        86,
+        61,
+        442,
+        409
+      ],
+      "equipment_state": "Sword right; box lantern left continuously gripped."
+    },
+    {
+      "crop_xyxy": [
+        660,
+        0,
+        1323,
+        630
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        120,
+        84
+      ],
+      "observed_anchors": {
+        "manual_planted_forward_left_boot_xy": [
+          375,
+          565
+        ],
+        "density_evidence": "Stable head width/upper-arm scale across source densities; never normalized crouched silhouette height."
+      },
+      "registration_note": "Manually observed planted left boot registration with stable head-width/upper-arm source-density matching. Whole-cel transforms retain intentional kneel/rise; exact rest and ready boundary crops and transforms reused across all3clips.",
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "386064ed427c69f12d8b44ee07d458364336d895de8698e7ec8db5c2c40f2edb",
+      "native_size_px": [
+        663,
+        630
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "f66f1b6d848675353badc6071e0d8fe452f7304afa33efc66e9b809a6705a6b6",
+      "source_sha256": "047337d087c10b527fe5ac117689da5467a6255f33bf260d181d14859de08eca",
+      "start_tick": 10,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        120,
+        107,
+        470,
+        417
+      ],
+      "equipment_state": "Sword right; box lantern left continuously gripped."
+    },
+    {
+      "crop_xyxy": [
+        0,
+        630,
+        660,
+        1189
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        30,
+        184
+      ],
+      "observed_anchors": {
+        "manual_planted_forward_left_boot_xy": [
+          535,
+          385
+        ],
+        "density_evidence": "Stable head width/upper-arm scale across source densities; never normalized crouched silhouette height."
+      },
+      "registration_note": "Manually observed planted left boot registration with stable head-width/upper-arm source-density matching. Whole-cel transforms retain intentional kneel/rise; exact rest and ready boundary crops and transforms reused across all3clips.",
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "24218ff49517ab4b63580ad022a87f802dcaf6814d41f4e27d65c6b57a8a457c",
+      "native_size_px": [
+        660,
+        559
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "278580aa335063ed0b803a09becf4d90a26298343173f693b4419d7e2977767d",
+      "source_sha256": "047337d087c10b527fe5ac117689da5467a6255f33bf260d181d14859de08eca",
+      "start_tick": 22,
+      "hold_ticks": 14,
+      "runtime_alpha_bbox": [
+        107,
+        186,
+        400,
+        485
+      ],
+      "equipment_state": "Sword right; box lantern left continuously gripped."
+    },
+    {
+      "crop_xyxy": [
+        0,
+        0,
+        1323,
+        1189
+      ],
+      "uniform_scale": 0.28,
+      "translation_xy": [
+        50,
+        169
+      ],
+      "observed_anchors": {
+        "manual_planted_forward_left_boot_xy": [
+          1000,
+          825
+        ],
+        "density_evidence": "Stable head width/upper-arm scale across source densities; never normalized crouched silhouette height."
+      },
+      "registration_note": "Manually observed planted left boot registration with stable head-width/upper-arm source-density matching. Whole-cel transforms retain intentional kneel/rise; exact rest and ready boundary crops and transforms reused across all3clips.",
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "7ecf8149d4dbde96184a7a2e3f64aab896f57384575c4248bca05201a401de8f",
+      "native_size_px": [
+        1323,
+        1189
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "01c8b3040a2660e4acbe5339c12edeb012e22b598f77522d12a5f8c5478e3cd1",
+      "source_sha256": "aa8e808405ba07a69fb71124939aab07291b5f881fe9ee9c025141bff35b8bb8",
+      "start_tick": 36,
+      "hold_ticks": 16,
+      "runtime_alpha_bbox": [
+        69,
+        184,
+        394,
+        502
+      ],
+      "equipment_state": "Sword right; box lantern left continuously gripped."
+    }
+  ],
+  "total_ticks": 52,
+  "duration_seconds": 0.8666666666666667,
+  "unique_native_count": 4,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "2dd964a28acac0d103cecf196fc1b75bfa5fd6757bad4dd830361c6c8598eb92"
+  }
+}

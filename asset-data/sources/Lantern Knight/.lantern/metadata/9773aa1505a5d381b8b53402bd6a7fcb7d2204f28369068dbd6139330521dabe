@@ -1,0 +1,18 @@
+{
+  "README.txt": "950e091818c007c95ebba142c6ba4d29ffcb7b3da00250153b5fbdd2174e3f31",
+  "QA.json": "2255421c8cdc06bddb478bc10d022ce83e6af0bc53f474bbd94aea83062ec7cd",
+  "extraction.json": "1e3e79cdae52d3e27a058a8723049356f31a52c3bf1a471ef990556ad969185c",
+  "stagger_DR_preview_60fps.mp4": "41672e85f8b4aa1b6380960558b2fb3aae0c3e0c3cdd423b9adc18c3406a0f36",
+  "stagger_DR_runtime.json": "b9f043eed2570412c4c537f77014c59f4669b5294da9f7057f17443fd67e9f11",
+  "stagger_DR_atlas.png": "6bd1d3a4510303451f4b61a86b09246c40e991459de4d8f18047e6012b5fe060",
+  "frames/stagger_DR_04.png": "04ef2a25cdde6d460b070e8c19b3149f4f659a89c01c1ab9a9e287c5e68ad1b1",
+  "frames/stagger_DR_02.png": "aab2aa64ad953989a29a423fb1d043747a1bd402137c2594a9de1df35d5977a6",
+  "frames/stagger_DR_07.png": "9fe9804805fa1648a9ac249e19cacd1ce40bfe460c9cb6aaa4237056c5fea7d4",
+  "frames/stagger_DR_03.png": "6ff111b3b924e244eb6cb42af529c41bef8f06f0cc5d5278fdd3495eb61bb773",
+  "frames/stagger_DR_01.png": "bb00b4fce095d896d85c0d2b51b539940582f73f1a3957d5ac383f5fcc6dc303",
+  "frames/stagger_DR_08.png": "977edcffd8e51508db6a77ae27be4b62e83e882fb5c0882875f1a2e971422f3f",
+  "frames/stagger_DR_06.png": "e231ad794cb2801ed7c4bd2663f5241c63b48f8904b64457a85ef5a3f1918023",
+  "frames/stagger_DR_05.png": "f24c7f0e4dc110a764e324edcbdcfcd082362616be5683671cdeb4ebeea787a2",
+  "provenance/stagger_DR_prompt.txt": "64a9587562b2f799e1773fc12cabb02cc0fd9b1f049041789b43310e7a731a95",
+  "provenance/native_source_sheet.png": "11ec9cdcc113adfae57215df090c2331df1549ab5988ad27db2dc9e4bbdcf3b6"
+}

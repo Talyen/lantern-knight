@@ -1,0 +1,104 @@
+{
+  "standing-small-hit-front": {
+    "shoulders": {
+      "right_minus_left_yup": [
+        -0.2414899468421936,
+        0.04988837242126465,
+        0.18281320855021477
+      ],
+      "estimated_front_unit_yup": [
+        0.6035771450340732,
+        -0.0,
+        0.7973046030172644
+      ],
+      "estimated_yaw_degrees": 52.87347632285996
+    },
+    "hips": {
+      "right_minus_left_yup": [
+        -0.13947760313749313,
+        -0.011983752250671387,
+        0.08572966605424881
+      ],
+      "estimated_front_unit_yup": [
+        0.5236423350998968,
+        -0.0,
+        0.8519382048547461
+      ],
+      "estimated_yaw_degrees": 58.42310918983739
+    },
+    "Right_foot_forward": {
+      "toe_minus_ankle_yup": [
+        0.035922884941101074,
+        -0.0874310897779651,
+        0.10077711939811707
+      ],
+      "yaw_degrees": 70.38094647489162
+    },
+    "Left_foot_forward": {
+      "toe_minus_ankle_yup": [
+        0.07521629333496094,
+        -0.08743693336145952,
+        0.0760787408798933
+      ],
+      "yaw_degrees": 45.3266073430699
+    },
+    "hip_net_displacement_yup_m": [
+      -9.313225746154785e-08,
+      2.980232238769531e-07,
+      4.563480615615845e-08
+    ],
+    "opposite_hip_travel_yaw_degrees": -26.104854009099295,
+    "root_forward_limits": "No root rotation quaternion exported. Source-to-world coordinate transform alone cannot establish actual anatomical initial heading."
+  },
+  "death-from-standing-idle": {
+    "shoulders": {
+      "right_minus_left_yup": [
+        -0.2125258818268776,
+        0.00979161262512207,
+        0.21292319148778915
+      ],
+      "estimated_front_unit_yup": [
+        0.707766810955671,
+        -0.0,
+        0.7064461347545471
+      ],
+      "estimated_yaw_degrees": 44.94649380727249
+    },
+    "hips": {
+      "right_minus_left_yup": [
+        -0.10532810539007187,
+        -0.00424957275390625,
+        0.12583769112825394
+      ],
+      "estimated_front_unit_yup": [
+        0.7668307948022852,
+        -0.0,
+        0.6418493064130363
+      ],
+      "estimated_yaw_degrees": 39.92985624735724
+    },
+    "Right_foot_forward": {
+      "toe_minus_ankle_yup": [
+        0.06313765794038773,
+        -0.08728687465190887,
+        0.08651775866746902
+      ],
+      "yaw_degrees": 53.87932938040199
+    },
+    "Left_foot_forward": {
+      "toe_minus_ankle_yup": [
+        0.10480304062366486,
+        -0.08728687160419213,
+        -0.022090837359428406
+      ],
+      "yaw_degrees": -11.902812326243797
+    },
+    "hip_net_displacement_yup_m": [
+      -1.0907029216177762,
+      -0.8408243954181671,
+      -0.34527556831017137
+    ],
+    "opposite_hip_travel_yaw_degrees": 17.565830652817873,
+    "root_forward_limits": "No root rotation quaternion exported. Source-to-world coordinate transform alone cannot establish actual anatomical initial heading."
+  }
+}

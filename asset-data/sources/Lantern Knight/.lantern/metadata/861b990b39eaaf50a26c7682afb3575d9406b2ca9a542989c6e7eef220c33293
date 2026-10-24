@@ -1,0 +1,10 @@
+from PIL import Image,ImageDraw,ImageFilter
+from pathlib import Path
+import json
+p=Path(__file__).parent
+hp=Path('/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png')
+h=Image.open(hp).convert('RGBA');h=h.crop(h.getchannel('A').point(lambda v:255 if v>30 else 0).getbbox());h=h.resize((round(h.width*160/h.height),160),Image.Resampling.LANCZOS)
+for name,foot in [('graveyard',(788,590)),('crypt',(787,590))]:
+ bg=Image.open(p/name/'native_floor.png').convert('RGBA');x,y=foot
+ s=Image.new('RGBA',bg.size);d=ImageDraw.Draw(s);d.ellipse((x-23,y-10,x+24,y+3),fill=(12,14,13,85));bg.alpha_composite(s.filter(ImageFilter.GaussianBlur(3)));bg.alpha_composite(h,(x-h.width//2,y-160));bg.convert('RGB').save(p/name/'hero160_context.png')
+ (p/name/'hero_context_metadata.json').write_text(json.dumps({'source':'native_floor.png','hero':str(hp),'dimensions':list(bg.size),'hero_visible_height':160,'hero_foot':foot,'processing':'Original source at native scale, original approved hero composited with Lanczos resize and small grounding shadow. No generated repainting.','scope':'Viewport art-direction test, not whole map; engine occlusion and collision untested.'},indent=2))

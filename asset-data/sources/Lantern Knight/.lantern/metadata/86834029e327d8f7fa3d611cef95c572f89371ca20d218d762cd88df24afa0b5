@@ -1,0 +1,228 @@
+{
+  "status": "Pass: native extraction, source-to-frame equivalence, alpha, boundaries, anatomy and ordered creative-motion review.",
+  "sheet_visual_review": "All six drawings of each chosen sheet and chronological pose sequence reviewed before extraction. Attack coiling/pounce distinctly differs from low travel scoot.",
+  "anatomy": "Two intended visible arms/hands and enclosed lower-body cocoon throughout. No exposed legs/stumps/extra arms. Finger visibility can simplify under foreshortening.",
+  "alpha": "Proper light/dark composites clean; broad raw-viewer gray haze is hidden RGB outside alpha. Runtime retains no background fog.",
+  "rejected_source": "locomotion_v01_native.png rejected: outer-right fingertips clipped in4\u00d72 layout. No rejected drawing used at runtime.",
+  "common_canvas": [
+    768,
+    768
+  ],
+  "common_pivot_top_left": [
+    448,
+    488
+  ],
+  "per_frame_rescale": false,
+  "per_frame_centering": false,
+  "rgb_repaint": false,
+  "unique_drawings": 12,
+  "frames": [
+    {
+      "path": "frames/cocoon_scoot/cocoon_scoot_DR_01.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 100,
+      "sha256": "8e396b046ac6d0e7e025668c2e034d311a1e58e07bc59aef08b98adb83cbcfe2"
+    },
+    {
+      "path": "frames/cocoon_scoot/cocoon_scoot_DR_02.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 166,
+      "sha256": "e769b133d345ec3a3fbc16017b3a640298c2160dc65771976b99111bcdc468e5"
+    },
+    {
+      "path": "frames/cocoon_scoot/cocoon_scoot_DR_03.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 155,
+      "sha256": "66a53b1d9b2bd9702227145d3638593f2e5e8ca46223c7fe31692cad3a44bdb8"
+    },
+    {
+      "path": "frames/cocoon_scoot/cocoon_scoot_DR_04.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 52,
+      "sha256": "d56b14b9a67abdeed00f2e981e6c78b9e75a30e4615a380af8cf2762e2e4df53"
+    },
+    {
+      "path": "frames/cocoon_scoot/cocoon_scoot_DR_05.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 184,
+      "sha256": "963b43bdbef12fe22198f7c5937cb3a2b4a645bccfab300bf78a5eeda4a4ffaf"
+    },
+    {
+      "path": "frames/cocoon_scoot/cocoon_scoot_DR_06.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 161,
+      "sha256": "f5256e869a88428f885758f2538029782be5f9cca515adb242631121f338d67f"
+    },
+    {
+      "path": "frames/predatory_pounce/predatory_pounce_DR_01.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 103,
+      "sha256": "c122add3ee18a7b01fa2cc294c1c7d8af669d767003e3cfe4bca0a78c8d79e65"
+    },
+    {
+      "path": "frames/predatory_pounce/predatory_pounce_DR_02.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 168,
+      "sha256": "b221b6050deab89389fc378e3402cc1a1f1e2bc3919faca556c5665e1fc75fe4"
+    },
+    {
+      "path": "frames/predatory_pounce/predatory_pounce_DR_03.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 165,
+      "sha256": "9a29a8eb229cfe9576c712ed2983ea64b193efb5f71ff86d4a082c5b03502a7a"
+    },
+    {
+      "path": "frames/predatory_pounce/predatory_pounce_DR_04.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 62,
+      "sha256": "0716a1ec589813b4a9eb048da7d129366bb36a32d2af9e899110cb09b3246c1d"
+    },
+    {
+      "path": "frames/predatory_pounce/predatory_pounce_DR_05.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 136,
+      "sha256": "8bdee33add39a4e0e4f26aaaf46c38d856e16b577b06f278b030375b1c27390d"
+    },
+    {
+      "path": "frames/predatory_pounce/predatory_pounce_DR_06.png",
+      "size": [
+        768,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "minimum_edge_margin_px": 154,
+      "sha256": "f672f2573291b332e6f8e981b6b593be2ed5f2f96dad36bfc8aae0da2f949a95"
+    }
+  ],
+  "previews": {
+    "cocoon_scoot_60hz.mp4": {
+      "width": 768,
+      "height": 844,
+      "r_frame_rate": "60/1",
+      "duration": "2.933333",
+      "nb_frames": "176"
+    },
+    "cocoon_scoot_half_speed_60hz.mp4": {
+      "width": 768,
+      "height": 844,
+      "r_frame_rate": "60/1",
+      "duration": "5.866667",
+      "nb_frames": "352"
+    },
+    "predatory_pounce_60hz.mp4": {
+      "width": 768,
+      "height": 844,
+      "r_frame_rate": "60/1",
+      "duration": "4.533333",
+      "nb_frames": "272"
+    },
+    "predatory_pounce_half_speed_60hz.mp4": {
+      "width": 768,
+      "height": 844,
+      "r_frame_rate": "60/1",
+      "duration": "9.066667",
+      "nb_frames": "544"
+    },
+    "shroud_crawler_motion_comparison_60hz.mp4": {
+      "width": 1536,
+      "height": 872,
+      "r_frame_rate": "60/1",
+      "duration": "4.533333",
+      "nb_frames": "272"
+    }
+  },
+  "independent_review": {
+    "reviewer": "independent native-art reviewer",
+    "findings": [
+      "Every source pixel with alpha>16 assigned exactly once; no duplicate or foreign ownership.",
+      "Surviving RGB equals source; alpha matches declared thresholds.",
+      "Atlases preserve visible RGB and alpha; transparent hidden RGB sanitization is inconsequential.",
+      "Twelve frames retain two intended visible hands/arms and fully enclosed lower-body shroud.",
+      "No source-border clipping or runtime clipping. Runtime minimum margin52px.",
+      "Light and dark composites have clean edges and no baked fog.",
+      "Pounce gather\u2192coil\u2192paired reach\u2192impact\u2192recover reads clearly.",
+      "Locomotion reads as an asymmetric scoot/surge, not proven alternating arm pulls; final labels updated accordingly."
+    ],
+    "blocking_findings": []
+  }
+}

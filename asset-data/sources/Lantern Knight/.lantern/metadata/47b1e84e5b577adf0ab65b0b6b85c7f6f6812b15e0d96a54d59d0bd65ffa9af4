@@ -1,0 +1,30 @@
+{
+  "unique_drawn_frame_hashes": 16,
+  "final_alpha_max": 0,
+  "runtime_visible_edge_max": 0,
+  "source_cell_boundary_alpha_max": 16,
+  "source_edge_note": "Faint antialias/smoke at raw grid boundary is retained. Opaque material is fully inside each source cell.",
+  "padding_minimum_px": 99,
+  "all_frames_same_canvas": true,
+  "safe_inner_ellipse_alpha_max_per_frame": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    5,
+    1,
+    2,
+    1,
+    4,
+    1,
+    8,
+    0
+  ],
+  "safe_inner_ellipse_alpha_max": 8,
+  "safe_inner_ellipse_note": "Visually clear safe center; faint generated alpha residue is at most 8/255, not mathematically zero alpha."
+}

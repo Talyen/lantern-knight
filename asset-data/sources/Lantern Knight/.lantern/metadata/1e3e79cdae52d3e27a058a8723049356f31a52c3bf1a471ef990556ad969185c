@@ -1,0 +1,191 @@
+{
+  "clip": "stagger_DR",
+  "source_size": [
+    1448,
+    1086
+  ],
+  "source_nominal_cell": [
+    362,
+    543
+  ],
+  "fixed_canvas": [
+    554,
+    671
+  ],
+  "common_padding": [
+    96,
+    64
+  ],
+  "alpha_cleanup": "Retain original pixels within 3 px of the full-body source component; discard isolated low-alpha background specks.",
+  "registration": "Identical 4x2 source-grid extraction with common padding; source cel drift retained, no per-cel recentering.",
+  "records": [
+    {
+      "cel": 1,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_01.png",
+      "source_component_bbox": [
+        67,
+        12,
+        327,
+        523
+      ],
+      "source_grid_origin": [
+        -96,
+        -64
+      ],
+      "alpha_bbox": [
+        161,
+        73,
+        426,
+        590
+      ],
+      "native_alpha_pixels": 80895
+    },
+    {
+      "cel": 2,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_02.png",
+      "source_component_bbox": [
+        458,
+        69,
+        700,
+        515
+      ],
+      "source_grid_origin": [
+        266,
+        -64
+      ],
+      "alpha_bbox": [
+        189,
+        130,
+        437,
+        582
+      ],
+      "native_alpha_pixels": 67908
+    },
+    {
+      "cel": 3,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_03.png",
+      "source_component_bbox": [
+        775,
+        18,
+        1063,
+        523
+      ],
+      "source_grid_origin": [
+        628,
+        -64
+      ],
+      "alpha_bbox": [
+        144,
+        80,
+        437,
+        590
+      ],
+      "native_alpha_pixels": 81622
+    },
+    {
+      "cel": 4,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_04.png",
+      "source_component_bbox": [
+        1129,
+        36,
+        1425,
+        512
+      ],
+      "source_grid_origin": [
+        990,
+        -64
+      ],
+      "alpha_bbox": [
+        136,
+        98,
+        438,
+        579
+      ],
+      "native_alpha_pixels": 82615
+    },
+    {
+      "cel": 5,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_05.png",
+      "source_component_bbox": [
+        40,
+        618,
+        392,
+        1045
+      ],
+      "source_grid_origin": [
+        -96,
+        479
+      ],
+      "alpha_bbox": [
+        133,
+        136,
+        491,
+        569
+      ],
+      "native_alpha_pixels": 80335
+    },
+    {
+      "cel": 6,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_06.png",
+      "source_component_bbox": [
+        429,
+        637,
+        722,
+        1037
+      ],
+      "source_grid_origin": [
+        266,
+        479
+      ],
+      "alpha_bbox": [
+        160,
+        155,
+        459,
+        561
+      ],
+      "native_alpha_pixels": 72082
+    },
+    {
+      "cel": 7,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_07.png",
+      "source_component_bbox": [
+        792,
+        562,
+        1063,
+        1045
+      ],
+      "source_grid_origin": [
+        628,
+        479
+      ],
+      "alpha_bbox": [
+        161,
+        80,
+        438,
+        569
+      ],
+      "native_alpha_pixels": 78618
+    },
+    {
+      "cel": 8,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/stagger_DR/frames/stagger_DR_08.png",
+      "source_component_bbox": [
+        1158,
+        550,
+        1419,
+        1045
+      ],
+      "source_grid_origin": [
+        990,
+        479
+      ],
+      "alpha_bbox": [
+        166,
+        68,
+        432,
+        569
+      ],
+      "native_alpha_pixels": 78571
+    }
+  ]
+}

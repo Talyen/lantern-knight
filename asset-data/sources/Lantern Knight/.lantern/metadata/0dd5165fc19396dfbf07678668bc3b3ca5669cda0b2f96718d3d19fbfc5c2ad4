@@ -1,0 +1,151 @@
+{
+  "passed": true,
+  "issues": [],
+  "familyCount": 8,
+  "clipCount": 9,
+  "frameCount": 270,
+  "minimumCanvasMarginPx": 36,
+  "exactAtlasCrops": true,
+  "uniqueNonEndpointFrames": true,
+  "normalAlphaOnly": true,
+  "reviewFraming": {
+    "allFullMotionBoundsInPanelAboveCaptions": true,
+    "checks": [
+      {
+        "clip": "enemy_cone",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          64.06593406593407,
+          170.06593406593407,
+          256.9230769230769,
+          282.8131868131868
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "enemy_line",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          238.13186813186815,
+          167.0989010989011,
+          465.6043956043956,
+          300.61538461538464
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "enemy_arc",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          61.09890109890108,
+          134.46153846153845,
+          335.05494505494505,
+          284.79120879120876
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "enemy_ring",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          87.80219780219778,
+          80.06593406593406,
+          413.1868131868132,
+          269.95604395604397
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "loot_appearance",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          170.87912087912088,
+          91.93406593406593,
+          330.1098901098901,
+          222.4835164835165
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "loot_pickup",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          167.9120879120879,
+          86.0,
+          331.09890109890114,
+          223.47252747252747
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "shrine_activation",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          197.58241758241758,
+          16.769230769230774,
+          303.4065934065934,
+          197.75824175824175
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "door_seal_dissolve",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          175.82417582417582,
+          8.857142857142861,
+          325.16483516483515,
+          204.6813186813187
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      },
+      {
+        "clip": "checkpoint_return",
+        "fullMotionAlphaBoundsOnActualScalePanel": [
+          123.4065934065934,
+          23.69230769230768,
+          375.6043956043956,
+          249.1868131868132
+        ],
+        "panelSizePx": [
+          560,
+          338
+        ],
+        "captionStartY": 312,
+        "passed": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+FRESH VIEWPORT FLOOR CONCEPTS + SEPARATE AI CROP EXPERIMENTS
+
+Graveyard and Crypt are native1536x1024 viewport concepts, not whole maps or engine-ready scenes. Original approved hero is composited at160px visible height. Tall scenery at edges is baked into the art; occluders/collision require later work. Exact prompts and producer metadata are preserved. These fresh prompts use a condensed positive floor-specific style description plus hero reference, NOT the verbatim locked style block. No claim that exact locked text was used.
+
+Reproduce contexts: install Pillow, then run python fresh/build_hero_contexts.py from any extracted location. It uses references/hero_ready_DR.png; only the dependency path was made portable. Original script is preserved as .py.txt. Native images were never resized or repainted for the contexts.
+
+ai_crop_experiments is a SEPARATE experiment on earlier source crops, not processing applied to these fresh images. Official free Real-ESRGAN anime6B 4x inference was reduced back to source size. Some marks are simplified or reinterpreted; this is not recovered detail. Read its README and metadata. Full4x/intermediate/inference tiles, runtime binaries and model weights are excluded. Provenance scripts retain original environment assumptions and are supplied as a record, not a plug-and-play inference installation. ModelURLs/hashes/licenses are included.

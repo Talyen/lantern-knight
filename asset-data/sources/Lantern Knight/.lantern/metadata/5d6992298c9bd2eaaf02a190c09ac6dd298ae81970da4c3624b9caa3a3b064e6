@@ -1,0 +1,310 @@
+{
+  "name": "Sweep negative_X / up-left",
+  "world_forward": [
+    -1,
+    0,
+    0
+  ],
+  "actor_heading_degrees": 180,
+  "unique_drawings": 9,
+  "duration_ms": 945,
+  "status": "Human-first poses and bounded recovery reviewed; native movement test with approximate joins",
+  "drawings": [
+    {
+      "id": 0,
+      "label": "Shared ready",
+      "file": "ready_native.png",
+      "size": [
+        632,
+        688
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        301.0,
+        556.0
+      ],
+      "runtime_sha256": "1af57d5b688327a20bdf97317694750ff54fe1bdbee1a5f31f91bdf667462beb",
+      "native_source": "ready_native.png",
+      "native_source_sha256": "1af57d5b688327a20bdf97317694750ff54fe1bdbee1a5f31f91bdf667462beb",
+      "pivot_normalized_bottom_left": [
+        0.4762658227848101,
+        0.19186046511627908
+      ]
+    },
+    {
+      "id": 1,
+      "label": "Action source 0",
+      "file": "action_frames/raw_00.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_00_native.png",
+      "native_source_sha256": "a3d4ba6729a63d88e00adb7a1bfcf95e945a79864fdc70c1ea40a460dbbb984b",
+      "runtime_sha256": "189f87ca14835a783a872b844b1ec1ce63595ee9759bd703653ebafc06c347ba",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        181,
+        226
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Action source 1",
+      "file": "action_frames/raw_01.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_01_native.png",
+      "native_source_sha256": "bbc6fc6e963009756099a1cbfccc71ba4623996a338cd4d36e6d603e4cc5774c",
+      "runtime_sha256": "fa17caa8d9bfd433dd54c57306eb1ea09a3d98b9230ce26875722fec351d3be9",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        158,
+        244
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Action source 2",
+      "file": "action_frames/raw_02.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_02_native.png",
+      "native_source_sha256": "311a3b6d3996110d4234327dfda6b18e5050ac9711a81bd41ddb25f6ccb354a0",
+      "runtime_sha256": "b4bbec8a8eee29229fc602fa403f9025e0970fae4afe0729cb6d83270aa6e2f0",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        185,
+        276
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Action source 3",
+      "file": "action_frames/raw_03.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_03_native.png",
+      "native_source_sha256": "42a57f8b8fd3f3bf571bc6cdcabd4826c6a51e602d585a15b55e472f6de030a8",
+      "runtime_sha256": "981f6f103665fe508ae2630ad18b3e7f5df3db553820e80c2120a376d0f98fdc",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        76,
+        259
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Action source 4",
+      "file": "action_frames/raw_04.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_04_native.png",
+      "native_source_sha256": "ab77441d76e6de4cf3e72b6aff32ed58e7a1a9555e493277e1417873f3611148",
+      "runtime_sha256": "277db5f0bd59bc5ff5929f6630ca67a443025de364427ca542a545944d382ff5",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        49,
+        245
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Action source 5",
+      "file": "action_frames/raw_05.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_05_native.png",
+      "native_source_sha256": "148ee2c0d6a34a26ab2b3a3cc9466d12ceb004c73bfa4cae5558687f954c4646",
+      "runtime_sha256": "5a1221908c45d532fc538b7a22d1fc20bcd10c03960284fca46c1ff98444a52c",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        171,
+        190
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 7,
+      "label": "Action source 6",
+      "file": "action_frames/raw_06.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_06_native.png",
+      "native_source_sha256": "dd2fce89b194f4dec493f942cc96497e3f435d2f0a97412431b39b1c8915770f",
+      "runtime_sha256": "a06067a56c93c3cac484f7b30bc335ababfb596b2a61fa57e1babb22dc3a55c2",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        211,
+        223
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    },
+    {
+      "id": 8,
+      "label": "Action source 7",
+      "file": "action_frames/raw_07.png",
+      "size": [
+        768,
+        768
+      ],
+      "pixels_per_unit": 258,
+      "pivot_top_left": [
+        384.0,
+        650.0
+      ],
+      "native_source": "native_cels/cel_07_native.png",
+      "native_source_sha256": "be869c812009f40f2341109ffd919b5db2e4484271b9436adf1d82b4b6892a31",
+      "runtime_sha256": "24683e2e4b8059db3b0024d0ffa190d37c2dcfd04affa65f98938fb07ce89d6c",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        147,
+        228
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.15364583333333337
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "drawing": 0,
+      "duration_ms": 110,
+      "beat": "Ready"
+    },
+    {
+      "drawing": 1,
+      "duration_ms": 80,
+      "beat": "Load"
+    },
+    {
+      "drawing": 2,
+      "duration_ms": 85,
+      "beat": "Turn"
+    },
+    {
+      "drawing": 3,
+      "duration_ms": 70,
+      "beat": "Chamber"
+    },
+    {
+      "drawing": 4,
+      "duration_ms": 45,
+      "beat": "Crossing"
+    },
+    {
+      "drawing": 5,
+      "duration_ms": 45,
+      "beat": "Sweep"
+    },
+    {
+      "drawing": 6,
+      "duration_ms": 55,
+      "beat": "Cut exit"
+    },
+    {
+      "drawing": 7,
+      "duration_ms": 85,
+      "beat": "Follow-through"
+    },
+    {
+      "drawing": 8,
+      "duration_ms": 130,
+      "beat": "Return"
+    },
+    {
+      "drawing": 0,
+      "duration_ms": 240,
+      "beat": "Ready return"
+    }
+  ],
+  "sampling_density": 258,
+  "sampling_density_method": "Median of eight native head-center\u2192left-sole distances divided by corresponding guide distances, then\u00d7350PPU. Sword, lantern, tail extents excluded.",
+  "sampling_density_confidence": "Approximate visual world scale; no metric camera certification or per-cel normalization.",
+  "notes": [
+    "Compact chamber and raised crossing passed human-first/connected-grip review; hidden far-side anatomy remains visually assessed.",
+    "Freshv02 replaced rejectedv01 detached sword. Native order retained; projected sword arc rises through follow-through.",
+    "Followthrough\u2192return is a large return movement; not a second attack.",
+    "Shared ready and action texture use different sampling density without altering native pixels.",
+    "Small native foot/shape/prop variation remains.",
+    "No body warps, mirroring or per-cel resize.",
+    "Shared ready nominal350PPU; one global action-sheet sampling density preserves native pixels while approximating matching world size.",
+    "One clip-wide offset aligns the visible ready foot reference; per-cel integer translations follow guide ground footprints. Foot locking is not guaranteed.",
+    "Up-left ready sword is fully occluded by the coat under the exact projected far wrist-to-tip segment. Complete occlusion is physically defensible; unseen artwork cannot itself be certified.",
+    "Recovery reuse trial was rejected because it re-lifted the knee and read as a second action. Original direct return retained."
+  ]
+}

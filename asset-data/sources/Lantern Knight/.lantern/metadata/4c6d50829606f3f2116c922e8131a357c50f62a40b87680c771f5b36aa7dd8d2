@@ -1,0 +1,15 @@
+{
+  "id": "lantern_utility_prop_05_salt_pouch",
+  "name": "Salt pouch",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_utility_pickups_09/assets/05_salt_pouch.png",
+  "decision": "keep",
+  "finding_and_direction": "Simple asymmetrical cloth pouch and pale tag already read graphically.",
+  "pack": "Lantern - Utility Pickups 09",
+  "folder": "utility_pickups_09",
+  "destination": "lantern_revision_02/equipment/utility_pickups_09/assets/05_salt_pouch.png",
+  "prompt": null,
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "retained_approved_original",
+  "reason": "Audit keep verdict confirmed visually: asymmetric cloth silhouette, broad ink fold wedges and pale tag remain coherent with revised pack.",
+  "review": "Distinct graphic cloth/paper folds, clear tinderbox assembly and subdued glass liquid. Existing salt pouch deliberately retained. Passed large overview and 64px light/dark proxy; native alpha preserved."
+}

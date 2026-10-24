@@ -1127,11 +1127,13 @@ class Importer:
             raise ValueError("Unsupported delivered package format: " + spec["format"])
         self.dispositions.append({"archive": spec["archive"], "status": "imported"})
 
-    def enemy_catalog(self, p):
+    def enemy_catalog(self, p, selected=None):
         member = next(n for n in p.names if n.endswith("/catalog.json"))
         catalog = p.json(member)
         groups = {g["group_id"]: g for g in catalog["groups"]}
         for actor in catalog["active_five_enemy_state_coverage"]:
+            if selected is not None and "library-" + slug(actor["enemy_id"]) not in selected:
+                continue
             asset = self.asset(actor["enemy_id"], actor["actor"], "character")
             asset["mirroring"] = False
             for state in ["movement", "attack", "spawn", "hit", "defeat"]:
@@ -1236,9 +1238,11 @@ class Importer:
                 {"actor": actor["enemy_id"], "status": "imported-current-five"}
             )
 
-    def enemy_overnight(self, p):
+    def enemy_overnight(self, p, selected=None):
         baseline = p.json("baseline_DR_reference/manifest.json")
         for actor in baseline["actors"]:
+            if selected is not None and "library-" + slug(actor["id"]) not in selected:
+                continue
             runtime = self.by_name[actor["artifacts"]["runtime"]["file_name"]]
             asset = self.asset(actor["id"], actor["name"], "character")
             asset["mirroring"] = False
@@ -1269,6 +1273,8 @@ class Importer:
         inventory = p.json("pack_inventory.json")
         for pack in inventory["packs"]:
             if pack["category"] == "baseline":
+                continue
+            if selected is not None and "library-" + slug(pack["actor_id"]) not in selected:
                 continue
             runtime = self.by_name[pack["runtime_artifacts"][0]["file_name"]]
             asset = self.assets["library-" + slug(pack["actor_id"])]
@@ -1322,6 +1328,8 @@ class Importer:
         for actor in p.json("actor_coverage.json")["actors"]:
             if actor["group"] != "new_18":
                 continue
+            if selected is not None and "library-" + slug(actor["id"]) not in selected:
+                continue
             asset = self.assets["library-" + slug(actor["id"])]
             for state, headings in actor["coverage"].items():
                 expected = {HEADINGS[h] for h in headings}
@@ -1331,7 +1339,7 @@ class Importer:
                     )
 
 
-def build(root, specs, index, artwork=(), inventory=None, index_path=None):
+def build(root, specs, index, artwork=(), inventory=None, index_path=None, retained_assets=None):
     resolver = SourceResolver(root, index, search_roots=[root])
     if inventory:
         resolver.reuse_inventory(inventory)
@@ -1381,11 +1389,11 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
         ):
             if p.spec["category"] == 0 and "enemy_animation_handoff" in p.spec["archive"]:
                 progress("enemy metadata " + p.spec["archive"])
-                importer.enemy_catalog(p)
+                importer.enemy_catalog(p, retained_assets)
         for p in packages:
             if p.spec["category"] == 0 and "Overnight" in p.spec["archive"]:
                 progress("enemy extension metadata " + p.spec["archive"])
-                importer.enemy_overnight(p)
+                importer.enemy_overnight(p, retained_assets)
         for p in packages:
             if p.spec["category"] == 0:
                 continue
@@ -1765,7 +1773,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
             importer.dispositions.append({"path": relative, "status": reason})
         return {
             "schemaVersion": 1,
-            "assets": list(importer.assets.values()),
+            "assets": [asset for asset in importer.assets.values() if retained_assets is None or asset["id"] in retained_assets],
             "dispositions": importer.dispositions,
             **({"inventory": inventory, "media": inventory["media"]} if inventory else {}),
         }
@@ -1779,14 +1787,7 @@ if __name__ == "__main__":
         __import__("os").environ.get("LANTERN_LIBRARY_INDEX", PROJECT / "assets/sources.json")
     )
     index = load_index(index_path)
-    root = (
-        pathlib.Path(
-            __import__("os").environ.get(
-                "ASSET_LIBRARY_ROOT", pathlib.Path.home() / "Documents/Asset Library"
-            )
-        )
-        / index["libraryDirectory"]
-    )
+    root = PROJECT / "asset-data/sources" / index["libraryDirectory"]
     specs = json.loads((PROJECT / "assets/library-packs.json").read_text())["packs"]
     artwork = [
         record
@@ -1796,6 +1797,8 @@ if __name__ == "__main__":
     artwork = [a for a in artwork if a["member"] in index["files"].get("library-artwork", {})]
     inventory_path = __import__("os").environ.get("LANTERN_LIBRARY_INVENTORY")
     inventory = json.loads(pathlib.Path(inventory_path).read_text()) if inventory_path else None
-    result = build(root, specs, index, artwork, inventory, index_path)
+    selection = __import__("os").environ.get("LANTERN_RETAINED_ASSETS")
+    selected = set(json.loads(selection)) if selection is not None else None
+    result = build(root, specs, index, artwork, inventory, index_path, selected)
     pathlib.Path(args.output).write_text(json.dumps(result, separators=(",", ":")) + "\n")
     print(f"Normalized {len(result['assets'])} logical world assets")

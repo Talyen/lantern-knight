@@ -1,0 +1,144 @@
+{
+  "name": "iron_bread_safe",
+  "revision": "generic_empty_opening",
+  "animation": "open_and_settle",
+  "canvas": [
+    640,
+    800
+  ],
+  "pivot_pixels": [
+    320,
+    750
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.9375
+  ],
+  "loop": false,
+  "frame_count": 7,
+  "durations_ms": [
+    350,
+    90,
+    100,
+    110,
+    120,
+    140,
+    700
+  ],
+  "total_ms": 1610,
+  "terminal_state": "iron_bread_safe_open_empty.png",
+  "initial_state": "iron_bread_safe_closed.png",
+  "atlas": "iron_bread_safe_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frames": [
+    {
+      "file": "frames/iron_bread_safe_00.png",
+      "rect": [
+        0,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 350
+    },
+    {
+      "file": "frames/iron_bread_safe_01.png",
+      "rect": [
+        640,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 90
+    },
+    {
+      "file": "frames/iron_bread_safe_02.png",
+      "rect": [
+        1280,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/iron_bread_safe_03.png",
+      "rect": [
+        1920,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 110
+    },
+    {
+      "file": "frames/iron_bread_safe_04.png",
+      "rect": [
+        0,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 120
+    },
+    {
+      "file": "frames/iron_bread_safe_05.png",
+      "rect": [
+        640,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 140
+    },
+    {
+      "file": "frames/iron_bread_safe_06.png",
+      "rect": [
+        1280,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 700
+    }
+  ],
+  "source": "Content-free opening poses edited with image_gen; extraction phase removed. No procedural pose tweening. Original endpoint pixels retained exactly.",
+  "registration": [
+    {
+      "scale": 0.995,
+      "offset": [
+        -2,
+        2
+      ],
+      "correlation": 0.7994082517380952
+    },
+    {
+      "scale": 1.0,
+      "offset": [
+        0,
+        1
+      ],
+      "correlation": 0.6996887330637808
+    },
+    {
+      "scale": 1.005,
+      "offset": [
+        2,
+        2
+      ],
+      "correlation": 0.707824745639019
+    },
+    {
+      "scale": 1.0,
+      "offset": [
+        -30,
+        2
+      ],
+      "correlation": 0.8827126017305186
+    }
+  ],
+  "loot_visuals": "none; interiors are empty/dark throughout"
+}

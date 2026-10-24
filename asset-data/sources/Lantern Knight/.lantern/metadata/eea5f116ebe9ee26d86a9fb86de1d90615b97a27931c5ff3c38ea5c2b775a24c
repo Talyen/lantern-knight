@@ -1,0 +1,112 @@
+{
+  "status": "HELD_WARDROBE_FAILURE_STOPPED_AFTER_ONE_GENERATION",
+  "decision": "Do not package as runtime or replace any delivered run. New low-carry method visibly solves neck-level pose and duplicate-lamp failure, but all eight near RIGHT sword sleeves have an unauthorized tan patch. No generative retries or edits were made.",
+  "review_order": [
+    "human anatomy",
+    "held props and ownership",
+    "stride phase",
+    "camera and costume"
+  ],
+  "human_first_summary": "Viewed each native cel separately. All eight show a plausible two-leg running pose and comfortably connected low left-arm carry. No left hand behind neck, no face-height lamp, no obvious backwards elbow or detached hand. This is a visual assessment, not proof from guide angles.",
+  "props_summary": "One low lamp held by far left hand and one sword held by near right hand in all eight. Readable transparent gap beside lamp in each. No duplicate lamps.",
+  "camera_summary": "All eight visually read as elevated rear-right UR, running away. No frontal chest/face or obvious camera flip. Guides use exact 35.264389682754654 degree elevation and 45 degree world azimuth; generated art is conditioned by those guides, not metrically proven to reproduce the camera.",
+  "phase_summary": "Distinct two-step running poses match the guide order in contact-sheet inspection. No runtime loop review or package audit undertaken after the hard wardrobe gate failed.",
+  "costume_blocker": "Tan patch on anatomical RIGHT near sword upper sleeve in cels 1\u20138. Canonical RIGHT sleeve must be plain. Far-left-only patches may be occluded, never copied to near right.",
+  "secondary_concern": "Near right black wraps appear longer than the short canonical wrist wrap in some poses. Far-left bracer shading is very dark; wardrobe was not certified.",
+  "native_size": [
+    1774,
+    887
+  ],
+  "unique_drawings": 8,
+  "crop_policy": "Fixed equal 4 by 2 grid, native 1x crops, no per-frame fit or scale; diagnostic review only.",
+  "frames": [
+    {
+      "cel": 1,
+      "source_tick": 0,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Right near leg supporting/compressing, left folded behind.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_01_native.png"
+    },
+    {
+      "cel": 2,
+      "source_tick": 5,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Right near leg extended rearward, left advancing.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_02_native.png"
+    },
+    {
+      "cel": 3,
+      "source_tick": 10,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Right near leg at push-off/rear extension, left advanced.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_03_native.png"
+    },
+    {
+      "cel": 4,
+      "source_tick": 15,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Right near leg folded rear recovery, left supporting.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_04_native.png"
+    },
+    {
+      "cel": 5,
+      "source_tick": 20,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Left far leg supporting; right knee drives forward.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_05_native.png"
+    },
+    {
+      "cel": 6,
+      "source_tick": 25,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Left far leg extended rearward, right advanced.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_06_native.png"
+    },
+    {
+      "cel": 7,
+      "source_tick": 30,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Left far leg push-off/rear extension, right advanced.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_07_native.png"
+    },
+    {
+      "cel": 8,
+      "source_tick": 35,
+      "human_pose": "visually plausible low carry; no neck-level failure",
+      "single_connected_lamp": true,
+      "single_right_sword": true,
+      "observed_phase": "Left far leg folding/recovering, right supporting.",
+      "plain_right_sleeve": false,
+      "status": "HOLD",
+      "evidence": "review/cel_08_native.png"
+    }
+  ]
+}

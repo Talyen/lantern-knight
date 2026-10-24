@@ -1,0 +1,60 @@
+{
+  "title": "Rootwood B | Full Scenic Map",
+  "views": [
+    {
+      "name": "upper_trail",
+      "display_box": [
+        250,
+        375,
+        1786,
+        1399
+      ],
+      "display_foot": [
+        1000,
+        953
+      ]
+    },
+    {
+      "name": "central_grove",
+      "display_box": [
+        1175,
+        725,
+        2711,
+        1749
+      ],
+      "display_foot": [
+        1918,
+        1393
+      ]
+    },
+    {
+      "name": "lower_rootway",
+      "display_box": [
+        2125,
+        1450,
+        3661,
+        2474
+      ],
+      "display_foot": [
+        2900,
+        2028
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "central_root_bark",
+      "source_xy": [
+        640,
+        320
+      ]
+    },
+    {
+      "name": "right_root_boundary",
+      "source_xy": [
+        1280,
+        640
+      ]
+    }
+  ]
+}

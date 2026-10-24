@@ -1,0 +1,352 @@
+{
+  "clip_id": "rust_run_world_negative_Z_UR_lowcarry8_native_test_v01",
+  "status": "ACCEPTED_NATIVE_RUNTIME_TEST_NOT_ENGINE_VALIDATED",
+  "action_role": "run",
+  "loop": true,
+  "unique_drawings": 8,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "canvas": [
+    1536,
+    1024
+  ],
+  "root_top_left": [
+    768,
+    892
+  ],
+  "root_bottom_left": [
+    768,
+    132
+  ],
+  "root_normalized_bottom_left": [
+    0.5,
+    0.12890625
+  ],
+  "authored_cell_root": [
+    220,
+    380
+  ],
+  "root_basis": "One manually chosen clip-wide approximate ground registration, visually centered from hip/support-foot placement; not independently verified ground calibration. No frame-specific recentering.",
+  "registration": "Native 1x equal-grid extraction with one transparent-padding translation [548,512]. No raster resizing, upscaling, mirroring, per-frame fitting or mesh distortion.",
+  "heading": {
+    "world_forward": [
+      0,
+      0,
+      -1
+    ],
+    "screen": "UR",
+    "world_up": "Y",
+    "camera_elevation_degrees": 35.264389682754654,
+    "camera_world_azimuth_degrees": 45,
+    "mirror": false
+  },
+  "motion_source": {
+    "name": "Standing Torch Run Forward",
+    "source_fbx_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+    "ticks": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35
+    ],
+    "duplicate_endpoint40_excluded": true,
+    "horizontal_root_removed": true,
+    "source_vertical_bob_retained": true,
+    "source_distance_m": 2.7551526452298276,
+    "source_speed_m_s": 4.132728967844741,
+    "left_arm_adaptation": "Exact-length two-bone IK to waist-level low lantern carry; preserve source upper/forearm lengths; outward-forward elbow bend; small source chest-yaw-driven swing.",
+    "right_arm_adaptation": "None in guide. Source joint motion retained; 0.78 m rigid blade attached to source wrist.",
+    "engine_validated": false
+  },
+  "source_sheet_sha256": "9ed75b38f34a59703640832900ecfb2a16e9d88db79b8d6aee363bdd83ff847e",
+  "raw_generated_source_sha256": "901ec1981c68fcb8d214c013cade35f34feb3ee560084d31f18aafdcb3eb1674",
+  "native_source_size": [
+    1774,
+    887
+  ],
+  "traditional_cleanup": "Erroneous near-right sleeve patches removed by classical local harmonic RGB interpolation. 2099 RGB pixels changed in 2100 masked pixels. Source immutable; all alpha and outside-mask pixels exact.",
+  "review": "Independent native human/phase, mask-integrity and extraction-border/component checks passed; root visually accepted cleaned native cloth. No runtime engine review claimed.",
+  "approximate_pixels_per_unit": 235,
+  "import_companion": "import_companion_UR_lowcarry.json",
+  "limits": [
+    "New low-carry source adaptation; not unaltered mocap. Original body/legs/right arm and root bob retained; left elbow/wrist reauthored with exact-length IK and a small source-torso-yaw-driven carriage swing.",
+    "Only joint positions are supplied; independent axial bone/hand rotations are not recovered.",
+    "Authored fixed root is an approximate starting registration. Pivots are exact for these files but are not validated physical ground contacts.",
+    "Suggested density is one rough cranial-width estimate for the whole clip, about \u00b115%; no engine calibration.",
+    "Guide camera is exact; painted camera/prop measurements are visual approximations, not measured proof.",
+    "Small stitch/scuff remnants after bounded cloth cleanup remain acceptable in this native test.",
+    "Existing high-carry UR attempts remain held; this package is a new separately reviewed clip.",
+    "No observed art anchors are supplied; null values must not be replaced by source-guide joints."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/run_00.png",
+      "sha256": "cf63a5a47f5695c73812219f3c549d30a10a1032869be68685c5f397a667ce99",
+      "source_tick": 0,
+      "start_tick": 0,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.0,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        8,
+        8,
+        444,
+        444
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/run_01.png",
+      "sha256": "615b3509b7ea5f479298e6bc7c63b92373a6a740dd4e84c358d60563901e0c82",
+      "source_tick": 5,
+      "start_tick": 5,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.125,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        468,
+        8,
+        443,
+        444
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/run_02.png",
+      "sha256": "c36900e2c3a095b079cd48dface0594d67bff685478025eb2dd597f7d8d841d9",
+      "source_tick": 10,
+      "start_tick": 10,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.25,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        928,
+        8,
+        443,
+        444
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/run_03.png",
+      "sha256": "930e49d00a25078be058564c608a2af04a04ce8661c90ef6d904f14c1569f1c8",
+      "source_tick": 15,
+      "start_tick": 15,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.375,
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        1388,
+        8,
+        444,
+        444
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/run_04.png",
+      "sha256": "ce48fc701be4a858fa79c448fd5b11a4b2f2ae6269eedb2c2935354d5d544ae2",
+      "source_tick": 20,
+      "start_tick": 20,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.5,
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        8,
+        468,
+        444,
+        443
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/run_05.png",
+      "sha256": "958fa93fc4a8fd124dde543a7e60cfd559849bca18dbff1e06fca132f605b521",
+      "source_tick": 25,
+      "start_tick": 25,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.625,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        468,
+        468,
+        443,
+        443
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/run_06.png",
+      "sha256": "7936629e346a5d7b6358b805ee60b2df9fe4252b3861175756a6929ef5096b3a",
+      "source_tick": 30,
+      "start_tick": 30,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.75,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        928,
+        468,
+        443,
+        443
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/run_07.png",
+      "sha256": "bc218d7fe9950fd2e05d5a4552e141d1f914d964455d894998f56b24ba712968",
+      "source_tick": 35,
+      "start_tick": 35,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.875,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sample tick, not drawn sole or engine contact proof.",
+      "observed_anchors_canvas": null,
+      "guide_anchors_canvas": null,
+      "source_sheet_rect": [
+        1330,
+        444,
+        1774,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        548,
+        512
+      ],
+      "atlas_rect": [
+        1388,
+        468,
+        444,
+        443
+      ]
+    }
+  ]
+}

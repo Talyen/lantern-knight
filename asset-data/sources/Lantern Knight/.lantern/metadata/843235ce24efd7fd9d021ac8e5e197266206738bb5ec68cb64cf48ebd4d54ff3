@@ -1,0 +1,29 @@
+[
+  {
+    "id": "lantern_creature_concept_03_moth_oracle",
+    "name": "Moth oracle",
+    "audit_verdict": "keep",
+    "audit_direction": "Excellent graphic wing markings, tall taper and ivory focus; retain. Thin legs are a scale caveat, not a rebuild reason.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_creatures_03/assets/03_moth_oracle.png",
+    "revised_image": "packs/02_creatures_03/assets/03_moth_oracle.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_creatures_03/assets/03_moth_oracle.png",
+    "sha256": "2d558003603bc1f3791e951bd5d021177e07a62ae7308937581c6483d4411fa6",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      144,
+      14,
+      1098,
+      1237
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  }
+]

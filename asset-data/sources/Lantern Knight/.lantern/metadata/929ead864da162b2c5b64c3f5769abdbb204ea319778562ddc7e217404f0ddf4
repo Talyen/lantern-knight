@@ -1,0 +1,16 @@
+{
+  "status": "all three suitable for user art-direction comparison",
+  "review_scope": "Small full-frame comparison plus native-pixel hero crops; presentation review only.",
+  "common": {
+    "native_dimensions": [1536, 1024],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "major_realism_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false
+  },
+  "A": {"direction": "Warm old forest road with ruined-stone landmarks", "strength": "Clear branching road, inked foliage silhouettes and broad connected fight space", "caveat": "Moderate earth mottling and small paving detail; acceptable sample variation, not a rejection"},
+  "B": {"direction": "Mossy ruined-arch grove", "strength": "Strong arch and stump islands make the most spatially varied option, with traversable-looking linked clearings", "caveat": "Ground and foliage are the busiest of these three; hero placement is on unobstructed ground at right of central stump"},
+  "C": {"direction": "Slate-blue dusk pine clearing", "strength": "Quietest earth treatment and broadest uncluttered combat clearing", "caveat": "More perimeter-framed and less internally varied than A/B"},
+  "limits": "Tall scenery is baked into the art. This review cannot establish in-engine occlusion, collision, perspective calibration or real gameplay clearance."
+}

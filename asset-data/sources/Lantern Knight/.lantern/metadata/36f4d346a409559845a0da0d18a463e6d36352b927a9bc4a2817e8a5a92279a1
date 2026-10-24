@@ -1,0 +1,478 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "furnishings_01",
+  "title": "Lantern Furnishings & Workshop - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Furnishings and equipment are single static illustrations; no seated or sleeping poses, inventory, opening state, moving parts, mechanism validation or interaction behavior is supplied.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "furn_simple_bed_01",
+      "name": "Rustic single bed",
+      "file": "assets/furn_simple_bed_01.png",
+      "prompt_file": "provenance/furn_simple_bed_01.prompt.txt",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "file_bytes": 658640,
+      "sha256": "95f4f27527b81dfa3b453ee7745ae6057c1b4153d9f894616fbf009032d30253",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        211,
+        51,
+        1289,
+        1081
+      ],
+      "alpha_at_least_16_bounds_px": [
+        214,
+        84,
+        1207,
+        1031
+      ],
+      "fully_transparent_pixel_fraction": 0.705085,
+      "fully_opaque_pixel_fraction": 0.00087,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.73
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.15,
+          0.69
+        ],
+        [
+          0.6,
+          0.41
+        ],
+        [
+          0.86,
+          0.54
+        ],
+        [
+          0.44,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 176,
+      "qa_notes": "Bed, pillow and blanket are one static illustrated prop; no sleep pose or cloth animation.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_wooden_bench_01",
+      "name": "Wooden backrest bench",
+      "file": "assets/furn_wooden_bench_01.png",
+      "prompt_file": "provenance/furn_wooden_bench_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1255669,
+      "sha256": "5082231db54253aaa4d0423f2d1f33eb757db0d8fa4d502942daa9e883785a92",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        21,
+        1436,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        296,
+        55,
+        1344,
+        972
+      ],
+      "fully_transparent_pixel_fraction": 0.707696,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.72
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.19,
+          0.81
+        ],
+        [
+          0.76,
+          0.44
+        ],
+        [
+          0.87,
+          0.6
+        ],
+        [
+          0.33,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Backrest, seat and supports are one prop; no seating positions or character interaction are supplied.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_bookcase_01",
+      "name": "Three-shelf bookcase",
+      "file": "assets/furn_bookcase_01.png",
+      "prompt_file": "provenance/furn_bookcase_01.prompt.txt",
+      "dimensions_px": [
+        1222,
+        1287
+      ],
+      "file_bytes": 846881,
+      "sha256": "034bf1bce20c324422d9cdab8bd4b62d5097e4c6e9caa28252417d34127d576f",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        21,
+        1202,
+        1287
+      ],
+      "alpha_at_least_16_bounds_px": [
+        289,
+        62,
+        958,
+        1237
+      ],
+      "fully_transparent_pixel_fraction": 0.618343,
+      "fully_opaque_pixel_fraction": 0.000794,
+      "boundary_nonzero_alpha_pixel_count": 16,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.52,
+        0.88
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.26,
+          0.8
+        ],
+        [
+          0.4,
+          0.75
+        ],
+        [
+          0.77,
+          0.87
+        ],
+        [
+          0.64,
+          0.96
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Books are painted into the case, not separate pickup assets. All visible book spines are blank.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_shop_counter_01",
+      "name": "Empty shop counter",
+      "file": "assets/furn_shop_counter_01.png",
+      "prompt_file": "provenance/furn_shop_counter_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1282603,
+      "sha256": "478b9a3b22498190c474838e23479ccd7bfc50d5826814c25d04993eeaa7de28",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        71,
+        32,
+        1404,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        198,
+        99,
+        1350,
+        972
+      ],
+      "fully_transparent_pixel_fraction": 0.636213,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.71
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.16,
+          0.54
+        ],
+        [
+          0.35,
+          0.43
+        ],
+        [
+          0.86,
+          0.8
+        ],
+        [
+          0.69,
+          0.95
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Drawer and cabinets are closed static surfaces; empty worktop, no shop or inventory behavior.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_blacksmith_anvil_01",
+      "name": "Anvil on timber block",
+      "file": "assets/furn_blacksmith_anvil_01.png",
+      "prompt_file": "provenance/furn_blacksmith_anvil_01.prompt.txt",
+      "dimensions_px": [
+        1367,
+        1150
+      ],
+      "file_bytes": 837702,
+      "sha256": "2fd4f90a80212c3de1dedbc5effefa4121e023ed11cef3a3de1c54c9c9696d35",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        47,
+        1329,
+        1116
+      ],
+      "alpha_at_least_16_bounds_px": [
+        139,
+        85,
+        1188,
+        1113
+      ],
+      "fully_transparent_pixel_fraction": 0.592573,
+      "fully_opaque_pixel_fraction": 0.000878,
+      "boundary_nonzero_alpha_pixel_count": 3,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.58,
+        0.84
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.31,
+          0.77
+        ],
+        [
+          0.56,
+          0.64
+        ],
+        [
+          0.85,
+          0.81
+        ],
+        [
+          0.49,
+          0.96
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Anvil and block are a single static cutout; no working animation, hammer or sparks.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_workbench_01",
+      "name": "Workbench with vise",
+      "file": "assets/furn_workbench_01.png",
+      "prompt_file": "provenance/furn_workbench_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1417424,
+      "sha256": "0ab6c3c47cb7197923850d37126ae0b001fc647c6eb6655d0442c2579082c1fb",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        105,
+        35,
+        1522,
+        974
+      ],
+      "alpha_at_least_16_bounds_px": [
+        227,
+        60,
+        1385,
+        969
+      ],
+      "fully_transparent_pixel_fraction": 0.661915,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.73
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.74
+        ],
+        [
+          0.64,
+          0.46
+        ],
+        [
+          0.83,
+          0.64
+        ],
+        [
+          0.39,
+          0.93
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Vise and tabletop hammer are painted into the bench; no separate tools or moving parts.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_hand_plough_01",
+      "name": "Field hand plough",
+      "file": "assets/furn_hand_plough_01.png",
+      "prompt_file": "provenance/furn_hand_plough_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1242594,
+      "sha256": "676eb01ff4b69cc4520dcf23fdecd8c810534f8f52f5b87bd0bc9275e532dedc",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        71,
+        63,
+        1481,
+        932
+      ],
+      "alpha_at_least_16_bounds_px": [
+        108,
+        65,
+        1478,
+        929
+      ],
+      "fully_transparent_pixel_fraction": 0.818382,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.41,
+        0.78
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.08,
+          0.8
+        ],
+        [
+          0.37,
+          0.55
+        ],
+        [
+          0.65,
+          0.63
+        ],
+        [
+          0.3,
+          0.89
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Parked static farm implement; handles overhang the provisional support footprint. No realistic mechanism or tilling behavior is validated.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "furn_grindstone_01",
+      "name": "Manual grindstone",
+      "file": "assets/furn_grindstone_01.png",
+      "prompt_file": "provenance/furn_grindstone_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 851271,
+      "sha256": "d87ae458ca7b3bb623e509559d5607b3f182f3bc1f8affab7b36e9e56afe8639",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        143,
+        21,
+        1266,
+        1159
+      ],
+      "alpha_at_least_16_bounds_px": [
+        189,
+        81,
+        1263,
+        1114
+      ],
+      "fully_transparent_pixel_fraction": 0.649847,
+      "fully_opaque_pixel_fraction": 0.000464,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.79
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.14,
+          0.64
+        ],
+        [
+          0.46,
+          0.52
+        ],
+        [
+          0.8,
+          0.79
+        ],
+        [
+          0.52,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Stone, crank, trough and frame are one static illustration; no rotation, water or tool interaction.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

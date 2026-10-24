@@ -1,0 +1,481 @@
+{
+  "status": "LIMITED_KNOWN_VIEW_IDLE_ACCEPTED_PRODUCTION_BLOCKED",
+  "asset_id": "lamplighter_C_RUST_known_view_cutout_v01",
+  "canonical_sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c",
+  "canonical_reference": "../../reference/canonical_original_C_RUST.png",
+  "source_size_px": [
+    466,
+    1198
+  ],
+  "source_rgb_preserved": true,
+  "known_view_only": true,
+  "view": "original front three-quarter concept view; angle is NOT calibrated",
+  "camera_contract_compatible": false,
+  "units": "source image pixels, top-left origin",
+  "pivot_root_px": [
+    272,
+    1084
+  ],
+  "layers": [
+    {
+      "name": "head_identity",
+      "polygon": [
+        [
+          167,
+          11
+        ],
+        [
+          304,
+          8
+        ],
+        [
+          307,
+          131
+        ],
+        [
+          284,
+          169
+        ],
+        [
+          273,
+          210
+        ],
+        [
+          256,
+          228
+        ],
+        [
+          225,
+          220
+        ],
+        [
+          190,
+          185
+        ],
+        [
+          175,
+          143
+        ],
+        [
+          163,
+          92
+        ]
+      ],
+      "pivot": [
+        241,
+        164
+      ],
+      "motion": "locked_face",
+      "mask_file": "head_identity_mask.png",
+      "derived_texture_file": "head_identity.png",
+      "selected_source_pixel_count": 18232
+    },
+    {
+      "name": "sword_and_right_hand",
+      "polygon": [
+        [
+          0,
+          517
+        ],
+        [
+          50,
+          501
+        ],
+        [
+          88,
+          499
+        ],
+        [
+          104,
+          521
+        ],
+        [
+          109,
+          571
+        ],
+        [
+          96,
+          609
+        ],
+        [
+          98,
+          675
+        ],
+        [
+          57,
+          873
+        ],
+        [
+          16,
+          1005
+        ],
+        [
+          0,
+          1004
+        ]
+      ],
+      "pivot": [
+        77,
+        526
+      ],
+      "motion": "attached_right",
+      "mask_file": "sword_and_right_hand_mask.png",
+      "derived_texture_file": "sword_and_right_hand.png",
+      "selected_source_pixel_count": 11509
+    },
+    {
+      "name": "lantern_body",
+      "polygon": [
+        [
+          348,
+          568
+        ],
+        [
+          466,
+          568
+        ],
+        [
+          466,
+          718
+        ],
+        [
+          348,
+          718
+        ]
+      ],
+      "pivot": [
+        410,
+        574
+      ],
+      "motion": "lantern_hinge",
+      "mask_file": "lantern_body_mask.png",
+      "derived_texture_file": "lantern_body.png",
+      "selected_source_pixel_count": 14425
+    },
+    {
+      "name": "left_hand_and_forearm",
+      "polygon": [
+        [
+          351,
+          374
+        ],
+        [
+          397,
+          359
+        ],
+        [
+          431,
+          387
+        ],
+        [
+          437,
+          454
+        ],
+        [
+          456,
+          505
+        ],
+        [
+          445,
+          543
+        ],
+        [
+          431,
+          561
+        ],
+        [
+          418,
+          556
+        ],
+        [
+          410,
+          541
+        ],
+        [
+          401,
+          546
+        ],
+        [
+          391,
+          546
+        ],
+        [
+          381,
+          544
+        ],
+        [
+          376,
+          516
+        ],
+        [
+          364,
+          469
+        ],
+        [
+          358,
+          436
+        ]
+      ],
+      "pivot": [
+        384,
+        392
+      ],
+      "motion": "attached_left",
+      "mask_file": "left_hand_and_forearm_mask.png",
+      "derived_texture_file": "left_hand_and_forearm.png",
+      "selected_source_pixel_count": 10299
+    },
+    {
+      "name": "right_forearm",
+      "polygon": [
+        [
+          79,
+          382
+        ],
+        [
+          119,
+          382
+        ],
+        [
+          137,
+          404
+        ],
+        [
+          111,
+          471
+        ],
+        [
+          104,
+          514
+        ],
+        [
+          87,
+          529
+        ],
+        [
+          61,
+          514
+        ],
+        [
+          60,
+          483
+        ],
+        [
+          71,
+          437
+        ]
+      ],
+      "pivot": [
+        108,
+        400
+      ],
+      "motion": "attached_right",
+      "mask_file": "right_forearm_mask.png",
+      "derived_texture_file": "right_forearm.png",
+      "selected_source_pixel_count": 4918
+    },
+    {
+      "name": "coat_tail_anatomical_left",
+      "polygon": [
+        [
+          262,
+          410
+        ],
+        [
+          288,
+          402
+        ],
+        [
+          337,
+          410
+        ],
+        [
+          363,
+          463
+        ],
+        [
+          390,
+          502
+        ],
+        [
+          374,
+          559
+        ],
+        [
+          369,
+          619
+        ],
+        [
+          380,
+          671
+        ],
+        [
+          349,
+          707
+        ],
+        [
+          281,
+          730
+        ],
+        [
+          277,
+          667
+        ],
+        [
+          273,
+          595
+        ],
+        [
+          263,
+          527
+        ]
+      ],
+      "pivot": [
+        285,
+        426
+      ],
+      "motion": "coat_left",
+      "mask_file": "coat_tail_anatomical_left_mask.png",
+      "derived_texture_file": "coat_tail_anatomical_left.png",
+      "selected_source_pixel_count": 26683
+    },
+    {
+      "name": "coat_tail_anatomical_right",
+      "polygon": [
+        [
+          129,
+          410
+        ],
+        [
+          161,
+          402
+        ],
+        [
+          167,
+          442
+        ],
+        [
+          155,
+          497
+        ],
+        [
+          150,
+          557
+        ],
+        [
+          146,
+          628
+        ],
+        [
+          141,
+          678
+        ],
+        [
+          116,
+          721
+        ],
+        [
+          83,
+          705
+        ],
+        [
+          78,
+          675
+        ],
+        [
+          107,
+          560
+        ],
+        [
+          110,
+          483
+        ]
+      ],
+      "pivot": [
+        139,
+        430
+      ],
+      "motion": "coat_right",
+      "mask_file": "coat_tail_anatomical_right_mask.png",
+      "derived_texture_file": "coat_tail_anatomical_right.png",
+      "selected_source_pixel_count": 12012
+    },
+    {
+      "name": "legs_and_boots",
+      "polygon": [
+        [
+          0,
+          470
+        ],
+        [
+          466,
+          470
+        ],
+        [
+          466,
+          1106
+        ],
+        [
+          0,
+          1106
+        ]
+      ],
+      "pivot": [
+        273,
+        1038
+      ],
+      "motion": "feet_planted",
+      "mask_file": "legs_and_boots_mask.png",
+      "derived_texture_file": "legs_and_boots.png",
+      "selected_source_pixel_count": 83224
+    },
+    {
+      "name": "torso_coat_and_belts",
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          466,
+          0
+        ],
+        [
+          466,
+          1106
+        ],
+        [
+          0,
+          1106
+        ]
+      ],
+      "pivot": [
+        235,
+        401
+      ],
+      "motion": "torso_breath",
+      "mask_file": "torso_coat_and_belts_mask.png",
+      "derived_texture_file": "torso_coat_and_belts.png",
+      "selected_source_pixel_count": 68357
+    }
+  ],
+  "limitations": [
+    "Source is one uncalibrated concept view, not a 35.264 degree production view.",
+    "No new hidden surface pixels authored; broad articulation and new headings remain blocked.",
+    "Source matte edge pixels retained rather than repainted; halo check required.",
+    "Only subtle independent coat and lantern idle motion is proposed at this gate."
+  ],
+  "motion_scope": "Subtle independent cloth and lantern-body idle only; head, bare hands, sword and feet remain planted.",
+  "clip": {
+    "id": "known_view_idle_study",
+    "duration_ms": 2000,
+    "source_samples": 24,
+    "source_fps": 12,
+    "preview_fps": 60,
+    "loop": true,
+    "root_motion": false,
+    "lantern_hinge_max_angle_deg": 0.9,
+    "not_walk_or_attack": true
+  },
+  "render_method": "One continuous UV mesh driven by layer-defined independent control fields; original source texture retained."
+}

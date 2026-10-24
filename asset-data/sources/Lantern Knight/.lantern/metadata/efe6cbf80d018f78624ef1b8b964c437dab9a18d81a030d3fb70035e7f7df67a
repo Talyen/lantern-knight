@@ -1,0 +1,72 @@
+{
+  "concept": "Lantern B: Shadow Theatre",
+  "clips": {
+    "Intro": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "120",
+      "duration": "2.000000",
+      "size": "350978"
+    },
+    "Hold": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "240",
+      "duration": "4.000000",
+      "size": "750863"
+    },
+    "Complete": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "120",
+      "duration": "2.000000",
+      "size": "304796"
+    },
+    "Preview": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "480",
+      "duration": "8.000000",
+      "size": "1396773"
+    }
+  },
+  "source": {
+    "intro_endpoint_equals_hold_start": true,
+    "hold_endpoint_equals_hold_start": true,
+    "completion_start_equals_hold_endpoint": true,
+    "source_rebuild_png_created": true,
+    "master_svg_matches_procedural_source": true,
+    "completion_ends_dark": true,
+    "intro_starts_with_authored_central_spindle": true
+  },
+  "decoded": {
+    "hold_frames": 240,
+    "hold_unique_frames": 240,
+    "hold_duplicate_adjacent_frames": 0,
+    "hold_adjacent_mean_absolute_difference_mean": 0.16302714499968365,
+    "hold_adjacent_mean_absolute_difference_max": 0.22022119164466858,
+    "hold_last_to_first_mean_absolute_difference": 0.2790535092353821,
+    "intro_to_hold_mean_absolute_difference": 0.2982947528362274,
+    "hold_to_complete_mean_absolute_difference": 0.2804989814758301,
+    "traveler_joints_temporal_pixel_variation": 15.455764770507812,
+    "lantern_flame_temporal_pixel_variation": 36.306114196777344,
+    "moths_temporal_pixel_variation": 18.49365997314453,
+    "foreground_thorns_temporal_pixel_variation": 3.4435572624206543
+  }
+}

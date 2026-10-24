@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hanging_banner",
+    "replayedFrames": 60,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "loose_papers",
+    "replayedFrames": 60,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "reeds_sway",
+    "replayedFrames": 60,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "chimney_puff",
+    "replayedFrames": 60,
+    "pixelFileMismatches": []
+  }
+]

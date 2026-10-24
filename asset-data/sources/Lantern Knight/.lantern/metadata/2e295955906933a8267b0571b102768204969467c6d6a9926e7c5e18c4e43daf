@@ -1,0 +1,8 @@
+# Hovering Broken Mask DL/UL/UR — VISUAL/TECHNICAL PASS
+Fresh independent reviewer 2026-10-08 07:13 UTC. All36 runtime cels checked on alternating light/dark contacts plus canonical original and fourway PPU comparison. Actual DL front-left nose, UL/UR concave rear shell with corresponding yaw; tall crown and cracked cheek physical sides consistently retained. Rear interior topology is artist-inferred, not source-proven geometry. Rigid hover cycle and pullback/headbutt/apex03/recovery read clearly; no shape collapse, new limbs or cropped points.
+Initial UL move eye alpha holes were blocked; producer repaired using preserved native shaded recess RGB plus deterministic enclosed-eye repair mask. Updated6 move cels rechecked and now consistent with opaque UL attack recesses. Other final alpha clean.
+RGBA768square, fixed pivot384,650. DR256/DL274/UL270/UR264 PPU gives consistent visual worldscale. All36 atlas rects independently byte-compared to cels, all match;4px gutters documented. All bbox borders clear. Integer60Hz holds, loop/one-shot, attack visual event03 and explicit end confirmed. No realtime playback or engine test claimed.
+Final clean-source ZIP rebuild proof pending producer, including eye repair. Approval becomes FINAL upon verified hash match.
+
+## Final source proof — FINAL APPROVED
+Producer clean_rebuild_verification.json version final_after_UL_eye_alpha_repair reports PASS: clean current combined source ZIP extraction without old workspace paths reproduced all45 runtime PNGs byte-identically. Verified proof received/read07:14 UTC. All gates complete; no art changes after this approval.

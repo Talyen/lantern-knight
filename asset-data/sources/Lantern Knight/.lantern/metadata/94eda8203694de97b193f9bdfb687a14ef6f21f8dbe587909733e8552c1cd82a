@@ -1,0 +1,283 @@
+{
+  "clip_id": "Lantern_Enemy_bellbound_monk_defeat_DR_rebuilt_v01",
+  "family": "bellbound_monk_defeat",
+  "facing": "DR",
+  "producer": "fill_enemy_damage_animation_gaps",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+  "equipment_contract": "Preserve enemy anatomy, shroud and one bell; no mirrored frames.",
+  "timing_source": "Approved rebuilt_selection.json unchanged original60Hz action timings.",
+  "source_timing": [
+    3,
+    6,
+    7,
+    6,
+    9,
+    15
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; originals retained in provenance.",
+  "runtime_pixel_policy": "Uniform resampling and integer whole-cel translation only; no masking or pose-height normalization.",
+  "frames": [
+    {
+      "crop_xyxy": [
+        0,
+        0,
+        512,
+        570
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        46,
+        70
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          280,
+          480
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "415108c5518fb197999e11be09057a5d842ce334a466831a12dc98f3eca10297",
+      "native_size_px": [
+        512,
+        570
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "3fafdaf7f131896fb4c45d952e4f7281741828ed8aa8e8797b4677ef4191d606",
+      "source_sha256": "35a4db0b17e680afbea4823b055e1638dd22fd64c6adcf653d5135eec0c25556",
+      "start_tick": 0,
+      "hold_ticks": 3,
+      "runtime_alpha_bbox": [
+        46,
+        70,
+        430,
+        498
+      ],
+      "equipment_state": "Single bell gripped through hurt, released to floor during defeat."
+    },
+    {
+      "crop_xyxy": [
+        512,
+        0,
+        1006,
+        570
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        46,
+        70
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          280,
+          480
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "41566173ae27d209fcd921b62c8c19284f07018bf2871c4518d55f432fbd5776",
+      "native_size_px": [
+        494,
+        570
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "810f5ba453c60e2ea3d58b17e78a68b30ff38a5c4f7b41d0ebf17c08187633c6",
+      "source_sha256": "35a4db0b17e680afbea4823b055e1638dd22fd64c6adcf653d5135eec0c25556",
+      "start_tick": 3,
+      "hold_ticks": 6,
+      "runtime_alpha_bbox": [
+        46,
+        77,
+        416,
+        494
+      ],
+      "equipment_state": "Single bell gripped through hurt, released to floor during defeat."
+    },
+    {
+      "crop_xyxy": [
+        1006,
+        0,
+        1536,
+        570
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        32,
+        70
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          298,
+          480
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "56c8f37f869fe90d9ea76034001be39db55e75c9ef3f8f67f27215b24c4f9d5e",
+      "native_size_px": [
+        530,
+        570
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "5f872b6f7ab6b8c81ff2e0198a895a29e8a6e543008c54c360a7f1bb4e44712d",
+      "source_sha256": "35a4db0b17e680afbea4823b055e1638dd22fd64c6adcf653d5135eec0c25556",
+      "start_tick": 9,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        33,
+        84,
+        411,
+        498
+      ],
+      "equipment_state": "Single bell gripped through hurt, released to floor during defeat."
+    },
+    {
+      "crop_xyxy": [
+        0,
+        570,
+        512,
+        1024
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        46,
+        114
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          280,
+          422
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "59ce0567f7fc1a23672e2844dd82bcb3872ff53383221e12e3ab92b549d0306a",
+      "native_size_px": [
+        512,
+        454
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "398861bb8d0ddc752653cebd7f43b59618cf2452e80e72124f9806ffaada9b7d",
+      "source_sha256": "35a4db0b17e680afbea4823b055e1638dd22fd64c6adcf653d5135eec0c25556",
+      "start_tick": 16,
+      "hold_ticks": 6,
+      "runtime_alpha_bbox": [
+        46,
+        114,
+        430,
+        436
+      ],
+      "equipment_state": "Single bell gripped through hurt, released to floor during defeat."
+    },
+    {
+      "crop_xyxy": [
+        512,
+        570,
+        1006,
+        1024
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        46,
+        114
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          280,
+          422
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "dc45094f5dfc7158c0a30c86e75365ce83b58ced0e0ab0151166d85194e409fa",
+      "native_size_px": [
+        494,
+        454
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "4ebacfdc4ef3c3d5f86b74937d6eb955aebc2964a0d5b311230036bcf799186f",
+      "source_sha256": "35a4db0b17e680afbea4823b055e1638dd22fd64c6adcf653d5135eec0c25556",
+      "start_tick": 22,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        47,
+        115,
+        416,
+        424
+      ],
+      "equipment_state": "Single bell gripped through hurt, released to floor during defeat."
+    },
+    {
+      "crop_xyxy": [
+        1006,
+        570,
+        1536,
+        1024
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        32,
+        114
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          298,
+          422
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "486a94e9e81fdf0fe79467255ca67216bf9306b37af94a17b7fd6b553e4926c4",
+      "native_size_px": [
+        530,
+        454
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "0568747d69342b5cd0f4f5782ae8cdf68bdcd33a5e1fad0e6a12adc8ccee6bd3",
+      "source_sha256": "35a4db0b17e680afbea4823b055e1638dd22fd64c6adcf653d5135eec0c25556",
+      "start_tick": 31,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        34,
+        115,
+        418,
+        430
+      ],
+      "equipment_state": "Single bell gripped through hurt, released to floor during defeat."
+    }
+  ],
+  "terminal_hold": true,
+  "transition_policy": "hold_last_indefinitely",
+  "total_ticks": 46,
+  "duration_seconds": 0.7666666666666667,
+  "unique_native_count": 6,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "b9eb8e96a56917d07809c64499ce3a99a6133398986f04a95aecdd88ad7b6720"
+  }
+}

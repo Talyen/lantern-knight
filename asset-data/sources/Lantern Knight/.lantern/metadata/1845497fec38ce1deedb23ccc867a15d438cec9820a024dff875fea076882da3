@@ -1,0 +1,46 @@
+{
+  "scene": "Keepers Glade/Full Scene B",
+  "scene_number": 17,
+  "source_master_url": "https://drive.google.com/file/d/1lZJfzH3mn9gMrC3QuO-cWrBPZAuRh2JF/view?usp=drivesdk",
+  "frames": 6,
+  "frame_files": [
+    "runtime_frames/00.png",
+    "runtime_frames/01.png",
+    "runtime_frames/02.png",
+    "runtime_frames/03.png",
+    "runtime_frames/04.png",
+    "runtime_frames/05.png"
+  ],
+  "duration_ms": [
+    100,
+    120,
+    120,
+    120,
+    120,
+    100
+  ],
+  "loop": false,
+  "on_complete": "hold_final_frame",
+  "anchor_pixels": [
+    33,
+    56
+  ],
+  "native_anchor_pixels": [
+    304,
+    523
+  ],
+  "runtime_canvas": [
+    66,
+    63
+  ],
+  "placement_1536x1024": [
+    931,
+    382
+  ],
+  "reward_contents": null,
+  "native_source": [
+    1536,
+    1024
+  ],
+  "processing": "RGBA alpha below 10 cleared as generator stray pixels; translated to fixed bottom-center anchor; runtime downsample only. Native hand-drawn cells preserved."
+}

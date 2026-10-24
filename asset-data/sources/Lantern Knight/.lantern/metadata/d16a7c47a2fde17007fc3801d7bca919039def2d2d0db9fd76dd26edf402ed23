@@ -1,0 +1,361 @@
+{
+  "clip_id": "Lantern_Hero_channel_hold_UR_v01",
+  "family": "channel_hold",
+  "facing": "UR",
+  "producer": "animate_use_channel_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+  "equipment_contract": "Anatomical right sword, left lantern, continuous grip; no completion pulse or automatic success.",
+  "timing_source": "DR channel_hold8 cels120ticks",
+  "source_timing": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "timebase_hz": 60,
+  "loop": true,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "6934edc28f3f31fc2ebf17fc680568870da75894054e062cd4621998c3ea82bd",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "55bba3e441eb68a648668a7a6f9a10db78b228208ae8d879fff6be785c43683e",
+      "source_sha256": "b57145fb26fcdd99f601d561b0b88a6fb4eb749a5f8d69f39a8152eeaee8b5c3",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        57,
+        87
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          331,
+          572
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 0,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        57,
+        88,
+        433,
+        463
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "ba436ec36a01785822038b2da999a46ee06c5a64abd9f58d1995191d95828b94",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "8788baf4099332c0f63acc95ce0c9dc9bab1fc60e8b54c7169e339d88a4bde8e",
+      "source_sha256": "b57145fb26fcdd99f601d561b0b88a6fb4eb749a5f8d69f39a8152eeaee8b5c3",
+      "crop_xyxy": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        57,
+        87
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          331,
+          572
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 15,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        57,
+        88,
+        433,
+        463
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "6d63aa101339c178a2c2eaaddb4c267684d56ad0e312bfd733fcffab1cd6ed99",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "c96a68ee7e8de4fe8b98530207df93c62af6a17fa46324eb6fac56815a44dd4c",
+      "source_sha256": "b57145fb26fcdd99f601d561b0b88a6fb4eb749a5f8d69f39a8152eeaee8b5c3",
+      "crop_xyxy": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        56,
+        87
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          334,
+          572
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 30,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        56,
+        87,
+        432,
+        463
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "299564ebe4a8c52190d7749f93f0e3a19eaf65b500ff3f899c811ece32bfb221",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "d6b091e070bfb277b74b9efe8cbfec99f2d5ff0cccbbb5fd20529144fd51d2fa",
+      "source_sha256": "b57145fb26fcdd99f601d561b0b88a6fb4eb749a5f8d69f39a8152eeaee8b5c3",
+      "crop_xyxy": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        59,
+        87
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          329,
+          572
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 45,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        59,
+        87,
+        435,
+        463
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "03ba3c8b1088abae8543026e612e241813ed15fcc650493c5a2116d233a6e7df",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "22ffca65997588db51a34ba5c463de47d37d4e2f07b6418167df765fd6aa9bcb",
+      "source_sha256": "61decdc15c6ce4c502fbe01c976543499ea89d62436e82daaa40ee9418590852",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        56,
+        87
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          334,
+          572
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 60,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        56,
+        88,
+        432,
+        452
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "fd79568fc080af476ccb5038da1813a6210607fdeade872ab9c7efafcdc5b9b7",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "d6d11f0ec089e295b43d2f9488b209f371b24ea1469d0ae861a46b45ebbecf62",
+      "source_sha256": "61decdc15c6ce4c502fbe01c976543499ea89d62436e82daaa40ee9418590852",
+      "crop_xyxy": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        54,
+        86
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          336,
+          574
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 75,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        54,
+        87,
+        430,
+        462
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "1058c0ca08a249954b2b33b7a7d0950e2c7dd899c8f62fd6820925adcaf7c956",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "934bbba7678708d3b7e4b18225916b44ede6c4f0d3eff66b0e739ca715127952",
+      "source_sha256": "61decdc15c6ce4c502fbe01c976543499ea89d62436e82daaa40ee9418590852",
+      "crop_xyxy": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        56,
+        86
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          334,
+          574
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 90,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        56,
+        87,
+        432,
+        462
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "2a7ad8f8b46c00b3c54529998b7ef2b0bc784a6c62989165a7cb2e4fa4ab1593",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "87913825a2e3187e9fd3f004b155a25b60be8fb3a84f7d6b22ba58e7c3b02d29",
+      "source_sha256": "61decdc15c6ce4c502fbe01c976543499ea89d62436e82daaa40ee9418590852",
+      "crop_xyxy": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        56,
+        86
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          334,
+          574
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6. Manual observed boot midpoint registration only; native torso breathing and held-lantern motion preserved, no head fitting.",
+      "equipment_state": "Sword right, lantern left continuously gripped. No success pulse.",
+      "start_tick": 105,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        56,
+        86,
+        432,
+        451
+      ]
+    }
+  ],
+  "native_drawn_cels": 8,
+  "timeline_frame_count": 8,
+  "duration_ticks": 120,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "696c71eee5f7d3cfd7157d23a1905a62c540b1e7e3fa0a01239659a6d188f6ea"
+  }
+}

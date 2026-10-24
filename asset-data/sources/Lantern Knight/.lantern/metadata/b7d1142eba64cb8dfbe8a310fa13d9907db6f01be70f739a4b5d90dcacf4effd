@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "central_quarry_floor",
+      "display_crop_box": [
+        1307,
+        495,
+        2843,
+        1519
+      ],
+      "source_crop_box": [
+        522.8,
+        198.0,
+        1137.2,
+        607.6
+      ],
+      "display_hero_foot": [
+        2075,
+        1145
+      ],
+      "source_hero_foot": [
+        830.0,
+        458.0
+      ]
+    },
+    {
+      "name": "lower_haul_road",
+      "display_crop_box": [
+        1147,
+        1410,
+        2683,
+        2434
+      ],
+      "source_crop_box": [
+        458.8,
+        564.0,
+        1073.2,
+        973.6
+      ],
+      "display_hero_foot": [
+        1915,
+        2060
+      ],
+      "source_hero_foot": [
+        766.0,
+        824.0
+      ]
+    },
+    {
+      "name": "upper_crane_approach",
+      "display_crop_box": [
+        1394,
+        182,
+        2930,
+        1206
+      ],
+      "source_crop_box": [
+        557.6,
+        72.8,
+        1172.0,
+        482.4
+      ],
+      "display_hero_foot": [
+        2162,
+        832
+      ],
+      "source_hero_foot": [
+        864.8,
+        332.8
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

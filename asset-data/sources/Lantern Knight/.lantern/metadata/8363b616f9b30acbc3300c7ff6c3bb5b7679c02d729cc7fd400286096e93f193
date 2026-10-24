@@ -1,0 +1,98 @@
+{
+  "name": "ritual_wax_barrier",
+  "frame_size": [
+    640,
+    640
+  ],
+  "durations_ms": [
+    55,
+    70,
+    90,
+    100,
+    25,
+    95,
+    60,
+    60,
+    65,
+    60,
+    35,
+    45,
+    180
+  ],
+  "stages": [
+    "gather",
+    "rise",
+    "lift",
+    "windup",
+    "hammer",
+    "slam",
+    "contact",
+    "sticky recoil",
+    "snap",
+    "fold",
+    "break",
+    "chips",
+    "clear"
+  ],
+  "loop": false,
+  "transparent_final_frame": 12,
+  "registration": {
+    "method": "visual retained physical anchor; constant global scale",
+    "source_anchors": [
+      [
+        183,
+        388
+      ],
+      [
+        547,
+        388
+      ],
+      [
+        907,
+        370
+      ],
+      [
+        1288,
+        380
+      ],
+      [
+        195,
+        745
+      ],
+      [
+        548,
+        748
+      ],
+      [
+        911,
+        748
+      ],
+      [
+        1287,
+        748
+      ],
+      [
+        195,
+        1034
+      ],
+      [
+        550,
+        1034
+      ],
+      [
+        913,
+        1034
+      ],
+      [
+        1286,
+        1034
+      ]
+    ],
+    "target": [
+      320,
+      500
+    ],
+    "scale": 1.1
+  },
+  "note": "Hand-drawn action cels; no interpolated transforms or fades. Blank end frame. Preview repeats with rest."
+}

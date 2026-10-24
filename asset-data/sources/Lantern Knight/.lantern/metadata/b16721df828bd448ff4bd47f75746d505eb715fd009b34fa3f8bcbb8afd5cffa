@@ -1,0 +1,19 @@
+{
+  "reference_cell": [
+    512,
+    512
+  ],
+  "opening_original_canvas": [
+    640,
+    640
+  ],
+  "original_to_template_scale": 0.65,
+  "scaled_canvas": [
+    416,
+    416
+  ],
+  "template_placement": [
+    0,
+    48
+  ]
+}

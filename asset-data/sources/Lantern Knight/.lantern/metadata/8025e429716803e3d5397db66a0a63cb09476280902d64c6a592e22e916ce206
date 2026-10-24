@@ -1,0 +1,14 @@
+{
+  "review": "Independent human-first and identity/wardrobe review passed for4ready and24idle drawings.",
+  "human_first": "All reviewed as believable relaxed human poses; no broken/reversed elbows or wrists identified.",
+  "side_ownership": "Anatomical right sword/blackwrap, anatomical left lantern/brownbracer. Backview coat has no invented external belts. Natural far-prop occlusion preserved.",
+  "alpha": "Actual light/dark native composites reviewed clean. All24 idle RGBA PNGs have zero border pixels with alpha>8.",
+  "limitations": [
+    "Quiet hand-drawn liveliness, not a pronounced breathing arc.",
+    "Small line, foot-edge and prop variations remain. Static ready fallback supplied.",
+    "Runtime PPU and pivots are one approximate authored setting per clip. Engine integration and state transition need review.",
+    "No claim that generative artwork reproduces exact3D metric projection."
+  ],
+  "source_method": "Built-in image generation with Sunburst2.5(gpt-image-2.5-sunburst) requested in prompt. Actual backend selection is not exposed.",
+  "ready_cleanup": "Traditional bounded masks removed an incorrectly exposed UL sword and wrong UR coat patch. Credible limb anatomy retained. No generative edit cascade."
+}

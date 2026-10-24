@@ -1,0 +1,19 @@
+{
+  "scene": "chapel_C",
+  "created_utc": "2026-10-09T16:48:45.969871+00:00",
+  "tool": "image_gen__imagegen",
+  "actual_parameters_file": "actual_parameters.json",
+  "source_tool_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-5aaa6ade-0a91-4811-93ad-185822cb5907.png",
+  "saved_native_output": "LANTERN_Chapel_C_Recovered_Short_Recipe_1536x1024.png",
+  "output_sha256": "96d909b20d733fd0ec174587051d530ef6dc3e7db8e36ddd777db7f741b5375f",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "image_reference_role": "Canonical hero only: ink-style and physical-scale reference; no environment image reference or edit chain",
+  "reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "postprocessing": "None; byte-for-byte copy of native output",
+  "model_size_quality_seed": "No selectable fields exposed. 1536x1024 requested in prompt and verified on output; actual backend not exposed.",
+  "prompt_sha256": "97bddbe141225cd16874ce178dc2f1bcadfdd89360c4e4f250e414236a6284dd"
+}

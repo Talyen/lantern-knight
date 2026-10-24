@@ -1,0 +1,173 @@
+{
+  "schema": "lantern.state_extension.v1",
+  "id": "ARCHER",
+  "canonical_id": "lantern_archetype_concept_01_skeletal_archer",
+  "name": "Skeletal archer",
+  "direction": "DR",
+  "facing": "screen down-right front three-quarter",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    320,
+    520
+  ],
+  "estimated_pixels_per_unit": 256,
+  "pixel_origin": "top-left; x right, y down",
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "projection": "orthographic visual target",
+    "calibrated_3d": false
+  },
+  "reference_sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+  "root_motion": "Actor world root external. All pose registration baked in; no runtime offsets or per-frame resizing.",
+  "baseline_dependency": {
+    "direction": "DR",
+    "package": "ARCHER_runtime.zip",
+    "sha256": "4a38d22fcfd3f7319ce9646a759335fa59f566de4839c3bd9e334fbe5318270d",
+    "library_file_id": "libfile_290301629ef481918a2e8b300a8b1e04",
+    "unchanged": true
+  },
+  "clips": {
+    "hit": {
+      "loop": false,
+      "tick_rate": 60,
+      "holds_ticks": [
+        4,
+        4,
+        7,
+        6,
+        6,
+        9
+      ],
+      "frames": [
+        "hit_00.png",
+        "hit_01.png",
+        "hit_02.png",
+        "hit_03.png",
+        "hit_04.png",
+        "hit_05.png"
+      ],
+      "visual_event_frame": 1,
+      "event": "maximum recoil onset; not damage",
+      "end_behavior": "return compatible ready after recovery",
+      "atlas": {
+        "file": "hit_atlas.png",
+        "size": [
+          1944,
+          1296
+        ],
+        "gutter_pixels": 4,
+        "frame_rects": [
+          [
+            4,
+            4,
+            640,
+            640
+          ],
+          [
+            652,
+            4,
+            640,
+            640
+          ],
+          [
+            1300,
+            4,
+            640,
+            640
+          ],
+          [
+            4,
+            652,
+            640,
+            640
+          ],
+          [
+            652,
+            652,
+            640,
+            640
+          ],
+          [
+            1300,
+            652,
+            640,
+            640
+          ]
+        ]
+      }
+    },
+    "defeat": {
+      "loop": false,
+      "tick_rate": 60,
+      "holds_ticks": [
+        6,
+        8,
+        10,
+        10,
+        12,
+        60
+      ],
+      "frames": [
+        "defeat_00.png",
+        "defeat_01.png",
+        "defeat_02.png",
+        "defeat_03.png",
+        "defeat_04.png",
+        "defeat_05.png"
+      ],
+      "visual_event_frame": 5,
+      "event": "corpse settled; visual only",
+      "end_behavior": "hold final corpse indefinitely; no automatic recovery or despawn",
+      "atlas": {
+        "file": "defeat_atlas.png",
+        "size": [
+          1944,
+          1296
+        ],
+        "gutter_pixels": 4,
+        "frame_rects": [
+          [
+            4,
+            4,
+            640,
+            640
+          ],
+          [
+            652,
+            4,
+            640,
+            640
+          ],
+          [
+            1300,
+            4,
+            640,
+            640
+          ],
+          [
+            4,
+            652,
+            640,
+            640
+          ],
+          [
+            652,
+            652,
+            640,
+            640
+          ],
+          [
+            1300,
+            652,
+            640,
+            640
+          ]
+        ]
+      }
+    }
+  }
+}

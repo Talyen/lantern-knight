@@ -1,0 +1,22 @@
+[
+  {
+    "biome": "snow",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/snow_badlands/snow_hero_context.png",
+    "sha256": "851a6e1d33ba74234adb0856b814a38eee18d26f506dfd3ac40c881636e140c2"
+  },
+  {
+    "biome": "aridbadlands",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/snow_badlands/aridbadlands_hero_context.png",
+    "sha256": "6af947c3c6246f5256dbffea05656a7e2b349bafbde23719a6ac43cd27929bee"
+  },
+  {
+    "biome": "graveyard",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/graveyard_crypt/graveyard_hero_context.png",
+    "sha256": "a3d390171e9741a13bb47d92cf4231694f2cd1851e42a4155ce5f7e877db887f"
+  },
+  {
+    "biome": "crypt",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/graveyard_crypt/crypt_hero_context.png",
+    "sha256": "db0c5b1b36fadf669c39126977f17c7fb855a351b3387f39486ba5dae21c4d0c"
+  }
+]

@@ -1,0 +1,153 @@
+{
+  "enemy": "Shroud Wisp",
+  "clip": "Get Hit",
+  "kind": "damage_reaction",
+  "source_reference_id": "1DYnCCxS2NXdkzjd5nw4N_0RNrgrCwuiU",
+  "source_archive_id": "1q_gKbY5flfAjTZRG1f0wCbONT96y1ZLz",
+  "actor": {
+    "canvas": [
+      408,
+      384
+    ],
+    "source_canvas": [
+      384,
+      384
+    ],
+    "uniform_overflow_padding_ltrb": [
+      0,
+      0,
+      24,
+      0
+    ],
+    "pivot_top_left": [
+      192,
+      355
+    ],
+    "matching_768_pivot": [
+      384,
+      710
+    ],
+    "frame_count": 18,
+    "newly_generated_distinct_cels": 17,
+    "frame_durations_ms": [
+      20,
+      20,
+      25,
+      25,
+      30,
+      35,
+      35,
+      35,
+      40,
+      40,
+      45,
+      45,
+      45,
+      35,
+      40,
+      45,
+      55,
+      110
+    ],
+    "atlas_columns": 4,
+    "atlas_rows": 5,
+    "native_generated_sheet": [
+      1254,
+      1254
+    ],
+    "native_nominal_cel": [
+      313.5,
+      313.5
+    ],
+    "uniform_scale": 1.0220820189274449,
+    "fixed_translation": [
+      -123.65457413249214,
+      -140.26813880126184
+    ],
+    "recovery_patch": {
+      "source": "shroud_hit_recovery_patch_generated.png",
+      "source_sheet_size": [
+        2172,
+        724
+      ],
+      "scale": 0.4931506849315068,
+      "translation": [
+        -72.60958904109589,
+        -184.28767123287673
+      ],
+      "clasp_registration_translations": [
+        [
+          -87.15428731105052,
+          -179.19412965722586
+        ],
+        [
+          -109.3931351906696,
+          -181.83484771864872
+        ],
+        [
+          -105.85503990420011,
+          -185.90118788129172
+        ],
+        [
+          -82.51279452227678,
+          -184.677413151388
+        ]
+      ],
+      "registration_note": "Constant scale for all patch cels. Gold collar clasp aligns along an eased return path to correct authored sheet placement jitter; no per-frame resizing.",
+      "baseline_sequence_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15
+      ],
+      "patch_frames": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    "atlas": "shroud_wisp_get_hit_v01_actor_atlas.png",
+    "end_behavior": "hold_last",
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "No gutter: clamp each frame UV to its rectangle or extract frames before filtering."
+    }
+  },
+  "timing": {
+    "total_ms": 725,
+    "damage_received_ms": 0,
+    "attack_windup": false,
+    "attack_events": 0,
+    "loop": false
+  },
+  "method": "13 retained reaction cels plus four newly drawn cloth-settle cels and exact source-ready endpoint. Constant patch scale, collar-clasp registration; no per-frame resizing.",
+  "qa": {
+    "visually_reviewed": true,
+    "rgba": true,
+    "baseline_final_exact": true,
+    "notes": [
+      "Contact sheet reviewed for distinctive pose evolution, clear action and exact source-ready final cel.",
+      "Source-native generated cel sizes and one fixed resampling factor documented; not AI-upscaled detail.",
+      "Uniform overflow padding preserves world-anchor and original visible pixel scale where required."
+    ],
+    "polish_notes": [
+      "Explicit actor/effect atlas filenames and sampler/ending metadata; kit and loose JSON match.",
+      "Removed premature upright recovery cels 09-11; added four progressive cloth-settle cels before exact ready. Immediate recoil unchanged."
+    ],
+    "engine_tested": false
+  },
+  "integration": "Additive authoring asset. Preserve existing hover PPU and top-left ground anchor. Damage reaction only; no attack event or target effect. No engine changes.",
+  "version": 2,
+  "revision": "spectral_polish_02"
+}

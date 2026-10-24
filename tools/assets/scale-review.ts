@@ -1,3 +1,4 @@
+import { retainedAssetCatalog } from './selection';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -326,6 +327,9 @@ runCli(import.meta.url, async (args) => {
   const cache = new AssetCache();
   await cache.initialize();
   const environment = await discoverLibrary(cache, process.env);
+  environment.LANTERN_RETAINED_ASSETS = JSON.stringify(
+    Object.keys(await retainedAssetCatalog({}, projectRoot, values.asset)),
+  );
   const plan = values.plan ?? path.join(temporary.path, 'plan.json');
   if (!values.plan)
     await runProcess('python3', ['-B', 'tools/assets/library_import.py', '--output', plan], {

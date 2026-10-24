@@ -1,0 +1,31 @@
+{
+  "spawn": {
+    "scale": 0.889,
+    "offset_from_pivot_px": [
+      0,
+      25
+    ],
+    "top_row_translation_before_scale": [
+      0,
+      -36
+    ],
+    "neutral_reference_raw_cel": 6,
+    "ruler_crown_to_tip_px": 360,
+    "target_ruler_px": 320,
+    "rationale": "One common body ruler; shared upper-row layout offset based on crown/halo placements. Internal pose movement preserved."
+  },
+  "defeat": {
+    "scale": 0.756,
+    "offset_from_pivot_px": [
+      -24,
+      -56
+    ],
+    "neutral_reference_raw_cel": 1,
+    "ruler_crown_to_tip_px": 423,
+    "target_ruler_px": 320,
+    "orb_diameter_raw_px": 57,
+    "mapped_orb_diameter_px": 43.1
+  },
+  "resampling": "Downsample only, one affine per clip plus common spawn row layout correction. Native original crops retained. No bbox fitting.",
+  "endpoints": "Spawn6 and defeat1 replaced by exact original compact ready after registration; hit untouched."
+}

@@ -1,0 +1,36 @@
+{
+  "biome": "bog",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "native_upscaled": false,
+  "generation": "built-in imagegen",
+  "model_requested": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model": "Not exposed by built-in tool; unverified",
+  "requested_camera_elevation_degrees": 35.264,
+  "requested_camera_azimuth_degrees": 45,
+  "camera_engine_validated": false,
+  "hero_source": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "hero_crop_alpha_threshold": 30,
+  "hero_source_crop": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_visible_height_px": 160,
+  "hero_resized_dimensions": [
+    68,
+    160
+  ],
+  "hero_center_x": 751,
+  "hero_bottom_y": 593,
+  "context_method": "Non-generative original approved hero alpha composite plus small blurred ellipse contact shadow. Native floor untouched.",
+  "references": [
+    "/workspace/shared/lantern_floor_reference_v04/candidate1_native_hero_composite.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "status": "Water-free bog selection replacement for superseded marsh; not approved production floor",
+  "quality_notes": "Connected walkable floor and distinct biome layout. Some residual material mottling/edge flecks and oversized grass clumps remain versus strict locked style."
+}

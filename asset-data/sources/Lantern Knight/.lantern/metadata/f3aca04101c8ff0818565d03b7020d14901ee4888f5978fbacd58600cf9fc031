@@ -1,0 +1,60 @@
+{
+  "title": "Full Scenic Graveyard",
+  "views": [
+    {
+      "name": "mausoleum_approach",
+      "display_box": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "display_foot": [
+        1000,
+        800
+      ]
+    },
+    {
+      "name": "central_crossroads",
+      "display_box": [
+        1150,
+        700,
+        2686,
+        1724
+      ],
+      "display_foot": [
+        1975,
+        1300
+      ]
+    },
+    {
+      "name": "lower_courtyard",
+      "display_box": [
+        300,
+        1425,
+        1836,
+        2449
+      ],
+      "display_foot": [
+        1188,
+        1800
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "paving_and_scenery",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "lower_crossroads",
+      "source_xy": [
+        480,
+        640
+      ]
+    }
+  ]
+}

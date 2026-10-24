@@ -1,0 +1,212 @@
+{
+  "clip_id": "Lantern_Hero_selfheal_exit_UL_v01",
+  "family": "selfheal_exit",
+  "facing": "UL",
+  "producer": "animate_healing_interaction_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Exact entry04 and entry01 boundary transforms reused. Standalone middle pose2 uniformly downsampled from stable head/arm density, never body-height fit. Pose3 rectangular crop y542 preserves crown and excludes top-left boot ending534.",
+  "equipment_contract": "Sword right, lantern left continuously held.",
+  "timing_source": "Original DR selfheal_exit4 holds",
+  "source_timing": [
+    10,
+    14,
+    12,
+    14
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "72b9de82a97ae95c302929f6313c202aa692195ed40c2c671b600053bc272545",
+      "native_size_px": [
+        614,
+        574
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "6bc4ef6f47c0b82aa412fc7177b0362393dfc755a0dae3d69ebbc23e904c4db5",
+      "source_sha256": "fd313858559f26d8b6caf01287066d55de2857bd48f729ddfdf51bed81593f44",
+      "crop_xyxy": [
+        640,
+        680,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        159,
+        157
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          144,
+          488
+        ],
+        "observation_xy": [
+          647,
+          179
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Exact entry04 and entry01 boundary transforms reused. Standalone middle pose2 uniformly downsampled from stable head/arm density, never body-height fit. Pose3 rectangular crop y542 preserves crown and excludes top-left boot ending534.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        179,
+        157,
+        480,
+        452
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "38dabe68dce9031e8978b23218e9dfcfb3656f3369d09ba97d47e974e7763052",
+      "native_size_px": [
+        1297,
+        1212
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "aef68e4c9fa7ffeaea24a2b54b5a07c1f44001db12fbb5df1b8658dc26065ef9",
+      "source_sha256": "4574ee24a309836713610f00d28aeda2e0fe9e1125593146b45d156b8dd889cf",
+      "crop_xyxy": [
+        0,
+        0,
+        1297,
+        1212
+      ],
+      "uniform_scale": 0.27,
+      "translation_xy": [
+        135,
+        136
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_xy": [
+          389,
+          1088
+        ],
+        "density_basis": "Standalone headwidth approximately260nativepx versus entry125; scale0.27 yields similar70px head and preserves rising pose height."
+      },
+      "registration_note": "Exact entry04 and entry01 boundary transforms reused. Standalone middle pose2 uniformly downsampled from stable head/arm density, never body-height fit. Pose3 rectangular crop y542 preserves crown and excludes top-left boot ending534.",
+      "equipment_state": "Sword right/lantern left continuously held.",
+      "start_tick": 10,
+      "hold_ticks": 14,
+      "runtime_alpha_bbox": [
+        148,
+        152,
+        475,
+        459
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "e5070dcc52497f0975aff14196d10dc5a7bffc68e5c6896d31e1090b0207175c",
+      "native_size_px": [
+        648,
+        670
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "fb131e27f5e18c6e483446a83512fbd947b382bce1da45a64bde0ebd72e3e2cb",
+      "source_sha256": "df792e71dd4137560fee250354d98a8a5feeb86347436bc2240377122346b276",
+      "crop_xyxy": [
+        0,
+        542,
+        648,
+        1212
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        92,
+        111
+      ],
+      "observed_anchors": {
+        "manual_forward_boot_xy": [
+          265,
+          569
+        ]
+      },
+      "registration_note": "Exact entry04 and entry01 boundary transforms reused. Standalone middle pose2 uniformly downsampled from stable head/arm density, never body-height fit. Pose3 rectangular crop y542 preserves crown and excludes top-left boot ending534.",
+      "equipment_state": "Sword right/lantern left continuously held.",
+      "start_tick": 24,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        92,
+        111,
+        455,
+        474
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "99e20a5b387703a554fddace4f145eda258841e41c87ec9c9d5854485d3c7ecd",
+      "native_size_px": [
+        627,
+        680
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "0dfacdf35decb7c9f4154b18f476fa72edae0832b3fbd0f5fbac5d5b1e8e510c",
+      "source_sha256": "fd313858559f26d8b6caf01287066d55de2857bd48f729ddfdf51bed81593f44",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        680
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        93,
+        65
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_support_boot_xy": [
+          263,
+          652
+        ],
+        "observation_xy": [
+          84,
+          228
+        ],
+        "density_evidence": "Entry/exit0.56; loop uses shared sheet-wide correction from stable head-width and upper-arm dimensions compared to exact entry boundary. No silhouette-height normalization."
+      },
+      "registration_note": "Exact entry04 and entry01 boundary transforms reused. Standalone middle pose2 uniformly downsampled from stable head/arm density, never body-height fit. Pose3 rectangular crop y542 preserves crown and excludes top-left boot ending534.",
+      "equipment_state": "Sword right, lantern left continuously gripped.",
+      "start_tick": 36,
+      "hold_ticks": 14,
+      "runtime_alpha_bbox": [
+        93,
+        66,
+        444,
+        443
+      ]
+    }
+  ],
+  "native_drawn_cels": 4,
+  "timeline_frame_count": 4,
+  "duration_ticks": 50,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "e4e2cf496d05dbe8dcf7da3aed9672ce4de9f03fbbc74c05376165401b2e4218"
+  }
+}

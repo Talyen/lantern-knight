@@ -1,0 +1,19 @@
+{
+  "visual_review": "Independent all36cels visual pass October8. All6clips coherent anatomy identity heading gear and complete silhouettes. Registration corrected after review.",
+  "crop_corrections": {
+    "UL_attack": "splitY500 preserves hood tips and removes top-row leakage",
+    "UR_move": "splitY518 preserves toes beyond original512 boundary"
+  },
+  "atlas": "36native cel crops verified equal runtime;4pxgutters",
+  "limitations": [
+    "No engine test",
+    "No claimed exact calibrated geometry",
+    "PPU convention proportional to actual baseline; artnative unchanged"
+  ],
+  "clean_rebuild": {
+    "matched_pngs": 42,
+    "exact_match": true,
+    "method": "Clean source ZIP extraction to independent temporary directory then python build.py. No original workspace referenced."
+  },
+  "preview_correction": "2026-10-08: widened fourway comparison1280to1600 to preserve URcrescent at right edge. Runtime art, metadata, timing, registration and import contract unchanged. Only review JPG/MP4, preview rebuild script and enclosing archives changed."
+}

@@ -1,0 +1,12 @@
+pickup_kneel_DR corrected lantern support v02
+
+Native generated artwork, visually reviewed for lantern support; engine integration is not certified.
+All lantern-carrying poses show LEFT fingers gripping the handle. Sword remains RIGHT.
+No resampling, upscaling, mirroring, mesh warp, optical flow or programmatic art-part replacement.
+Fixed output cells and pivots are metadata; they do not certify engine root motion, IK, collisions, target contact or camera metrics.
+PPU is a clip-wide approximate starting value adjusted for native drawing density; verify relative world size in engine.
+Lantern is grounded during frames3–8, hand-free during4–7, regripped in8 before lift9.
+The source sheet second row has one uniform +40px layout correction applied to the whole row. No individual part or pose was moved independently.
+Source grounded cel3 was rejected for missing lantern. Selected sequence retains explicit release, pickup, stow, regrip and lift.
+Ready and lowering drawings are reused for the return, giving 11 timeline frames from9 distinct source drawings. Native pose-dependent foot/root variation remains during lower/rise.
+Small residual hand-drawn prop/outline variation remains; no unattended large ground displacement is intended.

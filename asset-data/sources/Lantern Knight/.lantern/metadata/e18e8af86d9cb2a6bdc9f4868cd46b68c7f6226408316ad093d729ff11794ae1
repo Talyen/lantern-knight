@@ -1,0 +1,53 @@
+{
+  "alpha": true,
+  "seven_unique_cels": true,
+  "no_identifiable_loot_anywhere": true,
+  "opening_only": true,
+  "exact_endpoint_pixels": true,
+  "full_cel_contact_reviewed": true,
+  "no_water": true,
+  "frame_bounds": [
+    [
+      118,
+      438,
+      523,
+      750
+    ],
+    [
+      117,
+      439,
+      524,
+      750
+    ],
+    [
+      118,
+      438,
+      525,
+      750
+    ],
+    [
+      118,
+      368,
+      527,
+      751
+    ],
+    [
+      119,
+      313,
+      543,
+      751
+    ],
+    [
+      119,
+      247,
+      534,
+      751
+    ],
+    [
+      110,
+      214,
+      527,
+      752
+    ]
+  ]
+}

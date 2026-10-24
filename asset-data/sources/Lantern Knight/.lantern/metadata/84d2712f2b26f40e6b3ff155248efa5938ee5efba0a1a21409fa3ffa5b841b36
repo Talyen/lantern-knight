@@ -1,0 +1,732 @@
+{
+  "pack_id": "lantern_ground_surfaces_01",
+  "version": "2.0.1",
+  "status": "Art reviewed; runtime import untested",
+  "style": "Clean Ink; broad shapes, selective structural detail, no noise",
+  "provenance": "Fresh independently generated raster illustrations using the approved clean-ink door as style-only reference. No bitmap edit cascades. Runtime files are uniformly packaged into source-native topdown or frontview canvas. Earlier SVG masters are superseded, not used.",
+  "source_reference": "Lantern_Project_Design_Document_v0_1, sections 05, 07, 08, 16",
+  "world_axes": "X right, Y up, Z ground; PNG image +U maps +X, image +V maps +Z",
+  "texture_projection": "TOP_DOWN; apply to horizontal XZ geometry. Do not billboard or pre-project PNG.",
+  "color_space": "sRGB",
+  "alpha": "PNG RGBA straight/unassociated; materials fully opaque; decals transparent",
+  "material_model": "Illustrated diffuse/base colour with authored local ink/value shapes. No generated normals, height or physically neutral relighting certification.",
+  "texture_resolution": [
+    1024,
+    1024
+  ],
+  "tile_footprint_metres": [
+    4.0,
+    4.0
+  ],
+  "source_texels_per_metre": 256,
+  "uv_repeat": "Designed for4m repeats; inspect supplied3x3 and edge statistics. Visual continuity passed at overview, but fine mismatches and motif repetition remain. Use terrain blending, decals and layout variation; do not promise mathematically exact seams.",
+  "camera_reference": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "effective_vertical_span_metres": 13,
+    "runtime_camera_applied_once": true
+  },
+  "counts": {
+    "materials": 12,
+    "decals": 8
+  },
+  "art_provenance": "Fresh independently generated raster illustrations using the approved clean-ink door as style-only reference. No bitmap edit cascades. Runtime files are uniformly packaged into source-native topdown or frontview canvas. Earlier SVG masters are superseded, not used.",
+  "assets": [
+    {
+      "id": "01_old_flagstone",
+      "name": "Old flagstone",
+      "png": "png/materials/01_old_flagstone.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/01_old_flagstone.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "edef4cd4dbeec4b54f09c3d63b7bab9194427cd0327e374c5bf1da6b0642f571",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/01_old_flagstone_3x3.png",
+      "exact_projection_preview": "proofs/01_old_flagstone_exact_35.2643897_45.png"
+    },
+    {
+      "id": "02_cracked_cathedral_stone",
+      "name": "Cracked cathedral stone",
+      "png": "png/materials/02_cracked_cathedral_stone.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/02_cracked_cathedral_stone.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "6b717a12302936a62403e2ca90144c5203567995a6c71f24c6f28f8c1c376066",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/02_cracked_cathedral_stone_3x3.png",
+      "exact_projection_preview": "proofs/02_cracked_cathedral_stone_exact_35.2643897_45.png"
+    },
+    {
+      "id": "03_worn_cobble",
+      "name": "Worn cobble",
+      "png": "png/materials/03_worn_cobble.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/03_worn_cobble.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "6c0b1202a3a8cdeaf9c59c5d6585d4e4f1ef33cbcd40bc07556a61ae7042af21",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/03_worn_cobble_3x3.png",
+      "exact_projection_preview": "proofs/03_worn_cobble_exact_35.2643897_45.png"
+    },
+    {
+      "id": "04_wood_plank_floor",
+      "name": "Worn wood plank floor",
+      "png": "png/materials/04_wood_plank_floor.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/04_wood_plank_floor.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "ddbf79ea8e84a98998b60d0c6c673373819bc0c1efe92bcd642eb1618892fecb",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/04_wood_plank_floor_3x3.png",
+      "exact_projection_preview": "proofs/04_wood_plank_floor_exact_35.2643897_45.png"
+    },
+    {
+      "id": "05_damp_cellar_stone",
+      "name": "Damp cellar stone",
+      "png": "png/materials/05_damp_cellar_stone.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/05_damp_cellar_stone.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "cfba4edeff7fbc58096cc06946373c311aacdc25517025729fb9b88349d2b2d1",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/05_damp_cellar_stone_3x3.png",
+      "exact_projection_preview": "proofs/05_damp_cellar_stone_exact_35.2643897_45.png"
+    },
+    {
+      "id": "06_dark_earth",
+      "name": "Dark earth",
+      "png": "png/materials/06_dark_earth.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/06_dark_earth.png",
+      "revision": "02a quieter organic material polish",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "151f32155e7abc147d0c710c89f96ba26bdab22c4e2d68c56398db312c24b480",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/06_dark_earth_3x3.png",
+      "exact_projection_preview": "proofs/06_dark_earth_exact_35.2643897_45.png"
+    },
+    {
+      "id": "07_mossy_earth",
+      "name": "Mossy earth",
+      "png": "png/materials/07_mossy_earth.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/07_mossy_earth.png",
+      "revision": "02a quieter organic material polish",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "78121184f15f42ecacb33162a88237b964f16e26258e18e07a11665930fe92c1",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/07_mossy_earth_3x3.png",
+      "exact_projection_preview": "proofs/07_mossy_earth_exact_35.2643897_45.png"
+    },
+    {
+      "id": "08_gravel",
+      "name": "Weathered gravel",
+      "png": "png/materials/08_gravel.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/08_gravel.png",
+      "revision": "02a quieter organic material polish",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "242fc18b89a0a028daa3aa42fd27392bb4914bc8d048967e291a18d24c260ade",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/08_gravel_3x3.png",
+      "exact_projection_preview": "proofs/08_gravel_exact_35.2643897_45.png"
+    },
+    {
+      "id": "09_pale_crypt_marble",
+      "name": "Pale crypt marble",
+      "png": "png/materials/09_pale_crypt_marble.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/09_pale_crypt_marble.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "5a5307f25dd977e8417c47882b0d3bcd7e6aa86e45082ae39c330cb4f1b6cac0",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/09_pale_crypt_marble_3x3.png",
+      "exact_projection_preview": "proofs/09_pale_crypt_marble_exact_35.2643897_45.png"
+    },
+    {
+      "id": "10_soot_brick",
+      "name": "Soot-darkened brick",
+      "png": "png/materials/10_soot_brick.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/10_soot_brick.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "8737283a624fcbb2749e156781ab9598f64cfa5e2b5f24f04e124eb1af91bb0b",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/10_soot_brick_3x3.png",
+      "exact_projection_preview": "proofs/10_soot_brick_exact_35.2643897_45.png"
+    },
+    {
+      "id": "11_riveted_iron_walkway",
+      "name": "Riveted iron walkway",
+      "png": "png/materials/11_riveted_iron_walkway.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/11_riveted_iron_walkway.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "9f275e3a47de737912df0bd6b9408dbaff5c0b27a4ddf83612bde17ca20da620",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/11_riveted_iron_walkway_3x3.png",
+      "exact_projection_preview": "proofs/11_riveted_iron_walkway_exact_35.2643897_45.png"
+    },
+    {
+      "id": "12_ritual_inlaid_stone",
+      "name": "Ritual-inlaid stone",
+      "png": "png/materials/12_ritual_inlaid_stone.png",
+      "world_size_metres": [
+        4,
+        4
+      ],
+      "seamless_axes": [],
+      "repeat_rotation": "Keep initial alignment; mixed tile rotations require a separate junction test.",
+      "source_master": "source/masters/materials/12_ritual_inlaid_stone.png",
+      "revision": "02 illustrated rebuild",
+      "paint_bounds_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "visible_face_metres": [
+        4.0,
+        4.0
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "df28493fc9d2d8e7e6fafa8183a8734057e2e9f8a4f0f9a4ea8b580fb08129cc",
+      "repeat_review": "3x3 visually reviewed; recognizable motif repetition; not pixel-perfect edge identity or runtime mip certification",
+      "repeat_preview": "proofs/12_ritual_inlaid_stone_3x3.png",
+      "exact_projection_preview": "proofs/12_ritual_inlaid_stone_exact_35.2643897_45.png"
+    },
+    {
+      "id": "d01_branching_crack",
+      "name": "Branching fracture",
+      "png": "png/decals/d01_branching_crack.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        253,
+        219,
+        770,
+        720
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          129,
+          153,
+          1127,
+          1120
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5180972078593589,
+        "placement_xy": [
+          253,
+          219
+        ]
+      },
+      "source_master": "source/masters/decals/d01_branching_crack.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        2.01953125,
+        1.95703125
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "2ff692977587ed114ced35f673680161dc76008f1b05651f5d377cb9d99c335e"
+    },
+    {
+      "id": "d02_long_split",
+      "name": "Long split crack",
+      "png": "png/decals/d02_long_split.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        186,
+        188,
+        768,
+        723
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          66,
+          106,
+          1196,
+          1144
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5150442477876106,
+        "placement_xy": [
+          186,
+          188
+        ]
+      },
+      "source_master": "source/masters/decals/d02_long_split.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        2.2734375,
+        2.08984375
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "74f56854d3843213103b8c354a54391ecf8dddf8f77c06087b4c1a023713f630"
+    },
+    {
+      "id": "d03_moss_edge",
+      "name": "Moss edge bank",
+      "png": "png/decals/d03_moss_edge.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        340,
+        638,
+        554,
+        847
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          72,
+          84,
+          1179,
+          1164
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.1935185185185185,
+        "placement_xy": [
+          340,
+          638
+        ]
+      },
+      "source_master": "source/masters/decals/d03_moss_edge.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        0.8359375,
+        0.81640625
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "d545df18156ffd46ec09d1c05fc90186b928d2e1b339257019eaf2a36627019e"
+    },
+    {
+      "id": "d04_moss_islands",
+      "name": "Moss islands",
+      "png": "png/decals/d04_moss_islands.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        218,
+        250,
+        702,
+        716
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          42,
+          61,
+          1220,
+          1196
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.4105726872246696,
+        "placement_xy": [
+          218,
+          250
+        ]
+      },
+      "source_master": "source/masters/decals/d04_moss_islands.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        1.890625,
+        1.8203125
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "88bb0828beb4c6e9547bce12dfdbd63b5ae27f0d78a7ff1b574fa5d497a3ae08"
+    },
+    {
+      "id": "d05_leaf_drift",
+      "name": "Russet leaf drift",
+      "png": "png/decals/d05_leaf_drift.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        370,
+        592,
+        580,
+        797
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          45,
+          64,
+          1215,
+          1204
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.17982456140350878,
+        "placement_xy": [
+          370,
+          592
+        ]
+      },
+      "source_master": "source/masters/decals/d05_leaf_drift.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        0.8203125,
+        0.80078125
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "5f8151f4bd206e74b47bae8b4c7f77c7b4887ccff69a0cc45ee4987266d76462"
+    },
+    {
+      "id": "d06_scattered_leaves",
+      "name": "Scattered dead leaves",
+      "png": "png/decals/d06_scattered_leaves.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        172,
+        194,
+        820,
+        823
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          48,
+          59,
+          1221,
+          1198
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5524296675191815,
+        "placement_xy": [
+          172,
+          194
+        ]
+      },
+      "source_master": "source/masters/decals/d06_scattered_leaves.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        2.53125,
+        2.45703125
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "38acf672f20ab416941a7f0abf1c5fca598addb20081dd0343d8244406e1fdce"
+    },
+    {
+      "id": "d07_dirt_bank",
+      "name": "Packed dirt bank",
+      "png": "png/decals/d07_dirt_bank.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        373,
+        563,
+        652,
+        878
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          114,
+          39,
+          1154,
+          1212
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.26854219948849106,
+        "placement_xy": [
+          373,
+          563
+        ]
+      },
+      "source_master": "source/masters/decals/d07_dirt_bank.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        1.08984375,
+        1.23046875
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "c539746f7bbf928d9023800a621a89d9a11a1fd0624031635f1d8bf356911e1e"
+    },
+    {
+      "id": "d08_dirt_scuffs",
+      "name": "Worn earth scuffs",
+      "png": "png/decals/d08_dirt_scuffs.png",
+      "canvas_size_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        247,
+        262,
+        772,
+        796
+      ],
+      "seamless": false,
+      "placement": "Horizontal XZ overlay; pivot at canvas centre, 2 m from each edge; optional alpha blend or cutout as runtime chooses.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          115,
+          75,
+          1220,
+          1198
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.4751131221719457,
+        "placement_xy": [
+          247,
+          262
+        ]
+      },
+      "source_master": "source/masters/decals/d08_dirt_scuffs.png",
+      "revision": "02 illustrated rebuild",
+      "visible_face_metres": [
+        2.05078125,
+        2.0859375
+      ],
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "d52e21866d3dad904378a76118e8ad5c83134fb3e569e3dbaa3a03b356f18993"
+    }
+  ],
+  "proofs": {
+    "contact": "proofs/Contact_Sheet.png",
+    "before_after": "proofs/Before_After.png",
+    "projection": "proofs/Exact_Projection_Contact.png",
+    "tiling_statistics": "proofs/Tile_Statistics.json"
+  },
+  "revision_notes": "Revision02a changes only06darkearth,07mossyearth,08gravel. Quieter broad material fields replace diagonal fleck rhythm. Remaining17images are unchanged fromRevision02."
+}

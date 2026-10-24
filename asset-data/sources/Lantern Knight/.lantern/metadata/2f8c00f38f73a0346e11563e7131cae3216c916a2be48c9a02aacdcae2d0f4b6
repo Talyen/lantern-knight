@@ -1,0 +1,7 @@
+LAN​TERN SCREEN-RIGHT RUN NATIVE TEST
+Eight unique drawings; 40 ticks at 60 Hz; hold each cel 5 ticks and loop07→00. No duplicate endpoint.
+World normalize(+X,-Z), fixed orthographic camera35.2643897° elevation / 45° azimuth.
+Native unscaled768² frames, fixed pivot(384,640)top-left/(384,128)bottom-left. Approximate 260PPU against ready350PPU (±20%); apply one clip-wide PPU only, no per-frame fitting or compensating actor scale. Controller movement applied once.
+All native sword tips complete inside equal grid. No native raster resizing, flipping, morphing, or retouching. Integer per-frame translation based on approximate pelvis anchors, fixed horizontal source root and scaled guide vertical bob; no bounding-box fitting.
+Final art fresh built-in imagegen from original guides/reference only. Earlier rejected drafts are excluded from runtime. Sunburst2.5 was preference wording, not a verified model identity. Camera and joints are exact guides; ink art approximate.
+Use manifest and inspect preview before engine acceptance.

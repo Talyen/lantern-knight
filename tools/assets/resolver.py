@@ -124,24 +124,21 @@ class SourceResolver:
             for _ in suffix:
                 inferred = inferred.parent
         self.library = pathlib.Path(
-            library_root or os.environ.get("ASSET_LIBRARY_ROOT") or inferred
+            library_root or inferred
         ).absolute()
         self.documents = pathlib.Path(
-            documents_root or pathlib.Path.home() / "Documents"
+            documents_root or self.root
         ).absolute()
-        extra = [
-            pathlib.Path(p).absolute()
-            for p in os.environ.get("LANTERN_SOURCE_SEARCH_ROOTS", "").split(os.pathsep)
-            if p
-        ]
         self.roots = (
             list(dict.fromkeys(pathlib.Path(p).absolute() for p in search_roots))
             if search_roots is not None
-            else list(dict.fromkeys([self.library, self.documents, *extra]))
+            else list(dict.fromkeys([self.root, *([self.library, self.documents] if documents_root else [])]))
         )
-        self.restricted = search_roots is not None
+        self.restricted = search_roots is not None or documents_root is None
         self.cache = pathlib.Path(cache or cache_root()).absolute()
-        self.excluded = {PROJECT, self.cache, *(pathlib.Path(p).absolute() for p in excluded)}
+        self.excluded = {self.cache, *(pathlib.Path(p).absolute() for p in excluded)}
+        if not self.root.is_relative_to(PROJECT):
+            self.excluded.add(PROJECT)
         self.identities = {}
         for name, info in index.get("archives", {}).items():
             self.identities["archive:" + name] = (

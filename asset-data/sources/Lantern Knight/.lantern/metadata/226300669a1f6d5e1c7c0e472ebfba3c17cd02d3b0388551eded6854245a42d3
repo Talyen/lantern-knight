@@ -1,0 +1,75 @@
+{
+  "edition": "polished",
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "phases_seconds": [
+      2,
+      4,
+      2
+    ]
+  },
+  "files": {
+    "README.md": {
+      "sha256": "5f447f96bccdba7d68715c3c62d4f4344447811a7f4046ced11eae16d958e7f7",
+      "bytes": 3506
+    },
+    "CHANGELOG.md": {
+      "sha256": "88fdc96b56bd5fbb3b5f32d5fdefa900f944060f2451f0059081fdbac249e33c",
+      "bytes": 1077
+    },
+    "render.py": {
+      "sha256": "7a8b178ad7bf05868899137f9a8a333debe949ea0b8ee8ca639cbcf49482b768",
+      "bytes": 15464
+    },
+    "rebuild.sh": {
+      "sha256": "2012d43829b5731c2adbbe8a3c6a3265e707e8faaa5b8bd7c31ec483e1ae0226",
+      "bytes": 87
+    },
+    "requirements.txt": {
+      "sha256": "7f3c395adf061fe81447aa94f941929dd59bf7e834bcbb5e2f35437120a9860a",
+      "bytes": 23
+    },
+    "verify.py": {
+      "sha256": "1915039b413141926d623f39c1740887f2e1e327e6887bb0bd8d74d1a80e9d68",
+      "bytes": 4558
+    },
+    "verification.json": {
+      "sha256": "efe6cbf80d018f78624ef1b8b964c437dab9a18d81a030d3fb70035e7f7df67a",
+      "bytes": 2179
+    },
+    "contact_sheet.jpg": {
+      "sha256": "fad0fe736129a0ad4c9769d1c35f02b7fe251c325aeb61e20e08e735cd89e13a",
+      "bytes": 219429
+    },
+    "decoded_motion_contact.jpg": {
+      "sha256": "a27ac4b4be035af590581102fe4b767d98bb4cc70a776a12138bee573ba812d6",
+      "bytes": 242165
+    },
+    "before_after_contact.jpg": {
+      "sha256": "75ac9ca5264f3875550d14c8e01817c57467a3d94a85a044293c9ccfa5ac7ee0",
+      "bytes": 349686
+    },
+    "shadow_theatre_master.svg": {
+      "sha256": "c3750ea8851008aea72fa4776244880071a6cfba0f76f98cdd1bd8904091a385",
+      "bytes": 10800
+    },
+    "Lantern_B_ShadowTheatre_Polished_Intro.mp4": {
+      "sha256": "2730476540217e3e89e2b8deeadcfffc8e67852aff164cb5c1b84e273279f9f0",
+      "bytes": 350978
+    },
+    "Lantern_B_ShadowTheatre_Polished_Hold.mp4": {
+      "sha256": "209eac01c89a9ca902b98434813da0b2c2301fc1372f6cbdbe0a4ed501c415ea",
+      "bytes": 750863
+    },
+    "Lantern_B_ShadowTheatre_Polished_Complete.mp4": {
+      "sha256": "070c2762985afe9eef8c69375f11e3ab10617320cb8ab7e548d43e5ca1f13019",
+      "bytes": 304796
+    },
+    "Lantern_B_ShadowTheatre_Polished_Preview.mp4": {
+      "sha256": "e2da4c70687821516e15a54223fb9b2102e51cdd49e689982c0db0d5c09d2c6f",
+      "bytes": 1396773
+    }
+  }
+}

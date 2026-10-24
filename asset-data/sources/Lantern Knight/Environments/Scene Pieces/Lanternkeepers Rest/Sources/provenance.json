@@ -1,0 +1,88 @@
+{
+  "tool": "built-in image_gen",
+  "requestedModel": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actualModel": "not exposed by tool",
+  "requestedResolution": "maximum native",
+  "nativeOutputsPreserved": true,
+  "originalPromptSources": [
+    "../ink-collection-01/volume_17_small_buildings/provenance/04_narrow_chapel_v1.prompt.txt",
+    "../ink-collection-01/volume_02_gothic/provenance/arch_gothic_wall_01.prompt.txt",
+    "../ink-collection-01/Lantern_Location_Concepts_CleanInk_v02/prompts/01_ruined_lantern_warden_courtyard_r02c.txt"
+  ],
+  "materialAdjustments": {
+    "runtimeMatteCutoff": 0.8,
+    "stoneTint": "cool subdued limestone",
+    "hero": "unchanged",
+    "grass": "28 percent desaturation, cool olive ambient multiplier",
+    "path": "18 mm material boundary; native illustrated edging",
+    "paving": "4m repeat; 16 percent contrast compression; 100mm periodic seam treatment, crisp route mask"
+  },
+  "files": [
+    {
+      "file": "wall-x-v1.png",
+      "generatedSource": "/Users/ryanmcintire/.codex/generated_images/01a11372-9191-7f42-8933-b57a8802182c/exec-a6729b64-2332-4d42-aabc-f26eefd81da1.png",
+      "nativeCanvas": [
+        1536,
+        1024
+      ],
+      "sha256": "9f1e082aadbe6e54f8f23775a6325bed20ea75db97443be196023be81215a6ad",
+      "promptKey": "cleanInk + extraction",
+      "hasAlpha": true
+    },
+    {
+      "file": "wall-z-v1.png",
+      "generatedSource": "/Users/ryanmcintire/.codex/generated_images/01a11372-9191-7f42-8933-b57a8802182c/exec-62570628-a2c1-430c-ad52-3583a27ce895.png",
+      "nativeCanvas": [
+        1536,
+        1024
+      ],
+      "sha256": "bb6808826324e077df21066388f947f072e599d891efcfea7b833b27e3c83900",
+      "promptKey": "cleanInk + extraction",
+      "hasAlpha": true
+    },
+    {
+      "file": "chapel-v1.png",
+      "generatedSource": "/Users/ryanmcintire/.codex/generated_images/01a11372-9191-7f42-8933-b57a8802182c/exec-9ac13f54-09ef-4391-8e76-d7a35946f97d.png",
+      "nativeCanvas": [
+        1024,
+        1536
+      ],
+      "sha256": "f9f9e22bdd737531409b41227ddb9754deea8327690375aed2dbda40074bc21c",
+      "promptKey": "cleanInk + extraction",
+      "hasAlpha": true
+    },
+    {
+      "file": "grave-soil-v1.png",
+      "generatedSource": "/Users/ryanmcintire/.codex/generated_images/01a11372-9191-7f42-8933-b57a8802182c/exec-54e1f447-f63c-491d-b960-159e43ff53b8.png",
+      "nativeCanvas": [
+        966,
+        1628
+      ],
+      "sha256": "3dd0a7d3cafb79b919440c91e78e43a7b39588030fc2c0516a7632865c5ffbec",
+      "promptKey": "soil",
+      "hasAlpha": true
+    },
+    {
+      "file": "grass-v1.png",
+      "generatedSource": "/Users/ryanmcintire/.codex/generated_images/01a11372-9191-7f42-8933-b57a8802182c/exec-c387df37-50b1-4637-bc3b-4e736ac63928.png",
+      "nativeCanvas": [
+        1254,
+        1254
+      ],
+      "sha256": "dff7b3e2e697bcb3c966a88145823e474f51e26689706831a97d4df3d8f3775f",
+      "promptKey": "grass",
+      "hasAlpha": false
+    },
+    {
+      "file": "paving-v1.png",
+      "generatedSource": "/Users/ryanmcintire/.codex/generated_images/01a11372-9191-7f42-8933-b57a8802182c/exec-f4fa3f7b-055f-4cf4-9bf6-cef85c3afba6.png",
+      "nativeCanvas": [
+        1254,
+        1254
+      ],
+      "sha256": "00a2b1032e08ce05361ad640a010653b034f62aca58d774f2f84677348e6c6c5",
+      "promptKey": "paving.prompt.txt",
+      "hasAlpha": false
+    }
+  ]
+}

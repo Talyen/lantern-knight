@@ -1,0 +1,9 @@
+LANTERN DASH + FLARE — SELECTED SOURCE MASTERS
+
+Native images and exact generation prompts for the complete drawings selected in the two action clips. Source cells not selected for playback remain visible in their original coherent master; a whole source is never silently rewritten.
+
+Each coherent master uses one declared construction scale. Runtime frames use whole-drawing integer placement and shared transparent padding; there is no per-frame bounding-box fitting, body deformation, mirroring, optical flow or frame blending. The exact frame source cell, component extraction assignment, scale and offset are in the runtime timing/registration manifests.
+
+R0, the generic late gather G0 and generic final settle S0 are reused exactly at declared joins. Repeated exposures are holds, not additional artwork. Original background RGB under alpha0 is intentionally preserved; use alpha compositing.
+
+Sunburst2.5 (gpt-image-2.5-sunburst) was included in generation prompts as requested. The tool did not expose a verified backend identity.

@@ -1,0 +1,6 @@
+Crypt Tomb Dial Seal
+8 authored cels; play once, then hold final state.
+See metadata.json for suggested timing and anchors.
+Native canvases contain original-resolution art; runtime PNGs are downsampled.
+Turn the ritual dial to activate a game-controlled seal release or reward event. The sprite does not show a large cache opening.
+Art only. No game implementation.

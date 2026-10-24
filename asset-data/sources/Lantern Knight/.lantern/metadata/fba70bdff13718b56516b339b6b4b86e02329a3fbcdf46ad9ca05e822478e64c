@@ -1,0 +1,39 @@
+{
+  "asset": "observatory_B_sample_retry",
+  "generation_method": "built-in image_gen, new text-only generation",
+  "approved_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "approved_style_verbatim_present": true,
+  "exact_prompt_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/B/exact_prompt.txt",
+  "prompt_sha256": "f4de5df3a593582bf0baf85617589708e8559a80d78ca4ca60df6371deec1f87",
+  "raw_tool_result_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/B/raw_tool_result.json",
+  "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-37aa71b6-1802-4e62-849e-e6da844d12c2.png",
+  "native_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/B/native.png",
+  "native_sha256": "7681512b3eb12d83b15ae133b7b9b962a51bb85b887494fbc07cfe20ec82a442",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "native_mode": "RGB",
+  "input_images": [],
+  "no_environment_reference_input": true,
+  "image_was_upscaled": false,
+  "sample_only": true,
+  "requested_model_in_approved_style": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model": "Not disclosed by built-in tool response",
+  "attempt": 2,
+  "first_attempt_rejected": "Painted checkerboard background / isolated diorama, despite requested opaque full bleed",
+  "visual_qa": {
+    "full_bleed_opaque_scene": true,
+    "layered_medium_scale_architecture": true,
+    "no_micro_props": true,
+    "telescope_and_ring_instruments_readable": true,
+    "no_characters": true,
+    "scale_note": "64px hypothetical human requested; ordinary chart tables appear communal-table scale and may warrant hero-context check. No engine/camera/geometry validation."
+  },
+  "original_environment_inspected_for_understanding_only": {
+    "kit_drive_id": "1md_tPwAFfY-els9hHtoYudO748w1B-OI",
+    "native_drive_id": "1BfP63gt2UQi5jf0BM638KgoOL4cMIJ5z",
+    "native_sha256": "1c83b33ed7f9e74143a93266f895af99b96c7077ace78be8eeeee5c8b1c788bb"
+  },
+  "canonical_hero_passed_to_generator": false
+}

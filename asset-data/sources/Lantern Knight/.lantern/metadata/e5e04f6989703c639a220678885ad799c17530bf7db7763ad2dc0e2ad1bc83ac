@@ -1,0 +1,59 @@
+{
+  "fps": 60,
+  "total_ticks": 54,
+  "timeline": [
+    {
+      "frame": "01_READY",
+      "start_tick": 0,
+      "hold_ticks": 6
+    },
+    {
+      "frame": "02_LOAD",
+      "start_tick": 6,
+      "hold_ticks": 8
+    },
+    {
+      "frame": "03_DRIVE",
+      "start_tick": 14,
+      "hold_ticks": 4
+    },
+    {
+      "frame": "04_THRUST",
+      "start_tick": 18,
+      "hold_ticks": 4
+    },
+    {
+      "frame": "05_BRAKE",
+      "start_tick": 22,
+      "hold_ticks": 5
+    },
+    {
+      "frame": "06_RETRACT",
+      "start_tick": 27,
+      "hold_ticks": 6
+    },
+    {
+      "frame": "07_RETURN",
+      "start_tick": 33,
+      "hold_ticks": 9
+    },
+    {
+      "frame": "01_READY",
+      "start_tick": 42,
+      "hold_ticks": 12
+    }
+  ],
+  "source_cels_preserved": 8,
+  "unique_drawings_in_loop": 7,
+  "omitted_cels": [],
+  "canvas_px": [
+    624,
+    572
+  ],
+  "common_pivot_top_left_px": [
+    307,
+    463
+  ],
+  "approximate_pixels_per_unit": 254.706,
+  "status": "NATIVE_ACTION_ART_TEST"
+}

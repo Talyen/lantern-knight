@@ -1,0 +1,14 @@
+{
+  "title": "Inkflame",
+  "project": "Lantern",
+  "artwork": "Original authored vector paths and analytic animation",
+  "external_art_assets": [],
+  "fonts": [],
+  "noise_or_grain_textures": [],
+  "source": ["render.py", "inkflame_master.svg"],
+  "validation": ["verify.py", "validation.json"],
+  "source_resolution": "1920x1080 coordinate system; scalable vectors",
+  "output_fps": 60,
+  "loop_duration_seconds": 4,
+  "background": "#090b10, baked opaque"
+}

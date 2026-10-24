@@ -1,0 +1,362 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Ironcap Fungus",
+  "ability": "choked_spore_puff",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "choked_spore_puff_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      320,
+      540
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": [
+      93,
+      91,
+      548,
+      540
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        15,
+        56,
+        251,
+        275
+      ],
+      [
+        266,
+        46,
+        511,
+        275
+      ],
+      [
+        524,
+        36,
+        765,
+        275
+      ],
+      [
+        785,
+        33,
+        1020,
+        275
+      ],
+      [
+        23,
+        313,
+        260,
+        534
+      ],
+      [
+        282,
+        332,
+        518,
+        532
+      ],
+      [
+        528,
+        351,
+        778,
+        534
+      ],
+      [
+        788,
+        376,
+        1017,
+        533
+      ],
+      [
+        17,
+        619,
+        253,
+        784
+      ],
+      [
+        236,
+        599,
+        517,
+        788
+      ],
+      [
+        511,
+        609,
+        772,
+        791
+      ],
+      [
+        766,
+        582,
+        1023,
+        791
+      ],
+      [
+        14,
+        823,
+        253,
+        1064
+      ],
+      [
+        244,
+        840,
+        511,
+        1061
+      ],
+      [
+        526,
+        856,
+        761,
+        1060
+      ],
+      [
+        781,
+        855,
+        1014,
+        1064
+      ]
+    ],
+    "ordinary_resample_factor": 2.050228310502283,
+    "placements_xywh": [
+      [
+        84,
+        91,
+        484,
+        449
+      ],
+      [
+        76,
+        70,
+        502,
+        470
+      ],
+      [
+        75,
+        50,
+        494,
+        490
+      ],
+      [
+        102,
+        44,
+        482,
+        496
+      ],
+      [
+        97,
+        87,
+        486,
+        453
+      ],
+      [
+        96,
+        130,
+        484,
+        410
+      ],
+      [
+        81,
+        165,
+        513,
+        375
+      ],
+      [
+        102,
+        218,
+        470,
+        322
+      ],
+      [
+        122,
+        202,
+        484,
+        338
+      ],
+      [
+        4,
+        153,
+        576,
+        387
+      ],
+      [
+        83,
+        167,
+        535,
+        373
+      ],
+      [
+        100,
+        112,
+        527,
+        428
+      ],
+      [
+        107,
+        46,
+        490,
+        494
+      ],
+      [
+        36,
+        87,
+        547,
+        453
+      ],
+      [
+        82,
+        122,
+        482,
+        418
+      ],
+      [
+        85,
+        112,
+        478,
+        428
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "choked_spore_puff_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1000,
+    "offset_from_actor_pivot_px": [
+      230,
+      -75
+    ],
+    "ordinary_resample_factor": 1.35,
+    "source_cel_boxes": [
+      [
+        28,
+        1160,
+        246,
+        1247
+      ],
+      [
+        286,
+        1122,
+        499,
+        1280
+      ],
+      [
+        531,
+        1113,
+        753,
+        1281
+      ],
+      [
+        787,
+        1120,
+        1001,
+        1286
+      ],
+      [
+        28,
+        1344,
+        238,
+        1500
+      ],
+      [
+        278,
+        1344,
+        494,
+        1506
+      ],
+      [
+        534,
+        1355,
+        746,
+        1502
+      ],
+      [
+        784,
+        1362,
+        1000,
+        1499
+      ]
+    ]
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1100,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1-cTGVgtJA5To-yz34bFZYMoXHEtwiIDT",
+    "url": "https://drive.google.com/file/d/1-cTGVgtJA5To-yz34bFZYMoXHEtwiIDT/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Contact event1100ms; effect starts1000ms.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right."
+  ]
+}

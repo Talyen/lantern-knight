@@ -1,0 +1,232 @@
+{
+  "clip": "idle",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": true,
+  "durations_ms": [
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140
+  ],
+  "total_ms": 1680,
+  "atlas": "atlases/idle_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/idle/idle_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/idle/idle_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        93,
+        249,
+        602,
+        550
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/idle/idle_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        89,
+        253,
+        602,
+        550
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/idle/idle_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        89,
+        246,
+        610,
+        550
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/idle/idle_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        79,
+        226,
+        613,
+        550
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/idle/idle_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        229,
+        604,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/idle/idle_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        80,
+        226,
+        609,
+        550
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/idle/idle_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        82,
+        223,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/idle/idle_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        74,
+        233,
+        604,
+        550
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/idle/idle_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        78,
+        235,
+        605,
+        550
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/idle/idle_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        72,
+        232,
+        605,
+        550
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/idle/idle_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        76,
+        234,
+        604,
+        550
+      ]
+    }
+  ],
+  "events": []
+}

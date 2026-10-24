@@ -1,0 +1,10 @@
+{
+  "direction": "DR",
+  "canonical_revision": "ZB01_v02",
+  "package": "ZB01_runtime.zip",
+  "library_file_id": "libfile_32e51c3799cc81918a592e003dd763d3",
+  "library_version": 1,
+  "sha256": "3886eb516d0e33314e48fc8f938f89f07ccda9dc61de508911cc23bc9d289bc5",
+  "unchanged": true,
+  "proof": "All 15 runtime PNG bytes match exact canonical archive"
+}

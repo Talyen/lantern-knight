@@ -29,6 +29,22 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_selected_extension_import_skips_unowned_actor_packages(self):
+        source = package({
+            "baseline_DR_reference/manifest.json": json.dumps({"actors": [{"id": "SK99"}]}).encode(),
+            "pack_inventory.json": json.dumps({"packs": [{"category": "extension", "actor_id": "SK99"}]}).encode(),
+            "actor_coverage.json": json.dumps({"actors": [{"group": "new_18", "id": "SK99"}]}).encode(),
+        })
+        importer = Importer([])
+        importer.enemy_overnight(source, {"library-sk01"})
+        self.assertEqual(importer.assets, {})
+
+    def test_selected_enemy_import_does_not_require_unused_actor_packages(self):
+        source = package({"handoff/catalog.json": json.dumps({"groups": [], "active_five_enemy_state_coverage": [{"enemy_id": "SK99", "actor": "Unused"}]}).encode()})
+        importer = Importer([])
+        importer.enemy_catalog(source, {"library-sk01"})
+        self.assertEqual(importer.assets, {})
+
     def test_scene_opening_manifests_preserve_supplied_order_timing_pivots_and_final_state(self):
         cases = [
             {

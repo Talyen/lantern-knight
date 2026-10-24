@@ -1,0 +1,148 @@
+{
+  "optional": true,
+  "clip": "bellbound_defeat",
+  "recommended_preview_variant": "optional_registered",
+  "basis": "First-row feet/ground sit near source-local y540. Lower-row resting cloth/bell contacts end around445\u2013460. One common lower-row +88px Y placement reduces this layout discontinuity while retaining the fall, spread and native shape differences. Ground anchors are visual estimates, not exact rig data.",
+  "method": "Drawing1\u20133 unchanged. Drawing4\u20136 each translated by exactly(0,+88) integer pixels. No scale, warp, rotation, redraw, per-frame bound fitting, color or alpha changes. Raw export preserved.",
+  "canvas_px": [
+    768,
+    768
+  ],
+  "fixed_pivot_top_left_px": [
+    384,
+    628
+  ],
+  "playback": "Same one-shot timing as raw; drawing6 holds indefinitely.",
+  "import_contract": {
+    "mutually_exclusive_variants": [
+      "raw",
+      "optional_registered"
+    ],
+    "selected_variant_has_baked_offset": true,
+    "additional_runtime_offset_when_importing_optional_registered_xy": [
+      0,
+      0
+    ],
+    "alternative_raw_runtime_offsets_xy": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        88
+      ],
+      [
+        0,
+        88
+      ],
+      [
+        0,
+        88
+      ]
+    ],
+    "warning": "Use baked optional_registered assets with ZERO extra runtime offset. Alternatively use raw assets plus the listed offsets. NEVER apply offsets to the baked registered assets."
+  },
+  "frames": [
+    {
+      "drawing": 1,
+      "integer_offset_from_raw_xy": [
+        0,
+        0
+      ],
+      "file": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_01.png",
+      "alpha_bbox_xyxy": [
+        179,
+        184,
+        608,
+        672
+      ],
+      "sha256": "07c6ac6a75650618fc9a3858b7fea12cea811becfcd2851c08d1fd5ad8c13e49"
+    },
+    {
+      "drawing": 2,
+      "integer_offset_from_raw_xy": [
+        0,
+        0
+      ],
+      "file": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_02.png",
+      "alpha_bbox_xyxy": [
+        197,
+        255,
+        593,
+        671
+      ],
+      "sha256": "36e2bf2ca142c8f93f815c0eb34da3f72daad5a434e37a161420fa298e455824"
+    },
+    {
+      "drawing": 3,
+      "integer_offset_from_raw_xy": [
+        0,
+        0
+      ],
+      "file": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_03.png",
+      "alpha_bbox_xyxy": [
+        165,
+        332,
+        605,
+        695
+      ],
+      "sha256": "5575e1099ee79c4f705bd8ebc2d93ec77237e626927f82683f1cfcb9ab75aeb8"
+    },
+    {
+      "drawing": 4,
+      "integer_offset_from_raw_xy": [
+        0,
+        88
+      ],
+      "file": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_04.png",
+      "alpha_bbox_xyxy": [
+        158,
+        357,
+        637,
+        661
+      ],
+      "sha256": "48a25467384da2e7f28880b023513a84f7cf8aaf52663856c61d507d45e5e9d2"
+    },
+    {
+      "drawing": 5,
+      "integer_offset_from_raw_xy": [
+        0,
+        88
+      ],
+      "file": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_05.png",
+      "alpha_bbox_xyxy": [
+        148,
+        388,
+        626,
+        667
+      ],
+      "sha256": "d95f1a1387c557019724938df0dc19dbb2c9bc146ef4e0be4beabfc88b11ea3e"
+    },
+    {
+      "drawing": 6,
+      "integer_offset_from_raw_xy": [
+        0,
+        88
+      ],
+      "file": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_06.png",
+      "alpha_bbox_xyxy": [
+        157,
+        428,
+        615,
+        676
+      ],
+      "sha256": "98dc49a28b60d8abf681d8a17423a4dd098aef858753e3ee760152aff162457b"
+    }
+  ],
+  "atlas": "optional_registered/bellbound_defeat/bellbound_defeat_registered_DR_atlas.png",
+  "not_transition_calibrated": true
+}

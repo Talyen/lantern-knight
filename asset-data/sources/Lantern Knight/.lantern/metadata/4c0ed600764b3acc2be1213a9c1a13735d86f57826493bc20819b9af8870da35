@@ -1,0 +1,70 @@
+{
+  "native_cels_each": 6,
+  "canvas": [
+    544,
+    544
+  ],
+  "upscaling": false,
+  "runtime_png_byte_identical_in_isolated_rebuild": true,
+  "portable_rebuild_png_checks": {
+    "runtime/apothecary/atlas.png": true,
+    "runtime/apothecary/work_00.png": true,
+    "runtime/apothecary/work_02.png": true,
+    "runtime/apothecary/work_01.png": true,
+    "runtime/apothecary/work_05.png": true,
+    "runtime/apothecary/work_04.png": true,
+    "runtime/apothecary/work_03.png": true,
+    "runtime/moth_keeper/atlas.png": true,
+    "runtime/moth_keeper/work_00.png": true,
+    "runtime/moth_keeper/work_02.png": true,
+    "runtime/moth_keeper/work_01.png": true,
+    "runtime/moth_keeper/work_05.png": true,
+    "runtime/moth_keeper/work_04.png": true,
+    "runtime/moth_keeper/work_03.png": true
+  },
+  "engine_validation": false,
+  "visual_review": {
+    "all_cels": "Light/dark contact sheets; anatomy, costume, tool ownership, stable base and loop order checked.",
+    "moth_keeper": "Two human arms; tending palm viewer-left; cage grip viewer-right. Diagonal canonical coat-edge join replaces hard horizontal waist step in raised cels.",
+    "apothecary": "One brass right forearm/hand viewer-left controls pestle; human left hand steadies mortar. Native grip digits partly occluded.",
+    "limitations": "Minor moving-region ink/shape variation remains. 35.264-degree elevation is an art target, not measured geometry. No in-engine test."
+  },
+  "videos": {
+    "moth_keeper": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1088,
+          "height": 592,
+          "avg_frame_rate": "60/1",
+          "duration": "9.000000",
+          "nb_frames": "540"
+        }
+      ]
+    },
+    "apothecary": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 1088,
+          "height": 592,
+          "avg_frame_rate": "60/1",
+          "duration": "6.000000",
+          "nb_frames": "360"
+        }
+      ]
+    }
+  },
+  "moth_keeper": {
+    "six_unique_cels": true,
+    "border_clear": true,
+    "lower_body_bit_identical": true
+  },
+  "apothecary": {
+    "six_unique_cels": true,
+    "border_clear": true,
+    "lower_body_bit_identical": true
+  }
+}

@@ -1,0 +1,8 @@
+Original artwork: render.py
+Original custom letter paths: GLYPHS in render.py
+Fonts: none
+Raster source artwork: none
+Audio: none
+System rendering: librsvg, Cairo, GObject
+Video encoding: FFmpeg/libx264
+Python dependencies: requirements.txt

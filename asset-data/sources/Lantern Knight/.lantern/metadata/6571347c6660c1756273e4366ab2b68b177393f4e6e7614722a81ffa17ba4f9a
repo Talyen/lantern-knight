@@ -1,0 +1,4 @@
+Initiates trial setter
+Native authored cels preserve generated pixels; runtime is half-size. Translation-only registration, no synthesized animation or code art. Transparent standalone overlay; existing scene remains unchanged.
+Play arm cels 0–4 once. Hold armed cel4 indefinitely. Only on external challenge completion play cels5–7 once, then hold completed cel7. Preview shows a shortened armed hold.
+Gameplay/contact/reward markers are suggestions only, no game code integration. Source sheets, source backups, scene masters and previews are preserved separately to keep runtime package lean.

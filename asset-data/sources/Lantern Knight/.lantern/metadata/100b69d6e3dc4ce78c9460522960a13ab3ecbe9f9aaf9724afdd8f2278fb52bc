@@ -1,0 +1,5 @@
+Python3.12, Pillow, numpy; ffmpeg/ffprobe for review movies only.
+Inside each delivery pack: python source/revision/replay_repaired.py /tmp/lantern_replay_NAME
+This rebuilds repaired alpha frames, SVGs where native vector, and safe atlases; compares every PNG file against frozen export. Uses included banner master only for hanging_banner. No external image files or APIs needed.
+Retained members are byte-identical delivered originals; their deterministic original builders are provided under source/retained_original. Their emitted root-output layouts predate this collection; run in a temporary copy rather than overwriting a delivered pack.
+The top-level build_pack.py orchestrates the full development collection and expects lantern_overnight sibling input packs. For standalone delivered-pack verification use replay_repaired.py instead.

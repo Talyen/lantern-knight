@@ -1,0 +1,88 @@
+{
+  "all_frames_inspected": true,
+  "opaque_edge_pixels_all_frames": 0,
+  "shared_ready_byte_identity_verified": true,
+  "ppu_baseline": "corrected v02",
+  "no_runtime_resizing": true,
+  "no_engine_integration": true,
+  "camera_numeric_verified": false,
+  "review_status": "Root QA pending",
+  "notes": [
+    "Small pose/proportion variation remains between independently generated sheets.",
+    "Generated six-cell sheets were sourced from canonical SK03 plus corrected v02 ready.",
+    "Background RGB contains unused dark halo coloration at alpha zero; composited alpha proof is clean."
+  ],
+  "source_ownership_checks": [
+    {
+      "file": "frames/hit/hit_02.png",
+      "retained_source_pixel_count": 59566,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/hit/hit_03.png",
+      "retained_source_pixel_count": 57754,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/hit/hit_04.png",
+      "retained_source_pixel_count": 57873,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/hit/hit_05.png",
+      "retained_source_pixel_count": 60759,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/spawn/spawn_01.png",
+      "retained_source_pixel_count": 15949,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/spawn/spawn_02.png",
+      "retained_source_pixel_count": 53878,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/spawn/spawn_03.png",
+      "retained_source_pixel_count": 68641,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/spawn/spawn_04.png",
+      "retained_source_pixel_count": 69384,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/spawn/spawn_05.png",
+      "retained_source_pixel_count": 64253,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/defeat/defeat_02.png",
+      "retained_source_pixel_count": 65351,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/defeat/defeat_03.png",
+      "retained_source_pixel_count": 58732,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/defeat/defeat_04.png",
+      "retained_source_pixel_count": 57035,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/defeat/defeat_05.png",
+      "retained_source_pixel_count": 40734,
+      "rgba_exact_at_owned_source_coordinates": true
+    },
+    {
+      "file": "frames/defeat/defeat_06.png",
+      "retained_source_pixel_count": 33820,
+      "rgba_exact_at_owned_source_coordinates": true
+    }
+  ],
+  "source_ownership_all_passed": true
+}

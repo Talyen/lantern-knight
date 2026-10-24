@@ -1,0 +1,55 @@
+tick,time_seconds,drawing,phase,hold_indefinitely
+0,0.0,1,Struck / hands brace,False
+1,0.016666667,1,Struck / hands brace,False
+2,0.033333333,1,Struck / hands brace,False
+3,0.05,1,Struck / hands brace,False
+4,0.066666667,1,Struck / hands brace,False
+5,0.083333333,1,Struck / hands brace,False
+6,0.1,1,Struck / hands brace,False
+7,0.116666667,2,Cocoon buckles / grip slips,False
+8,0.133333333,2,Cocoon buckles / grip slips,False
+9,0.15,2,Cocoon buckles / grip slips,False
+10,0.166666667,2,Cocoon buckles / grip slips,False
+11,0.183333333,2,Cocoon buckles / grip slips,False
+12,0.2,2,Cocoon buckles / grip slips,False
+13,0.216666667,2,Cocoon buckles / grip slips,False
+14,0.233333333,2,Cocoon buckles / grip slips,False
+15,0.25,2,Cocoon buckles / grip slips,False
+16,0.266666667,2,Cocoon buckles / grip slips,False
+17,0.283333333,3,Forearms collapse / eyes out,False
+18,0.3,3,Forearms collapse / eyes out,False
+19,0.316666667,3,Forearms collapse / eyes out,False
+20,0.333333333,3,Forearms collapse / eyes out,False
+21,0.35,3,Forearms collapse / eyes out,False
+22,0.366666667,3,Forearms collapse / eyes out,False
+23,0.383333333,3,Forearms collapse / eyes out,False
+24,0.4,3,Forearms collapse / eyes out,False
+25,0.416666667,3,Forearms collapse / eyes out,False
+26,0.433333333,4,Shroud deflates / face hidden,False
+27,0.45,4,Shroud deflates / face hidden,False
+28,0.466666667,4,Shroud deflates / face hidden,False
+29,0.483333333,4,Shroud deflates / face hidden,False
+30,0.5,4,Shroud deflates / face hidden,False
+31,0.516666667,4,Shroud deflates / face hidden,False
+32,0.533333333,4,Shroud deflates / face hidden,False
+33,0.55,4,Shroud deflates / face hidden,False
+34,0.566666667,4,Shroud deflates / face hidden,False
+35,0.583333333,4,Shroud deflates / face hidden,False
+36,0.6,4,Shroud deflates / face hidden,False
+37,0.616666667,5,Low husk / last settling,False
+38,0.633333333,5,Low husk / last settling,False
+39,0.65,5,Low husk / last settling,False
+40,0.666666667,5,Low husk / last settling,False
+41,0.683333333,5,Low husk / last settling,False
+42,0.7,5,Low husk / last settling,False
+43,0.716666667,5,Low husk / last settling,False
+44,0.733333333,5,Low husk / last settling,False
+45,0.75,5,Low husk / last settling,False
+46,0.766666667,5,Low husk / last settling,False
+47,0.783333333,5,Low husk / last settling,False
+48,0.8,5,Low husk / last settling,False
+49,0.816666667,5,Low husk / last settling,False
+50,0.833333333,5,Low husk / last settling,False
+51,0.85,5,Low husk / last settling,False
+52,0.866666667,5,Low husk / last settling,False
+53,0.8833333333333333,6,Still closed husk / terminal,True

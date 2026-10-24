@@ -161,6 +161,9 @@ async function main() {
           '--others',
           '--exclude-standard',
           '-z',
+          '--',
+          '.',
+          ':(exclude)asset-data/**',
         ],
         { cwd: root, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 },
       )

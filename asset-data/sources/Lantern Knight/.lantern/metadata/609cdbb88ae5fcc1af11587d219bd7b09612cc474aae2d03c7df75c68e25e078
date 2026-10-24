@@ -1,0 +1,560 @@
+{
+  "name": "Pale Benediction",
+  "slug": "pale_benediction",
+  "version": 1,
+  "role": "hero",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    256,
+    330
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.64453125
+  ],
+  "coordinate_origin": "top_left",
+  "alpha": "straight RGBA",
+  "duration_ms": 880,
+  "loop": false,
+  "drawn_cel_count": 16,
+  "clear_frame_count": 1,
+  "timeline_frame_count": 17,
+  "interpolation": "none; explicitly held generated cels",
+  "fps_note": "Preview encodes at 100 Hz only to represent 10 ms timing units. It does not contain 100 new drawings per second.",
+  "events": [
+    {
+      "name": "impact",
+      "frame_index": 3,
+      "time_ms": 120,
+      "count": 1
+    }
+  ],
+  "formation_ms": 120,
+  "strike_ms": 40,
+  "footprint": {
+    "shape": "projected_disc",
+    "center_px": [
+      256,
+      330
+    ],
+    "radii_px": [
+      139,
+      62
+    ]
+  },
+  "directional_reuse": {
+    "horizontal_mirror": true,
+    "vertical_flip": false,
+    "arbitrary_screen_rotation": false,
+    "note": "Keep ground ellipses in the game ground plane. Horizontal mirror is visually safe; preserve world vertical for the falling light blade. Directional aiming needs engine projection."
+  },
+  "frames": [
+    {
+      "index": 0,
+      "source_cell": [
+        0,
+        0
+      ],
+      "source_rect": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/00.png",
+      "native_cell_size": [
+        314,
+        314
+      ],
+      "duration_ms": 40,
+      "start_ms": 0,
+      "atlas_rect": [
+        0,
+        0,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 1,
+      "source_cell": [
+        1,
+        0
+      ],
+      "source_rect": [
+        314,
+        0,
+        313,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/01.png",
+      "native_cell_size": [
+        313,
+        314
+      ],
+      "duration_ms": 40,
+      "start_ms": 40,
+      "atlas_rect": [
+        512,
+        0,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 2,
+      "source_cell": [
+        2,
+        0
+      ],
+      "source_rect": [
+        627,
+        0,
+        313,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/02.png",
+      "native_cell_size": [
+        313,
+        314
+      ],
+      "duration_ms": 40,
+      "start_ms": 80,
+      "atlas_rect": [
+        1024,
+        0,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 3,
+      "source_cell": [
+        3,
+        0
+      ],
+      "source_rect": [
+        940,
+        0,
+        314,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/03.png",
+      "native_cell_size": [
+        314,
+        314
+      ],
+      "duration_ms": 60,
+      "start_ms": 120,
+      "atlas_rect": [
+        1536,
+        0,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 4,
+      "source_cell": [
+        0,
+        1
+      ],
+      "source_rect": [
+        0,
+        314,
+        314,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/04.png",
+      "native_cell_size": [
+        314,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 180,
+      "atlas_rect": [
+        0,
+        512,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 5,
+      "source_cell": [
+        1,
+        1
+      ],
+      "source_rect": [
+        314,
+        314,
+        313,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/05.png",
+      "native_cell_size": [
+        313,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 220,
+      "atlas_rect": [
+        512,
+        512,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 6,
+      "source_cell": [
+        2,
+        1
+      ],
+      "source_rect": [
+        627,
+        314,
+        313,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/06.png",
+      "native_cell_size": [
+        313,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 260,
+      "atlas_rect": [
+        1024,
+        512,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 7,
+      "source_cell": [
+        3,
+        1
+      ],
+      "source_rect": [
+        940,
+        314,
+        314,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/07.png",
+      "native_cell_size": [
+        314,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 300,
+      "atlas_rect": [
+        1536,
+        512,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 8,
+      "source_cell": [
+        0,
+        2
+      ],
+      "source_rect": [
+        0,
+        627,
+        314,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/08.png",
+      "native_cell_size": [
+        314,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 340,
+      "atlas_rect": [
+        0,
+        1024,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 9,
+      "source_cell": [
+        1,
+        2
+      ],
+      "source_rect": [
+        314,
+        627,
+        313,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/09.png",
+      "native_cell_size": [
+        313,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 380,
+      "atlas_rect": [
+        512,
+        1024,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 10,
+      "source_cell": [
+        2,
+        2
+      ],
+      "source_rect": [
+        627,
+        627,
+        313,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/10.png",
+      "native_cell_size": [
+        313,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 420,
+      "atlas_rect": [
+        1024,
+        1024,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 11,
+      "source_cell": [
+        3,
+        2
+      ],
+      "source_rect": [
+        940,
+        627,
+        314,
+        313
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/11.png",
+      "native_cell_size": [
+        314,
+        313
+      ],
+      "duration_ms": 40,
+      "start_ms": 460,
+      "atlas_rect": [
+        1536,
+        1024,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 12,
+      "source_cell": [
+        0,
+        3
+      ],
+      "source_rect": [
+        0,
+        940,
+        314,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/12.png",
+      "native_cell_size": [
+        314,
+        314
+      ],
+      "duration_ms": 50,
+      "start_ms": 500,
+      "atlas_rect": [
+        0,
+        1536,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 13,
+      "source_cell": [
+        1,
+        3
+      ],
+      "source_rect": [
+        314,
+        940,
+        313,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/13.png",
+      "native_cell_size": [
+        313,
+        314
+      ],
+      "duration_ms": 50,
+      "start_ms": 550,
+      "atlas_rect": [
+        512,
+        1536,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 14,
+      "source_cell": [
+        2,
+        3
+      ],
+      "source_rect": [
+        627,
+        940,
+        313,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/14.png",
+      "native_cell_size": [
+        313,
+        314
+      ],
+      "duration_ms": 50,
+      "start_ms": 600,
+      "atlas_rect": [
+        1024,
+        1536,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 15,
+      "source_cell": [
+        3,
+        3
+      ],
+      "source_rect": [
+        940,
+        940,
+        314,
+        314
+      ],
+      "registration_translation": [
+        99,
+        99
+      ],
+      "path": "frames/15.png",
+      "native_cell_size": [
+        314,
+        314
+      ],
+      "duration_ms": 50,
+      "start_ms": 650,
+      "atlas_rect": [
+        1536,
+        1536,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 16,
+      "path": "frames/16.png",
+      "source": "blank_clear_frame",
+      "duration_ms": 180,
+      "start_ms": 700,
+      "atlas_rect": [
+        0,
+        2048,
+        512,
+        512
+      ]
+    }
+  ],
+  "atlas": "atlas.png",
+  "provenance": {
+    "generator": "built-in image_gen",
+    "source_sheet_px": [
+      1254,
+      1254
+    ],
+    "processing": "Uniform-grid native-pixel extraction, fixed-canvas transparent padding; Halo has translation-only painted-center registration; no morphing/interpolation or invented cel drawings.",
+    "native_resolution_note": "Frames are 512px padded canvases; generated source cels are 313\u2013314px native. No source upscaling."
+  },
+  "integration_note": "Timings and footprint dimensions are authored prototype guides, not engine-tested damage/collision settings."
+}

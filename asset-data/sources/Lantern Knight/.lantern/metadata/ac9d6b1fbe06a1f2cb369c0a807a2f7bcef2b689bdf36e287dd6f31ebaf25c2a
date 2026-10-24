@@ -1,0 +1,184 @@
+{
+  "name": "Bell-bearing pilgrim",
+  "identity_id": "lantern_elite_concept_01_bellbearing_pilgrim",
+  "reference_sha256": "02146b8881a520f3de89fde37f58e81c2822ca96cd7e9296c4831a19b8006d5e",
+  "baseline_dependency": "bell_bearing_pilgrim_runtime.zip, frozen DR movement/attack baseline",
+  "approved_DR_rest_sha256": "061463a84efcf1bc7c8f8d6a057e4551a403e6aedfd2cd570142bc00ab3a691e",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    360,
+    565
+  ],
+  "pivot_convention": "top-left origin; x right and y down",
+  "estimated_pixels_per_unit": 240,
+  "camera": {
+    "target_elevation_degrees": 35.2643897,
+    "target_azimuth_degrees": 45,
+    "calibration": "drawn target; not calibrated 3D"
+  },
+  "facing": "DR lower right only",
+  "mirroring": "not permitted for asymmetric equipment",
+  "root_motion": "in place; actor world transform separate; registration baked into PNG, no runtime offsets",
+  "clips": {
+    "hit": {
+      "cels": [
+        "hit_00.png",
+        "hit_01.png",
+        "hit_02.png",
+        "hit_03.png",
+        "hit_04.png",
+        "hit_05.png",
+        "hit_06.png"
+      ],
+      "holds_60hz": [
+        3,
+        5,
+        5,
+        5,
+        5,
+        5,
+        9
+      ],
+      "loop": false,
+      "one_shot": true,
+      "drawn_cel_count": 6,
+      "rest_reuse_cel": 6,
+      "atlas": "hit_atlas.png",
+      "atlas_gutter_pixels": 4,
+      "atlas_rects_pixels": [
+        {
+          "cel_index": 0,
+          "x": 4,
+          "y": 4,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 1,
+          "x": 652,
+          "y": 4,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 2,
+          "x": 1300,
+          "y": 4,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 3,
+          "x": 4,
+          "y": 652,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 4,
+          "x": 652,
+          "y": 652,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 5,
+          "x": 1300,
+          "y": 652,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 6,
+          "x": 4,
+          "y": 1300,
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "end_behavior": "hold baseline rest until engine transitions",
+      "visual_event": {
+        "cel_index": 6,
+        "name": "hit_recovery_complete",
+        "meaning": "visual reference only; engine owns health and cleanup"
+      }
+    },
+    "defeat": {
+      "cels": [
+        "defeat_00.png",
+        "defeat_01.png",
+        "defeat_02.png",
+        "defeat_03.png",
+        "defeat_04.png",
+        "defeat_05.png"
+      ],
+      "holds_60hz": [
+        6,
+        7,
+        8,
+        9,
+        11,
+        30
+      ],
+      "loop": false,
+      "one_shot": true,
+      "drawn_cel_count": 6,
+      "rest_reuse_cel": null,
+      "atlas": "defeat_atlas.png",
+      "atlas_gutter_pixels": 4,
+      "atlas_rects_pixels": [
+        {
+          "cel_index": 0,
+          "x": 4,
+          "y": 4,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 1,
+          "x": 652,
+          "y": 4,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 2,
+          "x": 1300,
+          "y": 4,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 3,
+          "x": 4,
+          "y": 652,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 4,
+          "x": 652,
+          "y": 652,
+          "width": 640,
+          "height": 640
+        },
+        {
+          "cel_index": 5,
+          "x": 1300,
+          "y": 652,
+          "width": 640,
+          "height": 640
+        }
+      ],
+      "end_behavior": "hold final defeated body indefinitely until explicit cleanup",
+      "visual_event": {
+        "cel_index": 5,
+        "name": "defeat_complete",
+        "meaning": "visual reference only; engine owns health and cleanup"
+      }
+    }
+  }
+}

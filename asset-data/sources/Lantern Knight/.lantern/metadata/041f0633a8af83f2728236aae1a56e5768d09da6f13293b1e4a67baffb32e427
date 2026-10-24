@@ -1,0 +1,122 @@
+{
+  "collection": "Lantern Ambient Fauna Concepts 01",
+  "created": "2026-10-07",
+  "generation": "Eight fresh original still concepts generated with built-in image_gen; native PNG bytes preserved. Exact prompts included.",
+  "camera": "Prompts request orthographic elevation 35.264 degrees and azimuth 45 degrees; illustration camera angles are approximate, not measured renders.",
+  "selection_sheets": "Labeled overview previews assembled from native PNGs.",
+  "status": "Selection concepts only, no animation or engine integration.",
+  "concepts": [
+    {
+      "id": "F1",
+      "name": "Soot Raven",
+      "file": "art/F1_soot_raven.png",
+      "prompt": "prompts/F1_soot_raven.txt",
+      "bytes": 1177348,
+      "sha256": "5a335c3f74b5656ceb78a447cff9154d269b40b1497f0faf0e60f2437d98614e",
+      "dimensions": [
+        1188,
+        1324
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Blink, then briefly preen one shoulder."
+    },
+    {
+      "id": "F2",
+      "name": "Sewer Rat",
+      "file": "art/F2_sewer_rat.png",
+      "prompt": "prompts/F2_sewer_rat.txt",
+      "bytes": 1684689,
+      "sha256": "f254cf8f44ebcc1a9b28e41f20ccd73509306524bf756d5aec6f9c6583402eea",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Twitch nose and groom with forepaws."
+    },
+    {
+      "id": "F3",
+      "name": "Pale Moths",
+      "file": "art/F3_pale_moths.png",
+      "prompt": "prompts/F3_pale_moths.txt",
+      "bytes": 1912232,
+      "sha256": "00eade5a81c357c5b6c0dba793b1b2e35b08978f45e3498f96024f4a12c73ed5",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Flutter wings with a small circular drift."
+    },
+    {
+      "id": "F4",
+      "name": "Hanging Bats",
+      "file": "art/F4_hanging_bats.png",
+      "prompt": "prompts/F4_hanging_bats.txt",
+      "bytes": 993258,
+      "sha256": "cf3b3afcae78c011aeafa1a70b84302c53c47b6e69b40056f52e123cc69a8c35",
+      "dimensions": [
+        1378,
+        1141
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Twitch an ear and adjust a folded wing."
+    },
+    {
+      "id": "F5",
+      "name": "Alley Cat",
+      "file": "art/F5_alley_cat.png",
+      "prompt": "prompts/F5_alley_cat.txt",
+      "bytes": 2184355,
+      "sha256": "48979f197c2d1085823119f00faec3ea3edcde6ed6262c56a24f4db10cf9dfc8",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Breathing + tail-tip twitch"
+    },
+    {
+      "id": "F6",
+      "name": "Mossy Toad",
+      "file": "art/F6_mossy_toad.png",
+      "prompt": "prompts/F6_mossy_toad.txt",
+      "bytes": 1768867,
+      "sha256": "4259d40c155446d97e1494f51b33866416ab5de687fa7330acaacb6df270398e",
+      "dimensions": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Throat pulse + occasional blink"
+    },
+    {
+      "id": "F7",
+      "name": "Graveyard Snail",
+      "file": "art/F7_graveyard_snail.png",
+      "prompt": "prompts/F7_graveyard_snail.txt",
+      "bytes": 1737075,
+      "sha256": "683e8fbcf947d4d1d14de9ecb36c59e90a27ca4aed7114f0452092b62f316ed9",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Slow eyestalk + tentacle motion"
+    },
+    {
+      "id": "F8",
+      "name": "Cave Salamander",
+      "file": "art/F8_cave_salamander.png",
+      "prompt": "prompts/F8_cave_salamander.txt",
+      "bytes": 1599847,
+      "sha256": "dd247e87c01077a1f01b643be9bceecf9c6b8de7b999d6eff9e132344345cb95",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Gill flutter + tiny head turn"
+    }
+  ]
+}

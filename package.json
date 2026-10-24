@@ -51,7 +51,9 @@
     "task:integrate": "tsx tools/task-integrate.ts",
     "verify:game": "tsx tools/verify-target.ts game",
     "verify:authoring": "tsx tools/verify-target.ts authoring",
-    "verify:desktop": "tsx tools/verify-target.ts desktop"
+    "verify:desktop": "tsx tools/verify-target.ts desktop",
+    "assets:import": "tsx tools/assets/import.ts",
+    "assets:migrate": "tsx tools/assets/migrate.ts"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

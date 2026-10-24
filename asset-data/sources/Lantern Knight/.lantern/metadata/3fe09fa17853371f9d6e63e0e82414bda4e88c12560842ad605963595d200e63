@@ -1,0 +1,32 @@
+{
+  "asset": "keepers_glade_B",
+  "title": "Keeper\u2019s Glade B | Canvas Camp",
+  "method": "built-in image_gen, fresh whole-scene generation",
+  "exact_prompt": "exact_prompt.txt",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-d6b468ac-9483-4d68-ba1a-391040241803.png",
+  "reference_images": [
+    "references/selected_viewport_sample.png",
+    "references/hero_original.png"
+  ],
+  "reference_roles": [
+    "approved viewport sample: style, palette, materials, thematic identity only",
+    "unchanged canonical hero: style and physical-scale reference only"
+  ],
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "intended_hero_height_pixels": 64,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "scope": "Wider home-base concept with edge expansion alcoves. No engine integration or separated upgrade assets.",
+  "attempts": 1,
+  "native_edited": false,
+  "requested_native_coverage_relative_to_sample": 2.5,
+  "camera_geometry_validated": false,
+  "physical_scale_validated": false,
+  "native_sha256": "f052cb0fc316f37ec3d77fd019967cecf0d35c6ec039b70ae89a2d25924b607d"
+}

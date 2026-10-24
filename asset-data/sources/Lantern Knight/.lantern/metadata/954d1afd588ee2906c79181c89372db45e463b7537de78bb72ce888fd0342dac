@@ -1,0 +1,14 @@
+{
+  "reference_sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c",
+  "source_size_px": [
+    466,
+    1198
+  ],
+  "foreground_pixels": 249659,
+  "unassigned_foreground_pixels": 0,
+  "layer_partition_complete": true,
+  "static_rgb_max_absolute_error": 0,
+  "static_pixel_identity_test": "PASS",
+  "silhouette_review": "PASS_LIMITED_KNOWN_VIEW_WITH_MATTE_FRINGE",
+  "art_gate": "STATIC_LIKENESS_PASS_ONLY"
+}

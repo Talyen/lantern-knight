@@ -1,0 +1,294 @@
+{
+  "effect": "08_guiding_wisp",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "source_native_sheet_px": [
+    1254,
+    1254
+  ],
+  "source_native_cel_px": [
+    313.5,
+    313.5
+  ],
+  "genuine_source_cels": 16,
+  "export_frames": 64,
+  "playback": "forward_loop",
+  "loop": true,
+  "frame_duration_ms": 41.666666666666664,
+  "duration_ms": 2666.6666666666665,
+  "pivot_px": [
+    256,
+    256
+  ],
+  "alpha": "straight RGBA",
+  "atlas": {
+    "file": "atlas.png",
+    "columns": 8,
+    "rows": 8,
+    "cell_px": [
+      512,
+      512
+    ]
+  },
+  "frames": [
+    {
+      "file": "frames/000.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/001.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/002.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/003.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/004.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/005.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/006.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/007.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/008.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/009.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/010.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/011.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/012.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/013.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/014.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/015.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/016.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/017.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/018.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/019.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/020.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/021.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/022.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/023.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/024.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/025.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/026.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/027.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/028.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/029.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/030.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/031.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/032.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/033.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/034.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/035.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/036.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/037.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/038.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/039.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/040.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/041.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/042.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/043.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/044.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/045.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/046.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/047.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/048.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/049.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/050.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/051.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/052.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/053.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/054.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/055.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/056.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/057.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/058.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/059.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/060.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/061.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/062.png",
+      "duration_ms": 41.666666666666664
+    },
+    {
+      "file": "frames/063.png",
+      "duration_ms": 41.666666666666664
+    }
+  ],
+  "notes": "Source cels are native generated artwork, preserved separately. 512px export is a padded canvas, not a claim of 512px native cel detail. Forward-only playback; no reversed smoke, falling leaves, embers or guiding-wisp motion. 64 exported motion frames use 16 genuinely drawn cel poses plus continuous registered travel."
+}

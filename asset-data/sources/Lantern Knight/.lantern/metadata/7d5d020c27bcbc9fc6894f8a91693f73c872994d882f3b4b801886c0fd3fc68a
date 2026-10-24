@@ -1,0 +1,27 @@
+{
+  "tool": "image_gen.imagegen",
+  "intent": "new generation from text, canonical hero reference for style only",
+  "output_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/clean_revision/observatory_C/native.png",
+  "output_sha256": "e27382e88cccd922f066f8cbff000c0f4f7ae2ee0fc6ed8c29d71f338be44bf5",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "output_mode": "RGB",
+  "source_tool_output_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-88777dd0-a4a7-41c1-a2d5-6c71b9ff8e50.png",
+  "exact_prompt_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/clean_revision/observatory_C/exact_prompt.txt",
+  "prompt_sha256": "c27265e1e5f9a50733e378e4c14ec16c7e0ae25cbd071efe0072468cfd13deeb",
+  "submitted_parameters_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/clean_revision/observatory_C/submitted_parameters.json",
+  "parameters_sha256": "afccfee6c0c21495539089062b7504ac9a91489404344f259424bef66e596d05",
+  "approved_style_prefix_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "references": [
+    {
+      "path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/style_recovery/references/canonical_hero.png",
+      "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+      "role": "canonical hero style reference only"
+    }
+  ],
+  "environment_images_submitted": false,
+  "upscaled": false,
+  "model_note": "Model name requested in unchanged style prefix; built-in tool does not expose actual model selection or model metadata."
+}

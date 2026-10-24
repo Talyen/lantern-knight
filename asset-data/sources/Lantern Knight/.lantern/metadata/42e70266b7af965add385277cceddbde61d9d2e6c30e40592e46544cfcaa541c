@@ -1,0 +1,27 @@
+{
+  "generated_source": "generated_images/exec-85a9f8c7-2f61-4338-aa0c-5f5f9ce5206e.png",
+  "source_size": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "sha256": "25804096c5be0f8f24ac43e6096835f45a47afca989e569546cd0699342beb07",
+  "intent": "fresh generation from guide and back-ready references, not edit of rejectedv01",
+  "prompt": "prompts/eight_action_sheet_v02.txt",
+  "reference_paths": [
+    "lantern_hero_core_animations_01/sweep_world_negative_X_sheet_v01/reference/eight_action_geometry.png",
+    "lantern_hero_core_animations_01/sweep_world_negative_X_sheet_v01/reference/shared_ready_negative_X_native.png"
+  ],
+  "reference_sha256": {
+    "lantern_hero_core_animations_01/sweep_world_negative_X_sheet_v01/reference/eight_action_geometry.png": "1595568dc7418d5db462953321d20f316e6c292c49a7bb95b37f2d7efdba001b",
+    "lantern_hero_core_animations_01/sweep_world_negative_X_sheet_v01/reference/shared_ready_negative_X_native.png": "1af57d5b688327a20bdf97317694750ff54fe1bdbee1a5f31f91bdf667462beb"
+  },
+  "requested_model_name": "Sunburst2.5(gpt-image-2.5-sunburst)",
+  "actual_model_selector": "unverified; built-in no selector",
+  "human_first_review": "passed visible articulation and connected grips; motion assembly candidate",
+  "hidden_RGB_note": "Brown color data under alpha0 is invisible on neutral composite and not a visible background defect"
+}

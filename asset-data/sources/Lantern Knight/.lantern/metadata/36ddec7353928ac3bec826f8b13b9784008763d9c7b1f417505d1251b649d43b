@@ -1,0 +1,15 @@
+{
+  "allRuntimeFilesByteIdentical": true,
+  "files": {
+    "looted.png": true,
+    "atlas.png": true,
+    "manifest.json": true,
+    "idle.png": true,
+    "frames/search_00.png": true,
+    "frames/search_01.png": true,
+    "frames/search_04.png": true,
+    "frames/search_03.png": true,
+    "frames/search_02.png": true,
+    "frames/search_05.png": true
+  }
+}

@@ -1,7 +1,8 @@
+import os from 'node:os';
+import { sourceLibraryRoot } from './paths';
 import { runCli } from '../cli';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import recipes from '../../assets/audio-sources.json';
 export type AudioDisposition =
   'selected' | 'alternate' | 'future-use' | 'unsuitable' | 'unclear' | 'non-audio';
@@ -221,7 +222,7 @@ export async function reviewLibrary(root: string, destination: string) {
 }
 runCli(import.meta.url, async () => {
   await reviewLibrary(
-    process.env.LANTERN_SOUND_LIBRARY ?? path.join(os.homedir(), 'Documents/Asset Library/Sounds'),
+    path.join(sourceLibraryRoot(), 'Sounds'),
     process.argv[2] ?? path.join(os.homedir(), 'Library/Caches/LanternKnight/audio-review'),
   );
 });

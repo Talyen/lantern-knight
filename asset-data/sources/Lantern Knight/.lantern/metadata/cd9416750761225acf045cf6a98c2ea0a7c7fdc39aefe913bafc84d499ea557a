@@ -1,0 +1,29 @@
+LANTERN / ILLUSTRATED SCENIC MECHANISMS / REVISION 02A
+
+Six scenic loops rebuilt from fresh clean-ink illustrated part masters. Supersedes scenic_mechanisms_v1, not any other pack. Original versions remain separate. Rejected vector props and rejected bell wrap trials are not included.
+
+COMPACT RUNTIME SOURCE
+Start with PART_SPRITES.json, layers/, part_atlases/ and ANALYTIC_MOTION.json. The 24 original-alpha component sprites, shared pivots and analytic timing are the efficient editable source. Python assembly source is included; there is no engine-specific integration claim. Speeds are configurable while ratios and shared anchors should remain coupled.
+
+OPTIONAL BAKED ANIMATION
+clips/ contains full 30 fps transparent 640x640 PNG frames and stable union-cropped atlas pages. These are a convenience bake, not the only runtime route. Preview MP4s repeat each source drawing twice at 60 Hz; they do not invent in-between drawings. Source logical pivot is (320,531.25), corresponding to the authored 1024x1024 rig pivot (512,850). Per-part hinge pivots differ and are given in the source and metadata. Frames have straight alpha; use normal alpha blend. Atlas padding has two extruded edge pixels plus four clear gutter pixels. Disable whole-atlas mipmaps or generate per-sprite mip chains.
+
+COMPLETE TEXTURE-ORIENTATION CYCLES
+Gear pair: 8 s, 240 frames, two large-wheel turns and three opposite small-wheel turns. Rotation ratio is exactly -3:2. Nominal painted teeth are 12:8 cast approximations, not a CAD meshing simulation. Speed is 6x the prior slow source loop.
+Waterwheel: 8 s, 240 frames, one full turn, 8 paddles and 8 spokes per rim. Angular speed is 2x the prior source.
+Astrolabe: 4 s, 120 frames, full paired opposite turns at the prior angular speed, so asymmetric painted accents close correctly.
+Pulley, tower bell and bubble chamber: 2 s, 60 frames each. Pulley wheel does not operate; the complete suspended block/chain sways about a fixed mount. Bell clapper source and relative swing are retained but culled behind the opaque body from the elevated small-angle view.
+
+CAMERA AND IMPORT LIMITATIONS
+The gear, wheel and gimbal part planes use fixed 35.264389682754654-degree elevation / 45-degree azimuth orthographic point projection. Painted depth and occlusion are illustrative, not full volumetric shaded meshes. Bell, pulley and chamber are approximate generated elevated-view component illustrations with controlled rigid-layer motion or contained bubbles. The astrolabe pedestal is also an approximate elevated-view illustration. These camera classes are explicit per clip: this pack must NOT be described as entirely exact 3D camera output.
+
+Dimensions, source canvas, pivots and several loop lengths differ from version 1. Use the new manifests, not old frame counts or old cropping assumptions. Prior contracts are preserved in PRIOR_FUNCTIONAL_CONTRACT.json for comparison. Stable anchors are checked within each revised rig; no cross-version automatic placement equivalence is implied.
+
+PROVENANCE / REBUILD
+masters/ contains untouched fresh generated source images and exact prompts. layers/ isolates connected parts while retaining original pixels/alpha; meshes and affine transforms assemble them. Original art is never regenerated frame by frame, recolored or repainted by scripts. Only the plain contained liquid field is native geometry; all physical fixture parts use the illustrated masters. The renderer uses unlit artwork.
+Python 3, Pillow, NumPy, SciPy and ffmpeg are needed. From the extracted root, run python source/export_scenic.py to rebuild all loops, or pass clip IDs. Run python source/package_scenic.py for part atlases. Per-clip source replay, loop closure and image bounds are recorded in QA_SOURCE_LOOPS_BOUNDS.json; all atlas cells are checked against their original frame or component pixels.
+
+R02A SELECTIVE WATERWHEEL REPAIR
+Only the waterwheel animation and its derived atlases/previews change. The other five clip folders are byte-identical to v02. Original generated master files are unchanged.
+The reported neighboring strip in the rim layer was hidden RGB with alpha zero, rather than visible content; r02a clears that hidden RGB without changing any nonzero-alpha rim pixel or alpha value. Correct alpha-composited evidence and numerical preservation checks are included. No circular clipping of genuine rim chips is used.
+The actual visible edge-on problem is addressed by 40 mm timber paddle thickness, following the source silhouette and sampling the original painted boundary for side faces. Broad illustrated paddle faces are preserved. MESH_PROFILES.json records editable geometry. No random per-frame alpha filtering is used. All 240 waterwheel frames, atlases and the full preview are regenerated.

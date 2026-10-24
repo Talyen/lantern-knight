@@ -1,0 +1,37 @@
+LANTERN ENEMY BASELINE — DR revision r01 — 2026-10-08
+
+18 approved actors, 36 clips: one move and one attack per actor, six drawings per clip, single authored screen-down-right (DR) heading. Ashen Shambler uses the approved v02 toe-edge recovery. No new animated idle, hit, death, spawn, or other headings are included. Directional extensions belong to separate revisions; this baseline does not assert four-way coverage.
+
+START HERE
+1. Read manifest.json. It contains exact runtime/source ZIP Library IDs, verified private Drive links, byte sizes and SHA-256 hashes. Download the named runtime ZIP and verify its hash. Source ZIPs are portable rebuild/provenance backups, not additional runtime packs.
+2. Extract EACH actor ZIP into a separate actor directory. Several ZIPs begin with runtime/; others begin with SK01/runtime/, ZB01_v02/runtime/ or ARCHER/runtime/. Every manifest frame/atlas/metadata path is relative to that ZIP's extraction root. Do not flatten or merge all ZIPs into one runtime directory.
+3. Import transparent PNGs at their supplied canvas size. Use the explicit frame order and integer 60 Hz holds. Do not sort source-sheet positions or reorder already corrected delivered frame numbering. clips.csv is a compact inspection index; manifest.json is the normalized integration record. Original runtime JSON copies are included for audit; actual PNGs are intentionally not duplicated here.
+
+ROOT, PIVOT AND SCALE
+Keep gameplay/world position on an independent actor root. A child renderer displays the sprite at its fixed pivot. Registration, intended bob/lean and source translations are already baked into PNGs. Do not reapply source_box or baked_translation, derive movement from frame bounds, normalize each frame's size, or drive world velocity from sprite pixels.
+Canvas/pivot/estimated pixels-per-unit differ across actors. Values are repeated at clip level to support future heading-specific or clip-specific overrides. Prefer the most specific approved clip/heading metadata; never hardcode one global PPU. All baseline clips of a given actor currently share its stated PPU. Some complete move clips were uniformly reduced to match attack scale; this correction is already baked.
+All normalized pivots use top-left origin: x grows right and y grows down. For source fields named pivot_pixels_top_left this is explicit. Clockwork Penitent, Bell-bearing Pilgrim and Censer Keeper are verified from config ground_y and actual PIL placement. Masked Cultist and the five undead-family actors are confirmed by their production authors; provenance is recorded per actor. These are renderer anchors, not extra offsets. An engine using bottom-left normalized pivots needs (x/width, 1-y/height), subject to its sprite coordinate convention. Verify final imported foot/contact placement in engine.
+The isometric-like camera elevation 35.2643897 degrees and azimuth 45 degrees are drawn visual targets, not calibrated 3D geometry. Do not infer world-space physical dimensions or collisions from these estimates.
+
+PLAYBACK AND ATTACK CUES
+Advance the frame timeline from accumulated elapsed time at 60 ticks/second. Respect each frame's full hold; a repeated render of the same cel is not a new event. Move loops; attack is one-shot and must complete the stated recovery/final hold before the intended transition.
+The normalized attack event uses zero-based frame index. Emit it once when the playback timeline crosses visual_event_tick, with a per-playthrough latch/identifier. Handle skipped frames by detecting timeline crossing, not equality on a render frame. Clear the latch only when beginning a new attack playthrough; pausing on or re-rendering an event cel must not emit again.
+These are visual reference cues, not guaranteed contact, collision or damage timing. The game owns hitboxes, damage windows, target checks, projectile spawning, ammunition, interruption rules and movement locks. Archer's cue marks release; its quiver count is illustrative and no projectile asset is bundled.
+Respect end_behavior; retain the last recovery cel/hold or transition explicitly to the movement rest/idle still. Do not auto-loop an attack. idle_still.png, where supplied, is one static pose. A move loop is not an authored animated-idle substitute.
+
+LIMITATIONS AND ACCEPTANCE
+Read generation_limitations and mirroring for EACH actor. Several humanoid movement clips are stylized leading-foot shuffle/hitch/scuttle cycles, not alternating natural walks or runs. Do not mirror asymmetric gear, clothing, roots, cracks or props. No opposite-facing approval is implied even for mostly symmetric organic actors.
+All final files passed visual/file-level review and portable rebuild checks during production. This handoff additionally checked ZIP CRCs, archive hashes, all 216 frame paths/hashes/canvas dimensions and 36 atlas paths/dimensions. This is not an engine test or observed real-time playback certification.
+The user's coding agent must verify actual in-engine playback, timing under variable frame rates, scale across actor/state/heading changes, pivots/foot contact, alpha/filtering, facing selection, move-loop seams, recovery transitions and exactly-once events. Engine tuning remains user-owned.
+
+EXTENDING WITHOUT OVERWRITING THE BASELINE
+Use the stable actor identity id, state and heading as a clip key. This manifest has headings.DR only. Add approved headings/states in a separate revision, preserving their own artifact hashes, frame counts, holds, canvas, pivot and PPU. Do not fabricate missing headings by relabeling or mirroring. Keep baseline_DR_r01 immutable and record explicit supersession, such as Shambler baseline v02.
+
+FILES
+manifest.json — complete normalized manifest and per-clip source-field mapping
+clips.csv — 36-row playback/scale index
+SCHEMA_MAPPING.txt — four observed runtime metadata layouts
+original_runtime_metadata/ — 18 exact animation.json copies, no image duplication
+CHECKSUMS.sha256 — checksums for this handoff's files
+
+This handoff contains asset metadata and verified links only. Baseline ZIPs and images were not modified.

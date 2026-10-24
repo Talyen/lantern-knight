@@ -1,0 +1,92 @@
+[
+  {
+    "clip": "exposed_gear_pair",
+    "frame": 0,
+    "identical": true
+  },
+  {
+    "clip": "exposed_gear_pair",
+    "frame": 80,
+    "identical": true
+  },
+  {
+    "clip": "exposed_gear_pair",
+    "frame": 239,
+    "identical": true
+  },
+  {
+    "clip": "pulley_chain_sway",
+    "frame": 0,
+    "identical": true
+  },
+  {
+    "clip": "pulley_chain_sway",
+    "frame": 20,
+    "identical": true
+  },
+  {
+    "clip": "pulley_chain_sway",
+    "frame": 59,
+    "identical": true
+  },
+  {
+    "clip": "waterwheel",
+    "frame": 0,
+    "identical": true
+  },
+  {
+    "clip": "waterwheel",
+    "frame": 80,
+    "identical": true
+  },
+  {
+    "clip": "waterwheel",
+    "frame": 239,
+    "identical": true
+  },
+  {
+    "clip": "tower_bell",
+    "frame": 0,
+    "identical": true
+  },
+  {
+    "clip": "tower_bell",
+    "frame": 20,
+    "identical": true
+  },
+  {
+    "clip": "tower_bell",
+    "frame": 59,
+    "identical": true
+  },
+  {
+    "clip": "bubble_chamber",
+    "frame": 0,
+    "identical": true
+  },
+  {
+    "clip": "bubble_chamber",
+    "frame": 20,
+    "identical": true
+  },
+  {
+    "clip": "bubble_chamber",
+    "frame": 59,
+    "identical": true
+  },
+  {
+    "clip": "astrolabe",
+    "frame": 0,
+    "identical": true
+  },
+  {
+    "clip": "astrolabe",
+    "frame": 40,
+    "identical": true
+  },
+  {
+    "clip": "astrolabe",
+    "frame": 119,
+    "identical": true
+  }
+]

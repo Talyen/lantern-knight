@@ -1,0 +1,10 @@
+{
+  "rejected": [
+    "mixamo_eight_blades_v03.png",
+    "mixamo_eight_blades_v04.png",
+    "mixamo_eight_blades_v05.png"
+  ],
+  "reason": "Visible spliced-tip seams; v05 also alters front boot toe in cel3. Reject visual damage regardless of length metric.",
+  "selected": "mixamo_eight_wardrobe_v02.png",
+  "selected_has_no_blade_geometry_edits": true
+}

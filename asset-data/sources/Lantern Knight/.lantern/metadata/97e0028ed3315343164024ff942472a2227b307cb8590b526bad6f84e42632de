@@ -1,0 +1,18 @@
+[
+  {
+    "old": "lantern_overnight/06_small_building_exteriors/masters/01_crooked_lamplighter_cottage_v2.png",
+    "new": "volume_17_small_buildings/assets/01_crooked_lamplighter_cottage_v2.png"
+  },
+  {
+    "old": "lantern_overnight/06_small_building_exteriors/masters/02_compact_smithy_v1.png",
+    "new": "volume_17_small_buildings/assets/02_compact_smithy_v1.png"
+  },
+  {
+    "old": "lantern_overnight/06_small_building_exteriors/masters/03_apothecary_shop_v1.png",
+    "new": "volume_17_small_buildings/assets/03_apothecary_shop_v1.png"
+  },
+  {
+    "old": "lantern_overnight/06_small_building_exteriors/masters/04_narrow_chapel_v1.png",
+    "new": "volume_17_small_buildings/assets/04_narrow_chapel_v1.png"
+  }
+]

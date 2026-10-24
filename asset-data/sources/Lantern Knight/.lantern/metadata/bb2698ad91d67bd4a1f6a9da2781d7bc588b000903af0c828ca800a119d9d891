@@ -1,0 +1,84 @@
+{
+  "source": "/workspace/scratch/1a83d58417d5/lantern_enemy_variants_20261007/04_cultists/assets/CT04_halo_veil_cantor.png",
+  "crops": [
+    {
+      "label": "IVORY / DARK LINING",
+      "source_rect": [
+        192,
+        745,
+        429,
+        1004
+      ],
+      "destination": [
+        24,
+        50
+      ]
+    },
+    {
+      "label": "BRASS FITTING",
+      "source_rect": [
+        184,
+        376,
+        380,
+        548
+      ],
+      "destination": [
+        292,
+        50
+      ]
+    },
+    {
+      "label": "FACE / EYES",
+      "source_rect": [
+        409,
+        264,
+        477,
+        442
+      ],
+      "destination": [
+        550,
+        50
+      ]
+    },
+    {
+      "label": "HANDS / ORB",
+      "source_rect": [
+        325,
+        615,
+        572,
+        788
+      ],
+      "destination": [
+        706,
+        50
+      ]
+    },
+    {
+      "label": "BRASS HALO MATERIAL",
+      "source_rect": [
+        247,
+        62,
+        489,
+        130
+      ],
+      "destination": [
+        25,
+        390
+      ]
+    },
+    {
+      "label": "CLEAN INK / PALE VEIL",
+      "source_rect": [
+        319,
+        988,
+        501,
+        1190
+      ],
+      "destination": [
+        390,
+        359
+      ]
+    }
+  ],
+  "processing": "Native direct crops only; no resize."
+}

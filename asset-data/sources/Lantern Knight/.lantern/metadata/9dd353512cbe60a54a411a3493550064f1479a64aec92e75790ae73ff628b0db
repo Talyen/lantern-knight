@@ -1,0 +1,12 @@
+LANTERN — SHIPPING CRATE FULL SMASH
+Eight distinct clean-ink poses, 60 Hz timed playback, persistent debris terminal state.
+
+RUNTIME
+512x512 RGBA frames; 2048x1024 row-major atlas; standalone final debris sprite. Root is (256,392) measured from top-left. PPU 228.59375 preserves the original crate world size after downsampling. Match the manifest root rather than re-centering alpha bounds. Frames are never upscaled.
+Timing in ticks: 8,3,3,4,5,4,6,indefinite. Turn looping OFF. Destruction runs 0.55 seconds before permanent debris. Preview is 60 fps and ends after a finite 1.5-second hold; it does not imply that debris disappears in game.
+
+SOURCE
+Original artwork, original prompt, fresh generated sheet, generation prompt, deterministic packaging script, and crop/root registration are included. One fresh sheet, no generative edit cascade. Existing static intact art reused after downsampling; subsequent poses newly drawn. Requested Sunburst 2.5 is not an exposed backend selector, so no actual model claim is made.
+
+VISUAL NOTES
+Strong outlined warm wood; structural split, breaking face boards, outward apex, falling planks, ground bounce, settling, and stable low debris. Camera is fixed isometric 35.2643897 / 45. Ground root remains fixed; debris naturally expands beyond the original footprint. Drawn piece shapes are illustrative rather than rigid-body matched. No metal explosion, hinges, background, baked cast shadow, or upscale.

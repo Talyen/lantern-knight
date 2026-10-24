@@ -1,0 +1,6578 @@
+{
+  "schema": "lantern.controlled-vfx.v1",
+  "version": "1.0.0",
+  "status": "original ambient art candidate; owner/runtime validation not implied",
+  "authoring": "deterministic vector geometry with periodic parameters; no image inputs or AI synthesis",
+  "camera": {
+    "projection": "orthographic",
+    "elevationDegrees": 35.264389682754654,
+    "azimuthDegrees": 45.0,
+    "azimuthConvention": "from +Z toward +X",
+    "worldAxes": "right-handed XZ ground +Y vertical",
+    "sourcePixelsPerWorldMetre": 112.0,
+    "imageOrigin": "top_left",
+    "sourceCanvasPx": [
+      512,
+      448
+    ],
+    "rootPivotPx": [
+      256,
+      286
+    ],
+    "screenRight": [
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "screenUp": [
+      -0.4082482904638631,
+      0.816496580927726,
+      -0.4082482904638631
+    ],
+    "matrixConvention": "basis row dot world; image y negates screen-up; multiply by density then add pivot"
+  },
+  "gameplayAuthority": "none",
+  "license": "Original artwork for the Lantern project; no external art assets included.",
+  "clips": [
+    {
+      "id": "lamp_flame",
+      "label": "Lamp flame",
+      "frames": [
+        {
+          "id": 0,
+          "file": "frames/lamp_flame/000.png",
+          "svg": "vectors/lamp_flame/000.svg",
+          "rectPx": [
+            3,
+            3,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            239,
+            222,
+            275,
+            289
+          ]
+        },
+        {
+          "id": 1,
+          "file": "frames/lamp_flame/001.png",
+          "svg": "vectors/lamp_flame/001.svg",
+          "rectPx": [
+            51,
+            3,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            223,
+            275,
+            289
+          ]
+        },
+        {
+          "id": 2,
+          "file": "frames/lamp_flame/002.png",
+          "svg": "vectors/lamp_flame/002.svg",
+          "rectPx": [
+            99,
+            3,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            224,
+            276,
+            289
+          ]
+        },
+        {
+          "id": 3,
+          "file": "frames/lamp_flame/003.png",
+          "svg": "vectors/lamp_flame/003.svg",
+          "rectPx": [
+            147,
+            3,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            222,
+            276,
+            289
+          ]
+        },
+        {
+          "id": 4,
+          "file": "frames/lamp_flame/004.png",
+          "svg": "vectors/lamp_flame/004.svg",
+          "rectPx": [
+            195,
+            3,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            222,
+            276,
+            289
+          ]
+        },
+        {
+          "id": 5,
+          "file": "frames/lamp_flame/005.png",
+          "svg": "vectors/lamp_flame/005.svg",
+          "rectPx": [
+            243,
+            3,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            223,
+            276,
+            289
+          ]
+        },
+        {
+          "id": 6,
+          "file": "frames/lamp_flame/006.png",
+          "svg": "vectors/lamp_flame/006.svg",
+          "rectPx": [
+            3,
+            80,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            224,
+            276,
+            289
+          ]
+        },
+        {
+          "id": 7,
+          "file": "frames/lamp_flame/007.png",
+          "svg": "vectors/lamp_flame/007.svg",
+          "rectPx": [
+            51,
+            80,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            238,
+            225,
+            275,
+            289
+          ]
+        },
+        {
+          "id": 8,
+          "file": "frames/lamp_flame/008.png",
+          "svg": "vectors/lamp_flame/008.svg",
+          "rectPx": [
+            99,
+            80,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            239,
+            226,
+            275,
+            289
+          ]
+        },
+        {
+          "id": 9,
+          "file": "frames/lamp_flame/009.png",
+          "svg": "vectors/lamp_flame/009.svg",
+          "rectPx": [
+            147,
+            80,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            239,
+            227,
+            274,
+            289
+          ]
+        },
+        {
+          "id": 10,
+          "file": "frames/lamp_flame/010.png",
+          "svg": "vectors/lamp_flame/010.svg",
+          "rectPx": [
+            195,
+            80,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            240,
+            228,
+            274,
+            289
+          ]
+        },
+        {
+          "id": 11,
+          "file": "frames/lamp_flame/011.png",
+          "svg": "vectors/lamp_flame/011.svg",
+          "rectPx": [
+            243,
+            80,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            240,
+            229,
+            273,
+            289
+          ]
+        },
+        {
+          "id": 12,
+          "file": "frames/lamp_flame/012.png",
+          "svg": "vectors/lamp_flame/012.svg",
+          "rectPx": [
+            3,
+            157,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            229,
+            273,
+            289
+          ]
+        },
+        {
+          "id": 13,
+          "file": "frames/lamp_flame/013.png",
+          "svg": "vectors/lamp_flame/013.svg",
+          "rectPx": [
+            51,
+            157,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            230,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 14,
+          "file": "frames/lamp_flame/014.png",
+          "svg": "vectors/lamp_flame/014.svg",
+          "rectPx": [
+            99,
+            157,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            230,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 15,
+          "file": "frames/lamp_flame/015.png",
+          "svg": "vectors/lamp_flame/015.svg",
+          "rectPx": [
+            147,
+            157,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            229,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 16,
+          "file": "frames/lamp_flame/016.png",
+          "svg": "vectors/lamp_flame/016.svg",
+          "rectPx": [
+            195,
+            157,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            229,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 17,
+          "file": "frames/lamp_flame/017.png",
+          "svg": "vectors/lamp_flame/017.svg",
+          "rectPx": [
+            243,
+            157,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            228,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 18,
+          "file": "frames/lamp_flame/018.png",
+          "svg": "vectors/lamp_flame/018.svg",
+          "rectPx": [
+            3,
+            234,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            227,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 19,
+          "file": "frames/lamp_flame/019.png",
+          "svg": "vectors/lamp_flame/019.svg",
+          "rectPx": [
+            51,
+            234,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            241,
+            226,
+            272,
+            289
+          ]
+        },
+        {
+          "id": 20,
+          "file": "frames/lamp_flame/020.png",
+          "svg": "vectors/lamp_flame/020.svg",
+          "rectPx": [
+            99,
+            234,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            240,
+            225,
+            273,
+            289
+          ]
+        },
+        {
+          "id": 21,
+          "file": "frames/lamp_flame/021.png",
+          "svg": "vectors/lamp_flame/021.svg",
+          "rectPx": [
+            147,
+            234,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            240,
+            224,
+            273,
+            289
+          ]
+        },
+        {
+          "id": 22,
+          "file": "frames/lamp_flame/022.png",
+          "svg": "vectors/lamp_flame/022.svg",
+          "rectPx": [
+            195,
+            234,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            239,
+            223,
+            274,
+            289
+          ]
+        },
+        {
+          "id": 23,
+          "file": "frames/lamp_flame/023.png",
+          "svg": "vectors/lamp_flame/023.svg",
+          "rectPx": [
+            243,
+            234,
+            42,
+            71
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            236,
+            220
+          ],
+          "atlasSourceCropPx": [
+            236,
+            220,
+            278,
+            291
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            20,
+            66
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            239,
+            223,
+            274,
+            289
+          ]
+        }
+      ],
+      "fps": 24,
+      "loop": true,
+      "space": "screen_billboard",
+      "description": "Small flame with a stable socket base and periodic tip/shoulder motion. No glow halo.",
+      "frameCount": 24,
+      "sourceFPS": 24,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        24,
+        24
+      ],
+      "atlas": "atlases/lamp_flame.png",
+      "atlasSizePx": [
+        288,
+        308
+      ],
+      "atlasPaddingPx": 3,
+      "atlasCropPolicy": "constant union crop for the whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter / water-impact / fall root; zero additional baked socket height",
+      "finishBehavior": "wrap to frame 0 with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false
+      },
+      "visualEvents": [],
+      "gameplayAuthority": "none"
+    },
+    {
+      "id": "rising_motes",
+      "label": "Rising motes",
+      "frames": [
+        {
+          "id": 0,
+          "file": "frames/rising_motes/000.png",
+          "svg": "vectors/rising_motes/000.svg",
+          "rectPx": [
+            3,
+            3,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            238,
+            282,
+            278
+          ]
+        },
+        {
+          "id": 1,
+          "file": "frames/rising_motes/001.png",
+          "svg": "vectors/rising_motes/001.svg",
+          "rectPx": [
+            59,
+            3,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            235,
+            281,
+            275
+          ]
+        },
+        {
+          "id": 2,
+          "file": "frames/rising_motes/002.png",
+          "svg": "vectors/rising_motes/002.svg",
+          "rectPx": [
+            115,
+            3,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            235,
+            281,
+            272
+          ]
+        },
+        {
+          "id": 3,
+          "file": "frames/rising_motes/003.png",
+          "svg": "vectors/rising_motes/003.svg",
+          "rectPx": [
+            171,
+            3,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            238,
+            232,
+            281,
+            269
+          ]
+        },
+        {
+          "id": 4,
+          "file": "frames/rising_motes/004.png",
+          "svg": "vectors/rising_motes/004.svg",
+          "rectPx": [
+            227,
+            3,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            239,
+            229,
+            278,
+            267
+          ]
+        },
+        {
+          "id": 5,
+          "file": "frames/rising_motes/005.png",
+          "svg": "vectors/rising_motes/005.svg",
+          "rectPx": [
+            283,
+            3,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            240,
+            225,
+            277,
+            264
+          ]
+        },
+        {
+          "id": 6,
+          "file": "frames/rising_motes/006.png",
+          "svg": "vectors/rising_motes/006.svg",
+          "rectPx": [
+            3,
+            99,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            241,
+            231,
+            263,
+            262
+          ]
+        },
+        {
+          "id": 7,
+          "file": "frames/rising_motes/007.png",
+          "svg": "vectors/rising_motes/007.svg",
+          "rectPx": [
+            59,
+            99,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            242,
+            229,
+            276,
+            289
+          ]
+        },
+        {
+          "id": 8,
+          "file": "frames/rising_motes/008.png",
+          "svg": "vectors/rising_motes/008.svg",
+          "rectPx": [
+            115,
+            99,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            243,
+            229,
+            275,
+            286
+          ]
+        },
+        {
+          "id": 9,
+          "file": "frames/rising_motes/009.png",
+          "svg": "vectors/rising_motes/009.svg",
+          "rectPx": [
+            171,
+            99,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            243,
+            226,
+            276,
+            282
+          ]
+        },
+        {
+          "id": 10,
+          "file": "frames/rising_motes/010.png",
+          "svg": "vectors/rising_motes/010.svg",
+          "rectPx": [
+            227,
+            99,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            245,
+            224,
+            275,
+            279
+          ]
+        },
+        {
+          "id": 11,
+          "file": "frames/rising_motes/011.png",
+          "svg": "vectors/rising_motes/011.svg",
+          "rectPx": [
+            283,
+            99,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            244,
+            221,
+            274,
+            278
+          ]
+        },
+        {
+          "id": 12,
+          "file": "frames/rising_motes/012.png",
+          "svg": "vectors/rising_motes/012.svg",
+          "rectPx": [
+            3,
+            195,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            243,
+            232,
+            275,
+            276
+          ]
+        },
+        {
+          "id": 13,
+          "file": "frames/rising_motes/013.png",
+          "svg": "vectors/rising_motes/013.svg",
+          "rectPx": [
+            59,
+            195,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            242,
+            229,
+            275,
+            287
+          ]
+        },
+        {
+          "id": 14,
+          "file": "frames/rising_motes/014.png",
+          "svg": "vectors/rising_motes/014.svg",
+          "rectPx": [
+            115,
+            195,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            241,
+            225,
+            275,
+            284
+          ]
+        },
+        {
+          "id": 15,
+          "file": "frames/rising_motes/015.png",
+          "svg": "vectors/rising_motes/015.svg",
+          "rectPx": [
+            171,
+            195,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            241,
+            222,
+            275,
+            280
+          ]
+        },
+        {
+          "id": 16,
+          "file": "frames/rising_motes/016.png",
+          "svg": "vectors/rising_motes/016.svg",
+          "rectPx": [
+            227,
+            195,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            240,
+            219,
+            276,
+            277
+          ]
+        },
+        {
+          "id": 17,
+          "file": "frames/rising_motes/017.png",
+          "svg": "vectors/rising_motes/017.svg",
+          "rectPx": [
+            283,
+            195,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            239,
+            216,
+            277,
+            276
+          ]
+        },
+        {
+          "id": 18,
+          "file": "frames/rising_motes/018.png",
+          "svg": "vectors/rising_motes/018.svg",
+          "rectPx": [
+            3,
+            291,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            238,
+            216,
+            278,
+            273
+          ]
+        },
+        {
+          "id": 19,
+          "file": "frames/rising_motes/019.png",
+          "svg": "vectors/rising_motes/019.svg",
+          "rectPx": [
+            59,
+            291,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            211,
+            278,
+            290
+          ]
+        },
+        {
+          "id": 20,
+          "file": "frames/rising_motes/020.png",
+          "svg": "vectors/rising_motes/020.svg",
+          "rectPx": [
+            115,
+            291,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            211,
+            280,
+            288
+          ]
+        },
+        {
+          "id": 21,
+          "file": "frames/rising_motes/021.png",
+          "svg": "vectors/rising_motes/021.svg",
+          "rectPx": [
+            171,
+            291,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            208,
+            280,
+            285
+          ]
+        },
+        {
+          "id": 22,
+          "file": "frames/rising_motes/022.png",
+          "svg": "vectors/rising_motes/022.svg",
+          "rectPx": [
+            227,
+            291,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            206,
+            281,
+            282
+          ]
+        },
+        {
+          "id": 23,
+          "file": "frames/rising_motes/023.png",
+          "svg": "vectors/rising_motes/023.svg",
+          "rectPx": [
+            283,
+            291,
+            50,
+            90
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            202
+          ],
+          "atlasSourceCropPx": [
+            234,
+            202,
+            284,
+            292
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            84
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            204,
+            281,
+            281
+          ]
+        }
+      ],
+      "fps": 12,
+      "loop": true,
+      "space": "projected_world",
+      "description": "Four fixed amber motes rise and fade through a compact 0.75 m emitter column.",
+      "frameCount": 24,
+      "sourceFPS": 12,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        24,
+        12
+      ],
+      "atlas": "atlases/rising_motes.png",
+      "atlasSizePx": [
+        336,
+        384
+      ],
+      "atlasPaddingPx": 3,
+      "atlasCropPolicy": "constant union crop for the whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter / water-impact / fall root; zero additional baked socket height",
+      "finishBehavior": "wrap to frame 0 with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false
+      },
+      "visualEvents": [],
+      "gameplayAuthority": "none"
+    },
+    {
+      "id": "quiet_smoke",
+      "label": "Quiet smoke curl",
+      "frames": [
+        {
+          "id": 0,
+          "file": "frames/quiet_smoke/000.png",
+          "svg": "vectors/quiet_smoke/000.svg",
+          "rectPx": [
+            3,
+            3,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            238,
+            172,
+            289,
+            287
+          ]
+        },
+        {
+          "id": 1,
+          "file": "frames/quiet_smoke/001.png",
+          "svg": "vectors/quiet_smoke/001.svg",
+          "rectPx": [
+            66,
+            3,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            172,
+            288,
+            287
+          ]
+        },
+        {
+          "id": 2,
+          "file": "frames/quiet_smoke/002.png",
+          "svg": "vectors/quiet_smoke/002.svg",
+          "rectPx": [
+            129,
+            3,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            172,
+            288,
+            287
+          ]
+        },
+        {
+          "id": 3,
+          "file": "frames/quiet_smoke/003.png",
+          "svg": "vectors/quiet_smoke/003.svg",
+          "rectPx": [
+            192,
+            3,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            287,
+            287
+          ]
+        },
+        {
+          "id": 4,
+          "file": "frames/quiet_smoke/004.png",
+          "svg": "vectors/quiet_smoke/004.svg",
+          "rectPx": [
+            255,
+            3,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            287,
+            287
+          ]
+        },
+        {
+          "id": 5,
+          "file": "frames/quiet_smoke/005.png",
+          "svg": "vectors/quiet_smoke/005.svg",
+          "rectPx": [
+            318,
+            3,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            286,
+            287
+          ]
+        },
+        {
+          "id": 6,
+          "file": "frames/quiet_smoke/006.png",
+          "svg": "vectors/quiet_smoke/006.svg",
+          "rectPx": [
+            3,
+            128,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            285,
+            287
+          ]
+        },
+        {
+          "id": 7,
+          "file": "frames/quiet_smoke/007.png",
+          "svg": "vectors/quiet_smoke/007.svg",
+          "rectPx": [
+            66,
+            128,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            283,
+            287
+          ]
+        },
+        {
+          "id": 8,
+          "file": "frames/quiet_smoke/008.png",
+          "svg": "vectors/quiet_smoke/008.svg",
+          "rectPx": [
+            129,
+            128,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            281,
+            287
+          ]
+        },
+        {
+          "id": 9,
+          "file": "frames/quiet_smoke/009.png",
+          "svg": "vectors/quiet_smoke/009.svg",
+          "rectPx": [
+            192,
+            128,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            280,
+            287
+          ]
+        },
+        {
+          "id": 10,
+          "file": "frames/quiet_smoke/010.png",
+          "svg": "vectors/quiet_smoke/010.svg",
+          "rectPx": [
+            255,
+            128,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            236,
+            172,
+            281,
+            287
+          ]
+        },
+        {
+          "id": 11,
+          "file": "frames/quiet_smoke/011.png",
+          "svg": "vectors/quiet_smoke/011.svg",
+          "rectPx": [
+            318,
+            128,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            172,
+            282,
+            287
+          ]
+        },
+        {
+          "id": 12,
+          "file": "frames/quiet_smoke/012.png",
+          "svg": "vectors/quiet_smoke/012.svg",
+          "rectPx": [
+            3,
+            253,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            172,
+            283,
+            287
+          ]
+        },
+        {
+          "id": 13,
+          "file": "frames/quiet_smoke/013.png",
+          "svg": "vectors/quiet_smoke/013.svg",
+          "rectPx": [
+            66,
+            253,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            238,
+            172,
+            284,
+            287
+          ]
+        },
+        {
+          "id": 14,
+          "file": "frames/quiet_smoke/014.png",
+          "svg": "vectors/quiet_smoke/014.svg",
+          "rectPx": [
+            129,
+            253,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            238,
+            172,
+            285,
+            287
+          ]
+        },
+        {
+          "id": 15,
+          "file": "frames/quiet_smoke/015.png",
+          "svg": "vectors/quiet_smoke/015.svg",
+          "rectPx": [
+            192,
+            253,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            239,
+            172,
+            286,
+            287
+          ]
+        },
+        {
+          "id": 16,
+          "file": "frames/quiet_smoke/016.png",
+          "svg": "vectors/quiet_smoke/016.svg",
+          "rectPx": [
+            255,
+            253,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            240,
+            172,
+            286,
+            287
+          ]
+        },
+        {
+          "id": 17,
+          "file": "frames/quiet_smoke/017.png",
+          "svg": "vectors/quiet_smoke/017.svg",
+          "rectPx": [
+            318,
+            253,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            241,
+            172,
+            287,
+            287
+          ]
+        },
+        {
+          "id": 18,
+          "file": "frames/quiet_smoke/018.png",
+          "svg": "vectors/quiet_smoke/018.svg",
+          "rectPx": [
+            3,
+            378,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            242,
+            172,
+            287,
+            287
+          ]
+        },
+        {
+          "id": 19,
+          "file": "frames/quiet_smoke/019.png",
+          "svg": "vectors/quiet_smoke/019.svg",
+          "rectPx": [
+            66,
+            378,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            241,
+            172,
+            288,
+            287
+          ]
+        },
+        {
+          "id": 20,
+          "file": "frames/quiet_smoke/020.png",
+          "svg": "vectors/quiet_smoke/020.svg",
+          "rectPx": [
+            129,
+            378,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            241,
+            172,
+            288,
+            287
+          ]
+        },
+        {
+          "id": 21,
+          "file": "frames/quiet_smoke/021.png",
+          "svg": "vectors/quiet_smoke/021.svg",
+          "rectPx": [
+            192,
+            378,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            240,
+            172,
+            288,
+            287
+          ]
+        },
+        {
+          "id": 22,
+          "file": "frames/quiet_smoke/022.png",
+          "svg": "vectors/quiet_smoke/022.svg",
+          "rectPx": [
+            255,
+            378,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            239,
+            172,
+            289,
+            287
+          ]
+        },
+        {
+          "id": 23,
+          "file": "frames/quiet_smoke/023.png",
+          "svg": "vectors/quiet_smoke/023.svg",
+          "rectPx": [
+            318,
+            378,
+            57,
+            119
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            234,
+            170
+          ],
+          "atlasSourceCropPx": [
+            234,
+            170,
+            291,
+            289
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            22,
+            116
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            238,
+            172,
+            289,
+            287
+          ]
+        }
+      ],
+      "fps": 12,
+      "loop": true,
+      "space": "screen_billboard",
+      "description": "Low-opacity clean-edged smoke ribbon with periodic advection. No texture noise.",
+      "frameCount": 24,
+      "sourceFPS": 12,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        24,
+        12
+      ],
+      "atlas": "atlases/quiet_smoke.png",
+      "atlasSizePx": [
+        378,
+        500
+      ],
+      "atlasPaddingPx": 3,
+      "atlasCropPolicy": "constant union crop for the whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter / water-impact / fall root; zero additional baked socket height",
+      "finishBehavior": "wrap to frame 0 with no duplicate endpoint",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false
+      },
+      "visualEvents": [],
+      "gameplayAuthority": "none"
+    },
+    {
+      "id": "tumbling_leaf",
+      "label": "Tumbling leaf",
+      "frames": [
+        {
+          "id": 0,
+          "file": "frames/tumbling_leaf/000.png",
+          "svg": "vectors/tumbling_leaf/000.svg",
+          "rectPx": [
+            3,
+            3,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": null
+        },
+        {
+          "id": 1,
+          "file": "frames/tumbling_leaf/001.png",
+          "svg": "vectors/tumbling_leaf/001.svg",
+          "rectPx": [
+            114,
+            3,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            215,
+            161,
+            236,
+            171
+          ]
+        },
+        {
+          "id": 2,
+          "file": "frames/tumbling_leaf/002.png",
+          "svg": "vectors/tumbling_leaf/002.svg",
+          "rectPx": [
+            225,
+            3,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            214,
+            165,
+            237,
+            183
+          ]
+        },
+        {
+          "id": 3,
+          "file": "frames/tumbling_leaf/003.png",
+          "svg": "vectors/tumbling_leaf/003.svg",
+          "rectPx": [
+            336,
+            3,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            214,
+            171,
+            239,
+            193
+          ]
+        },
+        {
+          "id": 4,
+          "file": "frames/tumbling_leaf/004.png",
+          "svg": "vectors/tumbling_leaf/004.svg",
+          "rectPx": [
+            447,
+            3,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            215,
+            177,
+            241,
+            201
+          ]
+        },
+        {
+          "id": 5,
+          "file": "frames/tumbling_leaf/005.png",
+          "svg": "vectors/tumbling_leaf/005.svg",
+          "rectPx": [
+            558,
+            3,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            216,
+            184,
+            246,
+            209
+          ]
+        },
+        {
+          "id": 6,
+          "file": "frames/tumbling_leaf/006.png",
+          "svg": "vectors/tumbling_leaf/006.svg",
+          "rectPx": [
+            3,
+            167,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            218,
+            190,
+            249,
+            216
+          ]
+        },
+        {
+          "id": 7,
+          "file": "frames/tumbling_leaf/007.png",
+          "svg": "vectors/tumbling_leaf/007.svg",
+          "rectPx": [
+            114,
+            167,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            221,
+            196,
+            252,
+            222
+          ]
+        },
+        {
+          "id": 8,
+          "file": "frames/tumbling_leaf/008.png",
+          "svg": "vectors/tumbling_leaf/008.svg",
+          "rectPx": [
+            225,
+            167,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            226,
+            202,
+            255,
+            228
+          ]
+        },
+        {
+          "id": 9,
+          "file": "frames/tumbling_leaf/009.png",
+          "svg": "vectors/tumbling_leaf/009.svg",
+          "rectPx": [
+            336,
+            167,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            232,
+            207,
+            258,
+            234
+          ]
+        },
+        {
+          "id": 10,
+          "file": "frames/tumbling_leaf/010.png",
+          "svg": "vectors/tumbling_leaf/010.svg",
+          "rectPx": [
+            447,
+            167,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            237,
+            211,
+            263,
+            239
+          ]
+        },
+        {
+          "id": 11,
+          "file": "frames/tumbling_leaf/011.png",
+          "svg": "vectors/tumbling_leaf/011.svg",
+          "rectPx": [
+            558,
+            167,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            242,
+            215,
+            270,
+            244
+          ]
+        },
+        {
+          "id": 12,
+          "file": "frames/tumbling_leaf/012.png",
+          "svg": "vectors/tumbling_leaf/012.svg",
+          "rectPx": [
+            3,
+            331,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            246,
+            218,
+            278,
+            251
+          ]
+        },
+        {
+          "id": 13,
+          "file": "frames/tumbling_leaf/013.png",
+          "svg": "vectors/tumbling_leaf/013.svg",
+          "rectPx": [
+            114,
+            331,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            249,
+            223,
+            285,
+            256
+          ]
+        },
+        {
+          "id": 14,
+          "file": "frames/tumbling_leaf/014.png",
+          "svg": "vectors/tumbling_leaf/014.svg",
+          "rectPx": [
+            225,
+            331,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            252,
+            230,
+            293,
+            260
+          ]
+        },
+        {
+          "id": 15,
+          "file": "frames/tumbling_leaf/015.png",
+          "svg": "vectors/tumbling_leaf/015.svg",
+          "rectPx": [
+            336,
+            331,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            255,
+            237,
+            300,
+            263
+          ]
+        },
+        {
+          "id": 16,
+          "file": "frames/tumbling_leaf/016.png",
+          "svg": "vectors/tumbling_leaf/016.svg",
+          "rectPx": [
+            447,
+            331,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            258,
+            242,
+            305,
+            267
+          ]
+        },
+        {
+          "id": 17,
+          "file": "frames/tumbling_leaf/017.png",
+          "svg": "vectors/tumbling_leaf/017.svg",
+          "rectPx": [
+            558,
+            331,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            261,
+            248,
+            308,
+            273
+          ]
+        },
+        {
+          "id": 18,
+          "file": "frames/tumbling_leaf/018.png",
+          "svg": "vectors/tumbling_leaf/018.svg",
+          "rectPx": [
+            3,
+            495,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            264,
+            254,
+            311,
+            280
+          ]
+        },
+        {
+          "id": 19,
+          "file": "frames/tumbling_leaf/019.png",
+          "svg": "vectors/tumbling_leaf/019.svg",
+          "rectPx": [
+            114,
+            495,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            266,
+            260,
+            312,
+            289
+          ]
+        },
+        {
+          "id": 20,
+          "file": "frames/tumbling_leaf/020.png",
+          "svg": "vectors/tumbling_leaf/020.svg",
+          "rectPx": [
+            225,
+            495,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            267,
+            266,
+            313,
+            299
+          ]
+        },
+        {
+          "id": 21,
+          "file": "frames/tumbling_leaf/021.png",
+          "svg": "vectors/tumbling_leaf/021.svg",
+          "rectPx": [
+            336,
+            495,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            268,
+            272,
+            313,
+            309
+          ]
+        },
+        {
+          "id": 22,
+          "file": "frames/tumbling_leaf/022.png",
+          "svg": "vectors/tumbling_leaf/022.svg",
+          "rectPx": [
+            447,
+            495,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            267,
+            281,
+            315,
+            315
+          ]
+        },
+        {
+          "id": 23,
+          "file": "frames/tumbling_leaf/023.png",
+          "svg": "vectors/tumbling_leaf/023.svg",
+          "rectPx": [
+            558,
+            495,
+            105,
+            158
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            212,
+            159
+          ],
+          "atlasSourceCropPx": [
+            212,
+            159,
+            317,
+            317
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            44,
+            127
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": null
+        }
+      ],
+      "fps": 12,
+      "loop": false,
+      "space": "projected_world",
+      "description": "One muted leaf falls, turns in 3D, drifts and fades near the ground. Not a color variant.",
+      "frameCount": 24,
+      "sourceFPS": 12,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        24,
+        12
+      ],
+      "atlas": "atlases/tumbling_leaf.png",
+      "atlasSizePx": [
+        666,
+        656
+      ],
+      "atlasPaddingPx": 3,
+      "atlasCropPolicy": "constant union crop for the whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter / water-impact / fall root; zero additional baked socket height",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false
+      },
+      "visualEvents": [],
+      "gameplayAuthority": "none"
+    },
+    {
+      "id": "pond_ripple",
+      "label": "Soft pond ripple",
+      "frames": [
+        {
+          "id": 0,
+          "file": "frames/pond_ripple/000.png",
+          "svg": "vectors/pond_ripple/000.svg",
+          "rectPx": [
+            3,
+            3,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": null
+        },
+        {
+          "id": 1,
+          "file": "frames/pond_ripple/001.png",
+          "svg": "vectors/pond_ripple/001.svg",
+          "rectPx": [
+            206,
+            3,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            245,
+            278,
+            268,
+            293
+          ]
+        },
+        {
+          "id": 2,
+          "file": "frames/pond_ripple/002.png",
+          "svg": "vectors/pond_ripple/002.svg",
+          "rectPx": [
+            409,
+            3,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            244,
+            277,
+            269,
+            294
+          ]
+        },
+        {
+          "id": 3,
+          "file": "frames/pond_ripple/003.png",
+          "svg": "vectors/pond_ripple/003.svg",
+          "rectPx": [
+            612,
+            3,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            242,
+            275,
+            272,
+            295
+          ]
+        },
+        {
+          "id": 4,
+          "file": "frames/pond_ripple/004.png",
+          "svg": "vectors/pond_ripple/004.svg",
+          "rectPx": [
+            815,
+            3,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            239,
+            274,
+            275,
+            297
+          ]
+        },
+        {
+          "id": 5,
+          "file": "frames/pond_ripple/005.png",
+          "svg": "vectors/pond_ripple/005.svg",
+          "rectPx": [
+            1018,
+            3,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            235,
+            272,
+            278,
+            299
+          ]
+        },
+        {
+          "id": 6,
+          "file": "frames/pond_ripple/006.png",
+          "svg": "vectors/pond_ripple/006.svg",
+          "rectPx": [
+            3,
+            124,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            231,
+            269,
+            282,
+            301
+          ]
+        },
+        {
+          "id": 7,
+          "file": "frames/pond_ripple/007.png",
+          "svg": "vectors/pond_ripple/007.svg",
+          "rectPx": [
+            206,
+            124,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            226,
+            266,
+            287,
+            304
+          ]
+        },
+        {
+          "id": 8,
+          "file": "frames/pond_ripple/008.png",
+          "svg": "vectors/pond_ripple/008.svg",
+          "rectPx": [
+            409,
+            124,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            221,
+            264,
+            292,
+            307
+          ]
+        },
+        {
+          "id": 9,
+          "file": "frames/pond_ripple/009.png",
+          "svg": "vectors/pond_ripple/009.svg",
+          "rectPx": [
+            612,
+            124,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            216,
+            261,
+            298,
+            310
+          ]
+        },
+        {
+          "id": 10,
+          "file": "frames/pond_ripple/010.png",
+          "svg": "vectors/pond_ripple/010.svg",
+          "rectPx": [
+            815,
+            124,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            210,
+            258,
+            303,
+            313
+          ]
+        },
+        {
+          "id": 11,
+          "file": "frames/pond_ripple/011.png",
+          "svg": "vectors/pond_ripple/011.svg",
+          "rectPx": [
+            1018,
+            124,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            205,
+            254,
+            308,
+            317
+          ]
+        },
+        {
+          "id": 12,
+          "file": "frames/pond_ripple/012.png",
+          "svg": "vectors/pond_ripple/012.svg",
+          "rectPx": [
+            3,
+            245,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            199,
+            251,
+            314,
+            320
+          ]
+        },
+        {
+          "id": 13,
+          "file": "frames/pond_ripple/013.png",
+          "svg": "vectors/pond_ripple/013.svg",
+          "rectPx": [
+            206,
+            245,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            193,
+            248,
+            320,
+            323
+          ]
+        },
+        {
+          "id": 14,
+          "file": "frames/pond_ripple/014.png",
+          "svg": "vectors/pond_ripple/014.svg",
+          "rectPx": [
+            409,
+            245,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            188,
+            244,
+            326,
+            326
+          ]
+        },
+        {
+          "id": 15,
+          "file": "frames/pond_ripple/015.png",
+          "svg": "vectors/pond_ripple/015.svg",
+          "rectPx": [
+            612,
+            245,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            182,
+            241,
+            331,
+            329
+          ]
+        },
+        {
+          "id": 16,
+          "file": "frames/pond_ripple/016.png",
+          "svg": "vectors/pond_ripple/016.svg",
+          "rectPx": [
+            815,
+            245,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            177,
+            238,
+            336,
+            332
+          ]
+        },
+        {
+          "id": 17,
+          "file": "frames/pond_ripple/017.png",
+          "svg": "vectors/pond_ripple/017.svg",
+          "rectPx": [
+            1018,
+            245,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            174,
+            236,
+            341,
+            335
+          ]
+        },
+        {
+          "id": 18,
+          "file": "frames/pond_ripple/018.png",
+          "svg": "vectors/pond_ripple/018.svg",
+          "rectPx": [
+            3,
+            366,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            170,
+            234,
+            344,
+            337
+          ]
+        },
+        {
+          "id": 19,
+          "file": "frames/pond_ripple/019.png",
+          "svg": "vectors/pond_ripple/019.svg",
+          "rectPx": [
+            206,
+            366,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            166,
+            233,
+            347,
+            339
+          ]
+        },
+        {
+          "id": 20,
+          "file": "frames/pond_ripple/020.png",
+          "svg": "vectors/pond_ripple/020.svg",
+          "rectPx": [
+            409,
+            366,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            163,
+            231,
+            350,
+            339
+          ]
+        },
+        {
+          "id": 21,
+          "file": "frames/pond_ripple/021.png",
+          "svg": "vectors/pond_ripple/021.svg",
+          "rectPx": [
+            612,
+            366,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            161,
+            230,
+            352,
+            340
+          ]
+        },
+        {
+          "id": 22,
+          "file": "frames/pond_ripple/022.png",
+          "svg": "vectors/pond_ripple/022.svg",
+          "rectPx": [
+            815,
+            366,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": [
+            160,
+            230,
+            353,
+            341
+          ]
+        },
+        {
+          "id": 23,
+          "file": "frames/pond_ripple/023.png",
+          "svg": "vectors/pond_ripple/023.svg",
+          "rectPx": [
+            1018,
+            366,
+            197,
+            115
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            158,
+            228
+          ],
+          "atlasSourceCropPx": [
+            158,
+            228,
+            355,
+            343
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            98,
+            58
+          ],
+          "durationRational": [
+            1,
+            12
+          ],
+          "durationSeconds": 0.08333333333333333,
+          "alphaBoundsPx": null
+        }
+      ],
+      "fps": 12,
+      "loop": false,
+      "space": "projected_world",
+      "description": "Three broken reflection arcs spread across the exact projected ground plane and fade.",
+      "frameCount": 24,
+      "sourceFPS": 12,
+      "durationSeconds": 2.0,
+      "durationRational": [
+        24,
+        12
+      ],
+      "atlas": "atlases/pond_ripple.png",
+      "atlasSizePx": [
+        1218,
+        484
+      ],
+      "atlasPaddingPx": 3,
+      "atlasCropPolicy": "constant union crop for the whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter / water-impact / fall root; zero additional baked socket height",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false
+      },
+      "visualEvents": [],
+      "gameplayAuthority": "none"
+    },
+    {
+      "id": "droplet_splash",
+      "label": "Droplet splash",
+      "frames": [
+        {
+          "id": 0,
+          "file": "frames/droplet_splash/000.png",
+          "svg": "vectors/droplet_splash/000.svg",
+          "rectPx": [
+            3,
+            3,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": null
+        },
+        {
+          "id": 1,
+          "file": "frames/droplet_splash/001.png",
+          "svg": "vectors/droplet_splash/001.svg",
+          "rectPx": [
+            149,
+            3,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            247,
+            270,
+            263,
+            287
+          ]
+        },
+        {
+          "id": 2,
+          "file": "frames/droplet_splash/002.png",
+          "svg": "vectors/droplet_splash/002.svg",
+          "rectPx": [
+            295,
+            3,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            244,
+            261,
+            265,
+            281
+          ]
+        },
+        {
+          "id": 3,
+          "file": "frames/droplet_splash/003.png",
+          "svg": "vectors/droplet_splash/003.svg",
+          "rectPx": [
+            441,
+            3,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            242,
+            251,
+            266,
+            274
+          ]
+        },
+        {
+          "id": 4,
+          "file": "frames/droplet_splash/004.png",
+          "svg": "vectors/droplet_splash/004.svg",
+          "rectPx": [
+            587,
+            3,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            239,
+            246,
+            267,
+            273
+          ]
+        },
+        {
+          "id": 5,
+          "file": "frames/droplet_splash/005.png",
+          "svg": "vectors/droplet_splash/005.svg",
+          "rectPx": [
+            733,
+            3,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            237,
+            242,
+            269,
+            272
+          ]
+        },
+        {
+          "id": 6,
+          "file": "frames/droplet_splash/006.png",
+          "svg": "vectors/droplet_splash/006.svg",
+          "rectPx": [
+            3,
+            105,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            234,
+            239,
+            270,
+            292
+          ]
+        },
+        {
+          "id": 7,
+          "file": "frames/droplet_splash/007.png",
+          "svg": "vectors/droplet_splash/007.svg",
+          "rectPx": [
+            149,
+            105,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            232,
+            236,
+            271,
+            295
+          ]
+        },
+        {
+          "id": 8,
+          "file": "frames/droplet_splash/008.png",
+          "svg": "vectors/droplet_splash/008.svg",
+          "rectPx": [
+            295,
+            105,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            229,
+            237,
+            273,
+            296
+          ]
+        },
+        {
+          "id": 9,
+          "file": "frames/droplet_splash/009.png",
+          "svg": "vectors/droplet_splash/009.svg",
+          "rectPx": [
+            441,
+            105,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            227,
+            242,
+            274,
+            298
+          ]
+        },
+        {
+          "id": 10,
+          "file": "frames/droplet_splash/010.png",
+          "svg": "vectors/droplet_splash/010.svg",
+          "rectPx": [
+            587,
+            105,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            224,
+            245,
+            278,
+            301
+          ]
+        },
+        {
+          "id": 11,
+          "file": "frames/droplet_splash/011.png",
+          "svg": "vectors/droplet_splash/011.svg",
+          "rectPx": [
+            733,
+            105,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            222,
+            251,
+            282,
+            303
+          ]
+        },
+        {
+          "id": 12,
+          "file": "frames/droplet_splash/012.png",
+          "svg": "vectors/droplet_splash/012.svg",
+          "rectPx": [
+            3,
+            207,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            220,
+            258,
+            287,
+            306
+          ]
+        },
+        {
+          "id": 13,
+          "file": "frames/droplet_splash/013.png",
+          "svg": "vectors/droplet_splash/013.svg",
+          "rectPx": [
+            149,
+            207,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            220,
+            262,
+            291,
+            309
+          ]
+        },
+        {
+          "id": 14,
+          "file": "frames/droplet_splash/014.png",
+          "svg": "vectors/droplet_splash/014.svg",
+          "rectPx": [
+            295,
+            207,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            215,
+            259,
+            296,
+            312
+          ]
+        },
+        {
+          "id": 15,
+          "file": "frames/droplet_splash/015.png",
+          "svg": "vectors/droplet_splash/015.svg",
+          "rectPx": [
+            441,
+            207,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            210,
+            256,
+            300,
+            315
+          ]
+        },
+        {
+          "id": 16,
+          "file": "frames/droplet_splash/016.png",
+          "svg": "vectors/droplet_splash/016.svg",
+          "rectPx": [
+            587,
+            207,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            205,
+            253,
+            306,
+            318
+          ]
+        },
+        {
+          "id": 17,
+          "file": "frames/droplet_splash/017.png",
+          "svg": "vectors/droplet_splash/017.svg",
+          "rectPx": [
+            733,
+            207,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            200,
+            250,
+            310,
+            320
+          ]
+        },
+        {
+          "id": 18,
+          "file": "frames/droplet_splash/018.png",
+          "svg": "vectors/droplet_splash/018.svg",
+          "rectPx": [
+            3,
+            309,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            196,
+            248,
+            314,
+            323
+          ]
+        },
+        {
+          "id": 19,
+          "file": "frames/droplet_splash/019.png",
+          "svg": "vectors/droplet_splash/019.svg",
+          "rectPx": [
+            149,
+            309,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            192,
+            246,
+            318,
+            325
+          ]
+        },
+        {
+          "id": 20,
+          "file": "frames/droplet_splash/020.png",
+          "svg": "vectors/droplet_splash/020.svg",
+          "rectPx": [
+            295,
+            309,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            189,
+            244,
+            320,
+            327
+          ]
+        },
+        {
+          "id": 21,
+          "file": "frames/droplet_splash/021.png",
+          "svg": "vectors/droplet_splash/021.svg",
+          "rectPx": [
+            441,
+            309,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            188,
+            242,
+            322,
+            328
+          ]
+        },
+        {
+          "id": 22,
+          "file": "frames/droplet_splash/022.png",
+          "svg": "vectors/droplet_splash/022.svg",
+          "rectPx": [
+            587,
+            309,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": [
+            187,
+            243,
+            323,
+            327
+          ]
+        },
+        {
+          "id": 23,
+          "file": "frames/droplet_splash/023.png",
+          "svg": "vectors/droplet_splash/023.svg",
+          "rectPx": [
+            733,
+            309,
+            140,
+            96
+          ],
+          "sourceSizePx": [
+            512,
+            448
+          ],
+          "trimOffsetPx": [
+            185,
+            234
+          ],
+          "atlasSourceCropPx": [
+            185,
+            234,
+            325,
+            330
+          ],
+          "pivotPx": [
+            256,
+            286
+          ],
+          "atlasPivotPx": [
+            71,
+            52
+          ],
+          "durationRational": [
+            1,
+            24
+          ],
+          "durationSeconds": 0.041666666666666664,
+          "alphaBoundsPx": null
+        }
+      ],
+      "fps": 24,
+      "loop": false,
+      "space": "projected_world",
+      "description": "Three small droplets rise/fall, then leave two delayed ripple arcs. Separate behavior from the pond ripple.",
+      "frameCount": 24,
+      "sourceFPS": 24,
+      "durationSeconds": 1.0,
+      "durationRational": [
+        24,
+        24
+      ],
+      "atlas": "atlases/droplet_splash.png",
+      "atlasSizePx": [
+        876,
+        408
+      ],
+      "atlasPaddingPx": 3,
+      "atlasCropPolicy": "constant union crop for the whole clip, untrimmed loose PNGs",
+      "pivotMeaning": "emitter / water-impact / fall root; zero additional baked socket height",
+      "finishBehavior": "remove after transparent final frame",
+      "blend": {
+        "pngAlpha": "straight (unassociated)",
+        "premultipliedAlpha": false,
+        "recommended": "normal source-over",
+        "sourceFactor": "SRC_ALPHA",
+        "destinationFactor": "ONE_MINUS_SRC_ALPHA",
+        "textureColorSpace": "sRGB",
+        "blendColorSpace": "linear preferred",
+        "alphaIsLinear": true,
+        "additiveRequired": false
+      },
+      "visualEvents": [],
+      "gameplayAuthority": "none"
+    }
+  ]
+}

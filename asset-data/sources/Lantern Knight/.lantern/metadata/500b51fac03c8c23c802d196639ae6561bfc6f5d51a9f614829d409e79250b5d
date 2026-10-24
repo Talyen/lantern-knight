@@ -1,0 +1,442 @@
+{
+  "pack": "guardpost_08",
+  "revision": "02",
+  "count": 8,
+  "decision": "substantial selective rebuild",
+  "camera": {
+    "elevation_requested_deg": 35.264389682754654,
+    "azimuth_requested_deg": 45,
+    "exact_calibration_verified": false
+  },
+  "assets": [
+    {
+      "id": "lantern_guard_prop_01_round_practice_target",
+      "display_name": "Round practice target",
+      "image": "assets/01_round_practice_target.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/01_round_practice_target.png",
+      "old_sha256": "ab168271bf6edd00d56a3f058df6931db621a9e48ea1b034d911dd8794471c5d",
+      "sha256": "40400de562c10cd1d49d07b7f51fc620a9ee13741bcceff12b5a85002ffc22f0",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          27,
+          21,
+          1236,
+          1238
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          173,
+          84,
+          1085,
+          1192
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-e9e8bac0-e552-4ca9-b785-b9f3b00831a5.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A round archery practice target of uneven vertical old timber planks, imperfect ivory-and-charcoal painted rings and muted rust center. Sturdy short wooden A-frame with wide feet, rear prop leg and clearly joined crossbar; selected splinters and one bold shadow wedge. No arrows. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/01_round_practice_target.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_02_spear_rack",
+      "display_name": "Three-spear rack",
+      "image": "assets/02_spear_rack.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/02_spear_rack.png",
+      "old_sha256": "f70ec48ecd21c7040b4938501e525abf48778942e2874cee7fdf5c42083b73f9",
+      "sha256": "df88d45b3fba70dcf4947c190565155cfb761483171f69c673950c3d87b662d3",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          19,
+          30,
+          1224,
+          1221
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          264,
+          32,
+          1041,
+          1202
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-f1d87b05-c587-4557-8282-06c28c726d7a.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A small practical spear rack made from worn uneven dark oak with wide splayed trestle feet and stout lower crossbar. Exactly three distinct plain spears seated on the lower support and cradled in top rail notches: narrow leafhead, broader chipped leafhead, slim triangular head; varied shaft heights. Blackened iron spearheads, gray cutting edges, sparse wraps. Every shaft clearly supported, no floating pieces. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/02_spear_rack.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_03_folded_barricade_stakes",
+      "display_name": "Collapsed barricade bundle",
+      "image": "assets/03_folded_barricade_stakes.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/03_folded_barricade_stakes.png",
+      "old_sha256": "1731c7319c3e5125bc50eee76e7ffccd799a4822ee20dd14dad857b2bcef21d6",
+      "sha256": "41c284c37e66fd05b69901a277bfa5b78d3ed5e9f9065c59516c442f92697eae",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          97,
+          21,
+          1210,
+          1215
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          432,
+          28,
+          859,
+          1211
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": null,
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A collapsed bundle of five defensive wooden stakes of uneven lengths and widths, roughly split pointed tips with distinct chips, bound with two broad dark iron hinged bands. Visible attached hinges along one side, warm gray wood with deep crevice shadows. No identical faceted stakes. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/03_folded_barricade_stakes.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_04_portable_field_drum",
+      "display_name": "Portable field drum",
+      "image": "assets/04_portable_field_drum.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/04_portable_field_drum.png",
+      "old_sha256": "13c4d6f504551a90d0b9e5e24b0776d059c290125fcb36b80a1a11f62696a0aa",
+      "sha256": "7c63732a20f66a8c303e8c3ba0efd1b769a9dfbb237422ad282210eb93e60cc3",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          21,
+          1210,
+          1234
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          5
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          140,
+          116,
+          1199,
+          1109
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-79427444-8b10-4bd2-9026-793806d973b0.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A portable field drum resting on its side, dark slate-blue wooden shell, uneven ivory hide heads, dark iron hoops held by four broad taut leather tension straps, simple brown shoulder strap connected to two lugs. Strong rim contact shadows, smooth flat fills and no glossy segmented faces. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/04_portable_field_drum.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_05_bronze_signal_horn",
+      "display_name": "Bronze signal horn",
+      "image": "assets/05_bronze_signal_horn.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/05_bronze_signal_horn.png",
+      "old_sha256": "b0a52bcd4c96f6aef846b2288e04242b8d258de49105c1887922c0179ebf1213",
+      "sha256": "93de2ce536618b5d60d1df4eb9e66c505a724ddb35afddb24092962262966ad1",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          52,
+          1234,
+          1190
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          5
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          49,
+          257,
+          1216,
+          1024
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": null,
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A curved old bronze signal horn lying diagonally, broad flared bell with deep black interior and irregular muted ocher lip, tapered mouthpiece, two dark leather bands with attached slack carrying strap. One short deliberate engraved edge mark, broad connected shadow, no shiny stripes. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/05_bronze_signal_horn.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_06_manacles_bracket",
+      "display_name": "Hanging manacles bracket",
+      "image": "assets/06_manacles_bracket.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/06_manacles_bracket.png",
+      "old_sha256": "2750af98fe0fbf2ab408bcac1ad1e17f7f3f249491773ce4ee4c5edb0b85a740",
+      "sha256": "69a965b8a9202b82cce7db6ed9e0a2ec5942f30350249df04ed887aea101c581",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          19,
+          19,
+          1228,
+          1246
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          235,
+          31,
+          1085,
+          1208
+        ],
+        "edge_max_alpha": 0,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-83766d35-aec9-425d-b47a-1ffc18a8f9a4.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A pair of heavy forged iron manacles hanging from two short irregular connected chains fixed to a sturdy dark wooden wall bracket by iron staples. Open cuff interiors, visible hinges and lock blocks, stout links with natural varied rotation and complete attachments. Matte slate accents, deep black overlap masses, no bevelled toruses. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/06_manacles_bracket.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_07_battered_shield_stack",
+      "display_name": "Battered shield pair",
+      "image": "assets/07_battered_shield_stack.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/07_battered_shield_stack.png",
+      "old_sha256": "bcb6720e19a9fbb0070e4e59e4e3b94a01598d187abebefeff5ec0508d882efe",
+      "sha256": "4c57143eaac720fffcde216c33090b3f5dc4c28a60f73c9ab305f4aea39ab83f",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          53,
+          1114,
+          1215
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          7
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          166,
+          124,
+          1111,
+          1107
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-63493b8d-2c6a-4b46-8f96-163324ea2687.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A pair of battered wooden shields leaning together, foremost shield made of faded moss-green planks with one broken upper edge, simple blackened iron rim and dented iron boss. Second shield partly behind shows dark wood back and securely attached leather grip. Deliberate wood splits and overlap shadow, no glossy boss. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/07_battered_shield_stack.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    },
+    {
+      "id": "lantern_guard_prop_08_map_case_folding_stand",
+      "display_name": "Map case on folding stand",
+      "image": "assets/08_map_case_folding_stand.png",
+      "revision_status": "fresh_rebuild",
+      "old_source": "lantern_overnight/03_guardpost_08/assets/08_map_case_folding_stand.png",
+      "old_sha256": "c200ae6941f8d1e62ccd55217c7b4b1af45b632ec1fac622556fded0625b0023",
+      "sha256": "502965f3bae8061be9737c316b736c9244584c1268e85602635db7c0bac1f501",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "alpha": {
+        "range": [
+          0,
+          255
+        ],
+        "bbox_xyxy": [
+          0,
+          28,
+          1199,
+          1230
+        ],
+        "edge_nonzero_top_right_bottom_left": [
+          0,
+          0,
+          0,
+          13
+        ],
+        "core_bbox_alpha_gte128_xyxy": [
+          148,
+          99,
+          1128,
+          1156
+        ],
+        "edge_max_alpha": 1,
+        "native_rgba_unmodified": true
+      },
+      "provenance": {
+        "tool": "built-in image_gen.imagegen",
+        "mode": "fresh_generation_with_canonical_style_reference_only",
+        "source_filename": "exec-a7022a7f-753a-43bf-904d-36d623943eb3.png",
+        "style_reference": "lantern_overnight/00_hero_proof/reference/canonical_original_C_RUST.png",
+        "input_asset_images": [],
+        "exact_prompt": "Create a NEW image from scratch. Supplied canonical C/RUST image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or content. Subject: A closed campaign map case securely seated on a folding wooden X-frame field stand. Worn slate-black rectangular leather case with ivory blank parchment inset under simple corner clips, sturdy leather handle and two dull brass clasps. Two wide splayed X-leg pairs connected by a low crossbrace, visible hinge pins and upper support rails contacting case underside. Asymmetric worn edges, broad black occlusion under case; no pristine display table. View: approximate orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadows, just two shadow fill tones per material. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surfaces, NO hatch shading, NO painterly brush texture, NO gradients, NO specular shine, NO 3D render or low-poly faces. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, opaque object, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated named object or coherent assembly only. Supports and connections must be physically plausible and visible.",
+        "prompt_file": "prompts/08_map_case_folding_stand.txt",
+        "transparent_background": true
+      },
+      "camera_status": "approximate AI illustration, not calibrated orthographic render",
+      "scale_status": "not registered to 13 m world span; ground contact/pivot require engine setup",
+      "retained_byte_check": null
+    }
+  ],
+  "art_review": {
+    "verdict": "PASS as art candidates; runtime integration unverified",
+    "findings": "All eight redrawn, including initially keep-rated drum and shield pair for overall style coherence. Rack shafts are seated on lower beam and held by upper rail; target has feet, crossbar and rear support; case rests on upper stand supports with X hinges and connecting crossbar. Horn strap contacts both body loops, cuffs connect through chains to bracket. Bracket is a wall-mounted prop requiring wall placement. Collapsed stake bundle is now upright rather than the original diagonal lying pose; ID/role retained but pivot/orientation must be re-authored. Drum rests on shell; shield pair leans together. Target wood wear is deliberately more detailed than quiet cloth props, without procedural grain.",
+    "evidence": [
+      "proofs/overview_light.jpg",
+      "proofs/overview_dark.jpg",
+      "proofs/game_size_light.jpg",
+      "proofs/game_size_dark.jpg",
+      "proofs/before_after.jpg"
+    ],
+    "alpha_caveat": "Some native exports contain alpha=1 edge specks, not opaque clipped artwork. All alpha>=128 silhouettes have positive padding. Masters unchanged; validate import/atlas behavior.",
+    "camera_caveat": "Approximate illustrated view only; no exact camera, scale or pivot compliance claimed."
+  }
+}

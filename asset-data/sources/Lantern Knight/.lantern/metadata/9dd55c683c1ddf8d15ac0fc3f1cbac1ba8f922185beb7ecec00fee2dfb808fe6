@@ -1,0 +1,406 @@
+{
+  "clip": "special",
+  "frame_count": 16,
+  "canvas": [
+    1024,
+    1024
+  ],
+  "pivot_px": [
+    512,
+    850
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.169921875
+  ],
+  "loop": false,
+  "durations_ms": [
+    130,
+    140,
+    140,
+    140,
+    140,
+    140,
+    70,
+    50,
+    45,
+    45,
+    60,
+    75,
+    90,
+    100,
+    110,
+    130
+  ],
+  "total_ms": 1605,
+  "atlas": "atlases/special_atlas.png",
+  "atlas_grid": [
+    4,
+    4
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/special/special_00.png",
+      "rect": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        358,
+        337,
+        706,
+        850
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/special/special_01.png",
+      "rect": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        328,
+        369,
+        742,
+        850
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/special/special_02.png",
+      "rect": [
+        2048,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        273,
+        439,
+        681,
+        850
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/special/special_03.png",
+      "rect": [
+        3072,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        342,
+        525,
+        750,
+        850
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/special/special_04.png",
+      "rect": [
+        0,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        323,
+        454,
+        775,
+        850
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/special/special_05.png",
+      "rect": [
+        1024,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        308,
+        546,
+        742,
+        850
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/special/special_06.png",
+      "rect": [
+        2048,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        416,
+        345,
+        938,
+        850
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/special/special_07.png",
+      "rect": [
+        3072,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        283,
+        417,
+        712,
+        790
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/special/special_08.png",
+      "rect": [
+        0,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        170,
+        354,
+        683,
+        745
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/special/special_09.png",
+      "rect": [
+        1024,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        260,
+        232,
+        700,
+        790
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/special/special_10.png",
+      "rect": [
+        2048,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        232,
+        448,
+        776,
+        850
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/special/special_11.png",
+      "rect": [
+        3072,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        339,
+        427,
+        748,
+        850
+      ]
+    },
+    {
+      "index": 12,
+      "file": "frames/special/special_12.png",
+      "rect": [
+        0,
+        3072,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        358,
+        429,
+        760,
+        850
+      ]
+    },
+    {
+      "index": 13,
+      "file": "frames/special/special_13.png",
+      "rect": [
+        1024,
+        3072,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        356,
+        354,
+        695,
+        850
+      ]
+    },
+    {
+      "index": 14,
+      "file": "frames/special/special_14.png",
+      "rect": [
+        2048,
+        3072,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        355,
+        319,
+        701,
+        850
+      ]
+    },
+    {
+      "index": 15,
+      "file": "frames/special/special_15.png",
+      "rect": [
+        3072,
+        3072,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        358,
+        337,
+        706,
+        850
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0
+    },
+    {
+      "name": "single_damage_impact",
+      "frame": 10,
+      "time_ms": 1040,
+      "damage_windows": 1
+    },
+    {
+      "name": "recovery_start",
+      "time_ms": 1100
+    }
+  ],
+  "target_footprint": {
+    "offset_px": [
+      360,
+      0
+    ],
+    "ellipse_radii_px": [
+      155,
+      61
+    ],
+    "facing": "screen_right",
+    "units": "sprite_pixels"
+  },
+  "root_motion_px": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      80,
+      0
+    ],
+    [
+      190,
+      0
+    ],
+    [
+      295,
+      0
+    ],
+    [
+      360,
+      0
+    ],
+    [
+      360,
+      0
+    ],
+    [
+      360,
+      0
+    ],
+    [
+      360,
+      0
+    ],
+    [
+      360,
+      0
+    ],
+    [
+      360,
+      0
+    ]
+  ],
+  "effect": {
+    "clip": "landing_target_fx",
+    "offset_px": [
+      360,
+      0
+    ],
+    "start_ms": 0,
+    "impact_frame": 8,
+    "impact_time_ms": 1040,
+    "draw_order": "below_actor",
+    "note": "Start both clips together. Actor frame10 and FX frame8 begin at1040ms. Root translates to target during frames7\u201310; no second hit."
+  },
+  "on_complete": "return_to_ready"
+}

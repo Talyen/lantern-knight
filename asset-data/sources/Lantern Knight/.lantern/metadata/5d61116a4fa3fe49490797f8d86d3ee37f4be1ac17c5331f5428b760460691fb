@@ -1,0 +1,17 @@
+{
+  "pack_verdict": "selective rebuild",
+  "selected_candidates": {
+    "01_ruined_lantern_warden_courtyard": "r02c",
+    "02_drowned_chapel_crypt": "retained original v1",
+    "03_abandoned_clockmaker_hall": "r02c",
+    "04_blackwood_path_clearing": "r02b"
+  },
+  "review": {
+    "01_ruined_lantern_warden_courtyard": "Third fresh candidate preserves a shaped route and enclosure while using fewer, larger weathered features than the first detailed redraw. Avoids the second candidate's pristine blockout feel.",
+    "02_drowned_chapel_crypt": "Retained byte-for-byte for strong teal-water separation, clear pale circulation silhouette and coherent architectural enclosure.",
+    "03_abandoned_clockmaker_hall": "Third fresh candidate balances three strong gear silhouettes and a clear bridge route with selective broken contours, heavy timber joints and dark recesses.",
+    "04_blackwood_path_clearing": "Second fresh candidate selected for broad canopy/ground masses, sparse material description and a clear path, avoiding all-over leaf speckle."
+  },
+  "unselected_candidates": "Preserved separately in the working project, excluded from this latest-only pack.",
+  "reference_use": "Approved crypt door was a style-only reference for fresh courtyard/clockmaker r02c generation, not an image-edit target. Canonical hero was not used."
+}

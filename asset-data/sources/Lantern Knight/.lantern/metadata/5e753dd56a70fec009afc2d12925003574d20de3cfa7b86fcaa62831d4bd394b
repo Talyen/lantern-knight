@@ -1,0 +1,455 @@
+{
+  "name": "censer_chain_lash",
+  "role": "enemy",
+  "grid": [
+    4,
+    6
+  ],
+  "canvas": [
+    512,
+    384
+  ],
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_scale": 1.1483253588516746,
+  "source_padding": [
+    76.0,
+    72.0
+  ],
+  "telegraph_ms": 980,
+  "strike_ms": 40,
+  "impact_start_ms": 1020,
+  "contact_ms": 90,
+  "recovery_ms": 420,
+  "clear_hold_ms": 350,
+  "duration_ms": 1880,
+  "frames": [
+    {
+      "cel": 1,
+      "source_box": [
+        0,
+        0,
+        314,
+        186
+      ],
+      "source_boundary_alpha_pixels": 3,
+      "paste": [
+        76,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 2,
+      "source_box": [
+        314,
+        0,
+        627,
+        186
+      ],
+      "source_boundary_alpha_pixels": 6,
+      "paste": [
+        77,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 3,
+      "source_box": [
+        627,
+        0,
+        940,
+        186
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 4,
+      "source_box": [
+        940,
+        0,
+        1254,
+        186
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 5,
+      "source_box": [
+        0,
+        186,
+        314,
+        411
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        46
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 6,
+      "source_box": [
+        314,
+        186,
+        627,
+        411
+      ],
+      "source_boundary_alpha_pixels": 5,
+      "paste": [
+        77,
+        46
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 7,
+      "source_box": [
+        627,
+        186,
+        940,
+        411
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        46
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 8,
+      "source_box": [
+        940,
+        186,
+        1254,
+        411
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        46
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 9,
+      "source_box": [
+        0,
+        411,
+        314,
+        654
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        64
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 10,
+      "source_box": [
+        314,
+        411,
+        627,
+        654
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        64
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 11,
+      "source_box": [
+        627,
+        411,
+        940,
+        654
+      ],
+      "source_boundary_alpha_pixels": 1,
+      "paste": [
+        76,
+        64
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 12,
+      "source_box": [
+        940,
+        411,
+        1254,
+        654
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        64
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 13,
+      "source_box": [
+        0,
+        654,
+        314,
+        879
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        103
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 14,
+      "source_box": [
+        314,
+        654,
+        627,
+        879
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        103
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 15,
+      "source_box": [
+        627,
+        654,
+        940,
+        879
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        103
+      ],
+      "duration_ms": 40,
+      "phase": "strike",
+      "damage_event": false
+    },
+    {
+      "cel": 16,
+      "source_box": [
+        940,
+        654,
+        1254,
+        879
+      ],
+      "source_boundary_alpha_pixels": 1,
+      "paste": [
+        75,
+        103
+      ],
+      "duration_ms": 90,
+      "phase": "impact",
+      "damage_event": true
+    },
+    {
+      "cel": 17,
+      "source_box": [
+        0,
+        879,
+        314,
+        1047
+      ],
+      "source_boundary_alpha_pixels": 3,
+      "paste": [
+        76,
+        121
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 18,
+      "source_box": [
+        314,
+        879,
+        627,
+        1047
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        121
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 19,
+      "source_box": [
+        627,
+        879,
+        940,
+        1047
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        121
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 20,
+      "source_box": [
+        940,
+        879,
+        1254,
+        1047
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        121
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 21,
+      "source_box": [
+        0,
+        1047,
+        314,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        74
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 22,
+      "source_box": [
+        314,
+        1047,
+        627,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        74
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 23,
+      "source_box": [
+        627,
+        1047,
+        940,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        74
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 24,
+      "source_box": [
+        940,
+        1047,
+        1254,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        74
+      ],
+      "duration_ms": 350,
+      "phase": "clear",
+      "damage_event": false
+    }
+  ],
+  "registration": "Fixed nominal 4x6 source grid; crop offsets compensated, no per-frame recentering.",
+  "assembly": "Only crops, one uniform scale, fixed placement; no synthetic motion, morphing or fade. Final all-zero cel.",
+  "coordinates_note": "Art direction only, not engine collision integration",
+  "preview_cycles": 3,
+  "source_sha256": "bd5e028e8c633d70ce7d1f3365ac3923dda855c69164a343af804c11694e34c8",
+  "art_direction_guide_normalized_source_cell": {
+    "pivot": [
+      0.15,
+      0.62
+    ],
+    "target": [
+      0.78,
+      0.62
+    ],
+    "footprint": "long horizontal lane and endpoint ellipse",
+    "enemy_reference": "Censer Keeper, original Drive 1aOROXR-El7nor2Nc7d1sLhAWOvh2kxxu"
+  }
+}

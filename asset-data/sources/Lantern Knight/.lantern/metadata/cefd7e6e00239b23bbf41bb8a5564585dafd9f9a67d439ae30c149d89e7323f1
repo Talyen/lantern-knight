@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_broken_jetty_section_01.png",
+    "new": "volume_09_dock/assets/dock_broken_jetty_section_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_coiled_mooring_line_01.png",
+    "new": "volume_09_dock/assets/dock_coiled_mooring_line_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_mooring_cleat_02.png",
+    "new": "volume_09_dock/assets/dock_mooring_cleat_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_navigation_post_01.png",
+    "new": "volume_09_dock/assets/dock_navigation_post_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_overturned_rowboat_01.png",
+    "new": "volume_09_dock/assets/dock_overturned_rowboat_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_piled_fishing_nets_02.png",
+    "new": "volume_09_dock/assets/dock_piled_fishing_nets_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_wood_iron_capstan_01.png",
+    "new": "volume_09_dock/assets/dock_wood_iron_capstan_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_09_dock/assets/dock_wooden_fish_trap_01.png",
+    "new": "volume_09_dock/assets/dock_wooden_fish_trap_01.png"
+  }
+]

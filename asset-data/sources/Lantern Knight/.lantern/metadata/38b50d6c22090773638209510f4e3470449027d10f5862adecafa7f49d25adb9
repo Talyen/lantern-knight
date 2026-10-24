@@ -1,0 +1,23 @@
+# Lantern — Sleeping Alley Cat F5
+
+Six native illustrated ambient cels, a five-second restful loop, stationary folded sack, closed eyes, tiny local shoulder breath and tail settling, and one short ear twitch. This is a single-view sprite pack; there are no directional variants or behavior/AI scripts.
+
+## Runtime
+- Six straight-alpha 576×576 PNG cells. Native 512px source cells are registered by integer translation into padded 576px canvases, never upscaled.
+- 1728×1152 atlas, three columns, two rows.
+- `runtime/manifest.json`: 60 Hz timing `[96,42,12,54,42,54]`, fixed pivot, import settings and suggested scale.
+- Pivot `[288,440]` in top-left pixel coordinates; Unity normalized `[0.5,0.2361111111]`.
+- Suggested 384 pixels per unit, approximately 1.29 world units across the visible sack. Adjust world scale as needed.
+- Import full rectangles, straight alpha, bilinear sampling, clamp, mipmaps off. Never trim or independently recenter frames.
+
+## Source and rebuild
+Run `python rebuild.py` from this directory with Python 3, Pillow, NumPy, SciPy, and FFmpeg on PATH. No image generation is invoked by rebuild. The included original F5 identity reference, two untouched generation outputs, exact prompts, registered source cels, and acting mask make the composition editable and portable.
+
+Fresh native poses were generated using the built-in image tool, using only the original F5 as the identity reference. The first sheet was rejected for cramped cell spacing. The second sheet supplies all acting cels. No generated draft was used as a generative-edit input. `Sunburst 2.5` is recorded as a requested prompt phrase, not a claim about the model used.
+
+Deterministic processing removes disconnected neighboring-cell fragments and sub-8/255 alpha dust, registers nose landmarks, and composites local native shoulder/ear/tail-tip patches over a canonical pose. The sack, sleeping face, planted paws, and main silhouette are pinned. No warp, synthetic interpolation, whole-body scaling, artificial grain, or upscaling is applied. Minor native internal fur-line variation remains inside the moving patches. The shoulder movement is deliberately very subtle; the ear twitch is the strongest small-scale cue.
+
+Camera art direction: orthographic overhead elevation 35.2643897°. This is an illustration target, not measured 3D calibration.
+
+## Review
+`preview/sleeping_alley_cat.mp4` is a normal H.264, yuv420p, 60fps preview, two five-second loops. `preview/contact_sheet.png` shows every cel against dark/light backgrounds and at 144px gameplay size. `preview/qa_dark.png` and `qa_light.png` preserve native-size review grids. See `QA.md` and `QA.json`.

@@ -1,0 +1,122 @@
+[
+  {
+    "frame": 0,
+    "bbox": [
+      28,
+      101,
+      448,
+      551
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 1,
+    "bbox": [
+      49,
+      92,
+      445,
+      529
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 2,
+    "bbox": [
+      36,
+      75,
+      430,
+      528
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 3,
+    "bbox": [
+      95,
+      102,
+      477,
+      545
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 4,
+    "bbox": [
+      58,
+      155,
+      478,
+      536
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 5,
+    "bbox": [
+      47,
+      152,
+      443,
+      533
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 6,
+    "bbox": [
+      53,
+      194,
+      447,
+      575
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 7,
+    "bbox": [
+      67,
+      143,
+      450,
+      522
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 8,
+    "bbox": [
+      50,
+      173,
+      470,
+      534
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 9,
+    "bbox": [
+      50,
+      173,
+      445,
+      534
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 10,
+    "bbox": [
+      66,
+      157,
+      444,
+      518
+    ],
+    "edge_alpha_max": 0
+  },
+  {
+    "frame": 11,
+    "bbox": [
+      72,
+      180,
+      434,
+      518
+    ],
+    "edge_alpha_max": 0
+  }
+]

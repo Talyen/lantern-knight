@@ -1,0 +1,303 @@
+{
+  "asset": "channel_hold_DR",
+  "version": "v01",
+  "status": "ART_REVIEW_INTEGRATION_CANDIDATE",
+  "facing": "down-right",
+  "heading_world": "+X",
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "verification": "visually conditioned, not metrically certified"
+  },
+  "equipment": {
+    "sword_hand": "right",
+    "lantern_hand": "left",
+    "mirrored": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      1048
+    ],
+    "atlas": "channel_hold_DR_atlas.png",
+    "grid": [
+      4,
+      2
+    ],
+    "frame_count": 8,
+    "unique_drawings": 8,
+    "fps": 60,
+    "duration_ticks": 120,
+    "duration_seconds": 2.0,
+    "loop": true,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015265
+    ],
+    "suggested_pixels_per_unit": 257.407,
+    "pixels_per_unit_status": "Inherited cast-family starting value only; cross-clip body density requires in-engine review",
+    "root_motion_track": null
+  },
+  "source": {
+    "file": "channel_hold_DR_native_sheet.png",
+    "native_sheet_size": [
+      1774,
+      887
+    ],
+    "generator": "built-in image_gen",
+    "backend_model_verified": false
+  },
+  "processing": {
+    "native_visible_pixels_preserved": true,
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "per_frame_rescaling": false,
+    "alpha_cleanup": "Figure ownership from alpha>=16 connected component with small allowance; zero-alpha RGB sanitized. Retained visible native RGB and alpha unchanged.",
+    "layout": "524 fixed cells from native 4x2 grid plus transparent padding. Rigid integer translations only, listed per cel.",
+    "registration": "Front boot landmark registration, no scale or deformation"
+  },
+  "events_suggested": [],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/channel_hold_DR_01.png",
+      "label": "held_neutral",
+      "hold_ticks_60hz": 15,
+      "source_cel": 1,
+      "rigid_offset_px": [
+        -41,
+        23
+      ],
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        108,
+        73,
+        408,
+        481
+      ],
+      "sha256": "a8bc728af5899cd22fb3e89a1932672b55a41d4ed0fc252137906e8705360de7"
+    },
+    {
+      "index": 2,
+      "file": "frames/channel_hold_DR_02.png",
+      "label": "inhale",
+      "hold_ticks_60hz": 15,
+      "source_cel": 2,
+      "rigid_offset_px": [
+        -34,
+        18
+      ],
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        102,
+        67,
+        403,
+        481
+      ],
+      "sha256": "8976cf6ddbeb290f8d5a460c473d87660dc560690620df2ed1591a29164e18e7"
+    },
+    {
+      "index": 3,
+      "file": "frames/channel_hold_DR_03.png",
+      "label": "rise",
+      "hold_ticks_60hz": 15,
+      "source_cel": 3,
+      "rigid_offset_px": [
+        -30,
+        18
+      ],
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        103,
+        66,
+        407,
+        480
+      ],
+      "sha256": "f64251387f3c479e4b472281c53a0fe861e40c1a9be43e60ff2202a00fefe0e3"
+    },
+    {
+      "index": 4,
+      "file": "frames/channel_hold_DR_04.png",
+      "label": "crest",
+      "hold_ticks_60hz": 15,
+      "source_cel": 4,
+      "rigid_offset_px": [
+        -26,
+        18
+      ],
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        114,
+        65,
+        410,
+        480
+      ],
+      "sha256": "2819fbddc35b7d0ab1ef98c5ceb62145cd5a2e1661bff11b4d98b0242e386da0"
+    },
+    {
+      "index": 5,
+      "file": "frames/channel_hold_DR_05.png",
+      "label": "release",
+      "hold_ticks_60hz": 15,
+      "source_cel": 5,
+      "rigid_offset_px": [
+        -40,
+        22
+      ],
+      "atlas_rect": [
+        0,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        104,
+        72,
+        414,
+        481
+      ],
+      "sha256": "ed04c80aee279d4bf101da260421cf930c16955cac83ae849ceced9820e82d53"
+    },
+    {
+      "index": 6,
+      "file": "frames/channel_hold_DR_06.png",
+      "label": "exhale",
+      "hold_ticks_60hz": 15,
+      "source_cel": 6,
+      "rigid_offset_px": [
+        -34,
+        18
+      ],
+      "atlas_rect": [
+        524,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        103,
+        65,
+        406,
+        480
+      ],
+      "sha256": "b872db7afb92bdae1169eccdb361bd5f91a20a2c921bae0db505f9a3020ac23e"
+    },
+    {
+      "index": 7,
+      "file": "frames/channel_hold_DR_07.png",
+      "label": "low_breath",
+      "hold_ticks_60hz": 15,
+      "source_cel": 7,
+      "rigid_offset_px": [
+        -29,
+        19
+      ],
+      "atlas_rect": [
+        1048,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        114,
+        70,
+        410,
+        481
+      ],
+      "sha256": "4fd2a07bdde12fe826e81da3a1a9be5f0faa35135c1fb82254b6acf0a90558a7"
+    },
+    {
+      "index": 8,
+      "file": "frames/channel_hold_DR_08.png",
+      "label": "return",
+      "hold_ticks_60hz": 15,
+      "source_cel": 8,
+      "rigid_offset_px": [
+        -30,
+        22
+      ],
+      "atlas_rect": [
+        1572,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        110,
+        73,
+        410,
+        482
+      ],
+      "sha256": "61e60519335b8f2951d5b623b05666c8469ef26aa6d9ebc1024818eeada30b07"
+    }
+  ],
+  "known_limits": [
+    "Original generated 2D artwork is an art-review/integration-test candidate, not engine-approved animation.",
+    "No camera metric, physical blade length, collisions, IK, gameplay events, healing mechanics, or controller wiring certified.",
+    "Native distinct cels with integer holds at 60 Hz. No optical flow, mesh warp, synthetic in-betweens, mirroring, or image upscaling.",
+    "First/last drawings are not pixel-identical to shared ready. Runtime transition/root/scale review remains required.",
+    "Pose compatible with existing lantern_DR cel04. Near boot was rigidly registered to its (159,475) contact landmark; drawing and body height differ slightly, so the seam is not certified pixel-perfect."
+  ]
+}

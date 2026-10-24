@@ -1,0 +1,8 @@
+CT01 Waxmask Acolyte completion / 2026-10-07
+Three clips: spawn/wake, hit/interruption, defeat. 6 unique drawings each, 60 Hz stepped timing.
+Import: 768x704 pixels. Pivot top-left (416,584); Unity normalized (0.541666667,0.170454545). Same current v03 PPU 85.59670781893004 if original default was100. Relative PPU=1 versus current v03. Do not reapply original migration factor.
+Exact v03 ready is cel00 in all clips; timeline order comes from manifest, NOT filenames. Spawn finishes cel00, hit starts/finishes cel00, defeat starts cel00 and holds cel05 until despawn. Clips never runtime-loop. APNG/MP4 repeat for review only.
+Root-motion: none. Gameplay/controller supplies movement; collision/state events are recommendations, not engine integration.
+Source density corrections are uniform per sheet and already baked by DOWNsampling, never upscaling. No per-frame bounds fit, image mirroring, generated edit cascade, or liquid FX. Native generation originals + prompts are retained in source. Fixed camera is artist-matched, not mathematically certified.
+Alpha cleanup removes generated low-opacity halo deterministically. Native runtime contact boards and common-PPU side-by-side handoff movie included.
+Rebuild: Python3 with Pillow,numpy,scipy plus ffmpeg; run python build.py from the extracted source package. No remote calls needed.

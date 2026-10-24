@@ -1,0 +1,212 @@
+[
+  {
+    "asset_id": "landmark_abandoned_ferry_landing_01",
+    "pack": "volume_08_landmarks",
+    "path": "assets/landmark_abandoned_ferry_landing_01.png",
+    "original_path": "lantern_environment_candidates/volume_08_landmarks/assets/landmark_abandoned_ferry_landing_01.png",
+    "sha256": "8dc3c465a5161b68e8f807631eeab26fb283c2cf387624a9ef7ef3fca5ca6146",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/landmark_abandoned_ferry_landing_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      89,
+      16,
+      1478,
+      1005
+    ],
+    "alpha_bounds_ge128": [
+      113,
+      19,
+      1423,
+      999
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96436,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-360c3e79-e21e-479b-ba6d-fc173ad8f9ec.png"
+  },
+  {
+    "asset_id": "landmark_cold_furnace_alcove_01",
+    "pack": "volume_08_landmarks",
+    "path": "assets/landmark_cold_furnace_alcove_01.png",
+    "original_path": "lantern_environment_candidates/volume_08_landmarks/assets/landmark_cold_furnace_alcove_01.png",
+    "sha256": "351e6da62961a99d40119623348c244de803f5ffbda50d06c629682b9bf07c82",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/landmark_cold_furnace_alcove_01.prompt.txt",
+    "size": [
+      1283,
+      1226
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      12,
+      1245,
+      1226
+    ],
+    "alpha_bounds_ge128": [
+      155,
+      15,
+      1137,
+      1216
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98378,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-5fba2a44-b4c5-42eb-8b53-c24f17b1532a.png"
+  },
+  {
+    "asset_id": "landmark_collapsed_bell_support_02",
+    "pack": "volume_08_landmarks",
+    "path": "assets/landmark_collapsed_bell_support_02.png",
+    "original_path": "lantern_environment_candidates/volume_08_landmarks/assets/landmark_collapsed_bell_support_02.png",
+    "sha256": "1128ecbdcea480056780255bb419c46a80e3797048a56ff0d650766ef589c5f0",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/landmark_collapsed_bell_support_02.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      58,
+      21,
+      1257,
+      1187
+    ],
+    "alpha_bounds_ge128": [
+      61,
+      27,
+      1254,
+      1184
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96745,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-5bd8fb13-4148-4402-bde5-78f4ddf4c895.png"
+  },
+  {
+    "asset_id": "landmark_mausoleum_entrance_01",
+    "pack": "volume_08_landmarks",
+    "path": "assets/landmark_mausoleum_entrance_01.png",
+    "original_path": "lantern_environment_candidates/volume_08_landmarks/assets/landmark_mausoleum_entrance_01.png",
+    "sha256": "a3fe658f8f4fcfc3aad58acbf303876a4d40a0427fdff01957adbd8b65da8d0c",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/landmark_mausoleum_entrance_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      11,
+      1256,
+      1172
+    ],
+    "alpha_bounds_ge128": [
+      217,
+      15,
+      1097,
+      1169
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96194,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-28c9af94-877b-47ab-b2e6-4c17d2782f38.png"
+  },
+  {
+    "asset_id": "landmark_overgrown_shrine_01",
+    "pack": "volume_08_landmarks",
+    "path": "assets/landmark_overgrown_shrine_01.png",
+    "original_path": "lantern_environment_candidates/volume_08_landmarks/assets/landmark_overgrown_shrine_01.png",
+    "sha256": "1bb26d76d2ba51519396ffc525ee1850c59c0655e2b3dc90aa24fe799f22dfcf",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/landmark_overgrown_shrine_01.prompt.txt",
+    "size": [
+      1223,
+      1286
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      7,
+      1199,
+      1263
+    ],
+    "alpha_bounds_ge128": [
+      215,
+      9,
+      1026,
+      1260
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97215,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-79e026f4-17b3-4130-a350-0e7b35cae502.png"
+  },
+  {
+    "asset_id": "landmark_ruined_chapel_facade_01",
+    "pack": "volume_08_landmarks",
+    "path": "assets/landmark_ruined_chapel_facade_01.png",
+    "original_path": "lantern_environment_candidates/volume_08_landmarks/assets/landmark_ruined_chapel_facade_01.png",
+    "sha256": "356e4701790a655a17e5d77fa8372770d8ce29b13e62a43d9b9b6d18864d4cef",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/landmark_ruined_chapel_facade_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      55,
+      9,
+      1256,
+      1187
+    ],
+    "alpha_bounds_ge128": [
+      280,
+      13,
+      1047,
+      1184
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96524,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-74d31614-be6a-4f38-9c75-c405f90da239.png"
+  }
+]

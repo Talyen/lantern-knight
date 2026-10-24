@@ -1,0 +1,484 @@
+{
+  "status": "APPROXIMATE_NOT_PHYSICAL_CALIBRATION",
+  "common_pivot_top_left_px": [
+    311,
+    463
+  ],
+  "common_pivot_bottom_left_normalized": [
+    0.48442367601246106,
+    0.1819787985865724
+  ],
+  "pixels_per_unit": 259.839,
+  "scale_uncertainty_percent": 12,
+  "pivot_uncertainty_radius_px": 15,
+  "native_pixels_unchanged": true,
+  "one_density_for_entire_action": true,
+  "per_frame_fit": false,
+  "ready_reference": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/directional_ready_idle_v01/delivery/ready_world_negative_Z_UR_native.png",
+  "ready_reference_sha256": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4",
+  "ready_reference_ppu": 350,
+  "ready_reference_pivot_approx": [
+    301,
+    556
+  ],
+  "body_only_ruler": {
+    "reference": "ready_world_negative_Z_UR_native.png",
+    "ready_crown": [
+      340,
+      20
+    ],
+    "ready_sole_y": 579,
+    "action_crown": [
+      219,
+      30
+    ],
+    "action_sole_y": 445
+  },
+  "density_factor_to_ready": 0.7423971377459749,
+  "observed_anchors": {
+    "01_READY": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            249,
+            443
+          ],
+          "canvas_xy": [
+            370,
+            478
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            119,
+            407
+          ],
+          "canvas_xy": [
+            240,
+            442
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            270,
+            268
+          ],
+          "canvas_xy": [
+            391,
+            303
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            112,
+            201
+          ],
+          "canvas_xy": [
+            233,
+            236
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "02_LOAD": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            694,
+            374
+          ],
+          "canvas_xy": [
+            386,
+            409
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            490,
+            426
+          ],
+          "canvas_xy": [
+            182,
+            461
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            719,
+            180
+          ],
+          "canvas_xy": [
+            411,
+            215
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            515,
+            207
+          ],
+          "canvas_xy": [
+            207,
+            242
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "03_DRIVE": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            1129,
+            350
+          ],
+          "canvas_xy": [
+            392,
+            385
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            930,
+            423
+          ],
+          "canvas_xy": [
+            193,
+            458
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            1180,
+            147
+          ],
+          "canvas_xy": [
+            443,
+            182
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            965,
+            218
+          ],
+          "canvas_xy": [
+            228,
+            253
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "04_THRUST": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            1522,
+            357
+          ],
+          "canvas_xy": [
+            356,
+            392
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            1267,
+            424
+          ],
+          "canvas_xy": [
+            101,
+            459
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            1578,
+            108
+          ],
+          "canvas_xy": [
+            412,
+            143
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            1342,
+            221
+          ],
+          "canvas_xy": [
+            176,
+            256
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "05_BRAKE": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            298,
+            800
+          ],
+          "canvas_xy": [
+            419,
+            377
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            61,
+            853
+          ],
+          "canvas_xy": [
+            182,
+            430
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            331,
+            557
+          ],
+          "canvas_xy": [
+            452,
+            134
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            105,
+            650
+          ],
+          "canvas_xy": [
+            226,
+            227
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "06_RETRACT": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            719,
+            814
+          ],
+          "canvas_xy": [
+            411,
+            391
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            533,
+            864
+          ],
+          "canvas_xy": [
+            225,
+            441
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            746,
+            583
+          ],
+          "canvas_xy": [
+            438,
+            160
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            550,
+            669
+          ],
+          "canvas_xy": [
+            242,
+            246
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "07_RETURN": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            1147,
+            882
+          ],
+          "canvas_xy": [
+            410,
+            459
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            1028,
+            845
+          ],
+          "canvas_xy": [
+            291,
+            422
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            1176,
+            713
+          ],
+          "canvas_xy": [
+            439,
+            290
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            995,
+            673
+          ],
+          "canvas_xy": [
+            258,
+            250
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    },
+    "08_READY": {
+      "observed": {
+        "right_front_toe": {
+          "sheet_xy": [
+            1576,
+            883
+          ],
+          "canvas_xy": [
+            410,
+            460
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_rear_toe": {
+          "sheet_xy": [
+            1457,
+            844
+          ],
+          "canvas_xy": [
+            291,
+            421
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "right_sword_grip": {
+          "sheet_xy": [
+            1584,
+            721
+          ],
+          "canvas_xy": [
+            418,
+            298
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        },
+        "left_lantern_grip": {
+          "sheet_xy": [
+            1426,
+            685
+          ],
+          "canvas_xy": [
+            260,
+            262
+          ],
+          "confidence": "medium/low manual native observation",
+          "uncertainty_radius_native_px": 12
+        }
+      },
+      "physical_contact": null,
+      "contact_note": "Transparent art contains no floor; do not interpret pose inference as calibrated planted contact."
+    }
+  },
+  "camera_reference": {
+    "elevation_deg": 35.264389682754654,
+    "world_azimuth_deg": 45,
+    "world_up": "Y",
+    "world_heading": [
+      0,
+      0,
+      -1
+    ],
+    "note": "Guide camera fixed; illustrative correspondence approximate."
+  },
+  "endpoint_note": "Generated01/08match shared-ready pose/identity intent, but are not identical shared-ready pixels. Loop reuses01. Engine transition must be visually tested."
+}

@@ -1,0 +1,127 @@
+{
+  "purpose": "TECHNICAL GUIDE ONLY. Fresh clean-ink final art required.",
+  "camera_file": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/shared_camera.py",
+  "elevation_degrees": 35.264389682754654,
+  "world_azimuth_degrees": 45.0,
+  "actor_forward_world": "+X",
+  "projection_matrix": [
+    [
+      0.7071067811865475,
+      0.7071067811865475,
+      0.0
+    ],
+    [
+      0.4082482904638631,
+      -0.4082482904638631,
+      -0.8164965809277261
+    ],
+    [
+      0.5773502691896258,
+      -0.5773502691896258,
+      0.5773502691896258
+    ]
+  ],
+  "canvas_per_cel": [
+    576,
+    576
+  ],
+  "pixels_per_meter": 176.0,
+  "fixed_origin": [
+    268.0,
+    477.0
+  ],
+  "frame_transform": "One shared projection and pixel scale; no per-frame fitting, recentering, or resizing.",
+  "motion": "Six-drawing one-shot resonant spell. Fixed camera; halo tilt/expansion is object motion, not camera motion.",
+  "poses": [
+    {
+      "index": 1,
+      "phase": 0.0,
+      "rise_m": 0,
+      "cloth_expansion_fraction": 0,
+      "lag": 0,
+      "orb_local_center": [
+        0.52,
+        0,
+        1.215
+      ],
+      "halo_tilt_degrees": 0.0,
+      "halo_expansion_scale": 1.0,
+      "phase_name": "Rest"
+    },
+    {
+      "index": 2,
+      "phase": 0.16666666666666666,
+      "rise_m": 0.02,
+      "cloth_expansion_fraction": 0.1,
+      "lag": -0.3,
+      "orb_local_center": [
+        0.42,
+        0,
+        1.3
+      ],
+      "halo_tilt_degrees": -2.0,
+      "halo_expansion_scale": 1.013,
+      "phase_name": "Gather inward"
+    },
+    {
+      "index": 3,
+      "phase": 0.3333333333333333,
+      "rise_m": 0.045,
+      "cloth_expansion_fraction": 0.6,
+      "lag": 0.5,
+      "orb_local_center": [
+        0.58,
+        0,
+        1.4549999999999998
+      ],
+      "halo_tilt_degrees": -6.000000000000001,
+      "halo_expansion_scale": 1.078,
+      "phase_name": "Present orb"
+    },
+    {
+      "index": 4,
+      "phase": 0.5,
+      "rise_m": 0.055,
+      "cloth_expansion_fraction": 1.0,
+      "lag": 1.0,
+      "orb_local_center": [
+        0.65,
+        0,
+        1.535
+      ],
+      "halo_tilt_degrees": -12.000000000000002,
+      "halo_expansion_scale": 1.13,
+      "phase_name": "Expand halo / flare veil"
+    },
+    {
+      "index": 5,
+      "phase": 0.6666666666666666,
+      "rise_m": 0.035,
+      "cloth_expansion_fraction": 0.45,
+      "lag": -0.2,
+      "orb_local_center": [
+        0.58,
+        0,
+        1.355
+      ],
+      "halo_tilt_degrees": -5.0,
+      "halo_expansion_scale": 1.0585,
+      "phase_name": "Release / recoil"
+    },
+    {
+      "index": 6,
+      "phase": 0.8333333333333334,
+      "rise_m": 0,
+      "cloth_expansion_fraction": 0,
+      "lag": 0,
+      "orb_local_center": [
+        0.52,
+        0,
+        1.215
+      ],
+      "halo_tilt_degrees": 0.0,
+      "halo_expansion_scale": 1.0,
+      "phase_name": "Settle"
+    }
+  ]
+}

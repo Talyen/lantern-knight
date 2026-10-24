@@ -1,0 +1,17 @@
+{
+  "README.txt": "6b884e93cb9ec41444fad13cfba3f7773ab38e5a96241295250212d7730714c6",
+  "QA.json": "06995ba4091bce0551972cd4323e009c09b43a1e5bc53d726ea59ac459a596f8",
+  "extraction.json": "82475611115f84f5932274f1e28e087c1eb2eccf725fa1139ebd3b544db4f56d",
+  "respawn_DR_atlas.png": "577b14979b0648bf5684d22bc22b671b579cd17c2d1d1fcd652f7efccd150500",
+  "respawn_DR_preview_60fps.mp4": "66367d9d07eb2432f4c4880c4f8138412c29d5c1c294873782666394e874ee71",
+  "respawn_DR_runtime.json": "f0aa0e78b33101c7293a66ada7592d9d1201ea187b798f51c4aa9945e125ccff",
+  "frames/respawn_DR_06.png": "4374f4a11638a57a856cd79306b44cb6b4fb45982eb384ab6addbf34bbf08a29",
+  "frames/respawn_DR_04.png": "6ec46a6761f4df0f76cde7fcf310bd5ec48bc0a961c474a3afff23cca92e59cd",
+  "frames/respawn_DR_02.png": "332e564a77cf163c95994e68418403bccd7d7ff5c7b284ed43711d1d12f5c377",
+  "frames/respawn_DR_05.png": "2a7f52595baea86e669fd52fd11c7302ca2b8ed09ad432bba0b4b4d7fbecef89",
+  "frames/respawn_DR_03.png": "cf77f089fd97826b5d02fdce6ded39cf47d4a66c9a48bc332a7c19417b25fe7d",
+  "frames/respawn_DR_01.png": "f0b483f1c27c9ccbd8947d5c831e83ed786184214bdbbb5342d6b8680564e06a",
+  "provenance/respawn_DR_prompt_v05.txt": "fcdd06593723cfb29839e63c2de97da727b82e3482af94424eb287dec068078f",
+  "provenance/native_source_sheet.png": "68ae254ca82e18202de3e351eeb9b3c490122ed1aaec2be159cbc38665a6e984",
+  "provenance/respawn_DR_prompt_v04.txt": "494a9d53f17372a351724b0adbe3a68ee8236f45da8b6d03e3361f14da9175b6"
+}

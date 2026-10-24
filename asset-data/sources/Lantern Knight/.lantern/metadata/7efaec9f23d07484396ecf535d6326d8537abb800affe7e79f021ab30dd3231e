@@ -1,0 +1,33 @@
+{
+  "asset": "forest_gathering_A_v2",
+  "title": "Forest Gathering A v2 | Grounded Candle Altars",
+  "generated_at_utc": "2026-10-09T04:52:47Z",
+  "tool": "built-in image_gen.imagegen",
+  "generation_type": "fresh reference-guided replacement; not an edit chain",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_sha256": "bb84174d466fd9520ead9937872b5494e21357f8a1103268bf23d652b2c216a7",
+  "generation_original": "generated_images/exec-a55a1107-0faa-4173-ae1f-a18eb09deffb.png",
+  "prompt": "prompt.txt",
+  "referenced_image_paths": [
+    "cultist_deliveries_oct09/forest_gathering/forest_gathering_A_native.png",
+    "recovered_scene_runtime_oct09/review_support/hero_original.png"
+  ],
+  "references_roles": [
+    "Selected viewport scene and style reference",
+    "Canonical character style reference only, character not generated"
+  ],
+  "visual_review": {
+    "candle_cluster_count": 6,
+    "candle_support": "All six visually rest on wide horizontal solid stone altar tops; visible supporting stone faces reach terrain. No apparent floating candles.",
+    "review_status": "worker native visual inspection completed; awaiting parent review before upscale"
+  },
+  "source_hero_equivalent_px": 64,
+  "review_hero_height_px": 160,
+  "display_scene_scale": 2.5,
+  "engine_integrated": false,
+  "camera_geometry_validated": false
+}

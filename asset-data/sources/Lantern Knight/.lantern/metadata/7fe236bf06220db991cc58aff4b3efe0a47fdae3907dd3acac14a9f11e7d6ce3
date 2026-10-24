@@ -1,0 +1,23 @@
+{
+  "README.txt": "037a3d1d62d57dbb1022b3c0ce97128076d5a8f51b34906ba0cdec3fe1f4a762",
+  "keepers_glade/A/exact_prompt.txt": "b9961fec65d85ef85a88d398059383e974298f926d4f06718a2d7d811a205808",
+  "keepers_glade/A/hero160_context.png": "55ed9cea572067b7ba24580058288ac5d99b11f9c9b681ed42d2f02cf05b912c",
+  "keepers_glade/A/hero_context_metadata.json": "32fd9834ca35235b778589d3b4c1f0f5d52787dc05b3beae1170aed15bcb9489",
+  "keepers_glade/A/metadata.json": "73006da31a4be5cd8d7a5b38e1f1d384c14ebfc372739ff2ba3e1bb3ef6b9b37",
+  "keepers_glade/A/native.png": "3a2bfa823c50900b9c25dfa3f767f7f45f487bf8261fea2af6314b08e8cbc32e",
+  "keepers_glade/ABC_hero_comparison.png": "b1e7cdf816423c6d2d333fd416977cf9be6c0a78bf45dac8e50ed5c6e0413453",
+  "keepers_glade/B/exact_prompt.txt": "7b2fef0c09d14e0577a2acae63fd5709efbb7ce34d95a8865e8d0e0d60d5547d",
+  "keepers_glade/B/hero160_context.png": "c01df70d5d8c79d625d478662f7ee8304ce60220949b1229214a488899f22163",
+  "keepers_glade/B/hero_context_metadata.json": "9df779c13eb0733122552098136f1fa0e2d3982ce82e9084620428bab2299715",
+  "keepers_glade/B/metadata.json": "5dba170d7b37c863453a45260fa5c24d4c2432e7d05864acfb86763e07cd6f63",
+  "keepers_glade/B/native.png": "11f4e062bfc4d146ac254564c9d2d7a190a85d594b7a19709e08cdcb86358c6e",
+  "keepers_glade/C/exact_prompt.txt": "3b24e00f0e274db95e5a787641ac020cbca34b917ba12b8a9a29f48bc1950a1c",
+  "keepers_glade/C/hero160_context.png": "9295c14aa99074180b3aed16604b76d12e81d63a5a52cfb1c6ae6feaa71ee447",
+  "keepers_glade/C/hero_context_metadata.json": "0ab2031c7740bb9a15c89aa4bea14e8367b19285e0767d37801c9b0d1cac32dd",
+  "keepers_glade/C/metadata.json": "fe4a2e07a2e4368305505dbd2e4d858e09b87ba8f088c8fa8cea5288b9831df1",
+  "keepers_glade/C/native.png": "176d11efcedb8919f2f866e4571b7e18cb4f879dea172d8a52cfea72f208d77b",
+  "keepers_glade/hero_placements.json": "1df2a81d1e9a4efe2a5324cf5f335c981e70c63db081d5f871b181379a6207d7",
+  "review/build_contexts.py": "4f5ec5965cce46666b8838e58bed186feec524eca00b6ae849cf2377deac93d4",
+  "review/keepers_glade_hero_comparison_small.jpg": "ddab3ec49ca263b9ed94dfe53c18878eb329e6fd15fbf5f3db162e6abaff617c",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

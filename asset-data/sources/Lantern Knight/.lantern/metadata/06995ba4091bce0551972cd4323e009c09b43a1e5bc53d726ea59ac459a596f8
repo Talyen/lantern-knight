@@ -1,0 +1,14 @@
+{
+  "distinct_frame_hashes": 6,
+  "frame_count": 6,
+  "all_rgba": true,
+  "fixed_canvas": true,
+  "clear_outer_edges": true,
+  "nonempty_frames": true,
+  "timebase_hz": 60,
+  "duration_ticks": 76,
+  "runtime_resampling": false,
+  "runtime_mirroring": false,
+  "engine_tested": false,
+  "independent_visual_review": "VISUAL_QA_PASSED_ENGINE_UNTESTED"
+}

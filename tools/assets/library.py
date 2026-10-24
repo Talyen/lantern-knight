@@ -1,5 +1,7 @@
 """Explicit source health and content-preserving library consolidation."""
 
+import gzip
+
 import argparse
 import hashlib
 import json
@@ -180,9 +182,25 @@ def main():
     ap.add_argument("--manifest", type=pathlib.Path)
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
+    owned = PROJECT / "asset-data/source-inputs.json.gz"
+    if args.mode == "check" and args.root is None and owned.exists():
+        from resolver import safe_relative, require_local
+        inventory = json.loads(gzip.decompress(owned.read_bytes()))
+        if inventory["schemaVersion"] != 1:
+            raise ValueError("Invalid owned source inventory")
+        base = PROJECT / "asset-data/sources"
+        for name, info in inventory["files"].items():
+            source = base / safe_relative(name)
+            if any(p.is_symlink() for p in [source, *source.parents]):
+                raise ValueError("Owned source is a symlink: " + name)
+            require_local(source)
+            if source.stat().st_size != info["bytes"] or digest(source) != info["sha256"]:
+                raise ValueError("Owned source differs: " + name)
+        print(f"PASS: {len(inventory['files'])} owned source inputs verified.")
+        return
     index = load_index(args.index)
     library = pathlib.Path(
-        os.environ.get("ASSET_LIBRARY_ROOT", pathlib.Path.home() / "Documents/Asset Library")
+        PROJECT / "asset-data/sources"
     )
     root = (args.root or library / index["libraryDirectory"]).absolute()
     if args.mode == "check":

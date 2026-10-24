@@ -1,0 +1,16 @@
+{
+  "title": "11 Fungi and Plants",
+  "variants": [
+    {
+      "id": "FP02",
+      "slug": "ironcap_fungus",
+      "name": "Ironcap Fungus",
+      "description": "One broad nonhumanoid predatory mushroom. A single huge smooth low-domed rust-red mushroom cap, noticeably wider than tall, over a short stout warm-ivory stalk. Exactly four large simple ivory oval spots spaced in a balanced ring on cap, no speckled texture. A simple deep-plum gill band directly under the rim, with only six broad gill divisions. Two narrow black eye slits set low on the stalk facing screen-down-right; no mouth. At the stalk base exactly four blunt thick root lobes splay outward, no human hands or feet and no arm branches. Broad umbrella silhouette, threatening and weighty. Cap top is prominently visible from above. No frills, spores, moss, accessories or ground.",
+      "motion_hint": "Cap bob / heavy slam",
+      "move": "Root base scoots with a single delayed cap bob.",
+      "attack": "Stalk compresses then drives the heavy cap down.",
+      "death": "Cap folds over the shortened stalk as one mass.",
+      "qa": "One connected broad cap, four ivory spots and two eye slits pass. Three root lobes are visible with the rear lobe occluded; six gill divisions are not exact. Cap volume reads clearly at small sizes. The red cap is brighter than muted rust and painted highlights will flip when mirrored."
+    }
+  ]
+}

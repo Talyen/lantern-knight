@@ -1,0 +1,779 @@
+{
+  "pack_count": 12,
+  "variant_count": 48,
+  "all_zip_crcs_verified": true,
+  "all_native_hashes_verified": true,
+  "all_asset_hashes_verified": true,
+  "all_assets_rgba_with_transparent_background_and_opaque_interior": true,
+  "component_notes": [],
+  "assets": [
+    {
+      "id": "SK01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        762,
+        1448
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SK02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        812,
+        1577
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SK03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        602,
+        1633
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SK04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1198,
+        1301
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "GB01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1044,
+        1476
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "GB02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1271,
+        1315
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "GB03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1097,
+        1409
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "GB04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1272,
+        1310
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "ZB01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        921,
+        1577
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "ZB02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1107,
+        1420
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "ZB03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1092,
+        1390
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "ZB04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1210,
+        1203
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "CT01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        634,
+        1634
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "CT02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1007,
+        1466
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "CT03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        964,
+        1559
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "CT04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        794,
+        1635
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SL01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1278,
+        954
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SL02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1031,
+        1473
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SL03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1326,
+        1010
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SL04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1465,
+        903
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SP01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        737,
+        1529
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SP02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1268,
+        1193
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SP03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1136,
+        1271
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SP04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        841,
+        1445
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "BT01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1598,
+        1100
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "BT02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1317,
+        1213
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "BT03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1332,
+        1131
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "BT04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1528,
+        1048
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SC01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1278,
+        1332
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SC02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1323,
+        1206
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SC03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1311,
+        985
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "SC04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1152,
+        1021
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "AR01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        648,
+        1657
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "AR02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1332,
+        1262
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "AR03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1264,
+        1333
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 3,
+      "intentional_disconnected_components": true
+    },
+    {
+      "id": "AR04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1257,
+        1354
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "WH01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1288,
+        1325
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "WH02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1269,
+        1239
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "WH03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1278,
+        1313
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "WH04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1257,
+        1246
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "FP01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1266,
+        993
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "FP02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1287,
+        1303
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "FP03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1235,
+        1464
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "FP04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1140,
+        1136
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "EL01",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1004,
+        1427
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "EL02",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1175,
+        1245
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "EL03",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1247,
+        1297
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    },
+    {
+      "id": "EL04",
+      "native_hash_verified": true,
+      "asset_hash_verified": true,
+      "mode": "RGBA",
+      "dimensions": [
+        1322,
+        1296
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "large_alpha_components": 1,
+      "intentional_disconnected_components": false
+    }
+  ]
+}

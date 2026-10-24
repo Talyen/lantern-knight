@@ -1,0 +1,26 @@
+[
+  {
+    "baseline": "06_location_concepts/01_ruined_lantern_warden_courtyard_v2",
+    "current": "masters/01_ruined_lantern_warden_courtyard_r02c.png",
+    "status": "redrawn",
+    "sha256": "f9961bf7eb147b8ecc2f9077bb77859720cbf03006c8bcd35fe27a614f22503b"
+  },
+  {
+    "baseline": "06_location_concepts/02_drowned_chapel_crypt_v1",
+    "current": "masters/02_drowned_chapel_crypt_v1.png",
+    "status": "retained original",
+    "sha256": "190b08e4ff5dd20b21b01f5940ba8e0a510030e252ce50ff1e5c88263e58fab2"
+  },
+  {
+    "baseline": "06_location_concepts/03_abandoned_clockmaker_hall_v1",
+    "current": "masters/03_abandoned_clockmaker_hall_r02c.png",
+    "status": "redrawn",
+    "sha256": "f7045df78aa4c55306e150ad0be0088de94209f97ac22d6264d286f6f853ca6b"
+  },
+  {
+    "baseline": "06_location_concepts/04_blackwood_path_clearing_v2",
+    "current": "masters/04_blackwood_path_clearing_r02b.png",
+    "status": "redrawn",
+    "sha256": "16a4c492e2d60667d39353ec474a4cead5a1927e20bacaa84e3998af8c1f010a"
+  }
+]

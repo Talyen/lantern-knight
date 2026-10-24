@@ -1,0 +1,25 @@
+# Lantern 2.5D — Town Craftspeople 01
+
+A merchant arranging ceramic wares and a smith striking and inspecting hot metal. Each includes **six native work cels** and a **held native rest / talk-ready state**. These are single-view illustrated sprite stations, not directional character rigs.
+
+## Contents
+- `runtime/{merchant,smith}`: twelve 512×512 straight-alpha PNG cels and two 1536×1024 atlases.
+- `manifest.json`: 60 Hz hold durations, atlas layout, PPU, pivots, work/talk-ready clips and impact events.
+- `preview`: checker contacts and a 12-second, 60 fps MP4 playback comparison.
+- `source`: two original built-in image generation outputs and their exact prompts.
+- `rebuild.py`: deterministic slicing, landmark registration, canonical lower-station compositing, transparent-dust cleanup, atlas packing and preview generation. Requires Python 3, Pillow, NumPy, SciPy and FFmpeg. Run `python rebuild.py` from this folder. No generative API is invoked by the rebuild.
+- `QA.json`: per-cel review and technical checks.
+
+## Import
+Use **256 pixels per unit**, full-rectangle 512×512 sprite cells, straight alpha, clamp wrapping, bilinear filtering, mipmaps off. Preserve transparent margins and the shared pivot; never trim/recenter each frame separately. The atlas has three columns and two rows. Row-major indices 0–5 are work. Talk-ready holds merchant frame 0 or smith frame 5; these are explicitly reused frames, not additional native cels. For Unity pivots, use `pivot_unity_normalized` in the manifest; JSON also provides top-left-origin pixel pivots. All duration values are integer 60 Hz ticks, not native drawing frame counts.
+
+Recommended integration: loop `work`; allow a request to acknowledge at its long rest pose (merchant frame 0, smith frame 5); hold `talk_ready` until interaction ends, then resume the work loop. The smith has one impact event at work cel 3. Keep world collision independent of drawn hammer reach; no collision hull is provided.
+
+## Art and motion notes
+Native acting cels were generated with the built-in image tool. No tool-version/model identity is asserted. No synthetic interpolation, skeleton warping, artificial grain or frame-count inflation is used. Station registration uses fixed workstation features, not individual character bounding boxes. All source cels remain available for repainting.
+
+The camera target is orthographic elevation **35.2643897°**, azimuth **45°**. That is an art-direction specification rather than a measured 3D camera calibration. This kit matches a crafted dark-fantasy ink/cel look, with more material detail than a flat cel character.
+
+Lower table/anvil bases and planted feet are canonical and identical inside each clip. The moving upper region retains small native illustration differences. Separate nod variants were omitted after review because of cross-state station/design drift. This first release prioritizes coherent workloops over extra animation variants.
+
+The PNG source may show brown hidden RGB when inspected by viewers that ignore alpha. Runtime clears fully transparent RGB and alpha dust below 8/255. Checker previews demonstrate actual composited edges. No brown backdrop is included in runtime.

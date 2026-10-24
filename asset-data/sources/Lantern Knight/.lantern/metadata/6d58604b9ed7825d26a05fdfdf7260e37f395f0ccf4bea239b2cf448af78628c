@@ -1,0 +1,182 @@
+[
+  {
+    "frame": 0,
+    "source_cel": 0,
+    "lighting_gains_left_right_front": [
+      0.9999999911616535,
+      0.9999999917463943,
+      0.9999999917059483
+    ]
+  },
+  {
+    "frame": 1,
+    "source_cel": 1,
+    "lighting_gains_left_right_front": [
+      1.0811507431769372,
+      1.0259644597591506,
+      1.0321947357747774
+    ]
+  },
+  {
+    "frame": 2,
+    "source_cel": 2,
+    "lighting_gains_left_right_front": [
+      1.0496199418175771,
+      1.0248502229861527,
+      1.063366546798912
+    ]
+  },
+  {
+    "frame": 3,
+    "source_cel": 3,
+    "lighting_gains_left_right_front": [
+      1.098952646210241,
+      1.0401950516315723,
+      1.0768651159630216
+    ]
+  },
+  {
+    "frame": 4,
+    "source_cel": 4,
+    "lighting_gains_left_right_front": [
+      1.17,
+      1.0622940809626946,
+      1.1280808852953577
+    ]
+  },
+  {
+    "frame": 5,
+    "source_cel": 9,
+    "lighting_gains_left_right_front": [
+      1.17,
+      1.0504295227316998,
+      1.1062398824491793
+    ]
+  },
+  {
+    "frame": 6,
+    "source_cel": 10,
+    "lighting_gains_left_right_front": [
+      1.090651965730914,
+      1.0135221491273423,
+      1.0389198293726671
+    ]
+  },
+  {
+    "frame": 7,
+    "source_cel": 11,
+    "lighting_gains_left_right_front": [
+      1.0585614024226373,
+      1.0181579243433947,
+      1.016671035650563
+    ]
+  },
+  {
+    "frame": 8,
+    "source_cel": 12,
+    "lighting_gains_left_right_front": [
+      1.0666411242379183,
+      1.068841941505249,
+      1.008846980200603
+    ]
+  },
+  {
+    "frame": 9,
+    "source_cel": 13,
+    "lighting_gains_left_right_front": [
+      1.0712886214716852,
+      1.08799718479413,
+      1.0576989447945238
+    ]
+  },
+  {
+    "frame": 10,
+    "source_cel": 14,
+    "lighting_gains_left_right_front": [
+      1.1507748182178226,
+      0.9308416537680463,
+      1.0807771436880016
+    ]
+  },
+  {
+    "frame": 11,
+    "source_cel": 15,
+    "lighting_gains_left_right_front": [
+      1.17,
+      1.0132882969651082,
+      1.0822700729964745
+    ]
+  },
+  {
+    "frame": 12,
+    "source_cel": 16,
+    "lighting_gains_left_right_front": [
+      1.0701470017074477,
+      1.1455316947084893,
+      1.1070761993303144
+    ]
+  },
+  {
+    "frame": 13,
+    "source_cel": 17,
+    "lighting_gains_left_right_front": [
+      1.1223300728663046,
+      1.0826117070579744,
+      1.092160729665108
+    ]
+  },
+  {
+    "frame": 14,
+    "source_cel": 18,
+    "lighting_gains_left_right_front": [
+      1.128642125369218,
+      0.9664490844705732,
+      1.0843021156663404
+    ]
+  },
+  {
+    "frame": 15,
+    "source_cel": 19,
+    "lighting_gains_left_right_front": [
+      1.1040125996168937,
+      1.0964846426822734,
+      1.1065509093884445
+    ]
+  },
+  {
+    "frame": 16,
+    "source_cel": 20,
+    "lighting_gains_left_right_front": [
+      1.1208864762612043,
+      1.0712010971419048,
+      1.1081613377628619
+    ]
+  },
+  {
+    "frame": 17,
+    "source_cel": 21,
+    "lighting_gains_left_right_front": [
+      1.038343684662431,
+      1.0111973835145445,
+      1.0416223078893936
+    ]
+  },
+  {
+    "frame": 18,
+    "source_cel": 22,
+    "lighting_gains_left_right_front": [
+      1.0687917885679659,
+      1.0621427648577195,
+      1.09536776299442
+    ]
+  },
+  {
+    "frame": 19,
+    "source_cel": 23,
+    "lighting_gains_left_right_front": [
+      1.0351250534561613,
+      0.984751455167777,
+      1.0019905641172457
+    ]
+  }
+]

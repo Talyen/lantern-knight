@@ -1,0 +1,21 @@
+{
+  "id": "cloth_tear_scraps",
+  "family": "cloth_tear_scraps",
+  "source_fps": 30,
+  "preview_fps": 60,
+  "frame_count": 48,
+  "duration_seconds": 1.6,
+  "loop": false,
+  "canvas": [
+    640,
+    560
+  ],
+  "pivot": [
+    320,
+    386
+  ],
+  "alpha": "straight",
+  "camera": "fixed orthographic ground registration; illustrative contours",
+  "world_density_px_per_metre": 112,
+  "phases": "compression/contact, directional breakup, ballistic fall or fabric drag, clean geometric disappearance"
+}

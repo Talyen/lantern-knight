@@ -1,0 +1,92 @@
+{
+  "concept": "Lantern: The Last Ferry \u2014 Empty Lantern",
+  "clips": {
+    "Intro": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "120",
+      "duration": "2.000000",
+      "size": "159938"
+    },
+    "Hold": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "240",
+      "duration": "4.000000",
+      "size": "326690"
+    },
+    "Complete": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "120",
+      "duration": "2.000000",
+      "size": "162446"
+    },
+    "Preview": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "480",
+      "duration": "8.000000",
+      "size": "625992"
+    },
+    "Title": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "avg_frame_rate": "60/1",
+      "nb_frames": "480",
+      "duration": "8.000000",
+      "size": "629948"
+    }
+  },
+  "source": {
+    "lantern_attachment_max_error_pixels": 0.0,
+    "removed_figure_oar_and_contact_ripple_geometry": true,
+    "intro_endpoint_equals_hold_start": true,
+    "hold_endpoint_equals_hold_start": true,
+    "completion_start_equals_hold_endpoint": true,
+    "source_rebuild_png_created": true,
+    "lantern_world_transform_used_for_reflection": true,
+    "master_svg_matches_procedural_source": true,
+    "title_master_matches_procedural_source": true,
+    "intro_starts_dark": true,
+    "completion_ends_dark": true
+  },
+  "decoded": {
+    "hold_frames": 240,
+    "hold_unique_frames": 240,
+    "hold_duplicate_adjacent_frames": 0,
+    "hold_adjacent_mean_absolute_difference_mean": 0.06920399859734659,
+    "hold_adjacent_mean_absolute_difference_max": 0.10126543045043945,
+    "hold_last_to_first_mean_absolute_difference": 0.22632458806037903,
+    "intro_to_hold_mean_absolute_difference": 0.29543209075927734,
+    "hold_to_complete_mean_absolute_difference": 0.22632458806037903,
+    "lantern_frame_and_flame_temporal_pixel_variation": 28.91396141052246,
+    "passive_hull_and_wake_temporal_pixel_variation": 6.593325138092041,
+    "lantern_water_reflection_temporal_pixel_variation": 4.6713032722473145,
+    "water_reflections_temporal_pixel_variation": 3.6648547649383545,
+    "reeds_temporal_pixel_variation": 4.50943660736084
+  },
+  "title": {
+    "word": "Lantern",
+    "glyph_count": 7,
+    "settled_from_seconds": 3.75,
+    "settled_duration_seconds": 4.25,
+    "assembly_region_temporal_pixel_variation": 25.431501388549805,
+    "late_background_temporal_pixel_variation": 2.18981671333313,
+    "final_title_letter_region_source_identical": true
+  }
+}

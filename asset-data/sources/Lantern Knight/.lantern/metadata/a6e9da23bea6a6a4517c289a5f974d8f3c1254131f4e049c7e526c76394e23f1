@@ -1,0 +1,11 @@
+Sanguine Seal
+
+16 unique generated art cels + a fully clear final cel. Fixed 512 x 512 RGBA canvas and fixed pivot. Art is native source pixels, sliced and padded without upscaling or frame auto-fit.
+
+Role: enemy. Tell/formation ends at 960 ms; one impact event at 960 ms; complete at 1540 ms. Timing is an art prototype, not game balance. Source drawings materially evolve; exported MP4 repeats cels only to preserve their exact timing.
+
+Use sanguine_seal.json for timing, frame rectangles, event and approximate target/pivot data. Set sprites to Clamp with no mipmaps by default; use alpha blending, not additive. Import all frames at equal scale with the supplied pivot. Stop on the transparent final cel; do not loop the attack. The APNG and two-cycle MP4 are review previews.
+
+Transform rules: Ground-projected ellipse: horizontal mirror is valid. Do not rotate/vertically flip the sprite in screen space; keep the projection or reproject on a ground-plane quad. Horizontal mirror must also mirror pivot and target. Target guides require in-engine verification. No game/repository changes were made.
+
+Source generation used the built-in image-generation tool. Exact successful prompts and source sheet are included. Earlier rejected attempts are excluded.

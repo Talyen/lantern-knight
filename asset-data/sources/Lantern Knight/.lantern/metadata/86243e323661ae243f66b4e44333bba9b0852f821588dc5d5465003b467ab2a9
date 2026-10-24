@@ -1,0 +1,61 @@
+{
+  "title": "Chapel C | Full Scenic Map",
+  "views": [
+    {
+      "name": "main_nave",
+      "display_box": [
+        900,
+        800,
+        2436,
+        1824
+      ],
+      "display_foot": [
+        1688,
+        1263
+      ]
+    },
+    {
+      "name": "sanctuary_aisle",
+      "display_box": [
+        2125,
+        525,
+        3661,
+        1549
+      ],
+      "display_foot": [
+        2783,
+        1308
+      ]
+    },
+    {
+      "name": "side_chapel",
+      "display_box": [
+        1375,
+        1450,
+        2911,
+        2474
+      ],
+      "display_foot": [
+        1735,
+        2110
+      ],
+      "placement_note": "Moved from producer suggestion after rendered review found it overlapped a baked foreground wall; final foot is on clear lower side-chapel paving."
+    }
+  ],
+  "seams": [
+    {
+      "name": "nave_carpet_edge",
+      "source_xy": [
+        640,
+        640
+      ]
+    },
+    {
+      "name": "altar_and_columns",
+      "source_xy": [
+        1120,
+        320
+      ]
+    }
+  ]
+}

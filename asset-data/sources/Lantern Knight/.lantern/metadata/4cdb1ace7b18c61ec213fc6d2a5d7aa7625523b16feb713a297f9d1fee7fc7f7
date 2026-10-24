@@ -1,0 +1,2 @@
+DR hit reaction and clothed collapse defeat extension. Right dagger and left closed book remain held throughout. Same640canvas/pivot374,555/240PPU as delivered baseline. Defeat entire native clip uniformly downscaled .90 to match baseline standing size; no frame-wise normalization. Offsets baked.
+Hit and defeat are one-shots. Final defeated body is held; no automatic recovery or looping. Visual markers do not implement game logic. No loot, engine integration, or real-time playback test is included.

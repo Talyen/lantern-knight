@@ -1,0 +1,98 @@
+{
+  "name": "pallid_spore_fan",
+  "frame_size": [
+    640,
+    640
+  ],
+  "durations_ms": [
+    80,
+    100,
+    100,
+    40,
+    30,
+    80,
+    45,
+    70,
+    70,
+    60,
+    40,
+    45,
+    180
+  ],
+  "stages": [
+    "closed",
+    "compress",
+    "pressure",
+    "split",
+    "expel",
+    "spore impact",
+    "second pulse",
+    "recoil",
+    "relax",
+    "collapse",
+    "shed",
+    "spores",
+    "clear"
+  ],
+  "loop": false,
+  "transparent_final_frame": 12,
+  "registration": {
+    "method": "visual retained physical anchor; constant global scale",
+    "source_anchors": [
+      [
+        85,
+        276
+      ],
+      [
+        448,
+        276
+      ],
+      [
+        810,
+        276
+      ],
+      [
+        1170,
+        278
+      ],
+      [
+        84,
+        622
+      ],
+      [
+        445,
+        621
+      ],
+      [
+        814,
+        622
+      ],
+      [
+        1140,
+        611
+      ],
+      [
+        72,
+        930
+      ],
+      [
+        450,
+        932
+      ],
+      [
+        802,
+        935
+      ],
+      [
+        1170,
+        935
+      ]
+    ],
+    "target": [
+      150,
+      370
+    ],
+    "scale": 1.1
+  },
+  "note": "Hand-drawn action cels; no interpolated transforms or fades. Blank end frame. Preview repeats with rest."
+}

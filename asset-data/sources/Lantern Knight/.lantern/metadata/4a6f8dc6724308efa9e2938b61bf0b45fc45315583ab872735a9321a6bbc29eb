@@ -1,0 +1,4 @@
+Ruined Craftsman Forge INTERACTABLES
+Two opening lootables and two breakable containers. Four individually authored cels per prop. Genuine transparent PNG.
+Native cells retain source pixels; runtime cells/atlases are 256px downsampled derivatives. timing.json specifies pivots and timing. End states persist; previews repeat solely for demonstration. No interpolation or sprite deformation.
+Placement preview is a mechanical overlay on unchanged approved scene. Runtime ground contact shadows should be supplied by game lighting. No loot/reward artwork included.

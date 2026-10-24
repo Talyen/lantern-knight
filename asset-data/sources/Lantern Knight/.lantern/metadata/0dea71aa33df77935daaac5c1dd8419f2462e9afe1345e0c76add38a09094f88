@@ -1,0 +1,97 @@
+{
+  "candidate": "U_native_fresh_v04.png",
+  "status": "NATIVE_VISUAL_TEST_WITH_MOTION_QUALIFICATIONS",
+  "review_order": [
+    "normal human anatomy",
+    "hand ownership",
+    "costume",
+    "rigid sword",
+    "stride/loop progression",
+    "cropping"
+  ],
+  "per_cel": [
+    {
+      "frame": 0,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 1,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 2,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 3,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 4,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 5,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 6,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    },
+    {
+      "frame": 7,
+      "normal_human_anatomy": "pass",
+      "right_sword_left_lantern": "pass",
+      "left_patch_right_plain": "pass",
+      "rigid_single_sword": "visually consistent",
+      "cropping": "visible silhouette inside cell",
+      "phase": "source proxy only"
+    }
+  ],
+  "full_clip": "Coherent two-half-cycle alternating leg support silhouettes and compact transitions in cels3/7. No repeated mini-strides.",
+  "qualifications": [
+    "Adjacent cels0\u20132 and4\u20136 have restrained pose differences; upperbody counterrotation is subtle. This is a native test candidate, not proof of exact source kinematics.",
+    "Camera, source root, fixed density and source contact flags are approximate against art; engine playback untested."
+  ],
+  "generation_provenance": {
+    "selected": "fresh_v04",
+    "references": "canonical hero + exact cardinalUguide + existingURstyle",
+    "failed_generated_draft_inputs": false,
+    "rejected": "v01 wrong lowercoat patch; v03 repeated same-sided leg extension; generativeeditv02 excluded, never packaged or used as input"
+  }
+}

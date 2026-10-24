@@ -1,0 +1,250 @@
+{
+  "name": "basic_attack",
+  "loop": false,
+  "drawing_count": 6,
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_top_left_px": [
+    320,
+    576
+  ],
+  "pivot_normalized_bottom_left": [
+    0.4166666666666667,
+    0.09999999999999998
+  ],
+  "atlas": "atlases/basic_attack_atlas.png",
+  "atlas_size_px": [
+    2304,
+    1280
+  ],
+  "source": "sources/basic_attack_source.png",
+  "source_sheet_scale": 0.9874476987447699,
+  "source_sha256": "5c5466de071093935704db04c5db61f64c717efb0cd89417e7b216a46b604c1c",
+  "fps_timebase": 60,
+  "frames": [
+    {
+      "cel": 1,
+      "file": "frames/basic_attack/basic_attack_01.png",
+      "hold_ticks_60hz": 16,
+      "start_tick": 0,
+      "phase": "draw_back",
+      "atlas_rect_xywh": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        37,
+        29,
+        459,
+        486
+      ],
+      "source_ground_anchor_xy": [
+        245,
+        478
+      ],
+      "registered_xy": [
+        115,
+        133
+      ],
+      "alpha_bbox_gt127": [
+        120,
+        136,
+        529,
+        581
+      ],
+      "sha256": "87fa05f3bea038710a172452376e38bb038ac4dad7f0b429ef1e37866d25eccf"
+    },
+    {
+      "cel": 2,
+      "file": "frames/basic_attack/basic_attack_02.png",
+      "hold_ticks_60hz": 20,
+      "start_tick": 16,
+      "phase": "open_jaws",
+      "atlas_rect_xywh": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        540,
+        36,
+        1027,
+        482
+      ],
+      "source_ground_anchor_xy": [
+        728,
+        476
+      ],
+      "registered_xy": [
+        134,
+        142
+      ],
+      "alpha_bbox_gt127": [
+        137,
+        147,
+        611,
+        579
+      ],
+      "sha256": "bd2e0035f955b1d223ff2c32f23ed202de2d199a6cb83fcde618d30f4b556c0c"
+    },
+    {
+      "cel": 3,
+      "file": "frames/basic_attack/basic_attack_03.png",
+      "hold_ticks_60hz": 24,
+      "start_tick": 36,
+      "phase": "aim_hold",
+      "atlas_rect_xywh": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1022,
+        78,
+        1522,
+        476
+      ],
+      "source_ground_anchor_xy": [
+        1228,
+        469
+      ],
+      "registered_xy": [
+        117,
+        190
+      ],
+      "alpha_bbox_gt127": [
+        120,
+        193,
+        607,
+        580
+      ],
+      "sha256": "82c2fdda4be17c32c39e6b7cbd01f2c8ca56688f3feab8a452a8167edd3408ea"
+    },
+    {
+      "cel": 4,
+      "file": "frames/basic_attack/basic_attack_04.png",
+      "hold_ticks_60hz": 4,
+      "start_tick": 60,
+      "phase": "lunge_snip_impact",
+      "atlas_rect_xywh": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        35,
+        548,
+        625,
+        981
+      ],
+      "source_ground_anchor_xy": [
+        270,
+        974
+      ],
+      "registered_xy": [
+        88,
+        155
+      ],
+      "alpha_bbox_gt127": [
+        93,
+        159,
+        667,
+        580
+      ],
+      "sha256": "d19ecfade8a922ae5caad374623e343b87256446fe29f4a9ea8909ebbb56442d",
+      "event": "damage_once"
+    },
+    {
+      "cel": 5,
+      "file": "frames/basic_attack/basic_attack_05.png",
+      "hold_ticks_60hz": 8,
+      "start_tick": 64,
+      "phase": "recoil",
+      "atlas_rect_xywh": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        615,
+        542,
+        1021,
+        985
+      ],
+      "source_ground_anchor_xy": [
+        774,
+        979
+      ],
+      "registered_xy": [
+        163,
+        144
+      ],
+      "alpha_bbox_gt127": [
+        168,
+        147,
+        559,
+        578
+      ],
+      "sha256": "b8612d7c8f35183e0ee5d9f7766dda2d830f264f8f38704b10319fd5c5d0ee5d"
+    },
+    {
+      "cel": 6,
+      "file": "frames/basic_attack/basic_attack_06.png",
+      "hold_ticks_60hz": 16,
+      "start_tick": 72,
+      "phase": "recover",
+      "atlas_rect_xywh": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1097,
+        508,
+        1517,
+        992
+      ],
+      "source_ground_anchor_xy": [
+        1268,
+        984
+      ],
+      "registered_xy": [
+        151,
+        106
+      ],
+      "alpha_bbox_gt127": [
+        154,
+        109,
+        562,
+        581
+      ],
+      "sha256": "6f1ba1f9a2a78f6c9e97a6336660e9f3116c1ea9ea1765d61d4fb7243724583e"
+    }
+  ],
+  "duration_ticks_60hz": 88,
+  "terminal_hold": false,
+  "anticipation_ticks_60hz": 60,
+  "impact_tick": 60,
+  "damage_event_count": 1,
+  "target_zone": {
+    "shape": "ellipse",
+    "center_px": [
+      590,
+      307
+    ],
+    "radii_px": [
+      58,
+      44
+    ],
+    "note": "One conceptual target zone. Requires gameplay and camera calibration; not an implemented collider."
+  }
+}

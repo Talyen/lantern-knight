@@ -1,0 +1,67 @@
+{
+  "unaffected_clips": [
+    {
+      "clip": "exposed_gear_pair",
+      "files": 249,
+      "all_files_byte_identical": true
+    },
+    {
+      "clip": "pulley_chain_sway",
+      "files": 64,
+      "all_files_byte_identical": true
+    },
+    {
+      "clip": "tower_bell",
+      "files": 64,
+      "all_files_byte_identical": true
+    },
+    {
+      "clip": "bubble_chamber",
+      "files": 63,
+      "all_files_byte_identical": true
+    },
+    {
+      "clip": "astrolabe",
+      "files": 124,
+      "all_files_byte_identical": true
+    }
+  ],
+  "generated_masters": [
+    {
+      "master": "exposed_gear_pair_components_v01.png",
+      "sha256": "284e334e462c66c9f03803615fc1af76b41f46794d0a55656df95b9add09d3fc",
+      "identical_to_v02": true
+    },
+    {
+      "master": "pulley_chain_sway_components_v01.png",
+      "sha256": "0a950c1407cf227f6f500445683de8dddeb0afb3866969451028e159690d128a",
+      "identical_to_v02": true
+    },
+    {
+      "master": "waterwheel_components_v01.png",
+      "sha256": "301c935c52e8544ac78757a146d655bf5f6188d29985a7c68e3d057d6fbb3fce",
+      "identical_to_v02": true
+    },
+    {
+      "master": "bubble_chamber_components_v01.png",
+      "sha256": "b9559e913fb9989ad6e4aff27273925ff066a2c869e40b8b6b78a32f2e6afc79",
+      "identical_to_v02": true
+    },
+    {
+      "master": "astrolabe_components_v01.png",
+      "sha256": "e4238441a7c81cd9b0b557f833918b9de29e8644162c75e3ea461ea494f4b15c",
+      "identical_to_v02": true
+    },
+    {
+      "master": "tower_bell_components_v03.png",
+      "sha256": "4caea90660744feeb6c09eb5b708573934956ec7682d81105075b84271615060",
+      "identical_to_v02": true
+    }
+  ],
+  "rim_pixels": {
+    "old_reported_strip_alpha_max": 0,
+    "original_visible_rgba_exact": true,
+    "all_original_alpha_exact": true,
+    "new_zero_alpha_rgb_zero": true
+  }
+}

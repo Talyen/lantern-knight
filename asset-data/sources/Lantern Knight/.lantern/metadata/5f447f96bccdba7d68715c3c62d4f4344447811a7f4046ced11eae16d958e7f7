@@ -1,0 +1,46 @@
+# Lantern — Shadow Theatre, polished edition
+
+A hanging lantern illuminates a ruined miniature theatre and a wind-braced traveler. This is a restrained revision of the earlier concept, retaining its composition, palette and clean, flat cut-paper style. All artwork is editable SVG geometry. There are no raster textures, grain, gradients, fonts, logos, loading text, progress UI or audio.
+
+## Playable files
+
+- `Lantern_B_ShadowTheatre_Polished_Preview.mp4` — complete 8-second presentation.
+- `Lantern_B_ShadowTheatre_Polished_Intro.mp4` — 2-second opening, 120 frames.
+- `Lantern_B_ShadowTheatre_Polished_Hold.mp4` — 4-second seamless loop, 240 frames.
+- `Lantern_B_ShadowTheatre_Polished_Complete.mp4` — 2-second closing, 120 frames.
+
+All four are 1920 × 1080, 60 fps, silent H.264/YUV420p with fast-start metadata. The preview joins the phases as 2/4/2 seconds. Frames are generated at their actual 1/60-second times, rather than repeating lower-rate frames.
+
+## Editable source and resources
+
+- `shadow_theatre_master.svg`: editable vector still at hold phase zero.
+- `render.py`: complete artwork, palette, animation functions, SVG generator and Cairo/librsvg renderer.
+- `requirements.txt`: Python dependencies; no external art, font, network or account resources are needed.
+- `rebuild.sh`: regenerate stills, all four production clips and verification results.
+- `verify.py` / `verification.json`: technical checks, source-boundary equality, actual decoded motion and output format checks.
+- `CHANGELOG.md`: original issues and factual visible changes.
+- `contact_sheet.jpg`, `decoded_motion_contact.jpg`, `before_after_contact.jpg`: review references, not runtime overlays.
+- `manifest.json`: included file list and SHA-256 checksums. The manifest itself is excluded from its own checksum list.
+
+The single SVG is a still. Full motion is defined by the editable paths and functions in `render.py`. Edit the `C` palette, shape functions or phase-dependent amplitudes. `svg_at(time_seconds, segment)` returns an independent SVG for the selected time; segments are `intro`, `hold` or `complete`.
+
+## Playback / variable loading
+
+Play Intro once, repeat Hold while loading, then play Complete at the next full hold boundary. The exact authored boundary poses match. Do not add a duplicate endpoint frame to the loop. The final color is `#101519`. Waiting for a full hold boundary may add up to four seconds after readiness; arbitrary-phase completion would require a runtime adaptation.
+
+These files are an animation source package. Unity integration, in-engine playback and runtime performance have not been tested.
+
+## Rebuild locally
+
+Requires Python 3, Pillow, NumPy, FFmpeg with libx264, Cairo, librsvg-2 and GLib/GObject. Debian-family system packages include `ffmpeg`, `libcairo2` and `librsvg2-2`. No download is performed by the rebuild script.
+
+    python -m pip install -r requirements.txt
+    ./rebuild.sh
+
+Or run `python render.py --proof --all`, then `python verify.py`. For a smaller 960 × 540 draft, run `python render.py --draft`.
+
+The renderer uses native shared libraries through Python ctypes. Encoding is deterministic in the included environment with a two-thread libx264 setup; different FFmpeg or library versions can produce different bytes while retaining the specified image and timing.
+
+## Provenance
+
+The original exports remain separate and unchanged. This folder contains new revision files; all scene artwork is procedural, with no third-party art assets.

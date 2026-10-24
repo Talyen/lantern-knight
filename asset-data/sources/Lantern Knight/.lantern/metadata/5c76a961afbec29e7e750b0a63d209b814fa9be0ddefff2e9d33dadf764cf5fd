@@ -1,0 +1,12 @@
+{
+  "scene": "Observatory/Chart Library",
+  "master_id": "1CZYZB8mZKfjBDhisKUQ42g9S-XLqbeY9",
+  "source_kit_id": "1gqlvamCF1SUB6PQnCDXdZ75GUJRhzszz",
+  "library_sources": [
+    "libfile_7892772732fc8191b6a0f1f5a93d2f8c",
+    "libfile_2350d9eeb1c88191ab28b6720fff7230",
+    "libfile_e4d8ad66932081918f6e502af4750128",
+    "libfile_985c101352008191b1ecb601ea0f5c39"
+  ],
+  "generation": "built-in imagegen; requested sunburst in text; no actual selector; 4 authored cels each; native sheets preserved"
+}

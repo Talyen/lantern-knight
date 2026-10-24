@@ -1,0 +1,15 @@
+{
+  "id": "lantern_concept_item_01_oathsteel_sword",
+  "name": "Oathsteel sword",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/01_oathsteel_sword.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Generic polished blade, even bevel highlight; introduce asymmetric forged profile and tapered ink accents.",
+  "pack": "Lantern - Equipment and Loot Concepts 01",
+  "folder": "equipment_loot_01",
+  "destination": "lantern_revision_02/equipment/equipment_loot_01/assets/01_oathsteel_sword.png",
+  "prompt": "New isolated game item, NOT an edit. One blackened OATHSTEEL LONGSWORD drawn in clean graphic ink, lying diagonally from bottom-left tip to upper-right hilt. Mature dark fantasy, practical asymmetrical silhouette, simple swept guard and russet leather grip. EXACTLY FOUR FLAT FILL COLORS: warm near-black, muted slate gray, aged ivory, brown. Flat ink shapes only, like hand-cut colored paper plus expressive tapered brush-black contour. Blade is predominantly flat near-black with one irregular narrow ivory cutting edge and one slate brush-shaped light region. NO central ridge, NO bevel stripes, NO facet polygons, NO shiny gold, NO glossy light, NO texture, NO scratches, NO gradients, NO hatching. Clear LARGE economical shadow shapes. Strong deliberate drawing with variation in contour thickness. Approximate orthographic camera 35.264 degree elevation 45 degree azimuth. Entire sword occupies only central 60% of square canvas. Transparent alpha outside object, generous clear margins, no ground shadow, no background, no text. Reference is only for clean ink aesthetic, not subject.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-e7564554-a415-4c53-a87c-312019861a82.png",
+  "review": "Passed large overview and 64px light/dark proxy. Bow string joins both tips; crossbow fresh unloaded variant has one continuous correctly anchored string. Native alpha preserved."
+}

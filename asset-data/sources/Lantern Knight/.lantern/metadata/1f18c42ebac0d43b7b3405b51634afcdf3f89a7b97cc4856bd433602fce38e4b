@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "native_source_unchanged": true,
+  "unique_drawings": 8,
+  "duration_ticks": 40,
+  "duplicate_endpoint": false,
+  "per_frame_scale": false,
+  "frames": [
+    {
+      "frame": 0,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 1,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 2,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 3,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 4,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 5,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 6,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    },
+    {
+      "frame": 7,
+      "source_atlas_padded_pixels_exact": true,
+      "alpha8_border_clear": true,
+      "pivot_conversion_exact": true
+    }
+  ]
+}

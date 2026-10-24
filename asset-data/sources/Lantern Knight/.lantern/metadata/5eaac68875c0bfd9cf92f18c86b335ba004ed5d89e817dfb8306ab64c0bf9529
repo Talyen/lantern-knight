@@ -1,0 +1,102 @@
+[
+  {
+    "path": "README.txt",
+    "sha256": "2c9e986a7760165626b3718ae5fe135774ae1dca968df2f8037e72ab353276c9",
+    "size": 1613
+  },
+  {
+    "path": "approved_style_prompt.txt",
+    "sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+    "size": 2318
+  },
+  {
+    "path": "exact_prompt.txt",
+    "sha256": "2bf27145844bebd69085deec94c9bd4c65d93f27c97d4a6710d13c1fcdacd2ce",
+    "size": 4396
+  },
+  {
+    "path": "inference/build_scene_review.py",
+    "sha256": "7cacde13cb4bc60659e3913e2aef109d88b2a17455ba20997f1381686f770c7c",
+    "size": 4048
+  },
+  {
+    "path": "inference/check_scene_seams.py",
+    "sha256": "979b505dcdd77f8ff2015d61f027d14ca18e4ac11e4bc0418f75b3c453a02cce",
+    "size": 1805
+  },
+  {
+    "path": "inference/run_isolated.py",
+    "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f",
+    "size": 3465
+  },
+  {
+    "path": "inference/run_test.py",
+    "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236",
+    "size": 2347
+  },
+  {
+    "path": "metrics/output_manifest.json",
+    "sha256": "4c5a83ac310ef3bc65fe17c3535f9d3803ef25a30147de0960bae380856db838",
+    "size": 2423
+  },
+  {
+    "path": "metrics/resume_config.json",
+    "sha256": "b61377d4fd1397496817f2257d1e3839e0da5fd0f6d5dff795282d485039e621",
+    "size": 137
+  },
+  {
+    "path": "metrics/run_metadata.json",
+    "sha256": "d180e629a5dee1a6fc0c5dfbde025f7a61e51c7495a5b41bc73aa38f63f911ff",
+    "size": 16885
+  },
+  {
+    "path": "metrics/seam_metrics.json",
+    "sha256": "2335893148c5ade15d8b8a7469338b692bd7497b2141a262556fc287344fc2ec",
+    "size": 586
+  },
+  {
+    "path": "native_floor.png",
+    "sha256": "c01c8c865ae53f284140cceba1f71a0af4151ef641674ea05c778a3d61848c4a",
+    "size": 2200301
+  },
+  {
+    "path": "production_manifest.json",
+    "sha256": "6496c6e49e4170d58f9f8c3781cccdd9cd081945169da9ccae454b13f4cf0cd8",
+    "size": 21191
+  },
+  {
+    "path": "provenance/Real-ESRGAN-LICENSE.txt",
+    "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2",
+    "size": 1519
+  },
+  {
+    "path": "provenance/exact_prompt_verification.json",
+    "sha256": "7e08cb5b2c76b4f03d5c597390d193deafd0d8eb51db7b6b8eec6c14b1d14de9",
+    "size": 516
+  },
+  {
+    "path": "provenance/ncnn-LICENSE.txt",
+    "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255",
+    "size": 6427
+  },
+  {
+    "path": "provenance/runtime_provenance.json",
+    "sha256": "46a517061dc080cb9aa5c1542e79bbde4454199ec1cc6ed74aec58e3a41609f9",
+    "size": 758
+  },
+  {
+    "path": "references/canonical_hero.png",
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+    "size": 204034
+  },
+  {
+    "path": "review_config.json",
+    "sha256": "958cbcda3c2528ef75c0410da98092bef677bddaebf441b61c41d2921b985fd1",
+    "size": 872
+  },
+  {
+    "path": "review_views_metadata.json",
+    "sha256": "54b0867d262020b95061d86110571fc50675c1c74f94bbe557b3d7c81bc56f74",
+    "size": 1682
+  }
+]

@@ -1,0 +1,11 @@
+SCREEN-LEFT LOW-CARRY RUN: native visual runtime test
+
+Eight distinct native drawings,5 ticks each at60Hz,total40 ticks/0.666667sec,loop00–07. World heading normalize(-X,+Z), camera35.2643897 elevation/45 azimuth, no mirroring.
+
+Padded PNG frames768x768, fixed top-left pivot(384,640), bottom-left(384,128), normalized bottom-left(0.5,0.166666667). Atlas3072x1536 consists of the same full768x768 padded frames; use either representation. Padding already baked; never add source translation a second time.
+
+Suggested density285PPU for whole clip, approximately+/-20%, compared with shared ready350PPU and priorUR235PPU by body-only cranial width. Not engine-calibrated. No per-cel scale or fit. Keep actor transform consistent, change PPU only. Apply controller world motion once; images are in-place.
+
+Native fresh generation followed by three external-only alpha-mask removals of contradictory blade tips. Far right sword is naturally occluded in second half. Hidden wrist attachment is not verifiable. Body bob/poses remain as painted; source phases are guide proxies, not measured art contacts. Painted head bob is small, and arm visibility at8-to1 seam is abrupt but tolerable. See manifest limitations.
+
+Normal MP4 is four cycles; half-speed MP4 two cycles. No CGI final art, resampling, upscale, mirroring or morph frames.

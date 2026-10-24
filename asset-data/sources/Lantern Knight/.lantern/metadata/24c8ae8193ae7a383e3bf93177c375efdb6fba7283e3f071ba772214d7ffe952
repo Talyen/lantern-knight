@@ -1,0 +1,26 @@
+{
+  "tool": "image_gen__imagegen",
+  "intent": "new illustration from text with canonical hero style reference only",
+  "actual_tool_output_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-46cedc48-23e5-44ff-a2d3-9acdb7c94dc1.png",
+  "saved_native_output_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/clean_revision/chapel_C/native.png",
+  "native_output_sha256": "a5ac9b21744b4f8fb28f2c93dc337791dd070e33ccb97b97250576b596a48cd7",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "exact_prompt_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/clean_revision/chapel_C/exact_prompt.txt",
+  "exact_prompt_sha256": "eb378680fa7aa12897babad3749e36a299da0c67c1129d22510497f137ab3f88",
+  "submitted_parameters_path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/clean_revision/chapel_C/submitted_parameters.json",
+  "submitted_parameters_sha256": "6e6b489f1a151beff0c40d44c6766b26ee76af66ed35ef3f2e7d3fdd97bfc916",
+  "approved_style_prefix_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "style_prefix_exact_unchanged": true,
+  "actual_referenced_image_paths": [
+    "/workspace/scratch/1a83d58417d5/scene_retry_samples/style_recovery/references/canonical_hero.png"
+  ],
+  "reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "environment_images_passed_as_inputs": false,
+  "upscaled": false,
+  "model_note": "Model requested in exact prefix; tool exposes no model selector and returns no independently verified model identifier.",
+  "attempt": 2,
+  "correction": "Fresh generation with explicit full-bleed continuous ground framing"
+}

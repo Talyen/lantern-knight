@@ -1,0 +1,209 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "enemy_id": "G6",
+  "enemy_name": "Ribcage Harpist",
+  "clip": "move",
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "pivot_top_left_px": [
+    512,
+    912
+  ],
+  "pivot_unity_normalized": [
+    0.5,
+    0.109375
+  ],
+  "facing": "left",
+  "body_height_reference_px": 800,
+  "scale_per_source_pixel": 1.6359918200408998,
+  "atlas": "Ribcage_Harpist_move_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frame_count": 6,
+  "duration_ms": 840,
+  "loop": true,
+  "hold_last": false,
+  "interpolation": "stepped unique drawn cels; no crossfade",
+  "root_motion": "none",
+  "events": [],
+  "frames": [
+    {
+      "index": 0,
+      "file": "move_000.png",
+      "duration_ms": 140,
+      "start_ms": 0,
+      "phase": "left contact",
+      "source_bbox_px": [
+        112,
+        12,
+        427,
+        501
+      ],
+      "source_anchor_px": [
+        275.501,
+        501
+      ],
+      "bounds_px": [
+        244,
+        113,
+        760,
+        912
+      ],
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 1,
+      "file": "move_001.png",
+      "duration_ms": 140,
+      "start_ms": 140,
+      "phase": "left down",
+      "source_bbox_px": [
+        626,
+        10,
+        919,
+        493
+      ],
+      "source_anchor_px": [
+        783.501,
+        493
+      ],
+      "bounds_px": [
+        254,
+        123,
+        734,
+        913
+      ],
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 2,
+      "file": "move_002.png",
+      "duration_ms": 140,
+      "start_ms": 280,
+      "phase": "passing",
+      "source_bbox_px": [
+        1137,
+        11,
+        1472,
+        495
+      ],
+      "source_anchor_px": [
+        1290.501,
+        495
+      ],
+      "bounds_px": [
+        262,
+        120,
+        809,
+        911
+      ],
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 3,
+      "file": "move_003.png",
+      "duration_ms": 140,
+      "start_ms": 420,
+      "phase": "right contact",
+      "source_bbox_px": [
+        120,
+        522,
+        462,
+        997
+      ],
+      "source_anchor_px": [
+        276.501,
+        997
+      ],
+      "bounds_px": [
+        256,
+        136,
+        817,
+        912
+      ],
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 4,
+      "file": "move_004.png",
+      "duration_ms": 140,
+      "start_ms": 560,
+      "phase": "right down",
+      "source_bbox_px": [
+        630,
+        521,
+        951,
+        997
+      ],
+      "source_anchor_px": [
+        790.501,
+        997
+      ],
+      "bounds_px": [
+        250,
+        133,
+        775,
+        913
+      ],
+      "atlas_rect_px": [
+        0,
+        1024,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 5,
+      "file": "move_005.png",
+      "duration_ms": 140,
+      "start_ms": 700,
+      "phase": "passing",
+      "source_bbox_px": [
+        1128,
+        522,
+        1465,
+        994
+      ],
+      "source_anchor_px": [
+        1313.501,
+        994
+      ],
+      "bounds_px": [
+        208,
+        140,
+        759,
+        913
+      ],
+      "atlas_rect_px": [
+        1024,
+        1024,
+        1024,
+        1024
+      ]
+    }
+  ]
+}

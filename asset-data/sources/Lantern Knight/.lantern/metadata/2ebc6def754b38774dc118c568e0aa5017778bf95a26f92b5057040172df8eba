@@ -1,0 +1,26 @@
+{
+  "title": "Lantern \u2014 Constellation",
+  "style": "A quiet indigo sky, a hand-drawn lunar cradle, a suspended faceted lantern, and stars that physically trace each custom letter.",
+  "native_resolution": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "loading_duration_seconds": 8,
+  "phases_seconds": {
+    "intro": 2,
+    "hold": 4,
+    "complete": 2
+  },
+  "title_duration_seconds": 10,
+  "settled_title_hold_seconds": 3,
+  "visible_title_word": "Lantern",
+  "loading_text_free": true,
+  "font_dependency": null,
+  "raster_art_dependency": null,
+  "source": "render.py",
+  "previews": [
+    "Lantern_05_Constellation_Loading.mp4",
+    "Lantern_05_Constellation_Title.mp4"
+  ]
+}

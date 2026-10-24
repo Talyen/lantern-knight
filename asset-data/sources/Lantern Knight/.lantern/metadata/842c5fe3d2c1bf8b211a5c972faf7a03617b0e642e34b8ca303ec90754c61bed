@@ -1,0 +1,256 @@
+{
+  "name": "signature_ability",
+  "loop": false,
+  "drawing_count": 6,
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_top_left_px": [
+    320,
+    576
+  ],
+  "pivot_normalized_bottom_left": [
+    0.4166666666666667,
+    0.09999999999999998
+  ],
+  "atlas": "atlases/signature_ability_atlas.png",
+  "atlas_size_px": [
+    2304,
+    1280
+  ],
+  "source": "sources/signature_ability_source.png",
+  "source_sheet_scale": 0.9711934156378601,
+  "source_sha256": "fe76928ed9c19733dbd068318acec2751354d3d8b3cc572bb814e75175d45c44",
+  "fps_timebase": 60,
+  "frames": [
+    {
+      "cel": 1,
+      "file": "frames/signature_ability/signature_ability_01.png",
+      "hold_ticks_60hz": 16,
+      "start_tick": 0,
+      "phase": "brace",
+      "atlas_rect_xywh": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        60,
+        5,
+        469,
+        513
+      ],
+      "source_ground_anchor_xy": [
+        256,
+        505
+      ],
+      "registered_xy": [
+        130,
+        90
+      ],
+      "alpha_bbox_gt127": [
+        133,
+        93,
+        523,
+        579
+      ],
+      "sha256": "b06884ba24a709053102c32a05feca920b919d270b859e63e649975e58a5d52e"
+    },
+    {
+      "cel": 2,
+      "file": "frames/signature_ability/signature_ability_02.png",
+      "hold_ticks_60hz": 20,
+      "start_tick": 16,
+      "phase": "spread_shears",
+      "atlas_rect_xywh": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        501,
+        45,
+        1041,
+        512
+      ],
+      "source_ground_anchor_xy": [
+        768,
+        505
+      ],
+      "registered_xy": [
+        61,
+        129
+      ],
+      "alpha_bbox_gt127": [
+        66,
+        132,
+        581,
+        580
+      ],
+      "sha256": "a92cba842c9d73bb3cfbe939d69367665f20bf42ecbb399e3150e3a31348820c"
+    },
+    {
+      "cel": 3,
+      "file": "frames/signature_ability/signature_ability_03.png",
+      "hold_ticks_60hz": 24,
+      "start_tick": 36,
+      "phase": "open_v_hold",
+      "atlas_rect_xywh": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1003,
+        110,
+        1536,
+        512
+      ],
+      "source_ground_anchor_xy": [
+        1280,
+        505
+      ],
+      "registered_xy": [
+        51,
+        192
+      ],
+      "alpha_bbox_gt127": [
+        56,
+        195,
+        568,
+        579
+      ],
+      "sha256": "d6a19f9ed35dabff014f070147a94bc084ad01241c7fcde4937b137e8e2bb289"
+    },
+    {
+      "cel": 4,
+      "file": "frames/signature_ability/signature_ability_04.png",
+      "hold_ticks_60hz": 5,
+      "start_tick": 60,
+      "phase": "crossed_shear_impact",
+      "atlas_rect_xywh": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        36,
+        544,
+        511,
+        1010
+      ],
+      "source_ground_anchor_xy": [
+        256,
+        1003
+      ],
+      "registered_xy": [
+        106,
+        130
+      ],
+      "alpha_bbox_gt127": [
+        109,
+        133,
+        564,
+        580
+      ],
+      "sha256": "3d4295bfc7ce465c000207c0854500a49dd0bbff736672b744b02626a5df9508",
+      "event": "damage_once"
+    },
+    {
+      "cel": 5,
+      "file": "frames/signature_ability/signature_ability_05.png",
+      "hold_ticks_60hz": 9,
+      "start_tick": 65,
+      "phase": "follow_through",
+      "atlas_rect_xywh": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        560,
+        577,
+        1017,
+        1014
+      ],
+      "source_ground_anchor_xy": [
+        768,
+        1007
+      ],
+      "registered_xy": [
+        118,
+        158
+      ],
+      "alpha_bbox_gt127": [
+        122,
+        163,
+        559,
+        579
+      ],
+      "sha256": "d4ea7820406da1b22602b207205d013d86e5e953da7bbc1bbd39810a917188b1"
+    },
+    {
+      "cel": 6,
+      "file": "frames/signature_ability/signature_ability_06.png",
+      "hold_ticks_60hz": 18,
+      "start_tick": 74,
+      "phase": "recover",
+      "atlas_rect_xywh": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1046,
+        520,
+        1524,
+        1013
+      ],
+      "source_ground_anchor_xy": [
+        1280,
+        1006
+      ],
+      "registered_xy": [
+        93,
+        104
+      ],
+      "alpha_bbox_gt127": [
+        98,
+        108,
+        553,
+        580
+      ],
+      "sha256": "7bdd24828565852b9da966d6c8120d1264b4d13ba4a2afb05de1cb4b55462894"
+    }
+  ],
+  "duration_ticks_60hz": 92,
+  "terminal_hold": false,
+  "anticipation_ticks_60hz": 60,
+  "impact_tick": 60,
+  "damage_event_count": 1,
+  "target_zone": {
+    "shape": "ellipse",
+    "center_px": [
+      418,
+      320
+    ],
+    "radii_px": [
+      58,
+      44
+    ],
+    "note": "One conceptual target zone. Requires gameplay and camera calibration; not an implemented collider."
+  },
+  "separate_fx": {
+    "clip": "signature_fx",
+    "start_tick": 56,
+    "visual_impact_tick": 60,
+    "clear_after_tick": 74
+  }
+}

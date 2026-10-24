@@ -1,0 +1,477 @@
+{
+  "passed": true,
+  "issues": [],
+  "clipCount": 43,
+  "retainedByteIdenticalClipCount": 26,
+  "minimumBoundaryMarginPx": 13,
+  "clips": [
+    {
+      "id": "sword_arc_01__d000",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 96,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d045",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 102,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d090",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 101,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d135",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 93,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d180",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 91,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d225",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 91,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d270",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 92,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_01__d315",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 91,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d000",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 103,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d045",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 103,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d090",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 89,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d135",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 88,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d180",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 86,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d225",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 87,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d270",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 86,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_arc_02__d315",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 96,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d000",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 65,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d045",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 64,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d090",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 65,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d135",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 65,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d180",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 65,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d225",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 66,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d270",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 65,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "sword_finisher_03__d315",
+      "status": "retained_byte_identical",
+      "frames": 16,
+      "uniqueFrames": 15,
+      "minimumMarginPx": 66,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d000",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 46,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d045",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 99,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d090",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 60,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d135",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d180",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 46,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d225",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 66,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d270",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 60,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "lantern_cone_flare__d315",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 13,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "amber_impact__unoriented",
+      "status": "retained_byte_identical",
+      "frames": 12,
+      "uniqueFrames": 11,
+      "minimumMarginPx": 109,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "footstep_dust__unoriented",
+      "status": "retained_byte_identical",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 129,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d000",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 114,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d045",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 165,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d090",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 112,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d135",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 91,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d180",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 81,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d225",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 70,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d270",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 81,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "dash_wake__d315",
+      "status": "repaired",
+      "frames": 18,
+      "uniqueFrames": 17,
+      "minimumMarginPx": 91,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    },
+    {
+      "id": "stagger_shards__unoriented",
+      "status": "repaired",
+      "frames": 24,
+      "uniqueFrames": 23,
+      "minimumMarginPx": 148,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.0
+    }
+  ],
+  "previews": [
+    {
+      "file": "sword_arc_01__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.400000",
+      "nb_frames": "24"
+    },
+    {
+      "file": "sword_finisher_03__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.533333",
+      "nb_frames": "32"
+    },
+    {
+      "file": "lantern_cone_flare__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "sword_arc_01__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.400000",
+      "nb_frames": "24"
+    },
+    {
+      "file": "dash_wake__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.600000",
+      "nb_frames": "36"
+    },
+    {
+      "file": "amber_impact__unoriented_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.400000",
+      "nb_frames": "24"
+    },
+    {
+      "file": "dash_wake__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.600000",
+      "nb_frames": "36"
+    },
+    {
+      "file": "sword_arc_02__d135_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.400000",
+      "nb_frames": "24"
+    },
+    {
+      "file": "stagger_shards__unoriented_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    },
+    {
+      "file": "sword_arc_02__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.400000",
+      "nb_frames": "24"
+    },
+    {
+      "file": "footstep_dust__unoriented_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.600000",
+      "nb_frames": "36"
+    },
+    {
+      "file": "sword_finisher_03__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.533333",
+      "nb_frames": "32"
+    },
+    {
+      "file": "lantern_cone_flare__d000_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "0.800000",
+      "nb_frames": "48"
+    }
+  ],
+  "tests": "Every alpha frame, atlas crop and transparent gutter. Periodic source endpoint equality for repaired loops. Nonloop clear endpoints. Retained PNG hashes against original. Source timing30fps versus60Hz video header. These are offline file tests, not uninterrupted human playback or engine certification."
+}

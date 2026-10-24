@@ -1,0 +1,96 @@
+{
+  "ground_root_px": [
+    384,
+    520
+  ],
+  "grid_projection_elevation": 35.264389682754654,
+  "azimuth": 45,
+  "ppm": 320,
+  "ground_plane_inferred_from_art": true,
+  "feet": [
+    {
+      "label": 1,
+      "id": "far_front",
+      "pixel": [
+        120.6043535483871,
+        535.2683870967742
+      ],
+      "inferred_ground_world_m": [
+        -0.5235905279679818,
+        0,
+        0.6404647704129549
+      ],
+      "occlusion": "visible/partly visible"
+    },
+    {
+      "label": 2,
+      "id": "far_middle",
+      "pixel": [
+        167.75815999999998,
+        406.64
+      ],
+      "inferred_ground_world_m": [
+        -0.9116973439412719,
+        0,
+        0.043965602560330996
+      ],
+      "occlusion": "visible/partly visible"
+    },
+    {
+      "label": 3,
+      "id": "far_rear",
+      "pixel": [
+        404.1043535483871,
+        350.46838709677417
+      ],
+      "inferred_ground_world_m": [
+        -0.6044282772391675,
+        0,
+        -0.6932778067731448
+      ],
+      "occlusion": "shell-occluded"
+    },
+    {
+      "label": 4,
+      "id": "near_front",
+      "pixel": [
+        350.87816,
+        665.3599999999999
+      ],
+      "inferred_ground_world_m": [
+        0.4831507401128293,
+        0,
+        0.6295299755464284
+      ],
+      "occlusion": "visible/partly visible"
+    },
+    {
+      "label": 5,
+      "id": "near_middle",
+      "pixel": [
+        605.7043535483871,
+        635.6483870967742
+      ],
+      "inferred_ground_world_m": [
+        0.9325263149816492,
+        0,
+        -0.047277758847378004
+      ],
+      "occlusion": "visible/partly visible"
+    },
+    {
+      "label": 6,
+      "id": "near_rear",
+      "pixel": [
+        663.35816,
+        555.3199999999999
+      ],
+      "inferred_ground_world_m": [
+        0.7524813692917106,
+        0,
+        -0.48211893893201785
+      ],
+      "occlusion": "visible/partly visible"
+    }
+  ]
+}

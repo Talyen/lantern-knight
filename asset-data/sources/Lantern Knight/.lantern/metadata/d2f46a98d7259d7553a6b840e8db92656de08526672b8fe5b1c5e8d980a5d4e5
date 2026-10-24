@@ -1,0 +1,121 @@
+{
+  "pack": "04 Cultists",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "CT01",
+      "slug": "waxmask_acolyte",
+      "name": "Waxmask Acolyte",
+      "description": "A slender adult cultist in a tall pointed oxblood hood and a long unbroken charcoal robe with exactly three broad clean fold masses. Face fully covered by a smooth warm-ivory oval mask, two small identical dark oval eye holes and a single short centered vertical mouth slit, no markings. Matching narrow ivory cuffs, centered plain waist belt. Two gloved five-digit hands grip one short ceremonial dagger held VERTICALLY on the body centerline, point DOWN; both hands stacked at abdomen, the whole hilt and blade visible. Matching simple black shoes peek below robe. Tall restrained triangular silhouette. No flame, ornaments, chains or loose straps.",
+      "motion_hint": "Quiet glide-step / center stab",
+      "move": "Small robe-covered steps with a stable upper body.",
+      "attack": "Hands lift together then make one short centered stab.",
+      "death": "Mask bows and robe folds vertically to the ground.",
+      "qa": "Mask, two stacked hands, central dagger, matching cuffs and two feet pass. Very clean small-scale triangular read. Stacked hand order must be validated before mirroring the attack.",
+      "native_file": "source/CT01_waxmask_acolyte_native.png",
+      "asset_file": "assets/CT01_waxmask_acolyte.png",
+      "native_dimensions": [
+        1024,
+        1536
+      ],
+      "asset_dimensions": [
+        634,
+        1634
+      ],
+      "native_sha256": "21662027325e804f20bf6a2aefc509c561ae2a9431b9c6f700328fc4207474ec",
+      "asset_sha256": "cca39f1b1224262370d5b751c09384f685447c7c2447c370584fb0bcdc3734ef",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 427255,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          266,
+          6,
+          772,
+          1512
+        ],
+        "transparent_padding_each_side": 64
+      }
+    },
+    {
+      "id": "CT02",
+      "slug": "bellbound_monk",
+      "name": "Bellbound Monk",
+      "description": "A very broad squat adult cultist monk, face hidden behind a plain bronze oval plate nested inside a small round charcoal hood. Thick bell-shaped muted ochre outer robe, matching deep charcoal sleeve cuffs, three large broad robe folds, chunky black shoes. BOTH gloved hands support a SINGLE large plain bronze ritual handbell at abdomen: one broad rounded bell bowl open at the bottom, one central short wooden handle gripped by both hands; visible full bell silhouette. No chains, no shoulder decorations, no other equipment. A short wide domed silhouette, smooth flat bronze, ochre and charcoal cel colors. The bell reads as a simple rounded cone, no text, engraved symbols or grain.",
+      "motion_hint": "Slow plod / bell swing",
+      "move": "Short synchronized robe bob over tiny steps.",
+      "attack": "Swing the central bell forward with both hands.",
+      "death": "Kneel and sink, the bell settling in front.",
+      "qa": "Broad robe, shared bell grip and two feet pass. Bell mouth is tilted toward the viewer; preserve its tilt through animation or rebuild from a simple volume guide.",
+      "native_file": "source/CT02_bellbound_monk_native.png",
+      "asset_file": "assets/CT02_bellbound_monk.png",
+      "native_dimensions": [
+        1024,
+        1536
+      ],
+      "asset_dimensions": [
+        1007,
+        1466
+      ],
+      "native_sha256": "67d4bc9c01434346916d0519b59505e2babf353707ac730ac5d17806c2b2a2c4",
+      "asset_sha256": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 818148,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          76,
+          97,
+          955,
+          1435
+        ],
+        "transparent_padding_each_side": 64
+      }
+    },
+    {
+      "id": "CT04",
+      "slug": "halo_veil_cantor",
+      "name": "Halo-Veil Cantor",
+      "description": "A mysterious tall levitating adult occult cantor enclosed in a continuous warm-ivory robe, long wide pointed sleeves held low and equivalently forward. A smooth elongated charcoal-black facemask with two narrow small ivory eye slits, no mouth. Around the back of its hood a SINGLE large rigid old-bronze circular collar rising behind the head like a physical halo, thick simple ring attached symmetrically at both shoulders, not a glow. Two matching charcoal-gloved hands support a small plain bronze sphere exactly centered at waist. The lower robe ends in three large centered tapered points, no exposed legs or feet and no tiny ribbons. Tall inverted-drop silhouette with broad circular collar, simple flat ivory, charcoal and matte bronze colors. No particles, flames, symbols or cast shadows.",
+      "motion_hint": "Hover bob / sphere pulse",
+      "move": "Hover with one gentle vertical bob and minimal sleeve sway.",
+      "attack": "Raise the centered sphere and open both hands.",
+      "death": "Rigid collar tips while the robe collapses inward.",
+      "qa": "Two cupped gloved hands and one centered sphere pass; continuous floating robe avoids foot animation. Physical collar silhouette reads clearly. Metal has soft small surface variation; keep final shading broad when animated.",
+      "native_file": "source/CT04_halo_veil_cantor_native.png",
+      "asset_file": "assets/CT04_halo_veil_cantor.png",
+      "native_dimensions": [
+        1024,
+        1536
+      ],
+      "asset_dimensions": [
+        794,
+        1635
+      ],
+      "native_sha256": "c1bffcc5a026b5ee2b414ff354000f5c7f3bd553e9a6c46dd975cf56cdb448ca",
+      "asset_sha256": "1638b0508f10486c286414c02b156efc8a117ea9079cf2739f562932d024fade",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 513895,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          179,
+          15,
+          845,
+          1522
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

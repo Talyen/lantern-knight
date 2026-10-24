@@ -1,0 +1,78 @@
+[
+  {
+    "id": "01_ruined_cathedral_skyline",
+    "title": "Ruined Cathedral Skyline",
+    "file": "masters/01_ruined_cathedral_skyline_v2.png",
+    "prompt": "prompts/01_ruined_cathedral_skyline_v2.txt",
+    "status": "retained original",
+    "sha256": "f7428c49e3ac27468d876dacdf600d6b49907887cc879f19473e5092143997f7",
+    "native_size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "source_generation_id": "exec-eba62bd3-3a2e-449a-82ab-ed4741a9e33f.png",
+    "baseline_logical_id": "06_distant_backdrops/01_ruined_cathedral_skyline_v2",
+    "baseline_source": "lantern_overnight/06_distant_backdrops/masters/01_ruined_cathedral_skyline_v2.png",
+    "baseline_sha256": "f7428c49e3ac27468d876dacdf600d6b49907887cc879f19473e5092143997f7",
+    "source_pixels": "unchanged bytes; no edits or resize of selected master",
+    "camera": "distant scenic perspective illustration"
+  },
+  {
+    "id": "02_misted_blackwood_valley",
+    "title": "Misted Blackwood Valley",
+    "file": "masters/02_misted_blackwood_valley_v1.png",
+    "prompt": "prompts/02_misted_blackwood_valley_v1.txt",
+    "status": "retained original",
+    "sha256": "a66cb48eae14386fba366c1d4bcf697b1e8cf574f7f48b4f9aeeaa69144543a6",
+    "native_size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "source_generation_id": "exec-3c096ef4-67f1-4abd-8c5d-389e1036a5e1.png",
+    "baseline_logical_id": "06_distant_backdrops/02_misted_blackwood_valley_v1",
+    "baseline_source": "lantern_overnight/06_distant_backdrops/masters/02_misted_blackwood_valley_v1.png",
+    "baseline_sha256": "a66cb48eae14386fba366c1d4bcf697b1e8cf574f7f48b4f9aeeaa69144543a6",
+    "source_pixels": "unchanged bytes; no edits or resize of selected master",
+    "camera": "distant scenic perspective illustration"
+  },
+  {
+    "id": "03_sunken_industrial_canal",
+    "title": "Sunken Industrial Canal",
+    "file": "masters/03_sunken_industrial_canal_r02.png",
+    "prompt": "prompts/03_sunken_industrial_canal_r02.txt",
+    "status": "redrawn",
+    "sha256": "9889c5b911c77225b35a86de2c3ee731d07f7a5ed6530b616bae4d5d9f39075c",
+    "native_size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "source_generation_id": "exec-0a6bc992-1822-4bbb-807d-5b531fcfd074.png",
+    "baseline_logical_id": "06_distant_backdrops/03_sunken_industrial_canal_v2",
+    "baseline_source": "lantern_overnight/06_distant_backdrops/masters/03_sunken_industrial_canal_v2.png",
+    "baseline_sha256": "7796a976e1a727156f780533368b2f9ed170fa58d4ecd46d87f81c81c2843760",
+    "source_pixels": "unchanged bytes; no edits or resize of selected master",
+    "camera": "distant scenic perspective illustration"
+  },
+  {
+    "id": "04_moonlit_mausoleum_ridge",
+    "title": "Moonlit Mausoleum Ridge",
+    "file": "masters/04_moonlit_mausoleum_ridge_v1.png",
+    "prompt": "prompts/04_moonlit_mausoleum_ridge_v1.txt",
+    "status": "retained original",
+    "sha256": "6e27337e3dfb40b80bd1dd4b0de5824122ba595436c506bf82d7218799954747",
+    "native_size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "source_generation_id": "exec-3e950a5e-7aa2-49bf-a7cf-83d9dc127d29.png",
+    "baseline_logical_id": "06_distant_backdrops/04_moonlit_mausoleum_ridge_v1",
+    "baseline_source": "lantern_overnight/06_distant_backdrops/masters/04_moonlit_mausoleum_ridge_v1.png",
+    "baseline_sha256": "6e27337e3dfb40b80bd1dd4b0de5824122ba595436c506bf82d7218799954747",
+    "source_pixels": "unchanged bytes; no edits or resize of selected master",
+    "camera": "distant scenic perspective illustration"
+  }
+]

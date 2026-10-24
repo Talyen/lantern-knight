@@ -1,0 +1,1235 @@
+{
+  "actor": "Halo-Veil Cantor",
+  "identity": "CT04",
+  "reference_sha256": "15866179b8f3666d5b751e43c4edd8928accf404f0aee79c221651f331bd7699",
+  "baseline": "compact camera-guided v03 DR unchanged external dependency",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_top_left_px": [
+    320,
+    608
+  ],
+  "estimated_ppu": {
+    "DL_move": 304,
+    "DL_attack": 322,
+    "UL_move": 332,
+    "UL_attack": 332,
+    "UR_move": 315,
+    "UR_attack": 315
+  },
+  "scale_note": "Proposed DR hover256 baseline convention retained; DR spell256/0.87 and original visual-child offset(-18,+34) at base256. New perclip native density declared, ratios to actual approved hover PPU B apply. Fixed density within each clip, never percel fitting.",
+  "camera": {
+    "elevation_target": 35.2643897,
+    "geometry_calibrated": false
+  },
+  "timing_note": "Exact original sixcel holds preserved: move72ticks, attack90ticks. Visual attack at cel4 tick44.",
+  "method": "Fresh original-reference drawn sheets; no mirror, upscale, tween, or per-cel scale. Manual per-cel root translation from fixed shoulder/halo/body center; shared clip source rootY retains hover bob. No extra runtime offset. Alpha haze isolation deterministic.",
+  "root_motion": "In-place; world position separate. Baked native translation only, no additional runtime offset.",
+  "clips": {
+    "DL_move": {
+      "facing": "DL",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "duration_ticks": 72,
+      "frames": [
+        {
+          "file": "DL_move_01.png",
+          "native_grid_origin": [
+            0,
+            0
+          ],
+          "baked_translation": [
+            34,
+            33
+          ],
+          "source_root": [
+            286,
+            575
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            218,
+            71,
+            432,
+            518
+          ],
+          "sha256": "eeffd0eb92429b428d90986d5e1b88224faea2cc9298046c0481c2bd9e89808f"
+        },
+        {
+          "file": "DL_move_02.png",
+          "native_grid_origin": [
+            512,
+            0
+          ],
+          "baked_translation": [
+            62,
+            33
+          ],
+          "source_root": [
+            258,
+            575
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            203,
+            67,
+            465,
+            511
+          ],
+          "sha256": "5149a28b00bdaebfc8bcf079860e87d69b8edefaa0db6c7629d7dbef74da6f58"
+        },
+        {
+          "file": "DL_move_03.png",
+          "native_grid_origin": [
+            1024,
+            0
+          ],
+          "baked_translation": [
+            82,
+            33
+          ],
+          "source_root": [
+            238,
+            575
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            173,
+            68,
+            499,
+            515
+          ],
+          "sha256": "09c6a6ffbc38589245153a13f643998d74319f304a0110c78e026df06bbed5a1"
+        },
+        {
+          "file": "DL_move_04.png",
+          "native_grid_origin": [
+            0,
+            512
+          ],
+          "baked_translation": [
+            24,
+            33
+          ],
+          "source_root": [
+            296,
+            575
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            162,
+            52,
+            494,
+            478
+          ],
+          "sha256": "4619fee9357720bad70542ed630d18b35bbb3d41b08fc7e88b13d8c1d85d9e15"
+        },
+        {
+          "file": "DL_move_05.png",
+          "native_grid_origin": [
+            512,
+            512
+          ],
+          "baked_translation": [
+            52,
+            33
+          ],
+          "source_root": [
+            268,
+            575
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            195,
+            51,
+            443,
+            480
+          ],
+          "sha256": "048747e783db5c02790ee7ddc79eb4f62969e31210b0cbaf98b74c2355bcd610"
+        },
+        {
+          "file": "DL_move_06.png",
+          "native_grid_origin": [
+            1024,
+            512
+          ],
+          "baked_translation": [
+            69,
+            33
+          ],
+          "source_root": [
+            251,
+            575
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            226,
+            50,
+            450,
+            499
+          ],
+          "sha256": "356f0c08d7c45447af211ddae5df716318640f91d65da08580442104ae65815b"
+        }
+      ],
+      "atlas": "DL_move_atlas.png",
+      "atlas_rects_xywh": [
+        [
+          4,
+          4,
+          640,
+          640
+        ],
+        [
+          652,
+          4,
+          640,
+          640
+        ],
+        [
+          1300,
+          4,
+          640,
+          640
+        ],
+        [
+          4,
+          652,
+          640,
+          640
+        ],
+        [
+          652,
+          652,
+          640,
+          640
+        ],
+        [
+          1300,
+          652,
+          640,
+          640
+        ]
+      ],
+      "gutter_px": 4,
+      "estimated_ppu": 304,
+      "events": [],
+      "end": "loop"
+    },
+    "DL_attack": {
+      "facing": "DL",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        18,
+        14,
+        12,
+        10,
+        12,
+        24
+      ],
+      "duration_ticks": 90,
+      "frames": [
+        {
+          "file": "DL_attack_01.png",
+          "native_grid_origin": [
+            0,
+            0
+          ],
+          "baked_translation": [
+            19,
+            20
+          ],
+          "source_root": [
+            301,
+            588
+          ],
+          "hold_ticks_60hz": 18,
+          "bounds": [
+            196,
+            44,
+            454,
+            512
+          ],
+          "sha256": "1729aaadc905a74072076d749d3c9333f961365231a23acff27a6486271e665d"
+        },
+        {
+          "file": "DL_attack_02.png",
+          "native_grid_origin": [
+            512,
+            0
+          ],
+          "baked_translation": [
+            40,
+            20
+          ],
+          "source_root": [
+            280,
+            588
+          ],
+          "hold_ticks_60hz": 14,
+          "bounds": [
+            161,
+            45,
+            470,
+            513
+          ],
+          "sha256": "c3a57fe85730499a31f91f5207503e4550d8bbbdf152d85a5385d33d1a6835ec"
+        },
+        {
+          "file": "DL_attack_03.png",
+          "native_grid_origin": [
+            1024,
+            0
+          ],
+          "baked_translation": [
+            65,
+            20
+          ],
+          "source_root": [
+            255,
+            588
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            148,
+            47,
+            504,
+            515
+          ],
+          "sha256": "08454eb6f4c406b9f9f0a9c85ffbf23bcad3217f65fe33e15c932fbb0b67972f"
+        },
+        {
+          "file": "DL_attack_04.png",
+          "native_grid_origin": [
+            0,
+            512
+          ],
+          "baked_translation": [
+            0,
+            20
+          ],
+          "source_root": [
+            320,
+            588
+          ],
+          "hold_ticks_60hz": 10,
+          "bounds": [
+            62,
+            22,
+            496,
+            483
+          ],
+          "sha256": "ae67c4046f5894e0242dac0d16e92cd285c58a1036b2d7069b3c889911903e2c"
+        },
+        {
+          "file": "DL_attack_05.png",
+          "native_grid_origin": [
+            512,
+            512
+          ],
+          "baked_translation": [
+            30,
+            20
+          ],
+          "source_root": [
+            290,
+            588
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            164,
+            26,
+            454,
+            479
+          ],
+          "sha256": "32c3b6a78974dcb75754e89528a278048d3655b04a78332c1f534eddb1602940"
+        },
+        {
+          "file": "DL_attack_06.png",
+          "native_grid_origin": [
+            1024,
+            512
+          ],
+          "baked_translation": [
+            52,
+            20
+          ],
+          "source_root": [
+            268,
+            588
+          ],
+          "hold_ticks_60hz": 24,
+          "bounds": [
+            211,
+            28,
+            467,
+            491
+          ],
+          "sha256": "f9963e4b7230c5a89b400fac1061d890266bce3de477dcf0fb25c50613d21154"
+        }
+      ],
+      "atlas": "DL_attack_atlas.png",
+      "atlas_rects_xywh": [
+        [
+          4,
+          4,
+          640,
+          640
+        ],
+        [
+          652,
+          4,
+          640,
+          640
+        ],
+        [
+          1300,
+          4,
+          640,
+          640
+        ],
+        [
+          4,
+          652,
+          640,
+          640
+        ],
+        [
+          652,
+          652,
+          640,
+          640
+        ],
+        [
+          1300,
+          652,
+          640,
+          640
+        ]
+      ],
+      "gutter_px": 4,
+      "estimated_ppu": 322,
+      "events": [
+        {
+          "frame_index_zero_based": 3,
+          "tick": 44,
+          "name": "visual_orb_cast",
+          "damage_guarantee": false
+        }
+      ],
+      "end": "hold final ready then transition"
+    },
+    "UL_move": {
+      "facing": "UL",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "duration_ticks": 72,
+      "frames": [
+        {
+          "file": "UL_move_01.png",
+          "native_grid_origin": [
+            0,
+            0
+          ],
+          "baked_translation": [
+            -15,
+            28
+          ],
+          "source_root": [
+            335,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            182,
+            43,
+            414,
+            511
+          ],
+          "sha256": "cfeef7703fdd369ff0eba0b3da4c6d8a37c5d3b1e35f68aca5277fa324c9778d"
+        },
+        {
+          "file": "UL_move_02.png",
+          "native_grid_origin": [
+            512,
+            0
+          ],
+          "baked_translation": [
+            40,
+            28
+          ],
+          "source_root": [
+            280,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            171,
+            45,
+            441,
+            505
+          ],
+          "sha256": "184730dade494850558ad73e9085efd2e52c24bad105f4ecd436af5ea53985b0"
+        },
+        {
+          "file": "UL_move_03.png",
+          "native_grid_origin": [
+            1024,
+            0
+          ],
+          "baked_translation": [
+            78,
+            28
+          ],
+          "source_root": [
+            242,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            143,
+            41,
+            438,
+            482
+          ],
+          "sha256": "96209bed192cb14dcf2c3c90c589ace2054d2096254093caf329e2f826662c77"
+        },
+        {
+          "file": "UL_move_04.png",
+          "native_grid_origin": [
+            0,
+            512
+          ],
+          "baked_translation": [
+            -14,
+            28
+          ],
+          "source_root": [
+            334,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            138,
+            35,
+            454,
+            467
+          ],
+          "sha256": "ef478b5546d139e744b952c46e0e415e90d211fb0f9d776bd47877900dc1cd4a"
+        },
+        {
+          "file": "UL_move_05.png",
+          "native_grid_origin": [
+            512,
+            512
+          ],
+          "baked_translation": [
+            38,
+            28
+          ],
+          "source_root": [
+            282,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            180,
+            35,
+            417,
+            488
+          ],
+          "sha256": "386a1906217e68540514ca26b0094f1ae53d35724c8abe75b0ccf6becf877301"
+        },
+        {
+          "file": "UL_move_06.png",
+          "native_grid_origin": [
+            1024,
+            512
+          ],
+          "baked_translation": [
+            66,
+            28
+          ],
+          "source_root": [
+            254,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            177,
+            29,
+            414,
+            499
+          ],
+          "sha256": "ccf64a07dbc2333d8782067dea29b84c9f41eb032f675eb7c62a00c0da872be9"
+        }
+      ],
+      "atlas": "UL_move_atlas.png",
+      "atlas_rects_xywh": [
+        [
+          4,
+          4,
+          640,
+          640
+        ],
+        [
+          652,
+          4,
+          640,
+          640
+        ],
+        [
+          1300,
+          4,
+          640,
+          640
+        ],
+        [
+          4,
+          652,
+          640,
+          640
+        ],
+        [
+          652,
+          652,
+          640,
+          640
+        ],
+        [
+          1300,
+          652,
+          640,
+          640
+        ]
+      ],
+      "gutter_px": 4,
+      "estimated_ppu": 332,
+      "events": [],
+      "end": "loop"
+    },
+    "UL_attack": {
+      "facing": "UL",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        18,
+        14,
+        12,
+        10,
+        12,
+        24
+      ],
+      "duration_ticks": 90,
+      "frames": [
+        {
+          "file": "UL_attack_01.png",
+          "native_grid_origin": [
+            0,
+            0
+          ],
+          "baked_translation": [
+            -15,
+            28
+          ],
+          "source_root": [
+            335,
+            580
+          ],
+          "hold_ticks_60hz": 18,
+          "bounds": [
+            180,
+            47,
+            439,
+            511
+          ],
+          "sha256": "685adc9dfa86ee138d755ce1bf941af8f7613be1415049b30f5edb89e70de8a3"
+        },
+        {
+          "file": "UL_attack_02.png",
+          "native_grid_origin": [
+            512,
+            0
+          ],
+          "baked_translation": [
+            38,
+            28
+          ],
+          "source_root": [
+            282,
+            580
+          ],
+          "hold_ticks_60hz": 14,
+          "bounds": [
+            180,
+            46,
+            447,
+            506
+          ],
+          "sha256": "abbbbee8228f2c4d01a4b758b46127be8e3df87fd45cf4770fe5937c6d91785f"
+        },
+        {
+          "file": "UL_attack_03.png",
+          "native_grid_origin": [
+            1024,
+            0
+          ],
+          "baked_translation": [
+            56,
+            28
+          ],
+          "source_root": [
+            264,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            143,
+            47,
+            445,
+            496
+          ],
+          "sha256": "b3f7fb30f351e6a3972fabca460689dbf66960f9701f7fc2a902a5ae978916f5"
+        },
+        {
+          "file": "UL_attack_04.png",
+          "native_grid_origin": [
+            0,
+            512
+          ],
+          "baked_translation": [
+            -30,
+            28
+          ],
+          "source_root": [
+            350,
+            580
+          ],
+          "hold_ticks_60hz": 10,
+          "bounds": [
+            97,
+            37,
+            475,
+            489
+          ],
+          "sha256": "0233619716708eac291e416b260eca9823c748ce229859da4402a5d9d09bf052"
+        },
+        {
+          "file": "UL_attack_05.png",
+          "native_grid_origin": [
+            512,
+            512
+          ],
+          "baked_translation": [
+            38,
+            28
+          ],
+          "source_root": [
+            282,
+            580
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            181,
+            37,
+            447,
+            493
+          ],
+          "sha256": "dcdaac95968a111a5231cd131915907d6a4dda241e03f1e66e539b7aad124ebb"
+        },
+        {
+          "file": "UL_attack_06.png",
+          "native_grid_origin": [
+            1024,
+            512
+          ],
+          "baked_translation": [
+            56,
+            28
+          ],
+          "source_root": [
+            264,
+            580
+          ],
+          "hold_ticks_60hz": 24,
+          "bounds": [
+            186,
+            38,
+            447,
+            511
+          ],
+          "sha256": "047f560610f64ad64b1110080a9af431588dfbf51bcdcee561b2ce93ddcedbc6"
+        }
+      ],
+      "atlas": "UL_attack_atlas.png",
+      "atlas_rects_xywh": [
+        [
+          4,
+          4,
+          640,
+          640
+        ],
+        [
+          652,
+          4,
+          640,
+          640
+        ],
+        [
+          1300,
+          4,
+          640,
+          640
+        ],
+        [
+          4,
+          652,
+          640,
+          640
+        ],
+        [
+          652,
+          652,
+          640,
+          640
+        ],
+        [
+          1300,
+          652,
+          640,
+          640
+        ]
+      ],
+      "gutter_px": 4,
+      "estimated_ppu": 332,
+      "events": [
+        {
+          "frame_index_zero_based": 3,
+          "tick": 44,
+          "name": "visual_orb_cast",
+          "damage_guarantee": false
+        }
+      ],
+      "end": "hold final ready then transition"
+    },
+    "UR_move": {
+      "facing": "UR",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "duration_ticks": 72,
+      "frames": [
+        {
+          "file": "UR_move_01.png",
+          "native_grid_origin": [
+            0,
+            0
+          ],
+          "baked_translation": [
+            -5,
+            38
+          ],
+          "source_root": [
+            325,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            207,
+            59,
+            441,
+            513
+          ],
+          "sha256": "8e8d7a8ada7c5a0cd44435335a93409f05fcea64e3e2c92eea28899be06181a1"
+        },
+        {
+          "file": "UR_move_02.png",
+          "native_grid_origin": [
+            512,
+            0
+          ],
+          "baked_translation": [
+            40,
+            38
+          ],
+          "source_root": [
+            280,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            185,
+            60,
+            439,
+            498
+          ],
+          "sha256": "1a95c51acea909ae8cab52f3926c36659b767fca691cb591ad777ccbb614ae65"
+        },
+        {
+          "file": "UR_move_03.png",
+          "native_grid_origin": [
+            1024,
+            0
+          ],
+          "baked_translation": [
+            75,
+            38
+          ],
+          "source_root": [
+            245,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            168,
+            59,
+            426,
+            494
+          ],
+          "sha256": "698b774200bcc12479a568f9ebb26e85388a427e1b4b9ad5069b0a7f58ec1952"
+        },
+        {
+          "file": "UR_move_04.png",
+          "native_grid_origin": [
+            0,
+            512
+          ],
+          "baked_translation": [
+            -5,
+            38
+          ],
+          "source_root": [
+            325,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            180,
+            57,
+            467,
+            492
+          ],
+          "sha256": "0d17518cc5014ce9829fa07edd8902e502dd3f5c7615695163e07d4dacea9560"
+        },
+        {
+          "file": "UR_move_05.png",
+          "native_grid_origin": [
+            512,
+            512
+          ],
+          "baked_translation": [
+            40,
+            38
+          ],
+          "source_root": [
+            280,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            192,
+            57,
+            425,
+            487
+          ],
+          "sha256": "ad47764589b1d1ff184ce8de499dca646f343737471001e1b7a7ba8dad9d6efc"
+        },
+        {
+          "file": "UR_move_06.png",
+          "native_grid_origin": [
+            1024,
+            512
+          ],
+          "baked_translation": [
+            75,
+            38
+          ],
+          "source_root": [
+            245,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            190,
+            57,
+            421,
+            501
+          ],
+          "sha256": "e49dafe46602b46e8dd8cf4f567456e069e3d7f58ce68c5981ea7f8dd44be28d"
+        }
+      ],
+      "atlas": "UR_move_atlas.png",
+      "atlas_rects_xywh": [
+        [
+          4,
+          4,
+          640,
+          640
+        ],
+        [
+          652,
+          4,
+          640,
+          640
+        ],
+        [
+          1300,
+          4,
+          640,
+          640
+        ],
+        [
+          4,
+          652,
+          640,
+          640
+        ],
+        [
+          652,
+          652,
+          640,
+          640
+        ],
+        [
+          1300,
+          652,
+          640,
+          640
+        ]
+      ],
+      "gutter_px": 4,
+      "estimated_ppu": 315,
+      "events": [],
+      "end": "loop"
+    },
+    "UR_attack": {
+      "facing": "UR",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        18,
+        14,
+        12,
+        10,
+        12,
+        24
+      ],
+      "duration_ticks": 90,
+      "frames": [
+        {
+          "file": "UR_attack_01.png",
+          "native_grid_origin": [
+            0,
+            0
+          ],
+          "baked_translation": [
+            50,
+            38
+          ],
+          "source_root": [
+            270,
+            570
+          ],
+          "hold_ticks_60hz": 18,
+          "bounds": [
+            194,
+            64,
+            458,
+            509
+          ],
+          "sha256": "a70dc836b08d0313660c7ecc55b75190401292230209fd52e34b93f152cb5192"
+        },
+        {
+          "file": "UR_attack_02.png",
+          "native_grid_origin": [
+            528,
+            0
+          ],
+          "baked_translation": [
+            56,
+            38
+          ],
+          "source_root": [
+            264,
+            570
+          ],
+          "hold_ticks_60hz": 14,
+          "bounds": [
+            178,
+            63,
+            445,
+            505
+          ],
+          "sha256": "683bce522bb3e55d0b157a160598024e0e1ba1e34d450ada79df50932a8f8bd1"
+        },
+        {
+          "file": "UR_attack_03.png",
+          "native_grid_origin": [
+            1024,
+            0
+          ],
+          "baked_translation": [
+            75,
+            38
+          ],
+          "source_root": [
+            245,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            177,
+            63,
+            475,
+            509
+          ],
+          "sha256": "565f74e87b0d5346891fedad62d86aabbd4e68de47a13df13f91416c9185ae7f"
+        },
+        {
+          "file": "UR_attack_04.png",
+          "native_grid_origin": [
+            0,
+            512
+          ],
+          "baked_translation": [
+            80,
+            38
+          ],
+          "source_root": [
+            240,
+            570
+          ],
+          "hold_ticks_60hz": 10,
+          "bounds": [
+            176,
+            50,
+            600,
+            491
+          ],
+          "sha256": "bfb0b922b0dd679e5e064820acab50599eebf054b5da5ce0683fa862518ecdb9"
+        },
+        {
+          "file": "UR_attack_05.png",
+          "native_grid_origin": [
+            528,
+            512
+          ],
+          "baked_translation": [
+            58,
+            38
+          ],
+          "source_root": [
+            262,
+            570
+          ],
+          "hold_ticks_60hz": 12,
+          "bounds": [
+            172,
+            50,
+            469,
+            492
+          ],
+          "sha256": "df76d4ce83cca3779b9bc18408619d4f0de6563da77cf8b8792edf4f235ffdde"
+        },
+        {
+          "file": "UR_attack_06.png",
+          "native_grid_origin": [
+            1024,
+            512
+          ],
+          "baked_translation": [
+            65,
+            38
+          ],
+          "source_root": [
+            255,
+            570
+          ],
+          "hold_ticks_60hz": 24,
+          "bounds": [
+            180,
+            50,
+            445,
+            504
+          ],
+          "sha256": "1e2ccbf20aa7f0fa36312049328a2d9ab8acd8208c60f4bed2c360fa0177574f"
+        }
+      ],
+      "atlas": "UR_attack_atlas.png",
+      "atlas_rects_xywh": [
+        [
+          4,
+          4,
+          640,
+          640
+        ],
+        [
+          652,
+          4,
+          640,
+          640
+        ],
+        [
+          1300,
+          4,
+          640,
+          640
+        ],
+        [
+          4,
+          652,
+          640,
+          640
+        ],
+        [
+          652,
+          652,
+          640,
+          640
+        ],
+        [
+          1300,
+          652,
+          640,
+          640
+        ]
+      ],
+      "gutter_px": 4,
+      "estimated_ppu": 315,
+      "events": [
+        {
+          "frame_index_zero_based": 3,
+          "tick": 44,
+          "name": "visual_orb_cast",
+          "damage_guarantee": false
+        }
+      ],
+      "end": "hold final ready then transition"
+    }
+  }
+}

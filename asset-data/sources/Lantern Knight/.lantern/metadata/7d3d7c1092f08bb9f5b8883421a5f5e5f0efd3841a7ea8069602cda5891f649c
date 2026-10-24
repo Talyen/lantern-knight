@@ -1,0 +1,497 @@
+{
+  "asset": "CT01 Waxmask Acolyte completion",
+  "canvas": [
+    768,
+    704
+  ],
+  "root_origin_pixels": [
+    416,
+    584
+  ],
+  "native_pixels_per_unit": 85.59670781893004,
+  "relative_to_current_v03_PPU": 1,
+  "fps": 60,
+  "import_note": "All runtime frames already density-normalized to current v03. Use SAME current v03 PPU. Do not reapply original migration factor. No per-frame bounds fitting. Source sheets only downsampled uniformly per sheet.",
+  "clips": {
+    "hit": {
+      "unique_cels": 6,
+      "timeline": [
+        {
+          "cel": 0,
+          "start_tick": 0,
+          "hold_ticks": 5
+        },
+        {
+          "cel": 1,
+          "start_tick": 5,
+          "hold_ticks": 4
+        },
+        {
+          "cel": 2,
+          "start_tick": 9,
+          "hold_ticks": 5
+        },
+        {
+          "cel": 3,
+          "start_tick": 14,
+          "hold_ticks": 7
+        },
+        {
+          "cel": 4,
+          "start_tick": 21,
+          "hold_ticks": 7
+        },
+        {
+          "cel": 5,
+          "start_tick": 28,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 0,
+          "start_tick": 36,
+          "hold_ticks": 12
+        }
+      ],
+      "duration_ticks": 48,
+      "loop": false,
+      "terminal": "transition to current v03 ready",
+      "events": {
+        "interrupted_tick": 0,
+        "recoil_peak_tick": 9,
+        "recover_tick": 21,
+        "return_ready_tick": 36
+      },
+      "poses": [
+        {
+          "source_component": 3,
+          "anchor": [
+            246,
+            489
+          ],
+          "uniform_sheet_scale": 0.8888888888888888,
+          "paste": [
+            329,
+            171
+          ],
+          "bounds": [
+            329,
+            171,
+            487,
+            585
+          ]
+        },
+        {
+          "source_component": 5,
+          "anchor": [
+            723,
+            489
+          ],
+          "uniform_sheet_scale": 0.8888888888888888,
+          "paste": [
+            328,
+            188
+          ],
+          "bounds": [
+            328,
+            188,
+            502,
+            585
+          ]
+        },
+        {
+          "source_component": 7,
+          "anchor": [
+            1205,
+            489
+          ],
+          "uniform_sheet_scale": 0.8888888888888888,
+          "paste": [
+            300,
+            205
+          ],
+          "bounds": [
+            300,
+            205,
+            530,
+            585
+          ]
+        },
+        {
+          "source_component": 16,
+          "anchor": [
+            242,
+            993
+          ],
+          "uniform_sheet_scale": 0.8888888888888888,
+          "paste": [
+            316,
+            178
+          ],
+          "bounds": [
+            316,
+            178,
+            504,
+            586
+          ]
+        },
+        {
+          "source_component": 12,
+          "anchor": [
+            718,
+            993
+          ],
+          "uniform_sheet_scale": 0.8888888888888888,
+          "paste": [
+            323,
+            172
+          ],
+          "bounds": [
+            323,
+            172,
+            494,
+            584
+          ]
+        },
+        {
+          "source_component": 14,
+          "anchor": [
+            1205,
+            993
+          ],
+          "uniform_sheet_scale": 0.8888888888888888,
+          "paste": [
+            319,
+            172
+          ],
+          "bounds": [
+            319,
+            172,
+            484,
+            585
+          ]
+        }
+      ],
+      "relative_PPU": 1,
+      "source_uniform_downsample": 0.8888888888888888
+    },
+    "spawn": {
+      "unique_cels": 6,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 2,
+          "start_tick": 10,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 3,
+          "start_tick": 18,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 4,
+          "start_tick": 26,
+          "hold_ticks": 7
+        },
+        {
+          "cel": 5,
+          "start_tick": 33,
+          "hold_ticks": 7
+        },
+        {
+          "cel": 0,
+          "start_tick": 40,
+          "hold_ticks": 12
+        }
+      ],
+      "duration_ticks": 52,
+      "loop": false,
+      "terminal": "transition to current v03 ready",
+      "events": {
+        "wake_tick": 10,
+        "targetable_tick": 26,
+        "ready_tick": 40
+      },
+      "poses": [
+        {
+          "source_component": 6,
+          "anchor": [
+            256,
+            445
+          ],
+          "uniform_sheet_scale": 0.8205128205128205,
+          "paste": [
+            258,
+            453
+          ],
+          "bounds": [
+            258,
+            453,
+            525,
+            584
+          ]
+        },
+        {
+          "source_component": 3,
+          "anchor": [
+            746,
+            449
+          ],
+          "uniform_sheet_scale": 0.8205128205128205,
+          "paste": [
+            245,
+            291
+          ],
+          "bounds": [
+            245,
+            291,
+            526,
+            584
+          ]
+        },
+        {
+          "source_component": 1,
+          "anchor": [
+            1213,
+            458
+          ],
+          "uniform_sheet_scale": 0.8205128205128205,
+          "paste": [
+            292,
+            232
+          ],
+          "bounds": [
+            292,
+            232,
+            511,
+            584
+          ]
+        },
+        {
+          "source_component": 16,
+          "anchor": [
+            207,
+            974
+          ],
+          "uniform_sheet_scale": 0.8205128205128205,
+          "paste": [
+            313,
+            171
+          ],
+          "bounds": [
+            313,
+            171,
+            518,
+            585
+          ]
+        },
+        {
+          "source_component": 17,
+          "anchor": [
+            711,
+            978
+          ],
+          "uniform_sheet_scale": 0.8205128205128205,
+          "paste": [
+            322,
+            168
+          ],
+          "bounds": [
+            322,
+            168,
+            495,
+            585
+          ]
+        },
+        {
+          "source_component": 19,
+          "anchor": [
+            1205,
+            979
+          ],
+          "uniform_sheet_scale": 0.8205128205128205,
+          "paste": [
+            333,
+            169
+          ],
+          "bounds": [
+            333,
+            169,
+            493,
+            585
+          ]
+        }
+      ],
+      "relative_PPU": 1,
+      "source_uniform_downsample": 0.8205128205128205
+    },
+    "defeat": {
+      "unique_cels": 6,
+      "timeline": [
+        {
+          "cel": 0,
+          "start_tick": 0,
+          "hold_ticks": 5
+        },
+        {
+          "cel": 1,
+          "start_tick": 5,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 2,
+          "start_tick": 13,
+          "hold_ticks": 9
+        },
+        {
+          "cel": 3,
+          "start_tick": 22,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 4,
+          "start_tick": 30,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 5,
+          "start_tick": 40,
+          "hold_ticks": 36
+        }
+      ],
+      "duration_ticks": 76,
+      "loop": false,
+      "terminal": "hold last cel until despawn",
+      "events": {
+        "defeated_tick": 0,
+        "kneel_tick": 13,
+        "collapse_tick": 22,
+        "remnant_tick": 40
+      },
+      "poses": [
+        {
+          "source_component": 2,
+          "anchor": [
+            204,
+            584
+          ],
+          "uniform_sheet_scale": 0.7563636363636363,
+          "paste": [
+            326,
+            168
+          ],
+          "bounds": [
+            326,
+            168,
+            484,
+            586
+          ]
+        },
+        {
+          "source_component": 3,
+          "anchor": [
+            705,
+            584
+          ],
+          "uniform_sheet_scale": 0.7563636363636363,
+          "paste": [
+            324,
+            213
+          ],
+          "bounds": [
+            324,
+            213,
+            490,
+            585
+          ]
+        },
+        {
+          "source_component": 5,
+          "anchor": [
+            1202,
+            579
+          ],
+          "uniform_sheet_scale": 0.7563636363636363,
+          "paste": [
+            326,
+            312
+          ],
+          "bounds": [
+            326,
+            312,
+            543,
+            585
+          ]
+        },
+        {
+          "source_component": 6,
+          "anchor": [
+            213,
+            892
+          ],
+          "uniform_sheet_scale": 0.7563636363636363,
+          "paste": [
+            237,
+            439
+          ],
+          "bounds": [
+            237,
+            439,
+            581,
+            638
+          ]
+        },
+        {
+          "source_component": 7,
+          "anchor": [
+            747,
+            907
+          ],
+          "uniform_sheet_scale": 0.7563636363636363,
+          "paste": [
+            237,
+            455
+          ],
+          "bounds": [
+            237,
+            455,
+            580,
+            630
+          ]
+        },
+        {
+          "source_component": 8,
+          "anchor": [
+            1264,
+            917
+          ],
+          "uniform_sheet_scale": 0.7563636363636363,
+          "paste": [
+            265,
+            470
+          ],
+          "bounds": [
+            265,
+            470,
+            541,
+            624
+          ]
+        }
+      ],
+      "relative_PPU": 1,
+      "source_uniform_downsample": 0.7563636363636363
+    }
+  },
+  "camera": {
+    "elevation": 35.2643897,
+    "azimuth": 45,
+    "facing": "screen down-right",
+    "projection": "drawn to reference, not mathematically certified"
+  },
+  "generation": "three fresh sheets directly from current-ready, original and camera references; no iterative edit cascade",
+  "matte": "remove generated low-alpha colored halo using high-alpha component support and deterministic threshold remap"
+}

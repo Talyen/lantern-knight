@@ -2,54 +2,53 @@
 
 ## Ownership
 
-Originals live in the iCloud-backed Asset Library under `Lantern Knight`, organized by subject: Characters, Environments, Props, Items, Effects, Title and Loading, and Guides. Useful exports are browsable beside their Sources; original package bytes and internal paths remain unchanged. Preserve archives, unique revisions, canonical hero references, Clean INK prompts and provenance. The source index records hashes as identity and paths as hints; [source recovery](source-recovery.md) handles moves. Ordinary code/build/CI work does not scan the library.
+The repository owns prepared artwork used by saved scenes and Game content, required authoring fixtures, and their reprocessing inputs under `asset-data/`. Unused artwork stays in the external library until explicitly imported. `asset-data/sources/Lantern Knight/` preserves original artwork, archives, provenance and `.lantern` importer metadata; `asset-data/sources/Sounds/` preserves the audio inputs used by the recipes. `asset-data/objects/` stores prepared bytes by SHA-256, and `asset-data/inventories/` stores compressed, immutable file inventories. All are ordinary Git content with exact binary bytes, without Git LFS or release-download dependencies.
 
-Git contains code, small recipes and the shared pin. Native source collections, prepared pages/catalogs, captures and logs remain outside Git. The external disk cache defaults to 32 GiB. Set `LANTERN_CACHE_BUDGET_GIB` to change it; active readers remain protected. This disk budget is separate from GPU residency.
+Documents and the former Asset Library are independent archives. Moving, editing or deleting files there cannot change this project. Preserve canonical hero references, Clean INK prompts, original resolutions, timing and provenance. [Source recovery](source-recovery.md) is confined to owned sources.
 
 ## Choose a workflow
 
-| Task                                                                     | Action                                                                                                                 |
-| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| Develop code using accepted artwork                                      | `npm run dev`; pinned assets download as needed.                                                                       |
-| Move existing artwork or edit scene geometry                             | Use the [scene editor](developer-tools.md#scene-editor); no asset preparation is needed.                               |
-| Refresh known artwork inputs                                             | `npm run assets:prepare -- --ids <asset-id>...`; selected producers and their finalizers refresh locally.              |
-| Reconcile additions, replacements, moves or deletions across the library | `npm run assets:prepare`; review [coverage gaps](#library-coverage-policy).                                            |
-| Build a Game prototype with local artwork                                | `npm run build -- --local` or `npm run package -- --local`.                                                            |
-| Share prepared artwork                                                   | Use [assets:publish or assets:publish-files](#preparation-and-publication) when task-scoped assets are ready to share. |
+| Task | Action |
+| --- | --- |
+| Develop with accepted artwork | `npm run dev`; asset bytes come from this checkout. |
+| Move existing artwork or edit scene geometry | Use the [scene editor](developer-tools.md#scene-editor). |
+| Add source artwork | `npm run assets:import -- --into "Lantern Knight/New Kit" /absolute/path/to/kit` |
+| Add audio inputs | `npm run assets:import -- --into "Sounds/New Pack" /absolute/path/to/sounds`, then author the audio recipe. |
+| Refresh known artwork | `npm run assets:prepare -- --ids <asset-id>...` |
+| Reconcile the complete owned source tree | `npm run assets:prepare` |
+| Build or package | `npm run build` or `npm run package`; both use the repository snapshot. |
 
-Local preparation does not change the shared pin. Saving a scene does not register it in Game; follow [Game content registration](architecture.md#add-an-area-or-enemy).
+Imports copy bytes, reject links and conflicting destination files, and preserve the supplied tree. Identical existing files are accepted without rewriting them. Use a new destination for revisions, then update the relevant recipe explicitly. Imports do not prepare artwork or update the accepted catalog. Use `assets:prepare -- --ids <asset-id>` to explicitly retain a newly imported library asset; `assets/retained.json` records these choices. Saved scene references and required Game/authoring assets are included automatically. No command watches, scans or automatically incorporates the Documents library.
+
+Saving a scene does not register it in Game; follow [Game content registration](architecture.md#add-an-area-or-enemy).
 
 ## Local preparation review
 
-Use `npm run assets:prepare -- --ids <asset-id>...` for a scoped refresh, or omit IDs to reconcile the complete external library. Dependencies and affected finalizers are selected automatically. A missing verified base falls back to full preparation. Failed preparation preserves the active layer and shared pin.
+Use `assets:prepare -- --ids <asset-id>...` for a scoped refresh, or omit IDs to reconcile the owned source tree and prepare the retained selection. Dependencies and finalizers are selected automatically. Preparation needs the owned source files, [KTX-Software](#images-for-game-use) and a checkout-local `.venv` containing OpenCV 5.0.0, NumPy 2.0.2, Pillow 13.0.0 and Ruff 0.16.10. Ordinary development and builds need none of these authoring dependencies.
 
-Preparation needs the source library, [KTX-Software](#images-for-game-use) and a checkout-local `.venv` containing OpenCV 5.0.0, NumPy 2.0.2, Pillow 13.0.0 and Ruff 0.16.10. Activate it so `python3` subprocesses use that environment. Foreground-selection models have [separate setup](developer-tools.md#local-foreground-selection-setup). Ordinary code, builds and packaging need none of these dependencies.
-
-Development prefers the calling checkout's local preparation, otherwise the shared pin. Builds use the pin; choose `npm run build -- --local` or `npm run assets:check -- --local` deliberately. `--proof` requests full preparation and a ground contact proof; `--gpu` remains accepted for existing scripts. Preparation never regenerates original artwork. Producer graphs, source verification and incremental reuse are documented in [pipeline internals](asset-pipeline.md#preparation).
+Successful preparation checks consuming references, copies verified prepared objects into `asset-data/`, and atomically updates the accepted inventory pin. Review the artwork and Git changes together before committing. Failure preserves the accepted pin; additional unreferenced objects can be reused on retry. `--proof` remains an explicit preparation proof. `--local` remains available to investigate a checkout-local preparation.
 
 ## Consumption
 
-Ordinary code, builds and CI consume verified pinned assets without source-library access. Valid cached assets work offline. Asset commands manage workspace leases and cache admission automatically; do not manually remove active cache entries.
+Development, builds, packaging and CI consume the version 5 pin in `assets/lock.json`. The pin authenticates a compressed inventory and every prepared object's hash and byte size. Files are assembled on demand under ignored `.cache/repository-assets/<identity>/`; independent copies prevent cache edits from changing owned bytes. Assemblies can be removed while inactive and reconstructed from Git without network access or the shared cache.
 
 ### Game and build selection
 
-Game selects assets referenced by resolved content, including existing authoring assets newly used in Game. Moving or referencing artwork already in the pin requires no publication. Development serves the same Game selection; authoring retains the full catalog.
+Game builds copy the files referenced by resolved Game content. All saved scenes remain supported, including scenes not currently registered in Game. The editor offers the retained catalog; unused external artwork is absent until explicitly imported. Referencing an existing catalog asset needs no import or publication.
 
 ### On-demand authoring
 
-Browser previews acquire artwork as requested. Use `npm run dev -- --eager` for a complete authoring workspace before going offline. Live authoring desktop development acquires its complete workspace.
+Browser previews assemble requested files. `npm run dev -- --eager` assembles the complete authoring workspace upfront. Authoring desktop development acquires the complete workspace. This is local file assembly, not an asset download.
 
 ### Shared pin and catalog bindings
 
-`assets/lock.json` identifies immutable prepared delivery; catalogs and payloads stay outside Git. Game references stable manifest paths without a second promotion allowlist. Delivery versions, range verification, containers and cancellation contracts belong to [pipeline internals](asset-pipeline.md#consumption).
+`assets/lock.json` selects one immutable repository inventory. Stable manifest paths and logical asset IDs preserve scene bindings. [Pipeline internals](asset-pipeline.md#consumption) owns hash checks, assemblies and cancellation. Legacy version 1–4 delivery readers remain for historical fixtures and explicit migration; the current repository pin uses none of them.
 
 ## Preparation and publication
 
-Agents may publish assets within their assigned task without separate approval. Respect explicit user restrictions and preserve unrelated artwork and pins. Inspect changed artwork, verify original sources through preparation, then run `npm run assets:publish`. It verifies consuming references and downloadable bytes before atomically updating the pin; failure preserves the previous pin. Publication requires an authenticated `gh` release writer and working download access.
+`assets:prepare` accepts successful prepared output into the repository. Commit the source inputs, recipes, objects, inventory and pin together. `assets:publish` is a compatibility command for full preparation and repository acceptance; it does not upload a release. `assets:publish-files` reports that a repository snapshot needs no delivery publication. Shipping the game follows [delivery](release.md).
 
-Use `npm run assets:publish-files` only to upgrade an accepted version 3 delivery pin to version 4 without changing artwork or source provenance. New and changed artwork uses `assets:publish`.
-
-Publication shares prepared assets; shipping the game follows [delivery](release.md). Container reuse, upload verification and cache accounting belong to [pipeline internals](asset-pipeline.md#publication).
+The one-time `assets:migrate -- --library /absolute/path/to/library-parent` copies the retained scene/Game/authoring assets from a version 4 pin, their source packages and metadata, and the audio recipe's original inputs. Unused prepared artwork and unrelated source files stay external. It verifies copied bytes and changes the pin only after the snapshot is complete. It requires an explicit path and retains the external originals.
 
 ## Runtime composition boundary
 
@@ -71,35 +70,35 @@ Run `npm run assets:scale-review -- --output /external/character-review` in the 
 
 After editing the recipe, rerun review and use `npm run assets:prepare -- --ids library-sk03` (or the affected library asset ID). Review the prepared result in Dev Preview's Animation browser before task-scoped asset publication. New source drawings need a new review; do not copy an old source identity merely to pass preparation. Keep source sheets with no authoritative timeline as still references.
 
-The current review covers 23 timed enemy kits, plus the Clockwork Beetle's six still source sheets and one Shroud Wisp reference. Candlebone Oracle's added facings supplied PPU values relative to a provisional DR=100 convention. Their six move/cast bindings use a 100/256 correction to inherit the original DR world density; the original DR drawings, hover, reactions and defeat retain their supplied size. Other reviewed kits retain their supplied registration and intentional pose changes.
+The review recipe preserves calibration for 23 timed enemy kits; only retained kits require active source coverage. It also records plus the Clockwork Beetle's six still source sheets and one Shroud Wisp reference. Candlebone Oracle's added facings supplied PPU values relative to a provisional DR=100 convention. Their six move/cast bindings use a 100/256 correction to inherit the original DR world density; the original DR drawings, hover, reactions and defeat retain their supplied size. Other reviewed kits retain their supplied registration and intentional pose changes.
 
 ## Cache and retention
 
-`LANTERN_CACHE_ROOT` can choose an external disposable location; `ASSET_LIBRARY_ROOT` selects the parent source library. Temporary download reservations are released after installation. Unused local cache entries are evicted within the budget. `npm run assets:clean` cleans local disposable data only, preserving the current pin and active readers. Published releases and source originals are never deleted by cleanup.
+Repository originals and prepared objects are durable source content. `LANTERN_CACHE_ROOT` and `LANTERN_CACHE_BUDGET_GIB` affect disposable preparation work only. `ASSET_LIBRARY_ROOT`, `LANTERN_SOUND_LIBRARY` and `LANTERN_SOURCE_SEARCH_ROOTS` do not select project inputs. `assets:clean` removes unused shared-cache data, preserving owned sources, repository objects and active readers.
 
-`npm run assets:inspect -- <asset-id>` prints bounded metadata from the shared pin. Use `npm run assets:inspect -- --local <asset-id>` to inspect checkout-local preparation, falling back to the pin when none exists. Inspection requests only the authoring catalog and the selected manifest, verifying those bytes before reading them. It acquires no image payload. Full `assets:check` retains complete workspace validation. CI uses `assets:check -- --built` for the active Game catalog in the verified web artifact, plus `test:assets -- --built` for current Game compatibility and import/recovery fixtures. It does not materialize or audit unused library artwork; the commands without `--built` remain explicit full-artwork investigations. Explicit diagnostics retain output externally; normal checks do not keep passing-evidence receipts.
+`npm run assets:inspect -- <asset-id>` reads bounded metadata from the accepted repository snapshot without image payloads. `--local` selects an existing checkout-local preparation. `assets:check` validates the complete accepted workspace. CI uses `assets:check -- --built` and `test:assets -- --built` for the selected Game artifact and import/recovery fixtures. Explicit full-artwork checks remain available.
 
 ## Library authoring coverage
 
-The authoring catalog includes delivered townsfolk, wildlife, searchable containers, portal clips and hero interactions. `assets/library-packs.json` supplies adapters for their original metadata contracts; `assets/library-artwork.json` supplies registration for intact paintings and loose artwork. Discovery also covers additional loose files and archive members. These recipes do not restrict library eligibility. `tools/assets/library_import.py` owns ordered metadata alias policies for registration and timing; adapters select those policies without changing source precedence. Source identities and locations remain in the source indices. No file discovery runs in Game, builds or CI.
+The authoring catalog includes delivered townsfolk, wildlife, searchable containers, portal clips and hero interactions. `assets/library-packs.json` supplies adapters for their original metadata contracts; `assets/library-artwork.json` supplies registration for intact paintings and loose artwork. Discovery also covers additional loose files and archive members. These recipes interpret imported sources; the retained selection controls preparation. `tools/assets/library_import.py` owns ordered metadata alias policies for registration and timing; adapters select those policies without changing source precedence. Source identities and locations remain in the source indices. No file discovery runs in Game, builds or CI.
 
-The authored import-adapter recipe `assets/library-packs.json` has a 128 KiB repository allowance. Generated library catalogs, source indices and prepared packs remain external; other JSON inputs retain their existing limits.
+The authored import-adapter recipe `assets/library-packs.json` has a 128 KiB repository allowance. Disposable producer catalogs and staging remain external; accepted prepared objects and inventories are versioned in `asset-data/`; other JSON inputs retain their existing limits.
 
-Use `npm run assets:prepare -- --ids library-all` to refresh this catalog locally. Intact scene paintings are placeable ground panels where registered, with editable provisional world scale. Supplied resolution variants belong in the prepared catalog at their original dimensions. Preview media remains available source material; video scene objects require a media renderer. Existing Game bindings and the published pin do not change.
+Use `npm run assets:prepare -- --ids library-all` to refresh this catalog locally. Intact scene paintings are placeable ground panels where registered, with editable provisional world scale. Supplied resolution variants belong in the prepared catalog at their original dimensions. Preview media remains available source material; video scene objects require a media renderer. Preparation updates the accepted repository snapshot while preserving Game bindings.
 
 The authoring catalog includes supplied combat animation kits with their original millisecond timelines, contact markers, fixed pivots and transparent terminal holds. Enemy and hero timing variants remain separate clips. Packs without a delivered world density use the provisional 256 pixels per unit registration; they carry no gameplay collision or damage authority. Loose title artwork and waypoint source sheets are available as reference assets.
 
 ## Library coverage policy
 
-The prepared authoring library must represent every distinct supplied asset and version in the current external library. Resolution, concept/study status, review labels, folder names and current Game selection are not eligibility filters. Archives, duplicate exports and provenance may map to the same logical asset; they do not require duplicate scene objects. Keep provenance and distinguish original drawings from upscaled versions without hiding either.
+The prepared catalog contains assets referenced by saved scenes, Game content and shipped authoring fixtures, plus explicit retention choices in `assets/retained.json`. Imported source packages can contain unused originals required by the original metadata contract; those do not need prepared pages. Resolution, concept/study status, review labels, folder names and current Game selection are not eligibility filters. Archives, duplicate exports and provenance may map to the same logical asset; they do not require duplicate scene objects. Keep provenance and distinguish original drawings from upscaled versions without hiding either.
 
-Native originals retain their own bindings even when Game already uses a processed version of the same source. A cropped or resized Game derivative cannot stand in for its master. Identical prepared bytes may share storage.
+Each retained asset keeps its native prepared page and registration. A cropped or resized delivery variant cannot stand in for that master. Identical bytes may share storage.
 
 Preserve supplied image dimensions, pixels, alpha, animation frames and timing. Complete Scenes includes its 6144×4096 paintings. Scale registration with resolution so a higher-resolution variant does not become a larger world object. Atlas packing size is a preparation setting, not an eligibility limit on supplied images. Rendering checks the actual GPU texture limit and reports unsupported use.
 
-Reconcile explicit preparations against the current external library. Recover moves by content identity, remove entries whose sources are absent, and report unregistered assets, unsupported formats and unresolved registration as coverage gaps. Do not classify an unknown archive as rejected, superseded, deferred or source-only from its name. New import adapters must close these gaps; a successful preparation of the registered subset is not proof of complete library coverage.
+Reconcile explicit preparations against the owned source tree. Recover moves by content identity, remove entries whose sources are absent, and report unregistered assets, unsupported formats and unresolved registration as coverage gaps. Do not classify an unknown archive as rejected, superseded, deferred or source-only from its name. Coverage applies to the retained selection. Unsupported explicitly imported assets must be reported; preparation never scans the external library or expands the retained catalog merely because an archive contains more drawings.
 
-Cache budgets limit residency and preparation working space, not asset eligibility. Game builds may select the assets they use, and agents choose when to publish task-scoped assets; those delivery choices must not restrict authoring-library availability. Reference-only presentation records a current integration limitation, not permanent exclusion from scene use.
+Cache budgets limit residency and preparation working space, not asset eligibility. Game builds select their references; the retained catalog defines current authoring availability, and explicit imports can expand it. Reference-only presentation records a current integration limitation, not permanent exclusion from scene use.
 
 ## Images for game use
 
@@ -129,7 +128,7 @@ The command reports reconciliation, per-step time and image reuse/encoding count
 
 ## Audio preparation
 
-`assets/audio-sources.json` selects stable sample/cue IDs, source hashes, segments and gains from the sibling `Sounds` library; `LANTERN_SOUND_LIBRARY` overrides the root. `npm run assets:audio-review` writes an external filename classification report. It does not establish auditory approval or licensing.
+`assets/audio-sources.json` selects stable sample/cue IDs, source hashes, segments and gains from owned `asset-data/sources/Sounds/` inputs. `npm run assets:audio-review` writes an external filename classification report. It does not establish auditory approval or licensing.
 
 Run `npm run assets:prepare -- --ids audio` in an environment with FFmpeg/FFprobe 9.x (`LANTERN_FFMPEG` / `LANTERN_FFPROBE` override executables), then inspect playback under [listening and tuning](sound-design.md#listening-and-tuning). Publish task-scoped audio through [preparation and publication](#preparation-and-publication). Full preparation includes audio; ordinary builds require neither FFmpeg nor sources. Pins without an audio manifest preview silently. Encoding and manifest contracts belong to [pipeline internals](asset-pipeline.md#audio-encoding).
 

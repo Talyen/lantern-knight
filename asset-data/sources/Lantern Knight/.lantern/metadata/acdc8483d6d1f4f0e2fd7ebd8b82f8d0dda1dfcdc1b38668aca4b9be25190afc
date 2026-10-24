@@ -1,0 +1,154 @@
+{
+  "status": "HUMAN_IDENTITY_ALPHA_QA_PASSED_RUNTIME_TEST",
+  "direction": "DR",
+  "world_forward": [
+    1,
+    0,
+    0
+  ],
+  "actor_heading_world_Y_degrees": 0,
+  "native_drawings": 6,
+  "unique_full_body_drawings": 6,
+  "timeline": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "frame_duration_ms": [
+    333,
+    333,
+    334,
+    333,
+    333,
+    334
+  ],
+  "loop_duration_ms": 2000,
+  "fps_nominal": 3,
+  "native_cell_size": [
+    492,
+    558
+  ],
+  "source_size": [
+    1468,
+    1071
+  ],
+  "single_regular_source_grid_origin": [
+    80,
+    0
+  ],
+  "single_regular_source_grid_step": [
+    460,
+    526
+  ],
+  "uniform_padding": 16,
+  "resize": false,
+  "mirrored": false,
+  "per_frame_fit": false,
+  "source_sha256": "64966e2c3d233783ac0bb24d3d64bf3dfb405b8b8df955879890b07ecd890f8a",
+  "runtime_integration": {
+    "reference_ready_ppu": 350,
+    "reference_ready_pivot_xy": [
+      301.0,
+      556.0
+    ],
+    "clip_ppu": 301.2855,
+    "clip_pivot_xy": [
+      201.0465,
+      483.6259
+    ],
+    "body_scale_ratio": 0.860816,
+    "method": "One clip-wide median boot-sole-to-crown projected body height ratio relative to same-direction ready. Sword and coat extremities excluded. One common pivot derived from mean sole reference and guide-root offset. No individual cel normalization.",
+    "confidence": "Approximate/moderate. Human artwork is not a calibrated 3D render. Residual pose and root offsets need engine review; do not call transitions seamless.",
+    "ready_body_measurement": {
+      "head_crown_y": 42,
+      "boot_sole_y": 606,
+      "body_projected_height_px": 564,
+      "boot_sole_reference_xy": [
+        317.5,
+        606.0
+      ]
+    },
+    "idle_body_measurements": [
+      {
+        "head_crown_y": 41,
+        "boot_sole_y": 528,
+        "body_projected_height_px": 487,
+        "boot_sole_reference_xy": [
+          217.0,
+          528.0
+        ]
+      },
+      {
+        "head_crown_y": 41,
+        "boot_sole_y": 528,
+        "body_projected_height_px": 487,
+        "boot_sole_reference_xy": [
+          215.5,
+          528.0
+        ]
+      },
+      {
+        "head_crown_y": 42,
+        "boot_sole_y": 528,
+        "body_projected_height_px": 486,
+        "boot_sole_reference_xy": [
+          214.0,
+          528.0
+        ]
+      },
+      {
+        "head_crown_y": 42,
+        "boot_sole_y": 525,
+        "body_projected_height_px": 483,
+        "boot_sole_reference_xy": [
+          216.5,
+          525.0
+        ]
+      },
+      {
+        "head_crown_y": 41,
+        "boot_sole_y": 526,
+        "body_projected_height_px": 485,
+        "boot_sole_reference_xy": [
+          214.5,
+          526.0
+        ]
+      },
+      {
+        "head_crown_y": 42,
+        "boot_sole_y": 525,
+        "body_projected_height_px": 483,
+        "boot_sole_reference_xy": [
+          214.0,
+          525.0
+        ]
+      }
+    ],
+    "pivot_normalized_bottom_left": [
+      0.40863109756097565,
+      0.13328691756272404
+    ]
+  },
+  "limits": [
+    "Quiet hand-drawn liveliness and small flame/line/prop variations; no claim of a choreographed breathing arc.",
+    "Minor redraw shimmer and a few pixels of foot/prop variation remain.",
+    "Static-ready fallback supplied for each heading.",
+    "Guide matrices are exact; generated art projection is visually approximate."
+  ],
+  "files": [
+    "idle_DR_00.png",
+    "idle_DR_01.png",
+    "idle_DR_02.png",
+    "idle_DR_03.png",
+    "idle_DR_04.png",
+    "idle_DR_05.png"
+  ],
+  "native_atlas": "idle_DR_native_atlas.png",
+  "native_atlas_grid": [
+    3,
+    2
+  ]
+}

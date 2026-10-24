@@ -1,0 +1,1682 @@
+[
+  {
+    "id": "watch_lantern_flame_loop",
+    "asset": "watch_lantern",
+    "fps": 12,
+    "duration_seconds": 2,
+    "loop": true,
+    "frame_count": 24,
+    "source": "source/build_lighting.py",
+    "phase_endpoint_rule": "i/24 for i=0..23, phase1 pixel-matches phase0 but is not exported",
+    "frames": [
+      {
+        "file": "animation/watch_lantern/flicker_000.png",
+        "emission_file": "animation/watch_lantern/emission_000.png",
+        "normalized_phase": 0.0,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_001.png",
+        "emission_file": "animation/watch_lantern/emission_001.png",
+        "normalized_phase": 0.041666666666666664,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "0e6e290b7dcc274d01ab1f9c4d9a335583df228c6d8495262015fcc4645794e4"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_002.png",
+        "emission_file": "animation/watch_lantern/emission_002.png",
+        "normalized_phase": 0.08333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "cf5f6ca89ffe6e80464ebf0ecdf04be32a29fa62ff5a39c78982bd4ef7d8eb06"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_003.png",
+        "emission_file": "animation/watch_lantern/emission_003.png",
+        "normalized_phase": 0.125,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "36c8d7f0803c83909dcf07dfe4eecd442660338f65f81bff1ac3fce1a4b721e6"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_004.png",
+        "emission_file": "animation/watch_lantern/emission_004.png",
+        "normalized_phase": 0.16666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "0dc29142a57dd39476ac90c765345614934c2377775b46a87132d9229e7bca72"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_005.png",
+        "emission_file": "animation/watch_lantern/emission_005.png",
+        "normalized_phase": 0.20833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "2beb78cf371d27a570dc871e2ac75d3a85c1b0bcce65db8e3186e0d048eefa56"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_006.png",
+        "emission_file": "animation/watch_lantern/emission_006.png",
+        "normalized_phase": 0.25,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "f5bbf7e592dd1864ee18e43aadedaf58ad2c4e19d461312ccb87c27ecc2290f4"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_007.png",
+        "emission_file": "animation/watch_lantern/emission_007.png",
+        "normalized_phase": 0.2916666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "a0eb8534cd01b787101b6fd2157722e620f5fcbbf2b2e9150fa4859a1af40617"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_008.png",
+        "emission_file": "animation/watch_lantern/emission_008.png",
+        "normalized_phase": 0.3333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "f3d4c8b2c371e93fcefafd4546e565064074acaf3661433016183b479d6be2b6"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_009.png",
+        "emission_file": "animation/watch_lantern/emission_009.png",
+        "normalized_phase": 0.375,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "8ef88555c0c48d1bd44cd6d52fc11c73a10675d3a8fd934cbf487cdc2a48f37c"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_010.png",
+        "emission_file": "animation/watch_lantern/emission_010.png",
+        "normalized_phase": 0.4166666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "6ab90b813ecb8630918f0e00e2160bf3b9e3f64b44ac22477a22c136ac08d167"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_011.png",
+        "emission_file": "animation/watch_lantern/emission_011.png",
+        "normalized_phase": 0.4583333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "7a19078b84d3d1b07feedb3e12eb07f27027b680b8a3924d8ed3f9f442afb46a"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_012.png",
+        "emission_file": "animation/watch_lantern/emission_012.png",
+        "normalized_phase": 0.5,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "183c18609be48cd8369cab95d993cf399c1db1e095fe8e35cbaa390316ba8bfb"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_013.png",
+        "emission_file": "animation/watch_lantern/emission_013.png",
+        "normalized_phase": 0.5416666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "b600151bc8703bfec5f8cf2809d4eda285cc8389b56099af4452b97761425a11"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_014.png",
+        "emission_file": "animation/watch_lantern/emission_014.png",
+        "normalized_phase": 0.5833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "7e4f6dcff2580a634749af381ab0a5206cff8aea6891e607b57459d1035bd1f4"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_015.png",
+        "emission_file": "animation/watch_lantern/emission_015.png",
+        "normalized_phase": 0.625,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "38492f3922e358e08a38a5a9f0fb9e8580cce43d2226a593405d9e82ecbe51d7"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_016.png",
+        "emission_file": "animation/watch_lantern/emission_016.png",
+        "normalized_phase": 0.6666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "758e32fa3c6eb10b3f7543c07391917ef80b98eb9e68493e69b582acea068ad5"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_017.png",
+        "emission_file": "animation/watch_lantern/emission_017.png",
+        "normalized_phase": 0.7083333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "47a34ebc42a502d907cd760855323b23cac3312fd334e391826e6bb0caa110a7"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_018.png",
+        "emission_file": "animation/watch_lantern/emission_018.png",
+        "normalized_phase": 0.75,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "4f1b1d001e721bcf61ba414793fbade04e770a051f8a286e3c51b6372aa8483d"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_019.png",
+        "emission_file": "animation/watch_lantern/emission_019.png",
+        "normalized_phase": 0.7916666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "9692d8a6b41c6fa0e900b06fb3df3f2d2986a96bfe360935337a8a69030e02c1"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_020.png",
+        "emission_file": "animation/watch_lantern/emission_020.png",
+        "normalized_phase": 0.8333333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "bf735477e010b7ddab0235ed6111d843884da681423bf26cf1551f403b0a6bc6"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_021.png",
+        "emission_file": "animation/watch_lantern/emission_021.png",
+        "normalized_phase": 0.875,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "28aa9151512a4ba888c66324923fb19d57fd3184dcc6908ac6a400da08f1bce6"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_022.png",
+        "emission_file": "animation/watch_lantern/emission_022.png",
+        "normalized_phase": 0.9166666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "3e13c377ccb2a099bfa4fb427e7a13264cc448b41ae9ef81369afc4edcdff762"
+      },
+      {
+        "file": "animation/watch_lantern/flicker_023.png",
+        "emission_file": "animation/watch_lantern/emission_023.png",
+        "normalized_phase": 0.9583333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          640,
+          854,
+          903,
+          1280
+        ],
+        "sha256": "ec8fc5fea0e189e913a2c34146c98922b22f304d34e9bdda588073ff90bf641a"
+      }
+    ]
+  },
+  {
+    "id": "tripod_brazier_flame_loop",
+    "asset": "tripod_brazier",
+    "fps": 12,
+    "duration_seconds": 2,
+    "loop": true,
+    "frame_count": 24,
+    "source": "source/build_lighting.py",
+    "phase_endpoint_rule": "i/24 for i=0..23, phase1 pixel-matches phase0 but is not exported",
+    "frames": [
+      {
+        "file": "animation/tripod_brazier/flicker_000.png",
+        "emission_file": "animation/tripod_brazier/emission_000.png",
+        "normalized_phase": 0.0,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          728,
+          1064,
+          1311
+        ],
+        "sha256": "63a003d983d8dcba8c7a39c1e5ceb85645a360bcb84c052a8b2612b3c8b46ff6"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_001.png",
+        "emission_file": "animation/tripod_brazier/emission_001.png",
+        "normalized_phase": 0.041666666666666664,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          732,
+          1064,
+          1311
+        ],
+        "sha256": "0c380e3db5c79b20aff1fab7d8b70af68cf053dd45c00d251891aaa0ba5fcb52"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_002.png",
+        "emission_file": "animation/tripod_brazier/emission_002.png",
+        "normalized_phase": 0.08333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          736,
+          1064,
+          1311
+        ],
+        "sha256": "d55183690b7284fcb0bee6d7a4a83bddbcde50b10d31dcd2bba27d58709b34c4"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_003.png",
+        "emission_file": "animation/tripod_brazier/emission_003.png",
+        "normalized_phase": 0.125,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          740,
+          1064,
+          1311
+        ],
+        "sha256": "a484adfb2039566fcfd331c68f2c11a905bc1f06258c5fd64eb8b345e30580a6"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_004.png",
+        "emission_file": "animation/tripod_brazier/emission_004.png",
+        "normalized_phase": 0.16666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          742,
+          1064,
+          1311
+        ],
+        "sha256": "c8f82bd9a3b190a899c9597665d3feb62515b75cdd7024304de2e71f903858c7"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_005.png",
+        "emission_file": "animation/tripod_brazier/emission_005.png",
+        "normalized_phase": 0.20833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          742,
+          1064,
+          1311
+        ],
+        "sha256": "fe2afb1476be837357e75d7187d989fd9764d5807644b7f47e319047f69c6482"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_006.png",
+        "emission_file": "animation/tripod_brazier/emission_006.png",
+        "normalized_phase": 0.25,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          739,
+          1064,
+          1311
+        ],
+        "sha256": "fa75dc8f18fa7609082d8a3dd3aeb9be28956414a0e8e8c17a240c243f021feb"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_007.png",
+        "emission_file": "animation/tripod_brazier/emission_007.png",
+        "normalized_phase": 0.2916666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          735,
+          1064,
+          1311
+        ],
+        "sha256": "d9c5189c60e44659d0346e7094a8a4fc4231df9b566a15be868f7c2bf5f81999"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_008.png",
+        "emission_file": "animation/tripod_brazier/emission_008.png",
+        "normalized_phase": 0.3333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          730,
+          1064,
+          1311
+        ],
+        "sha256": "5a740de8f6465da770d7c5abef01d729434f5d4286877eb5ce407bca93f51fa1"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_009.png",
+        "emission_file": "animation/tripod_brazier/emission_009.png",
+        "normalized_phase": 0.375,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          727,
+          1064,
+          1311
+        ],
+        "sha256": "b7aff355d7bbdb237a5e07c3e03aa8c7f661f4ec980686e8368f33c1ad1011df"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_010.png",
+        "emission_file": "animation/tripod_brazier/emission_010.png",
+        "normalized_phase": 0.4166666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          725,
+          1064,
+          1311
+        ],
+        "sha256": "98e361f253f1ec8e93a31ed47c77946acc3fde1fae53b675bdb25821f705e6cd"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_011.png",
+        "emission_file": "animation/tripod_brazier/emission_011.png",
+        "normalized_phase": 0.4583333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          725,
+          1064,
+          1311
+        ],
+        "sha256": "055a1d6eeffdd58496aea571a46d8a95f93193e775c596c344b150f5da771ef9"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_012.png",
+        "emission_file": "animation/tripod_brazier/emission_012.png",
+        "normalized_phase": 0.5,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          728,
+          1064,
+          1311
+        ],
+        "sha256": "e16cadb2d30974d93a7dd7e7f584f1dfb882b19e60d69a7470681cba80a9daf6"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_013.png",
+        "emission_file": "animation/tripod_brazier/emission_013.png",
+        "normalized_phase": 0.5416666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          732,
+          1064,
+          1311
+        ],
+        "sha256": "3284a51653db07e95d9a69e11db6d920278b0e2e00216d303fefc0dff337c6cc"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_014.png",
+        "emission_file": "animation/tripod_brazier/emission_014.png",
+        "normalized_phase": 0.5833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          736,
+          1064,
+          1311
+        ],
+        "sha256": "41fd6423485594b5f0ebbcffe8b85137fd6be99ad481eaf4240a6d008bb59df7"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_015.png",
+        "emission_file": "animation/tripod_brazier/emission_015.png",
+        "normalized_phase": 0.625,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          740,
+          1064,
+          1311
+        ],
+        "sha256": "279f00a810a4bf71bccef11afab2ec1a97d38224e25ba7a0c7ef0876134618dd"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_016.png",
+        "emission_file": "animation/tripod_brazier/emission_016.png",
+        "normalized_phase": 0.6666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          742,
+          1064,
+          1311
+        ],
+        "sha256": "510a929051876edd1c6f4178222c63e2e0dbafe213f2195415174c4e6d76c695"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_017.png",
+        "emission_file": "animation/tripod_brazier/emission_017.png",
+        "normalized_phase": 0.7083333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          742,
+          1064,
+          1311
+        ],
+        "sha256": "b6b253be5d7515cc6ee2d852b9efd7f13e07102e2300ee3017ec5e1ea5254683"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_018.png",
+        "emission_file": "animation/tripod_brazier/emission_018.png",
+        "normalized_phase": 0.75,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          739,
+          1064,
+          1311
+        ],
+        "sha256": "c6001dbd04f51c8b8abf5b1844a788756d0e0cdc852d30fcf429316fa07b146d"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_019.png",
+        "emission_file": "animation/tripod_brazier/emission_019.png",
+        "normalized_phase": 0.7916666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          735,
+          1064,
+          1311
+        ],
+        "sha256": "1a1a85dc75673793a33556d24835533e1ab67cb05743661028479c7ea63f6f7d"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_020.png",
+        "emission_file": "animation/tripod_brazier/emission_020.png",
+        "normalized_phase": 0.8333333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          730,
+          1064,
+          1311
+        ],
+        "sha256": "8a3e97befe517c03289c1560d88826a0c5ee039de7d6d19944427ff6e5492561"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_021.png",
+        "emission_file": "animation/tripod_brazier/emission_021.png",
+        "normalized_phase": 0.875,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          727,
+          1064,
+          1311
+        ],
+        "sha256": "4ab6f7441ac1d7f009ea612cb4af01b49979f37a2a4ce6fa3ed90a38914bc41c"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_022.png",
+        "emission_file": "animation/tripod_brazier/emission_022.png",
+        "normalized_phase": 0.9166666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          725,
+          1064,
+          1311
+        ],
+        "sha256": "4624ded9064e02cf4ed361c2dafd9776fc6dfddff35aa1b8ee16374012d77955"
+      },
+      {
+        "file": "animation/tripod_brazier/flicker_023.png",
+        "emission_file": "animation/tripod_brazier/emission_023.png",
+        "normalized_phase": 0.9583333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          477,
+          725,
+          1064,
+          1311
+        ],
+        "sha256": "ed0d5f57351d30100da8a9ce2b43b84a7f5796bcb7b595ada12149fa610e1ffe"
+      }
+    ]
+  },
+  {
+    "id": "votive_candelabrum_flame_loop",
+    "asset": "votive_candelabrum",
+    "fps": 12,
+    "duration_seconds": 2,
+    "loop": true,
+    "frame_count": 24,
+    "source": "source/build_lighting.py",
+    "phase_endpoint_rule": "i/24 for i=0..23, phase1 pixel-matches phase0 but is not exported",
+    "frames": [
+      {
+        "file": "animation/votive_candelabrum/flicker_000.png",
+        "emission_file": "animation/votive_candelabrum/emission_000.png",
+        "normalized_phase": 0.0,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          680,
+          1021,
+          1256
+        ],
+        "sha256": "51aa99134b047ebfd73ef3c07af623fa611b60f9b667a2b457524fd8ac43d6b5"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_001.png",
+        "emission_file": "animation/votive_candelabrum/emission_001.png",
+        "normalized_phase": 0.041666666666666664,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          678,
+          1021,
+          1256
+        ],
+        "sha256": "6d0a9cc81c5fbd2e491d4210b2abd34126bbbd8f51fae048c04bbe4332ee0a23"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_002.png",
+        "emission_file": "animation/votive_candelabrum/emission_002.png",
+        "normalized_phase": 0.08333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          678,
+          1021,
+          1256
+        ],
+        "sha256": "523c7a37b8a9574471bf0e408397bf3e4a9b2291562b26904712c03f240ebad0"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_003.png",
+        "emission_file": "animation/votive_candelabrum/emission_003.png",
+        "normalized_phase": 0.125,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          676,
+          1021,
+          1256
+        ],
+        "sha256": "554d29e3e297fee0c911bbbe03359eff27744ba9b50793caed340ffac30aaa4d"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_004.png",
+        "emission_file": "animation/votive_candelabrum/emission_004.png",
+        "normalized_phase": 0.16666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          676,
+          1021,
+          1256
+        ],
+        "sha256": "686356aa78dbb8ff30a8585d523f2f0bc27bc3e5caf3b4d81bc418a6ab3bd198"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_005.png",
+        "emission_file": "animation/votive_candelabrum/emission_005.png",
+        "normalized_phase": 0.20833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          677,
+          1021,
+          1256
+        ],
+        "sha256": "9f1157f52e0aa60d63c6c3b7a0401aebf12fd353994d350bfb79f32ec2bcc0c0"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_006.png",
+        "emission_file": "animation/votive_candelabrum/emission_006.png",
+        "normalized_phase": 0.25,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          677,
+          1021,
+          1256
+        ],
+        "sha256": "066983c9d5042688cfadf2697cdae8bc6fe08e8ae4c5eec8cfdb062b9c916b5b"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_007.png",
+        "emission_file": "animation/votive_candelabrum/emission_007.png",
+        "normalized_phase": 0.2916666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          679,
+          1021,
+          1256
+        ],
+        "sha256": "e6ca8c38bb47969ea8c4919b6fcfc4aa6a992b6ad82e4e6f14396f9c132c6810"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_008.png",
+        "emission_file": "animation/votive_candelabrum/emission_008.png",
+        "normalized_phase": 0.3333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          681,
+          1021,
+          1256
+        ],
+        "sha256": "4d1bb285e39db1bbe9bfb2762dfdb7d07da91eda5a72d3521d9104562edb6950"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_009.png",
+        "emission_file": "animation/votive_candelabrum/emission_009.png",
+        "normalized_phase": 0.375,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          681,
+          1021,
+          1256
+        ],
+        "sha256": "78b48542658f986fdbe4e0553fe7296fe67eacba4a0f7639835364d82916bec4"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_010.png",
+        "emission_file": "animation/votive_candelabrum/emission_010.png",
+        "normalized_phase": 0.4166666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          682,
+          1021,
+          1256
+        ],
+        "sha256": "02524ab4ee9de8b22f2b22109706f8fc18359d06513c4b567ce3a0142763c6ac"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_011.png",
+        "emission_file": "animation/votive_candelabrum/emission_011.png",
+        "normalized_phase": 0.4583333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          681,
+          1021,
+          1256
+        ],
+        "sha256": "9f27295e243a23a286a2c4d9709115ccc7a464e41085b2c66733cd925b0934d9"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_012.png",
+        "emission_file": "animation/votive_candelabrum/emission_012.png",
+        "normalized_phase": 0.5,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          680,
+          1021,
+          1256
+        ],
+        "sha256": "218380c26ab5a7c438654137ba13dfee4b2142f8af6f552215b9c5c126d63944"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_013.png",
+        "emission_file": "animation/votive_candelabrum/emission_013.png",
+        "normalized_phase": 0.5416666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          679,
+          1021,
+          1256
+        ],
+        "sha256": "8cefd566d1ed5f2aedb6a0229f9d7c4ec899fcb849b9aa4fc11bcbd0dbff1b69"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_014.png",
+        "emission_file": "animation/votive_candelabrum/emission_014.png",
+        "normalized_phase": 0.5833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          678,
+          1021,
+          1256
+        ],
+        "sha256": "28e327214d624b5fede21676f4e8a7d29630ea212cb3d372fc89b79f4c3f2f93"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_015.png",
+        "emission_file": "animation/votive_candelabrum/emission_015.png",
+        "normalized_phase": 0.625,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          676,
+          1021,
+          1256
+        ],
+        "sha256": "881e22fbfa79ef7cf44d156d56dbc1b3a26adbcab0914b8b8e4f5f2d4fadd2ad"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_016.png",
+        "emission_file": "animation/votive_candelabrum/emission_016.png",
+        "normalized_phase": 0.6666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          676,
+          1021,
+          1256
+        ],
+        "sha256": "fc37c1aa0792e504f404d4192745345fbf05dd16cbda06d6bdd29b0ffca7d0e5"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_017.png",
+        "emission_file": "animation/votive_candelabrum/emission_017.png",
+        "normalized_phase": 0.7083333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          677,
+          1021,
+          1256
+        ],
+        "sha256": "66e56f51414f5def62258e2f95145348dbdeb6ddb66bda099b5a9fcf4a078e1c"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_018.png",
+        "emission_file": "animation/votive_candelabrum/emission_018.png",
+        "normalized_phase": 0.75,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          677,
+          1021,
+          1256
+        ],
+        "sha256": "149ff6af3beedb7014e7539d39f622389f931eb6c0f772dee30540c852811abe"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_019.png",
+        "emission_file": "animation/votive_candelabrum/emission_019.png",
+        "normalized_phase": 0.7916666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          678,
+          1021,
+          1256
+        ],
+        "sha256": "89f007cd99d0ed3cd05c93e034164f096abdc68b7dbd57f44c07e505b68e0a6d"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_020.png",
+        "emission_file": "animation/votive_candelabrum/emission_020.png",
+        "normalized_phase": 0.8333333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          680,
+          1021,
+          1256
+        ],
+        "sha256": "4a9bfc06c36bcc6eaa4104418737ebc106a10f201920fa788ea463aa2bbafe11"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_021.png",
+        "emission_file": "animation/votive_candelabrum/emission_021.png",
+        "normalized_phase": 0.875,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          681,
+          1021,
+          1256
+        ],
+        "sha256": "43276f4b2347ebf88264f658096e3a27b7c2a1e3bac5bb0efc4cd52aa317aa13"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_022.png",
+        "emission_file": "animation/votive_candelabrum/emission_022.png",
+        "normalized_phase": 0.9166666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          681,
+          1021,
+          1256
+        ],
+        "sha256": "e517bdfc52693cc30704560884ea0288e491513a0242ee4b6dcab5f00b14a944"
+      },
+      {
+        "file": "animation/votive_candelabrum/flicker_023.png",
+        "emission_file": "animation/votive_candelabrum/emission_023.png",
+        "normalized_phase": 0.9583333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          531,
+          681,
+          1021,
+          1256
+        ],
+        "sha256": "c9df197b7d6fd2e2147770054090164ec661f45e8fc68da7311f8f46cef53b17"
+      }
+    ]
+  },
+  {
+    "id": "hanging_cage_lamp_flame_loop",
+    "asset": "hanging_cage_lamp",
+    "fps": 12,
+    "duration_seconds": 2,
+    "loop": true,
+    "frame_count": 24,
+    "source": "source/build_lighting.py",
+    "phase_endpoint_rule": "i/24 for i=0..23, phase1 pixel-matches phase0 but is not exported",
+    "frames": [
+      {
+        "file": "animation/hanging_cage_lamp/flicker_000.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_000.png",
+        "normalized_phase": 0.0,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "6656f441c2631bb72ae0f5b41f783ee74d0f2642eba1ee0c37d9c37d8a74003c"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_001.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_001.png",
+        "normalized_phase": 0.041666666666666664,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "c4f38e1cb38d9ffdd214074ea067210887823c3fb22f260d7c68820226943baf"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_002.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_002.png",
+        "normalized_phase": 0.08333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "30ce2cb9802656f7e0ad8e906e22cdd82e57d9fe8d71b01f3c703ef670e0419b"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_003.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_003.png",
+        "normalized_phase": 0.125,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "887f9ff7b935b3db6027531aa44d2d4e80e757ca68f48f4ab7bae3a8b7953009"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_004.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_004.png",
+        "normalized_phase": 0.16666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "537cac047b7d35ee4eee659a33c9c0f5f307e0a9b0369add0c083de109af8e6c"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_005.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_005.png",
+        "normalized_phase": 0.20833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "a1ab36ff34009e1888d8e019357cc4fd268b4e49de9abb30908385d176c5c67e"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_006.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_006.png",
+        "normalized_phase": 0.25,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "7eb3cf6739cb3a42c7b00d4cd3f7889933c09f8792c788e7c7a13863cf0257d5"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_007.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_007.png",
+        "normalized_phase": 0.2916666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "32c690af3a8c75de2cf57a255bc4570c0ba8273f36de99845f55fec757a68194"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_008.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_008.png",
+        "normalized_phase": 0.3333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "e2c2f1e05e5a2007f4bb5ba2014dc4fbb9dec6c2bcfc45f39c77ce3127c2facc"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_009.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_009.png",
+        "normalized_phase": 0.375,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "739c942f2395a56e60514d19250f03a0e947cfec85d1568fd60a35e3f0725c1e"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_010.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_010.png",
+        "normalized_phase": 0.4166666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "8427aa2233949864115649cec97caf53f3481d02b497e1979a70548c84470041"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_011.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_011.png",
+        "normalized_phase": 0.4583333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "98d700966c9ed89553e73b592407c28618e6fb864c3c79e362e6e155dbb5c963"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_012.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_012.png",
+        "normalized_phase": 0.5,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "3f1d18abaac1845572770f4d56be5679396aad91c9c49ffa2926232d9f2ebab6"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_013.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_013.png",
+        "normalized_phase": 0.5416666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "d53cc973f8c80eeeb472cae239be0eef3b4848d18567f55ae821e669c70338e1"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_014.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_014.png",
+        "normalized_phase": 0.5833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "557317a3a8c75719891d5793f360ffe613a0b9c4ce089d4ac4a82279f22bfdcc"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_015.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_015.png",
+        "normalized_phase": 0.625,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "38199da84413ef2049dd09a7fcdb2374355b6ea860ddcbb983ebb2d46daff8aa"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_016.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_016.png",
+        "normalized_phase": 0.6666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "4ca2b7444e4d0f9549fb833a98069f5eddba4c998d8e9bb943c90939a6c6daaa"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_017.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_017.png",
+        "normalized_phase": 0.7083333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "8741ea38bc93e5a8a6687b425ecd85072546676466313ac16ce8212afd88fc3f"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_018.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_018.png",
+        "normalized_phase": 0.75,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "09ad1762d8a095941e1a21dfb89edaf1d58c4f5b0056e6698bb0f1718998d10c"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_019.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_019.png",
+        "normalized_phase": 0.7916666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "5fafa057f06abc131cc0f406f01056854a221a9c5e13da3e93bd457af894e062"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_020.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_020.png",
+        "normalized_phase": 0.8333333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "399ee211708f738790e74bba97267083d274c80eaab38403abd8088eca7f44aa"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_021.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_021.png",
+        "normalized_phase": 0.875,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "92b0a07749fdf6995aaa216858aa7125f7c387773c3fbb15219d67cacadbaf35"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_022.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_022.png",
+        "normalized_phase": 0.9166666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "a94bf0c94847d5f25da3766baacc8b77ef32974b22de4ca30ad700aa3e31616b"
+      },
+      {
+        "file": "animation/hanging_cage_lamp/flicker_023.png",
+        "emission_file": "animation/hanging_cage_lamp/emission_023.png",
+        "normalized_phase": 0.9583333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          551,
+          436,
+          880,
+          1167
+        ],
+        "sha256": "7aa5abca2acee160c78b60596a5c5fb8fb94c7358977faffdf863ff577c54420"
+      }
+    ]
+  }
+]

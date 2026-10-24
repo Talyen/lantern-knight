@@ -1,0 +1,92 @@
+[
+  {
+    "frame": 3,
+    "alpha_mass": 13764103,
+    "centroid": [
+      313.5,
+      330.0
+    ],
+    "mean_distance_from_cast_anchor": 180.7
+  },
+  {
+    "frame": 4,
+    "alpha_mass": 12953813,
+    "centroid": [
+      335.4,
+      322.1
+    ],
+    "mean_distance_from_cast_anchor": 196.0
+  },
+  {
+    "frame": 5,
+    "alpha_mass": 11763421,
+    "centroid": [
+      340.5,
+      318.2
+    ],
+    "mean_distance_from_cast_anchor": 202.8
+  },
+  {
+    "frame": 6,
+    "alpha_mass": 9575650,
+    "centroid": [
+      352.5,
+      318.0
+    ],
+    "mean_distance_from_cast_anchor": 208.3
+  },
+  {
+    "frame": 7,
+    "alpha_mass": 10357211,
+    "centroid": [
+      359.4,
+      305.1
+    ],
+    "mean_distance_from_cast_anchor": 224.0
+  },
+  {
+    "frame": 8,
+    "alpha_mass": 7158120,
+    "centroid": [
+      359.6,
+      296.1
+    ],
+    "mean_distance_from_cast_anchor": 230.3
+  },
+  {
+    "frame": 9,
+    "alpha_mass": 4534923,
+    "centroid": [
+      348.9,
+      291.0
+    ],
+    "mean_distance_from_cast_anchor": 226.0
+  },
+  {
+    "frame": 10,
+    "alpha_mass": 2913022,
+    "centroid": [
+      387.2,
+      257.8
+    ],
+    "mean_distance_from_cast_anchor": 273.3
+  },
+  {
+    "frame": 11,
+    "alpha_mass": 1227319,
+    "centroid": [
+      394.6,
+      230.2
+    ],
+    "mean_distance_from_cast_anchor": 299.9
+  },
+  {
+    "frame": 12,
+    "alpha_mass": 533624,
+    "centroid": [
+      394.8,
+      210.2
+    ],
+    "mean_distance_from_cast_anchor": 316.5
+  }
+]

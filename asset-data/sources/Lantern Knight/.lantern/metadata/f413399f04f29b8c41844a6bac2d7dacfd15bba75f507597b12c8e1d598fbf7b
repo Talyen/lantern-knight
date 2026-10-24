@@ -1,0 +1,10 @@
+{
+  "model_bin_sha256": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+  "model_param_sha256": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4",
+  "model_archive_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip",
+  "model_archive_sha256": "e5aa6eb131234b87c0c51f82b89390f5e3e642b7b70f2b9bbe95b6a285a40c96",
+  "runtime": "NCNN 1.0.20250916 CPU",
+  "numpy": "2.3.5",
+  "Pillow": "12.3.0",
+  "source_sha256": "b439bf3c0b2972f1871c5a2e61b9f599a4c63b2cb34e13497b4eb09effa33f6c"
+}

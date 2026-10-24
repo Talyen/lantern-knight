@@ -1,0 +1,45 @@
+{
+  "asset": "village_C",
+  "title": "Fire-damaged craftsman square",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-8d489249-71a4-431c-bab2-e1ba731685f3.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "validation": "prompt target only; unvalidated in engine"
+  },
+  "sha256": "912bdfcd5308ed9b24cfc087e0020c8a418ccbef0a94c829a0258d34b06ae0b4",
+  "upscaled": false,
+  "generation_attempt": 1,
+  "status": "native viewport sample, awaiting selection",
+  "suggested_hero_feet_pixels": [
+    774,
+    721
+  ],
+  "visual_review": {
+    "strengths": [
+      "Distinct charcoal structural silhouettes and fire aftermath atmosphere",
+      "Open central combat space connected to lanes and workshop recess",
+      "Readable cold forge, workbench and roofless workshop as visual landmarks",
+      "No human baked in; no visible water or active flame"
+    ],
+    "caveats": [
+      "Ground has more irregular mottled tone variation than the strict clean-flat target",
+      "Many contour details remain in rubble and workshop props",
+      "Exact camera geometry and 160px character scale are not validated in engine",
+      "All scenery and occluders are baked into this sample"
+    ]
+  }
+}

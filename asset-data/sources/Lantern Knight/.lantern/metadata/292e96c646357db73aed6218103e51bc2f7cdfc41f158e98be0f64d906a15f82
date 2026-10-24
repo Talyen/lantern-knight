@@ -1,0 +1,13 @@
+UR LOW-CARRY NATIVE RUN TEST
+
+Eight unique drawings, one 40-tick / 0.666667-second stride at 60 Hz. Play 00–07 for five ticks each, then loop directly to 00. World negative Z, screen upper-right; no mirroring.
+
+Native pixels retained. Padded PNG canvas 1536 x 1024, pivot top-left (768,892), bottom-left (768,132), normalized bottom-left (0.5,0.12890625). Atlas 1840 x 920; slice sizes vary 443/444 because the native 1774 x 887 source has odd dimensions. Exact rectangles and per-slice normalized pivots are in import_companion_UR_lowcarry.json. Atlas slice local top-left pivot is (220,380); common padding translation (548,512) is already baked into full frames. Use one representation, never both offsets.
+
+Approximate starting density: 235 PPU, against shared-ready 350 PPU, about ±15%. One density for the whole clip; do not rescale each pose or apply a second compensating transform. Fixed pivot registration is approximate and requires gameplay comparison. Apply world movement once through the controller.
+
+Source adaptation: original Torch Run body, legs and right arm retained in guides. Left arm is intentionally changed to a low carry by exact-length two-bone IK with small source chest-yaw-driven swing. This is not unaltered mocap. The source camera is exact 35.264389682754654 degree elevation / 45 degree azimuth; painted art is visually conditioned, not metric proof.
+
+A bounded traditional cloth edit removes eight wrong right-sleeve patches. No silhouette, alpha, pose, skin or cuff changes. Tiny stitch/scuff marks are retained. Raw source, cleanup masks and provenance are in the separate source companion.
+
+Accepted native animation test after visual and extraction QA; not engine-validated. Contact flags are source joint proxies; observed art anchors are null. Previous high-carry UR variants remain held, and earlier delivered DR/UL/DL archives are unchanged.

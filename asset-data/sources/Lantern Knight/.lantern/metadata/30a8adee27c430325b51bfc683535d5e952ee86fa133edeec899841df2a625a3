@@ -1,0 +1,60 @@
+LANTERN — QUIET AMBIENT EFFECTS / v1.0
+Original vector/code-authored art. Six distinct behaviors, 144 RGBA source drawings.
+
+CONTENTS
+Lamp flame: 24 frames at 24 fps; 1 s loop; stable socket base.
+Rising motes: 24 frames at 12 fps; 2 s loop; four deliberate rising particles.
+Quiet smoke curl: 24 frames at 12 fps; 2 s loop; clean translucent ribbon.
+Tumbling leaf: 24 frames at 12 fps; 2 s one-shot; real 3D rotation and ground projection.
+Soft pond ripple: 24 frames at 12 fps; 2 s one-shot; broken spreading reflection arcs.
+Droplet splash: 24 frames at 24 fps; 1 s one-shot; three droplets and delayed ripples.
+These are six motion designs, not recolor duplicates or AI-generated frame variations.
+
+SOURCE / CAMERA / PLACEMENT
+PNG and corresponding editable SVG exist for every authored frame. Source geometry,
+timing and palette are in source/build_ambient.py and source/vfx_core.py.
+Right-handed XZ ground; +Y height; orthographic elevation 35.264389682754654 degrees,
+azimuth 45 degrees from +Z toward +X. Ground effects are actually projected geometry.
+Flame and smoke are deliberately SCREEN BILLBOARDS; their manifest says so. They
+are not claims of arbitrary-direction 3D bakes. Their root is the bottom emitter.
+Source density 112 px/m; 512 x 448 canvas, top-left image origin, fixed pivot
+(256,286). Socket emitters add no baked socket height. Place pivot at the socket.
+Leaf/ripples use the ground root. Source measurements are visual dimensions only.
+At 1440 px buffer / 13 m span, scale all source pixels uniformly by 0.98901;
+at 1080 px / 13 m span use 0.74176, as in the preview. Do not distort axes.
+
+TIMING
+Each loop samples phase=i/24, excludes a duplicated terminal drawing and wraps to
+frame 0. The next frame at the boundary is one ordinary phase step later. Loop QA
+compares the boundary difference with ordinary adjacent differences. One-shots use
+transparent first and final frames and are removed at their end. All durations are
+explicit rational values in manifest.json. The 60 Hz MP4 repeats source frames for
+2.5 or 5 render samples as appropriate; 24 fps uses the natural 2/3 sample cadence.
+It does not claim 60 distinct drawings per second or optical-flow interpolation.
+No effect controls damage, status, collision, movement, water simulation or timers.
+
+ATLAS / ALPHA
+One fixed union crop per clip; loose PNGs retain their complete canvas. Manifest
+records sourceSizePx, trimOffsetPx, pivotPx, atlasPivotPx and exact atlas rectangles.
+All atlases are at most 2048 px on either axis, with 3 px transparent gutters.
+PNG alpha is STRAIGHT / UNASSOCIATED, never pre-multiplied. RGB under zero alpha is
+zero. RGB is sRGB; alpha is linear. Normal source-over blending uses SRC_ALPHA and
+ONE_MINUS_SRC_ALPHA. If the engine explicitly premultiplies uploads, use the matching
+ONE / ONE_MINUS_SRC_ALPHA factors instead and do not premultiply twice. Use linear
+colour blending where supported. Additive blending and bloom are not required.
+Disable mipmaps for these atlases; mipmapped use needs alpha-aware extrusion and
+padding per mip level. Default linear sampling at the native scale is the target.
+
+REBUILD / VERIFY
+Python 3, Pillow, numpy and ffmpeg with libx264. Run python source/build_ambient.py.
+Rebuilding uses deterministic parameters; no outside images, internet or engine.
+qa_report.json covers hidden RGB, exact atlas crop mapping, source uniqueness,
+transparent endpoints, margins and cyclic seam checks. SHA256SUMS.txt indexes all
+exported files except itself. texture_budget.json reports raw base RGBA8 allocation,
+not compressed file size or a runtime test. Review images and the MP4 use simple
+original display fixtures only; those fixtures are not exported game assets.
+
+BOUNDARIES
+No locked hero art was edited. No Unity, Codex or three.js integration was performed.
+Attachment placement, alpha sorting, loading, gameplay synchronization and scene
+performance remain for the owner's engineering work. Generated 6 October 2026.

@@ -1,0 +1,183 @@
+{
+  "name": "Lantern 2.5D \u2014 Town Keepers",
+  "version": "1.0",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "validation": "Art-directed camera target; raster illustration is not calibrated 3D geometry."
+  },
+  "pixel_grid": [
+    512,
+    512
+  ],
+  "pixels_per_unit": 256,
+  "timing_hz": 60,
+  "alpha": "straight RGBA; native alpha retained except sub-8/255 dust cleared",
+  "npcs": {
+    "archivist": {
+      "atlas": "runtime/archivist/atlas.png",
+      "cell_size": [
+        512,
+        512
+      ],
+      "columns": 3,
+      "pivot_pixels_top_left": [
+        300,
+        467
+      ],
+      "pivot_unity_normalized": [
+        0.5860595703125,
+        0.0880126953125
+      ],
+      "work": {
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "duration_ticks": [
+          90,
+          14,
+          12,
+          12,
+          24,
+          88
+        ],
+        "loop": true
+      },
+      "talk_ready": {
+        "frames": [
+          5
+        ],
+        "duration_ticks": [
+          60
+        ],
+        "loop": true,
+        "note": "Held native rest cel; no separate acknowledgement animation."
+      },
+      "registration_offsets_pixels": [
+        [
+          0,
+          0
+        ],
+        [
+          40,
+          0
+        ],
+        [
+          70,
+          0
+        ],
+        [
+          -2,
+          6
+        ],
+        [
+          39,
+          6
+        ],
+        [
+          69,
+          6
+        ]
+      ],
+      "station_lock_y": 309,
+      "uniform_scale": 0.9375,
+      "padding": [
+        16,
+        16
+      ],
+      "events": {
+        "work": {
+          "3": "page_settle"
+        }
+      }
+    },
+    "lanternkeeper": {
+      "atlas": "runtime/lanternkeeper/atlas.png",
+      "cell_size": [
+        512,
+        512
+      ],
+      "columns": 3,
+      "pivot_pixels_top_left": [
+        283,
+        474
+      ],
+      "pivot_unity_normalized": [
+        0.5531005859375,
+        0.0751953125
+      ],
+      "work": {
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "duration_ticks": [
+          90,
+          18,
+          20,
+          30,
+          40,
+          102
+        ],
+        "loop": true
+      },
+      "talk_ready": {
+        "frames": [
+          5
+        ],
+        "duration_ticks": [
+          60
+        ],
+        "loop": true,
+        "note": "Held native rest cel; no separate acknowledgement animation."
+      },
+      "registration_offsets_pixels": [
+        [
+          0,
+          0
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          23,
+          0
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          23,
+          3
+        ]
+      ],
+      "station_lock_y": 286,
+      "uniform_scale": 0.9375,
+      "padding": [
+        16,
+        16
+      ],
+      "events": {
+        "work": {
+          "3": "wick_adjust"
+        }
+      }
+    }
+  }
+}

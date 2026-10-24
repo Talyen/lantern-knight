@@ -1,0 +1,334 @@
+{
+  "asset": "Lantern Knight",
+  "clip": "finisher_DR",
+  "version": "v01",
+  "direction": "DR",
+  "world_heading": "+X",
+  "mirrored": false,
+  "handedness": {
+    "anatomical_right": "sword",
+    "anatomical_left": "lantern"
+  },
+  "timebase_hz": 60,
+  "cell_px": [
+    896,
+    704
+  ],
+  "pivot_px_top_left": [
+    506,
+    518
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5647321428571429,
+    0.2642045454545454
+  ],
+  "pixels_per_unit": 251.329787,
+  "ppu_method": "Approximate clip-wide body-height comparison to approved DR ready at 350 PPU; source native pixels retained.",
+  "duration_ticks": 36,
+  "duration_seconds": 0.6,
+  "loop": false,
+  "final_pose_hold": false,
+  "exit_condition": "Clip completion",
+  "next_clip": "ready_DR",
+  "root_motion": "In-place visual registration only. Gameplay displacement is external.",
+  "events": [
+    {
+      "tick": 0,
+      "seconds": 0.0,
+      "name": "attack_start"
+    },
+    {
+      "tick": 9,
+      "seconds": 0.15,
+      "name": "hitbox_enable"
+    },
+    {
+      "tick": 9,
+      "seconds": 0.15,
+      "name": "single_damage_event"
+    },
+    {
+      "tick": 11,
+      "seconds": 0.18333333333333332,
+      "name": "hitbox_disable"
+    },
+    {
+      "tick": 11,
+      "seconds": 0.18333333333333332,
+      "name": "recovery_start"
+    },
+    {
+      "tick": 36,
+      "seconds": 0.6,
+      "name": "ready"
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "cel": 1,
+      "label": "ready",
+      "source_component_bbox": [
+        128,
+        37,
+        339,
+        477
+      ],
+      "source_registration_anchor": [
+        213,
+        444
+      ],
+      "integer_translation_xy": [
+        305,
+        110
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_01_ready.png",
+      "duration_ticks": 3,
+      "start_tick": 0,
+      "end_tick": 3,
+      "sha256": "84fdb012b7bcf01915eaac1747878cd2bece9748933bec4fa238bffa328e22f6",
+      "atlas_rect": [
+        0,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 1,
+      "cel": 2,
+      "label": "compact_lift",
+      "source_component_bbox": [
+        491,
+        37,
+        747,
+        451
+      ],
+      "source_registration_anchor": [
+        594,
+        443
+      ],
+      "integer_translation_xy": [
+        -76,
+        111
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_02_compact_lift.png",
+      "duration_ticks": 3,
+      "start_tick": 3,
+      "end_tick": 6,
+      "sha256": "64f2041010bac2f9c593811c1f011bf31b1506b1184f9d466d460055f5614429",
+      "atlas_rect": [
+        896,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 2,
+      "cel": 3,
+      "label": "overhead_load",
+      "source_component_bbox": [
+        874,
+        13,
+        1153,
+        456
+      ],
+      "source_registration_anchor": [
+        1001,
+        450
+      ],
+      "integer_translation_xy": [
+        -483,
+        104
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_03_overhead_load.png",
+      "duration_ticks": 3,
+      "start_tick": 6,
+      "end_tick": 9,
+      "sha256": "af200818fdc99ddceb2a22fc130e489bb42b940834f88dac9ba9c6b49c29db8a",
+      "atlas_rect": [
+        1792,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 3,
+      "cel": 4,
+      "label": "single_hit",
+      "source_component_bbox": [
+        1259,
+        124,
+        1619,
+        486
+      ],
+      "source_registration_anchor": [
+        1490,
+        446
+      ],
+      "integer_translation_xy": [
+        -972,
+        108
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_04_single_hit.png",
+      "duration_ticks": 2,
+      "start_tick": 9,
+      "end_tick": 11,
+      "sha256": "2bccd226b01d492d01afe602710283880ab261c045f37578da808577848b247a",
+      "atlas_rect": [
+        2688,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 4,
+      "cel": 5,
+      "label": "low_followthrough",
+      "source_component_bbox": [
+        53,
+        553,
+        508,
+        895
+      ],
+      "source_registration_anchor": [
+        244,
+        888
+      ],
+      "integer_translation_xy": [
+        274,
+        -334
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_05_low_followthrough.png",
+      "duration_ticks": 5,
+      "start_tick": 11,
+      "end_tick": 16,
+      "sha256": "67c27353cda4e4fa302c721e90eaebe64cfc2395320c9b02caf615c0c318ebbf",
+      "atlas_rect": [
+        0,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 5,
+      "cel": 6,
+      "label": "recover_low",
+      "source_component_bbox": [
+        487,
+        527,
+        838,
+        894
+      ],
+      "source_registration_anchor": [
+        651,
+        888
+      ],
+      "integer_translation_xy": [
+        -133,
+        -334
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_06_recover_low.png",
+      "duration_ticks": 6,
+      "start_tick": 16,
+      "end_tick": 22,
+      "sha256": "942c9e2935331e9e594e8515dc3eb1a5b796331f0b583063a2c1848bf7c1050a",
+      "atlas_rect": [
+        896,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 6,
+      "cel": 7,
+      "label": "recover_rise",
+      "source_component_bbox": [
+        895,
+        496,
+        1167,
+        892
+      ],
+      "source_registration_anchor": [
+        991,
+        886
+      ],
+      "integer_translation_xy": [
+        -473,
+        -332
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_07_recover_rise.png",
+      "duration_ticks": 6,
+      "start_tick": 22,
+      "end_tick": 28,
+      "sha256": "8a3d40cddaf992c0b980bd03316caf2ff29b420c032230e3919b5224104617cb",
+      "atlas_rect": [
+        1792,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 7,
+      "cel": 8,
+      "label": "ready_return",
+      "source_component_bbox": [
+        1319,
+        479,
+        1535,
+        924
+      ],
+      "source_registration_anchor": [
+        1390,
+        888
+      ],
+      "integer_translation_xy": [
+        -872,
+        -334
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/finisher_DR_08_ready_return.png",
+      "duration_ticks": 8,
+      "start_tick": 28,
+      "end_tick": 36,
+      "sha256": "bb59bb6b4f6b6a16716f7de2bf73b370031a0d6fd94c79e0aafc3bed35d0d3f6",
+      "atlas_rect": [
+        2688,
+        704,
+        896,
+        704
+      ]
+    }
+  ],
+  "atlas_file": "finisher_DR_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "authoring": "Built-in image generation reference edit; distinct hand-drawn pose cels, native extraction.",
+  "notes": "Compact overhead third-combo finisher: 150 ms startup, one 2-tick hit window, 25 ticks of recovery. Suggested timing; tune in engine.",
+  "integration_status": "ART_QA_PASSED_ENGINE_UNTESTED",
+  "limitations": [
+    "World-size and root registration are approximate hand-authored values, not calibrated 3D measurements.",
+    "Cross-clip grounded/getup and ready transitions need in-engine review; not claimed pixel-seamless.",
+    "Timing and hit events are integration defaults, not combat-balance certification."
+  ],
+  "registration": {
+    "method": "Integer cel translation using explicitly recorded near-boot/ground landmarks; no individual cel scaling.",
+    "standing_reference_height_px": 564,
+    "reference_ppu": 350
+  }
+}

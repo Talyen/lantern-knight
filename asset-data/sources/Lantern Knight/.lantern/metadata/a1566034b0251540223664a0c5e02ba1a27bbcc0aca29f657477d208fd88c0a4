@@ -1,0 +1,10 @@
+# Moon Shrine polished v3: confirmed inner-tree correction
+
+The user's crop identifies the inner dark foreground tree on the left and its mirrored partner on the right. These are the medium framing pines with local origin `(436, 897)` and scale `0.9`, not the two upper cliff pines previously given ledges.
+
+- Added a connected angular rock bank beneath each confirmed foreground tree. The bank's top lip crosses the lowest trunk pixels and its body merges into the existing near rock plane. The base is now part of a visible ground silhouette rather than a blunt end over a flat-colored hillside.
+- Kept both trees' original positions, canopy geometry, size and sway. Each bank shares its tree's existing foreground transform.
+- Preserved every other vector, including all 11 other trees, the previous upper-cliff ledges, and the smooth sky arch. A hash comparison verifies this for every authored preview frame after subtracting only the two added bank paths.
+- Retained the native 1920 × 1080 / 60 fps format and 2/4/2-second phase timing.
+
+Visual comparison and native loop checks cover the actual confirmed pair. Filled pixels beneath a trunk alone are not treated as proof of convincing visual grounding.

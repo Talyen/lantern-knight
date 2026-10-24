@@ -1,0 +1,194 @@
+{
+  "status": "technical checks passed",
+  "unique_frames": 17,
+  "expected_unique_frames": 17,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "source_native_size_px": [
+    1536,
+    1024
+  ],
+  "frames": [
+    {
+      "frame": 0,
+      "nonzero_alpha_pixels": 11199,
+      "visible_alpha16_bounds": [
+        147,
+        293,
+        227,
+        335
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 1,
+      "nonzero_alpha_pixels": 14179,
+      "visible_alpha16_bounds": [
+        113,
+        282,
+        315,
+        341
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 2,
+      "nonzero_alpha_pixels": 18188,
+      "visible_alpha16_bounds": [
+        83,
+        288,
+        352,
+        340
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 3,
+      "nonzero_alpha_pixels": 20408,
+      "visible_alpha16_bounds": [
+        96,
+        289,
+        404,
+        349
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 4,
+      "nonzero_alpha_pixels": 23657,
+      "visible_alpha16_bounds": [
+        83,
+        278,
+        426,
+        328
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 5,
+      "nonzero_alpha_pixels": 37222,
+      "visible_alpha16_bounds": [
+        86,
+        243,
+        411,
+        353
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 6,
+      "nonzero_alpha_pixels": 40415,
+      "visible_alpha16_bounds": [
+        76,
+        244,
+        414,
+        359
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 7,
+      "nonzero_alpha_pixels": 39483,
+      "visible_alpha16_bounds": [
+        75,
+        249,
+        431,
+        356
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 8,
+      "nonzero_alpha_pixels": 42537,
+      "visible_alpha16_bounds": [
+        84,
+        228,
+        440,
+        347
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 9,
+      "nonzero_alpha_pixels": 41301,
+      "visible_alpha16_bounds": [
+        97,
+        227,
+        443,
+        348
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 10,
+      "nonzero_alpha_pixels": 39642,
+      "visible_alpha16_bounds": [
+        82,
+        230,
+        437,
+        348
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 11,
+      "nonzero_alpha_pixels": 35557,
+      "visible_alpha16_bounds": [
+        93,
+        238,
+        435,
+        347
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 12,
+      "nonzero_alpha_pixels": 23949,
+      "visible_alpha16_bounds": [
+        108,
+        228,
+        440,
+        321
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 13,
+      "nonzero_alpha_pixels": 21462,
+      "visible_alpha16_bounds": [
+        112,
+        236,
+        446,
+        319
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 14,
+      "nonzero_alpha_pixels": 13450,
+      "visible_alpha16_bounds": [
+        233,
+        246,
+        438,
+        316
+      ],
+      "canvas_edge_alpha_max": 0
+    },
+    {
+      "frame": 15,
+      "nonzero_alpha_pixels": 7887,
+      "visible_alpha16_bounds": [
+        310,
+        251,
+        428,
+        322
+      ],
+      "canvas_edge_alpha_max": 0
+    }
+  ],
+  "timing_sum_ms": 1460,
+  "single_impact_event": true,
+  "all_canvas_edges_clear": true
+}

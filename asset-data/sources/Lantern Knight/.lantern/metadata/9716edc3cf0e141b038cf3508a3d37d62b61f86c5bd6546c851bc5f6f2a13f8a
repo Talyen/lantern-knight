@@ -1,0 +1,321 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Ossuary Thrall",
+  "ability": "tethered_hook",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "tethered_hook_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      1024,
+      1024
+    ],
+    "pivot_top_left_px": [
+      384,
+      584
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_canvas_offset_px": [
+      64,
+      64
+    ],
+    "baseline_visible_bbox": [
+      192,
+      76,
+      434,
+      552
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        27,
+        34,
+        213,
+        277
+      ],
+      [
+        286,
+        63,
+        500,
+        274
+      ],
+      [
+        542,
+        94,
+        772,
+        274
+      ],
+      [
+        801,
+        111,
+        1013,
+        274
+      ],
+      [
+        23,
+        305,
+        242,
+        559
+      ],
+      [
+        284,
+        311,
+        497,
+        559
+      ],
+      [
+        528,
+        302,
+        743,
+        559
+      ],
+      [
+        782,
+        298,
+        1017,
+        562
+      ],
+      [
+        15,
+        580,
+        288,
+        814
+      ],
+      [
+        251,
+        597,
+        618,
+        814
+      ],
+      [
+        531,
+        599,
+        807,
+        814
+      ],
+      [
+        818,
+        591,
+        1011,
+        815
+      ],
+      [
+        31,
+        823,
+        221,
+        1088
+      ],
+      [
+        286,
+        833,
+        487,
+        1088
+      ],
+      [
+        548,
+        839,
+        727,
+        1088
+      ],
+      [
+        798,
+        821,
+        981,
+        1088
+      ]
+    ],
+    "ordinary_resample_factor": 1.9588477366255144,
+    "placements_xywh": [
+      [
+        336,
+        140,
+        364,
+        476
+      ],
+      [
+        337,
+        203,
+        419,
+        413
+      ],
+      [
+        335,
+        263,
+        451,
+        353
+      ],
+      [
+        320,
+        297,
+        415,
+        319
+      ],
+      [
+        332,
+        118,
+        429,
+        498
+      ],
+      [
+        334,
+        130,
+        417,
+        486
+      ],
+      [
+        340,
+        113,
+        421,
+        503
+      ],
+      [
+        316,
+        99,
+        460,
+        517
+      ],
+      [
+        335,
+        158,
+        535,
+        458
+      ],
+      [
+        301,
+        191,
+        719,
+        425
+      ],
+      [
+        334,
+        195,
+        541,
+        421
+      ],
+      [
+        330,
+        177,
+        378,
+        439
+      ],
+      [
+        345,
+        97,
+        372,
+        519
+      ],
+      [
+        332,
+        116,
+        394,
+        500
+      ],
+      [
+        341,
+        128,
+        351,
+        488
+      ],
+      [
+        336,
+        93,
+        358,
+        523
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "tethered_hook_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      40,
+      40,
+      50,
+      90,
+      110,
+      130,
+      140,
+      135
+    ],
+    "start_ms": 1160,
+    "offset_from_actor_pivot_px": [
+      530,
+      -230
+    ],
+    "ordinary_resample_factor": 0.649379932356257,
+    "source_cel_boxes": null,
+    "source_note": "Polish contact chips only. Full hook remains drawn in actor; no duplicate projectile arm."
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1160,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1W8oYgfAtwlLGVuC4Ch4uYoh2KwzeL_24",
+    "url": "https://drive.google.com/file/d/1W8oYgfAtwlLGVuC4Ch4uYoh2KwzeL_24/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right.",
+    "Replaced duplicated detached arm effect with eight restrained bone-chip contact cels; impact begins at existing single-hit time 1160 ms.",
+    "Actor recovery may begin before delayed target impact. Exactly one unchanged gameplay damage event.",
+    "Contact 1160ms; effect starts 1160ms. Current effect canvas and pivot are authoritative."
+  ],
+  "polish_revision": "physical-polish-v1"
+}

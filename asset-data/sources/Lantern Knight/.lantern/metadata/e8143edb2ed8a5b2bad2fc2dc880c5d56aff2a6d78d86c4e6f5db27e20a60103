@@ -1,0 +1,19 @@
+{
+  "source": "DL_seven_clean_sheet_v03.png",
+  "selected_source_cell_1based": 2,
+  "foreign_component_alpha_gt8_bbox_cell": [
+    439,
+    349,
+    443,
+    358
+  ],
+  "foreign_component_visible_pixels": 17,
+  "cleared_cell_rect": [
+    436,
+    345,
+    443,
+    362
+  ],
+  "reason": "Tip fragment from neighboring discarded sourcecel3 crosses gridline into cel2. Isolated from retained character; removed only in runtime extraction and previews. Full native source preserved.",
+  "not_a_body_or_weapon_repair": true
+}

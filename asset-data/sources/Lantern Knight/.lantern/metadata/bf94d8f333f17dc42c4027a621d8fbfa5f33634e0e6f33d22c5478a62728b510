@@ -1,0 +1,4130 @@
+{
+  "id": "dash",
+  "name": "Dash",
+  "action_role": "dash",
+  "artwork_approved": true,
+  "status": "ARTWORK_APPROVED_PACKAGED",
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_px_top_left": [
+    768,
+    892
+  ],
+  "timed_drawing_slots": 22,
+  "duration_ticks_60hz": 39,
+  "duration_seconds": 0.65,
+  "loop": false,
+  "entry": "R0",
+  "exit": "R0 in idle; not counted in action duration",
+  "fps": 60,
+  "frames": [
+    {
+      "frame": 1,
+      "file": "frames/dash_001.png",
+      "phase": "Exact shared ready",
+      "hold_60hz": 2,
+      "shared_state_id": "R0",
+      "source": "shared_states/R0_delivery_1536.png",
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 0,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.0,
+      "opaque_bbox_alpha_gt16": [
+        603,
+        420,
+        857,
+        927
+      ],
+      "png_sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d",
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          719.591,
+          701.176
+        ],
+        "lantern_grip": [
+          811.629,
+          669.78
+        ],
+        "lantern_housing_center": [
+          827.112,
+          720.1
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 1,
+      "source_file": "frames/dash_01.png",
+      "sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d",
+      "rgba_sha256": "bcb7dc12b37fc4e658b2f8821705fe42648a591b600f1978ab9bdaa1b7f06e2c",
+      "visible_rgba_sha256": "2053991bb69eac0b398685ca504236a3cf10792d125803bca9267a8ab4fe3522",
+      "onset_60hz": 0,
+      "frameHold": 2,
+      "onset_seconds": 0.0,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 602,
+        "y": 420,
+        "w": 290,
+        "h": 509
+      },
+      "source_trim_rect": {
+        "x": 602,
+        "y": 420,
+        "w": 290,
+        "h": 509
+      },
+      "trimmed_root_pivot_px_top_left": [
+        166,
+        472
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 8,
+        "y": 8,
+        "w": 290,
+        "h": 509
+      },
+      "atlasRect": {
+        "x": 8,
+        "y": 8,
+        "w": 290,
+        "h": 509
+      }
+    },
+    {
+      "master": "entry",
+      "cell": 0,
+      "source_anchor": [
+        510,
+        1270
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Small R0 compression",
+      "hold_60hz": 2,
+      "support": "near/right support",
+      "review_v1_slot": 2,
+      "frame": 2,
+      "file": "frames/dash_002.png",
+      "source_master": "source/dash_entry_R0_v01_native.png",
+      "source_master_sha256": "ac08316524e3fe19b74bb5c3abf719124843188437038b20ce279e6d673e4f1d",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          257,
+          380
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct immutable R0 source, same1122x1402 and exact203/472 factor.",
+        "source_anchor_px": [
+          510,
+          1270
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.343,
+          926.208
+        ],
+        "source_root_px_top_left": [
+          592.906404,
+          1190.463054
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.03333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        591,
+        437,
+        887,
+        929
+      ],
+      "png_sha256": "55e19ed94062aa13488c07a10bc33c5874f63a3d7946d2b65cbb6349c4e39a71",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          430,
+          713
+        ],
+        "lantern_grip": [
+          780,
+          650
+        ],
+        "lantern_glass_center": [
+          817,
+          761
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          697.936,
+          686.65
+        ],
+        "lantern_grip": [
+          848.466,
+          659.555
+        ],
+        "lantern_glass_center": [
+          864.379,
+          707.294
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 2,
+      "source_file": "frames/dash_02.png",
+      "sha256": "55e19ed94062aa13488c07a10bc33c5874f63a3d7946d2b65cbb6349c4e39a71",
+      "rgba_sha256": "701c44b45b13839afe01c12cc557a2db81c8c1806b623bfb123cc1dbb5bc3fec",
+      "visible_rgba_sha256": "30f394d3cb84578f562106b057924466e383abc9b6b8391122b7a35ef0c2ef3c",
+      "onset_60hz": 2,
+      "frameHold": 2,
+      "onset_seconds": 0.03333333333333333,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 590,
+        "y": 436,
+        "w": 299,
+        "h": 494
+      },
+      "source_trim_rect": {
+        "x": 590,
+        "y": 436,
+        "w": 299,
+        "h": 494
+      },
+      "trimmed_root_pivot_px_top_left": [
+        178,
+        456
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 314,
+        "y": 8,
+        "w": 299,
+        "h": 494
+      },
+      "atlasRect": {
+        "x": 314,
+        "y": 8,
+        "w": 299,
+        "h": 494
+      }
+    },
+    {
+      "master": "dBridge",
+      "cell": 0,
+      "source_anchor": [
+        202,
+        612
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Preparatory body load",
+      "hold_60hz": 2,
+      "support": "near/right support",
+      "review_v1_slot": 3,
+      "frame": 3,
+      "file": "frames/dash_003.png",
+      "source_master": "source/dash_bridges_v01_native.png",
+      "source_master_sha256": "1dc01795942f683bcde003fccb7baccaaa138f95f18e6da2e134d17d0f02c334",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          635,
+          621
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          319,
+          449
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same head/sword ruler as dash anticipation source;0.78 whole-sheet factor. Upper-right rejected for split blade.",
+        "source_anchor_px": [
+          202,
+          612
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.56,
+          926.36
+        ],
+        "source_root_px_top_left": [
+          247.435897,
+          567.948718
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 4,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.06666666666666667,
+      "opaque_bbox_alpha_gt16": [
+        640,
+        467,
+        1046,
+        931
+      ],
+      "png_sha256": "6f876be4e40ff6dddca847f9346c283e6eee0cd6acdc506ac7df125d36da6662",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          263,
+          381
+        ],
+        "lantern_grip": [
+          522,
+          350
+        ],
+        "lantern_glass_center": [
+          539,
+          405
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          780.14,
+          746.18
+        ],
+        "lantern_grip": [
+          982.16,
+          722.0
+        ],
+        "lantern_glass_center": [
+          995.42,
+          764.9
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 3,
+      "source_file": "frames/dash_03.png",
+      "sha256": "6f876be4e40ff6dddca847f9346c283e6eee0cd6acdc506ac7df125d36da6662",
+      "rgba_sha256": "35c4004c45180c4be7d110d41218c450b1fe0003b079c5ea59a92bb90a449a8a",
+      "visible_rgba_sha256": "22a80e1d794029d08f122d8a26a0610c063476c95b9640a0a7b62780f82958b7",
+      "onset_60hz": 4,
+      "frameHold": 2,
+      "onset_seconds": 0.06666666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 607,
+        "y": 464,
+        "w": 487,
+        "h": 545
+      },
+      "source_trim_rect": {
+        "x": 607,
+        "y": 464,
+        "w": 487,
+        "h": 545
+      },
+      "trimmed_root_pivot_px_top_left": [
+        161,
+        428
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 629,
+        "y": 8,
+        "w": 487,
+        "h": 545
+      },
+      "atlasRect": {
+        "x": 629,
+        "y": 8,
+        "w": 487,
+        "h": 545
+      }
+    },
+    {
+      "master": "dA",
+      "cell": 0,
+      "source_anchor": [
+        148,
+        602
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Deepening launch coil",
+      "hold_60hz": 3,
+      "support": "near/right support",
+      "review_v1_slot": 4,
+      "frame": 4,
+      "file": "frames/dash_004.png",
+      "source_master": "source/dash_A_02_05_v01_native.png",
+      "source_master_sha256": "2048bc4d35ff615d8563d539477b3d5f444d8987384233055038255bc550cf14",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          620,
+          622
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          361,
+          457
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Common mature head~100px and sword construction;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          148,
+          602
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.44,
+          926.56
+        ],
+        "source_root_px_top_left": [
+          193.589744,
+          557.692308
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 6,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.1,
+      "opaque_bbox_alpha_gt16": [
+        628,
+        496,
+        1076,
+        930
+      ],
+      "png_sha256": "71f78741d5f5dfcc0027d14737b82bf4b83b059b46a6da562d78913aff169ba2",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          183,
+          330
+        ],
+        "lantern_grip": [
+          502,
+          250
+        ],
+        "lantern_glass_center": [
+          500,
+          321
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          759.74,
+          714.4
+        ],
+        "lantern_grip": [
+          1008.56,
+          652.0
+        ],
+        "lantern_glass_center": [
+          1007.0,
+          707.38
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 4,
+      "source_file": "frames/dash_04.png",
+      "sha256": "71f78741d5f5dfcc0027d14737b82bf4b83b059b46a6da562d78913aff169ba2",
+      "rgba_sha256": "f1c449ef0a9c0a8e154e7aea578c5d14c53c2a020dd8ca4f96869059efda060d",
+      "visible_rgba_sha256": "b2b57d60dd2216e59f6f3cba5dbb8f598d70e8c8099a06ac1f65849e40bb9de9",
+      "onset_60hz": 6,
+      "frameHold": 3,
+      "onset_seconds": 0.1,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 626,
+        "y": 488,
+        "w": 496,
+        "h": 491
+      },
+      "source_trim_rect": {
+        "x": 626,
+        "y": 488,
+        "w": 496,
+        "h": 491
+      },
+      "trimmed_root_pivot_px_top_left": [
+        142,
+        404
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1132,
+        "y": 8,
+        "w": 496,
+        "h": 491
+      },
+      "atlasRect": {
+        "x": 1132,
+        "y": 8,
+        "w": 496,
+        "h": 491
+      }
+    },
+    {
+      "master": "dA",
+      "cell": 1,
+      "source_anchor": [
+        775,
+        604
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Maximum forward lean",
+      "hold_60hz": 2,
+      "support": "near/right support",
+      "review_v1_slot": 5,
+      "frame": 5,
+      "file": "frames/dash_005.png",
+      "source_master": "source/dash_A_02_05_v01_native.png",
+      "source_master_sha256": "2048bc4d35ff615d8563d539477b3d5f444d8987384233055038255bc550cf14",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          620,
+          0,
+          1254,
+          622
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          -128,
+          455
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Common mature head~100px and sword construction;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          775,
+          604
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.5,
+          926.12
+        ],
+        "source_root_px_top_left": [
+          820.512821,
+          560.25641
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 9,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.15,
+      "opaque_bbox_alpha_gt16": [
+        609,
+        539,
+        1042,
+        931
+      ],
+      "png_sha256": "5d9a70b365fe15de79fb58c85656c7cdc48d50b28ec7f6b4eaf97fe313dfb680",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          815,
+          354
+        ],
+        "lantern_grip": [
+          1118,
+          306
+        ],
+        "lantern_glass_center": [
+          1115,
+          370
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          763.7,
+          731.12
+        ],
+        "lantern_grip": [
+          1000.04,
+          693.68
+        ],
+        "lantern_glass_center": [
+          997.7,
+          743.6
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 5,
+      "source_file": "frames/dash_05.png",
+      "sha256": "5d9a70b365fe15de79fb58c85656c7cdc48d50b28ec7f6b4eaf97fe313dfb680",
+      "rgba_sha256": "575f9730022166c8fdea2ae67fdacbd93cea036f3a4491ca7d13e96d7d8793ab",
+      "visible_rgba_sha256": "1cb05f0c36b5658f707df363d1e334b48a4d54d7d81fe14ab0e30065c8257e54",
+      "onset_60hz": 9,
+      "frameHold": 2,
+      "onset_seconds": 0.15,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 608,
+        "y": 504,
+        "w": 475,
+        "h": 487
+      },
+      "source_trim_rect": {
+        "x": 608,
+        "y": 504,
+        "w": 475,
+        "h": 487
+      },
+      "trimmed_root_pivot_px_top_left": [
+        160,
+        388
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1644,
+        "y": 8,
+        "w": 475,
+        "h": 487
+      },
+      "atlasRect": {
+        "x": 1644,
+        "y": 8,
+        "w": 475,
+        "h": 487
+      }
+    },
+    {
+      "master": "dA",
+      "cell": 2,
+      "source_anchor": [
+        179,
+        1168
+      ],
+      "target_anchor": [
+        455,
+        919
+      ],
+      "phase": "Final rear-foot push",
+      "hold_60hz": 1,
+      "support": "near/right toe",
+      "review_v1_slot": 6,
+      "frame": 6,
+      "file": "frames/dash_006.png",
+      "source_master": "source/dash_A_02_05_v01_native.png",
+      "source_master_sha256": "2048bc4d35ff615d8563d539477b3d5f444d8987384233055038255bc550cf14",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 5,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          622,
+          672,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          315,
+          8
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Common mature head~100px and sword construction;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          179,
+          1168
+        ],
+        "target_anchor_delivery_px": [
+          711,
+          919
+        ],
+        "rendered_anchor_delivery_px": [
+          710.62,
+          919.04
+        ],
+        "source_root_px_top_left": [
+          252.564103,
+          1133.333333
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 11,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.18333333333333332,
+      "opaque_bbox_alpha_gt16": [
+        586,
+        562,
+        1081,
+        943
+      ],
+      "png_sha256": "81d45faa5e674778d0d44a2d6e485acf92e31f6ffe77258e2f48648aeff4b90c",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          270,
+          881
+        ],
+        "lantern_grip": [
+          600,
+          880
+        ],
+        "lantern_glass_center": [
+          566,
+          949
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          781.6,
+          695.18
+        ],
+        "lantern_grip": [
+          1039.0,
+          694.4
+        ],
+        "lantern_glass_center": [
+          1012.48,
+          748.22
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 6,
+      "source_file": "frames/dash_06.png",
+      "sha256": "81d45faa5e674778d0d44a2d6e485acf92e31f6ffe77258e2f48648aeff4b90c",
+      "rgba_sha256": "2c6759f562afe9e9bf5f3e740eec35f4984204b4b5bb3f960d30f52dd55bdddc",
+      "visible_rgba_sha256": "c19eb534f8468c656a0ef516eae2881f2ff1e16a3d331d654ead378474360acc",
+      "onset_60hz": 11,
+      "frameHold": 1,
+      "onset_seconds": 0.18333333333333332,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 585,
+        "y": 542,
+        "w": 560,
+        "h": 409
+      },
+      "source_trim_rect": {
+        "x": 585,
+        "y": 542,
+        "w": 560,
+        "h": 409
+      },
+      "trimmed_root_pivot_px_top_left": [
+        183,
+        350
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2135,
+        "y": 8,
+        "w": 560,
+        "h": 409
+      },
+      "atlasRect": {
+        "x": 2135,
+        "y": 8,
+        "w": 560,
+        "h": 409
+      }
+    },
+    {
+      "master": "dA",
+      "cell": 3,
+      "source_anchor": [
+        1100,
+        904
+      ],
+      "target_anchor": [
+        615,
+        710
+      ],
+      "phase": "Launch release",
+      "hold_60hz": 1,
+      "support": "airborne pelvis",
+      "virtual_anchor": true,
+      "review_v1_slot": 7,
+      "frame": 7,
+      "file": "frames/dash_007.png",
+      "source_master": "source/dash_A_02_05_v01_native.png",
+      "source_master_sha256": "2048bc4d35ff615d8563d539477b3d5f444d8987384233055038255bc550cf14",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 4,
+        "figure_count": 4,
+        "source_region_hint": [
+          672,
+          622,
+          1254,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          -243,
+          5
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Common mature head~100px and sword construction;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          1100,
+          904
+        ],
+        "target_anchor_delivery_px": [
+          871,
+          710
+        ],
+        "rendered_anchor_delivery_px": [
+          871.0,
+          710.12
+        ],
+        "source_root_px_top_left": [
+          967.948718,
+          1137.179487
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 12,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.2,
+      "opaque_bbox_alpha_gt16": [
+        550,
+        527,
+        972,
+        944
+      ],
+      "png_sha256": "e8ff7b49a7424f7d027a5f79a72f5b769ac7ddb2781ab6b1f66f01115225ec88",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          970,
+          906
+        ],
+        "lantern_grip": [
+          1195,
+          840
+        ],
+        "lantern_glass_center": [
+          1172,
+          920
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          769.6,
+          711.68
+        ],
+        "lantern_grip": [
+          945.1,
+          660.2
+        ],
+        "lantern_glass_center": [
+          927.16,
+          722.6
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 7,
+      "source_file": "frames/dash_07.png",
+      "sha256": "e8ff7b49a7424f7d027a5f79a72f5b769ac7ddb2781ab6b1f66f01115225ec88",
+      "rgba_sha256": "33597aa6c42b2e48d982a603b372531c8b9c6a03c4f1c7efa88f04b0247f1b73",
+      "visible_rgba_sha256": "8845c597a69f3a20ba9353e99fc249e83b88ec73e76c778c44c3af0980736086",
+      "onset_60hz": 12,
+      "frameHold": 1,
+      "onset_seconds": 0.2,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 495,
+        "y": 525,
+        "w": 483,
+        "h": 427
+      },
+      "source_trim_rect": {
+        "x": 495,
+        "y": 525,
+        "w": 483,
+        "h": 427
+      },
+      "trimmed_root_pivot_px_top_left": [
+        273,
+        367
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2711,
+        "y": 8,
+        "w": 483,
+        "h": 427
+      },
+      "atlasRect": {
+        "x": 2711,
+        "y": 8,
+        "w": 483,
+        "h": 427
+      }
+    },
+    {
+      "master": "keys",
+      "cell": 0,
+      "source_anchor": [
+        628,
+        393
+      ],
+      "target_anchor": [
+        568,
+        680
+      ],
+      "phase": "Compact early burst",
+      "hold_60hz": 1,
+      "support": "airborne pelvis",
+      "virtual_anchor": true,
+      "review_v1_slot": 8,
+      "frame": 8,
+      "file": "frames/dash_008.png",
+      "source_master": "source/dash_keys_v01_native.png",
+      "source_master_sha256": "94e85e4c1871167872deb755d95d9b21abd5a51d5dddb22c2845657c67579874",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 2,
+        "source_region_hint": [
+          [
+            0,
+            0
+          ],
+          [
+            950,
+            0
+          ],
+          [
+            950,
+            520
+          ],
+          [
+            840,
+            887
+          ],
+          [
+            0,
+            887
+          ]
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.54,
+        "integer_translation_into_1024": [
+          229,
+          468
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Paired source: common head/blade construction against frozen R0, one0.54 factor for both.",
+        "source_anchor_px": [
+          628,
+          393
+        ],
+        "target_anchor_delivery_px": [
+          824,
+          680
+        ],
+        "rendered_anchor_delivery_px": [
+          824.12,
+          680.22
+        ],
+        "source_root_px_top_left": [
+          524.074074,
+          785.185185
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 13,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.21666666666666667,
+      "opaque_bbox_alpha_gt16": [
+        499,
+        491,
+        982,
+        903
+      ],
+      "png_sha256": "21425550d9c68072bf86601ef1cd82ba45ec2ba2eda4e46d66f72806da20325c",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          408,
+          308
+        ],
+        "lantern_grip": [
+          872,
+          309
+        ],
+        "lantern_glass_center": [
+          850,
+          407
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          705.32,
+          634.32
+        ],
+        "lantern_grip": [
+          955.88,
+          634.86
+        ],
+        "lantern_glass_center": [
+          944.0,
+          687.78
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 8,
+      "source_file": "frames/dash_08.png",
+      "sha256": "21425550d9c68072bf86601ef1cd82ba45ec2ba2eda4e46d66f72806da20325c",
+      "rgba_sha256": "90233ed4402992d32fc75e9e532b921db0e8c0334db458157431aeaa14383ffb",
+      "visible_rgba_sha256": "4f7598dc24ffd95199319bbe3fb41c9319fc8da4f087395a44baed6ca273c701",
+      "onset_60hz": 13,
+      "frameHold": 1,
+      "onset_seconds": 0.21666666666666667,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 498,
+        "y": 490,
+        "w": 484,
+        "h": 423
+      },
+      "source_trim_rect": {
+        "x": 498,
+        "y": 490,
+        "w": 484,
+        "h": 423
+      },
+      "trimmed_root_pivot_px_top_left": [
+        270,
+        402
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 3210,
+        "y": 8,
+        "w": 484,
+        "h": 423
+      },
+      "atlasRect": {
+        "x": 3210,
+        "y": 8,
+        "w": 484,
+        "h": 423
+      }
+    },
+    {
+      "master": "dB",
+      "cell": 0,
+      "source_anchor": [
+        480,
+        256
+      ],
+      "target_anchor": [
+        538,
+        688
+      ],
+      "phase": "Scissor extension bridge",
+      "hold_60hz": 1,
+      "support": "airborne pelvis",
+      "virtual_anchor": true,
+      "review_v1_slot": 9,
+      "frame": 9,
+      "file": "frames/dash_009.png",
+      "source_master": "source/dash_B_v02_native.png",
+      "source_master_sha256": "51085ca054fc5af6d070ac4b231d1cf5e42540e55df819ca49513c2067dd8055",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          790,
+          516
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          164,
+          488
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          480,
+          256
+        ],
+        "target_anchor_delivery_px": [
+          794,
+          688
+        ],
+        "rendered_anchor_delivery_px": [
+          794.4,
+          687.68
+        ],
+        "source_root_px_top_left": [
+          446.153846,
+          517.948718
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 14,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.23333333333333334,
+      "opaque_bbox_alpha_gt16": [
+        448,
+        516,
+        990,
+        871
+      ],
+      "png_sha256": "b57c533f5ea86fe67c74b0c66cc47947d78608ebb7ceab5ea31fbdef7e970dc4",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          292,
+          208
+        ],
+        "lantern_grip": [
+          670,
+          213
+        ],
+        "lantern_glass_center": [
+          665,
+          267
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          647.76,
+          650.24
+        ],
+        "lantern_grip": [
+          942.6,
+          654.14
+        ],
+        "lantern_glass_center": [
+          938.7,
+          696.26
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 9,
+      "source_file": "frames/dash_09.png",
+      "sha256": "b57c533f5ea86fe67c74b0c66cc47947d78608ebb7ceab5ea31fbdef7e970dc4",
+      "rgba_sha256": "94a06b40dd5db246c8384294e9e4e9b363e148702fffb0fa51e1f37c9ed5805a",
+      "visible_rgba_sha256": "e3b1e41cccd531c48c6e63dd5b5709337d2abe2b6a1085c926b9d6b5cb6379a1",
+      "onset_60hz": 14,
+      "frameHold": 1,
+      "onset_seconds": 0.23333333333333334,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 446,
+        "y": 514,
+        "w": 578,
+        "h": 361
+      },
+      "source_trim_rect": {
+        "x": 446,
+        "y": 514,
+        "w": 578,
+        "h": 361
+      },
+      "trimmed_root_pivot_px_top_left": [
+        322,
+        378
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 8,
+        "y": 569,
+        "w": 578,
+        "h": 361
+      },
+      "atlasRect": {
+        "x": 8,
+        "y": 569,
+        "w": 578,
+        "h": 361
+      }
+    },
+    {
+      "master": "max",
+      "cell": 0,
+      "source_anchor": [
+        901,
+        518
+      ],
+      "target_anchor": [
+        512,
+        698
+      ],
+      "phase": "Maximum low reach",
+      "hold_60hz": 2,
+      "support": "airborne pelvis",
+      "virtual_anchor": true,
+      "review_v1_slot": 10,
+      "frame": 10,
+      "file": "frames/dash_010.png",
+      "source_master": "source/dash_maxreach_v02_native.png",
+      "source_master_sha256": "e003a3be513a2f843554194edd0c981e0c2bb72ee687e5d9ac3f66859c6d9258",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1629,
+          965
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          124,
+          475
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same source-sized head and physical proportions as direct R0 master;203/472.",
+        "source_anchor_px": [
+          901,
+          518
+        ],
+        "target_anchor_delivery_px": [
+          768,
+          698
+        ],
+        "rendered_anchor_delivery_px": [
+          767.506,
+          697.784
+        ],
+        "source_root_px_top_left": [
+          902.147783,
+          969.576355
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 15,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.25,
+      "opaque_bbox_alpha_gt16": [
+        399,
+        520,
+        1064,
+        849
+      ],
+      "png_sha256": "bd872c6d876c1c99f993a1e5d399906e75b0b5a7d159b42fad45d471cbfa26f7",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          560,
+          442
+        ],
+        "lantern_grip": [
+          1144,
+          398
+        ],
+        "lantern_glass_center": [
+          1121,
+          519
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          620.847,
+          665.097
+        ],
+        "lantern_grip": [
+          872.017,
+          646.174
+        ],
+        "lantern_glass_center": [
+          862.125,
+          698.214
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 10,
+      "source_file": "frames/dash_10.png",
+      "sha256": "bd872c6d876c1c99f993a1e5d399906e75b0b5a7d159b42fad45d471cbfa26f7",
+      "rgba_sha256": "6761f53ab5562d32067a67e6e7818d11a5817f28912b753439744b65bddc606d",
+      "visible_rgba_sha256": "34b579c663c894a0d5161bf1a914736dacab8b60500724f3a9d5370a5be7b5cd",
+      "onset_60hz": 15,
+      "frameHold": 2,
+      "onset_seconds": 0.25,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 398,
+        "y": 491,
+        "w": 670,
+        "h": 389
+      },
+      "source_trim_rect": {
+        "x": 398,
+        "y": 491,
+        "w": 670,
+        "h": 389
+      },
+      "trimmed_root_pivot_px_top_left": [
+        370,
+        401
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 602,
+        "y": 569,
+        "w": 670,
+        "h": 389
+      },
+      "atlasRect": {
+        "x": 602,
+        "y": 569,
+        "w": 670,
+        "h": 389
+      }
+    },
+    {
+      "master": "dB",
+      "cell": 1,
+      "source_anchor": [
+        1268,
+        258
+      ],
+      "target_anchor": [
+        530,
+        710
+      ],
+      "phase": "Extension release",
+      "hold_60hz": 1,
+      "support": "airborne pelvis",
+      "virtual_anchor": true,
+      "review_v1_slot": 11,
+      "frame": 11,
+      "file": "frames/dash_011.png",
+      "source_master": "source/dash_B_v02_native.png",
+      "source_master_sha256": "51085ca054fc5af6d070ac4b231d1cf5e42540e55df819ca49513c2067dd8055",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          790,
+          0,
+          1536,
+          516
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          -459,
+          509
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          1268,
+          258
+        ],
+        "target_anchor_delivery_px": [
+          786,
+          710
+        ],
+        "rendered_anchor_delivery_px": [
+          786.04,
+          710.24
+        ],
+        "source_root_px_top_left": [
+          1244.871795,
+          491.025641
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 17,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.2833333333333333,
+      "opaque_bbox_alpha_gt16": [
+        426,
+        539,
+        968,
+        889
+      ],
+      "png_sha256": "6672ea8728f938ef02769d7f20e123efb2d6f9fa5f695c7033a849e41421ef06",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          1050,
+          235
+        ],
+        "lantern_grip": [
+          1424,
+          227
+        ],
+        "lantern_glass_center": [
+          1425,
+          290
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          616.0,
+          692.3
+        ],
+        "lantern_grip": [
+          907.72,
+          686.06
+        ],
+        "lantern_glass_center": [
+          908.5,
+          735.2
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 11,
+      "source_file": "frames/dash_11.png",
+      "sha256": "6672ea8728f938ef02769d7f20e123efb2d6f9fa5f695c7033a849e41421ef06",
+      "rgba_sha256": "6d543c71ea879bd8219824198a36b36aa3e8f1e98e118de35dbe506f8887ff84",
+      "visible_rgba_sha256": "ab92a5fc71d42763ca51dacf3c50ffe34e01f47d0a9b7224c4ec0ac9019c5f16",
+      "onset_60hz": 17,
+      "frameHold": 1,
+      "onset_seconds": 0.2833333333333333,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 392,
+        "y": 535,
+        "w": 577,
+        "h": 370
+      },
+      "source_trim_rect": {
+        "x": 392,
+        "y": 535,
+        "w": 577,
+        "h": 370
+      },
+      "trimmed_root_pivot_px_top_left": [
+        376,
+        357
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1288,
+        "y": 569,
+        "w": 577,
+        "h": 370
+      },
+      "atlasRect": {
+        "x": 1288,
+        "y": 569,
+        "w": 577,
+        "h": 370
+      }
+    },
+    {
+      "master": "dB",
+      "cell": 2,
+      "source_anchor": [
+        480,
+        754
+      ],
+      "target_anchor": [
+        546,
+        722
+      ],
+      "phase": "Landing reach",
+      "hold_60hz": 1,
+      "support": "airborne pelvis",
+      "virtual_anchor": true,
+      "review_v1_slot": 12,
+      "frame": 12,
+      "file": "frames/dash_012.png",
+      "source_master": "source/dash_B_v02_native.png",
+      "source_master_sha256": "51085ca054fc5af6d070ac4b231d1cf5e42540e55df819ca49513c2067dd8055",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 6,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          516,
+          798,
+          1024
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          172,
+          134
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          480,
+          754
+        ],
+        "target_anchor_delivery_px": [
+          802,
+          722
+        ],
+        "rendered_anchor_delivery_px": [
+          802.4,
+          722.12
+        ],
+        "source_root_px_top_left": [
+          435.897436,
+          971.794872
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 18,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.3,
+      "opaque_bbox_alpha_gt16": [
+        457,
+        549,
+        1038,
+        917
+      ],
+      "png_sha256": "1ecd77b4b8e8ab302aa867cdeee6e22da03935662acb1458dd985e8618cb03ad",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          290,
+          725
+        ],
+        "lantern_grip": [
+          680,
+          711
+        ],
+        "lantern_glass_center": [
+          680,
+          770
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          654.2,
+          699.5
+        ],
+        "lantern_grip": [
+          958.4,
+          688.58
+        ],
+        "lantern_glass_center": [
+          958.4,
+          734.6
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 12,
+      "source_file": "frames/dash_12.png",
+      "sha256": "1ecd77b4b8e8ab302aa867cdeee6e22da03935662acb1458dd985e8618cb03ad",
+      "rgba_sha256": "acf09b53a2f79a90899d473dce872772751b1ea83e1d3eddd38e397e95242546",
+      "visible_rgba_sha256": "14f684ceec9118acb29fc6bc6407438bb5cc11a609b0bc59675be1956a34b575",
+      "onset_60hz": 18,
+      "frameHold": 1,
+      "onset_seconds": 0.3,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 449,
+        "y": 525,
+        "w": 591,
+        "h": 394
+      },
+      "source_trim_rect": {
+        "x": 449,
+        "y": 525,
+        "w": 591,
+        "h": 394
+      },
+      "trimmed_root_pivot_px_top_left": [
+        319,
+        367
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1881,
+        "y": 569,
+        "w": 591,
+        "h": 394
+      },
+      "atlasRect": {
+        "x": 1881,
+        "y": 569,
+        "w": 591,
+        "h": 394
+      }
+    },
+    {
+      "master": "dC",
+      "cell": 0,
+      "source_anchor": [
+        544,
+        574
+      ],
+      "target_anchor": [
+        620,
+        914
+      ],
+      "phase": "Far-left heel catch",
+      "hold_60hz": 1,
+      "support": "far/left sole",
+      "review_v1_slot": 14,
+      "frame": 13,
+      "file": "frames/dash_013.png",
+      "source_master": "source/dash_C_v01_native.png",
+      "source_master_sha256": "7dd18f68a3a4fcdafb9261052c9a6923cee41399b92c3eb081a3783cc5d0515f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          640,
+          610
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          196,
+          466
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          544,
+          574
+        ],
+        "target_anchor_delivery_px": [
+          876,
+          914
+        ],
+        "rendered_anchor_delivery_px": [
+          876.32,
+          913.72
+        ],
+        "source_root_px_top_left": [
+          405.128205,
+          546.153846
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 19,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.31666666666666665,
+      "opaque_bbox_alpha_gt16": [
+        473,
+        514,
+        947,
+        923
+      ],
+      "png_sha256": "d3bc3cc113dd16bc005b787188abbfd4586a9b776429496cb7e5ee504ec7e3e4",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          245,
+          273
+        ],
+        "lantern_grip": [
+          596,
+          259
+        ],
+        "lantern_glass_center": [
+          583,
+          325
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          643.1,
+          678.94
+        ],
+        "lantern_grip": [
+          916.88,
+          668.02
+        ],
+        "lantern_glass_center": [
+          906.74,
+          719.5
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 13,
+      "source_file": "frames/dash_13.png",
+      "sha256": "d3bc3cc113dd16bc005b787188abbfd4586a9b776429496cb7e5ee504ec7e3e4",
+      "rgba_sha256": "4b435a8609cc1acd1ddaeb97b2b2d24c144e199458e86f240be8bf793a3f2d90",
+      "visible_rgba_sha256": "8ad7b5c44df708b7c05460d1ecea76406d2c33b293ad91c6969827c20c8eb031",
+      "onset_60hz": 19,
+      "frameHold": 1,
+      "onset_seconds": 0.31666666666666665,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 465,
+        "y": 484,
+        "w": 515,
+        "h": 489
+      },
+      "source_trim_rect": {
+        "x": 465,
+        "y": 484,
+        "w": 515,
+        "h": 489
+      },
+      "trimmed_root_pivot_px_top_left": [
+        303,
+        408
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2488,
+        "y": 569,
+        "w": 515,
+        "h": 489
+      },
+      "atlasRect": {
+        "x": 2488,
+        "y": 569,
+        "w": 515,
+        "h": 489
+      }
+    },
+    {
+      "master": "dB",
+      "cell": 3,
+      "source_anchor": [
+        1355,
+        980
+      ],
+      "target_anchor": [
+        620,
+        914
+      ],
+      "phase": "Left sole compression",
+      "hold_60hz": 2,
+      "support": "far/left heel",
+      "review_v1_slot": 13,
+      "frame": 14,
+      "file": "frames/dash_014.png",
+      "source_master": "source/dash_B_v02_native.png",
+      "source_master_sha256": "51085ca054fc5af6d070ac4b231d1cf5e42540e55df819ca49513c2067dd8055",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 5,
+        "figure_count": 4,
+        "source_region_hint": [
+          798,
+          516,
+          1536,
+          1024
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          -437,
+          150
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          1355,
+          980
+        ],
+        "target_anchor_delivery_px": [
+          876,
+          914
+        ],
+        "rendered_anchor_delivery_px": [
+          875.9,
+          914.4
+        ],
+        "source_root_px_top_left": [
+          1216.666667,
+          951.282051
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 20,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.3333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        450,
+        562,
+        968,
+        926
+      ],
+      "png_sha256": "dd92d9305cadee5924d4c284795bd5b5a32d63b0a103076a1c6580d67085f19a",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          1051,
+          738
+        ],
+        "lantern_grip": [
+          1430,
+          723
+        ],
+        "lantern_glass_center": [
+          1430,
+          780
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          638.78,
+          725.64
+        ],
+        "lantern_grip": [
+          934.4,
+          713.94
+        ],
+        "lantern_glass_center": [
+          934.4,
+          758.4
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 14,
+      "source_file": "frames/dash_14.png",
+      "sha256": "dd92d9305cadee5924d4c284795bd5b5a32d63b0a103076a1c6580d67085f19a",
+      "rgba_sha256": "53a2a059ad4629384bf0db59de8f011def2e140fc73b9a27f1309064e7306e51",
+      "visible_rgba_sha256": "c7256ad6189c3c908aa146e78c1cf5d0e7054b5b1aefbae4653f13d92adeecea",
+      "onset_60hz": 20,
+      "frameHold": 2,
+      "onset_seconds": 0.3333333333333333,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 411,
+        "y": 561,
+        "w": 575,
+        "h": 388
+      },
+      "source_trim_rect": {
+        "x": 411,
+        "y": 561,
+        "w": 575,
+        "h": 388
+      },
+      "trimmed_root_pivot_px_top_left": [
+        357,
+        331
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 3019,
+        "y": 569,
+        "w": 575,
+        "h": 388
+      },
+      "atlasRect": {
+        "x": 3019,
+        "y": 569,
+        "w": 575,
+        "h": 388
+      }
+    },
+    {
+      "master": "keys",
+      "cell": 1,
+      "source_anchor": [
+        1668,
+        835
+      ],
+      "target_anchor": [
+        620,
+        914
+      ],
+      "phase": "Hard far-left landing",
+      "hold_60hz": 4,
+      "support": "far/left sole",
+      "review_v1_slot": 15,
+      "frame": 15,
+      "file": "frames/dash_015.png",
+      "source_master": "source/dash_keys_v01_native.png",
+      "source_master_sha256": "94e85e4c1871167872deb755d95d9b21abd5a51d5dddb22c2845657c67579874",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 2,
+        "source_region_hint": [
+          [
+            950,
+            0
+          ],
+          [
+            1774,
+            0
+          ],
+          [
+            1774,
+            887
+          ],
+          [
+            840,
+            887
+          ],
+          [
+            950,
+            520
+          ]
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.54,
+        "integer_translation_into_1024": [
+          -281,
+          463
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Paired source: common head/blade construction against frozen R0, one0.54 factor for both.",
+        "source_anchor_px": [
+          1668,
+          835
+        ],
+        "target_anchor_delivery_px": [
+          876,
+          914
+        ],
+        "rendered_anchor_delivery_px": [
+          875.72,
+          913.9
+        ],
+        "source_root_px_top_left": [
+          1468.518519,
+          794.444444
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 22,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.36666666666666664,
+      "opaque_bbox_alpha_gt16": [
+        446,
+        531,
+        925,
+        917
+      ],
+      "png_sha256": "ae513072cde47fb85f95396804ff0e564f2c27fd19dc63baafca6f69959d2708",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          1239,
+          507
+        ],
+        "lantern_grip": [
+          1715,
+          410
+        ],
+        "lantern_glass_center": [
+          1701,
+          500
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          644.06,
+          736.78
+        ],
+        "lantern_grip": [
+          901.1,
+          684.4
+        ],
+        "lantern_glass_center": [
+          893.54,
+          733.0
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 15,
+      "source_file": "frames/dash_15.png",
+      "sha256": "ae513072cde47fb85f95396804ff0e564f2c27fd19dc63baafca6f69959d2708",
+      "rgba_sha256": "287646dfad554ee4f53e834ab840629fd5af4edbfa0ddcb0688c18f92f044014",
+      "visible_rgba_sha256": "594716050a1993480a0e85c75ec4bca0d860010a9ce741adb208e39fec521f38",
+      "onset_60hz": 22,
+      "frameHold": 4,
+      "onset_seconds": 0.36666666666666664,
+      "hold_seconds": 0.06666666666666667,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 444,
+        "y": 530,
+        "w": 482,
+        "h": 389
+      },
+      "source_trim_rect": {
+        "x": 444,
+        "y": 530,
+        "w": 482,
+        "h": 389
+      },
+      "trimmed_root_pivot_px_top_left": [
+        324,
+        362
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 8,
+        "y": 1074,
+        "w": 482,
+        "h": 389
+      },
+      "atlasRect": {
+        "x": 8,
+        "y": 1074,
+        "w": 482,
+        "h": 389
+      }
+    },
+    {
+      "master": "dC",
+      "cell": 1,
+      "source_anchor": [
+        1172,
+        596
+      ],
+      "target_anchor": [
+        620,
+        914
+      ],
+      "phase": "Deepest braking load",
+      "hold_60hz": 2,
+      "support": "far/left sole",
+      "review_v1_slot": 16,
+      "frame": 16,
+      "file": "frames/dash_016.png",
+      "source_master": "source/dash_C_v01_native.png",
+      "source_master_sha256": "7dd18f68a3a4fcdafb9261052c9a6923cee41399b92c3eb081a3783cc5d0515f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          640,
+          0,
+          1254,
+          610
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          -294,
+          449
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          1172,
+          596
+        ],
+        "target_anchor_delivery_px": [
+          876,
+          914
+        ],
+        "rendered_anchor_delivery_px": [
+          876.16,
+          913.88
+        ],
+        "source_root_px_top_left": [
+          1033.333333,
+          567.948718
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 26,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.43333333333333335,
+      "opaque_bbox_alpha_gt16": [
+        459,
+        535,
+        933,
+        920
+      ],
+      "png_sha256": "4e5ca4f297e5e134b3bc01fab66aaf17c427420308214f88a0698056957ad978",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          850,
+          337
+        ],
+        "lantern_grip": [
+          1200,
+          308
+        ],
+        "lantern_glass_center": [
+          1200,
+          380
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          625.0,
+          711.86
+        ],
+        "lantern_grip": [
+          898.0,
+          689.24
+        ],
+        "lantern_glass_center": [
+          898.0,
+          745.4
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 16,
+      "source_file": "frames/dash_16.png",
+      "sha256": "4e5ca4f297e5e134b3bc01fab66aaf17c427420308214f88a0698056957ad978",
+      "rgba_sha256": "fdb6e792950fc10e6c682ad901833963e0712cb7db0e630a044fc9acc231f78a",
+      "visible_rgba_sha256": "41392d9e526a67572c5780630fc5c8ee115690b237c4fb63d241b5c58821d8de",
+      "onset_60hz": 26,
+      "frameHold": 2,
+      "onset_seconds": 0.43333333333333335,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 458,
+        "y": 453,
+        "w": 482,
+        "h": 507
+      },
+      "source_trim_rect": {
+        "x": 458,
+        "y": 453,
+        "w": 482,
+        "h": 507
+      },
+      "trimmed_root_pivot_px_top_left": [
+        310,
+        439
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 506,
+        "y": 1074,
+        "w": 482,
+        "h": 507
+      },
+      "atlasRect": {
+        "x": 506,
+        "y": 1074,
+        "w": 482,
+        "h": 507
+      }
+    },
+    {
+      "master": "dC",
+      "cell": 2,
+      "source_anchor": [
+        580,
+        1184
+      ],
+      "target_anchor": [
+        620,
+        914
+      ],
+      "phase": "Trailing right foot catches",
+      "hold_60hz": 2,
+      "support": "both landing feet",
+      "review_v1_slot": 17,
+      "frame": 17,
+      "file": "frames/dash_017.png",
+      "source_master": "source/dash_C_v01_native.png",
+      "source_master_sha256": "7dd18f68a3a4fcdafb9261052c9a6923cee41399b92c3eb081a3783cc5d0515f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 5,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          610,
+          681,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          168,
+          -10
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          580,
+          1184
+        ],
+        "target_anchor_delivery_px": [
+          876,
+          914
+        ],
+        "rendered_anchor_delivery_px": [
+          876.4,
+          913.52
+        ],
+        "source_root_px_top_left": [
+          441.025641,
+          1156.410256
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 28,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.4666666666666667,
+      "opaque_bbox_alpha_gt16": [
+        482,
+        468,
+        936,
+        920
+      ],
+      "png_sha256": "81c525efe8409f7239a13d7f02f9e8f95b9c682755b0b93b0bece2ee91fb8e96",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          258,
+          894
+        ],
+        "lantern_grip": [
+          618,
+          884
+        ],
+        "lantern_glass_center": [
+          618,
+          948
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          625.24,
+          687.32
+        ],
+        "lantern_grip": [
+          906.04,
+          679.52
+        ],
+        "lantern_glass_center": [
+          906.04,
+          729.44
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 17,
+      "source_file": "frames/dash_17.png",
+      "sha256": "81c525efe8409f7239a13d7f02f9e8f95b9c682755b0b93b0bece2ee91fb8e96",
+      "rgba_sha256": "35be64f5af0ee8914b20f2be52966201cc6c46dd90071739105eb0699749fbd3",
+      "visible_rgba_sha256": "2aac4b43d807c58162a897b3be97fb1cc1e164ac5399a214f792358f3291e2c2",
+      "onset_60hz": 28,
+      "frameHold": 2,
+      "onset_seconds": 0.4666666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 439,
+        "y": 436,
+        "w": 521,
+        "h": 518
+      },
+      "source_trim_rect": {
+        "x": 439,
+        "y": 436,
+        "w": 521,
+        "h": 518
+      },
+      "trimmed_root_pivot_px_top_left": [
+        329,
+        456
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1004,
+        "y": 1074,
+        "w": 521,
+        "h": 518
+      },
+      "atlasRect": {
+        "x": 1004,
+        "y": 1074,
+        "w": 521,
+        "h": 518
+      }
+    },
+    {
+      "master": "dC",
+      "cell": 3,
+      "source_anchor": [
+        1138,
+        1192
+      ],
+      "target_anchor": [
+        620,
+        914
+      ],
+      "phase": "Rebound through knees",
+      "hold_60hz": 2,
+      "support": "both landing feet",
+      "review_v1_slot": 18,
+      "frame": 18,
+      "file": "frames/dash_018.png",
+      "source_master": "source/dash_C_v01_native.png",
+      "source_master_sha256": "7dd18f68a3a4fcdafb9261052c9a6923cee41399b92c3eb081a3783cc5d0515f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 6,
+        "figure_count": 4,
+        "source_region_hint": [
+          681,
+          610,
+          1254,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          -268,
+          -16
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same target head/blade ruler as dash cohort;0.78 whole-sheet factor.",
+        "source_anchor_px": [
+          1138,
+          1192
+        ],
+        "target_anchor_delivery_px": [
+          876,
+          914
+        ],
+        "rendered_anchor_delivery_px": [
+          875.64,
+          913.76
+        ],
+        "source_root_px_top_left": [
+          1000.0,
+          1164.102564
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 30,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.5,
+      "opaque_bbox_alpha_gt16": [
+        540,
+        469,
+        929,
+        922
+      ],
+      "png_sha256": "b73ac3fee99f1cfeff611cbd6dd75422e9bdfd3a418d98d1582ed3406ac51f00",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          882,
+          927
+        ],
+        "lantern_grip": [
+          1147,
+          940
+        ],
+        "lantern_glass_center": [
+          1155,
+          1000
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          675.96,
+          707.06
+        ],
+        "lantern_grip": [
+          882.66,
+          717.2
+        ],
+        "lantern_glass_center": [
+          888.9,
+          764.0
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 18,
+      "source_file": "frames/dash_18.png",
+      "sha256": "b73ac3fee99f1cfeff611cbd6dd75422e9bdfd3a418d98d1582ed3406ac51f00",
+      "rgba_sha256": "8e31ab77b1926460c4d0d7f26ecac2d949be04be20a7978aed9174f6fe4d0e99",
+      "visible_rgba_sha256": "639d72b6b4bf1383a2ae4bd69f9f70ed26b30351d89cc59d37834fa695155da3",
+      "onset_60hz": 30,
+      "frameHold": 2,
+      "onset_seconds": 0.5,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 538,
+        "y": 468,
+        "w": 393,
+        "h": 457
+      },
+      "source_trim_rect": {
+        "x": 538,
+        "y": 468,
+        "w": 393,
+        "h": 457
+      },
+      "trimmed_root_pivot_px_top_left": [
+        230,
+        424
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1541,
+        "y": 1074,
+        "w": 393,
+        "h": 457
+      },
+      "atlasRect": {
+        "x": 1541,
+        "y": 1074,
+        "w": 393,
+        "h": 457
+      }
+    },
+    {
+      "master": "dD",
+      "cell": 2,
+      "source_anchor": [
+        219,
+        1220
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Rear stance recovery",
+      "hold_60hz": 1,
+      "support": "near/right support",
+      "review_v1_slot": 20,
+      "frame": 19,
+      "file": "frames/dash_019.png",
+      "source_master": "source/dash_D_v01_native.png",
+      "source_master_sha256": "f100e2c17aa685facfc6ddf3f40fb4c674d109e7ebb82a22f5ce310d7b843cbe",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 9,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          622,
+          665,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          306,
+          -25
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Recovery standing construction/head ruler, one0.78 factor for whole sheet; not bounds fit.",
+        "source_anchor_px": [
+          219,
+          1220
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.82,
+          926.6
+        ],
+        "source_root_px_top_left": [
+          264.102564,
+          1175.641026
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 32,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.5333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        616,
+        469,
+        1030,
+        932
+      ],
+      "png_sha256": "f5b3cdd8e10e36385904c0359961e110c9c00670be1a1540da747ebeadc56515",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          274,
+          970
+        ],
+        "lantern_grip": [
+          552,
+          961
+        ],
+        "lantern_glass_center": [
+          548,
+          1010
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          775.72,
+          731.6
+        ],
+        "lantern_grip": [
+          992.56,
+          724.58
+        ],
+        "lantern_glass_center": [
+          989.44,
+          762.8
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 19,
+      "source_file": "frames/dash_19.png",
+      "sha256": "f5b3cdd8e10e36385904c0359961e110c9c00670be1a1540da747ebeadc56515",
+      "rgba_sha256": "71dd9f59402eed72845671df3ac43bb66457344ecc53ae28374be93405beb84a",
+      "visible_rgba_sha256": "b4748a439a434e4da9962ca92e76ef4d7d756783016bf7f961b261ac9e98972f",
+      "onset_60hz": 32,
+      "frameHold": 1,
+      "onset_seconds": 0.5333333333333333,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 575,
+        "y": 465,
+        "w": 457,
+        "h": 468
+      },
+      "source_trim_rect": {
+        "x": 575,
+        "y": 465,
+        "w": 457,
+        "h": 468
+      },
+      "trimmed_root_pivot_px_top_left": [
+        193,
+        427
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1950,
+        "y": 1074,
+        "w": 457,
+        "h": 468
+      },
+      "atlasRect": {
+        "x": 1950,
+        "y": 1074,
+        "w": 457,
+        "h": 468
+      }
+    },
+    {
+      "master": "dBridge",
+      "cell": 2,
+      "source_anchor": [
+        275,
+        1217
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Far boot gathers inward",
+      "hold_60hz": 1,
+      "support": "near/right support; far/left airborne",
+      "review_v1_slot": 21,
+      "frame": 20,
+      "file": "frames/dash_020.png",
+      "source_master": "source/dash_bridges_v01_native.png",
+      "source_master_sha256": "1dc01795942f683bcde003fccb7baccaaa138f95f18e6da2e134d17d0f02c334",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 5,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          621,
+          650,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.78,
+        "integer_translation_into_1024": [
+          262,
+          -23
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Same head/sword ruler as dash anticipation source;0.78 whole-sheet factor. Upper-right rejected for split blade.",
+        "source_anchor_px": [
+          275,
+          1217
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.5,
+          926.26
+        ],
+        "source_root_px_top_left": [
+          320.512821,
+          1173.076923
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 33,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.55,
+      "opaque_bbox_alpha_gt16": [
+        597,
+        463,
+        967,
+        934
+      ],
+      "png_sha256": "49b82c85fada3e9c9500782d3ec6d81f59531a5fd96eebdbf87e2682662a111a",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          277,
+          970
+        ],
+        "lantern_grip": [
+          550,
+          953
+        ],
+        "lantern_glass_center": [
+          543,
+          1010
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          734.06,
+          733.6
+        ],
+        "lantern_grip": [
+          947.0,
+          720.34
+        ],
+        "lantern_glass_center": [
+          941.54,
+          764.8
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 20,
+      "source_file": "frames/dash_20.png",
+      "sha256": "49b82c85fada3e9c9500782d3ec6d81f59531a5fd96eebdbf87e2682662a111a",
+      "rgba_sha256": "67d8ef37f679ccb88ba216ad9aa68eebb933ff4a3ce3a7c2b61c766b094cf2e3",
+      "visible_rgba_sha256": "baea0e8d1f6754323128e320e3d758672dfd54e1613f728e34a8e6b2a4bc709b",
+      "onset_60hz": 33,
+      "frameHold": 1,
+      "onset_seconds": 0.55,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 542,
+        "y": 457,
+        "w": 498,
+        "h": 480
+      },
+      "source_trim_rect": {
+        "x": 542,
+        "y": 457,
+        "w": 498,
+        "h": 480
+      },
+      "trimmed_root_pivot_px_top_left": [
+        226,
+        435
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2423,
+        "y": 1074,
+        "w": 498,
+        "h": 480
+      },
+      "atlasRect": {
+        "x": 2423,
+        "y": 1074,
+        "w": 498,
+        "h": 480
+      }
+    },
+    {
+      "master": "gather",
+      "cell": 0,
+      "source_anchor": [
+        515,
+        1300
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Far boot approaches R0 contact",
+      "hold_60hz": 2,
+      "support": "near/right support; far/left airborne",
+      "review_v1_slot": 22,
+      "frame": 21,
+      "file": "frames/dash_021.png",
+      "source_master": "source/dash_gather_R0_v01_native.png",
+      "source_master_sha256": "e07c8a7808c8d0ea81ee1b7d737d72774435bf7e326de1d055400780583359dd",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          255,
+          367
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct immutable R0 source, same1122x1402 and exact203/472 factor.",
+        "source_anchor_px": [
+          515,
+          1300
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "source_root_px_top_left": [
+          597.55665,
+          1220.689655
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "shared_state_id": "G0_recovery_gather",
+      "start_tick_60hz": 34,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.5666666666666667,
+      "opaque_bbox_alpha_gt16": [
+        568,
+        416,
+        868,
+        928
+      ],
+      "png_sha256": "c9074057850392c4e4f9342a088705809e1dc7d4c1579c638eb399f07eb3ea3e",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          448,
+          760
+        ],
+        "lantern_grip": [
+          729,
+          705
+        ],
+        "lantern_glass_center": [
+          774,
+          804
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          703.678,
+          693.864
+        ],
+        "lantern_grip": [
+          824.532,
+          670.21
+        ],
+        "lantern_glass_center": [
+          843.886,
+          712.788
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 21,
+      "source_file": "frames/dash_21.png",
+      "sha256": "c9074057850392c4e4f9342a088705809e1dc7d4c1579c638eb399f07eb3ea3e",
+      "rgba_sha256": "92c30e19820149c81ad9889d695d28f0d380c1c83dacdeab2d234aaeade59eb9",
+      "visible_rgba_sha256": "9f6465b4a70b2f76f1c71daf50f67232def504885db671ec0b3e30f9b24f2812",
+      "onset_60hz": 34,
+      "frameHold": 2,
+      "onset_seconds": 0.5666666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 568,
+        "y": 415,
+        "w": 301,
+        "h": 514
+      },
+      "source_trim_rect": {
+        "x": 568,
+        "y": 415,
+        "w": 301,
+        "h": 514
+      },
+      "trimmed_root_pivot_px_top_left": [
+        200,
+        477
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2937,
+        "y": 1074,
+        "w": 301,
+        "h": 514
+      },
+      "atlasRect": {
+        "x": 2937,
+        "y": 1074,
+        "w": 301,
+        "h": 514
+      }
+    },
+    {
+      "master": "return",
+      "cell": 0,
+      "source_anchor": [
+        516,
+        1300
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Final pre-R0 settle",
+      "hold_60hz": 3,
+      "support": "both R0 feet",
+      "review_v1_slot": 23,
+      "frame": 22,
+      "file": "frames/dash_022.png",
+      "source_master": "source/dash_return_R0_v01_native.png",
+      "source_master_sha256": "db5c50ed4fbea680a19603b9fd1e3c8b1f6e662a3fffe1a9a155616a7945c008",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          255,
+          367
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct immutable R0 source, same1122x1402 and exact203/472 factor.",
+        "source_anchor_px": [
+          516,
+          1300
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.924,
+          926.11
+        ],
+        "source_root_px_top_left": [
+          597.55665,
+          1220.689655
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "shared_state_id": "S0_recovery_settle",
+      "start_tick_60hz": 36,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.6,
+      "opaque_bbox_alpha_gt16": [
+        598,
+        420,
+        871,
+        928
+      ],
+      "png_sha256": "c3f253f17cfb4a46acb933d82f46e6899bf6c953669464c35dd8f0f2b28d9360",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          450,
+          766
+        ],
+        "lantern_grip": [
+          730,
+          706
+        ],
+        "lantern_glass_center": [
+          784,
+          797
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          704.538,
+          696.445
+        ],
+        "lantern_grip": [
+          824.962,
+          670.64
+        ],
+        "lantern_glass_center": [
+          848.186,
+          709.778
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented.",
+      "index": 22,
+      "source_file": "frames/dash_22.png",
+      "sha256": "c3f253f17cfb4a46acb933d82f46e6899bf6c953669464c35dd8f0f2b28d9360",
+      "rgba_sha256": "f26349c9f0fa15433f6b64229497564dc357f8a2c452dcb0238acfb8414c3f31",
+      "visible_rgba_sha256": "0cab648d0914df37807b7202aa8dfb97e5568693d0ec1185559e1131a043a670",
+      "onset_60hz": 36,
+      "frameHold": 3,
+      "onset_seconds": 0.6,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 550,
+        "y": 419,
+        "w": 322,
+        "h": 510
+      },
+      "source_trim_rect": {
+        "x": 550,
+        "y": 419,
+        "w": 322,
+        "h": 510
+      },
+      "trimmed_root_pivot_px_top_left": [
+        218,
+        473
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 3254,
+        "y": 1074,
+        "w": 322,
+        "h": 510
+      },
+      "atlasRect": {
+        "x": 3254,
+        "y": 1074,
+        "w": 322,
+        "h": 510
+      }
+    }
+  ],
+  "source_scale_rule": "One declared construction scale per coherent master; no per-frame bounds fitting, no body warps, no mirroring. Integer whole-drawing registration and common256px delivery padding.",
+  "leg_plan_override": "Far/left knee leads the airborne dash and same far/left foot lands; near/right trails. Flare widens/rocks/recovers actual contacts; no claim of original stationary far toe.",
+  "known_review_items": [
+    "Illustrated camera and 2D contact/hand landmarks remain uncalibrated; runtime collision and importer behavior are not tested.",
+    "Frame-to-frame illustrated detail variation remains visible at full source size; no synthetic smoothing was used."
+  ],
+  "events": [
+    {
+      "name": "rear_right_push_off",
+      "frame": 6,
+      "tick_60hz": 11,
+      "kind": "visual_only",
+      "frames": [
+        6
+      ],
+      "start_seconds": [
+        0.18333333333333332
+      ]
+    },
+    {
+      "name": "both_feet_airborne",
+      "frame": 7,
+      "tick_60hz": 12,
+      "kind": "visual_only",
+      "frames": [
+        7
+      ],
+      "start_seconds": [
+        0.2
+      ]
+    },
+    {
+      "name": "far_left_heel_contact",
+      "frame": 13,
+      "tick_60hz": 19,
+      "kind": "visual_only",
+      "frames": [
+        13
+      ],
+      "start_seconds": [
+        0.31666666666666665
+      ]
+    },
+    {
+      "name": "strong_far_left_landing",
+      "frame": 15,
+      "tick_60hz": 22,
+      "kind": "visual_only",
+      "frames": [
+        15
+      ],
+      "start_seconds": [
+        0.36666666666666664
+      ]
+    },
+    {
+      "name": "right_rear_recovery_support",
+      "frame": 19,
+      "tick_60hz": 32,
+      "kind": "visual_only",
+      "frames": [
+        19
+      ],
+      "start_seconds": [
+        0.5333333333333333
+      ]
+    }
+  ],
+  "root_motion": {
+    "applied_to_pixels": false,
+    "distance": "Game-owned. Review overlay uses1.8 R0 standing-body heights only; not calibrated meters.",
+    "cumulative_fraction_at_frame_start": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.02907,
+      0.093023,
+      0.22093,
+      0.395349,
+      0.616279,
+      0.837209,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "direction_degrees_down_right": 10.2039737,
+    "review_contact_rule": "Advisory world displacement ends at the first far-left heel receipt, frame13, then stays fixed through planted braking/recovery."
+  },
+  "invulnerability": "Undefined; game-owned, not inferred from dash drawing.",
+  "reference_body_height_px": 504,
+  "model_preference": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "actual_backend_verified": false,
+  "camera_note": "Same accepted approximately10-degree down-right illustrated view.35.264-degree elevation/45-degree azimuth/13m are uncalibrated reference targets.",
+  "interpolation": "None for character/effect drawings. Complete drawings held for integer60Hz ticks.",
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 3,
+  "preview_note": "Previews show three action repeats with neutral lead/return/reset pauses. Runtime action duration excludes those presentation pauses.",
+  "schema": "lantern.fixed-canvas-animation/1.0",
+  "clip_id": "dash",
+  "delivery_eligible": true,
+  "root_pivot_px": [
+    768,
+    892
+  ],
+  "root_pivot_px_bottom_left": [
+    768,
+    132
+  ],
+  "root_pivot_normalized_top_left": [
+    0.5,
+    0.87109375
+  ],
+  "root_pivot_normalized_bottom_left": [
+    0.5,
+    0.12890625
+  ],
+  "pixels_per_world_unit": "inherit accepted walk unchanged; numeric runtime value not supplied",
+  "import_note": "1536x1024 is transparent padding around the unchanged-scale actor. Preserve the accepted walk pixels-per-world-unit. Do not fit this canvas to the old quad height. Relative to 512x640, the raw quad canvas is 3x wider and 1.6x taller at identical pixel scale; padding is (+512,+320), root (768,892). Reconstruct trim offsets; never center the crop or scale an individual frame.",
+  "temporal_interpolation": "none; whole drawings held for integer ticks",
+  "frame_blending": false,
+  "frame_count": 22,
+  "unique_drawings": 22,
+  "source_unique_drawings": 22,
+  "holds_60hz": [
+    2,
+    2,
+    2,
+    3,
+    2,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2,
+    4,
+    2,
+    2,
+    2,
+    1,
+    1,
+    2,
+    3
+  ],
+  "onsets_60hz": [
+    0,
+    2,
+    4,
+    6,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20,
+    22,
+    26,
+    28,
+    30,
+    32,
+    33,
+    34,
+    36
+  ],
+  "action_duration_ticks_60hz": 39,
+  "action_duration_seconds": 0.65,
+  "cycle_duration_ticks_60hz": null,
+  "cycle_duration_seconds": null,
+  "preview_timed_duration_seconds": 1.9500000000000002,
+  "duration_note": "Finite one-pass timing only. Preview repeats and any game-owned indefinite terminal hold are separate.",
+  "full_frames_authoritative": true,
+  "shared_state_rgba_sha256": {
+    "R0": "bcb7dc12b37fc4e658b2f8821705fe42648a591b600f1978ab9bdaa1b7f06e2c",
+    "G0_recovery_gather": "92c30e19820149c81ad9889d695d28f0d380c1c83dacdeab2d234aaeade59eb9",
+    "S0_recovery_settle": "f26349c9f0fa15433f6b64229497564dc357f8a2c452dcb0238acfb8414c3f31"
+  },
+  "atlas": {
+    "enabled": true,
+    "pages": [
+      {
+        "index": 0,
+        "file": "atlas/page_00.png",
+        "size_px": [
+          3702,
+          1600
+        ],
+        "sha256": "a067a09e20e888b20473ba956761184068ead13289e1b01d024e4dfb84bb2238"
+      }
+    ],
+    "max_page_px": [
+      4096,
+      4096
+    ],
+    "gutter_px": 8,
+    "gutter_each_side_px": 8,
+    "rotation": false,
+    "trim": "exact bbox of every nonzero alpha pixel; zero threshold",
+    "alpha": "straight; transparent gutters; no extrusion or pixel editing",
+    "sampling_note": "Use existing importer sampling; disable mipmaps unless padding-aware mip generation is verified."
+  }
+}

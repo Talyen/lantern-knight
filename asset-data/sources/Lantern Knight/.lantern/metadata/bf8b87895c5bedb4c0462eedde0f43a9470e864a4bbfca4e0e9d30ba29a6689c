@@ -1,0 +1,72 @@
+{
+  "scene_number": 6,
+  "scene": "Forest Gathering/Full Scene A",
+  "prop": "a closed travel backpack",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    140,
+    160,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold final frame indefinitely",
+  "native_canvas": [
+    640,
+    640
+  ],
+  "native_anchor": [
+    320,
+    560
+  ],
+  "runtime_scale": 0.1652892561983471,
+  "runtime_anchor": [
+    53,
+    93
+  ],
+  "placement_on_1536_scene": [
+    790,
+    620
+  ],
+  "source_boxes": [
+    [
+      77,
+      98,
+      440,
+      446
+    ],
+    [
+      64,
+      93,
+      433,
+      445
+    ],
+    [
+      64,
+      91,
+      437,
+      445
+    ],
+    [
+      78,
+      65,
+      456,
+      421
+    ],
+    [
+      66,
+      40,
+      450,
+      421
+    ],
+    [
+      65,
+      89,
+      451,
+      421
+    ]
+  ],
+  "source_master_url": "https://drive.google.com/file/d/1eJo6x_ElxoHBPZdq8JYRtAwBtHY-Xk3T/view?usp=drivesdk"
+}

@@ -1,0 +1,350 @@
+{
+  "asset": "Lantern Hero C / Rust",
+  "clip_id": "stagger_DR_v01",
+  "version": "v01",
+  "facing": "DR",
+  "world_heading": "+X",
+  "direction_scope": "One authored down-right facing only; no mirror substitutes.",
+  "camera": "Approximate elevated orthographic, matching approved DR reference; not 3D-calibrated.",
+  "timebase_hz": 60,
+  "unique_drawings": 8,
+  "duration_ticks": 48,
+  "duration_seconds": 0.8,
+  "loop": false,
+  "canvas_px": [
+    554,
+    671
+  ],
+  "pivot_px_top_left": [
+    286,
+    552
+  ],
+  "pivot_normalized_bottom_left": [
+    0.516245487364621,
+    0.17734724292101345
+  ],
+  "pixels_per_unit": 305.0,
+  "ppu_status": "Approximate fixed clip-wide native-art estimate; verify world size in engine.",
+  "root_motion": "No authored motion curve. Fixed image canvas/pivot; gameplay controller owns root movement.",
+  "handedness": {
+    "anatomical_right": "sword, short black wrist wrap",
+    "anatomical_left": "lantern, long brown bracer and tan sleeve patch"
+  },
+  "prop_support": "Closed left fingers on lantern handle in every cel. Sword gripped by right hand throughout. No prop release, strap, disappearance or floating interval.",
+  "registration": "Identical 4x2 source-grid extraction with common padding; source cel drift retained, no per-cel recentering.",
+  "native_art_operations": [
+    "Original generated articulated cels",
+    "Connected-component extraction with native antialiased edge pixels",
+    "Identical clip-wide crop/padding from recorded uniform source grid",
+    "No resizing, mirroring, rotation, deformation, optical flow or synthetic tweening"
+  ],
+  "alpha_cleanup": "Retain original pixels within 3 px of the full-body source component; discard isolated low-alpha background specks.",
+  "atlas_file": "stagger_DR_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frames": [
+    {
+      "cel": 1,
+      "source_component_bbox": [
+        67,
+        12,
+        327,
+        523
+      ],
+      "source_grid_origin": [
+        -96,
+        -64
+      ],
+      "alpha_bbox": [
+        161,
+        73,
+        426,
+        590
+      ],
+      "native_alpha_pixels": 80895,
+      "index": 0,
+      "label": "ready",
+      "file": "frames/stagger_DR_01.png",
+      "start_tick": 0,
+      "duration_ticks": 4,
+      "end_tick": 4,
+      "atlas_rect": [
+        0,
+        0,
+        554,
+        671
+      ],
+      "sha256": "bb00b4fce095d896d85c0d2b51b539940582f73f1a3957d5ac383f5fcc6dc303"
+    },
+    {
+      "cel": 2,
+      "source_component_bbox": [
+        458,
+        69,
+        700,
+        515
+      ],
+      "source_grid_origin": [
+        266,
+        -64
+      ],
+      "alpha_bbox": [
+        189,
+        130,
+        437,
+        582
+      ],
+      "native_alpha_pixels": 67908,
+      "index": 1,
+      "label": "compress",
+      "file": "frames/stagger_DR_02.png",
+      "start_tick": 4,
+      "duration_ticks": 3,
+      "end_tick": 7,
+      "atlas_rect": [
+        554,
+        0,
+        554,
+        671
+      ],
+      "sha256": "aab2aa64ad953989a29a423fb1d043747a1bd402137c2594a9de1df35d5977a6"
+    },
+    {
+      "cel": 3,
+      "source_component_bbox": [
+        775,
+        18,
+        1063,
+        523
+      ],
+      "source_grid_origin": [
+        628,
+        -64
+      ],
+      "alpha_bbox": [
+        144,
+        80,
+        437,
+        590
+      ],
+      "native_alpha_pixels": 81622,
+      "index": 2,
+      "label": "chest_recoil",
+      "file": "frames/stagger_DR_03.png",
+      "start_tick": 7,
+      "duration_ticks": 4,
+      "end_tick": 11,
+      "atlas_rect": [
+        1108,
+        0,
+        554,
+        671
+      ],
+      "sha256": "6ff111b3b924e244eb6cb42af529c41bef8f06f0cc5d5278fdd3495eb61bb773"
+    },
+    {
+      "cel": 4,
+      "source_component_bbox": [
+        1129,
+        36,
+        1425,
+        512
+      ],
+      "source_grid_origin": [
+        990,
+        -64
+      ],
+      "alpha_bbox": [
+        136,
+        98,
+        438,
+        579
+      ],
+      "native_alpha_pixels": 82615,
+      "index": 3,
+      "label": "peak_stagger",
+      "file": "frames/stagger_DR_04.png",
+      "start_tick": 11,
+      "duration_ticks": 5,
+      "end_tick": 16,
+      "atlas_rect": [
+        1662,
+        0,
+        554,
+        671
+      ],
+      "sha256": "04ef2a25cdde6d460b070e8c19b3149f4f659a89c01c1ab9a9e287c5e68ad1b1"
+    },
+    {
+      "cel": 5,
+      "source_component_bbox": [
+        40,
+        618,
+        392,
+        1045
+      ],
+      "source_grid_origin": [
+        -96,
+        479
+      ],
+      "alpha_bbox": [
+        133,
+        136,
+        491,
+        569
+      ],
+      "native_alpha_pixels": 80335,
+      "index": 4,
+      "label": "catch_balance",
+      "file": "frames/stagger_DR_05.png",
+      "start_tick": 16,
+      "duration_ticks": 6,
+      "end_tick": 22,
+      "atlas_rect": [
+        0,
+        671,
+        554,
+        671
+      ],
+      "sha256": "f24c7f0e4dc110a764e324edcbdcfcd082362616be5683671cdeb4ebeea787a2"
+    },
+    {
+      "cel": 6,
+      "source_component_bbox": [
+        429,
+        637,
+        722,
+        1037
+      ],
+      "source_grid_origin": [
+        266,
+        479
+      ],
+      "alpha_bbox": [
+        160,
+        155,
+        459,
+        561
+      ],
+      "native_alpha_pixels": 72082,
+      "index": 5,
+      "label": "settle_low",
+      "file": "frames/stagger_DR_06.png",
+      "start_tick": 22,
+      "duration_ticks": 8,
+      "end_tick": 30,
+      "atlas_rect": [
+        554,
+        671,
+        554,
+        671
+      ],
+      "sha256": "e231ad794cb2801ed7c4bd2663f5241c63b48f8904b64457a85ef5a3f1918023"
+    },
+    {
+      "cel": 7,
+      "source_component_bbox": [
+        792,
+        562,
+        1063,
+        1045
+      ],
+      "source_grid_origin": [
+        628,
+        479
+      ],
+      "alpha_bbox": [
+        161,
+        80,
+        438,
+        569
+      ],
+      "native_alpha_pixels": 78618,
+      "index": 6,
+      "label": "rise",
+      "file": "frames/stagger_DR_07.png",
+      "start_tick": 30,
+      "duration_ticks": 8,
+      "end_tick": 38,
+      "atlas_rect": [
+        1108,
+        671,
+        554,
+        671
+      ],
+      "sha256": "9fe9804805fa1648a9ac249e19cacd1ce40bfe460c9cb6aaa4237056c5fea7d4"
+    },
+    {
+      "cel": 8,
+      "source_component_bbox": [
+        1158,
+        550,
+        1419,
+        1045
+      ],
+      "source_grid_origin": [
+        990,
+        479
+      ],
+      "alpha_bbox": [
+        166,
+        68,
+        432,
+        569
+      ],
+      "native_alpha_pixels": 78571,
+      "index": 7,
+      "label": "ready_return",
+      "file": "frames/stagger_DR_08.png",
+      "start_tick": 38,
+      "duration_ticks": 10,
+      "end_tick": 48,
+      "atlas_rect": [
+        1662,
+        671,
+        554,
+        671
+      ],
+      "sha256": "977edcffd8e51508db6a77ae27be4b62e83e882fb5c0882875f1a2e971422f3f"
+    }
+  ],
+  "visual_cue_markers": [
+    {
+      "tick": 0,
+      "seconds": 0.0,
+      "name": "reaction_begin"
+    },
+    {
+      "tick": 11,
+      "seconds": 0.18333333333333332,
+      "name": "peak_stagger"
+    },
+    {
+      "tick": 16,
+      "seconds": 0.26666666666666666,
+      "name": "balance_catch"
+    },
+    {
+      "tick": 22,
+      "seconds": 0.36666666666666664,
+      "name": "recovery"
+    },
+    {
+      "tick": 48,
+      "seconds": 0.8,
+      "name": "ready"
+    }
+  ],
+  "marker_authority": "Presentation cues only. Do not grant damage, guard-break, invulnerability, health, respawn or gameplay effects from these markers.",
+  "next_state": "Host-selected ready state after clip completion",
+  "description": "Heavy upright hit reaction with a recovery step and balance catch. This is not a block mechanic and never falls to the floor.",
+  "status": "VISUAL_QA_PASSED_ENGINE_UNTESTED",
+  "limitations": [
+    "Engine integration has not been tested.",
+    "Single DR facing only; host must lock the authored presentation or route to appropriate facing artwork.",
+    "Hand-drawn contact and body-size variation remain; cross-clip endpoints are not pixel-identical.",
+    "Native alpha has soft antialiased ink edges. Use alpha blending and atlas extrusion in the engine import pipeline."
+  ]
+}

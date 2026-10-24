@@ -1,0 +1,268 @@
+[
+  {
+    "id": "cold_shard_burst",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      174,
+      166,
+      451,
+      410
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 41
+  },
+  {
+    "id": "cursed_chain_strike",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      176,
+      284,
+      477,
+      391
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 39
+  },
+  {
+    "id": "ink_shadow_burst",
+    "frame_count": 36,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      191,
+      190,
+      513,
+      456
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 35
+  },
+  {
+    "id": "lightning_fork",
+    "frame_count": 30,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      211,
+      144,
+      427,
+      419
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 8
+  },
+  {
+    "id": "pale_ghost_flame",
+    "frame_count": 48,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      265,
+      212,
+      389,
+      408
+    ],
+    "edge_safe": true,
+    "clear_first": false,
+    "clear_last": false,
+    "loop": true,
+    "unique_images": 48
+  },
+  {
+    "id": "poison_mist_puff",
+    "frame_count": 48,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      235,
+      265,
+      425,
+      394
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 47
+  },
+  {
+    "id": "ritual_circle_activation",
+    "frame_count": 48,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      179,
+      308,
+      451,
+      471
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 45
+  },
+  {
+    "id": "soul_leech_ribbon",
+    "frame_count": 48,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      151,
+      279,
+      498,
+      376
+    ],
+    "edge_safe": true,
+    "clear_first": false,
+    "clear_last": false,
+    "loop": true,
+    "unique_images": 48
+  },
+  {
+    "id": "spectral_bolt_flight",
+    "frame_count": 36,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      165,
+      327,
+      370,
+      385
+    ],
+    "edge_safe": true,
+    "clear_first": false,
+    "clear_last": false,
+    "loop": true,
+    "unique_images": 36
+  },
+  {
+    "id": "spectral_bolt_impact",
+    "frame_count": 30,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      252,
+      254,
+      493,
+      419
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 27
+  },
+  {
+    "id": "spectral_bolt_launch",
+    "frame_count": 30,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      280,
+      308,
+      486,
+      402
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 29
+  },
+  {
+    "id": "summoning_vortex",
+    "frame_count": 60,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      203,
+      224,
+      437,
+      428
+    ],
+    "edge_safe": true,
+    "clear_first": false,
+    "clear_last": false,
+    "loop": true,
+    "unique_images": 60
+  },
+  {
+    "id": "thorn_eruption",
+    "frame_count": 42,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      207,
+      185,
+      429,
+      419
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 27
+  },
+  {
+    "id": "ward_break",
+    "frame_count": 36,
+    "canvas": [
+      640,
+      560
+    ],
+    "content_bounds": [
+      183,
+      154,
+      445,
+      476
+    ],
+    "edge_safe": true,
+    "clear_first": true,
+    "clear_last": true,
+    "loop": false,
+    "unique_images": 35
+  }
+]

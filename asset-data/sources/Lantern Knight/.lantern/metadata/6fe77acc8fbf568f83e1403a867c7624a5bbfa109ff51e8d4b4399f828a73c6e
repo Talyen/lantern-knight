@@ -1,0 +1,184 @@
+{
+  "name": "Clockwork penitent",
+  "identity_id": "lantern_concept_enemy_08_clockwork_penitent",
+  "reference_sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+  "baseline_dependency": "clockwork_penitent_runtime.zip, frozen DR move/attack baseline; no replacement",
+  "approved_DR_rest_sha256": "58aee2097204221051f0ec2928662813cc5d3b51d3c7925f2b6abd4cff015478",
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels": [
+    400,
+    697
+  ],
+  "pivot_convention": "top-left origin; x right and y down",
+  "estimated_pixels_per_unit": 320,
+  "camera": {
+    "target_elevation_degrees": 35.2643897,
+    "target_azimuth_degrees": 45,
+    "calibration": "drawn target; not calibrated 3D"
+  },
+  "facing": "DR lower right only",
+  "mirroring": "not permitted for asymmetric equipment",
+  "root_motion": "in place; actor world transform separate; registration baked into PNG, no runtime offsets",
+  "clips": {
+    "hit": {
+      "cels": [
+        "hit_00.png",
+        "hit_01.png",
+        "hit_02.png",
+        "hit_03.png",
+        "hit_04.png",
+        "hit_05.png",
+        "hit_06.png"
+      ],
+      "holds_60hz": [
+        3,
+        5,
+        4,
+        5,
+        5,
+        5,
+        9
+      ],
+      "loop": false,
+      "one_shot": true,
+      "drawn_cel_count": 6,
+      "rest_reuse_cel": 6,
+      "atlas": "hit_atlas.png",
+      "atlas_gutter_pixels": 4,
+      "atlas_rects_pixels": [
+        {
+          "cel_index": 0,
+          "x": 4,
+          "y": 4,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 1,
+          "x": 780,
+          "y": 4,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 2,
+          "x": 1556,
+          "y": 4,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 3,
+          "x": 4,
+          "y": 780,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 4,
+          "x": 780,
+          "y": 780,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 5,
+          "x": 1556,
+          "y": 780,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 6,
+          "x": 4,
+          "y": 1556,
+          "width": 768,
+          "height": 768
+        }
+      ],
+      "end_behavior": "hold baseline rest until engine transitions",
+      "visual_event": {
+        "cel_index": 6,
+        "name": "hit_recovery_complete",
+        "meaning": "visual reference only; engine owns health and cleanup"
+      }
+    },
+    "defeat": {
+      "cels": [
+        "defeat_00.png",
+        "defeat_01.png",
+        "defeat_02.png",
+        "defeat_03.png",
+        "defeat_04.png",
+        "defeat_05.png"
+      ],
+      "holds_60hz": [
+        6,
+        7,
+        8,
+        8,
+        10,
+        30
+      ],
+      "loop": false,
+      "one_shot": true,
+      "drawn_cel_count": 6,
+      "rest_reuse_cel": null,
+      "atlas": "defeat_atlas.png",
+      "atlas_gutter_pixels": 4,
+      "atlas_rects_pixels": [
+        {
+          "cel_index": 0,
+          "x": 4,
+          "y": 4,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 1,
+          "x": 780,
+          "y": 4,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 2,
+          "x": 1556,
+          "y": 4,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 3,
+          "x": 4,
+          "y": 780,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 4,
+          "x": 780,
+          "y": 780,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "cel_index": 5,
+          "x": 1556,
+          "y": 780,
+          "width": 768,
+          "height": 768
+        }
+      ],
+      "end_behavior": "hold final defeated body indefinitely until explicit cleanup",
+      "visual_event": {
+        "cel_index": 5,
+        "name": "defeat_complete",
+        "meaning": "visual reference only; engine owns health and cleanup"
+      }
+    }
+  }
+}

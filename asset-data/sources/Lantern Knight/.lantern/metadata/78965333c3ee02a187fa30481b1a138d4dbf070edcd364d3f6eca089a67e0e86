@@ -1,0 +1,343 @@
+{
+  "asset": "lantern_UL",
+  "version": "v01",
+  "status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+  "heading": {
+    "world": "-X",
+    "screen": "up-left",
+    "mirrored": false
+  },
+  "native_source": {
+    "file": "source/lantern_UL_native_sheet.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "931a1f619d6e68b9fc1cc57627b1bbf34f9dc19dcbb2efbdec0897f4c38a69e2",
+    "generation": "built-in image_gen",
+    "requested_model": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "backend_model_verified": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      1048
+    ],
+    "atlas": "frames_clean_native/lantern_UL_atlas_native.png",
+    "grid": [
+      4,
+      2
+    ],
+    "frame_count": 8,
+    "unique_native_drawings": 8,
+    "fps": 60,
+    "duration_seconds": 1.2166666666666666,
+    "loop": false,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015267
+    ],
+    "pivot_status": "Fixed-cell integration estimate, not calibrated skeleton/ground solve",
+    "recommended_pixels_per_unit": 238.953,
+    "density_method": {
+      "reference_nominal_ppu": 350,
+      "reference_family": "directional_ready_idle_v01/delivery",
+      "reference_heading_body_crown_to_boot_px": 602,
+      "clip_neutral_body_heights_px": [
+        410,
+        412
+      ],
+      "mean_clip_body_px": 411.0,
+      "ratio": 0.6827242524916943,
+      "measurement": "First and last neutral-cel crown-to-lowest-boot span, visually checked extrema are body not sword/coat",
+      "confidence": "Approximate: pose/anatomy variation prevents exact world-height certification"
+    },
+    "root_motion": "Original cell-relative body motion retained; no root-motion track",
+    "gameplay_logic_implemented": false
+  },
+  "processing": {
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "per_frame_autofit": false,
+    "nominal_native_cell": [
+      444,
+      444
+    ],
+    "uniform_added_margin_each_side": 40,
+    "alpha_cleanup": "Main human component selected from alpha>=16 with1px connectivity dilation, then2px ownership allowance; native RGB and retained edge alpha preserved. Removes distant low-alpha fuzz and excludes neighboring cels. No pixels translated within original cell coordinate system.",
+    "source_native_retained": true
+  },
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "world_up": "+Y",
+    "ground": "XZ",
+    "gameplay_vertical_span_m": 13,
+    "unity_orthographic_size": 6.5,
+    "verification": "Exact guide matrix exists; illustration only visually conditioned, not geometrically certified"
+  },
+  "suggested_timing_tags": {
+    "gather_cel": 3,
+    "present_cel": 4,
+    "pulse_cel": 5,
+    "recover_cels": [
+      6,
+      7,
+      8
+    ]
+  },
+  "known_limits": [
+    "Art-review candidate, not final production integration approval.",
+    "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+    "Endpoints are new drawings, not pixel-identical to sharedready.",
+    "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+    "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+    "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+    "Warm lantern pulse material lighting is baked into cel5; no separate FX layer.",
+    "UL sharedready has the sword forward and occluded. These actions visibly carry the far sword trailing; transitioning to sharedready needs intentional weapon settling."
+  ],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames_clean_native/lantern_UL_01.png",
+      "label": "ready",
+      "hold_ticks_60hz": 12,
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        146,
+        58,
+        439,
+        473
+      ],
+      "visible_bbox_alpha16": [
+        149,
+        61,
+        437,
+        471
+      ],
+      "sha256": "819c2e66a8c96039a8095f983b4d03d24dbf1ab80558f7e7c51a09f7f543925a"
+    },
+    {
+      "index": 2,
+      "file": "frames_clean_native/lantern_UL_02.png",
+      "label": "brace",
+      "hold_ticks_60hz": 7,
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        120,
+        58,
+        445,
+        470
+      ],
+      "visible_bbox_alpha16": [
+        123,
+        61,
+        442,
+        467
+      ],
+      "sha256": "f382ea0b6d3c24b3a8c1ef5ff8c84bf5e214e63b31b42aec7c79871223f23458"
+    },
+    {
+      "index": 3,
+      "file": "frames_clean_native/lantern_UL_03.png",
+      "label": "gather",
+      "hold_ticks_60hz": 8,
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        107,
+        58,
+        437,
+        474
+      ],
+      "visible_bbox_alpha16": [
+        110,
+        61,
+        435,
+        471
+      ],
+      "sha256": "796c3a50d1b4427b835c105a62566b3e217a9c4604d11cfdab06a2ab34ec28f2"
+    },
+    {
+      "index": 4,
+      "file": "frames_clean_native/lantern_UL_04.png",
+      "label": "present",
+      "hold_ticks_60hz": 10,
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        71,
+        58,
+        444,
+        470
+      ],
+      "visible_bbox_alpha16": [
+        74,
+        61,
+        441,
+        467
+      ],
+      "sha256": "63ca3371adae17bd7cde503e220395a2c6e70b2c7d771d85b9919d6294f3dc47"
+    },
+    {
+      "index": 5,
+      "file": "frames_clean_native/lantern_UL_05.png",
+      "label": "pulse",
+      "hold_ticks_60hz": 6,
+      "atlas_rect": [
+        0,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        93,
+        54,
+        462,
+        454
+      ],
+      "visible_bbox_alpha16": [
+        96,
+        57,
+        459,
+        452
+      ],
+      "sha256": "9d6af03c9cf39c0102b2d5ffa277cdc782998497c4a86b5100bc1193ad5ce606"
+    },
+    {
+      "index": 6,
+      "file": "frames_clean_native/lantern_UL_06.png",
+      "label": "settle",
+      "hold_ticks_60hz": 8,
+      "atlas_rect": [
+        524,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        136,
+        52,
+        451,
+        460
+      ],
+      "visible_bbox_alpha16": [
+        139,
+        55,
+        449,
+        457
+      ],
+      "sha256": "3dcceefb44c0607c831f589f9121270b2b91c62d8cd0d83dae777733776f52db"
+    },
+    {
+      "index": 7,
+      "file": "frames_clean_native/lantern_UL_07.png",
+      "label": "lower",
+      "hold_ticks_60hz": 8,
+      "atlas_rect": [
+        1048,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        132,
+        57,
+        437,
+        469
+      ],
+      "visible_bbox_alpha16": [
+        135,
+        60,
+        434,
+        467
+      ],
+      "sha256": "6367b219dcee4e977511b4876c01fbeecc42e23f7a0b354f47ce022fd8b19efe"
+    },
+    {
+      "index": 8,
+      "file": "frames_clean_native/lantern_UL_08.png",
+      "label": "ready_restored",
+      "hold_ticks_60hz": 14,
+      "atlas_rect": [
+        1572,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        146,
+        52,
+        436,
+        470
+      ],
+      "visible_bbox_alpha16": [
+        148,
+        55,
+        434,
+        467
+      ],
+      "sha256": "5d39935be91df8a55a787ff1eee460219d8fa44891e15420824fa85aed8f5635"
+    }
+  ]
+}

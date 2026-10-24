@@ -1,0 +1,416 @@
+{
+  "clip_id": "lantern_run_screen_R_lowcarry8_native_v03",
+  "status": "VISUAL_QA_PASS_NATIVE_RUNTIME_TEST_NOT_ENGINE_VALIDATED",
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_top_left": [
+    384,
+    640
+  ],
+  "pivot_bottom_left": [
+    384,
+    128
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.16666666666666666
+  ],
+  "authored_nominal_root": null,
+  "registration_target_hip_mean": [
+    384,
+    470
+  ],
+  "root_confidence": "Exact common canvas pivot; approximate mean ground offset plus inferred anatomical per-frame pelvis anchors with \u00b112px visual uncertainty. Not physical engine ground calibration.",
+  "unique_drawings": 8,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "loop": true,
+  "heading": {
+    "screen": "R",
+    "world_forward": [
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "camera_elevation_degrees": 35.264389682754654,
+    "camera_azimuth_degrees": 45,
+    "mirror": false
+  },
+  "native_sheet_size": [
+    1774,
+    887
+  ],
+  "registration": "Equal nominal grid extraction then measured per-frame integer pelvis registration preserving source-guide vertical bob. All native pixels retained; no resampling, upscaling, mirroring, morphing, or per-frame bounding-box alignment/fitting.",
+  "pixels_per_unit_APPROXIMATE": 260,
+  "density_method": {
+    "ready_reference_ppu": 350,
+    "ready_reference_cranial_width_px": 94,
+    "run_cranial_widths_px": [
+      77,
+      67,
+      69,
+      67,
+      70,
+      75,
+      72,
+      69
+    ],
+    "formula": "350 \u00d7 median widths / 94, rounded nearest 5.",
+    "uncertainty": "Approximately \u00b120%; reference is adjacent heading, not metric/engine calibration. Use one PPU for entire clip and unchanged actor transform."
+  },
+  "anatomy": "Near anatomical RIGHT: single straight sword, plain sleeve and coat panel, short black wristwrap. Far anatomical LEFT: low lantern, long brown bracer; naturally partly occluded.",
+  "source_guidance": "Exact eight-phase cardinal low-carry joint guide. Left-arm carry intentionally adapted; hand axial rotations not recovered. Painted camera/poses visually conditioned, not exact 3D calibration.",
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/run_00.png",
+      "source_tick": 0,
+      "start_tick": 0,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.0,
+      "source_contact_phase": "R support",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          181,
+          238
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          471
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        203,
+        233
+      ],
+      "atlas_rect_top_left": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "sha256": "a6e7e60dc0d8d0d819e9a0642562eb14f8b91ee8ddc869b8f4bbd4d0cffc8ce5"
+    },
+    {
+      "index": 1,
+      "file": "frames/run_01.png",
+      "source_tick": 5,
+      "start_tick": 5,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.125,
+      "source_contact_phase": "R support",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          194,
+          228
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          464
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        190,
+        236
+      ],
+      "atlas_rect_top_left": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "sha256": "8e58375dc3232e76aed58fa00d352c56f7d06a58ab2a69ae3cda121ba5809466"
+    },
+    {
+      "index": 2,
+      "file": "frames/run_02.png",
+      "source_tick": 10,
+      "start_tick": 10,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.25,
+      "source_contact_phase": "flight",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          204,
+          228
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          466
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        180,
+        238
+      ],
+      "atlas_rect_top_left": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "sha256": "5a0933ce1998fe9ed9158ffb917146912c26a70e472386fa00219c0f77f3b577"
+    },
+    {
+      "index": 3,
+      "file": "frames/run_03.png",
+      "source_tick": 15,
+      "start_tick": 15,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.375,
+      "source_contact_phase": "L support",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          243,
+          241
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          479
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        141,
+        238
+      ],
+      "atlas_rect_top_left": [
+        2304,
+        0,
+        768,
+        768
+      ],
+      "sha256": "99b3774a72085e40e4a117bf0fddee294ac356a008c00483d2b9467ad816d912"
+    },
+    {
+      "index": 4,
+      "file": "frames/run_04.png",
+      "source_tick": 20,
+      "start_tick": 20,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.5,
+      "source_contact_phase": "L support",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          184,
+          236
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          479
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        200,
+        243
+      ],
+      "atlas_rect_top_left": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "sha256": "10d9b76ee16fffaa3d2c4443cffab59735a75435decbf3c0dd7be9a305f7cce4"
+    },
+    {
+      "index": 5,
+      "file": "frames/run_05.png",
+      "source_tick": 25,
+      "start_tick": 25,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.625,
+      "source_contact_phase": "flight",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          191,
+          229
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          465
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        193,
+        236
+      ],
+      "atlas_rect_top_left": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "sha256": "830f6659838793415af39b0d421496fc1a6f94f967c4a67d77a88b694e9da980"
+    },
+    {
+      "index": 6,
+      "file": "frames/run_06.png",
+      "source_tick": 30,
+      "start_tick": 30,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.75,
+      "source_contact_phase": "flight",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          209,
+          233
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          464
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        175,
+        231
+      ],
+      "atlas_rect_top_left": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "sha256": "a16c844cb695335653e90518fd13bde19fc6f0b0cd81b61aa2c75905fd541819"
+    },
+    {
+      "index": 7,
+      "file": "frames/run_07.png",
+      "source_tick": 35,
+      "start_tick": 35,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.875,
+      "source_contact_phase": "R support",
+      "contact_evidence": "Source guide toe-height proxy; not physical engine or painted sole calibration.",
+      "observed_anchors": {
+        "pelvis_approximate_nominal": [
+          251,
+          236
+        ],
+        "uncertainty_px": 12,
+        "target_canvas": [
+          384,
+          473
+        ],
+        "basis": "Inferred anatomical pelvis centre from thigh/waist structure; partly occluded. Independent visual agreement within8\u201312px."
+      },
+      "expanded_source_rect": [
+        1330,
+        444,
+        1774,
+        887
+      ],
+      "native_scale": 1,
+      "integer_canvas_translation": [
+        133,
+        237
+      ],
+      "atlas_rect_top_left": [
+        2304,
+        768,
+        768,
+        768
+      ],
+      "sha256": "5429c287cb8530669978446fe0be60a66e879e0cf1a05a81f45b90370345143a"
+    }
+  ],
+  "limits": [
+    "Not engine validated.",
+    "Generator output visually follows eight-phase guide; painted physical contact anchors remain unmeasured.",
+    "Far lantern/bracer and left patches mostly occluded; no claim of visible full far-hand proof.",
+    "Small native alpha\u22643 background haze retained unchanged.",
+    "Fixed canvas/pivot; inferred-pelvis integer stabilization preserves source-guide bob, internal lean and all native pixels.",
+    "Source phase labels are guide provenance; side-view overlapping identical boots prevent exact painted-foot ownership proof at every cel."
+  ],
+  "atlas": {
+    "size": [
+      3072,
+      1536
+    ],
+    "cell": [
+      768,
+      768
+    ],
+    "pivot_cell_top_left": [
+      384,
+      640
+    ],
+    "instructions": "Use atlas slices OR paddedframes; offsets already baked. Never apply frame translations twice."
+  },
+  "qa": {
+    "visual": "Independent all-eight-cell native review passed human anatomy, equipment laterality, whole stride and moderate lean after anatomical registration.",
+    "registration": "Refined inferred central-pelvis anchors, not initial wrist-like marks. Guide y trajectory preserved; \u00b112px landmark uncertainty.",
+    "engine_validated": false
+  }
+}

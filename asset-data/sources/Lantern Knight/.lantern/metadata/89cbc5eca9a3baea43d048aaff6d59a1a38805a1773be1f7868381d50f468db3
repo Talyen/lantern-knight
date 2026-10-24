@@ -1,0 +1,15 @@
+LANTERN SEARCHABLE PROPS: CRYPT OSSUARY + REED HAMPER
+
+Two six-cel one-shot lootable interactions. Untouched frame 0, opening frames 1–4, persistent looted frame 5. The 60 Hz timeline holds each authored cel; do not interpolate frames. The preview includes a longer introductory/ending hold; runtime uses JSON durations. Spawn_loot is a gameplay hook only and must be consumed once. No loot, dust, magic or contents are baked into either clip.
+
+Runtime: runtime/<id> contains six RGBA PNGs, 3x2 atlas and animation.json. Straight alpha. Pivots use top-left pixel coordinates and approximate ground support. World scale is an import suggestion requiring game-scene validation. Illustration camera targets orthographic 35.2643897-degree elevation and 45-degree azimuth; illustrated body perspective is not a calibrated 3D bake.
+
+Crypt: original crypt_wall_ossuary_cabinet_01 design faithfully adapted through one fresh built-in imagegen six-cel sheet. Original reference + untouched native generation + exact prompt retained in source. Only the middle panel changes. Deterministic region masks preserve a single stationary architectural shell. Native source cells were translated for registration, never upscaled. No generated-draft edit cascade.
+
+Hamper: reuses original unanimated reed_hamper painted component master. Body is invariant. Lid top and underside rotate around a fixed back-rim hinge via the orthographic projection's signed foreshortening. Six pose angles: 0,12,28,50,82,78 degrees. Crossing the grazing angle switches visible lid side. Two fixed hand-painted rattan lash bindings make the rear-tangent attachment readable. This is rigid painted-component animation, not six newly hand-drawn lids. Original master remains immutable. No existing opening animation was duplicated.
+
+Alpha cleanup: isolated alpha below 8 is discarded only outside a one-pixel dilation of visible support, keeping neighboring antialias pixels. No painted color replacement, enlargement or AI upscale.
+
+REBUILD: Python 3 with Pillow and numpy; ffmpeg on PATH. Run python source/rebuild.py from any directory. Produces identical runtime outputs, proof sheets and 60fps MP4 previews. Bundled source has no absolute filesystem dependencies. source/build_workshop.py and illustration_engine.py are original reusable illustration assembly helpers; only the reed-hamper master is included because other props are outside this deliverable.
+
+Not runtime-integrated. Configure interaction trigger, persistence, collision, sorting and the separate loot table in-engine. Final looted frame should remain displayed indefinitely; never restart the clip merely because the actor remains nearby.

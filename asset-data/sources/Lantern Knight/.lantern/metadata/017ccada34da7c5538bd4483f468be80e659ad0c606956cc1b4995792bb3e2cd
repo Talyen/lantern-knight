@@ -1,0 +1,14 @@
+{
+  "status": "VISUAL_QA_PASS_NATIVE_RUNTIME_TEST",
+  "source": "Fresh built-in generation v03 from original cardinal guide, canonical face and material references. Rejected v01 and edited v02 excluded.",
+  "native_pixel_rebuild_exact": true,
+  "phase_timing": "8 unique cels, each5ticks,40total at60Hz; no duplicate endpoint.",
+  "limits": [
+    "Not engine validated.",
+    "Generator output visually follows eight-phase guide; painted physical contact anchors remain unmeasured.",
+    "Far lantern/bracer and left patches mostly occluded; no claim of visible full far-hand proof.",
+    "Small native alpha\u22643 background haze retained unchanged.",
+    "Fixed canvas/pivot; inferred-pelvis integer stabilization preserves source-guide bob, internal lean and all native pixels.",
+    "Source phase labels are guide provenance; side-view overlapping identical boots prevent exact painted-foot ownership proof at every cel."
+  ]
+}

@@ -1,0 +1,49 @@
+# 04 Cultists
+
+Four fresh standalone clean-ink enemy concepts for Lantern, selected before animation. These are static concept assets, not a rig, a sprite animation, or an engine-ready calibrated render.
+
+## Contents
+- assets/: cleaned transparent PNGs, full native detail with 64px safe padding
+- source/: untouched native generations and exact prompts
+- overview.jpg: labeled contact sheet
+- previews/: individual contrast and gameplay-size read tests
+- manifest.json: dimensions, native/output SHA-256, transformations and QA
+
+## Camera and style
+Target: orthographic elevation 35.264389682754654 degrees, world azimuth 45 degrees, actor +X facing screen-down-right 30 degrees. Visually audited for an elevated three-quarter silhouette. The image generator cannot certify this projection; compare selected designs against the project camera guide before rigging. Human-readable names exist only on previews. No generated text appears in the standalone assets.
+
+## Mirroring
+Bilateral anatomy, matching costume halves and centered or shared props reduce directional redraw work. Symmetry does not automatically guarantee mirror-safe animation: verify weapon hand order, overlapping anatomy, three-quarter volume, silhouette and world lighting. Current painted illumination flips with the artwork. Final engine scale, pivots, separate effects and collision footprints are not specified.
+
+## Variants and suggested motion
+
+### CT01 — Waxmask Acolyte
+A slender adult cultist in a tall pointed oxblood hood and a long unbroken charcoal robe with exactly three broad clean fold masses. Face fully covered by a smooth warm-ivory oval mask, two small identical dark oval eye holes and a single short centered vertical mouth slit, no markings. Matching narrow ivory cuffs, centered plain waist belt. Two gloved five-digit hands grip one short ceremonial dagger held VERTICALLY on the body centerline, point DOWN; both hands stacked at abdomen, the whole hilt and blade visible. Matching simple black shoes peek below robe. Tall restrained triangular silhouette. No flame, ornaments, chains or loose straps.
+- Move: Small robe-covered steps with a stable upper body.
+- Attack: Hands lift together then make one short centered stab.
+- Death: Mask bows and robe folds vertically to the ground.
+- QA: Mask, two stacked hands, central dagger, matching cuffs and two feet pass. Very clean small-scale triangular read. Stacked hand order must be validated before mirroring the attack.
+
+### CT02 — Bellbound Monk
+A very broad squat adult cultist monk, face hidden behind a plain bronze oval plate nested inside a small round charcoal hood. Thick bell-shaped muted ochre outer robe, matching deep charcoal sleeve cuffs, three large broad robe folds, chunky black shoes. BOTH gloved hands support a SINGLE large plain bronze ritual handbell at abdomen: one broad rounded bell bowl open at the bottom, one central short wooden handle gripped by both hands; visible full bell silhouette. No chains, no shoulder decorations, no other equipment. A short wide domed silhouette, smooth flat bronze, ochre and charcoal cel colors. The bell reads as a simple rounded cone, no text, engraved symbols or grain.
+- Move: Short synchronized robe bob over tiny steps.
+- Attack: Swing the central bell forward with both hands.
+- Death: Kneel and sink, the bell settling in front.
+- QA: Broad robe, shared bell grip and two feet pass. Bell mouth is tilted toward the viewer; preserve its tilt through animation or rebuild from a simple volume guide.
+
+### CT03 — Thornhand Votary
+A lean athletic adult human cultist with a shaved bald head and stern pale face; plain charcoal cloth covers nose and mouth symmetrically. Wears a short dark-teal sleeveless martial tunic over charcoal trousers, centered warm-ivory round clasp, matching wrapped forearms and matching simple black boots. TWO matching short inward-curved black-iron ritual knives, one in each complete five-digit hand, held down and out in equivalent low ready positions. Identical knife designs with short straight grips and curved broad blades; entire blade tips visible. Narrow shoulders, long legs, balanced slightly bent knees. No cape, pouches, scars, tattoos, jewelry, loose cloth strips or side-only symbols.
+- Move: Compact low quicksteps with matched blade carry.
+- Attack: Both hooks sweep inward together.
+- Death: Knees fold and hands release both knives.
+- QA: Two hands, two fully visible matching knives, two legs and clean bald profile pass. Tunic opening is a wrap overlap rather than mathematically bilateral; simplify that overlap if literal mirroring matters.
+
+### CT04 — Halo-Veil Cantor
+A mysterious tall levitating adult occult cantor enclosed in a continuous warm-ivory robe, long wide pointed sleeves held low and equivalently forward. A smooth elongated charcoal-black facemask with two narrow small ivory eye slits, no mouth. Around the back of its hood a SINGLE large rigid old-bronze circular collar rising behind the head like a physical halo, thick simple ring attached symmetrically at both shoulders, not a glow. Two matching charcoal-gloved hands support a small plain bronze sphere exactly centered at waist. The lower robe ends in three large centered tapered points, no exposed legs or feet and no tiny ribbons. Tall inverted-drop silhouette with broad circular collar, simple flat ivory, charcoal and matte bronze colors. No particles, flames, symbols or cast shadows.
+- Move: Hover with one gentle vertical bob and minimal sleeve sway.
+- Attack: Raise the centered sphere and open both hands.
+- Death: Rigid collar tips while the robe collapses inward.
+- QA: Two cupped gloved hands and one centered sphere pass; continuous floating robe avoids foot animation. Physical collar silhouette reads clearly. Metal has soft small surface variation; keep final shading broad when animated.
+
+## Provenance
+Built-in image_gen only. One fresh chosen generation per asset, no sequential AI image edits. Prompts include the user-requested wording “Sunburst 2.5 (gpt-image-2.5-sunburst)”; the tool does not expose proof of backend model selection. Native images are preserved byte-for-byte. The only output processing is traditional alpha-only cleanup (alpha ≤16 to0 and ≥250 to255), lossless crop, transparent padding and preview compositing. Character RGB pixels are not repainted.

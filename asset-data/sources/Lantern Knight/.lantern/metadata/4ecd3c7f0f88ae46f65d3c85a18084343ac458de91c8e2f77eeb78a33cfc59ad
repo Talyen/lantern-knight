@@ -1,0 +1,167 @@
+{
+  "camera": {
+    "elevation_deg": 35.264389682754654,
+    "azimuth_deg": 45,
+    "vertical_span_m": 13,
+    "resolution": [
+      1920,
+      1080
+    ]
+  },
+  "limitations": "Exact ground/control-point projection only. Native raster sprites are screen-facing illustration cards; pine has the most frontal crown view. Subtle projected contact shadows are separate preview layers, never baked into masters; scale and root anchors are manually chosen placement assumptions. No new camera bake, geometry, depth occlusion, collision or engine validation. Cropping/resizing is inspection layout only; source PNGs unchanged.",
+  "items": [
+    {
+      "asset": "vegetation_tall_split_pine_01",
+      "world_root_xz": [
+        -5,
+        -4
+      ],
+      "visual_height_m_assumed": 5.0,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.5,
+        0.88
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png",
+      "camera_projected_root_screen": [
+        901.256,
+        454.756
+      ]
+    },
+    {
+      "asset": "vegetation_lightning_split_dead_trunk_01",
+      "world_root_xz": [
+        0,
+        -6
+      ],
+      "visual_height_m_assumed": 2.8,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.53,
+        0.86
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png",
+      "camera_projected_root_screen": [
+        1312.466,
+        556.504
+      ]
+    },
+    {
+      "asset": "vegetation_broad_hollow_oak_01",
+      "world_root_xz": [
+        -5,
+        3
+      ],
+      "visual_height_m_assumed": 4.1,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.56,
+        0.86
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png",
+      "camera_projected_root_screen": [
+        490.046,
+        692.168
+      ]
+    },
+    {
+      "asset": "arch_gothic_wall_01",
+      "world_root_xz": [
+        -1,
+        -1
+      ],
+      "visual_height_m_assumed": 1.35,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.5,
+        0.75
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_gothic_wall_01.png",
+      "camera_projected_root_screen": [
+        960.0,
+        692.168
+      ]
+    },
+    {
+      "asset": "vegetation_pale_birch_cluster_01",
+      "world_root_xz": [
+        4,
+        -5
+      ],
+      "visual_height_m_assumed": 4.0,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.56,
+        0.88
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_pale_birch_cluster_01.png",
+      "camera_projected_root_screen": [
+        1488.698,
+        726.084
+      ]
+    },
+    {
+      "asset": "arch_pointed_arch_01",
+      "world_root_xz": [
+        2,
+        -1
+      ],
+      "visual_height_m_assumed": 3.0,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.51,
+        0.83
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_pointed_arch_01.png",
+      "camera_projected_root_screen": [
+        1136.233,
+        793.916
+      ]
+    },
+    {
+      "asset": "arch_crypt_door_01",
+      "world_root_xz": [
+        0,
+        1
+      ],
+      "visual_height_m_assumed": 2.5,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.52,
+        0.9
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_crypt_door_01.png",
+      "camera_projected_root_screen": [
+        901.256,
+        793.916
+      ]
+    },
+    {
+      "asset": "vegetation_windswept_yew_01",
+      "world_root_xz": [
+        6,
+        0
+      ],
+      "visual_height_m_assumed": 3.6,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.46,
+        0.88
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_windswept_yew_01.png",
+      "camera_projected_root_screen": [
+        1312.466,
+        963.496
+      ]
+    },
+    {
+      "asset": "vegetation_low_dense_juniper_01",
+      "world_root_xz": [
+        1,
+        5
+      ],
+      "visual_height_m_assumed": 1.5,
+      "root_anchor_normalized_in_alpha128_bbox": [
+        0.5,
+        0.78
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/environment_architecture/volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+      "camera_projected_root_screen": [
+        725.023,
+        963.496
+      ]
+    }
+  ]
+}

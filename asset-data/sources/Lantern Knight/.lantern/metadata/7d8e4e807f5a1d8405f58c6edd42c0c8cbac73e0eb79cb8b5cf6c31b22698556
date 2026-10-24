@@ -1,0 +1,34 @@
+{
+  "biome": "snow",
+  "native_size": [
+    1536,
+    1024
+  ],
+  "generation": "built-in image_gen, new reference-conditioned generation",
+  "upscaled": false,
+  "requested_model": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model": "Not exposed by tool; unverified",
+  "camera_request": "orthographic 35.264 degree elevation, 45 degree azimuth; art direction only, not geometrically verified",
+  "hero_source": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "hero_alpha_crop_threshold": 30,
+  "hero_crop_box": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_composite_size": [
+    68,
+    160
+  ],
+  "hero_visible_height_px": 160,
+  "hero_bottom_center": [
+    595,
+    405
+  ],
+  "contact_shadow": "Traditional translucent ellipse with 2px Gaussian blur",
+  "references": [
+    "/workspace/shared/lantern_floor_reference_v04/candidate1_native_hero_composite.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ]
+}

@@ -28,7 +28,16 @@ export async function sourceInputHash(
 ) {
   const names = execFileSync(
     'git',
-    ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
+    [
+      'ls-files',
+      '--cached',
+      '--others',
+      '--exclude-standard',
+      '-z',
+      '--',
+      '.',
+      ':(exclude)asset-data/**',
+    ],
     { cwd: root, encoding: 'utf8' },
   )
     .split('\0')

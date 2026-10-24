@@ -1,0 +1,72 @@
+{
+  "frames": [
+    {
+      "index": 0,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 1,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 2,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 3,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 4,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 5,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 6,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    },
+    {
+      "index": 7,
+      "atlas_exact": true,
+      "visible_border_pixels": 0
+    }
+  ],
+  "unique_png_hashes": 8,
+  "cycle_ticks": 40,
+  "previews": {
+    "run8_normal_4cycles.mp4": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "r_frame_rate": "60/1",
+          "duration": "2.666667",
+          "nb_frames": "160"
+        }
+      ]
+    },
+    "run8_half_2cycles.mp4": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "r_frame_rate": "60/1",
+          "duration": "2.666667",
+          "nb_frames": "160"
+        }
+      ]
+    }
+  },
+  "source_alpha_preserved": "Native wardrobe edits areRGB-only; extraction/padding has no rescale.",
+  "engine_validation": false
+}

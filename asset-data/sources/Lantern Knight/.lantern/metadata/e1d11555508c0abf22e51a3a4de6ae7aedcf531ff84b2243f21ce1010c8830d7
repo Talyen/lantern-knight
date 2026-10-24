@@ -1,0 +1,27 @@
+{
+  "actor": "Candle-procession wraith",
+  "extension_headings": [
+    "DL",
+    "UL",
+    "UR"
+  ],
+  "DR_dependency": {
+    "runtime_zip": "candle_procession_wraith_runtime.zip",
+    "sha256": "4283fc2a70020b9674cee87a756f9255e7d1fda6d8f808b271b0de177a9867f0"
+  },
+  "heading_ppu": {
+    "DR": 256,
+    "DL": 256,
+    "UL": 256,
+    "UR": 256
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot": [
+    384,
+    650
+  ],
+  "important": "Honor per-heading PPU to preserve world body scale. No per-frame fitting. Original DR unchanged."
+}

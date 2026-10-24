@@ -1,0 +1,74 @@
+{
+  "render.py": {
+    "bytes": 9268,
+    "sha256": "c5161cef91c3c113fb859c6ce61719100720978d94dc4ef90230eaac48ca0c55"
+  },
+  "verify.py": {
+    "bytes": 3184,
+    "sha256": "a39569097aeedf2fe77001c3724e436fd36f99566037612a014067466d082f9f"
+  },
+  "package.py": {
+    "bytes": 1179,
+    "sha256": "8eee7778361fdbb97a771586a2c2ba8c6e2e97fa115b5cd4d80c13c4086cfe93"
+  },
+  "rebuild.sh": {
+    "bytes": 494,
+    "sha256": "5b3828d994e0ca0e17a9b16a3e272c531fc81f26e46d2c6f454f155ac6424d7b"
+  },
+  "README.md": {
+    "bytes": 3825,
+    "sha256": "fc7e0243f8f6e4e562df139063ca701a16cfa7cd176540b14a1182a8578bcb50"
+  },
+  "validation.json": {
+    "bytes": 2080,
+    "sha256": "62aef0043cc82a13827481075b480fe83378a8545e2fcb42c0c3bb5bcba3bdf1"
+  },
+  "contact_sheet.jpg": {
+    "bytes": 62499,
+    "sha256": "a81e0805c22019a40f127717d50146e5914177d5425c95879082ffaa21657fe2"
+  },
+  "loading_master.svg": {
+    "bytes": 13885,
+    "sha256": "2b841ee708544c5f509cab5e8c7a3c9ff24466288a65acb91ba07f9f8899c987"
+  },
+  "loading_complete_master.svg": {
+    "bytes": 15693,
+    "sha256": "76740523aa883519a00c6be89bbcfc644cb611ed61f58e2f7d85a419fd57a4d0"
+  },
+  "title_master.svg": {
+    "bytes": 56112,
+    "sha256": "98adda015b49389d24f6c3c83f7d4714a202ea9dcaaee79730aa9f0577d1b284"
+  },
+  "loading_poster.png": {
+    "bytes": 57189,
+    "sha256": "62935709a6c98c2d6b83de090f80cf0e322f33767f4947bd0194bce59f020e2f"
+  },
+  "loading_complete_poster.png": {
+    "bytes": 67522,
+    "sha256": "dc74547929a4c4025b9612273cb98143946cc6e411dbaea3cf6d208d9f0f62fe"
+  },
+  "title_poster.png": {
+    "bytes": 81037,
+    "sha256": "570d26672ced453142a7491e66dd7d177aacdbcc67b618834d347f9254c69932"
+  },
+  "Lantern_StainedLight_Loading.mp4": {
+    "bytes": 366677,
+    "sha256": "8897f93984e1934ab7c5fcb95e9e80b307dacaad31df32dbc17d83e2bdbde2b0"
+  },
+  "Lantern_StainedLight_Title.mp4": {
+    "bytes": 721932,
+    "sha256": "7424ae12ca819424e4ffae44f7b27ef95f4c5eecf082b907a17a48b01b1e7a37"
+  },
+  "Lantern_StainedLight_Loading_Intro.mp4": {
+    "bytes": 227868,
+    "sha256": "b378c8b8bd9caac9f5a60a8f23e0a276cc33eee2bc3181f94cd701b5c17fde74"
+  },
+  "Lantern_StainedLight_Loading_Hold.mp4": {
+    "bytes": 81940,
+    "sha256": "bc996298f89b77820c0f0ea6826e592fce6a096a110f1781a98cbf717da85e4b"
+  },
+  "Lantern_StainedLight_Loading_Complete.mp4": {
+    "bytes": 70588,
+    "sha256": "889179f8775eabe78e022ad1adda4804f810888073a0069c915fbaa692427f8b"
+  }
+}

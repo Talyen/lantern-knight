@@ -1,0 +1,1444 @@
+{
+  "schema": "lantern.editable_fixed_camera_composition/2",
+  "scene": "canal_workshop",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "vertical_span_metres": 13,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "target_world": [
+      0,
+      0,
+      0
+    ]
+  },
+  "assets": [
+    {
+      "id": "canal_water_clean_ink_topdown",
+      "file": "source/assets/canal_water_clean_ink_topdown.png",
+      "original_source": "lantern_revision_02/compositions/source/new_materials/canal_water_clean_ink_topdown.png",
+      "sha256": "232521f42e30a7574993f0c29296fa57040280bce50f44b2530ec8d7e7edc638",
+      "size": [
+        1254,
+        1254
+      ],
+      "source_view": "top_down_material"
+    },
+    {
+      "id": "10_soot_brick",
+      "file": "source/assets/10_soot_brick.png",
+      "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/10_soot_brick.png",
+      "sha256": "8737283a624fcbb2749e156781ab9598f64cfa5e2b5f24f04e124eb1af91bb0b",
+      "size": [
+        1024,
+        1024
+      ],
+      "source_view": "top_down_material"
+    },
+    {
+      "id": "01_old_flagstone",
+      "file": "source/assets/01_old_flagstone.png",
+      "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/01_old_flagstone.png",
+      "sha256": "edef4cd4dbeec4b54f09c3d63b7bab9194427cd0327e374c5bf1da6b0642f571",
+      "size": [
+        1024,
+        1024
+      ],
+      "source_view": "top_down_material"
+    },
+    {
+      "id": "04_wood_plank_floor",
+      "file": "source/assets/04_wood_plank_floor.png",
+      "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/04_wood_plank_floor.png",
+      "sha256": "ddbf79ea8e84a98998b60d0c6c673373819bc0c1efe92bcd642eb1618892fecb",
+      "size": [
+        1024,
+        1024
+      ],
+      "source_view": "top_down_material"
+    },
+    {
+      "id": "service_masonry_chimney_01",
+      "file": "source/assets/service_masonry_chimney_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_13_service_architecture/assets/service_masonry_chimney_01.png",
+      "sha256": "efba24778fc10164c68ff7d0066f0b6bd424d2187b81dc35842a2556c020e43e",
+      "size": [
+        1024,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "arch_gothic_wall_01",
+      "file": "source/assets/arch_gothic_wall_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_gothic_wall_01.png",
+      "sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "02_compact_smithy_v1",
+      "file": "source/assets/02_compact_smithy_v1.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_17_small_buildings/assets/02_compact_smithy_v1.png",
+      "sha256": "a005392bd9c764f8ffb0bf098c7f21fac5e72da77a833095e8078dc598244972",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "landmark_cold_furnace_alcove_01",
+      "file": "source/assets/landmark_cold_furnace_alcove_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_08_landmarks/assets/landmark_cold_furnace_alcove_01.png",
+      "sha256": "351e6da62961a99d40119623348c244de803f5ffbda50d06c629682b9bf07c82",
+      "size": [
+        1283,
+        1226
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "prop_valve_pipe_01",
+      "file": "source/assets/prop_valve_pipe_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_03_occult_industrial/assets/prop_valve_pipe_01.png",
+      "sha256": "07bad88af178833691751dd01b0b5d081a650c5b1249d93898f0d80a21322e65",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "furn_workbench_01",
+      "file": "source/assets/furn_workbench_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_05_furnishings/assets/furn_workbench_01.png",
+      "sha256": "7cd9bf0004f459dac5c6925930ff31399b51b6d33757f47459252b0c6c95f255",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "furn_blacksmith_anvil_01",
+      "file": "source/assets/furn_blacksmith_anvil_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_05_furnishings/assets/furn_blacksmith_anvil_01.png",
+      "sha256": "c5d27ab7ddd1b81a960c66f226901a8e131f158159d7f55e75190a116e4921cd",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "prop_riveted_boiler_01",
+      "file": "source/assets/prop_riveted_boiler_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_03_occult_industrial/assets/prop_riveted_boiler_01.png",
+      "sha256": "41a38151bd446f0b9db990acc29ce6624cbc4b886ebe87ede14987afaac3ef48",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "furn_grindstone_01",
+      "file": "source/assets/furn_grindstone_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_05_furnishings/assets/furn_grindstone_01.png",
+      "sha256": "a0a2d4080de2b6a2c31e2e8200d1000297f7d71b5f63cb6f7476fafbc973d5d9",
+      "size": [
+        1312,
+        1199
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "town_rain_barrel_01",
+      "file": "source/assets/town_rain_barrel_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_06_town/assets/town_rain_barrel_01.png",
+      "sha256": "0dace0464639c3d89a7d741c1997d20127e3af0757af54e6c54d47f65cf3b993",
+      "size": [
+        1295,
+        1214
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "dock_coiled_mooring_line_01",
+      "file": "source/assets/dock_coiled_mooring_line_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_coiled_mooring_line_01.png",
+      "sha256": "7630c5fcacca2f15da60132f3b2fd06922d80dfbceebf3a9dff14d12f65879ce",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "dock_mooring_cleat_02",
+      "file": "source/assets/dock_mooring_cleat_02.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_mooring_cleat_02.png",
+      "sha256": "a077d566ca6b5662528adef8824520c703aa31d4d630257e995cb1b15d909ddb",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "dock_navigation_post_01",
+      "file": "source/assets/dock_navigation_post_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_navigation_post_01.png",
+      "sha256": "7e7e32367f854a690ea74e65d25c3568468b5189d1eb8f17f04e7133bd84862d",
+      "size": [
+        1024,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "dock_broken_jetty_section_01",
+      "file": "source/assets/dock_broken_jetty_section_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_broken_jetty_section_01.png",
+      "sha256": "eb22f3beca48e40d3bf3725c3c9e7767a6384d75518aad83c5901cce02dba410",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "dock_piled_fishing_nets_02",
+      "file": "source/assets/dock_piled_fishing_nets_02.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_piled_fishing_nets_02.png",
+      "sha256": "445762675ce1d647f4ae8b6894b355704d4efda4b96a764bbc50ece5da812fac",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "arch_wall_corner_01",
+      "file": "source/assets/arch_wall_corner_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_wall_corner_01.png",
+      "sha256": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "prop_wooden_handcart_01",
+      "file": "source/assets/prop_wooden_handcart_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_03_occult_industrial/assets/prop_wooden_handcart_01.png",
+      "sha256": "a35f713ca746621fc6947bf9acc5b8d7a5a2fbecc34183390066bed1a207e9b1",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "dock_overturned_rowboat_01",
+      "file": "source/assets/dock_overturned_rowboat_01.png",
+      "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_overturned_rowboat_01.png",
+      "sha256": "02cebd7d9832c42e41e5f26bce42d399f0d8582eed3c4ef93dd0164e82073679",
+      "size": [
+        1536,
+        1024
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "crook_street_lamp_lit",
+      "file": "source/assets/crook_street_lamp_lit.png",
+      "original_source": "lantern_revision_02/03_lighting/png/crook_street_lamp_lit.png",
+      "sha256": "97dff4646c5ada08747a2b20361b75311059384b446b072ed989a3679c98bedb",
+      "size": [
+        1536,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    },
+    {
+      "id": "watch_lantern_lit",
+      "file": "source/assets/watch_lantern_lit.png",
+      "original_source": "lantern_revision_02/03_lighting/png/watch_lantern_lit.png",
+      "sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+      "size": [
+        1536,
+        1536
+      ],
+      "source_view": "approximate_isometric_illustration"
+    }
+  ],
+  "cards": [
+    {
+      "id": "service_masonry_chimney_01_0",
+      "asset": "service_masonry_chimney_01",
+      "world_position": [
+        -0.9663778137461341,
+        0.0,
+        -9.648077738314301
+      ],
+      "source_alpha_bounds_ge128": [
+        190,
+        22,
+        828,
+        1500
+      ],
+      "pivot_px": [
+        509.0,
+        1485
+      ],
+      "projected_pixels_per_source_pixel": 0.46008119079837617,
+      "projected_height_metres": 8.185185185185185,
+      "source_density_pixels_per_projected_metre": 180.57013574660635,
+      "material_tint": [
+        0.33,
+        0.46,
+        0.53
+      ],
+      "layer": 20,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_1",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        -1.846442242566727,
+        0.0,
+        -7.293783371707538
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.2616279069767442,
+      "projected_height_metres": 2.708333333333333,
+      "source_density_pixels_per_projected_metre": 317.53846153846155,
+      "material_tint": [
+        0.49,
+        0.6,
+        0.63
+      ],
+      "layer": 40,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        2,
+        0.6
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_2",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        -0.8067328981969033,
+        0.0,
+        -11.871644566764175
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.2616279069767442,
+      "projected_height_metres": 2.708333333333333,
+      "source_density_pixels_per_projected_metre": 317.53846153846155,
+      "material_tint": [
+        0.43,
+        0.54,
+        0.57
+      ],
+      "layer": 42,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        2,
+        0.6
+      ]
+    },
+    {
+      "id": "02_compact_smithy_v1_3",
+      "asset": "02_compact_smithy_v1",
+      "world_position": [
+        -6.509637516391928,
+        0.0,
+        2.0869477030334123
+      ],
+      "source_alpha_bounds_ge128": [
+        12,
+        6,
+        1302,
+        1178
+      ],
+      "pivot_px": [
+        657.0,
+        1163
+      ],
+      "projected_pixels_per_source_pixel": 0.4948805460750853,
+      "projected_height_metres": 6.981481481481481,
+      "source_density_pixels_per_projected_metre": 167.87267904509284,
+      "material_tint": [
+        0.76,
+        0.78,
+        0.77
+      ],
+      "layer": 100,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        2.7,
+        2
+      ],
+      "nominal_world_dimensions_m": {
+        "width": 6,
+        "height": 6.2,
+        "depth": 4.5
+      }
+    },
+    {
+      "id": "Connected_furnace_work_cluster",
+      "asset": "landmark_cold_furnace_alcove_01",
+      "world_position": [
+        -2.603527521149932,
+        0.0,
+        -0.0500863668651773
+      ],
+      "source_alpha_bounds_ge128": [
+        155,
+        15,
+        1137,
+        1216
+      ],
+      "pivot_px": [
+        646.0,
+        1201
+      ],
+      "projected_pixels_per_source_pixel": 0.2622814321398834,
+      "projected_height_metres": 3.7916666666666665,
+      "source_density_pixels_per_projected_metre": 316.7472527472528,
+      "material_tint": [
+        0.97,
+        0.87,
+        0.7
+      ],
+      "layer": 150,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        1.3,
+        1.0
+      ],
+      "nominal_world_dimensions_m": {
+        "width": 2.8,
+        "height": 3.8,
+        "depth": 1.7
+      }
+    },
+    {
+      "id": "prop_valve_pipe_01_5",
+      "asset": "prop_valve_pipe_01",
+      "world_position": [
+        -0.3616278100441366,
+        0.0,
+        -3.7662160157571436
+      ],
+      "source_alpha_bounds_ge128": [
+        198,
+        22,
+        1419,
+        1004
+      ],
+      "pivot_px": [
+        808.5,
+        989
+      ],
+      "projected_pixels_per_source_pixel": 0.17311608961303462,
+      "projected_height_metres": 2.0462962962962963,
+      "source_density_pixels_per_projected_metre": 479.89140271493216,
+      "material_tint": [
+        0.59,
+        0.67,
+        0.65
+      ],
+      "layer": 145,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.6,
+        0.6
+      ]
+    },
+    {
+      "id": "Canal_retaining_wall_0",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        5.244539521128807,
+        0.0,
+        -9.22496035315147
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.22093023255813954,
+      "projected_height_metres": 2.2870370370370368,
+      "source_density_pixels_per_projected_metre": 376.0323886639676,
+      "material_tint": [
+        0.45,
+        0.56,
+        0.6
+      ],
+      "layer": 300,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "Canal_retaining_wall_1",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        5.144714635136097,
+        0.0,
+        -4.643476456288797
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.22093023255813954,
+      "projected_height_metres": 2.2870370370370368,
+      "source_density_pixels_per_projected_metre": 376.0323886639676,
+      "material_tint": [
+        0.45,
+        0.56,
+        0.6
+      ],
+      "layer": 301,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "Canal_retaining_wall_2",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        5.044889749143385,
+        0.0,
+        -0.061992559426124486
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.22093023255813954,
+      "projected_height_metres": 2.2870370370370368,
+      "source_density_pixels_per_projected_metre": 376.0323886639676,
+      "material_tint": [
+        0.45,
+        0.56,
+        0.6
+      ],
+      "layer": 302,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "Canal_retaining_wall_3",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        4.945064863150675,
+        0.0,
+        4.519491337436549
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.22093023255813954,
+      "projected_height_metres": 2.2870370370370368,
+      "source_density_pixels_per_projected_metre": 376.0323886639676,
+      "material_tint": [
+        0.45,
+        0.56,
+        0.6
+      ],
+      "layer": 303,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "Canal_retaining_wall_4",
+      "asset": "arch_gothic_wall_01",
+      "world_position": [
+        4.845239977157963,
+        0.0,
+        9.100975234299222
+      ],
+      "source_alpha_bounds_ge128": [
+        82,
+        105,
+        1472,
+        965
+      ],
+      "pivot_px": [
+        777.0,
+        950
+      ],
+      "projected_pixels_per_source_pixel": 0.22093023255813954,
+      "projected_height_metres": 2.2870370370370368,
+      "source_density_pixels_per_projected_metre": 376.0323886639676,
+      "material_tint": [
+        0.45,
+        0.56,
+        0.6
+      ],
+      "layer": 304,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "Smith_workbench_2m",
+      "asset": "furn_workbench_01",
+      "world_position": [
+        -2.7495324615200922,
+        0.0,
+        3.6340704241917945
+      ],
+      "source_alpha_bounds_ge128": [
+        168,
+        21,
+        1371,
+        1009
+      ],
+      "pivot_px": [
+        769.5,
+        994
+      ],
+      "projected_pixels_per_source_pixel": 0.1214574898785425,
+      "projected_height_metres": 1.4444444444444444,
+      "source_density_pixels_per_projected_metre": 684.0000000000001,
+      "material_tint": [
+        0.94,
+        0.83,
+        0.69
+      ],
+      "layer": 350,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        1.1,
+        0.45
+      ],
+      "nominal_world_dimensions_m": {
+        "length": 2,
+        "height": 0.9,
+        "depth": 0.8
+      }
+    },
+    {
+      "id": "Anvil_0_9m",
+      "asset": "furn_blacksmith_anvil_01",
+      "world_position": [
+        1.0258499955650127,
+        0.0,
+        2.2174558675645653
+      ],
+      "source_alpha_bounds_ge128": [
+        117,
+        61,
+        1149,
+        1175
+      ],
+      "pivot_px": [
+        633.0,
+        1160
+      ],
+      "projected_pixels_per_source_pixel": 0.0807899461400359,
+      "projected_height_metres": 1.0833333333333333,
+      "source_density_pixels_per_projected_metre": 1028.3076923076924,
+      "material_tint": [
+        0.78,
+        0.79,
+        0.73
+      ],
+      "layer": 360,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.6,
+        0.5
+      ],
+      "nominal_world_dimensions_m": {
+        "height": 0.9,
+        "width": 0.95
+      }
+    },
+    {
+      "id": "prop_riveted_boiler_01_13",
+      "asset": "prop_riveted_boiler_01",
+      "world_position": [
+        -0.35939104311858144,
+        0.0,
+        -2.14679985111791
+      ],
+      "source_alpha_bounds_ge128": [
+        293,
+        22,
+        1039,
+        1172
+      ],
+      "pivot_px": [
+        666.0,
+        1157
+      ],
+      "projected_pixels_per_source_pixel": 0.17391304347826086,
+      "projected_height_metres": 2.4074074074074074,
+      "source_density_pixels_per_projected_metre": 477.69230769230774,
+      "material_tint": [
+        0.83,
+        0.79,
+        0.67
+      ],
+      "layer": 355,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.75,
+        0.75
+      ]
+    },
+    {
+      "id": "furn_grindstone_01_14",
+      "asset": "furn_grindstone_01",
+      "world_position": [
+        -2.666906015456538,
+        0.0,
+        5.674335088540328
+      ],
+      "source_alpha_bounds_ge128": [
+        125,
+        62,
+        1242,
+        1151
+      ],
+      "pivot_px": [
+        683.5,
+        1136
+      ],
+      "projected_pixels_per_source_pixel": 0.10560146923783287,
+      "projected_height_metres": 1.3842592592592593,
+      "source_density_pixels_per_projected_metre": 786.7023411371239,
+      "material_tint": [
+        0.75,
+        0.76,
+        0.7
+      ],
+      "layer": 365,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.75,
+        0.5
+      ]
+    },
+    {
+      "id": "town_rain_barrel_01_15",
+      "asset": "town_rain_barrel_01",
+      "world_position": [
+        -4.384226028372595,
+        0.0,
+        6.595570935051851
+      ],
+      "source_alpha_bounds_ge128": [
+        183,
+        48,
+        1112,
+        1176
+      ],
+      "pivot_px": [
+        647.5,
+        1161
+      ],
+      "projected_pixels_per_source_pixel": 0.09308510638297872,
+      "projected_height_metres": 1.2638888888888888,
+      "source_density_pixels_per_projected_metre": 892.4835164835166,
+      "material_tint": [
+        0.68,
+        0.68,
+        0.61
+      ],
+      "layer": 370,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "dock_coiled_mooring_line_01_16",
+      "asset": "dock_coiled_mooring_line_01",
+      "world_position": [
+        3.3345315291577107,
+        0.0,
+        1.9726962468725082
+      ],
+      "source_alpha_bounds_ge128": [
+        234,
+        134,
+        1317,
+        912
+      ],
+      "pivot_px": [
+        775.5,
+        897
+      ],
+      "projected_pixels_per_source_pixel": 0.07069408740359898,
+      "projected_height_metres": 0.662037037037037,
+      "source_density_pixels_per_projected_metre": 1175.160839160839,
+      "material_tint": [
+        0.68,
+        0.73,
+        0.7
+      ],
+      "layer": 400,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.55,
+        0.35
+      ]
+    },
+    {
+      "id": "dock_mooring_cleat_02_17",
+      "asset": "dock_mooring_cleat_02",
+      "world_position": [
+        3.9575030709532832,
+        0.65,
+        -4.0432792124722825
+      ],
+      "source_alpha_bounds_ge128": [
+        160,
+        71,
+        1447,
+        985
+      ],
+      "pivot_px": [
+        803.5,
+        970
+      ],
+      "projected_pixels_per_source_pixel": 0.0787746170678337,
+      "projected_height_metres": 0.8666666666666666,
+      "source_density_pixels_per_projected_metre": 1054.6153846153845,
+      "material_tint": [
+        0.63,
+        0.72,
+        0.72
+      ],
+      "layer": 410,
+      "registration": "manual masonry-cap mounting anchor 0.65m above workyard datum",
+      "contact": [
+        0.6,
+        0.4
+      ]
+    },
+    {
+      "id": "dock_navigation_post_01_18",
+      "asset": "dock_navigation_post_01",
+      "world_position": [
+        3.930790341958522,
+        0.65,
+        -5.431827223752246
+      ],
+      "source_alpha_bounds_ge128": [
+        232,
+        44,
+        719,
+        1469
+      ],
+      "pivot_px": [
+        475.5,
+        1454
+      ],
+      "projected_pixels_per_source_pixel": 0.1824561403508772,
+      "projected_height_metres": 3.1296296296296293,
+      "source_density_pixels_per_projected_metre": 455.32544378698225,
+      "material_tint": [
+        0.58,
+        0.68,
+        0.69
+      ],
+      "layer": 415,
+      "registration": "manual masonry-cap mounting anchor 0.65m above workyard datum",
+      "contact": [
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "id": "dock_broken_jetty_section_01_19",
+      "asset": "dock_broken_jetty_section_01",
+      "world_position": [
+        11.502268368800532,
+        0.0,
+        2.650339033946717
+      ],
+      "source_alpha_bounds_ge128": [
+        165,
+        25,
+        1386,
+        932
+      ],
+      "pivot_px": [
+        775.5,
+        917
+      ],
+      "projected_pixels_per_source_pixel": 0.3528114663726571,
+      "projected_height_metres": 3.8518518518518516,
+      "source_density_pixels_per_projected_metre": 235.47115384615387,
+      "material_tint": [
+        0.45,
+        0.61,
+        0.64
+      ],
+      "layer": 720,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "dock_piled_fishing_nets_02_20",
+      "asset": "dock_piled_fishing_nets_02",
+      "world_position": [
+        11.236339758635639,
+        0.0,
+        0.8523457312109703
+      ],
+      "source_alpha_bounds_ge128": [
+        180,
+        180,
+        1390,
+        818
+      ],
+      "pivot_px": [
+        785.0,
+        803
+      ],
+      "projected_pixels_per_source_pixel": 0.19435736677115986,
+      "projected_height_metres": 1.4925925925925925,
+      "source_density_pixels_per_projected_metre": 427.44416873449137,
+      "material_tint": [
+        0.4,
+        0.57,
+        0.56
+      ],
+      "layer": 730,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "arch_wall_corner_01_21",
+      "asset": "arch_wall_corner_01",
+      "world_position": [
+        -0.8910876708084905,
+        0.0,
+        16.812770998899143
+      ],
+      "source_alpha_bounds_ge128": [
+        49,
+        105,
+        1492,
+        973
+      ],
+      "pivot_px": [
+        770.5,
+        958
+      ],
+      "projected_pixels_per_source_pixel": 0.6566820276497696,
+      "projected_height_metres": 6.861111111111111,
+      "source_density_pixels_per_projected_metre": 126.51012145748989,
+      "material_tint": [
+        0.24,
+        0.35,
+        0.41
+      ],
+      "layer": 900,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        3,
+        1
+      ]
+    },
+    {
+      "id": "service_masonry_chimney_01_22",
+      "asset": "service_masonry_chimney_01",
+      "world_position": [
+        1.7185508112267496,
+        0.0,
+        15.677362454650078
+      ],
+      "source_alpha_bounds_ge128": [
+        190,
+        22,
+        828,
+        1500
+      ],
+      "pivot_px": [
+        509.0,
+        1485
+      ],
+      "projected_pixels_per_source_pixel": 0.5074424898511503,
+      "projected_height_metres": 9.027777777777777,
+      "source_density_pixels_per_projected_metre": 163.71692307692305,
+      "material_tint": [
+        0.31,
+        0.42,
+        0.47
+      ],
+      "layer": 910,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "prop_wooden_handcart_01_23",
+      "asset": "prop_wooden_handcart_01",
+      "world_position": [
+        1.028686102381926,
+        0.0,
+        9.880615437235743
+      ],
+      "source_alpha_bounds_ge128": [
+        80,
+        19,
+        1465,
+        978
+      ],
+      "pivot_px": [
+        772.5,
+        963
+      ],
+      "projected_pixels_per_source_pixel": 0.20855057351407716,
+      "projected_height_metres": 2.4074074074074074,
+      "source_density_pixels_per_projected_metre": 398.3538461538462,
+      "material_tint": [
+        0.47,
+        0.57,
+        0.57
+      ],
+      "layer": 920,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        1.0,
+        0.7
+      ]
+    },
+    {
+      "id": "dock_overturned_rowboat_01_24",
+      "asset": "dock_overturned_rowboat_01",
+      "world_position": [
+        16.478423139213152,
+        0.0,
+        -1.7361237613514326
+      ],
+      "source_alpha_bounds_ge128": [
+        100,
+        81,
+        1505,
+        905
+      ],
+      "pivot_px": [
+        802.5,
+        890
+      ],
+      "projected_pixels_per_source_pixel": 0.5703883495145631,
+      "projected_height_metres": 5.657407407407407,
+      "source_density_pixels_per_projected_metre": 145.64975450081835,
+      "material_tint": [
+        0.24,
+        0.41,
+        0.46
+      ],
+      "layer": 930,
+      "registration": "manual source ground-contact estimate"
+    },
+    {
+      "id": "Quayside_lamp_3m",
+      "asset": "crook_street_lamp_lit",
+      "world_position": [
+        3.5180380779063687,
+        0.65,
+        -1.3335001152346653
+      ],
+      "source_alpha_bounds_ge128": [
+        677,
+        467,
+        970,
+        1285
+      ],
+      "pivot_px": [
+        823.5,
+        1270
+      ],
+      "projected_pixels_per_source_pixel": 0.3117359413202934,
+      "projected_height_metres": 3.069444444444444,
+      "source_density_pixels_per_projected_metre": 266.4977375565611,
+      "material_tint": [
+        1,
+        1,
+        1
+      ],
+      "layer": 450,
+      "registration": "manual masonry-cap mounting anchor 0.65m above workyard datum",
+      "contact": [
+        0.35,
+        0.35
+      ]
+    },
+    {
+      "id": "Work_lantern_0_6m",
+      "asset": "watch_lantern_lit",
+      "world_position": [
+        -1.8658453308934635,
+        0.0,
+        2.2196605159621443
+      ],
+      "source_alpha_bounds_ge128": [
+        641,
+        856,
+        895,
+        1277
+      ],
+      "pivot_px": [
+        768.0,
+        1262
+      ],
+      "projected_pixels_per_source_pixel": 0.11401425178147269,
+      "projected_height_metres": 0.5777777777777777,
+      "source_density_pixels_per_projected_metre": 728.6538461538462,
+      "material_tint": [
+        1,
+        1,
+        1
+      ],
+      "layer": 455,
+      "registration": "manual source ground-contact estimate",
+      "contact": [
+        0.18,
+        0.18
+      ]
+    }
+  ],
+  "ground": {
+    "base": "canal_water_clean_ink_topdown",
+    "base_tile_metres": 12,
+    "base_plane_height_metres": -1.0,
+    "ambient": [
+      0.62,
+      0.78,
+      0.89
+    ],
+    "zones": [
+      {
+        "asset": "10_soot_brick",
+        "world_polygon": [
+          [
+            -18.457230346970967,
+            0.0,
+            -0.41291285669203315
+          ],
+          [
+            0.2680047844505685,
+            0.0,
+            -19.13814798811357
+          ],
+          [
+            5.059252082255629,
+            0.0,
+            -14.346900690308509
+          ],
+          [
+            4.2976932698213135,
+            0.0,
+            -10.342036014744615
+          ],
+          [
+            4.197868383828601,
+            0.0,
+            -5.760552117881943
+          ],
+          [
+            4.09804349783589,
+            0.0,
+            -1.1790682210192698
+          ],
+          [
+            3.998218611843179,
+            0.0,
+            3.4024156758434034
+          ],
+          [
+            3.8983937258504677,
+            0.0,
+            7.983899572706076
+          ],
+          [
+            3.8411261924291686,
+            0.0,
+            12.522826116997336
+          ],
+          [
+            0.7077588442492643,
+            0.0,
+            18.7520763345282
+          ]
+        ],
+        "tile_metres": 4
+      },
+      {
+        "asset": "01_old_flagstone",
+        "world_polygon": [
+          [
+            -6.660115990613199,
+            0.0,
+            2.532272164811918
+          ],
+          [
+            -5.397634728541254,
+            0.0,
+            -6.248781779969506
+          ],
+          [
+            2.3164299215122024,
+            0.0,
+            -5.854581772199014
+          ],
+          [
+            3.2371949022442696,
+            0.0,
+            4.428800774243823
+          ],
+          [
+            -3.8849410057691594,
+            0.0,
+            6.243708906227035
+          ]
+        ],
+        "tile_metres": 4
+      },
+      {
+        "asset": "04_wood_plank_floor",
+        "world_polygon": [
+          [
+            -7.196066778528477,
+            0.0,
+            9.997103660322205
+          ],
+          [
+            -6.904875611305258,
+            0.0,
+            4.840953698404616
+          ],
+          [
+            0.25370668839427896,
+            0.0,
+            4.168983124964237
+          ],
+          [
+            1.2506393065669503,
+            0.0,
+            7.889586307707314
+          ],
+          [
+            -2.222368148667157,
+            0.0,
+            12.247131725613121
+          ],
+          [
+            -4.468741393624062,
+            0.0,
+            12.724429045226621
+          ]
+        ],
+        "tile_metres": 4
+      }
+    ],
+    "light_pools": [
+      {
+        "world": [
+          -1.4689376904179625,
+          0.0,
+          -0.44756122870406073
+        ],
+        "radius": 6.5,
+        "rgb": [
+          0.36,
+          0.13,
+          0.015
+        ]
+      },
+      {
+        "world": [
+          -1.9873743091944176,
+          0.0,
+          5.672949153659847
+        ],
+        "radius": 4,
+        "rgb": [
+          0.18,
+          0.12,
+          0.04
+        ]
+      },
+      {
+        "world": [
+          4.4585368651532615,
+          0.0,
+          -0.47811603313059725
+        ],
+        "radius": 3,
+        "rgb": [
+          0.35,
+          0.13,
+          0.015
+        ]
+      }
+    ],
+    "shadow_polygons": [
+      {
+        "world_polygon": [
+          [
+            -11.856586538176645,
+            0.0,
+            4.485436849245786
+          ],
+          [
+            -8.111539511892337,
+            0.0,
+            0.740389822961478
+          ],
+          [
+            1.167162028458322,
+            0.0,
+            3.550373772457427
+          ],
+          [
+            0.8767895747521988,
+            0.0,
+            6.49436011417866
+          ],
+          [
+            -6.107089780810576,
+            0.0,
+            10.234933606611856
+          ]
+        ],
+        "multiplier": 0.52,
+        "softness_px": 3
+      },
+      {
+        "world_polygon": [
+          [
+            3.1158531790410806,
+            0.0,
+            -4.884929104384486
+          ],
+          [
+            3.4807558431536116,
+            0.0,
+            -9.967367569412765
+          ],
+          [
+            7.944584955675081,
+            0.0,
+            -9.418814893461251
+          ],
+          [
+            8.880407964994678,
+            0.0,
+            6.156737400424275
+          ],
+          [
+            5.794290876863038,
+            0.0,
+            7.3263555694338915
+          ]
+        ],
+        "multiplier": 0.55,
+        "softness_px": 3
+      },
+      {
+        "world_polygon": [
+          [
+            -12.92477451268733,
+            0.0,
+            -5.945368690975669
+          ],
+          [
+            -0.157568741263554,
+            0.0,
+            -18.71257446239944
+          ],
+          [
+            5.297082028545281,
+            0.0,
+            -13.257923692590605
+          ],
+          [
+            1.9873743091944176,
+            0.0,
+            -5.672949153659847
+          ],
+          [
+            -3.8093727082199145,
+            0.0,
+            -6.36281386250467
+          ]
+        ],
+        "multiplier": 0.44,
+        "softness_px": 4
+      }
+    ]
+  },
+  "limitations": [
+    "Exact mathematical projection of world ground and billboard anchors. Generated source drawings remain approximately isometric.",
+    "Hand-authored scale, root pivots and material tints. Card layer order is presentation-only, not runtime sorting.",
+    "No collision, navigation, interior occlusion, engine integration or runtime performance validated.",
+    "Canonical C/RUST hero is absent; a 1.8m virtual ruler is checked numerically only.",
+    "Render shading and geometric contact pools are scene treatment. Source PNG bytes are copied without modification."
+  ],
+  "art_direction": "Connected canal-side smithy workyard: architecture and furnace establish enclosure, small coherent tool cluster, clear quay route, continuous retaining wall, illustrated dark water and cropped foreground structures."
+}

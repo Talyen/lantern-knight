@@ -1,0 +1,111 @@
+{
+  "name": "forge_bellows_bench",
+  "scene": "ruined_craftsman_forge_pack",
+  "authored_cels": 8,
+  "native_canvas": [
+    512,
+    512
+  ],
+  "runtime_canvas": [
+    256,
+    256
+  ],
+  "registration_translation_only": [
+    [
+      0,
+      0,
+      1.0
+    ],
+    [
+      -2,
+      -4,
+      0.994145956258639
+    ],
+    [
+      -9,
+      -5,
+      0.9846271323573575
+    ],
+    [
+      1,
+      -6,
+      0.9797962425679161
+    ],
+    [
+      -9,
+      5,
+      0.9842571356410164
+    ],
+    [
+      -1,
+      4,
+      0.9900932268587084
+    ],
+    [
+      -3,
+      4,
+      0.9878150379009023
+    ],
+    [
+      6,
+      3,
+      0.9867863729981539
+    ]
+  ],
+  "states": [
+    "cold_ready",
+    "lever_descending",
+    "half_compressed",
+    "full_compression",
+    "coals_ignited",
+    "lever_releasing",
+    "reexpanding",
+    "banked_ready"
+  ],
+  "frame_duration_ms": [
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140,
+    140
+  ],
+  "start_hold": "cold_ready",
+  "end_hold": "banked_ready",
+  "ground_anchor_native": [
+    256,
+    425
+  ],
+  "contact_anchor_native": [
+    100,
+    375
+  ],
+  "completion_frame": 7,
+  "scene_placement": {
+    "canvas_width": 340,
+    "canvas_top_left": [
+      1730,
+      1348
+    ],
+    "ground_anchor": [
+      1900.0,
+      1630.2265625
+    ]
+  },
+  "gameplay_suggestion": "Activate crafting/repair station",
+  "implementation": "Art and metadata only; no gameplay integration",
+  "source": "Built-in imagegen; requested highest native quality and preferred model, tool did not expose model selection; source 1792x896; seven/eight authored cels, no generated interpolation",
+  "qa_status": "Root visually approved",
+  "ground_anchor_runtime": [
+    128.0,
+    212.5
+  ],
+  "contact_anchor_runtime": [
+    50.0,
+    187.5
+  ],
+  "runtime_derivation": "448px source cells translated onto 512px transparent canvas; downsampled to 256px runtime, no upscaling of authored detail",
+  "registration_note": "Stationary lower supports/hearth translation registration; source hand-drawn per-cel contour variation remains."
+}

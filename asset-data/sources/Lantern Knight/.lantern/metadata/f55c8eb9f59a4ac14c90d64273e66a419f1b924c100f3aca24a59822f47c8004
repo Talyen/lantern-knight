@@ -1,0 +1,28 @@
+Production hand-painted dark fantasy game sprite sheet of one FUNERAL ASH PALM SLAM. Exact format: landscape PNG 1536x1024, true transparent alpha, 24 evenly-spaced square animation cels in a strict SIX-COLUMN by FOUR-ROW grid. Each cel256x256. No text, numbers, grid lines, background, checkerboard or scene. Paint each cel SMALL inside its own central170x170 safe zone, at least40 pixels of empty transparent gutter on ALL sides. Same orthographic three-quarter camera, scale and registration every cel. Dry charcoal soot and smoky faded violet ash form a broad human-like palm with FIVE thick soft blunt curling fingers. Smoky charcoal material, hand shape made from ash; NEVER stone, bones, gnarled claws, long talons or solid monster flesh.
+One fixed thin powder oval centered at local normalized(.50,.72), width.34,height.08 in cells3–15. It never moves or changes size. Palm descends straight down and contacts its center ONCE. Palm x-center always.50. No character or body.
+Exactly these 24 poses, left to right then next row:
+1 three tiny ash grains, nearly empty.
+2 sparse grains curl together.
+3 small soot wisps gather above the faint fixed oval.
+4 five small rounded finger-curls begin forming from vapor, most hand missing.
+5 five slightly longer curling ash fingers, incomplete palm fragments.
+6 fingers and disconnected palm wisps gather upward.
+7 incomplete palm with translucent holes and fingers.
+8 heavier rounded smoky palm with five fingers softly curling.
+9 recognizable complete ASH hand, fingers curling inward.
+10 hand rises slightly, palm thickens.
+11 hand rises higher over target, wisps drawn inward.
+12 fingers curl tighter, palm cocks downward.
+13 final anticipation high above target, compact curled fingers.
+14 final loaded pose, palm down, fingers opening slightly.
+15 fast SINGLE straight downward movement, with short vertical soot smear above, palm just short of target and no contact.
+16 HARD SINGLE PALM CONTACT in the SAME oval center: palm crushed flat low down, five blunt ash fingers splayed, one short low radial powder fan.
+17 hand fully crumbles, low broken ash curls start moving outwards.
+18 no intact hand, wider low ash fragments moving outward.
+19 fewer and smaller ash curls spread farther outward.
+20 thin scattered wisps and small ash grains, less material.
+21 several tiny separated ash flecks.
+22 three faint flecks.
+23 one tiny faint fleck.
+24 EMPTY transparent.
+All14 windup cels must evolve formation and anticipation. No complete hand suddenly appearing. Only contact is row3,column4. Target marker disappears after contact. No magic glow, aura, sheet-wide haze, terrain, actor, extra targets, second strike, labels, cropping or painted background. Keep every effect strictly inside its own cell with generous transparent gaps.

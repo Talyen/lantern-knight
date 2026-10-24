@@ -1,0 +1,38 @@
+LANTERN — ADDITIVE CANTOR CAMERA COMPARISON v02
+2026-10-07 | Static preview only
+
+This compares the same current hero ready frame with the original Cantor motion concept and the new camera-guided candidate. v01 images/ZIP and all original assets remain unchanged. It does not imply that the user has approved this hero frame or the candidate.
+
+FILES
+- Lantern_Cantor_Camera_Gameplay_v02.png: 1920x1080, view at 100% for gameplay raster size.
+- Lantern_Cantor_Camera_Close_2x_v02.png: 2x magnification of those preview pixels, adding each spell clip's neutral pose for a fair body-ruler comparison. This is not a game zoom change.
+- review_manifest_v02.json: source paths, hashes, anchors and all scale factors.
+
+READ THIS COMPARISON
+The candidate has more visible crown and shoulder top planes, a materially stronger elevated-camera read beside the hero. The hover is compact and angular; its spell is more slender and flowing. The original's broad, star-like spell release is more explosive. These are style tradeoffs, not an unconditional upgrade. Original concept: CAMERA UNRESOLVED. Candidate: CAMERA-GUIDED TEST / approximate painted projection.
+
+The candidate was made using exact-camera ghost proxies and material-only identity crops rather than the full frontal portrait. Exact35.2643897-degree elevation / 45-degree azimuth geometry applies to those guides, not a numerical certification of the painted character. Main floor axes are +/-30 degrees from horizontal for that camera reference.
+
+SCALING AND ANCHORS
+The current hero uses the same 125 px hair-to-sole ruler as v01, source y = 42..609, scale 0.220459; sword excluded. Both Cantors are assigned 138 px projected neutral hood/crown-to-hem height excluding the halo. This intentionally compares silhouettes at matched screen height; it is not physical height, final PPU, an engine import prescription or camera calibration.
+Original hover: y126..578, scale138/452 = 0.305310.
+Original spell: y115..550, scale138/435 = 0.317241.
+Candidate hover: y210..530, scale138/320 = 0.431250.
+Candidate spell: y190..560, scale138/370 = 0.372973.
+Each multiplier is chosen ONCE from that clip's neutral body and then left unchanged for its release frame. No action silhouette/effect fitting, mirroring, rotation, warp, or per-frame centering. Residual shape/pose differences remain visible.
+
+Source anchors are retained: original [328, 595], candidate [320, 608], hero [301, 556]. The candidate's anchor is provisional, not a calibrated world root. Differences between feet/hem and the cross are not comparable physical hover heights. Do not infer gameplay ground clearance from this static sheet.
+
+FRAME SELECTION
+Hero: ready_world_positive_X_DR_native, repeated unchanged as the reference.
+Original and candidate hover: drift_veil_breath_01.
+Original and candidate spell neutral: resonant_spell_01.
+Original and candidate spell release: resonant_spell_04.
+Final candidate spell exists and was visually reviewed; the comparison does not substitute an old-camera spell for it.
+
+PRESERVATION
+Candidate hover uses the accepted native 640 px frames: fixed grid cropping, uniform 64 px padding, and one documented common [0, +24] layout correction for lower-row cels 4-6. Spell uses fixed grid crops and uniform 64 px padding without an extra row shift. This compositor adds no registration correction. All input hashes and the complete v01 ZIP hash were verified unchanged after rendering.
+
+The candidate's warm low-alpha glow is native and remains visible. No glow, shadows, lighting, alpha cleanup, new art or source changes were added. Only traditional preview resampling and background compositing were used. The 2x view uses nearest-neighbor magnification of actual gameplay-size preview pixels.
+
+This is not a complete animation/playback audit, engine test, calibrated pivot/root-motion setup, physical scale measurement, material/lighting integration check, collision test or performance validation. Animation packs remain separate; no animation bytes are duplicated here.

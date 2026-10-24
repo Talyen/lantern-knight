@@ -1,0 +1,232 @@
+{
+  "clip": "spawn",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": false,
+  "durations_ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+  ],
+  "total_ms": 1440,
+  "atlas": "atlases/spawn_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/spawn/spawn_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        141,
+        237,
+        585,
+        550
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/spawn/spawn_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        95,
+        247,
+        586,
+        550
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/spawn/spawn_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        91,
+        236,
+        580,
+        550
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/spawn/spawn_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        108,
+        241,
+        582,
+        550
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/spawn/spawn_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        86,
+        229,
+        589,
+        550
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/spawn/spawn_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        105,
+        236,
+        581,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/spawn/spawn_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        79,
+        218,
+        606,
+        550
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/spawn/spawn_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        87,
+        217,
+        605,
+        550
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/spawn/spawn_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        98,
+        221,
+        605,
+        550
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/spawn/spawn_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        91,
+        216,
+        604,
+        550
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/spawn/spawn_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        107,
+        227,
+        595,
+        550
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/spawn/spawn_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    }
+  ],
+  "events": []
+}

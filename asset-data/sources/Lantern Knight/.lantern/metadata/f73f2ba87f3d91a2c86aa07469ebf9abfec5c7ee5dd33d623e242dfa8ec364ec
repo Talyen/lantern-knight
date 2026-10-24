@@ -1,0 +1,15 @@
+{
+  "id": "lantern_alch_prop_04_ceramic_reagent_jar",
+  "name": "Ceramic reagent jar",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/04_ceramic_reagent_jar.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Octagonal cylinder, cube knob and blank flat faces are the clearest low-poly failure in all item packs.",
+  "pack": "Lantern - Alchemy Tabletop Props 07",
+  "folder": "alchemy_tabletop_07",
+  "destination": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/04_ceramic_reagent_jar.png",
+  "prompt": "Create a NEW image from scratch. The supplied image is STYLE REFERENCE ONLY: use its clean hand-inked variable contour and large flat angular shadow masses, not its person or any other content. Subject: one squat hand-thrown CERAMIC REAGENT JAR, alchemist workshop game prop, fully opaque off-white ceramic with a charcoal black bottom half and modest oxblood sealing cloth clamped under a low uneven lid. A broad black painted alchemist eye-symbol on the front, no lettering. A single chipped lip and curved ear handle give memorable asymmetric silhouette. No cube knob, no geometric polygon faces. View: orthographic-like isometric 35.264-degree elevation, 45-degree azimuth, clearly showing top and two sides. Render as polished CLEAN INK graphic dark fantasy illustration: solid flat colors, assertive tapered black contours, bold connected black shadow under lid and on rear side, just two gray fill tones. Very sparse deliberate edge strokes. Smooth untextured color fills, NO stippling, NO grain, NO scratches covering surface, NO hatch shading, NO painterly brush texture, NO gradient, NO specular shine, NO 3D render. Entire subject centered and occupying ONLY 65% of square canvas width and height, generous empty transparent padding on all sides. Genuine transparent alpha background, no white silhouette or halo, no cast shadow, no ground plane, no text or labels. One isolated jar only.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-07da8012-2b13-4f1f-b453-fefc12018256.png",
+  "review": "Stable supports and clamp contacts, differentiated ceramic/glass/copper/wood, clear pigment powder heaps and specimen-case vent. Glass reflections are intentional material cues. Passed large overview and 64px light/dark proxy; native alpha preserved."
+}

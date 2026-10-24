@@ -1,0 +1,133 @@
+{
+  "revision": "v02 original SK03 identity restoration",
+  "selected": [
+    "source/unified_native.png"
+  ],
+  "selected_source_id": "oracle_sk03_unified_v02",
+  "source_package": "Lantern_Candlebone_Oracle_Animations_Source_v02.zip",
+  "clips": {
+    "hover": {
+      "source_id": "oracle_sk03_unified_v02",
+      "source": "source/unified_native.png",
+      "drawing_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "runtime_frame_files": [
+        "frames/hover/hover_01.png",
+        "frames/hover/hover_02.png",
+        "frames/hover/hover_03.png",
+        "frames/hover/hover_04.png",
+        "frames/hover/hover_05.png",
+        "frames/hover/hover_06.png"
+      ]
+    },
+    "spell": {
+      "source_id": "oracle_sk03_unified_v02",
+      "source": "source/unified_native.png",
+      "drawing_indices": [
+        1,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "runtime_frame_files": [
+        "frames/spell/spell_01.png",
+        "frames/spell/spell_02.png",
+        "frames/spell/spell_03.png",
+        "frames/spell/spell_04.png",
+        "frames/spell/spell_05.png",
+        "frames/spell/spell_06.png",
+        "frames/spell/spell_07.png",
+        "frames/spell/spell_08.png"
+      ]
+    }
+  },
+  "all_source_pngs": {
+    "source/unified_native.png": {
+      "sha256": "298ad13d8967125dcba49c35eecb78e11f29128e62b247d9a564268acefd6663",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "selected": true
+    },
+    "provenance/hover_native.png": {
+      "sha256": "1db21d59e54fd27c130a51b3157067caafc1353f95bc623eb6d1b6a4042efb39",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "selected": false
+    },
+    "provenance/previous_v01/source/hover_loop_camera_retry_native.png": {
+      "sha256": "7b78bb1add095dc32107776ee2b5b82da2306351111317bec1be203beef14f1f",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "selected": false
+    },
+    "provenance/previous_v01/source/hover_loop_native.png": {
+      "sha256": "4843d093cf03d254e20875bb1d38ffd850a9f2518a04f9f280209d0dab8c3b86",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "selected": false
+    },
+    "provenance/previous_v01/source/orb_ignition_release_isolation_retry_native.png": {
+      "sha256": "4c02c5b4ad8604eebb266ae42ea8dab3a691a9eeb5fd49495c72106f154ce77a",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "selected": false
+    },
+    "provenance/previous_v01/source/orb_ignition_release_native.png": {
+      "sha256": "ab5227767a96cc35a8e148de1757718695214c610779eeacde50f801347959bb",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "selected": false
+    },
+    "provenance/previous_v01/source/reference/SK03_approved_identity.png": {
+      "sha256": "d9fa25ea24f6c69560eac578e946c5224735e8c931518650a527cd2e5f49391d",
+      "dimensions": [
+        602,
+        1633
+      ],
+      "selected": false
+    },
+    "provenance/previous_v01/source/reference/camera_upright_box_ground_diamond.png": {
+      "sha256": "4050e8a96923b83fe646b17d306745d44c9f5f502c08f95c4c5be32da25aad91",
+      "dimensions": [
+        1280,
+        900
+      ],
+      "selected": false
+    },
+    "provenance/spell_native.png": {
+      "sha256": "0feab9c61e815e3c1878004d11c9b7fe68e6a3d4b7810cf8b2e727919415df9a",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "selected": false
+    }
+  },
+  "rejected_studies": {
+    "provenance/hover_native.png": "Independent v02 hover study; superseded by unified sheet for scale, camera and handoff coherence.",
+    "provenance/spell_native.png": "Independent v02 spell study; rightmost upper drawing clips fingertips; not selected.",
+    "provenance/previous_v01/source/": "All previous v01 source studies retained only for provenance; none selected for v02 runtime."
+  }
+}

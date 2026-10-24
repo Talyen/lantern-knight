@@ -1,0 +1,130 @@
+{
+  "title": "Lantern five-pack animation index",
+  "created_utc": "2026-10-07",
+  "drive_folder": "https://drive.google.com/drive/folders/1l4rY31exRTCiAoenNKW2EqiddSBW5PLe",
+  "drive_access": "Private folder; existing authorized account required. This review does not change sharing.",
+  "relative_path_base": "lantern_enemy_animations_20261007/",
+  "note": "Index only. Animation ZIP bytes are not duplicated in the review ZIP. SHA-256 values are from sealed local archives.",
+  "packs": [
+    {
+      "name": "Shroud Crawler",
+      "movement_unique_drawings": 6,
+      "attack_unique_drawings": 6,
+      "clips": "cocoon_scoot / predatory_pounce",
+      "facing": "One facing; world +X / screen-down-right intent, approximate art projection.",
+      "main_caveat": "Approximate projection; source pose placement and pounce displacement are retained.",
+      "archives": [
+        {
+          "kind": "runtime",
+          "relative_path": "shroud_crawler/shroud_crawler_runtime_native.zip",
+          "filename": "shroud_crawler_runtime_native.zip",
+          "bytes": 7794855,
+          "sha256": "b3c808ac1e8b64b992a1b6ae923c3a7331f1e0da39a36545b06e222925395523"
+        },
+        {
+          "kind": "source",
+          "relative_path": "shroud_crawler/shroud_crawler_source_native.zip",
+          "filename": "shroud_crawler_source_native.zip",
+          "bytes": 7504493,
+          "sha256": "9cea21d7fde12b27ff7ba202e5cd8a0d7ebe61286eb4c24afbb3bb9447816cbb"
+        }
+      ]
+    },
+    {
+      "name": "Bellbound Monk",
+      "movement_unique_drawings": 6,
+      "attack_unique_drawings": 8,
+      "clips": "locomotion / cast",
+      "facing": "One facing; world +X / screen-down-right intent, approximate art projection.",
+      "main_caveat": "Approximate projection; source pose/proportion variation and differing clip silhouettes remain.",
+      "archives": [
+        {
+          "kind": "runtime",
+          "relative_path": "bellbound_monk/bellbound_monk_runtime.zip",
+          "filename": "bellbound_monk_runtime.zip",
+          "bytes": 8190760,
+          "sha256": "7e9b5eb4a5585e0541fcda99a12ece3b732535518e5587ef790a8ec27bb5a49a"
+        },
+        {
+          "kind": "source",
+          "relative_path": "bellbound_monk/bellbound_monk_source.zip",
+          "filename": "bellbound_monk_source.zip",
+          "bytes": 4184998,
+          "sha256": "9da84a2f6549038f5b59e67ae2da4575d3e9082360ca118b87c42ba01a7dfc7c"
+        }
+      ]
+    },
+    {
+      "name": "Candlebone Oracle",
+      "movement_unique_drawings": 6,
+      "attack_unique_drawings": 8,
+      "clips": "hover / spell",
+      "facing": "One facing; world +X / screen-down-right intent, approximate art projection.",
+      "main_caveat": "Approximate camera; native sampling differs between clips; baked spell effects.",
+      "archives": [
+        {
+          "kind": "runtime",
+          "relative_path": "candlebone_oracle/delivery/Lantern_Candlebone_Oracle_Animations_Runtime_v01.zip",
+          "filename": "Lantern_Candlebone_Oracle_Animations_Runtime_v01.zip",
+          "bytes": 5048929,
+          "sha256": "084b754985c5e5696b238ed26a5cf52df2c8cd91c83772e0b333ee56d713d299"
+        },
+        {
+          "kind": "source",
+          "relative_path": "candlebone_oracle/delivery/Lantern_Candlebone_Oracle_Animations_Source_v01.zip",
+          "filename": "Lantern_Candlebone_Oracle_Animations_Source_v01.zip",
+          "bytes": 6017393,
+          "sha256": "5f38e44af73d8ebdd6f2c35661278cb792ae82ef04e5925770af0bb01b2da2d1"
+        }
+      ]
+    },
+    {
+      "name": "Halo-Veil Cantor",
+      "movement_unique_drawings": 6,
+      "attack_unique_drawings": 6,
+      "clips": "drift_veil_breath / resonant_spell",
+      "facing": "One facing; world +X / screen-down-right intent, approximate art projection.",
+      "main_caveat": "CAMERA UNRESOLVED / MOTION CONCEPT. Not gameplay-view-ready.",
+      "archives": [
+        {
+          "kind": "runtime",
+          "relative_path": "halo_veil_cantor/halo_veil_cantor_runtime_concept.zip",
+          "filename": "halo_veil_cantor_runtime_concept.zip",
+          "bytes": 5897067,
+          "sha256": "4c443f095de70a9a24905d2ab0a000d989214356ee59874c952a49f900975a56"
+        },
+        {
+          "kind": "source",
+          "relative_path": "halo_veil_cantor/halo_veil_cantor_source.zip",
+          "filename": "halo_veil_cantor_source.zip",
+          "bytes": 4096075,
+          "sha256": "c5db0c99619133cc35f0af68d09419f016cb2abd321bca27427245eb5f13efeb"
+        }
+      ]
+    },
+    {
+      "name": "Waxmask Acolyte",
+      "movement_unique_drawings": 6,
+      "attack_unique_drawings": 8,
+      "clips": "glide / ritual_attack",
+      "facing": "One facing; world +X / screen-down-right intent, approximate art projection.",
+      "main_caveat": "Portrait-leaning approximate camera; source registration and body sampling drift between clips.",
+      "archives": [
+        {
+          "kind": "runtime",
+          "relative_path": "waxmask_acolyte/CT01_waxmask_acolyte_runtime.zip",
+          "filename": "CT01_waxmask_acolyte_runtime.zip",
+          "bytes": 4629037,
+          "sha256": "4ae5d72ca31c812c59c860f7354f58e6ad6b4f354fd52c91b9dc2dda429a1d35"
+        },
+        {
+          "kind": "source",
+          "relative_path": "waxmask_acolyte/CT01_waxmask_acolyte_source.zip",
+          "filename": "CT01_waxmask_acolyte_source.zip",
+          "bytes": 5413853,
+          "sha256": "2134b4057aa32504caba2e693bcc12a41200aa78c2fc504edef6c76197466188"
+        }
+      ]
+    }
+  ]
+}

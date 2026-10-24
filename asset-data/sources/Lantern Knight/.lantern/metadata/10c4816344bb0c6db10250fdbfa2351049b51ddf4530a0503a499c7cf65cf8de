@@ -1,0 +1,18 @@
+{
+  "source": "/workspace/shared/lantern_biome_floor_samples_oct09/graveyard_crypt/crypt_native.png",
+  "source_box": [
+    720,
+    350,
+    1104,
+    734
+  ],
+  "native_source_size": [
+    1536,
+    1024
+  ],
+  "crop_size": [
+    384,
+    384
+  ],
+  "purpose": "AI4x cleanup reduced back to native384x384 for style comparison"
+}

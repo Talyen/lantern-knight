@@ -1,0 +1,6 @@
+Quest wax seal — full cel animation v1
+
+24 visible generated cels plus a clear terminal frame.
+512x512 straight-alpha PNG canvas, pivot (256,400). Native generated detail retained without upscaling. See timing.json for exact frame durations, playback mode, event cues and atlas cells. Frames are chronological. Atlas uses six columns.
+
+Art: approved source cels plus newly generated transitional drawings. No procedural particle stand-in, opacity tween or still-image scale animation. Original sheets and generation prompt included. Clean-alpha packing removes only near-zero background alpha; anti-aliased artwork remains. No engine project integration.

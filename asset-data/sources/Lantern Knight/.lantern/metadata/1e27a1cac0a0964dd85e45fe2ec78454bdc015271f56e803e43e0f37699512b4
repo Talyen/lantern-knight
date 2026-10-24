@@ -1,0 +1,142 @@
+{
+  "status": "HUMAN_AND_IDENTITY_QA_PASSED_TRADITIONAL_CORRECTION",
+  "source_dimensions": [
+    1199,
+    1312
+  ],
+  "uniform_padding_policy": "One transparent right column then16px padding per native nominal600x656cell. No scaling. Gutter-aware alpha ownership preserves two-pixel top hair fringe.",
+  "native_drawings": 4,
+  "fixed_camera": "contracts/camera_contract.json",
+  "operations": [
+    "Wrong near-right coat patch removed by classical harmonic interpolation of adjacent rust cloth inside traced mask.",
+    "Wrong exposed rearUL sword removed; correct down-left axis lies behind coat. Far hilt overlap hidden by tiny drawn rust plane.",
+    "No humanoid pixel transformations; no mirroring or resizing."
+  ],
+  "exports": [
+    {
+      "world": "world_positive_X",
+      "screen": "DR",
+      "path": "ready_world_positive_X_DR_native.png",
+      "native_cell": [
+        632,
+        688
+      ],
+      "padding_each_side": 16,
+      "native_nominal_cell": [
+        600,
+        656
+      ],
+      "authored_pivot_xy": [
+        301.0,
+        556.0
+      ],
+      "pivot_limit": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+      "pixels_per_meter": 350,
+      "native_atlas_cell_xy": [
+        0,
+        0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.4762658227848101,
+        0.19186046511627908
+      ]
+    },
+    {
+      "world": "world_positive_Z",
+      "screen": "DL",
+      "path": "ready_world_positive_Z_DL_native.png",
+      "native_cell": [
+        632,
+        688
+      ],
+      "padding_each_side": 16,
+      "native_nominal_cell": [
+        600,
+        656
+      ],
+      "authored_pivot_xy": [
+        301.0,
+        556.0
+      ],
+      "pivot_limit": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "sha256": "13fcf64d6fcbef5b9b576f7f7129f9d93cc3ec44b004385a90ab2664d44a3c6c",
+      "pixels_per_meter": 350,
+      "native_atlas_cell_xy": [
+        1,
+        0
+      ],
+      "pivot_normalized_bottom_left": [
+        0.4762658227848101,
+        0.19186046511627908
+      ]
+    },
+    {
+      "world": "world_negative_X",
+      "screen": "UL",
+      "path": "ready_world_negative_X_UL_native.png",
+      "native_cell": [
+        632,
+        688
+      ],
+      "padding_each_side": 16,
+      "native_nominal_cell": [
+        600,
+        656
+      ],
+      "authored_pivot_xy": [
+        301.0,
+        556.0
+      ],
+      "pivot_limit": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "sha256": "1af57d5b688327a20bdf97317694750ff54fe1bdbee1a5f31f91bdf667462beb",
+      "pixels_per_meter": 350,
+      "native_atlas_cell_xy": [
+        0,
+        1
+      ],
+      "pivot_normalized_bottom_left": [
+        0.4762658227848101,
+        0.19186046511627908
+      ]
+    },
+    {
+      "world": "world_negative_Z",
+      "screen": "UR",
+      "path": "ready_world_negative_Z_UR_native.png",
+      "native_cell": [
+        632,
+        688
+      ],
+      "padding_each_side": 16,
+      "native_nominal_cell": [
+        600,
+        656
+      ],
+      "authored_pivot_xy": [
+        301.0,
+        556.0
+      ],
+      "pivot_limit": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "sha256": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4",
+      "pixels_per_meter": 350,
+      "native_atlas_cell_xy": [
+        1,
+        1
+      ],
+      "pivot_normalized_bottom_left": [
+        0.4762658227848101,
+        0.19186046511627908
+      ]
+    }
+  ],
+  "runtime_ppu": 350,
+  "registration_limit": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+  "target_prop_contract": "contracts/shared_prop_contract.json",
+  "native_atlas": "ready_four_directions_native_atlas.png",
+  "native_atlas_grid": [
+    2,
+    2
+  ],
+  "runtime_claim": "Reviewed ready-state artwork; approximate integration, not metric-calibrated projection."
+}

@@ -1,0 +1,6 @@
+lantern_UL world-X screen up-left
+8 native drawings. No image resampling, mirroring, mesh warp, or per-frame fit.
+Native524x524 frames use original444px grid plus40px uniform padding on every side.
+Fixed estimated pivot262,460. Approximate per-clip PPU:238.953.
+Read manifest_clean_native.json for limits, projection caveats, timing and density evidence.
+Human-anatomy and costume still QA passed; final parent ordered-motion/transition approval remains.

@@ -1,0 +1,273 @@
+{
+  "frame_size": [
+    1024,
+    1024
+  ],
+  "source_native_size": [
+    1329,
+    1183
+  ],
+  "canvas_before_downsample": [
+    1536,
+    1536
+  ],
+  "source_offset": [
+    103,
+    220
+  ],
+  "duration_seconds": 2.3333333333333335,
+  "fps": 8.571428571428571,
+  "hold_ticks_60hz": 7,
+  "pivot_normalized": [
+    0.5,
+    0.875
+  ],
+  "composite_order": [
+    "illumination_frames",
+    "rear_interior_frames",
+    "front_interior_frames"
+  ],
+  "layer_note": "Interior layers include authored lit material fragments to retain integrated occlusion; not generic pure-flame masks. Illumination frames retain fixed base geometry. Unlit is separate off-state.",
+  "frames": [
+    {
+      "index": 0,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        4,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 0
+    },
+    {
+      "index": 1,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        1036,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 1
+    },
+    {
+      "index": 2,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        2068,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 2
+    },
+    {
+      "index": 3,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        4,
+        1036,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 3
+    },
+    {
+      "index": 4,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        1036,
+        1036,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 4
+    },
+    {
+      "index": 5,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        2068,
+        1036,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 9
+    },
+    {
+      "index": 6,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        4,
+        2068,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 10
+    },
+    {
+      "index": 7,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        1036,
+        2068,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 11
+    },
+    {
+      "index": 8,
+      "atlas": "atlases/atlas_00.png",
+      "rect": [
+        2068,
+        2068,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 12
+    },
+    {
+      "index": 9,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        4,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 13
+    },
+    {
+      "index": 10,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        1036,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 14
+    },
+    {
+      "index": 11,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        2068,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 15
+    },
+    {
+      "index": 12,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        4,
+        1036,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 16
+    },
+    {
+      "index": 13,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        1036,
+        1036,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 17
+    },
+    {
+      "index": 14,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        2068,
+        1036,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 18
+    },
+    {
+      "index": 15,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        4,
+        2068,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 19
+    },
+    {
+      "index": 16,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        1036,
+        2068,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 20
+    },
+    {
+      "index": 17,
+      "atlas": "atlases/atlas_01.png",
+      "rect": [
+        2068,
+        2068,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 21
+    },
+    {
+      "index": 18,
+      "atlas": "atlases/atlas_02.png",
+      "rect": [
+        4,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 22
+    },
+    {
+      "index": 19,
+      "atlas": "atlases/atlas_02.png",
+      "rect": [
+        1036,
+        4,
+        1024,
+        1024
+      ],
+      "hold_ticks": 7,
+      "source_cel": 23
+    }
+  ]
+}

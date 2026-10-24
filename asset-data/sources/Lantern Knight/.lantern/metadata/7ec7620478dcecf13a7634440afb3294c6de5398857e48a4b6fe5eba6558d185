@@ -1,0 +1,291 @@
+{
+  "name": "Mossfang Scavenger",
+  "identity_id": "GB01",
+  "original_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 300,
+  "baseline_reference": "baseline_animation.json; baseline_DR_move_00.png",
+  "facing": "DR / screen lower-right",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Hand-drawn approximation, not calibrated geometry"
+  },
+  "atlas_gutter_pixels_per_side": 4,
+  "offsets": "All registration is baked. No runtime offset. World actor position independent.",
+  "clips": {
+    "hit": {
+      "loop": false,
+      "frames": [
+        {
+          "file": "hit_00.png",
+          "hold_ticks_60hz": 3,
+          "source_box": [
+            51,
+            22,
+            439,
+            537
+          ],
+          "baked_translation": [
+            131,
+            37
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_01.png",
+          "hold_ticks_60hz": 4,
+          "source_box": [
+            517,
+            12,
+            960,
+            537
+          ],
+          "baked_translation": [
+            104,
+            27
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_02.png",
+          "hold_ticks_60hz": 4,
+          "source_box": [
+            1039,
+            87,
+            1407,
+            537
+          ],
+          "baked_translation": [
+            141,
+            101
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_03.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            84,
+            573,
+            479,
+            1074
+          ],
+          "baked_translation": [
+            127,
+            51
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_04.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            542,
+            569,
+            918,
+            1073
+          ],
+          "baked_translation": [
+            137,
+            48
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "hit_05.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            1004,
+            569,
+            1403,
+            1074
+          ],
+          "baked_translation": [
+            125,
+            47
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ],
+      "end": "return to compatible baseline rest",
+      "events": [
+        {
+          "frame_index": 1,
+          "name": "recoil_visual",
+          "visual_only": true
+        }
+      ]
+    },
+    "defeat": {
+      "loop": false,
+      "frames": [
+        {
+          "file": "defeat_00.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            79,
+            31,
+            484,
+            556
+          ],
+          "baked_translation": [
+            126,
+            37
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_01.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            506,
+            13,
+            962,
+            556
+          ],
+          "baked_translation": [
+            102,
+            20
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_02.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            1036,
+            82,
+            1425,
+            556
+          ],
+          "baked_translation": [
+            134,
+            86
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_03.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            94,
+            621,
+            500,
+            1056
+          ],
+          "baked_translation": [
+            126,
+            123
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_04.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            577,
+            667,
+            972,
+            1030
+          ],
+          "baked_translation": [
+            131,
+            192
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "defeat_05.png",
+          "hold_ticks_60hz": 18,
+          "source_box": [
+            1044,
+            706,
+            1410,
+            1027
+          ],
+          "baked_translation": [
+            145,
+            233
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ],
+      "end": "hold final cel indefinitely until state transition",
+      "events": [
+        {
+          "frame_index": 5,
+          "name": "inert_visual",
+          "visual_only": true
+        }
+      ]
+    }
+  }
+}

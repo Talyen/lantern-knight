@@ -1,0 +1,43 @@
+# Bellbound Monk visual review
+
+## Identity and camera
+
+Original CT02 is a stout ochre-robed cultist with charcoal cowl/cuffs, blank oval brass mask, two dark gloves stacked on a single bell handle and chunky shoes. All14 animation drawings keep this count and silhouette identity. Hood/shoulder upper planes are more prominent than in the static portrait. Heading stays three-quarter screen-down-right. Exact camera values remain an unverified painted approximation.
+
+## Locomotion by drawing
+
+1. Low compress, bell tilted right. Two hands share the handle; one intact flared bell and clapper.
+2. Body lifts and robe tail sweeps left; bell lags left. No ordinary alternating walk step is imposed.
+3. Clear buoyant high point with shoes tucked and robe expanded. Bell swings right without extra handle.
+4. Broad trailing robe and far-right bell read as inertial overshoot. Complete bell lip retained beyond original nominalcell.
+5. Compressed low robe silhouette, bell more centered and downward. Both grips stay attached.
+6. Rebound with large robe mass and rightward bell. Wrap to1 is readable but retains a small stepped compression/pop, appropriate to an animation test rather than polished final.
+
+Ordered transitions inspected:1→2 lift,2→3 apex,3→4 broad drag,4→5 squash,5→6 rebound,6→1 next compress. Large cloth/body shape changes are expressive, with minor generated-volume inconsistency disclosed.
+
+## Toll by drawing
+
+1. Weighted ready, original identity clear.
+2. Two hands draw bell toward chest; elbows fold.
+3. Loaded back-coil with the bell raised to mask level. Mask stays blank and glove/handle count stays intact.
+4. Torso and bell drive down-right; single small elliptical wave starts below the one bell mouth.
+5. Deep overshoot and broad ground-plane ring. Goldring breaks are intentional; complete disconnected arcs retained.
+6. Body recoils upward; two broad wave fragments fade around the lower body. No fragment was deleted as speckle.
+7. Heavy return, robe swing and lowering bell.
+8. Quiet weighted ready return with clean bell grip.
+
+Ordered transitions inspected:1→2→3 anticipation;3→4 sharp release;4→5 weight/impact;5→6 recoil with outward wave progression;6→7→8 slow settle. Cast8→1 is a review repeat only; runtime cast is non-looping.
+
+## Extraction and encoding
+
+- Native-resolution sheet extraction only; no per-frame fitting or scale normalization.
+- Identical640×576 runtime canvas and(320,500)root/pivot across both clips.
+- Variable ownership bounds occur only in empty source gutters; source-to-runtime placement uses fixed grid origin.
+- All cleaned nonzero source-alpha pixels retained; no clipping or neighbor leakage.
+- Runtime cel and atlas transparency preserved; contacts/videos use a flat charcoal review background.
+- Separate source and runtimeZIPs each under19MB.
+- All encoded frames match expected held cels in order at60fps. No invented in-betweens.
+
+## Remaining limitations
+
+One heading only. Cloth and slight bell proportions are visually coherent rather than rig-locked. Exact projection, physical height, engine timing/hitboxes, mirroring, gameplay-scale read and separate VFX remain unvalidated. No generative retry or cascading edit was used: each sheet was generated fresh from original identity and camera references.

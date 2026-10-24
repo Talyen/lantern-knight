@@ -1,0 +1,89 @@
+{
+  "name": "Moth Oracle DL",
+  "reference": {
+    "id": "lantern_creature_concept_03_moth_oracle",
+    "sha256": "2d558003603bc1f3791e951bd5d021177e07a62ae7308937581c6483d4411fa6"
+  },
+  "holds": {
+    "move": [
+      8,
+      7,
+      7,
+      7,
+      7,
+      8
+    ],
+    "attack": [
+      8,
+      9,
+      12,
+      6,
+      9,
+      14
+    ]
+  },
+  "offsets": {
+    "move": [
+      [
+        25,
+        -20
+      ],
+      [
+        45,
+        -20
+      ],
+      [
+        70,
+        -20
+      ],
+      [
+        35,
+        -20
+      ],
+      [
+        45,
+        -20
+      ],
+      [
+        60,
+        -20
+      ]
+    ],
+    "attack": [
+      [
+        55,
+        10
+      ],
+      [
+        70,
+        10
+      ],
+      [
+        95,
+        10
+      ],
+      [
+        90,
+        10
+      ],
+      [
+        95,
+        10
+      ],
+      [
+        95,
+        10
+      ]
+    ]
+  },
+  "facing": "down-left frontal three-quarter",
+  "recovery_override": true,
+  "scales": {
+    "attack": 0.92
+  },
+  "scale_anchor": [
+    428,
+    268
+  ],
+  "ppu": 236
+}

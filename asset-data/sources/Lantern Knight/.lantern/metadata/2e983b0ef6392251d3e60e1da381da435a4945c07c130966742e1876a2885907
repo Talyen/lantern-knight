@@ -1,0 +1,98 @@
+{
+  "name": "bruised_breach",
+  "frame_size": [
+    640,
+    640
+  ],
+  "durations_ms": [
+    80,
+    90,
+    100,
+    30,
+    50,
+    85,
+    40,
+    75,
+    70,
+    55,
+    35,
+    40,
+    160
+  ],
+  "stages": [
+    "hang",
+    "lift",
+    "coil",
+    "lash",
+    "strike",
+    "contact",
+    "rake",
+    "rebound",
+    "recoil",
+    "slack",
+    "tear free",
+    "debris",
+    "clear"
+  ],
+  "loop": false,
+  "transparent_final_frame": 12,
+  "registration": {
+    "method": "visual retained physical anchor; constant global scale",
+    "source_anchors": [
+      [
+        115,
+        220
+      ],
+      [
+        478,
+        240
+      ],
+      [
+        850,
+        241
+      ],
+      [
+        1155,
+        225
+      ],
+      [
+        88,
+        580
+      ],
+      [
+        480,
+        583
+      ],
+      [
+        835,
+        545
+      ],
+      [
+        1180,
+        591
+      ],
+      [
+        95,
+        910
+      ],
+      [
+        478,
+        910
+      ],
+      [
+        824,
+        924
+      ],
+      [
+        1178,
+        924
+      ]
+    ],
+    "target": [
+      155,
+      340
+    ],
+    "scale": 1.1
+  },
+  "note": "Hand-drawn action cels; no interpolated transforms or fades. Blank end frame. Preview repeats with rest."
+}

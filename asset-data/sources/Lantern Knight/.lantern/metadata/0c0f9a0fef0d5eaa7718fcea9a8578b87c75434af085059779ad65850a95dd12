@@ -1,0 +1,51 @@
+{
+  "asset": "desecrated_chapel",
+  "variant": "A",
+  "label": "Ruined candlelit nave",
+  "method": "built-in image_gen; fresh generation with original hero as art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-671e3f57-9575-40ad-8665-f509750cd6b5.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "prompt_path": "/workspace/shared/lantern_next_scene_samples_oct09/chapel/A/exact_prompt.txt",
+  "intended_hero_height_pixels": 160,
+  "requested_projection": {
+    "type": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_validated": false
+  },
+  "hero_scale_validated_in_engine": false,
+  "hero_baked_in": false,
+  "scenery_throughout": "allowed; preserve open combat floor and readable routes",
+  "water_observed": false,
+  "sha256": "36422a0b2ac5f689f38fabce7f190ff9e1d5ffe580b38105b5113e59eb560f6b",
+  "upscaled": false,
+  "edited": false,
+  "fresh_generation_attempt": 1,
+  "status": "native viewport sample ready for review; not full map or engine-ready layered asset",
+  "visual_review": {
+    "label": "Ruined candlelit nave",
+    "strengths": [
+      "Warm amber candlelight and broken pointed windows clearly distinguish chapel from crypt",
+      "Open central nave with scattered pew obstacles and readable routes",
+      "Clean broad floor faces and expressive dark contours; no hero or water"
+    ],
+    "caveats": [
+      "Candlelight uses gradients beyond literal three-flat-tone rendering",
+      "More decorative architecture and small edge rubble than approved crypt test",
+      "Altar is near upper right, shared broadly with other variants; distinction is mood and obstacle layout"
+    ],
+    "suggested_hero_feet": [
+      735,
+      650
+    ]
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "enemy": "Halo Veil Cantor",
+  "ability": "Resonance Cuff",
+  "version": 2,
+  "art_method": "Built-in image generation; 16 newly drawn actor cels plus exact baseline start/end; 8 separately generated evolving effect cels. Ordinary Lanczos resampling, no claimed enhanced detail.",
+  "source_reference_id": "1wAt6lnXEk2aoKjFIkWnBtPd6UvdTSxyx",
+  "baseline_reference_path": "/workspace/shared/lantern_enemy_roster/move_neutral_0.png",
+  "actor": {
+    "canvas": [
+      640,
+      640
+    ],
+    "pivot_top_left": [
+      320,
+      608
+    ],
+    "source_canvas": [
+      640,
+      640
+    ],
+    "source_pivot_top_left": [
+      320,
+      608
+    ],
+    "uniform_overflow_padding_ltrb": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "estimated_ppu": null,
+    "frame_count": 18,
+    "frame_durations_ms": [
+      100,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      115,
+      55,
+      45,
+      60,
+      90,
+      95,
+      100,
+      105,
+      115,
+      160
+    ],
+    "atlas_columns": 4,
+    "atlas_rows": 5,
+    "atlas_gutter": 0,
+    "native_generated_sheet_sizes": [
+      [
+        1774,
+        887
+      ],
+      [
+        1774,
+        887
+      ]
+    ],
+    "native_nominal_cel_size": [
+      443.5,
+      443.5
+    ],
+    "uniform_scale_to_runtime": 0.8827751196172249,
+    "fixed_page_translation": [
+      -90.16626794258372,
+      -48.33492822966508
+    ],
+    "registration_note": "Whole connected cels extracted without clipping at nominal sheet boundaries, then one shared scale and translation. No per-frame auto-fitting.",
+    "atlas": "halo_veil_cantor_resonance_cuff_v01_actor_atlas.png",
+    "end_behavior": "hold_last",
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "No gutter: clamp each frame UV to its rectangle or extract frames before filtering."
+    }
+  },
+  "effect": {
+    "canvas": [
+      384,
+      384
+    ],
+    "pivot_top_left": [
+      192,
+      192
+    ],
+    "frame_count": 8,
+    "frame_durations_ms": [
+      50,
+      50,
+      60,
+      60,
+      60,
+      60,
+      60,
+      80
+    ],
+    "atlas_columns": 4,
+    "atlas_rows": 2,
+    "offset_from_actor_pivot_pixels": [
+      256,
+      10
+    ],
+    "native_generated_sheet_size": [
+      1774,
+      887
+    ],
+    "uniform_scale_to_runtime": 0.6753551296505073,
+    "start_ms": 975,
+    "contact_cel_index": 2,
+    "atlas": "halo_veil_cantor_resonance_cuff_v01_effect_atlas.png",
+    "end_behavior": "hide",
+    "loop": false,
+    "sampler": {
+      "wrap": "clamp",
+      "mipmaps": false,
+      "note": "No gutter: clamp each frame UV to its rectangle or extract frames before filtering."
+    }
+  },
+  "timing": {
+    "windup_end_ms": 1020,
+    "contact_ms": 1075,
+    "damage_event_count": 1,
+    "actor_contact_cel_index": 10,
+    "total_ms": 1845,
+    "loop": false
+  },
+  "integration": "Additive authoring asset, no engine or hitbox changes. Top-left coordinates positive right/down; effect anchor=actor anchor+offset. Retain source movement PPU where numeric PPU not known. One damage event only at contact_ms.",
+  "qa": {
+    "transparent_rgba": true,
+    "unique_generated_actor_cels": 16,
+    "baseline_endpoints_exact": true,
+    "visually_reviewed": true,
+    "notes": [
+      "Contact sheet reviewed for distinctive pose evolution, clear action and exact source-ready final cel.",
+      "Source-native generated cel sizes and one fixed resampling factor documented; not AI-upscaled detail.",
+      "Uniform overflow padding preserves world-anchor and original visible pixel scale where required."
+    ],
+    "polish_notes": [
+      "Explicit actor/effect atlas filenames and sampler/ending metadata; kit and loose JSON match."
+    ],
+    "engine_tested": false
+  },
+  "revision": "spectral_polish_02"
+}

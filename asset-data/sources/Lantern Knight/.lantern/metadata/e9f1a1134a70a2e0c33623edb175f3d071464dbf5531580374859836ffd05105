@@ -1,0 +1,478 @@
+{
+  "schema": "lantern.contact-fx.v01",
+  "status": "offline art candidate; no engine certification",
+  "authoring": "Two fresh built-in imagegen six-cel sheets; traditional crop, alpha cleanup, uniform resize and registration; no procedural drawing or interpolated poses",
+  "style_phrase": "Sunburst2.5; art direction phrase only",
+  "space": "screen_plane_contact_overlay",
+  "camera_context": {
+    "projection": "orthographic",
+    "elevationDegrees": 35.264389682754654,
+    "azimuthDegrees": 45,
+    "note": "These are camera-facing effect layers, not volumetric direction bakes."
+  },
+  "orientation": {
+    "defaultGestureImageVector": [
+      1,
+      -1
+    ],
+    "pivotPx": [
+      256,
+      256
+    ],
+    "runtime": "Rotate the complete frame about pivot to align default gesture with projected impact normal. Keep uniform scale. No ground plane geometry baked in."
+  },
+  "alpha": "straight/unassociated",
+  "color": "sRGB; alpha linear",
+  "blend": "normal source-over",
+  "sourceCellPx": [
+    512,
+    512
+  ],
+  "runtimeCanvasPx": [
+    512,
+    512
+  ],
+  "generationDrawingsPerClip": 6,
+  "timelineHz": 60,
+  "mipmaps": false,
+  "clips": [
+    {
+      "id": "neutral_contact_snap",
+      "uniqueDrawings": 6,
+      "timelineEntries": 7,
+      "durationTicks": 13,
+      "durationSeconds": 0.21666666666666667,
+      "loop": false,
+      "endBehavior": "remove after transparent end state",
+      "pivotPx": [
+        256,
+        256
+      ],
+      "atlas": "neutral_contact_snap/atlas.png",
+      "atlasSizePx": [
+        1560,
+        1560
+      ],
+      "atlasGutterPx": 8,
+      "frames": [
+        {
+          "file": "neutral_contact_snap/000.png",
+          "durationTicks": 1,
+          "sourceCell": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            255,
+            277
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            65,
+            48
+          ],
+          "alphaBoundsPx": [
+            236,
+            184,
+            321,
+            293
+          ],
+          "atlasRectPx": [
+            4,
+            4,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "neutral_contact_snap/001.png",
+          "durationTicks": 3,
+          "sourceCell": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            252,
+            281
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            67,
+            45
+          ],
+          "alphaBoundsPx": [
+            189,
+            134,
+            357,
+            319
+          ],
+          "atlasRectPx": [
+            524,
+            4,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "neutral_contact_snap/002.png",
+          "durationTicks": 2,
+          "sourceCell": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            252,
+            280
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            67,
+            46
+          ],
+          "alphaBoundsPx": [
+            166,
+            116,
+            366,
+            379
+          ],
+          "atlasRectPx": [
+            1044,
+            4,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "neutral_contact_snap/003.png",
+          "durationTicks": 2,
+          "sourceCell": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            255,
+            280
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            65,
+            46
+          ],
+          "alphaBoundsPx": [
+            146,
+            102,
+            373,
+            374
+          ],
+          "atlasRectPx": [
+            4,
+            524,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "neutral_contact_snap/004.png",
+          "durationTicks": 2,
+          "sourceCell": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            252,
+            281
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            67,
+            45
+          ],
+          "alphaBoundsPx": [
+            180,
+            160,
+            351,
+            333
+          ],
+          "atlasRectPx": [
+            524,
+            524,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "neutral_contact_snap/005.png",
+          "durationTicks": 2,
+          "sourceCell": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            254,
+            278
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            66,
+            48
+          ],
+          "alphaBoundsPx": [
+            214,
+            195,
+            308,
+            290
+          ],
+          "atlasRectPx": [
+            1044,
+            524,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "neutral_contact_snap/006.png",
+          "durationTicks": 1,
+          "alphaBoundsPx": null,
+          "role": "explicit transparent end state; not an additional drawing",
+          "atlasRectPx": [
+            4,
+            1044,
+            512,
+            512
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blocked_contact_shear",
+      "uniqueDrawings": 6,
+      "timelineEntries": 7,
+      "durationTicks": 16,
+      "durationSeconds": 0.26666666666666666,
+      "loop": false,
+      "endBehavior": "remove after transparent end state",
+      "pivotPx": [
+        256,
+        256
+      ],
+      "atlas": "blocked_contact_shear/atlas.png",
+      "atlasSizePx": [
+        1560,
+        1560
+      ],
+      "atlasGutterPx": 8,
+      "frames": [
+        {
+          "file": "blocked_contact_shear/000.png",
+          "durationTicks": 1,
+          "sourceCell": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            249,
+            280
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            69,
+            46
+          ],
+          "alphaBoundsPx": [
+            189,
+            182,
+            329,
+            324
+          ],
+          "atlasRectPx": [
+            4,
+            4,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "blocked_contact_shear/001.png",
+          "durationTicks": 4,
+          "sourceCell": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            245,
+            278
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            72,
+            48
+          ],
+          "alphaBoundsPx": [
+            172,
+            97,
+            414,
+            337
+          ],
+          "atlasRectPx": [
+            524,
+            4,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "blocked_contact_shear/002.png",
+          "durationTicks": 2,
+          "sourceCell": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            250,
+            277
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            68,
+            48
+          ],
+          "alphaBoundsPx": [
+            148,
+            97,
+            397,
+            357
+          ],
+          "atlasRectPx": [
+            1044,
+            4,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "blocked_contact_shear/003.png",
+          "durationTicks": 2,
+          "sourceCell": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            251,
+            280
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            68,
+            46
+          ],
+          "alphaBoundsPx": [
+            146,
+            80,
+            417,
+            363
+          ],
+          "atlasRectPx": [
+            4,
+            524,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "blocked_contact_shear/004.png",
+          "durationTicks": 3,
+          "sourceCell": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            251,
+            280
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            68,
+            46
+          ],
+          "alphaBoundsPx": [
+            153,
+            97,
+            390,
+            345
+          ],
+          "atlasRectPx": [
+            524,
+            524,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "blocked_contact_shear/005.png",
+          "durationTicks": 3,
+          "sourceCell": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "sourceImpactAnchorPx": [
+            251,
+            280
+          ],
+          "uniformScale": 0.75,
+          "pasteOffsetPx": [
+            68,
+            46
+          ],
+          "alphaBoundsPx": [
+            147,
+            103,
+            376,
+            339
+          ],
+          "atlasRectPx": [
+            1044,
+            524,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "blocked_contact_shear/006.png",
+          "durationTicks": 1,
+          "alphaBoundsPx": null,
+          "role": "explicit transparent end state; not an additional drawing",
+          "atlasRectPx": [
+            4,
+            1044,
+            512,
+            512
+          ]
+        }
+      ]
+    }
+  ]
+}

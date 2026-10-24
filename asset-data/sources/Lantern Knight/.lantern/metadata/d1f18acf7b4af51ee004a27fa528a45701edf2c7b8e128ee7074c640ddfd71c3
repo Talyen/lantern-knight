@@ -1,0 +1,42 @@
+{
+  "asset": "ancient_rootwood",
+  "variant": "C",
+  "variant_title": "Warm hollow oak and root buttresses",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-51ed9396-dd79-4bd1-9135-69171a10cdd8.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "upscaled": false,
+  "edited": false,
+  "expanded": false,
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "sha256": "e49f9d3f33ce079e5e90ebf8c35605561a5e8443cabf044dd7a527263bf8a8e4",
+  "attempts": 1,
+  "status": "ready_for_reviewer",
+  "visual_review": {
+    "strengths": [
+      "Strong asymmetric monumental hollow oak landmark",
+      "Warm heartwood, copper foliage and olive moss provide distinct color alternative",
+      "Large connected dry combat clearing, natural paths and root margins",
+      "No sky, horizon, ruins, buildings, manufactured props, water or characters"
+    ],
+    "caveats": [
+      "Warm ochre-orange palette is brighter and more autumnal than the darker B grove",
+      "Broad subtle tonal patches remain on ground rather than strictly three flat tones",
+      "Exact camera remains a prompt target, not geometric validation",
+      "Tree scenery remains baked, without separate occlusion layers"
+    ]
+  }
+}

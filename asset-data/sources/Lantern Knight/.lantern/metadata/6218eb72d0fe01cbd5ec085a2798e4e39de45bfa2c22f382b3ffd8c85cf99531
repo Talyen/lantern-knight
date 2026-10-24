@@ -1,0 +1,6 @@
+{
+  "source_sha256": "f03c2109189c3d8f943de749ec805c8b41ccab2ea7731d484ba01f0f4b07f51c",
+  "changed_pixels": 837,
+  "alpha_identical": true,
+  "method": "Restore original warm leather pixels inside two independently flagged boot ROIs. Original blue trouser/toe pixels excluded from restoration, corrected brown toe retained. No pose/alpha changes."
+}

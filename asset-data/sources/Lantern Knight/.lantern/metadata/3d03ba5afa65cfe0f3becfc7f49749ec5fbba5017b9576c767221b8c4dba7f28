@@ -1,0 +1,16 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "reference": "B1_Gallows_Gardener.png",
+  "identity_constraints": "Preserve approved mask, olive robe, root-wrapped limbs, bound root bundle, C-shaped sickle, dark ink cel-shaded style and screen-left three-quarter view. Six separately drawn evolving cels per page; transparent background; no labels or scenery.",
+  "actions": {
+    "idle": "Six inhalation cels then six exhalation cels; feet planted, chest/head/elbow/finger and bundle movement.",
+    "move": "Six left-foot stride cels then six right-foot stride cels, walk in place with cloth and bundle lag.",
+    "hook": "Six loading windup poses, then overhead release, one extended hook contact, follow-through and recovery to ready.",
+    "special": "Six claw-raising and kneeling ground-plant poses, then press/curl trigger, release and rise to ready.",
+    "hit": "Torso compression, backward recoil, knee absorption and ground brace, then rise and settle to ready.",
+    "defeat": "Knees buckle and heavy bundle pulls torso down, then side collapse to motionless heap, intact mask/bundle/hook, no gore.",
+    "spawn": "Crouched root bundle and mask emerge; claw braces, boot emerges, body unfolds through kneel to standing ready; no scaling/fading.",
+    "rootfx": "Root tips rise around empty target ellipse and form cage, squeeze once, uncoil and retract. Separate from actor.",
+    "polish": "Hook contact and idle-return sheets regenerated with greater transparent gutters; idle palette matched darker source."
+  }
+}

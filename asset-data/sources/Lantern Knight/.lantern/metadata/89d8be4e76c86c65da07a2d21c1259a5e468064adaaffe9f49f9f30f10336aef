@@ -1,0 +1,173 @@
+{
+  "name": "Lantern 2.5D \u2014 Town Craftspeople",
+  "version": "1.0",
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "validation": "Art-directed camera target; raster illustration is not calibrated 3D geometry."
+  },
+  "pixel_grid": [
+    512,
+    512
+  ],
+  "pixels_per_unit": 256,
+  "timing_hz": 60,
+  "alpha": "straight RGBA; native alpha retained except sub-8/255 dust cleared",
+  "npcs": {
+    "merchant": {
+      "atlas": "runtime/merchant/atlas.png",
+      "cell_size": [
+        512,
+        512
+      ],
+      "columns": 3,
+      "pivot_pixels_top_left": [
+        280,
+        444
+      ],
+      "pivot_unity_normalized": [
+        0.546875,
+        0.1328125
+      ],
+      "work": {
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "duration_ticks": [
+          72,
+          12,
+          10,
+          24,
+          18,
+          44
+        ],
+        "loop": true
+      },
+      "talk_ready": {
+        "frames": [
+          0
+        ],
+        "duration_ticks": [
+          60
+        ],
+        "loop": true,
+        "note": "Held native rest cel; no separate acknowledgement animation."
+      },
+      "registration_offsets_pixels": [
+        [
+          0,
+          0
+        ],
+        [
+          32,
+          0
+        ],
+        [
+          36,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          32,
+          3
+        ],
+        [
+          37,
+          3
+        ]
+      ],
+      "station_lock_y": 302,
+      "events": {
+        "work": {
+          "3": "jar_set"
+        }
+      }
+    },
+    "smith": {
+      "atlas": "runtime/smith/atlas.png",
+      "cell_size": [
+        512,
+        512
+      ],
+      "columns": 3,
+      "pivot_pixels_top_left": [
+        279,
+        474
+      ],
+      "pivot_unity_normalized": [
+        0.544921875,
+        0.07421875
+      ],
+      "work": {
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "duration_ticks": [
+          38,
+          12,
+          10,
+          4,
+          12,
+          74
+        ],
+        "loop": true
+      },
+      "talk_ready": {
+        "frames": [
+          5
+        ],
+        "duration_ticks": [
+          60
+        ],
+        "loop": true,
+        "note": "Held native rest cel; no separate acknowledgement animation."
+      },
+      "registration_offsets_pixels": [
+        [
+          0,
+          0
+        ],
+        [
+          18,
+          0
+        ],
+        [
+          35,
+          -1
+        ],
+        [
+          0,
+          24
+        ],
+        [
+          19,
+          25
+        ],
+        [
+          34,
+          24
+        ]
+      ],
+      "station_lock_y": 326,
+      "events": {
+        "work": {
+          "3": "hammer_impact"
+        }
+      }
+    }
+  }
+}

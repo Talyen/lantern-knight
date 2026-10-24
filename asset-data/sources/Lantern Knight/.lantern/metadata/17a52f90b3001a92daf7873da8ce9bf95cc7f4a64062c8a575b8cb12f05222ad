@@ -1,0 +1,16 @@
+{
+  "six_unique_cels": true,
+  "native_no_upscale": true,
+  "all_rgba": true,
+  "pivot_fixed": true,
+  "clipped_runtime_edges": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "static_lower_region_identical": true,
+  "manual_review": "Each pose inspected for anatomy, palette, edge coverage, light/dark compositing and loop order. Raven final source tail clipped at sheet edge is replaced by canonical complete lower body. Moth wing aperture changes are drawn rather than transformed."
+}

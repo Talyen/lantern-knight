@@ -1,0 +1,108 @@
+{
+  "status": "ONE_TRADITIONAL_CLEANUP_CANDIDATE_PENDING_VISUAL_REVIEW",
+  "source": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_UR_lowcarry_trial_01/source/UR_lowcarry8_native.png",
+  "source_sha256": "901ec1981c68fcb8d214c013cade35f34feb3ee560084d31f18aafdcb3eb1674",
+  "output": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_UR_lowcarry_trial_01/source/UR_lowcarry8_cloth_cleanup_v01.png",
+  "output_sha256": "9ed75b38f34a59703640832900ecfb2a16e9d88db79b8d6aee363bdd83ff847e",
+  "mask": "metadata/right_sleeve_patch_mask_v01.png",
+  "native_size": [
+    1774,
+    887
+  ],
+  "changed_pixels": 2099,
+  "mask_pixels": 2100,
+  "outside_mask_identical": true,
+  "alpha_identical": true,
+  "all_edited_pixels_originally_near_opaque_250plus": true,
+  "scope": "Only erroneous right upper sleeve patch/stitches. No arm outline, skin, cuff, wrap, prop, pose, silhouette or alpha changes. No imagegen. No scale or per-frame fit.",
+  "records": [
+    {
+      "cel": 1,
+      "mask_bounds_native_cel": [
+        267,
+        141,
+        289,
+        162
+      ],
+      "patched_pixels": 256,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 2,
+      "mask_bounds_native_cel": [
+        274,
+        130,
+        294,
+        150
+      ],
+      "patched_pixels": 195,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 3,
+      "mask_bounds_native_cel": [
+        276,
+        136,
+        295,
+        156
+      ],
+      "patched_pixels": 184,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 4,
+      "mask_bounds_native_cel": [
+        268,
+        146,
+        289,
+        168
+      ],
+      "patched_pixels": 240,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 5,
+      "mask_bounds_native_cel": [
+        244,
+        121,
+        270,
+        143
+      ],
+      "patched_pixels": 262,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 6,
+      "mask_bounds_native_cel": [
+        253,
+        130,
+        278,
+        160
+      ],
+      "patched_pixels": 346,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 7,
+      "mask_bounds_native_cel": [
+        263,
+        133,
+        288,
+        165
+      ],
+      "patched_pixels": 333,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    },
+    {
+      "cel": 8,
+      "mask_bounds_native_cel": [
+        277,
+        140,
+        300,
+        166
+      ],
+      "patched_pixels": 284,
+      "method": "Classical harmonic interpolation of immediate neighboring rust-cloth RGB inside tightly bounded patch/stitch mask. No generative inpainting."
+    }
+  ]
+}

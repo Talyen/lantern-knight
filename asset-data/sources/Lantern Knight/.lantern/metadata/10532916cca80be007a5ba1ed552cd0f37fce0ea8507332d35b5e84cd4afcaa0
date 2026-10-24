@@ -1,0 +1,13 @@
+LANTERN HANDOFF: UPDATE THE EXISTING PROJECT
+
+For current work, give your agent Lantern_Agent_Update_Prompt.txt. It is a concise delta-only assignment: preserve working implementation and reconcile confirmed changes, not a project restart. The full foundation prompt and art plan are supporting reference material.
+
+Hero canon is the exact unchanged uploaded Rust image(3).png, Library item libfile_0da5071239448191b6962495ce1e0164. The bundle includes the original under user_selected_reference/. No hero edits, recoloring or regeneration. Clean INK is locked; no fluid-brush hybrid. Older charcoal/crimson and regenerated images are historical only.
+
+Selected camera: orthographic 35.264389682754654-degree elevation, azimuth 45, chosen adjustable 13-unit initial vertical span. Camera_Calibration_Agent_Prompt.txt validates this setup; no new angle/zoom selection gate exists.
+
+Confirmed combat: WASD/mouse aim, three-hit mouse-directed sword arcs, directional dash with brief invulnerability/recovery-only cancellation, no stamina, cone stagger flare/cooldown, travel-facing movement, aim-facing attack/cast, fixed first loadout, room reset on death. Small connected hand-authored areas with simple elevation; painted lighting/contact shadows/selective glow.
+
+Production method: one canonical 3D source/rig per character; prove clean-INK walk/attack in several representative directions before mass frames; deterministic camera/anchors/attachments/events/exports; automated and visual consistency checks. Keep source equipment modular and bake only needed variants. Use a controlled layered 2D fallback if 3D cannot preserve the look. Image generation is for fresh new concepts and static concept exploration only, not runtime animation frames or a replacement hero.
+
+JSON remains illustrative asset metadata, not delivered animation or an implemented importer. The exact canonical image is the sole real source-art input included. You manage the game agents; these files do not create tasks.

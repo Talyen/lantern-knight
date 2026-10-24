@@ -1,0 +1,16 @@
+LANTERN KNIGHT | ITEM EXPANSION 2026-10-16
+40 new designs, nine PNG roles each. Expansion only; original 146-item core library is unchanged.
+
+full_native: source bytes unchanged, original resolution.
+inventory512: 512 canvas, 2px/reference cm, 16px floor, 440px cap.
+thumb256: exact half of inventory512.
+detail512: inspection view, fits 448px, no upscaling.
+ui32/ui64/ui128: optical readability framing, not physical scale.
+ground_static_512: existing artwork used as stationary pickup, 1.5px/cm, 16px floor, 440px cap, bottom pivot (256,448).
+ground_scaled_512: stationary pickup, 1.5px/cm, 12px floor, 440px cap, same pivot.
+Ground roles are not newly rendered resting poses, animation-matched frames, or animation sequences. Reference extents are art-direction estimates of the depicted arrangement. No enlargement or new painting in export.
+
+Hero loadout remains sword and lantern. The four weapon concepts in this expansion are optional artwork, not planned hero weapon types. The foci category contains ritual objects and relics, not alternate equippable offhands.
+
+Core library: https://drive.google.com/drive/folders/1nnfyvS24YNs_ci1R5eHMwmmrENm217Hb
+Mechanical and visual review do not constitute game-engine validation.

@@ -1,0 +1,10 @@
+{
+  "alpha": "RGBA, transparent margins, low-alpha stray pixels cleared",
+  "clipping": true,
+  "anchor": "bottom center fixed, no positional bob",
+  "distinct_cels": 6,
+  "scene_fit": "All six cels and original-scene gameplay placement visually reviewed; recognizable at scene distance.",
+  "animation": "closed to empty open, persistent final",
+  "palette": "Stable material colors and fixed illumination across opening; dark newly exposed interior and flap underside are intentional.",
+  "source_art": "Built-in imagegen; requested model preference in prompt only, model control not exposed."
+}

@@ -1,0 +1,249 @@
+{
+  "asset": "reliquary_urn_full_shatter",
+  "version": "v1_review",
+  "frame_count": 8,
+  "canvas": [
+    1024,
+    1024
+  ],
+  "atlas": [
+    4096,
+    2048
+  ],
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "ticks_per_second": 60,
+  "loop": false,
+  "last_frame_behavior": "hold indefinitely; never reset",
+  "transient_duration_ticks": 33,
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "status": "matched fixed-view illustration; not measured 3D reconstruction"
+  },
+  "reference_pixels_per_metre": 440,
+  "clip_pixels_per_metre": 314.976,
+  "clip_art_scale_relative_to_reference": 0.716,
+  "scale_policy": "new generated cels copied at native pixels; original intact source downsampled once; use clip PPU to preserve apparent world size",
+  "source_sheet_native_size": [
+    1774,
+    887
+  ],
+  "generation": "one fresh imagegen sheet using original identity reference only",
+  "frames": [
+    {
+      "frame": 0,
+      "state": "intact",
+      "file": "frames/urn_shatter_00.png",
+      "ticks_60hz": 6,
+      "duration_ms": 100.0,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        393,
+        474,
+        637,
+        825
+      ],
+      "sha256": "ecd407bd8b8ff13468a75ff28f7ebf10dc4c3fdca1e17a42ac0be1acb4a6d5a3",
+      "atlas_rect": [
+        0,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 1,
+      "state": "impact_fracture",
+      "file": "frames/urn_shatter_01.png",
+      "ticks_60hz": 3,
+      "duration_ms": 50.0,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        296,
+        431,
+        740,
+        860
+      ],
+      "sha256": "ca10cedd3815bb5e254ba2af3c97d881f2ea04a898678083c79c87b8fa7d11ee",
+      "atlas_rect": [
+        1024,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 2,
+      "state": "shell_rupture",
+      "file": "frames/urn_shatter_02.png",
+      "ticks_60hz": 4,
+      "duration_ms": 66.66666666666667,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        289,
+        432,
+        731,
+        860
+      ],
+      "sha256": "3226e8dc18ecd889ae81af7c7f97176649bd00127083bd5d34f48eba6852d3e7",
+      "atlas_rect": [
+        2048,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 3,
+      "state": "maximum_spread",
+      "file": "frames/urn_shatter_03.png",
+      "ticks_60hz": 5,
+      "duration_ms": 83.33333333333333,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        284,
+        419,
+        718,
+        862
+      ],
+      "sha256": "13840cc86fca4b85bb2c7fcc467fa4788fd033c6e34c160ce07cc214188ff918",
+      "atlas_rect": [
+        3072,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 4,
+      "state": "fall",
+      "file": "frames/urn_shatter_04.png",
+      "ticks_60hz": 5,
+      "duration_ms": 83.33333333333333,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        301,
+        501,
+        744,
+        945
+      ],
+      "sha256": "25a40382f3d15327dad9cc41ac19e1155ee8d0f52addf577627c427d59bfc871",
+      "atlas_rect": [
+        0,
+        1024,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 5,
+      "state": "ground_contact",
+      "file": "frames/urn_shatter_05.png",
+      "ticks_60hz": 4,
+      "duration_ms": 66.66666666666667,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        295,
+        501,
+        739,
+        929
+      ],
+      "sha256": "4d23bf26d8e44aba8007613fcafa714199fae095925d8955a75b67d96f2fe6f6",
+      "atlas_rect": [
+        1024,
+        1024,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 6,
+      "state": "settle",
+      "file": "frames/urn_shatter_06.png",
+      "ticks_60hz": 6,
+      "duration_ms": 100.0,
+      "terminal_hold": false,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        291,
+        501,
+        734,
+        945
+      ],
+      "sha256": "8009018c622ab21eccd1b7dcca581fbf8fba7dec88dc4f20786147b8ebbcbcf0",
+      "atlas_rect": [
+        2048,
+        1024,
+        1024,
+        1024
+      ]
+    },
+    {
+      "frame": 7,
+      "state": "persistent_debris",
+      "file": "frames/urn_shatter_07.png",
+      "ticks_60hz": 0,
+      "duration_ms": null,
+      "terminal_hold": true,
+      "pivot_pixels": [
+        512,
+        802
+      ],
+      "bounds": [
+        289,
+        501,
+        721,
+        917
+      ],
+      "sha256": "62dccf563f8d80ea4f07d118d1a8112d11edb2b1aa4193e228d98b2d53b985de",
+      "atlas_rect": [
+        3072,
+        1024,
+        1024,
+        1024
+      ]
+    }
+  ],
+  "limitations": [
+    "Eight authored stages, no procedural interpolation.",
+    "Generated fragment contours evolve between drawings; major ceramic shell, lid, medallion and two handles are recognizable but not rigidly tracked 3D meshes.",
+    "Small chips vary between drawings.",
+    "Terminal right handle is partly occluded behind ceramic/lid.",
+    "No collision, sound, loot or engine import included."
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.216796875
+  ]
+}

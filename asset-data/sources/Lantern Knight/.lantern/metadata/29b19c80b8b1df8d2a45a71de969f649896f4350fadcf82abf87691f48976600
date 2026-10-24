@@ -1,0 +1,2 @@
+Run: python rebuild.py .
+Requirements: Python 3, Pillow, numpy, ffmpeg on PATH. Native generated sheets and exact original are in source/. Rebuild never calls image generation, resizes, or needs network. Runtime PNG alpha uses native generated mask, clipped only below alpha4 and normalized 254 to255. All drawing registration is baked in. No engine integration or calibrated camera verification is claimed. Preview timing is encoded at60Hz. Idle is a still only.

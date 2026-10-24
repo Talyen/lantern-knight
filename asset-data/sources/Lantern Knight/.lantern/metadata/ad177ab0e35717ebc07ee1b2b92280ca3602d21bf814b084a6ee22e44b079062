@@ -1,0 +1,59 @@
+{
+  "name": "Watchtower Semaphore",
+  "native_canvas": [
+    448,
+    640
+  ],
+  "runtime_canvas": [
+    224,
+    320
+  ],
+  "authored_cels": 7,
+  "states": [
+    "lowered_ready",
+    "drum_turning",
+    "paddle_rising",
+    "paddle_halfway",
+    "paddle_vertical",
+    "pin_engaging",
+    "locked_upright"
+  ],
+  "frame_duration_ms": [
+    160,
+    160,
+    160,
+    160,
+    160,
+    160,
+    160
+  ],
+  "start_hold": "lowered_ready",
+  "end_hold": "locked_upright",
+  "loop": false,
+  "ground_anchor_native": [
+    200,
+    580
+  ],
+  "contact_anchor_native": [
+    140,
+    425
+  ],
+  "reward_marker_native": [
+    260,
+    590
+  ],
+  "completion_frame": 6,
+  "source_library_id": "libfile_b215e64168bc81918dd051b3de222118",
+  "gameplay_suggestion": "Activate destination signal via game event",
+  "implementation": "Art metadata only; no game code",
+  "qa_status": "Root visually approved 2026-10-18",
+  "source": "Built-in imagegen, highest native quality/resolution requested; no model selector exposed",
+  "provenance": "Exact retained master visually inspected; approved global art style and source scene prompt used where locally available. Watchtower source kit unavailable locally; exact master and approved style used.",
+  "scene_placement": {
+    "ground": [
+      2250,
+      2600
+    ],
+    "canvas_width": 320
+  }
+}

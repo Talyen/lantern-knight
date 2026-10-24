@@ -1,0 +1,14 @@
+{
+  "visual": "All36native runtime cels pass independent visual review. Compactbody preserved, complete hands/orb/halo/veil tips, true rear headings, clean alpha. Final fourway widened to prevent rightedge previewonly crop.",
+  "crop": "URattack column boundary528 safely includes complete cel4 crescent; secondcolumn translated consistently. No silhouette upscaling/rotation or clipping.",
+  "timing": "Exact72/90baseline retained.",
+  "limitations": [
+    "No engine test or exact geometric camera claim",
+    "PPU ratios to actual baseline B; imported pixels untouched."
+  ],
+  "clean_rebuild": {
+    "matched_pngs": 42,
+    "exact_match": true,
+    "method": "Independent temporary directory clean sourceZIP extraction then python build.py without workspace dependency."
+  }
+}

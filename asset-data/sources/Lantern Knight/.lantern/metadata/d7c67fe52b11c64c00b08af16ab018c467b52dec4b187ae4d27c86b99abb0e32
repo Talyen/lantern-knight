@@ -1,0 +1,30 @@
+[
+  {
+    "oldID": "sparse_rain",
+    "newID": "sparse_rain",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "wind_ash",
+    "newID": "wind_ash",
+    "status": "retained_byte_identical",
+    "timingChange": false
+  },
+  {
+    "oldID": "rolling_ground_mist",
+    "newID": "rolling_ground_mist",
+    "status": "repaired",
+    "oldSourceFrames": 120,
+    "newSourceFrames": 120,
+    "timingChange": false
+  },
+  {
+    "oldID": "autumn_leaf_gust",
+    "newID": "autumn_leaf_gust",
+    "status": "repaired",
+    "oldSourceFrames": 90,
+    "newSourceFrames": 90,
+    "timingChange": false
+  }
+]

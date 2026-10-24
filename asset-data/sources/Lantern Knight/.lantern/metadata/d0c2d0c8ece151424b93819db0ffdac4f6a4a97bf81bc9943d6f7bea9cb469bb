@@ -1,0 +1,13 @@
+# Candlebone Oracle identity restoration v02
+
+Canonical identity: original SK03 from 01_skeletons selection pack. Both prior hover and spell were corrected because silhouette, orb, clasp and anatomy drifted.
+
+Selected unified fresh drawing sheet: 6 hover drawings and 7 unique spell drawings, one ready reused byte-identically at spell start/end. Same native scale and fixed pivot throughout. No upscaling, per-frame fitting, generated inbetweens or edit cascades. Native alpha extraction only.
+
+Restored: rigid pointed hood, angular adult skull, sunburst bone clasp/pendant, clean long robe, wide hanging sleeves, separated skeletal feet with black ankle bands, cracked ivory orb with large round insets. Spell keeps orb and both hands readable; restrained amber crescent replaces dominating flame-ring effects.
+
+Camera target is35.2643897° elevation/45° azimuth. The guide is exact; generated drawings are visually approximate, not numerically certified. Do not claim final engine camera or world-size validation. Body and robe are coherent but small hand/clasp/fold variations remain between drawings.
+
+Runtime: PNG frames and atlases, metadata, 60Hz held-drawing MP4s, native contact sheets. Source: original references plus selected native sheet and prompt, rejected attempts under provenance for transparency. Old source entries retained byte-identical in provenance/previous_v01. No game or repository edits.
+
+Selected-source manifest verified: source/unified_native.png (oracle_sk03_unified_v02). Hover source drawing indices: 1,2,3,4,5,6. Spell source drawing indices: 1,7,8,9,10,11,12,1. All prior studies are provenance only and are not selected.

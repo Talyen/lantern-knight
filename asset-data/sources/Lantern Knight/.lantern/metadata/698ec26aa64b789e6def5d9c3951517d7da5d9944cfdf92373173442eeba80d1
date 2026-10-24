@@ -1,0 +1,12 @@
+[
+  {
+    "id": "rolling_ground_mist",
+    "replayedFrames": 120,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "autumn_leaf_gust",
+    "replayedFrames": 90,
+    "pixelFileMismatches": []
+  }
+]

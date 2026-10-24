@@ -1,0 +1,65 @@
+# Lantern enemy-animation handoff · 7 October 2026
+
+Seven selected groups, 14 clips, 90 distinct drawings. This small index refers to the existing source/runtime archives; it contains no artwork and changes no delivered assets. The six registered Monk defeat PNGs are an alternate placement of existing drawings, not six new drawings.
+
+## Import boundary
+
+- All assets are one-facing TESTS: world +X / screen-down-right. None is game-integrated or certified for exact camera, contacts, seamless state transitions or production readiness.
+- `catalog.json` is an informational summary, not a drop-in engine schema. Keep original metadata authoritative. File paths resolve from `lantern_enemy_animations_20261007/`; exact ZIP member paths are also supplied. Extract each archive pair into its own group directory because ZIP wrapper folders differ and several archives have no wrapper.
+- Preserve delivered source rasters, native pixels and fixed canvases. Do not auto-fit/center each pose to its bounds or upscale during source preparation. No mirrored or interpolated drawings are included. Runtime mirroring or guarded motion warping can be tested separately for lighting, identity, props and artifacts, without baking destructive changes into the masters. Respect documented extraction/alpha cleanup and integer registration. Pivots are authoring/review coordinates. Pixels-per-world-unit and calibrated observed ground anchors remain null.
+- All exposures use integer 60 Hz ticks, not 60 unique drawings per second. Review-video repetition is separate from runtime looping. Spell effects are baked in; cue/event metadata does not implement gameplay.
+
+## Clip map
+
+Frame and atlas sizes are verified PNG dimensions. Pivots below are `(x,y)` from top-left, +Y down. Ordered filenames, atlas rectangles, normalized pivot conversions, source registrations and exact archive SHA-256 hashes are in the catalog.
+
+| Group / clip | Drawings | Frame → atlas | Pivot | Hold ticks at 60 Hz | Playback |
+|---|---:|---|---|---|---|
+| Crawler / cocoon_scoot | 6 | 768×768 → 2304×1536 | 448, 488 | 10, 7, 5, 10, 7, 5 | 44/60 s; loop |
+| Crawler / predatory_pounce | 6 | 768×768 → 2304×1536 | 448, 488 | 8, 10, 12, 3, 7, 10 | 50/60 s; one-shot |
+| Monk / locomotion | 6 | 640×576 → 1920×1152 | 320, 500 | 8, 7, 10, 7, 6, 10 | 48/60 s; loop |
+| Monk / cast | 8 | 640×576 → 2560×1152 | 320, 500 | 8, 9, 12, 3, 6, 5, 12, 17 | 72/60 s; one-shot |
+| Oracle / hover | 6 | 546×755 → 1638×1510 | 273, 672 | 12, 12, 12, 12, 12, 12 | 72/60 s; loop |
+| Oracle / spell | 8 | 554×735 → 2216×1470 | 277, 606 | 12, 10, 8, 10, 5, 8, 11, 20 | 84/60 s; one-shot |
+| Cantor ORIGINAL / drift_veil_breath | 6 | 640×640 → 1920×1280 | 328, 595 | 12, 10, 12, 14, 10, 12 | 70/60 s; loop |
+| Cantor ORIGINAL / resonant_spell | 6 | 640×640 → 1920×1280 | 328, 595 | 20, 14, 8, 14, 10, 24 | 90/60 s; one-shot |
+| Acolyte / glide | 6 | 768×704 → 2304×1408 | 416, 584 | 10, 8, 6, 6, 8, 10 | 48/60 s; loop |
+| Acolyte / ritual_attack | 8 | 768×704 → 3072×1408 | 416, 584 | 12, 12, 7, 5, 3, 8, 10, 15 | 72/60 s; one-shot |
+| Cantor CAMERA v02 / drift_veil_breath | 6 | 640×640 → 1920×1280 | 320, 608 | 12, 12, 12, 12, 12, 12 | 72/60 s; loop |
+| Cantor CAMERA v02 / resonant_spell | 6 | 640×640 → 1920×1280 | 320, 608 | 18, 14, 12, 10, 12, 24 | 90/60 s; one-shot |
+| Defeat / bellbound_defeat | 6 | 768×768 → 2304×1536 | 384, 628 | 8, 10, 8, 7, 16, ∞ | One-shot; terminal starts 49/60 s |
+| Defeat / crawler_defeat | 6 | 768×768 → 2304×1536 | 384, 628 | 7, 10, 9, 11, 16, ∞ | One-shot; terminal starts 53/60 s |
+
+## Candidate choices and registration
+
+**Cantor original:** `halo_veil_cantor` remains MOTION CONCEPT / CAMERA UNRESOLVED, with a portrait-like camera. **Cantor camera-guided v02:** `halo_veil_cantor_camera_guided_v02` is an additive alternative with a better elevated read. Neither has user approval. Do not overwrite or silently substitute one for the other. v02 hover is compact/angular; spell is longer/slenderer. Their approximate neutral body rulers (320px / 370px) are comparison aids, not world calibration. v02 hover drawings 4–6 already have +24Y baked in; add zero extra offset.
+
+**Monk defeat:** For a bounded registration test, prefer `optional_registered/bellbound_defeat/` or its registered atlas. Drawings 4–6 already have **+88Y baked in**; use **zero additional runtime offset**. Raw frames/atlas remain available. If choosing raw instead, the optional offsets are `(0,0)` for drawings 1–3 and `(0,88)` for drawings 4–6, applied exactly once. These routes are mutually exclusive. This reduces a source-row placement jump; it does not prove physical ground contact.
+
+**Defeat terminal states:** Monk drawing 6 begins at tick 49 (0.816667s); Crawler drawing 6 at tick 53 (0.883333s). Both hold indefinitely. The finite 3-second hold in review videos must not make runtime reset to drawing 1. Empty Monk cloth with mask/bell and Crawler’s closed husk are intentional end states.
+
+## Remaining import warnings
+
+- Oracle hover/spell have different native sampling, dimensions, pivots, character heights and apparent elevation. Monk locomotion/cast and Acolyte glide/attack also use differently sampled sheets. Reconcile world scale per clip and transition placement without per-frame fitting; no calibrated PPU is supplied.
+- Defeat pivots do not match earlier movement/attack pivots. Compare state transitions at a consistent engine origin before use; matching canvas size alone is insufficient.
+- Source-grid/ownership extraction can retain artwork outside nominal cell boundaries. Use delivered padded frames or exact atlas cells, not fresh tight crops.
+- Crawler pounce preview adds 18 recovery ticks between review repeats; runtime is 50 ticks. Acolyte APNG timing is rounded to milliseconds; the catalog’s integer schedule is authoritative for exact exposures.
+- Oracle and Acolyte original manifests omit an explicit loop flag. The summary labels hover/glide as loops and spell/ritual attack as one-shots from their READMEs; this is recorded as interpretation, without modifying original metadata.
+
+## Verification and downloads
+
+All 14 source/runtime ZIPs passed CRC checks. Every cataloged frame and atlas was compared to its runtime ZIP, selected native sources to source ZIPs, and atlas tiles to their actual PNG frames (alpha plus RGB where alpha is nonzero; hidden fully transparent RGB may differ). Dimensions and archive SHA-256 values were read from the actual files. The final defeat hashes match the independently audited pair. Per-pack Drive receipt links and verified sizes are included in the catalog; all 14 archives have verified receipt entries.
+
+Use the checksum lists inside the delivered Oracle ZIPs: those archive-specific lists validate. The broader local Oracle `CHECKSUMS.sha256` differs and contains stale entries; it was not rewritten. The v02 hover registration record’s legacy trial source reference points to byte-identical native art.
+
+Drive folder: https://drive.google.com/drive/folders/1l4rY31exRTCiAoenNKW2EqiddSBW5PLe
+
+The ZIP containing this index includes only this README and `catalog.json`. No import code, game repository edits, new artwork or asset replacements are included.
+
+
+## QA correction update
+Read QA_REVISION_NOTES.txt and catalog.json qa_revision first. Affected prior size/hash/import statements in this original README are superseded by the corrected catalog and embedded exact metadata. Unaffected guidance still applies.
+
+
+## Completion states
+Read COMPLETION_IMPORT_README.txt and catalog.json completion_revision. Updated PPU/pivot/canvas contracts are required; do not replace PNGs alone.

@@ -1,0 +1,58 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_whole_map_crop_overview.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/review_views/whole_map_crop_overview.png",
+    "name": "cloister_B_whole_map_crop_overview.png",
+    "size": 2860652,
+    "sha256": "11480480bf23b360580078418e5da036ad54478712421ee3de9eb9542f08f115",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_central_cloister_court_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/review_views/central_cloister_court_hero_context.png",
+    "name": "cloister_B_central_cloister_court_hero_context.png",
+    "size": 2165954,
+    "sha256": "25cdd0ef6e847f8f30f4b93dfb4dfd52bedb807ca8e750e45e0a1caa22d08144",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_altar_approach_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/review_views/altar_approach_hero_context.png",
+    "name": "cloister_B_altar_approach_hero_context.png",
+    "size": 2282745,
+    "sha256": "1906a647885be5dd24bc902b46e928f225cdb8aa95b261313fbe296add96f181",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_western_arcade_route_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/review_views/western_arcade_route_hero_context.png",
+    "name": "cloister_B_western_arcade_route_hero_context.png",
+    "size": 2164244,
+    "sha256": "6520b56f5374f745cfc1669757df6f04c480a8b1acf0c88f0696b40e170844be",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_native_floor.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/native_floor.png",
+    "name": "cloister_B_native_floor.png",
+    "size": 3364600,
+    "sha256": "2f034d0a6d596dd6dcb8feae194775e9d80808a250acd604f3c7decd2cc6e79c",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_full_upscaled4x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/ai_upscale/full_upscaled4x.png",
+    "name": "cloister_B_full_upscaled4x.png",
+    "size": 30059470,
+    "sha256": "ee7ae3787b0534b992cc3b990de4eb47be8f6295e0b9d908f3a8096d3a91c317",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/cloister_B_full_upscaled2x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/cloister_B/ai_upscale/full_upscaled2x.png",
+    "name": "cloister_B_full_upscaled2x.png",
+    "size": 9217956,
+    "sha256": "52dc3a23db47022bcc7a686f587482b6b2d3c88439d7a9c3409f2c3f7194fa49",
+    "library_artifact_type": "image"
+  }
+]

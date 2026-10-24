@@ -1,0 +1,12 @@
+{
+  "README.txt": "9f47373bfa0659e700c58ccaf61ffe884946978eecbe980bbbe9c5d3132051c4",
+  "knockdown_DR_atlas.png": "dd7d4f8ccaa18e7d0c46a5aee91b33d0021f623c3ffe085b2e40c24df3167078",
+  "knockdown_DR_preview_60fps.mp4": "4729a4ab5737e51d5193f9843c15ded21457a8c755b53f06ab6ad21e86e7b040",
+  "knockdown_DR_animation.json": "4216e21600d4ba242a724ca21b936db55c4a45011005d369c946f7c4393685df",
+  "frames/knockdown_DR_06_grounded_hold.png": "11c79d1bb44e244535871fed2797fa669c370d0ed58066316af97c7256775297",
+  "frames/knockdown_DR_04_ground_impact.png": "dd9c1dfa08a56b732faf15a38d5dd49272b809b30e0f3085f8e3a359bbf84690",
+  "frames/knockdown_DR_03_fall.png": "e1206771a2a9bc333182c25b75c111d1d513e740bc8eb3de023591c7c79af304",
+  "frames/knockdown_DR_01_recoil.png": "b01097b1cca55cd146c7933a8947d81b3df1c42ad463471e034f118df5a004c9",
+  "frames/knockdown_DR_02_lose_balance.png": "a25d0a8ac98bf64a054c5d610436c526600ac61226b55a1c600295636e26b561",
+  "frames/knockdown_DR_05_settle.png": "bd5b33ec80793d3f05e13ba9f88721a25bb0d9e5dcc41412e3e36f11c5b28c26"
+}

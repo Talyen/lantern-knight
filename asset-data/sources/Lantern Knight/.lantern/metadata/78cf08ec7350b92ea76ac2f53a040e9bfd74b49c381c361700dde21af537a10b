@@ -1,0 +1,2747 @@
+{
+  "id": "lantern_flare",
+  "name": "Lantern Flare",
+  "action_role": "lantern_flare",
+  "artwork_approved": true,
+  "status": "VISUAL_SEQUENCE_QA_PASSED_READY_FOR_EXPORT",
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_px_top_left": [
+    768,
+    892
+  ],
+  "timed_drawing_slots": 25,
+  "duration_ticks_60hz": 84,
+  "duration_seconds": 1.4,
+  "loop": false,
+  "entry": "R0",
+  "exit": "R0 in idle; not counted in action duration",
+  "fps": 60,
+  "frames": [
+    {
+      "frame": 1,
+      "file": "frames/lantern_flare_01.png",
+      "phase": "Exact shared ready",
+      "hold_60hz": 2,
+      "shared_state_id": "R0",
+      "source": "shared_states/R0_delivery_1536.png",
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 0,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.0,
+      "opaque_bbox_alpha_gt16": [
+        603,
+        420,
+        857,
+        927
+      ],
+      "png_sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d",
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          719.591,
+          701.176
+        ],
+        "lantern_grip": [
+          811.629,
+          669.78
+        ],
+        "lantern_housing_center": [
+          827.112,
+          720.1
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fRelease",
+      "cell": 0,
+      "source_anchor": [
+        516,
+        1298
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Left foot releases from R0",
+      "hold_60hz": 3,
+      "support": "near/right rear sole; far/left airborne",
+      "frame": 2,
+      "file": "frames/lantern_flare_02.png",
+      "source_master": "source/flare_release_R0_v01_native.png",
+      "source_master_sha256": "439e4a3193b9f099861f49a01d5ff1189a1280638e828850b9ddddb7561d6e74",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          255,
+          368
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct R0 single source, same203/472 physical scale.",
+        "source_anchor_px": [
+          516,
+          1298
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.924,
+          926.25
+        ],
+        "source_root_px_top_left": [
+          597.55665,
+          1218.364532
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 2,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.03333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        601,
+        420,
+        901,
+        928
+      ],
+      "png_sha256": "613926ce2366b6b44f27d45fe9d4155cc90eb68f29d0f9656f4a6e9af455720a",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          475,
+          784
+        ],
+        "lantern_grip": [
+          781,
+          600
+        ],
+        "lantern_glass_center": [
+          788,
+          710
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          715.29,
+          705.186
+        ],
+        "lantern_grip": [
+          846.896,
+          626.051
+        ],
+        "lantern_glass_center": [
+          849.907,
+          673.36
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fStep",
+      "cell": 0,
+      "source_anchor": [
+        480,
+        1320
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Left foot travels outward",
+      "hold_60hz": 3,
+      "support": "near/right rear sole; far/left airborne",
+      "frame": 3,
+      "file": "frames/lantern_flare_03.png",
+      "source_master": "source/flare_step_R0_v01_native.png",
+      "source_master_sha256": "76c58072d13f1e87a5d42972d4f62bd72cdb8be35d5f64e3c22ca9bfb13f0fe6",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          270,
+          358
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct R0 single source, same203/472 physical scale.",
+        "source_anchor_px": [
+          480,
+          1320
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.441,
+          925.712
+        ],
+        "source_root_px_top_left": [
+          562.679803,
+          1241.615764
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 5,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.08333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        591,
+        386,
+        961,
+        928
+      ],
+      "png_sha256": "61f865aced060a062a90ab0f8c1deb93afbab73e681f34969498e7ee3a6b5c81",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          448,
+          766
+        ],
+        "lantern_grip": [
+          790,
+          516
+        ],
+        "lantern_glass_center": [
+          790,
+          622
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          718.678,
+          687.445
+        ],
+        "lantern_grip": [
+          865.767,
+          579.924
+        ],
+        "lantern_glass_center": [
+          865.767,
+          625.513
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fA",
+      "cell": 0,
+      "source_anchor": [
+        177,
+        591
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Load and begin left lift",
+      "hold_60hz": 3,
+      "support": "both ready feet; widening begins",
+      "review_v1_slot": 2,
+      "frame": 4,
+      "file": "frames/lantern_flare_04.png",
+      "source_master": "source/flare_A_v01_native.png",
+      "source_master_sha256": "e4ade5ea2890db4e9764196af8ea8ff03c90eae8e9025885ccb97cc67da003d2",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          628,
+          620
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.8826086956521739,
+        "integer_translation_into_1024": [
+          320,
+          404
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle230px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          177,
+          591
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.222,
+          925.622
+        ],
+        "source_root_px_top_left": [
+          217.536946,
+          552.906404
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 8,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.13333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        626,
+        439,
+        1031,
+        932
+      ],
+      "png_sha256": "a3323edae6a88ebc4a4a1b5e116d66c03f887be64ada514ee10644a62bed72f8",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          211,
+          350
+        ],
+        "lantern_grip": [
+          475,
+          290
+        ],
+        "lantern_glass_center": [
+          478,
+          351
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          762.23,
+          712.913
+        ],
+        "lantern_grip": [
+          995.239,
+          659.957
+        ],
+        "lantern_glass_center": [
+          997.887,
+          713.796
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fA",
+      "cell": 1,
+      "source_anchor": [
+        808,
+        591
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Open shoulder and release far heel",
+      "hold_60hz": 3,
+      "support": "near/right sole",
+      "review_v1_slot": 3,
+      "frame": 5,
+      "file": "frames/lantern_flare_05.png",
+      "source_master": "source/flare_A_v01_native.png",
+      "source_master_sha256": "e4ade5ea2890db4e9764196af8ea8ff03c90eae8e9025885ccb97cc67da003d2",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          628,
+          0,
+          1254,
+          620
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.8826086956521739,
+        "integer_translation_into_1024": [
+          -237,
+          404
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle230px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          808,
+          591
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.148,
+          925.622
+        ],
+        "source_root_px_top_left": [
+          848.62069,
+          552.906404
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 11,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.18333333333333332,
+      "opaque_bbox_alpha_gt16": [
+        649,
+        440,
+        1070,
+        931
+      ],
+      "png_sha256": "8f9d6c63b2c8d628be50096480606815b4ad1ab1a9507dc9726043d25bae8cb8",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          852,
+          350
+        ],
+        "lantern_grip": [
+          1117,
+          265
+        ],
+        "lantern_glass_center": [
+          1129,
+          325
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          770.983,
+          712.913
+        ],
+        "lantern_grip": [
+          1004.874,
+          637.891
+        ],
+        "lantern_glass_center": [
+          1015.465,
+          690.848
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fA",
+      "cell": 2,
+      "source_anchor": [
+        178,
+        1210
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Waist lift and widening step",
+      "hold_60hz": 3,
+      "support": "near/right sole; far/left heel rock",
+      "review_v1_slot": 4,
+      "frame": 6,
+      "file": "frames/lantern_flare_06.png",
+      "source_master": "source/flare_A_v01_native.png",
+      "source_master_sha256": "e4ade5ea2890db4e9764196af8ea8ff03c90eae8e9025885ccb97cc67da003d2",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 8,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          620,
+          650,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.8826086956521739,
+        "integer_translation_into_1024": [
+          319,
+          -142
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle230px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          178,
+          1210
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.104,
+          925.957
+        ],
+        "source_root_px_top_left": [
+          218.669951,
+          1171.527094
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 14,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.23333333333333334,
+      "opaque_bbox_alpha_gt16": [
+        625,
+        437,
+        1115,
+        924
+      ],
+      "png_sha256": "8cbaaa5805eab1b33187fd7a250b05ac9df0c834d7fb1b9f63340d48c7a90d4c",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          240,
+          954
+        ],
+        "lantern_grip": [
+          530,
+          778
+        ],
+        "lantern_glass_center": [
+          538,
+          836
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          786.826,
+          700.009
+        ],
+        "lantern_grip": [
+          1042.783,
+          544.67
+        ],
+        "lantern_glass_center": [
+          1049.843,
+          595.861
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fA",
+      "cell": 3,
+      "source_anchor": [
+        808,
+        1202
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Chest lift into brace",
+      "hold_60hz": 3,
+      "support": "near/right sole",
+      "review_v1_slot": 5,
+      "frame": 7,
+      "file": "frames/lantern_flare_07.png",
+      "source_master": "source/flare_A_v01_native.png",
+      "source_master_sha256": "e4ade5ea2890db4e9764196af8ea8ff03c90eae8e9025885ccb97cc67da003d2",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 7,
+        "figure_count": 4,
+        "source_region_hint": [
+          650,
+          620,
+          1254,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.8826086956521739,
+        "integer_translation_into_1024": [
+          -237,
+          -135
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle230px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          808,
+          1202
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.148,
+          925.896
+        ],
+        "source_root_px_top_left": [
+          848.62069,
+          1163.596059
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 17,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.2833333333333333,
+      "opaque_bbox_alpha_gt16": [
+        632,
+        443,
+        1105,
+        933
+      ],
+      "png_sha256": "e7aac0723482ad8f56e0c8859bbaa167cb535333e7b3e7a0bfe62708b5137ff7",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          849,
+          960
+        ],
+        "lantern_grip": [
+          1176,
+          697
+        ],
+        "lantern_glass_center": [
+          1182,
+          754
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          768.335,
+          712.304
+        ],
+        "lantern_grip": [
+          1056.948,
+          480.178
+        ],
+        "lantern_glass_center": [
+          1062.243,
+          530.487
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fB",
+      "cell": 0,
+      "source_anchor": [
+        211,
+        599
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Face clearance",
+      "hold_60hz": 3,
+      "support": "near/right sole; far-foot stance changes",
+      "review_v1_slot": 6,
+      "frame": 8,
+      "file": "frames/lantern_flare_08.png",
+      "source_master": "source/flare_B_v01_native.png",
+      "source_master_sha256": "f8ce5d0af8c6596ef72eeaacf725ed6f38dc27ca51d48b1aee8903ad5ba85c3c",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          625,
+          616
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9806763285024155,
+        "integer_translation_into_1024": [
+          270,
+          339
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle207px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          211,
+          599
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.923,
+          926.425
+        ],
+        "source_root_px_top_left": [
+          246.768473,
+          563.896552
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 20,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.3333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        629,
+        389,
+        1089,
+        931
+      ],
+      "png_sha256": "331fbe9252ce9114418b634f4062558241fe21761c8beb30e0b7075c7dfbe2ae",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          254,
+          344
+        ],
+        "lantern_grip": [
+          446,
+          120
+        ],
+        "lantern_glass_center": [
+          452,
+          175
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          775.092,
+          676.353
+        ],
+        "lantern_grip": [
+          963.382,
+          456.681
+        ],
+        "lantern_glass_center": [
+          969.266,
+          510.618
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fB",
+      "cell": 1,
+      "source_anchor": [
+        806,
+        604
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "High lift",
+      "hold_60hz": 3,
+      "support": "near/right sole; far-foot stance changes",
+      "review_v1_slot": 7,
+      "frame": 9,
+      "file": "frames/lantern_flare_09.png",
+      "source_master": "source/flare_B_v01_native.png",
+      "source_master_sha256": "f8ce5d0af8c6596ef72eeaacf725ed6f38dc27ca51d48b1aee8903ad5ba85c3c",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          625,
+          0,
+          1254,
+          616
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9806763285024155,
+        "integer_translation_into_1024": [
+          -314,
+          334
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle207px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          806,
+          604
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.425,
+          926.329
+        ],
+        "source_root_px_top_left": [
+          842.275862,
+          568.995074
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 23,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.38333333333333336,
+      "opaque_bbox_alpha_gt16": [
+        607,
+        384,
+        1122,
+        933
+      ],
+      "png_sha256": "8219535230a8bad0e49a4de7b86b214e90b1d91fe2cac8bc5ec518ef4f32ecff",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          852,
+          353
+        ],
+        "lantern_grip": [
+          1108,
+          63
+        ],
+        "lantern_glass_center": [
+          1127,
+          120
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          777.536,
+          680.179
+        ],
+        "lantern_grip": [
+          1028.589,
+          395.783
+        ],
+        "lantern_glass_center": [
+          1047.222,
+          451.681
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fB",
+      "cell": 2,
+      "source_anchor": [
+        214,
+        1209
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "High brace",
+      "hold_60hz": 3,
+      "support": "near/right sole; far-foot stance changes",
+      "review_v1_slot": 8,
+      "frame": 10,
+      "file": "frames/lantern_flare_10.png",
+      "source_master": "source/flare_B_v01_native.png",
+      "source_master_sha256": "f8ce5d0af8c6596ef72eeaacf725ed6f38dc27ca51d48b1aee8903ad5ba85c3c",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 7,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          616,
+          675,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9806763285024155,
+        "integer_translation_into_1024": [
+          267,
+          -260
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle207px vs203px R0, one factor for four.",
+        "source_anchor_px": [
+          214,
+          1209
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.865,
+          925.638
+        ],
+        "source_root_px_top_left": [
+          249.827586,
+          1174.699507
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 26,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.43333333333333335,
+      "opaque_bbox_alpha_gt16": [
+        597,
+        343,
+        1170,
+        933
+      ],
+      "png_sha256": "a1a310f3deaf9f454bc21b702486cd6e0896c6f767f17729300670fd7a7b98c7",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          252,
+          967
+        ],
+        "lantern_grip": [
+          545,
+          636
+        ],
+        "lantern_glass_center": [
+          563,
+          688
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          770.13,
+          688.314
+        ],
+        "lantern_grip": [
+          1057.469,
+          363.71
+        ],
+        "lantern_glass_center": [
+          1075.121,
+          414.705
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fC",
+      "cell": 0,
+      "source_anchor": [
+        182,
+        597
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Release onset",
+      "hold_60hz": 3,
+      "support": "near/right sole; broad far heel-rock",
+      "review_v1_slot": 10,
+      "frame": 11,
+      "file": "frames/lantern_flare_11.png",
+      "source_master": "source/flare_C_10_13_v01_native.png",
+      "source_master_sha256": "5ea828da13c9ff0838e502037030f99e5d271906f575d8eaf2a6938563fcac99",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          625,
+          617
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9902439024390244,
+        "integer_translation_into_1024": [
+          296,
+          335
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Approved peak hair-to-front-buckle205px vs203px R0. One203/205 factor, hardware QA passed.",
+        "source_anchor_px": [
+          182,
+          597
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.224,
+          926.176
+        ],
+        "source_root_px_top_left": [
+          218.128079,
+          562.487685
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 29,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.48333333333333334,
+      "opaque_bbox_alpha_gt16": [
+        636,
+        365,
+        1127,
+        933
+      ],
+      "png_sha256": "4822ef7ebb22efeb1b35e69b7b1789e71afcb0a11fecc304c7861f1549ebd98f",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          207,
+          348
+        ],
+        "lantern_grip": [
+          516,
+          42
+        ],
+        "lantern_glass_center": [
+          533,
+          94
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          756.98,
+          679.605
+        ],
+        "lantern_grip": [
+          1062.966,
+          376.59
+        ],
+        "lantern_glass_center": [
+          1079.8,
+          428.083
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fC",
+      "cell": 1,
+      "source_anchor": [
+        807,
+        609
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Flare expansion",
+      "hold_60hz": 4,
+      "support": "near/right sole; broad far heel-rock",
+      "review_v1_slot": 11,
+      "frame": 12,
+      "file": "frames/lantern_flare_12.png",
+      "source_master": "source/flare_C_10_13_v01_native.png",
+      "source_master_sha256": "5ea828da13c9ff0838e502037030f99e5d271906f575d8eaf2a6938563fcac99",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          625,
+          0,
+          1254,
+          617
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9902439024390244,
+        "integer_translation_into_1024": [
+          -323,
+          323
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Approved peak hair-to-front-buckle205px vs203px R0. One203/205 factor, hardware QA passed.",
+        "source_anchor_px": [
+          807,
+          609
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.127,
+          926.059
+        ],
+        "source_root_px_top_left": [
+          843.226601,
+          574.605911
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 32,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.5333333333333333,
+      "opaque_bbox_alpha_gt16": [
+        588,
+        341,
+        1131,
+        930
+      ],
+      "png_sha256": "73c824536d157e620ff7d7ad25738af2f002a9774ad9444fa73677f03f564173",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          813,
+          353
+        ],
+        "lantern_grip": [
+          1142,
+          43
+        ],
+        "lantern_glass_center": [
+          1160,
+          93
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          738.068,
+          672.556
+        ],
+        "lantern_grip": [
+          1063.859,
+          365.58
+        ],
+        "lantern_glass_center": [
+          1081.683,
+          415.093
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fPeakSteps",
+      "cell": 0,
+      "source_anchor": [
+        203,
+        924
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Final outward flare step",
+      "hold_60hz": 3,
+      "support": "near/right rear sole; far/left airborne",
+      "frame": 13,
+      "file": "frames/lantern_flare_13.png",
+      "source_master": "source/flare_peak_steps_v01_native.png",
+      "source_master_sha256": "42ca2f90f7573ce763f521168635808a97a24b1d9b701b15d514fae0ddf5a0c6",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 2,
+        "source_region_hint": [
+          0,
+          0,
+          816,
+          1024
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.7302158273381295,
+        "integer_translation_into_1024": [
+          328,
+          251
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "One whole-pair upper-body ruler278native px vs203R0 import; complete drawn airborne foot-transfer poses.",
+        "source_anchor_px": [
+          203,
+          924
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.234,
+          925.719
+        ],
+        "source_root_px_top_left": [
+          251.980296,
+          877.82266
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 36,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.6,
+      "opaque_bbox_alpha_gt16": [
+        597,
+        327,
+        1177,
+        930
+      ],
+      "png_sha256": "6aa406927fc870dd80960c2d1ad5c2dfe508346946a25a28a7ef12a31a06dc4c",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          212,
+          563
+        ],
+        "lantern_grip": [
+          687,
+          138
+        ],
+        "lantern_glass_center": [
+          714,
+          189
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          738.806,
+          662.112
+        ],
+        "lantern_grip": [
+          1085.658,
+          351.77
+        ],
+        "lantern_glass_center": [
+          1105.374,
+          389.011
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fC",
+      "cell": 2,
+      "source_anchor": [
+        176,
+        1226
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Flare peak",
+      "hold_60hz": 7,
+      "support": "near/right sole; broad far heel-rock",
+      "review_v1_slot": 12,
+      "frame": 14,
+      "file": "frames/lantern_flare_14.png",
+      "source_master": "source/flare_C_10_13_v01_native.png",
+      "source_master_sha256": "5ea828da13c9ff0838e502037030f99e5d271906f575d8eaf2a6938563fcac99",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 11,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          617,
+          681,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9902439024390244,
+        "integer_translation_into_1024": [
+          302,
+          -288
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Approved peak hair-to-front-buckle205px vs203px R0. One203/205 factor, hardware QA passed.",
+        "source_anchor_px": [
+          176,
+          1226
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.283,
+          926.039
+        ],
+        "source_root_px_top_left": [
+          212.068966,
+          1191.625616
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 39,
+      "hold_ticks_60hz": 7,
+      "start_seconds": 0.65,
+      "opaque_bbox_alpha_gt16": [
+        611,
+        328,
+        1215,
+        929
+      ],
+      "png_sha256": "fb323806728079174b5526d4cfb88f5cfde7aced26460de3bee08d22e7daae7f",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          199,
+          970
+        ],
+        "lantern_grip": [
+          550,
+          641
+        ],
+        "lantern_glass_center": [
+          565,
+          692
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          755.059,
+          672.537
+        ],
+        "lantern_grip": [
+          1102.634,
+          346.746
+        ],
+        "lantern_glass_center": [
+          1117.488,
+          397.249
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fPeakSteps",
+      "cell": 1,
+      "source_anchor": [
+        1023,
+        933
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Lifted-foot peak recoil",
+      "hold_60hz": 2,
+      "support": "near/right rear sole; far/left airborne",
+      "frame": 15,
+      "file": "frames/lantern_flare_15.png",
+      "source_master": "source/flare_peak_steps_v01_native.png",
+      "source_master_sha256": "42ca2f90f7573ce763f521168635808a97a24b1d9b701b15d514fae0ddf5a0c6",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 2,
+        "source_region_hint": [
+          816,
+          0,
+          1536,
+          1024
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.7302158273381295,
+        "integer_translation_into_1024": [
+          -271,
+          245
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "One whole-pair upper-body ruler278native px vs203R0 import; complete drawn airborne foot-transfer poses.",
+        "source_anchor_px": [
+          1023,
+          933
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.011,
+          926.291
+        ],
+        "source_root_px_top_left": [
+          1072.285714,
+          886.039409
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 46,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.7666666666666667,
+      "opaque_bbox_alpha_gt16": [
+        579,
+        362,
+        1091,
+        932
+      ],
+      "png_sha256": "308c05f781b7ba6d0ccd57019ef785fc9e53829507182bbad14ab5ec59cdf644",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          1006,
+          580
+        ],
+        "lantern_grip": [
+          1332,
+          188
+        ],
+        "lantern_glass_center": [
+          1357,
+          247
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          719.597,
+          668.525
+        ],
+        "lantern_grip": [
+          957.647,
+          382.281
+        ],
+        "lantern_glass_center": [
+          975.903,
+          425.363
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fC",
+      "cell": 3,
+      "source_anchor": [
+        839,
+        1201
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Peak reaction",
+      "hold_60hz": 6,
+      "support": "near/right sole; broad far heel-rock",
+      "review_v1_slot": 13,
+      "frame": 16,
+      "file": "frames/lantern_flare_16.png",
+      "source_master": "source/flare_C_10_13_v01_native.png",
+      "source_master_sha256": "5ea828da13c9ff0838e502037030f99e5d271906f575d8eaf2a6938563fcac99",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 12,
+        "figure_count": 4,
+        "source_region_hint": [
+          681,
+          617,
+          1254,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9902439024390244,
+        "integer_translation_into_1024": [
+          -354,
+          -263
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Approved peak hair-to-front-buckle205px vs203px R0. One203/205 factor, hardware QA passed.",
+        "source_anchor_px": [
+          839,
+          1201
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.815,
+          926.283
+        ],
+        "source_root_px_top_left": [
+          874.53202,
+          1166.37931
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 48,
+      "hold_ticks_60hz": 6,
+      "start_seconds": 0.8,
+      "opaque_bbox_alpha_gt16": [
+        606,
+        385,
+        1111,
+        937
+      ],
+      "png_sha256": "7c4bdd19c150062f8431225e9c5965e29d45a6eaf4b0096146edb899918281d7",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          863,
+          978
+        ],
+        "lantern_grip": [
+          1128,
+          672
+        ],
+        "lantern_glass_center": [
+          1145,
+          729
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          756.58,
+          705.459
+        ],
+        "lantern_grip": [
+          1018.995,
+          402.444
+        ],
+        "lantern_glass_center": [
+          1035.829,
+          458.888
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fD",
+      "cell": 1,
+      "source_anchor": [
+        801,
+        605
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Flare release",
+      "hold_60hz": 5,
+      "support": "near/right sole",
+      "review_v1_slot": 15,
+      "frame": 17,
+      "file": "frames/lantern_flare_17.png",
+      "source_master": "source/flare_D_v01_native.png",
+      "source_master_sha256": "6a7a4f2419bc563185b65bde9e8ad6ed27ac02c32bd4d218ddf3a63e05cb6360",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          625,
+          0,
+          1254,
+          620
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 1.0,
+        "integer_translation_into_1024": [
+          -325,
+          321
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Upright upper-body ruler approximately203px, matching R0 import. All4 use1.0.",
+        "source_anchor_px": [
+          801,
+          605
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.0,
+          926.0
+        ],
+        "source_root_px_top_left": [
+          837.0,
+          571.0
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 54,
+      "hold_ticks_60hz": 5,
+      "start_seconds": 0.9,
+      "opaque_bbox_alpha_gt16": [
+        597,
+        370,
+        1140,
+        933
+      ],
+      "png_sha256": "4ec2989b33124680ae1bebfaa468bd0c94115b3ddd28e705afef1af145ece9df",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          828,
+          352
+        ],
+        "lantern_grip": [
+          1127,
+          75
+        ],
+        "lantern_glass_center": [
+          1147,
+          115
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          759.0,
+          673.0
+        ],
+        "lantern_grip": [
+          1058.0,
+          396.0
+        ],
+        "lantern_glass_center": [
+          1078.0,
+          436.0
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fD",
+      "cell": 2,
+      "source_anchor": [
+        211,
+        1216
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Light decay",
+      "hold_60hz": 4,
+      "support": "both wide feet",
+      "review_v1_slot": 16,
+      "frame": 18,
+      "file": "frames/lantern_flare_18.png",
+      "source_master": "source/flare_D_v01_native.png",
+      "source_master_sha256": "6a7a4f2419bc563185b65bde9e8ad6ed27ac02c32bd4d218ddf3a63e05cb6360",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 6,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          620,
+          660,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 1.0,
+        "integer_translation_into_1024": [
+          265,
+          -290
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Upright upper-body ruler approximately203px, matching R0 import. All4 use1.0.",
+        "source_anchor_px": [
+          211,
+          1216
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.0,
+          926.0
+        ],
+        "source_root_px_top_left": [
+          247.0,
+          1182.0
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 59,
+      "hold_ticks_60hz": 4,
+      "start_seconds": 0.9833333333333333,
+      "opaque_bbox_alpha_gt16": [
+        626,
+        377,
+        1147,
+        929
+      ],
+      "png_sha256": "d9ce7833475900688272d8f7dc0d5107658a2367efc0e9e72e07c9b613cbac77",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          255,
+          967
+        ],
+        "lantern_grip": [
+          553,
+          693
+        ],
+        "lantern_glass_center": [
+          572,
+          748
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          776.0,
+          677.0
+        ],
+        "lantern_grip": [
+          1074.0,
+          403.0
+        ],
+        "lantern_glass_center": [
+          1093.0,
+          458.0
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fE",
+      "cell": 0,
+      "source_anchor": [
+        227,
+        600
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Shoulder return",
+      "hold_60hz": 3,
+      "support": "near/right replant",
+      "review_v1_slot": 18,
+      "frame": 19,
+      "file": "frames/lantern_flare_19.png",
+      "source_master": "source/flare_E_v01_native.png",
+      "source_master_sha256": "1a6db9f4a77284416de16eee4a601210cda1d859350c78f2ce3ebb40bf75505f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          0,
+          625,
+          620
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9311926605504587,
+        "integer_translation_into_1024": [
+          265,
+          367
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Hair-to-front-buckle218px vs203px R0. All4 share203/218.",
+        "source_anchor_px": [
+          227,
+          600
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.381,
+          925.716
+        ],
+        "source_root_px_top_left": [
+          265.251232,
+          563.793103
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 63,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.05,
+      "opaque_bbox_alpha_gt16": [
+        638,
+        409,
+        1060,
+        930
+      ],
+      "png_sha256": "9f3bb70fab7a7bf7491df8d1deea8cf10714380d7f8366d407c6f278a8928009",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          273,
+          340
+        ],
+        "lantern_grip": [
+          492,
+          111
+        ],
+        "lantern_glass_center": [
+          503,
+          168
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          775.216,
+          683.606
+        ],
+        "lantern_grip": [
+          979.147,
+          470.362
+        ],
+        "lantern_glass_center": [
+          989.39,
+          523.44
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fE",
+      "cell": 1,
+      "source_anchor": [
+        868,
+        603
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Chest return and inward foot swing",
+      "hold_60hz": 3,
+      "support": "near/right support; far/left airborne",
+      "review_v1_slot": 19,
+      "frame": 20,
+      "file": "frames/lantern_flare_20.png",
+      "source_master": "source/flare_E_v01_native.png",
+      "source_master_sha256": "1a6db9f4a77284416de16eee4a601210cda1d859350c78f2ce3ebb40bf75505f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 2,
+        "figure_count": 4,
+        "source_region_hint": [
+          625,
+          0,
+          1254,
+          620
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9311926605504587,
+        "integer_translation_into_1024": [
+          -332,
+          365
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Hair-to-front-buckle218px vs203px R0. All4 share203/218.",
+        "source_anchor_px": [
+          868,
+          603
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.275,
+          926.509
+        ],
+        "source_root_px_top_left": [
+          906.364532,
+          565.940887
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 66,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.1,
+      "opaque_bbox_alpha_gt16": [
+        598,
+        408,
+        940,
+        933
+      ],
+      "png_sha256": "d8dbed2bd86be4e7e779f2048ffc8e65581853cf8109f6f103b6b2d26d4ea405",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          853,
+          351
+        ],
+        "lantern_grip": [
+          1024,
+          180
+        ],
+        "lantern_glass_center": [
+          1044,
+          234
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          718.307,
+          691.849
+        ],
+        "lantern_grip": [
+          877.541,
+          532.615
+        ],
+        "lantern_glass_center": [
+          896.165,
+          582.899
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fE",
+      "cell": 2,
+      "source_anchor": [
+        265,
+        1217
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Waist return",
+      "hold_60hz": 3,
+      "support": "both feet narrowing",
+      "review_v1_slot": 20,
+      "frame": 21,
+      "file": "frames/lantern_flare_21.png",
+      "source_master": "source/flare_E_v01_native.png",
+      "source_master_sha256": "1a6db9f4a77284416de16eee4a601210cda1d859350c78f2ce3ebb40bf75505f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 7,
+        "figure_count": 4,
+        "source_region_hint": [
+          0,
+          620,
+          650,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9311926605504587,
+        "integer_translation_into_1024": [
+          230,
+          -207
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Hair-to-front-buckle218px vs203px R0. All4 share203/218.",
+        "source_anchor_px": [
+          265,
+          1217
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.766,
+          926.261
+        ],
+        "source_root_px_top_left": [
+          302.837438,
+          1180.206897
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 69,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.15,
+      "opaque_bbox_alpha_gt16": [
+        623,
+        402,
+        1027,
+        933
+      ],
+      "png_sha256": "f98e5a20ea2a6bd7c157d2c76796e5b6e44af6668b4585c5e9b146250ef1a676",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          285,
+          970
+        ],
+        "lantern_grip": [
+          478,
+          909
+        ],
+        "lantern_glass_center": [
+          480,
+          963
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          751.39,
+          696.257
+        ],
+        "lantern_grip": [
+          931.11,
+          639.454
+        ],
+        "lantern_glass_center": [
+          932.972,
+          689.739
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fE",
+      "cell": 3,
+      "source_anchor": [
+        899,
+        1218
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Arm settle",
+      "hold_60hz": 3,
+      "support": "both recovery feet",
+      "review_v1_slot": 21,
+      "frame": 22,
+      "file": "frames/lantern_flare_22.png",
+      "source_master": "source/flare_E_v01_native.png",
+      "source_master_sha256": "1a6db9f4a77284416de16eee4a601210cda1d859350c78f2ce3ebb40bf75505f",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 8,
+        "figure_count": 4,
+        "source_region_hint": [
+          650,
+          620,
+          1254,
+          1254
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.9311926605504587,
+        "integer_translation_into_1024": [
+          -361,
+          -208
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Hair-to-front-buckle218px vs203px R0. All4 share203/218.",
+        "source_anchor_px": [
+          899,
+          1218
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.142,
+          926.193
+        ],
+        "source_root_px_top_left": [
+          937.507389,
+          1181.280788
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 72,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.2,
+      "opaque_bbox_alpha_gt16": [
+        601,
+        402,
+        937,
+        932
+      ],
+      "png_sha256": "86506e5340b015d232dbdc090ce17d9763a2578160a2ad0738443d15647b8026",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          890,
+          984
+        ],
+        "lantern_grip": [
+          1050,
+          958
+        ],
+        "lantern_glass_center": [
+          1077,
+          1010
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          723.761,
+          708.294
+        ],
+        "lantern_grip": [
+          872.752,
+          684.083
+        ],
+        "lantern_glass_center": [
+          897.894,
+          732.505
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "fF",
+      "cell": 0,
+      "source_anchor": [
+        229,
+        808
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Prop overshoot",
+      "hold_60hz": 3,
+      "support": "both feet; readyward spacing",
+      "review_v1_slot": 22,
+      "frame": 23,
+      "file": "frames/lantern_flare_23.png",
+      "source_master": "source/flare_F_v01_native.png",
+      "source_master_sha256": "b452b9ae41ba5238b92e5afae07504666955a4bc083bf2390f551ca03ef5879a",
+      "source_region": {
+        "method": "complete_figure_component_ownership",
+        "connected_alpha_threshold_for_identity_only": 16,
+        "selected_component": 1,
+        "figure_count": 3,
+        "source_region_hint": [
+          0,
+          0,
+          624,
+          887
+        ],
+        "all_assigned_RGBA_values_preserved": true,
+        "all_source_pixels_partitioned_once": true
+      },
+      "source_registration": {
+        "uniform_scale": 0.6548387096774193,
+        "integer_translation_into_1024": [
+          327,
+          397
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Standing hair-to-front-buckle310px vs203px R0. Whole3-figure master203/310.",
+        "source_anchor_px": [
+          229,
+          808
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.958,
+          926.11
+        ],
+        "source_root_px_top_left": [
+          282.512315,
+          755.91133
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 75,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.25,
+      "opaque_bbox_alpha_gt16": [
+        612,
+        419,
+        987,
+        933
+      ],
+      "png_sha256": "352cc62b7436703400a2432abda3a574fb72b5708efd3c822734f8c1490e1834",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          245,
+          455
+        ],
+        "lantern_grip": [
+          517,
+          416
+        ],
+        "lantern_glass_center": [
+          527,
+          491
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          743.435,
+          694.952
+        ],
+        "lantern_grip": [
+          921.552,
+          669.413
+        ],
+        "lantern_glass_center": [
+          928.1,
+          718.526
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "gather",
+      "cell": 0,
+      "source_anchor": [
+        515,
+        1300
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Shared far-foot gather",
+      "hold_60hz": 3,
+      "support": "near/right support; far/left airborne",
+      "shared_state_id": "G0_recovery_gather",
+      "review_v1_slot": 23,
+      "frame": 24,
+      "file": "frames/lantern_flare_24.png",
+      "source_master": "source/dash_gather_R0_v01_native.png",
+      "source_master_sha256": "e07c8a7808c8d0ea81ee1b7d737d72774435bf7e326de1d055400780583359dd",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          255,
+          367
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct immutable R0 source, same1122x1402 and exact203/472 factor.",
+        "source_anchor_px": [
+          515,
+          1300
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "source_root_px_top_left": [
+          597.55665,
+          1220.689655
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 78,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.3,
+      "opaque_bbox_alpha_gt16": [
+        568,
+        416,
+        868,
+        928
+      ],
+      "png_sha256": "c9074057850392c4e4f9342a088705809e1dc7d4c1579c638eb399f07eb3ea3e",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          448,
+          760
+        ],
+        "lantern_grip": [
+          729,
+          705
+        ],
+        "lantern_glass_center": [
+          774,
+          804
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          703.678,
+          693.864
+        ],
+        "lantern_grip": [
+          824.532,
+          670.21
+        ],
+        "lantern_glass_center": [
+          843.886,
+          712.788
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    },
+    {
+      "master": "return",
+      "cell": 0,
+      "source_anchor": [
+        516,
+        1300
+      ],
+      "target_anchor": [
+        476.494,
+        926.11
+      ],
+      "phase": "Shared final ready settle",
+      "hold_60hz": 3,
+      "support": "both R0 feet",
+      "shared_state_id": "S0_recovery_settle",
+      "review_v1_slot": 24,
+      "frame": 25,
+      "file": "frames/lantern_flare_25.png",
+      "source_master": "source/dash_return_R0_v01_native.png",
+      "source_master_sha256": "db5c50ed4fbea680a19603b9fd1e3c8b1f6e662a3fffe1a9a155616a7945c008",
+      "source_region": {
+        "rectangle": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      "source_registration": {
+        "uniform_scale": 0.4300847457627119,
+        "integer_translation_into_1024": [
+          255,
+          367
+        ],
+        "delivery_padding": [
+          256,
+          0
+        ],
+        "construction_ruler": "Direct immutable R0 source, same1122x1402 and exact203/472 factor.",
+        "source_anchor_px": [
+          516,
+          1300
+        ],
+        "target_anchor_delivery_px": [
+          732.494,
+          926.11
+        ],
+        "rendered_anchor_delivery_px": [
+          732.924,
+          926.11
+        ],
+        "source_root_px_top_left": [
+          597.55665,
+          1220.689655
+        ],
+        "source_root_note": "Inverse mapping of declared fixed import pivot; a2D registration datum, not a measured3D pelvis projection."
+      },
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "start_tick_60hz": 81,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 1.35,
+      "opaque_bbox_alpha_gt16": [
+        598,
+        420,
+        871,
+        928
+      ],
+      "png_sha256": "c3f253f17cfb4a46acb933d82f46e6899bf6c953669464c35dd8f0f2b28d9360",
+      "hand_prop_landmarks_native_px": {
+        "sword_grip": [
+          450,
+          766
+        ],
+        "lantern_grip": [
+          730,
+          706
+        ],
+        "lantern_glass_center": [
+          784,
+          797
+        ]
+      },
+      "hand_prop_landmarks_delivery_px": {
+        "sword_grip": [
+          704.538,
+          696.445
+        ],
+        "lantern_grip": [
+          824.962,
+          670.64
+        ],
+        "lantern_glass_center": [
+          848.186,
+          709.778
+        ]
+      },
+      "prop_assignments": {
+        "anatomical_right": "sword; short black wrist wrap; never released",
+        "anatomical_left": "same brass lantern; long brown bracer; never released"
+      },
+      "landmark_status": "Manually observed source attachment points; approximate2D guide. No hand animation or hitboxes implemented."
+    }
+  ],
+  "source_scale_rule": "One declared construction scale per coherent master; no per-frame bounds fitting, no body warps, no mirroring. Integer whole-drawing registration and common256px delivery padding.",
+  "leg_plan_override": "Far/left knee leads the airborne dash and same far/left foot lands; near/right trails. Flare widens/rocks/recovers actual contacts; no claim of original stationary far toe.",
+  "known_review_items": [
+    "Illustrated camera and 2D contact/hand landmarks remain uncalibrated; runtime collision and importer behavior are not tested.",
+    "Frame-to-frame illustrated detail variation remains visible at full source size; no synthetic smoothing was used."
+  ],
+  "events": [
+    {
+      "name": "release_onset",
+      "frame": 11,
+      "tick_60hz": 29,
+      "kind": "vfx_cue",
+      "frames": [
+        11
+      ],
+      "start_seconds": [
+        0.48333333333333334
+      ]
+    },
+    {
+      "name": "flare_peak",
+      "frame": 14,
+      "tick_60hz": 39,
+      "kind": "vfx_cue",
+      "frames": [
+        14
+      ],
+      "start_seconds": [
+        0.65
+      ]
+    },
+    {
+      "name": "flare_decay",
+      "frame": 16,
+      "tick_60hz": 48,
+      "kind": "vfx_cue",
+      "frames": [
+        16
+      ],
+      "start_seconds": [
+        0.8
+      ]
+    },
+    {
+      "name": "cone_end",
+      "frame": 19,
+      "tick_60hz": 63,
+      "kind": "vfx_cue",
+      "frames": [
+        19
+      ],
+      "start_seconds": [
+        1.05
+      ]
+    }
+  ],
+  "reference_body_height_px": 504,
+  "model_preference": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "actual_backend_verified": false,
+  "camera_note": "Same accepted approximately10-degree down-right illustrated view.35.264-degree elevation/45-degree azimuth/13m are uncalibrated reference targets.",
+  "interpolation": "None for character/effect drawings. Complete drawings held for integer60Hz ticks.",
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 3,
+  "preview_note": "Previews show three action repeats with neutral lead/return/reset pauses. Runtime action duration excludes those presentation pauses."
+}

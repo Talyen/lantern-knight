@@ -1,0 +1,3 @@
+Derived layer cache. Rebuild with: python source/build_delivery.py
+All complete source inputs are under source/masters and source/build_workshop.py.
+The source masters are immutable. Derived layer crops/clips are reproducible.

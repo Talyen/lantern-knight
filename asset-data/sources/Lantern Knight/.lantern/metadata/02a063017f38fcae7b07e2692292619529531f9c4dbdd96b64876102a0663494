@@ -1,0 +1,137 @@
+{
+  "id": "lantern_archetype_concept_01_skeletal_archer",
+  "name": "Skeletal archer",
+  "family": "02_archetypes_06",
+  "collection": "current_ink_revision02",
+  "canonical_status": "RETAINED ORIGINAL; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "1SwQiEOo91ozktb2WgguyeM83g8qP5mZG",
+  "source_url": "https://drive.google.com/file/d/1SwQiEOo91ozktb2WgguyeM83g8qP5mZG/view?usp=drivesdk",
+  "source_archive": "02_archetypes_06_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_archetypes_06_ink_revision02/packs/02_archetypes_06/assets/01_skeletal_archer.png",
+  "source_sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "remove_components_below": 2000,
+  "direction": "UL",
+  "facing": "screen upper-left (rear three-quarter)",
+  "baseline_dependency": {
+    "package": "ARCHER_runtime.zip",
+    "sha256": "4a38d22fcfd3f7319ce9646a759335fa59f566de4839c3bd9e334fbe5318270d",
+    "direction": "DR",
+    "unchanged": true
+  },
+  "source_order": {
+    "attack": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      0
+    ]
+  },
+  "frame_sources": {
+    "attack": {
+      "5": [
+        "move",
+        0
+      ]
+    }
+  },
+  "attack_visual_event_frame": 2,
+  "holds": {
+    "move": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "attack": [
+      8,
+      15,
+      8,
+      7,
+      6,
+      6
+    ]
+  },
+  "right_crop_extra": {
+    "move": {
+      "0": 16,
+      "3": 8
+    }
+  },
+  "top_crop_extra": {
+    "move": {
+      "3": 16,
+      "4": 16
+    },
+    "attack": {
+      "3": 16,
+      "4": 16,
+      "5": 16
+    }
+  },
+  "bottom_crop_extra": {
+    "attack": {
+      "0": 24,
+      "1": 24
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -100,
+        0
+      ],
+      "1": [
+        -40,
+        12
+      ],
+      "2": [
+        20,
+        25
+      ],
+      "3": [
+        -90,
+        20
+      ],
+      "4": [
+        -35,
+        10
+      ],
+      "5": [
+        10,
+        10
+      ]
+    },
+    "attack": {
+      "0": [
+        -20,
+        -30
+      ],
+      "1": [
+        0,
+        -30
+      ],
+      "3": [
+        -65,
+        -10
+      ],
+      "4": [
+        -25,
+        -15
+      ],
+      "5": [
+        -55,
+        -10
+      ]
+    }
+  },
+  "geometry_correction": "UL_nocked_arrow"
+}

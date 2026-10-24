@@ -1,0 +1,27 @@
+{
+  "scene": "cloister_B",
+  "status": "passed",
+  "reviewed_on_utc": "2026-10-09",
+  "inspection": [
+    "Native whole scene",
+    "Native-only crop placement planning",
+    "Final 1536x1024 hero-context image for each of three views",
+    "Final whole-map overview"
+  ],
+  "hero_visible_height_px": 160,
+  "scene_display_scale": 2.5,
+  "checks": {
+    "three_distinct_views": true,
+    "hero_unclipped": true,
+    "hero_feet_on_apparently_clear_ground": true,
+    "overview_crop_boxes_inside_canvas": true,
+    "legible_overview_labels": true
+  },
+  "caveats": [
+    "Visual placement assessment only; no navigation, collision, depth sorting, occlusion-mask or engine validation.",
+    "All scenery and original scene shadows are baked into the flattened raster.",
+    "Exact full-expansion generation prompt unavailable."
+  ],
+  "placement_revision": "Preflight western-route foot placement was moved off a bench to clear paving before final AI review creation.",
+  "additional_seam_inspection": "Independent seam comparisons completed with mean differences approximately 0.014 and 0.010 RGB levels. Rare max-5/max-3 differences retained in metrics; no pixel-identity claim. Both comparison boards inspected at actual output scale; no visible seam or boundary discontinuity."
+}

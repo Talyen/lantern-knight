@@ -1,0 +1,9 @@
+{
+  "method": "Built-in imagegen, two independent fresh generations. Original source canonical plus current move-ready reference, no iterative generative edits.",
+  "backend": "not exposed or verified",
+  "sources": {
+    "monk": "bbeb5f215536ca50f9d04e50f2e843a922b97f8958286e2d6a55241d71670dce",
+    "crawler": "117e393aae7a6d4bde1bb1aa03f62f6a11e6633873d897cb77825f7b43f8ad4f"
+  },
+  "status": "TEST, not engine validated"
+}

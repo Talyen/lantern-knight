@@ -1,0 +1,8 @@
+Ashen Halo — Lantern Knight light/ivory effects
+Role: enemy. One impact at 920 ms. Total clip 1580 ms.
+16 distinct generated cels + one clear frame. Playback uses explicit holds; no interpolation.
+512x512 RGBA frame canvases preserve native 313–314px source cells with transparent padding.
+Use animation.json for timing, pivot, event and art-footprint guidance.
+Ground projection is isometric. Do not vertically flip ground ellipses or rotate a vertical falling blade as if it were a flat UI image.
+No embedded character; all effects are reusable. Source and exact prompt are preserved.
+Prototype art guides only; not integrated or tested in an engine.

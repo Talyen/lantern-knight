@@ -1,0 +1,35 @@
+LANTERN — ZB04 SHROUD CRAWLER
+One-direction creative animation test, 7 October 2026.
+
+WHAT TO WATCH
+previews/shroud_crawler_motion_comparison_60hz.mp4 shows both actions side by side at native drawing scale.
+Cocoon scoot: six drawings, 44 ticks / 0.733333 seconds, looping. An asymmetric hand-pull/surge, shroud contraction, and a soft body-flop rather than a human walk. The drawings do not establish a mechanically alternating arm gait.
+Predatory pounce: six drawings, 50 ticks / 0.833333 seconds, one-shot. Readable gather/coiled lift, a 3-tick launch, impact, recovery. The preview holds recovery18 extra ticks between repetitions; those18 ticks are not in the runtime clip.
+Half-speed videos retain60Hz output and double drawing exposures.
+60Hz describes playback timing. There are SIX unique drawings per action, not60 unique drawings per second. No tweening or generated in-between pixels.
+
+RUNTIME CONTENTS
+frames/: twelve transparent native RGBA PNGs.
+atlas/: two3×2 atlases, each2304×1536; every cell768×768.
+metadata/: complete frame/pivot/atlas records,60Hz tick maps, timeline CSVs, events, and QA.
+manifest.json: provenance and combined clip metadata.
+previews/: light/dark native contact sheets and timed videos.
+
+COMMON REGISTRATION
+Both clips use the same768×768 canvas and root at(448,488) pixels measured from the top-left. Normalized bottom-left pivot is(0.5833333333,0.3645833333).
+Original sheet cell origins remain fixed512×512 apart. Each figure is translated exactly+128,+128 from its source cell coordinates, without per-frame centering, scale fitting, warping, rotation, or mirroring.
+Native reaches beyond nominal sheet gutters are preserved with connected-figure ownership. Large common margins protect every fingertip and cloth edge. Intentional pounce displacement and cloth-volume changes remain intact.
+Root/pivot is a proposed consistent import coordinate, not a calibrated physical root. In-engine movement speed, attack distance, collider, pixels-per-unit, and all other directions remain future tuning decisions. Do not automatically resize individual sprites to their bounds.
+
+ART DIRECTION AND LIMITS
+Screen down-right, world+X. Orthographic35.2643897° elevation /45° azimuth is the prompt target. Elevated gameplay silhouettes were visually reviewed; a generative raster sheet is not mathematical camera certification.
+Two visible connected human arms/hands; lower body fully enclosed in one charcoal/ivory shroud; no exposed legs or stumps. Cocoon squashing/coiling is deliberate. This is an expressive stepped-animation experiment for style/motion review, not an approved finished enemy rig.
+Individual fingers are simplified/overlapped in some planted-hand drawings. Minor cloth-fold and head-angle variation remains between drawings. No further polishing or human walking was substituted for the creature motion.
+
+PROVENANCE
+Built-in imagegen; fresh drawings from the original character identity/style reference only. Prompts include the requested words Sunburst2.5 (spaced as Sunburst 2.5 in the actual generation prompts). The tool does not expose proof of backend model selection.
+First locomotion4×2 attempt was rejected for edge clipping. One fresh3×2 retry succeeded; the original attempt is retained only in the source archive. Attack succeeded on its first fresh sheet. No generative edit cascade.
+Only deterministic extraction, uniform transparent padding, alpha-only cleanup, atlas assembly and preview compositing were applied. Source RGBA sheets are preserved byte-for-byte. Surviving runtime RGB values equal native source RGB exactly. Alpha≤16 becomes0; alpha≥250 becomes255. Tiny detached background specks are removed by component ownership. Hidden transparent RGB haze in the raw viewer does not appear in real alpha composites.
+
+SOURCE ARCHIVE
+Includes native sheets, exact prompts, original identity/style reference, extraction script, audit/QA metadata, and source composites. build_pack.py reproduces extraction/previews using Python,Pillow,NumPy,SciPy and ffmpeg. Runtime/source archives are each below19MB.

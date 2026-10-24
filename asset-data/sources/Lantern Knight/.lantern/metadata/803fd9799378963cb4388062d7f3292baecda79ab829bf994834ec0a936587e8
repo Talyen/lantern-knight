@@ -1,0 +1,22 @@
+{
+  "frame_count": 60,
+  "distinct_frames": 60,
+  "end_phase_1_vs_phase_0_max_channel_difference": 0,
+  "minimum_canvas_padding_px": 15,
+  "all_frames_rgba": true,
+  "canvas": [
+    768,
+    768
+  ],
+  "all_zero_alpha_rgb_cleared": true,
+  "minimum_ground_anchor_clearance_px": 32,
+  "fixed_anchor_px": [
+    384,
+    710
+  ],
+  "camera_claim": "Illustrated approximation, not a calibrated 3D projection. Target orthographic 35.2643897 degrees elevation,45 degrees azimuth.",
+  "source_hashes": {
+    "wisp_front_master.png": "bfcda1aafdae5e64155ced07613c8aae045e1228628960b740418fdc8b5222f2",
+    "wisp_additional_views_master.png": "289ebd3e759e2900cfd4609257e6fa449dd9298ff6b56e03e89b3cf6b384e7cb"
+  }
+}

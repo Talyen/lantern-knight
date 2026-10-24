@@ -1,0 +1,26 @@
+{
+  "version": "production_shared_props_v3",
+  "units": "authored units mapped to world meters by explicit guide convention",
+  "sword": {
+    "metal_blade_base_to_tip": 0.78,
+    "grip_to_blade_base": 0.075,
+    "grip_to_tip": 0.855,
+    "blade_base_width": 0.067,
+    "blade_thickness": 0.014,
+    "blade_shape": "straight tapered rigid symmetrical blade",
+    "crossguard_width": 0.145,
+    "crossguard_depth": 0.033,
+    "crossguard_axial_height": 0.018,
+    "run_carry": "Uniform12degree forward tilt applied to original localXZ source direction at EVERY phase. Original small angular oscillation retained. No per-frame adjustment."
+  },
+  "lantern": {
+    "outer_housing_height": 0.24,
+    "outer_housing_width": 0.16,
+    "depth": 0.07,
+    "center_below_grip": 0.195,
+    "upright_top_below_grip": 0.075,
+    "upright_bottom_below_grip": 0.315,
+    "natural_occlusion": true
+  },
+  "invariants": "Camera, body joints, grip centers and gait unchanged. Prop correction separately versioned. All clips share rigid dimensions."
+}

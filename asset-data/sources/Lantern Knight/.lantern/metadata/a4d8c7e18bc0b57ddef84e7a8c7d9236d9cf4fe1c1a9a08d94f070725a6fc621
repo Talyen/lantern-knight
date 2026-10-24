@@ -1,0 +1,7 @@
+drawing,start_tick,hold_ticks_60hz,phase
+1,0,3,Impact compression
+2,3,4,Buoyant recoil
+3,7,8,Peak stagger
+4,15,6,Heavy settle
+5,21,7,Rebound
+6,28,10,Ready recovery

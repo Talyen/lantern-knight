@@ -1,0 +1,26 @@
+{
+  "camera_elevation": 35.264389682754654,
+  "camera_azimuth": 45,
+  "basis_right": [
+    0.7071067811865475,
+    0.0,
+    -0.7071067811865475
+  ],
+  "basis_down": [
+    0.4082482904638631,
+    -0.8164965809277261,
+    0.4082482904638631
+  ],
+  "cell": [
+    1000,
+    820
+  ],
+  "root": [
+    500,
+    510
+  ],
+  "ppu": 230,
+  "guide_actor_yaw_offset_degrees": -45,
+  "guide_actor_yaw_offset_basis": "Initial death shoulder span implies approximately world+45degree forward; normalize this fixed embedded pose yaw before requested direction rotation. Approximate anatomical-facing normalization, not verified FBX rest orientation.",
+  "source": "Unaltered65-joint Mixamo sheets with actor-only yaw around worldY. No source motion modification. Anatomical right orange, left blue. Shape thickness approximate; joint projection exact. No props; art adapts hand gestures to held props."
+}

@@ -1,0 +1,626 @@
+{
+  "title": "Ready idle source registration",
+  "root_working": [
+    512,
+    892
+  ],
+  "root_delivery": [
+    768,
+    892
+  ],
+  "canvas_working": [
+    1024,
+    1024
+  ],
+  "canvas_delivery": [
+    1536,
+    1024
+  ],
+  "uniform_scale_all_frames": 0.4300847457627119,
+  "landmark_estimator": "Registration uses the equal-weight mean of near/far alpha-patch translation estimates. Brown sole estimates are exploratory only and can be contaminated by the blade. Original alpha is untouched during export.",
+  "r0_native_estimated_sole_points": {
+    "near": [
+      515,
+      1300
+    ],
+    "far": [
+      734,
+      1161
+    ]
+  },
+  "frames": [
+    {
+      "frame": 1,
+      "source": "lantern_hero_core_animations_01/shared_states/R0_ready_native.png",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        255,
+        367
+      ],
+      "file_working": "working_frames/ready_idle_01.png",
+      "file_delivery": "delivery_frames/ready_idle_01.png",
+      "shared_state_id": "R0",
+      "registration_method": "Exact shared R0 image copied unchanged."
+    },
+    {
+      "frame": 2,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame02_direct_R0_v02_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame02_direct_R0_v02.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        250,
+        366
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_02.png",
+      "file_delivery": "delivery_frames/ready_idle_02.png",
+      "source_near_sole_estimate": [
+        520,
+        1302
+      ],
+      "source_far_sole_estimate": [
+        754,
+        1165
+      ],
+      "near_residual_px": [
+        -2.85,
+        -0.14
+      ],
+      "far_residual_px": [
+        3.602,
+        0.72
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "9f024437f920af822a82bbb3559fb8180befdd1a3a169364c70381c0ad83a9e8",
+      "delivery_sha256": "5fac68ea5bbc79b49f978b414e05e58de57062a3909184cdadf3dc4bfecc6048",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 3,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame03_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame03_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        251,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_03.png",
+      "file_delivery": "delivery_frames/ready_idle_03.png",
+      "source_near_sole_estimate": [
+        520,
+        1301
+      ],
+      "source_far_sole_estimate": [
+        748,
+        1162
+      ],
+      "near_residual_px": [
+        -1.85,
+        0.43
+      ],
+      "far_residual_px": [
+        2.021,
+        0.43
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "605d539c26ec965b22b199fdc02911f9a91f168327a522f0d8cd689ebdc1f530",
+      "delivery_sha256": "7ee5f31ca82c8f933ad3e263b94d517ad937963b0e02f29556a03749349a34ca",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 4,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame04_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame04_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        247,
+        363
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_04.png",
+      "file_delivery": "delivery_frames/ready_idle_04.png",
+      "source_near_sole_estimate": [
+        529,
+        1304
+      ],
+      "source_far_sole_estimate": [
+        759,
+        1175
+      ],
+      "near_residual_px": [
+        -1.979,
+        -2.28
+      ],
+      "far_residual_px": [
+        2.752,
+        2.021
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "c2c49feeb8c77130f23b03883cc409cf458238f7c08be5aa955efa1a65ff64a3",
+      "delivery_sha256": "a6020f81cbb7a52af69854acf033446b225e34972782d2fa876a8d19dd8f0daa",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png",
+        "lantern_hero_core_animations_01/ready_idle/source/idle_frame03_direct_R0_v01_native.png",
+        "lantern_hero_core_animations_01/ready_idle/source/idle_frame05_direct_R0_v01_native.png"
+      ]
+    },
+    {
+      "frame": 5,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame05_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame05_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        252,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_05.png",
+      "file_delivery": "delivery_frames/ready_idle_05.png",
+      "source_near_sole_estimate": [
+        515,
+        1299
+      ],
+      "source_far_sole_estimate": [
+        748,
+        1162
+      ],
+      "near_residual_px": [
+        -3.0,
+        -0.43
+      ],
+      "far_residual_px": [
+        3.021,
+        0.43
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "aab2c94a99e680e9f1178af1a40328cbc6460996bb67facd29baaaa72a8c24f5",
+      "delivery_sha256": "84b9db8e7e5c3a370d12b81d6bba39a60c70e11ce26c2240fe9fe377c09a5044",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 6,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame06_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame06_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        252,
+        366
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_06.png",
+      "file_delivery": "delivery_frames/ready_idle_06.png",
+      "source_near_sole_estimate": [
+        514,
+        1300
+      ],
+      "source_far_sole_estimate": [
+        749,
+        1164
+      ],
+      "near_residual_px": [
+        -3.43,
+        -1.0
+      ],
+      "far_residual_px": [
+        3.451,
+        0.29
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "91cf2e87ee6d718efc564e41e0d09fd1425071baf2ce002d2b5405c63670cef7",
+      "delivery_sha256": "eb2e8bd300d4e12a7bb0b0d3310d438fc0ce8cea2597eb8a884db331b17a6bcb",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png",
+        "lantern_hero_core_animations_01/ready_idle/source/idle_frame05_direct_R0_v01_native.png"
+      ]
+    },
+    {
+      "frame": 7,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame07_direct_R0_v02_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame07_direct_R0_v02.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        255,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_07.png",
+      "file_delivery": "delivery_frames/ready_idle_07.png",
+      "source_near_sole_estimate": [
+        515,
+        1300
+      ],
+      "source_far_sole_estimate": [
+        734,
+        1161
+      ],
+      "near_residual_px": [
+        0.0,
+        0.0
+      ],
+      "far_residual_px": [
+        0.0,
+        0.0
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "a9f80119858bb1143de4b7c5c6fe88bd10e823dd7e5de75a30a38d7fb3898b8a",
+      "delivery_sha256": "3b7e258c82ed0ae21edb194943c25876524c3d3458c18e9651df1bd316f924ac",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 8,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame08_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame08_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        251,
+        366
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_08.png",
+      "file_delivery": "delivery_frames/ready_idle_08.png",
+      "source_near_sole_estimate": [
+        512,
+        1304
+      ],
+      "source_far_sole_estimate": [
+        756,
+        1162
+      ],
+      "near_residual_px": [
+        -5.29,
+        0.72
+      ],
+      "far_residual_px": [
+        5.462,
+        -0.57
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "59960ed8d1703814534db5a97604d01cde27e8b132b86dab7bf7e46100be9ac9",
+      "delivery_sha256": "170467a7f91ad9a477d76a3121eaea9cfbef8fa821ad1d7dcf8f9ca320cd2b61",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 9,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame09_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame09_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        248,
+        366
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_09.png",
+      "file_delivery": "delivery_frames/ready_idle_09.png",
+      "source_near_sole_estimate": [
+        515,
+        1303
+      ],
+      "source_far_sole_estimate": [
+        765,
+        1162
+      ],
+      "near_residual_px": [
+        -7.0,
+        0.29
+      ],
+      "far_residual_px": [
+        6.333,
+        -0.57
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "1832a1be1bcd536a3b420afa9336611c3411df6515c774650b40550ed0aa8a2e",
+      "delivery_sha256": "c7ab3a4b1440054e2a62bfef1910eb75ee1ab71a5120a3c8966d757ca66bea62",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 10,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame10_direct_R0_v02_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame10_direct_R0_v02.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        254,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_10.png",
+      "file_delivery": "delivery_frames/ready_idle_10.png",
+      "source_near_sole_estimate": [
+        515,
+        1301
+      ],
+      "source_far_sole_estimate": [
+        737,
+        1162
+      ],
+      "near_residual_px": [
+        -1.0,
+        0.43
+      ],
+      "far_residual_px": [
+        0.29,
+        0.43
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "e20be65c885b260ece10c20c9bc381142c124626b203d8905b5cd152f8c69749",
+      "delivery_sha256": "49011170191aa889484cb73cda3bf3e0d052b11fe2bd37bb3feec462b0af70ed",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 11,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame11_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame11_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        247,
+        365
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_11.png",
+      "file_delivery": "delivery_frames/ready_idle_11.png",
+      "source_near_sole_estimate": [
+        518,
+        1303
+      ],
+      "source_far_sole_estimate": [
+        767,
+        1166
+      ],
+      "near_residual_px": [
+        -6.71,
+        -0.71
+      ],
+      "far_residual_px": [
+        6.193,
+        0.15
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "952ab0b5099dce5802e43dccbc34a271d9718c51a4754cd0bce63de7047ba096",
+      "delivery_sha256": "4ddf8f22741d9231efca117a27d00f6ec2a686d6d21f06bd0c400556e1e44b22",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 12,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame12_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame12_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        246,
+        364
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_12.png",
+      "file_delivery": "delivery_frames/ready_idle_12.png",
+      "source_near_sole_estimate": [
+        521,
+        1304
+      ],
+      "source_far_sole_estimate": [
+        770,
+        1171
+      ],
+      "near_residual_px": [
+        -6.419,
+        -1.28
+      ],
+      "far_residual_px": [
+        6.483,
+        1.301
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "6a5fecbac061387628c9f083e9b92acefe759c41c2fb7ea5eb017861f5fa3043",
+      "delivery_sha256": "e88b35f9cdea8a22f2f60dd3ed95cd4d6b0072316f142134fb9631f72492b388",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 13,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame13_direct_R0_v02_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame13_direct_R0_v02.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        255,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_13.png",
+      "file_delivery": "delivery_frames/ready_idle_13.png",
+      "source_near_sole_estimate": [
+        516,
+        1300
+      ],
+      "source_far_sole_estimate": [
+        735,
+        1162
+      ],
+      "near_residual_px": [
+        0.43,
+        0.0
+      ],
+      "far_residual_px": [
+        0.43,
+        0.43
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "60b24981b51c8c381c92de5b85da1c1bbc4646497a2b753b4dddb0e56e891ab5",
+      "delivery_sha256": "25d5c65ffb2dcda9ab55936e547c5f768554641a4e31f1093709802d361591e9",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 14,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame14_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame14_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        254,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_14.png",
+      "file_delivery": "delivery_frames/ready_idle_14.png",
+      "source_near_sole_estimate": [
+        517,
+        1301
+      ],
+      "source_far_sole_estimate": [
+        737,
+        1162
+      ],
+      "near_residual_px": [
+        -0.14,
+        0.43
+      ],
+      "far_residual_px": [
+        0.29,
+        0.43
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "bcfb12fa9dcfe033132a11b46581c98d6cd78e185e27e3661725eccee5ae6f8f",
+      "delivery_sha256": "65ac10ad5bb9a3de57d57bf2996e787fc057742caaf2964b3ec0876dac7446e5",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 15,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame15_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame15_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        255,
+        367
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_15.png",
+      "file_delivery": "delivery_frames/ready_idle_15.png",
+      "source_near_sole_estimate": [
+        516,
+        1301
+      ],
+      "source_far_sole_estimate": [
+        735,
+        1162
+      ],
+      "near_residual_px": [
+        0.43,
+        0.43
+      ],
+      "far_residual_px": [
+        0.43,
+        0.43
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "2676307c18fcd3df150a836c268fff38e034bfac588850da7c5f8a085128b939",
+      "delivery_sha256": "e48323621519cf65c4d33e502ab080563e95ed462aaead0ee00a01074bc81305",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    },
+    {
+      "frame": 16,
+      "source": "lantern_hero_core_animations_01/ready_idle/source/idle_frame16_direct_R0_v01_native.png",
+      "prompt": "lantern_hero_core_animations_01/ready_idle/prompts/idle_frame16_direct_R0_v01.txt",
+      "uniform_scale": 0.4300847457627119,
+      "integer_translation_working": [
+        255,
+        366
+      ],
+      "delivery_padding_translation": [
+        256,
+        0
+      ],
+      "file_working": "working_frames/ready_idle_16.png",
+      "file_delivery": "delivery_frames/ready_idle_16.png",
+      "source_near_sole_estimate": [
+        516,
+        1303
+      ],
+      "source_far_sole_estimate": [
+        734,
+        1162
+      ],
+      "near_residual_px": [
+        0.43,
+        0.29
+      ],
+      "far_residual_px": [
+        0.0,
+        -0.57
+      ],
+      "registration_method": "One integer whole-drawing translation balancing near/far boot-template offsets measured by read-only alpha-patch SSD. Shared R0 uniform scale for every source, no bounds fitting/head lock/part transforms.",
+      "source_sha256": "c006b3b9263a71e05ce9cfff05a87a699ec606c344001f5af30e38462dbae248",
+      "delivery_sha256": "4cc0b4f18c463219000fdfefcd3848731f320bfdd163df561396a8864dfa2d26",
+      "reference_images": [
+        "lantern_hero_core_animations_01/shared_states/R0_ready_native.png"
+      ]
+    }
+  ],
+  "status": "FULL_CHRONOLOGICAL_REVIEW_AWAITING_QA",
+  "known_contact_flags": [
+    8,
+    9,
+    11,
+    12
+  ]
+}

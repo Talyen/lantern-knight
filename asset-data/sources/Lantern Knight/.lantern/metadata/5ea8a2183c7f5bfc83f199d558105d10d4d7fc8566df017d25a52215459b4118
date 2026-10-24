@@ -1,0 +1,133 @@
+{
+  "asset": "chapel_snuffer",
+  "native_canvas": [
+    560,
+    520
+  ],
+  "runtime_canvas": [
+    280,
+    260
+  ],
+  "ground_contact_native": [
+    330,
+    490
+  ],
+  "ground_contact_runtime": [
+    165,
+    245
+  ],
+  "frame_duration_ms": [
+    180,
+    110,
+    140,
+    120,
+    180,
+    160,
+    220
+  ],
+  "ready_frame": 0,
+  "completed_frame": 6,
+  "completion_event_frame": 5,
+  "scene_master": "scene_props_20261017/chapel_pack/references/scene_master.png",
+  "scene_ground_contact": [
+    3350,
+    1800
+  ],
+  "scene_scale_native": 0.68,
+  "source_extraction": [
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        314,
+        461
+      ],
+      "translation_px": [
+        16,
+        29
+      ]
+    },
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        747,
+        467
+      ],
+      "translation_px": [
+        -417,
+        23
+      ]
+    },
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1177,
+        469
+      ],
+      "translation_px": [
+        -847,
+        21
+      ]
+    },
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1612,
+        471
+      ],
+      "translation_px": [
+        -1282,
+        19
+      ]
+    },
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        302,
+        872
+      ],
+      "translation_px": [
+        28,
+        -382
+      ]
+    },
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        740,
+        872
+      ],
+      "translation_px": [
+        -410,
+        -382
+      ]
+    },
+    {
+      "source": "chapel_snuffer/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1182,
+        874
+      ],
+      "translation_px": [
+        -852,
+        -384
+      ]
+    }
+  ],
+  "method": "Authored imagegen cels, mechanical alpha extraction and translation registration only; no interpolated or code-drawn artwork. Runtime is 50 percent native.",
+  "suggested_game_function": "Remove ritual seal or weaken curse",
+  "implementation": "No game implementation performed.",
+  "interaction_contact_native": [
+    440,
+    205
+  ],
+  "interaction_contact_runtime": [
+    220,
+    102
+  ],
+  "reward_spawn_marker": null,
+  "source_native_resolution": [
+    1774,
+    887
+  ],
+  "model_selection": "Preferred model named in prompt; actual model selection not exposed by built-in tool."
+}

@@ -1,0 +1,115 @@
+{
+  "edition": "polished v3: confirmed inner foreground trees rooted to connected banks",
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "phases_seconds": [
+      2,
+      4,
+      2
+    ]
+  },
+  "files": {
+    "README.md": {
+      "sha256": "a91077f18528cc60393466b590013f9246efd142992edfe2cc5d64f37e273687",
+      "bytes": 5189
+    },
+    "CHANGELOG.md": {
+      "sha256": "a1566034b0251540223664a0c5e02ba1a27bbcc0aca29f657477d208fd88c0a4",
+      "bytes": 1212
+    },
+    "render.py": {
+      "sha256": "451b0d19fae31318ebf5a5ca9b6e67ebaefe53429cd74a1174416ae57a45d0cd",
+      "bytes": 17275
+    },
+    "rebuild.sh": {
+      "sha256": "2fdca6e044be3bdef8298d9f67ebbba093963be80822abb7d34a56f2e9532a45",
+      "bytes": 163
+    },
+    "requirements.txt": {
+      "sha256": "7f3c395adf061fe81447aa94f941929dd59bf7e834bcbb5e2f35437120a9860a",
+      "bytes": 23
+    },
+    "verify.py": {
+      "sha256": "79daf8fd7c58a2c549c70933452ab4c385426afd351805091fb617da89dba1aa",
+      "bytes": 4470
+    },
+    "verify_grounding.py": {
+      "sha256": "27110ab6c45316b5ae82509544a353b1002b566337dbaa1445289e310e55d340",
+      "bytes": 5077
+    },
+    "package.py": {
+      "sha256": "ce729ef0cc17fcd55b399775f7e7241e11d94623a637401dbb7a02a333c6de61",
+      "bytes": 1465
+    },
+    "verification.json": {
+      "sha256": "dd5b84eef7536dfe1f3dc225da5f339e2f845ddbe42ec80b4bd905a28ce51d2f",
+      "bytes": 2208
+    },
+    "grounding_verification.json": {
+      "sha256": "8762e504786879071d8f2eee856c09d7e89473a70467d009ccf1b1bc36c50b39",
+      "bytes": 1574
+    },
+    "contact_sheet.jpg": {
+      "sha256": "5c3d0f27b595264bab7488a4e7501ff19668c583d3509400ad093551327110dd",
+      "bytes": 185331
+    },
+    "decoded_motion_contact.jpg": {
+      "sha256": "4295933b5bea26e9f5a1991550e24a14e1be39368877f7dac08b5f09cab7db7d",
+      "bytes": 202291
+    },
+    "before_after_inner_roots.png": {
+      "sha256": "dbead86fd0a46faec5d8d4029ae40379fec56fbbfb2949fc71c6581262ea7737",
+      "bytes": 92562
+    },
+    "decoded_inner_tree_contact.jpg": {
+      "sha256": "dc580e446706c84293b1afd0dfcf6fed440998962e8fc42a13073595940dfd84",
+      "bytes": 128845
+    },
+    "verify_inner_roots.py": {
+      "sha256": "c193aed1ddad17caf89a84d49c15f960964441121169b039293204c73ad5eb90",
+      "bytes": 4095
+    },
+    "inner_root_verification.json": {
+      "sha256": "fcf63e1e77f3f8327654b6ea18ee838cab2540712f112a2d00585cca26d70a70",
+      "bytes": 1284
+    },
+    "preservation_reference.json": {
+      "sha256": "1b6b79088e415e713111e5715d7eff1907ed689d8145f6c3b63da17616feefd5",
+      "bytes": 72891
+    },
+    "proof_01.png": {
+      "sha256": "76d6a60d9ef5110624cda70b0420d4daf1f8da21f6c85fe27983067e8df59ba5",
+      "bytes": 158576
+    },
+    "decoded_full_phase_proof.jpg": {
+      "sha256": "02df1faa80adf8afe9b49b63197447459e36d85a374e55ccd217086601666314",
+      "bytes": 369993
+    },
+    "decoded_tree_grounding_proof.jpg": {
+      "sha256": "f864ae61bfe7f2c21100599b3f5e7154cc0cfe4cd2a754c0de7689403d275900",
+      "bytes": 253506
+    },
+    "moon_shrine_master.svg": {
+      "sha256": "2f967d80ff0da9d7a8f41b68811aa86fee45713dca6678655e874b77d9b0b10d",
+      "bytes": 15690
+    },
+    "Lantern_E_MoonShrine_Polished_Intro.mp4": {
+      "sha256": "9bed013738b35b8d0cfa12dafbcef3de4062414ce57027510f144f1a4c865b90",
+      "bytes": 262061
+    },
+    "Lantern_E_MoonShrine_Polished_Hold.mp4": {
+      "sha256": "d735e210287692cc4fb2adf233df76cb87313e9241dff1621bb76357da1e854f",
+      "bytes": 635683
+    },
+    "Lantern_E_MoonShrine_Polished_Complete.mp4": {
+      "sha256": "ead8be8c7dad97616260a2d1158bcaf5085be794d3638895d23e67bfe6cdcad5",
+      "bytes": 262079
+    },
+    "Lantern_E_MoonShrine_Polished_Preview.mp4": {
+      "sha256": "94d01019d0b208afbad0f7006f121f284e764e937d3f084ec6a445e4d3dbaa73",
+      "bytes": 1158360
+    }
+  }
+}

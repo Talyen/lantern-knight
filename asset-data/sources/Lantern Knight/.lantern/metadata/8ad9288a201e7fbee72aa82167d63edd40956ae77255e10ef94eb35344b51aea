@@ -1,0 +1,49 @@
+{
+  "pack": "02 Goblins",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "GB01",
+      "slug": "mossfang_scavenger",
+      "name": "Mossfang Scavenger",
+      "description": "Lean adult goblin with a sharp wedge-shaped head, broad pointed ears and a low stalking stance. Muted moss-olive skin, amber eyes, bald crown, symmetrical tiny lower tusks. A short sleeveless charcoal jerkin, brown waist wrap, matching plain wrist wraps and matching calf wraps. Two unarmed hands with four thick clawed digits each, held low and slightly forward. Two legs with big three-toed bare feet. No pouches, jewelry, piercings or weapon. Sharp narrow triangle silhouette.",
+      "motion_hint": "Sneak-step / paired rake",
+      "move": "Short low sneaking steps with head held still.",
+      "attack": "A fast two-handed forward rake.",
+      "death": "Crumple onto both knees and curl down.",
+      "qa": "Two arms, two legs and four-digit hands pass; pointed ears, balanced wraps and low claw silhouette are readable. Tiny far tusk naturally occluded; no directional marking.",
+      "native_file": "source/GB01_mossfang_scavenger_native.png",
+      "asset_file": "assets/GB01_mossfang_scavenger.png",
+      "native_dimensions": [
+        1145,
+        1374
+      ],
+      "asset_dimensions": [
+        1044,
+        1476
+      ],
+      "native_sha256": "bd10897172c0f0f67e51197b3804fe42d002ba4108ba81cd37aa0432e9ca4ce5",
+      "asset_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 499989,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          161,
+          14,
+          1077,
+          1362
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

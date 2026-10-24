@@ -1,0 +1,83 @@
+{
+  "concept": "Lantern_StainedLight",
+  "native_movies": [
+    {
+      "file": "Lantern_StainedLight_Loading.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 480,
+      "duration": 8.0,
+      "bytes": 366677,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "audio_tracks": 0
+    },
+    {
+      "file": "Lantern_StainedLight_Title.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 600,
+      "duration": 10.0,
+      "bytes": 721932,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "audio_tracks": 0
+    },
+    {
+      "file": "Lantern_StainedLight_Loading_Intro.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 120,
+      "duration": 2.0,
+      "bytes": 227868,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "audio_tracks": 0
+    },
+    {
+      "file": "Lantern_StainedLight_Loading_Hold.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 240,
+      "duration": 4.0,
+      "bytes": 81940,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "audio_tracks": 0
+    },
+    {
+      "file": "Lantern_StainedLight_Loading_Complete.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": "60/1",
+      "frames": 120,
+      "duration": 2.0,
+      "bytes": 70588,
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "audio_tracks": 0
+    }
+  ],
+  "loading_hold_loop_max_channel_difference": 0,
+  "wordmark_identical_8_to_9_98_seconds": true,
+  "lettering_provenance": "Original bespoke paths; no font dependencies.",
+  "svg": {
+    "loading_complete_master.svg": {
+      "outlined_vector_paths": true,
+      "bytes": 15693
+    },
+    "loading_master.svg": {
+      "outlined_vector_paths": true,
+      "bytes": 13885
+    },
+    "title_master.svg": {
+      "outlined_vector_paths": true,
+      "bytes": 56112
+    }
+  },
+  "checks": "All movies fully decoded; correct duration/frame counts; no audio; every file below 12 MB; no raster embeds or text elements in SVG masters."
+}

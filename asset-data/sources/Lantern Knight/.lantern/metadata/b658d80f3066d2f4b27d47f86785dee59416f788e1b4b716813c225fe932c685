@@ -1,0 +1,9 @@
+{
+  "test_resolution": "640x360",
+  "comparison": "Unencoded renderer output at hold t=0 and t=4 seconds",
+  "mean_absolute_channel_delta_8bit": 0.0,
+  "maximum_absolute_channel_delta_8bit": 0.0,
+  "last_sample_to_first_sample_mean_absolute_delta_8bit": 0.08898003472222223,
+  "sample_rate": 60,
+  "note": "The last sample is t=4-1/60. Exact duplicated endpoints are not included in the hold clip."
+}

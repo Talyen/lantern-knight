@@ -1,0 +1,46 @@
+{
+  "scene": "Observatory/Full Scene C",
+  "scene_number": 24,
+  "source_master_url": "https://drive.google.com/file/d/1QeeCHWTYfd3cUImxAMmtEtGpITqJyaft/view?usp=drivesdk",
+  "frames": 6,
+  "frame_files": [
+    "runtime_frames/00.png",
+    "runtime_frames/01.png",
+    "runtime_frames/02.png",
+    "runtime_frames/03.png",
+    "runtime_frames/04.png",
+    "runtime_frames/05.png"
+  ],
+  "duration_ms": [
+    100,
+    120,
+    120,
+    120,
+    120,
+    100
+  ],
+  "loop": false,
+  "on_complete": "hold_final_frame",
+  "anchor_pixels": [
+    28,
+    39
+  ],
+  "native_anchor_pixels": [
+    314,
+    433
+  ],
+  "runtime_canvas": [
+    57,
+    44
+  ],
+  "placement_1536x1024": [
+    560,
+    465
+  ],
+  "reward_contents": null,
+  "native_source": [
+    1681,
+    935
+  ],
+  "processing": "RGBA alpha below 10 cleared as generator stray pixels; translated to fixed bottom-center anchor; runtime downsample only. Native hand-drawn cells preserved."
+}

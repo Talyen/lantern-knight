@@ -1,0 +1,14 @@
+{
+  "runtime": {
+    "filename": "shroud_crawler_runtime_native.zip",
+    "sha256": "b3c808ac1e8b64b992a1b6ae923c3a7331f1e0da39a36545b06e222925395523",
+    "drive_url": "https://drive.google.com/file/d/1XWQQ60hUm5HWovxBTbAaU_6Rp055bKYd/view",
+    "unchanged": true
+  },
+  "source": {
+    "filename": "shroud_crawler_source_native.zip",
+    "sha256": "9cea21d7fde12b27ff7ba202e5cd8a0d7ebe61286eb4c24afbb3bb9447816cbb",
+    "drive_url": "https://drive.google.com/file/d/1-w5nNvyFrvD8XD_QYYPZEWxBAX-qt8dE/view",
+    "unchanged": true
+  }
+}

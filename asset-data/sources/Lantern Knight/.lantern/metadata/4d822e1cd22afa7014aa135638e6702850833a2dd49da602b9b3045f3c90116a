@@ -1,0 +1,3 @@
+DELIVERY ARCHIVES
+
+The complete ZIP contains this entire release. For services with a 100 MiB transfer limit, Part1 and Part2 are ordinary complementary ZIP archives with the same root folder. Extract both into the same destination. Every file is whole; there are no nested ZIP files and no binary chunks to join. The two parts have disjoint file members whose union is the complete release.

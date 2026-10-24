@@ -1,0 +1,34 @@
+[
+  {
+    "name": "curved_processional_junction",
+    "junction_source_xy": [
+      640,
+      480
+    ],
+    "check_source_box": [
+      592,
+      432,
+      688,
+      528
+    ],
+    "mean_abs_rgb_difference": 0.0172119140625,
+    "max_abs_rgb_difference": 6.0,
+    "pct_pixels_over_2": 0.026448567708333332
+  },
+  {
+    "name": "lower_court_junction",
+    "junction_source_xy": [
+      1120,
+      800
+    ],
+    "check_source_box": [
+      1072,
+      752,
+      1168,
+      848
+    ],
+    "mean_abs_rgb_difference": 0.00565818504050926,
+    "max_abs_rgb_difference": 3.0,
+    "pct_pixels_over_2": 0.0006781684027777778
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "enemy": "Root Entangled Stone Saint",
+  "actor_frames": 16,
+  "actor_unique_frames": 16,
+  "effect_frames": 8,
+  "effect_unique_frames": 8,
+  "all_rgba": true,
+  "nonempty_frames": true,
+  "edge_touch_actor_frames": 0,
+  "edge_touch_effect_frames": 0,
+  "telegraph_ms": 1000,
+  "damage_events": 1,
+  "source_detail": "Native generated source sheet1024x1536. Ordinary interpolation disclosed in runtime JSON.",
+  "visual_review": "Source and exported full actor atlas inspected for identity, anatomical change, weapon continuity and silhouettes.",
+  "engine_tested": false,
+  "actor_initial_alpha_bbox": [
+    218,
+    33,
+    543,
+    539
+  ],
+  "baseline_alpha_bbox": [
+    158,
+    33,
+    482,
+    539
+  ],
+  "action_canvas": [
+    640,
+    640
+  ],
+  "pivot": [
+    320,
+    540
+  ]
+}

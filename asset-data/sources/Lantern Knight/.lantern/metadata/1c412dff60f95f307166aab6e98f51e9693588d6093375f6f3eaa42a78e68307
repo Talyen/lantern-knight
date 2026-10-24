@@ -1,0 +1,42 @@
+{
+  "asset": "ancient_rootwood",
+  "variant": "A",
+  "variant_title": "Twisted root arches and moss clearing",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-b050ff18-d76c-4dc5-b317-968f95e3bcbc.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "upscaled": false,
+  "edited": false,
+  "expanded": false,
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "sha256": "b03cf6132a57523a0bc3bd996f7d6d5f8126841242caff217ca42d8f8c8ef517",
+  "attempts": 2,
+  "bounded_retry_reason": "Initial clearing had excessive fine moss mottling; retry simplified broad surface masses.",
+  "status": "ready_for_reviewer; camera caveat",
+  "visual_review": {
+    "strengths": [
+      "Distinct huge broadleaf tree bases and naturally grown arches",
+      "Broad clear central combat space",
+      "No ruins, buildings, manufactured props, water or characters",
+      "Retry ground has broad quiet olive and earth shapes"
+    ],
+    "caveats": [
+      "Tiny blue sky sliver at top and a somewhat low apparent camera; orthographic angle is a prompt target, not validated geometry",
+      "Tree bark retains more surface facets than ideal three tones",
+      "Tall edge trees and arches are baked scenery, not separated occlusion assets"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+# Lantern: Moth Keeper B and Brass Apothecary F
+
+Two selected concept identities, each with six native generated 2D cels. These are AI-generated hand-drawn-style raster animations, not a claim that a human painted the cels.
+
+## Import
+- Individual RGBA PNGs and 3×2 atlases are in `runtime/<character>/`.
+- Each original 1536×1024 sheet is sliced into native 512×512 cells. Integer translations and fixed masks stabilize them; 16px clear padding creates 544×544 runtime canvases. No upscaling or resampling.
+- Per-character `animation.json` provides frame order, integer holds on a 60 Hz timeline, a fixed pivot, and estimated 256 PPU. Use the same pivot for every frame. PPU is an import starting point, not an engine-tested scale.
+- Moth Keeper uses a six-cel, 3-second closed gesture. Apothecary uses six cels in a forward/reverse 2-second grind cycle; the reverse traversal reuses cels rather than inventing in-betweens.
+- Native alpha is retained. Use straight-alpha textures and appropriate filtering for the destination engine. Use padding/extrusion appropriate to engine atlas settings.
+
+## Art and provenance
+The two supplied originals are preserved under `source/`. Each built-in image generation call referenced only its original concept; no generated draft was fed back into the generator. The full prompts are included. They contain the requested phrase “Sunburst 2.5”; this is prompt language, not a verified model selection.
+
+Moth Keeper preserves the warm-brown complexion, short dark curls, ivory moth hood/veil, charcoal and ivory costume, brass moth fasteners, crescent hem decoration, golden moth and cage. A canonical lower body, torso/cage patch and holding hand eliminate planted-prop drift while retaining the native tending arm and upper-body inclination.
+
+Apothecary preserves short dark hair, teal coat, cream shirt/cuffs, leather harness and herb pouches, brass right forearm/hand (viewer left), human left hand (viewer right), mortar, pestle and tripod table. The working prosthetic forearm/wrist/pestle region is animated over a canonical base; the table, bowl and steadying human hand remain stationary.
+
+## Rebuild
+Python 3, Pillow, NumPy, SciPy and an `ffmpeg` binary on PATH are required.
+
+    python -m pip install -r requirements.txt
+    python rebuild.py
+
+Rebuild is deterministic from included native sources; it does not invoke image generation, require an API key, or fetch assets. It regenerates frames, atlases, timing JSON, light/dark contact sheets and 60fps MP4 previews. MP4 previews display held cels; they are not 60 unique drawings per second.
+
+## QA and limits
+All twelve cels were visually inspected for anatomy and hand/tool ownership, against both light and dark backgrounds. The apothecary has one prosthetic right arm and one human left arm throughout, with pestle grip maintained. The moth keeper has two arms, continuous cage grip and a continuous tending gesture. Native detail and linework retain small generated variation in moving areas. Fine finger counts are partly occluded by grip at sprite scale. The workflow stabilizes stationary areas, but does not provide rigged skeletal source layers.
+
+One fixed facing only. Orthographic elevation 35.264° was art-directed in the prompt; raster art is not calibrated 3D geometry. No walking, combat, collision, engine import, camera calibration, in-engine playback, or integration validation is claimed. Inspect in the target engine at final world scale before shipping.

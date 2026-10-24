@@ -1,0 +1,330 @@
+{
+  "hearth_coffer": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/hearth_coffer_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          201,
+          322
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          192,
+          313
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          201,
+          311
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          206,
+          310
+        ]
+      }
+    ]
+  },
+  "willow_cache": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/willow_cache_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          531,
+          740
+        ],
+        "translation": [
+          223,
+          257
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          531,
+          0,
+          1063,
+          740
+        ],
+        "translation": [
+          229,
+          257
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1063,
+          0,
+          1594,
+          740
+        ],
+        "translation": [
+          251,
+          259
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1594,
+          0,
+          2126,
+          740
+        ],
+        "translation": [
+          264,
+          256
+        ]
+      }
+    ]
+  },
+  "clay_crock": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/clay_crock_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          238,
+          299
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          254,
+          299
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1581,
+          724
+        ],
+        "translation": [
+          220,
+          304
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1581,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          238,
+          278
+        ]
+      }
+    ]
+  },
+  "wood_cache": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/wood_cache_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          238,
+          348
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          237,
+          347
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1633,
+          724
+        ],
+        "translation": [
+          218,
+          329
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1633,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          227,
+          352
+        ]
+      }
+    ]
+  }
+}

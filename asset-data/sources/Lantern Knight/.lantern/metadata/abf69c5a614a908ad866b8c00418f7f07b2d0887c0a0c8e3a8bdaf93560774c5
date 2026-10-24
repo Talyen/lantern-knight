@@ -1,0 +1,64 @@
+{
+  "title": "Dry Quarry",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "central_quarry_floor",
+      "display_box": [
+        1307,
+        495,
+        2843,
+        1519
+      ],
+      "display_foot": [
+        2075,
+        1145
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    },
+    {
+      "name": "lower_haul_road",
+      "display_box": [
+        1147,
+        1410,
+        2683,
+        2434
+      ],
+      "display_foot": [
+        1915,
+        2060
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    },
+    {
+      "name": "upper_crane_approach",
+      "display_box": [
+        1394,
+        182,
+        2930,
+        1206
+      ],
+      "display_foot": [
+        2162,
+        832
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "junction_1",
+      "source_xy": [
+        800,
+        480
+      ]
+    },
+    {
+      "name": "junction_2",
+      "source_xy": [
+        1120,
+        320
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "source_sheet": "amulet_native.png",
+  "source_cel_index": 8,
+  "source_grid_crop": [
+    1024,
+    683,
+    1536,
+    1024
+  ],
+  "trim_bbox_in_cel": [
+    144,
+    102,
+    481,
+    277
+  ],
+  "native_crop_size": [
+    337,
+    175
+  ],
+  "physical_long_axis_cm": 18,
+  "physical_pendant_cm": 5,
+  "scaling_note": "Dimensions are art-direction size hints, not measurement. Preserve proportional physical scale in inventory; do not autofit each item equally. Runtime scale includes small-item readability exaggeration."
+}

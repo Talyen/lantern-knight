@@ -1,0 +1,26 @@
+{
+  "slots": 19,
+  "unique_full_pngs": 19,
+  "ticks": 96,
+  "seconds": 1.6,
+  "R0_exact": true,
+  "source_scales": [
+    0.4300847457627119
+  ],
+  "min_visible_canvas_margin": 96,
+  "preview_info": [
+    {
+      "name": "normal",
+      "r_frame_rate": "60/1",
+      "duration": "12.800000",
+      "nb_frames": "768"
+    },
+    {
+      "name": "half_speed",
+      "r_frame_rate": "60/1",
+      "duration": "12.800000",
+      "nb_frames": "768"
+    }
+  ],
+  "art_gate": "PASS following authored bridges07a/09a/12a; coherent two-part guard, complete identity/props, acceptable small drawn support variation, clean19\u2192R0 seam."
+}

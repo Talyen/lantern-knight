@@ -1,0 +1,29 @@
+LANTERN CT01 WAXMASK ACOLYTE — UNIFIED v03
+
+Both active clips are rebuilt from one fresh nine-drawing sheet using the original character reference. This fixes the previous glide/attack proportion mismatch. The previous glide and liquid-wax attack are preserved only in the source package's explicitly superseded provenance archive.
+
+ACTIVE CLIPS
+Glide: five unique drawings, 48 ticks / 0.8 seconds at 60 Hz.
+Attack: five unique drawings, 72 ticks / 1.2 seconds. The sequence is shared ready, anticipation, seal press, shard release, recovery, shared ready. Contact starts at tick 31; release at 36; recovery at 40; return to ready at 57.
+Both clips use byte-identical ready PNGs, one native density and one pivot. The attack releases compact dry black/slate angular shards, not liquid wax or foam.
+
+IMPORT DENSITY — APPLY ONCE
+Native source: 1254 x 1254. Runtime canvas: 768 x 704.
+Pivot: (416,584) from the top left; normalized top-left (0.541666667,0.829545455); Unity bottom-left (0.541666667,0.170454545).
+Old neutral silhouette: 486 pixels tall. New shared ready: 416 pixels tall.
+Set BOTH new clips and all effect layers to: new PPU = old PPU x 0.8559670781893004.
+Example: if the old PPU was 100, use 85.59670781893004.
+Alternative ONLY if PPU cannot change: retain old PPU and use one shared renderer scale of 1.1682692307692308. NEVER apply both adjustments. No additional offset.
+This preserves overall intended world height without retaining the old shortened-robe body proportions. The previous hovering robe extends eight pixels below its authoring root; the new ready has visible planted shoes. This is a documented neutral-pose size handoff, not per-frame fitting.
+
+PIXELS AND LAYERS
+No runtime artwork rescaling, warping, mirroring or interpolation. Native components are placed with explicit integer translations. The glide's floating body root is inferred from the torso and ground plane; attack near-foot anchors are registered. All frame edges are clear.
+Alpha at or below 16 is cleared; alpha at or above 250 is made opaque. Intermediate edge coverage and RGB are retained. The source generation is untouched.
+Combined frames are the default assets. Separate synchronized actor/effect frames and atlases reconstruct the combined pixels exactly. No occluded body pixels are invented. Use the same PPU, pivot and timing for both layers.
+
+QA
+All nine poses were checked against original CT01: pointed oxblood hood, ivory mask with two eyes and a short vertical mouth slit, charcoal robe, ivory cuffs, two gloved hands and one point-down dagger. New glide/attack shared ready is byte-identical. Long-robe proportions are closer to the original. Native mask and world-scale proofs are included.
+Camera target: 35.2643897 degrees elevation, 45 degrees azimuth, facing down-right. Hand-drawn projection is visually assessed, not mathematically certified. Actual gameplay review is still required. Natural drawing and foreshortening variation remains.
+
+PROVENANCE
+Built-in image_gen: one fresh unified nine-drawing generation from original CT01 plus the camera guide. No generated animation was used as a reference; no generative edit cascade. Raw generation and exact prompt are included. Earlier packages are explicitly archived. No game or repository changes were made.

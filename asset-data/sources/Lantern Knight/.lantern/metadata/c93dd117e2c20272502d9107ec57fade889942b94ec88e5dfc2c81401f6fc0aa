@@ -1,0 +1,38 @@
+{
+  "name": "observatory_C",
+  "status": "independent_untiled_seam_comparison_complete",
+  "metrics": [
+    {
+      "name": "eclipse_floor_junction",
+      "junction_source_xy": [
+        640,
+        480
+      ],
+      "check_source_box": [
+        592,
+        432,
+        688,
+        528
+      ],
+      "mean_abs_rgb_difference": 0.012148256655092593,
+      "max_abs_rgb_difference": 4.0,
+      "pct_pixels_over_2": 0.004747178819444445
+    },
+    {
+      "name": "lower_passage_junction",
+      "junction_source_xy": [
+        960,
+        640
+      ],
+      "check_source_box": [
+        912,
+        592,
+        1008,
+        688
+      ],
+      "mean_abs_rgb_difference": 0.00770851417824074,
+      "max_abs_rgb_difference": 1.0,
+      "pct_pixels_over_2": 0.0
+    }
+  ]
+}

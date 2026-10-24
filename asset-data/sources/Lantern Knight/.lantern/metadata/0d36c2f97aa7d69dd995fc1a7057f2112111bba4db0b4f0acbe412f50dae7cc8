@@ -1,0 +1,33 @@
+Use case: stylized-concept. Asset: production 2D dark-fantasy VFX animation SOURCE SPRITE SHEET for a grounded painterly action game. Create ONE horizontal 1536x1024 transparent PNG, EXACTLY 6 columns by 4 rows = 24 equally sized SQUARE cells of 256x256. No drawn grid, no text, labels or numbering. Read frames left-to-right then next row. Absolutely NO extra rows or columns. Every square uses the identical fixed camera, world scale, and registration. At least 26 transparent pixels around all art inside every cell; no sprites touching neighboring cells. True alpha transparent canvas, not an opaque checkerboard. No environment, floor patch, character or UI.
+
+SUBJECT: chipped-stone crushing crescent. Small heavy earthen-grey rocks and chipped angular stone plates visibly assemble into an articulated curved jaw / thick crescent blade. It loads upright on the LEFT, then hammers inward exactly ONCE across a SHORT ground arc to the RIGHT. It is heavy matte gray stone, dull cream fractured edges, subtle warm umber dust, restrained brushwork with strong solid silhouette. Not bone, not flames, not energy, no glow. No handle or character. The weapon must visibly build from chips to sections to full articulated crescent across fourteen cels, never pop into existence. Actual blade stroke only in frame 15; one hard contact in frame 16.
+
+FIXED GEOMETRY INSIDE EACH 256-square: base / rotation origin = (0.33,0.65); one fixed impact endpoint = (0.64,0.65). Faint cracked ochre ground telegraph is a SHORT low-perspective curved stripe from (0.33,0.66) to (0.66,0.65), it is the exact footprint of the coming single strike, not an arbitrary circle or aura. Keep this footprint registered in all windup frames. As weapon forms, its curved head gradually coils upright at x=.37 y=.37; it remains coiled until frame 14. It must not hit the target before cel 16. Staged stone build-up continues changing every frame, not twelve duplicate holds. The cropped art fits x=.13-.85, y=.15-.82.
+
+EXACT CEL-BY-CEL ANIMATION:
+Row1 col1/cel1: nearly empty, just three tiny earthen chips by the origin; no weapon.
+1,2/cel2: five chips gathering, faint first two ground arc fragments.
+1,3/cel3: eight chips move together along low beginning of curve, telegraph starts defining endpoint.
+1,4/cel4: small jointed base section takes form, loose stones approaching, one-quarter crescent.
+1,5/cel5: second chunky plate joins, open gaps, one-third crescent rising.
+1,6/cel6: growing curved stone spine lifts, four plate sections, surrounding chips still gathering.
+Row2 col1/cel7: crescent reaches half formation, tip rises, missing stones remain visible.
+2,2/cel8: heavy lower arc thickens, rough chipped facets; upper arc still fragmented.
+2,3/cel9: upper articulated jaw curve joins, two-thirds formed, pronounced upward bend.
+2,4/cel10: nearly full crescent with two distinct gaps, rocks approaching gaps.
+2,5/cel11: full crescent joins, upright, slight separation at articulated joints, short ground arc grows clearer.
+2,6/cel12: weapon curls tighter and leans BACK LEFT, stone plates compress together; readying force.
+Row3 col1/cel13: further upright coil and stone-joint compression, dust tension at base, clearly aimed at fixed right endpoint.
+3,2/cel14: maximally coiled upright stone crescent, final dangerous anticipation, ground footprint exactly unchanged; NO attack yet.
+3,3/cel15: ONE fast committed inward hammer swing from upright-left toward fixed right endpoint, thick crescent angled diagonally downward, short stony drag streak, no contact yet.
+3,4/cel16: ONE HARD CONTACT at (.64,.65), crescent point strikes and compresses into ground there, tight pointed dust burst and hard angular stone spall. Single strike only, short reach exactly matching ground arc.
+3,5/cel17: crescent fractures outward away from endpoint, clear large rubble chunks, no reverse swing.
+3,6/cel18: detached jagged plates travel OUTWARD and upward away from hit; crescent no longer whole.
+Row4 col1/cel19: more separated outward-scattering rock pieces; dust thins; no re-forming.
+4,2/cel20: smaller rubble disperses out and down, ground telegraph fades.
+4,3/cel21: only six small widely separated falling chips and faint dust.
+4,4/cel22: three diminishing chips, nearly clear.
+4,5/cel23: one or two tiny last specks.
+4,6/cel24: ENTIRELY EMPTY transparent cell.
+
+Keep the overall effect compact and high-readability at game scale. Muted grounded hand-painted material rendering, top-down three-quarter camera like a Diablo-style isometric game prop sprite. Transparent canvas. Never add labels, a grid, ground rectangles, numbers, checkerboard paint, neon, glowing rings, broad magic crescents, multiple hits, reverse animation, independent miniature scenes, or a pre-existing solid weapon in early frames.

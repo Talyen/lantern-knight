@@ -1,0 +1,10 @@
+{
+  "guides/UL/manifest.json": "5925e9dd39efba0a625ca287fae8d27d38756e0aa16b6e69f6b9d1a71aa84ee1",
+  "guides/UL/run8_guide_sheet.png": "6a0d7588660c9a111c1b1d9af93a39babc0c0cec5dc0e4829aff119ca9fc9906",
+  "metadata/UL_readyref_clean_mask_v01.png": "74ba6f531888a941eb4954a806c4cf25b5310b850f870d4d7e9104588a446e4e",
+  "metadata/UL_readyref_clean_v01.json": "8915cfc065188846c4e98e186f85feb7657a535dc1a0e3a1a8d1f2a003dcb584",
+  "prompts/UL_run8_v02_readyref.txt": "12a61d72025f9b1427d526b2fee5d6c7847b9a12e8f42b61120fc0a8032233a8",
+  "render_rotated_guides.py": "3d067ee11f587f359de2cd25f2c75674925230a6df022ca39dc27e43c71f748e",
+  "source/UL_readyref_clean_v01.png": "a760ee69171f2b13f6bf177ebb324b936e04e5ceb398a376e4c1fda36604a887",
+  "source/UL_run8_v02_readyref_native.png": "cd8b1c42bb4b155f6dd274b8023ed38b5ac4eed842f4b6382c9704eec18a78bf"
+}

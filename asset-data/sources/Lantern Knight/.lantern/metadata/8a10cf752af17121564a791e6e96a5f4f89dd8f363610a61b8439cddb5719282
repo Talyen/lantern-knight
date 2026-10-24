@@ -1,0 +1,12 @@
+Full-floor attempt status: not completed as of 2026-10-09 01:26 UTC.
+Original crop tests succeeded and remain unchanged.
+512px tile cores /64px context: process killed (exit137) before first tile completed.
+256px tile cores /32px context with full output allocated: killed (exit137) after seven tiles.
+256px tile cores /32px context, saving cores before assembly: killed (exit137) on an interior tile.
+No completed full-floor image or seam verification exists from these attempts.
+Host free-memory figure did not reflect the worker's effective per-process/container limit. Exit137 is consistent with a memory kill; the precise enforced limit was not exposed.
+Partial tiles are intermediate data and must not be presented as a finished output.
+
+Recovery validated 2026-10-09 01:28 UTC: each 160px-core tile with32px context and16px extra reflection runs in a fresh process at2threads. Four tiles took12.71s; peak child RSS3315328KiB. Boundary reference difference mean0.0103/255,max1/255,0%pixels>2. No visible junction seam. This resolves the initial bounded-memory blocker for a subsequent whole-scene test. Cgroup memory.max/current are not exposed because /sys is not mounted; /proc/self/cgroup is0::/.
+
+Final whole-scene recovery completed successfully:1536x1024 source ->6144x4096 model output;70isolated cores;193.1seconds. This supersedes the initial blocked status. Thread-setting correction: NCNN initialized the model at4threads;2threads were requested after loading. NCNN reports Winograd convolutions retain load-time4threads. Other operations use the requested2; OMP_NUM_THREADS=2 was also set.

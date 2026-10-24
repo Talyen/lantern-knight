@@ -1,0 +1,1607 @@
+{
+  "actor": "Bellbound Monk",
+  "identity": "CT02",
+  "revision": "Regenerated after workspace loss; requires fresh independent QA",
+  "reference_sha256": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7",
+  "canvas": [
+    768,
+    768
+  ],
+  "tick_rate": 60,
+  "camera_target_elevation": 35.2643897,
+  "baseline_unchanged": true,
+  "baseline_dependencies": {
+    "source": {
+      "file": "bellbound_monk_source.zip",
+      "drive_url": "https://drive.google.com/file/d/1I8fElFYFgUzN8JhAoKDeJJ6y4jnYC4db/view",
+      "sha256": "33b8760e2b30dd6af7a43dbbeca5a68878bd7d176dbd222e14c9158159e694e3"
+    },
+    "runtime": {
+      "file": "bellbound_monk_runtime.zip",
+      "drive_url": "https://drive.google.com/file/d/1UvilQ768g0-uqPJTm3FYBVC1nRGbekAc/view",
+      "sha256": "27013d2dc2a0e72a1a98195e92448f124aa4bcaddd75de8037206d4e28108ab3"
+    }
+  },
+  "frame_count": 35,
+  "atlas_count": 6,
+  "runtime_png_count": 41,
+  "UR_move_disclosure": "Five unique native cels: source cel1 rejected for extra shoe. Native source sheet retained intact for provenance; no runtime use.",
+  "native_size_policy": "No resize, mirror, tween, rotation or per-cel bounding-box normalization. Native alpha cleaning and manual translations only.",
+  "registration": "New sheets require new manual shoe-contact midpoint anchors. Movement adds baked lift0/20/40/20/0/10 nativepx to source anchor y. Attack must be grounded; target fixed shoe midpoint0.0834worldunits below pivot (+21pxDL/UR,+20UL). No phase-dependent baseline drift copied.",
+  "baseline_residual": "Unchanged DRcast ready shoe contacts~(231,535),(425,500),midpoint(328,517.5). DRimpact05 contacts~(216,474),(474,439),midpoint(345,456.5). This inherited61nativepx=0.291worldunit impact shift remains documented, not reproduced. Root requested stable new feet and ready-scale match.",
+  "clips": {
+    "DL_move": {
+      "facing": "DL",
+      "action": "move",
+      "source_selection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "omitted_source_cels": [],
+      "omission_reason": null,
+      "loop": true,
+      "holds_60hz": [
+        8,
+        7,
+        10,
+        7,
+        6,
+        10
+      ],
+      "total_ticks": 48,
+      "frames": [
+        {
+          "file": "DL_move_01.png",
+          "source_cel_index": 0,
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "ownership_components": [
+            3
+          ],
+          "source_bounds": [
+            97,
+            91,
+            488,
+            466
+          ],
+          "source_anchor": [
+            282,
+            456
+          ],
+          "native_offset": [
+            102,
+            144
+          ],
+          "visible_bounds": [
+            199,
+            235,
+            590,
+            610
+          ]
+        },
+        {
+          "file": "DL_move_02.png",
+          "source_cel_index": 1,
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "ownership_components": [
+            2
+          ],
+          "source_bounds": [
+            557,
+            24,
+            966,
+            437
+          ],
+          "source_anchor": [
+            279,
+            436
+          ],
+          "native_offset": [
+            105,
+            164
+          ],
+          "visible_bounds": [
+            150,
+            188,
+            559,
+            601
+          ]
+        },
+        {
+          "file": "DL_move_03.png",
+          "source_cel_index": 2,
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "ownership_components": [
+            1
+          ],
+          "source_bounds": [
+            1049,
+            19,
+            1490,
+            418
+          ],
+          "source_anchor": [
+            294,
+            445
+          ],
+          "native_offset": [
+            90,
+            155
+          ],
+          "visible_bounds": [
+            115,
+            174,
+            556,
+            573
+          ]
+        },
+        {
+          "file": "DL_move_04.png",
+          "source_cel_index": 3,
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "ownership_components": [
+            5
+          ],
+          "source_bounds": [
+            50,
+            535,
+            513,
+            916
+          ],
+          "source_anchor": [
+            349,
+            414
+          ],
+          "native_offset": [
+            35,
+            186
+          ],
+          "visible_bounds": [
+            85,
+            209,
+            548,
+            590
+          ]
+        },
+        {
+          "file": "DL_move_05.png",
+          "source_cel_index": 4,
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "ownership_components": [
+            6
+          ],
+          "source_bounds": [
+            595,
+            599,
+            993,
+            961
+          ],
+          "source_anchor": [
+            279,
+            446
+          ],
+          "native_offset": [
+            105,
+            154
+          ],
+          "visible_bounds": [
+            188,
+            241,
+            586,
+            603
+          ]
+        },
+        {
+          "file": "DL_move_06.png",
+          "source_cel_index": 5,
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "ownership_components": [
+            4
+          ],
+          "source_bounds": [
+            1065,
+            521,
+            1487,
+            941
+          ],
+          "source_anchor": [
+            286,
+            415
+          ],
+          "native_offset": [
+            98,
+            185
+          ],
+          "visible_bounds": [
+            139,
+            194,
+            561,
+            614
+          ]
+        }
+      ],
+      "atlas": "DL_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "pixels_per_unit": 256,
+      "events": [],
+      "end": "loop"
+    },
+    "DL_attack": {
+      "facing": "DL",
+      "action": "attack",
+      "source_selection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "omitted_source_cels": [],
+      "omission_reason": null,
+      "loop": false,
+      "holds_60hz": [
+        8,
+        21,
+        3,
+        6,
+        17,
+        17
+      ],
+      "total_ticks": 72,
+      "frames": [
+        {
+          "file": "DL_attack_01.png",
+          "source_cel_index": 0,
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "ownership_components": [
+            2
+          ],
+          "source_bounds": [
+            117,
+            68,
+            470,
+            472
+          ],
+          "source_anchor": [
+            269,
+            391
+          ],
+          "native_offset": [
+            115,
+            209
+          ],
+          "visible_bounds": [
+            232,
+            277,
+            585,
+            681
+          ]
+        },
+        {
+          "file": "DL_attack_02.png",
+          "source_cel_index": 1,
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "ownership_components": [
+            1
+          ],
+          "source_bounds": [
+            572,
+            48,
+            955,
+            473
+          ],
+          "source_anchor": [
+            273,
+            415
+          ],
+          "native_offset": [
+            111,
+            185
+          ],
+          "visible_bounds": [
+            171,
+            233,
+            554,
+            658
+          ]
+        },
+        {
+          "file": "DL_attack_03.png",
+          "source_cel_index": 2,
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "ownership_components": [
+            3,
+            5,
+            7
+          ],
+          "source_bounds": [
+            1034,
+            109,
+            1490,
+            487
+          ],
+          "source_anchor": [
+            326,
+            401
+          ],
+          "native_offset": [
+            58,
+            199
+          ],
+          "visible_bounds": [
+            68,
+            308,
+            524,
+            686
+          ]
+        },
+        {
+          "file": "DL_attack_04.png",
+          "source_cel_index": 3,
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "ownership_components": [
+            10,
+            11,
+            12,
+            15,
+            17,
+            18
+          ],
+          "source_bounds": [
+            34,
+            583,
+            559,
+            954
+          ],
+          "source_anchor": [
+            368,
+            341
+          ],
+          "native_offset": [
+            16,
+            259
+          ],
+          "visible_bounds": [
+            50,
+            330,
+            575,
+            701
+          ]
+        },
+        {
+          "file": "DL_attack_05.png",
+          "source_cel_index": 4,
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "ownership_components": [
+            9,
+            14,
+            16
+          ],
+          "source_bounds": [
+            578,
+            558,
+            1042,
+            930
+          ],
+          "source_anchor": [
+            325,
+            363
+          ],
+          "native_offset": [
+            59,
+            237
+          ],
+          "visible_bounds": [
+            125,
+            283,
+            589,
+            655
+          ]
+        },
+        {
+          "file": "DL_attack_06.png",
+          "source_cel_index": 5,
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "ownership_components": [
+            8
+          ],
+          "source_bounds": [
+            1099,
+            557,
+            1471,
+            956
+          ],
+          "source_anchor": [
+            230,
+            375
+          ],
+          "native_offset": [
+            154,
+            225
+          ],
+          "visible_bounds": [
+            229,
+            270,
+            601,
+            669
+          ]
+        }
+      ],
+      "atlas": "DL_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "pixels_per_unit": 256,
+      "events": [
+        {
+          "frame_index": 2,
+          "tick": 29,
+          "name": "bell_toll"
+        },
+        {
+          "frame_index": 3,
+          "tick": 32,
+          "name": "shockwave_apex"
+        }
+      ],
+      "end": "hold final ready cel then transition"
+    },
+    "UL_move": {
+      "facing": "UL",
+      "action": "move",
+      "source_selection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "omitted_source_cels": [],
+      "omission_reason": null,
+      "loop": true,
+      "holds_60hz": [
+        8,
+        7,
+        10,
+        7,
+        6,
+        10
+      ],
+      "total_ticks": 48,
+      "frames": [
+        {
+          "file": "UL_move_01.png",
+          "source_cel_index": 0,
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "ownership_components": [
+            3
+          ],
+          "source_bounds": [
+            86,
+            73,
+            460,
+            451
+          ],
+          "source_anchor": [
+            300,
+            414
+          ],
+          "native_offset": [
+            84,
+            186
+          ],
+          "visible_bounds": [
+            170,
+            259,
+            544,
+            637
+          ]
+        },
+        {
+          "file": "UL_move_02.png",
+          "source_cel_index": 1,
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "ownership_components": [
+            2
+          ],
+          "source_bounds": [
+            593,
+            39,
+            968,
+            455
+          ],
+          "source_anchor": [
+            292,
+            438
+          ],
+          "native_offset": [
+            92,
+            162
+          ],
+          "visible_bounds": [
+            173,
+            201,
+            548,
+            617
+          ]
+        },
+        {
+          "file": "UL_move_03.png",
+          "source_cel_index": 2,
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "ownership_components": [
+            1
+          ],
+          "source_bounds": [
+            1087,
+            20,
+            1499,
+            423
+          ],
+          "source_anchor": [
+            268,
+            448
+          ],
+          "native_offset": [
+            116,
+            152
+          ],
+          "visible_bounds": [
+            179,
+            172,
+            591,
+            575
+          ]
+        },
+        {
+          "file": "UL_move_04.png",
+          "source_cel_index": 3,
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "ownership_components": [
+            4
+          ],
+          "source_bounds": [
+            86,
+            515,
+            505,
+            947
+          ],
+          "source_anchor": [
+            302,
+            425
+          ],
+          "native_offset": [
+            82,
+            175
+          ],
+          "visible_bounds": [
+            168,
+            178,
+            587,
+            610
+          ]
+        },
+        {
+          "file": "UL_move_05.png",
+          "source_cel_index": 4,
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "ownership_components": [
+            6
+          ],
+          "source_bounds": [
+            591,
+            558,
+            992,
+            944
+          ],
+          "source_anchor": [
+            298,
+            402
+          ],
+          "native_offset": [
+            86,
+            198
+          ],
+          "visible_bounds": [
+            165,
+            244,
+            566,
+            630
+          ]
+        },
+        {
+          "file": "UL_move_06.png",
+          "source_cel_index": 5,
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "ownership_components": [
+            5
+          ],
+          "source_bounds": [
+            1091,
+            545,
+            1482,
+            952
+          ],
+          "source_anchor": [
+            292,
+            416
+          ],
+          "native_offset": [
+            92,
+            184
+          ],
+          "visible_bounds": [
+            159,
+            217,
+            550,
+            624
+          ]
+        }
+      ],
+      "atlas": "UL_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "pixels_per_unit": 256,
+      "events": [],
+      "end": "loop"
+    },
+    "UL_attack": {
+      "facing": "UL",
+      "action": "attack",
+      "source_selection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "omitted_source_cels": [],
+      "omission_reason": null,
+      "loop": false,
+      "holds_60hz": [
+        8,
+        21,
+        3,
+        6,
+        17,
+        17
+      ],
+      "total_ticks": 72,
+      "frames": [
+        {
+          "file": "UL_attack_01.png",
+          "source_cel_index": 0,
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "ownership_components": [
+            2
+          ],
+          "source_bounds": [
+            88,
+            28,
+            429,
+            445
+          ],
+          "source_anchor": [
+            284,
+            393
+          ],
+          "native_offset": [
+            100,
+            207
+          ],
+          "visible_bounds": [
+            188,
+            235,
+            529,
+            652
+          ]
+        },
+        {
+          "file": "UL_attack_02.png",
+          "source_cel_index": 1,
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "ownership_components": [
+            1
+          ],
+          "source_bounds": [
+            582,
+            15,
+            938,
+            445
+          ],
+          "source_anchor": [
+            286,
+            393
+          ],
+          "native_offset": [
+            98,
+            207
+          ],
+          "visible_bounds": [
+            168,
+            222,
+            524,
+            652
+          ]
+        },
+        {
+          "file": "UL_attack_03.png",
+          "source_cel_index": 2,
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "ownership_components": [
+            3
+          ],
+          "source_bounds": [
+            1105,
+            66,
+            1475,
+            446
+          ],
+          "source_anchor": [
+            317,
+            395
+          ],
+          "native_offset": [
+            67,
+            205
+          ],
+          "visible_bounds": [
+            148,
+            271,
+            518,
+            651
+          ]
+        },
+        {
+          "file": "UL_attack_04.png",
+          "source_cel_index": 3,
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "ownership_components": [
+            6,
+            8,
+            10,
+            11,
+            12,
+            14,
+            15
+          ],
+          "source_bounds": [
+            38,
+            574,
+            534,
+            948
+          ],
+          "source_anchor": [
+            329,
+            368
+          ],
+          "native_offset": [
+            55,
+            232
+          ],
+          "visible_bounds": [
+            93,
+            294,
+            589,
+            668
+          ]
+        },
+        {
+          "file": "UL_attack_05.png",
+          "source_cel_index": 4,
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "ownership_components": [
+            4,
+            7,
+            9
+          ],
+          "source_bounds": [
+            575,
+            531,
+            1003,
+            927
+          ],
+          "source_anchor": [
+            290,
+            361
+          ],
+          "native_offset": [
+            94,
+            239
+          ],
+          "visible_bounds": [
+            157,
+            258,
+            585,
+            654
+          ]
+        },
+        {
+          "file": "UL_attack_06.png",
+          "source_cel_index": 5,
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "ownership_components": [
+            5
+          ],
+          "source_bounds": [
+            1144,
+            537,
+            1486,
+            951
+          ],
+          "source_anchor": [
+            318,
+            389
+          ],
+          "native_offset": [
+            66,
+            211
+          ],
+          "visible_bounds": [
+            186,
+            236,
+            528,
+            650
+          ]
+        }
+      ],
+      "atlas": "UL_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "pixels_per_unit": 256,
+      "events": [
+        {
+          "frame_index": 2,
+          "tick": 29,
+          "name": "bell_toll"
+        },
+        {
+          "frame_index": 3,
+          "tick": 32,
+          "name": "shockwave_apex"
+        }
+      ],
+      "end": "hold final ready cel then transition"
+    },
+    "UR_move": {
+      "facing": "UR",
+      "action": "move",
+      "source_selection": [
+        4,
+        5,
+        1,
+        2,
+        3
+      ],
+      "omitted_source_cels": [
+        0
+      ],
+      "omission_reason": "Source cel1 has three shoes; five valid unique native cels reordered landing/rebound/rise/apex/descent, no substitute drawing.",
+      "loop": true,
+      "holds_60hz": [
+        6,
+        10,
+        7,
+        14,
+        11
+      ],
+      "total_ticks": 48,
+      "frames": [
+        {
+          "file": "UR_move_01.png",
+          "source_cel_index": 4,
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "ownership_components": [
+            6
+          ],
+          "source_bounds": [
+            575,
+            549,
+            961,
+            926
+          ],
+          "source_anchor": [
+            212,
+            390
+          ],
+          "native_offset": [
+            172,
+            210
+          ],
+          "visible_bounds": [
+            235,
+            247,
+            621,
+            624
+          ]
+        },
+        {
+          "file": "UR_move_02.png",
+          "source_cel_index": 5,
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "ownership_components": [
+            5
+          ],
+          "source_bounds": [
+            1099,
+            526,
+            1482,
+            922
+          ],
+          "source_anchor": [
+            240,
+            396
+          ],
+          "native_offset": [
+            144,
+            204
+          ],
+          "visible_bounds": [
+            219,
+            218,
+            602,
+            614
+          ]
+        },
+        {
+          "file": "UR_move_03.png",
+          "source_cel_index": 1,
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "ownership_components": [
+            2
+          ],
+          "source_bounds": [
+            582,
+            35,
+            954,
+            427
+          ],
+          "source_anchor": [
+            238,
+            438
+          ],
+          "native_offset": [
+            146,
+            162
+          ],
+          "visible_bounds": [
+            216,
+            197,
+            588,
+            589
+          ]
+        },
+        {
+          "file": "UR_move_04.png",
+          "source_cel_index": 2,
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "ownership_components": [
+            1
+          ],
+          "source_bounds": [
+            1066,
+            4,
+            1471,
+            432
+          ],
+          "source_anchor": [
+            213,
+            452
+          ],
+          "native_offset": [
+            171,
+            148
+          ],
+          "visible_bounds": [
+            213,
+            152,
+            618,
+            580
+          ]
+        },
+        {
+          "file": "UR_move_05.png",
+          "source_cel_index": 3,
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "ownership_components": [
+            4
+          ],
+          "source_bounds": [
+            56,
+            504,
+            473,
+            919
+          ],
+          "source_anchor": [
+            252,
+            404
+          ],
+          "native_offset": [
+            132,
+            196
+          ],
+          "visible_bounds": [
+            188,
+            188,
+            605,
+            603
+          ]
+        }
+      ],
+      "atlas": "UR_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "pixels_per_unit": 256,
+      "events": [],
+      "end": "loop"
+    },
+    "UR_attack": {
+      "facing": "UR",
+      "action": "attack",
+      "source_selection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "omitted_source_cels": [],
+      "omission_reason": null,
+      "loop": false,
+      "holds_60hz": [
+        8,
+        21,
+        3,
+        6,
+        17,
+        17
+      ],
+      "total_ticks": 72,
+      "frames": [
+        {
+          "file": "UR_attack_01.png",
+          "source_cel_index": 0,
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "ownership_components": [
+            2
+          ],
+          "source_bounds": [
+            89,
+            45,
+            442,
+            466
+          ],
+          "source_anchor": [
+            234,
+            416
+          ],
+          "native_offset": [
+            150,
+            184
+          ],
+          "visible_bounds": [
+            239,
+            229,
+            592,
+            650
+          ]
+        },
+        {
+          "file": "UR_attack_02.png",
+          "source_cel_index": 1,
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "ownership_components": [
+            1
+          ],
+          "source_bounds": [
+            619,
+            15,
+            927,
+            457
+          ],
+          "source_anchor": [
+            245,
+            417
+          ],
+          "native_offset": [
+            139,
+            183
+          ],
+          "visible_bounds": [
+            246,
+            198,
+            554,
+            640
+          ]
+        },
+        {
+          "file": "UR_attack_03.png",
+          "source_cel_index": 2,
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "ownership_components": [
+            3,
+            5
+          ],
+          "source_bounds": [
+            1109,
+            92,
+            1467,
+            467
+          ],
+          "source_anchor": [
+            224,
+            418
+          ],
+          "native_offset": [
+            160,
+            182
+          ],
+          "visible_bounds": [
+            245,
+            274,
+            603,
+            649
+          ]
+        },
+        {
+          "file": "UR_attack_04.png",
+          "source_cel_index": 3,
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "ownership_components": [
+            8,
+            9,
+            15,
+            16
+          ],
+          "source_bounds": [
+            68,
+            608,
+            521,
+            934
+          ],
+          "source_anchor": [
+            250,
+            363
+          ],
+          "native_offset": [
+            134,
+            237
+          ],
+          "visible_bounds": [
+            202,
+            333,
+            655,
+            659
+          ]
+        },
+        {
+          "file": "UR_attack_05.png",
+          "source_cel_index": 4,
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "ownership_components": [
+            7,
+            11,
+            14
+          ],
+          "source_bounds": [
+            596,
+            540,
+            1021,
+            926
+          ],
+          "source_anchor": [
+            259,
+            363
+          ],
+          "native_offset": [
+            125,
+            237
+          ],
+          "visible_bounds": [
+            209,
+            265,
+            634,
+            651
+          ]
+        },
+        {
+          "file": "UR_attack_06.png",
+          "source_cel_index": 5,
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "ownership_components": [
+            6
+          ],
+          "source_bounds": [
+            1120,
+            530,
+            1466,
+            945
+          ],
+          "source_anchor": [
+            244,
+            389
+          ],
+          "native_offset": [
+            140,
+            211
+          ],
+          "visible_bounds": [
+            236,
+            229,
+            582,
+            644
+          ]
+        }
+      ],
+      "atlas": "UR_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "pixels_per_unit": 256,
+      "events": [
+        {
+          "frame_index": 2,
+          "tick": 29,
+          "name": "bell_toll"
+        },
+        {
+          "frame_index": 3,
+          "tick": 32,
+          "name": "shockwave_apex"
+        }
+      ],
+      "end": "hold final ready cel then transition"
+    }
+  }
+}

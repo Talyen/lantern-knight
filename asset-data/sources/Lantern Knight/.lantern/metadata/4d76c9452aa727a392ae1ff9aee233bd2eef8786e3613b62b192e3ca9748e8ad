@@ -1,0 +1,16 @@
+{
+  "title": "07 Bats and Flying Vermin",
+  "variants": [
+    {
+      "id": "BT03",
+      "slug": "mourning_moth",
+      "name": "Mourning Moth",
+      "description": "A dark-fantasy giant funerary MOTH flying with wings open in a shallow V: a simple short charcoal tapered body, small round head with two tiny amber eyes and exactly two short thick symmetrical antennae. TWO large visible wing masses, one on each side, each a simple rounded triangular fan combining forewing and hindwing into one clean silhouette. Wing pattern is completely bilateral: warm-ivory outer crescent, one dark charcoal oval centered on each muted umber wing, no tiny spots or scales. All insect legs are tucked fully under body and NOT visible. No extra limbs, detached particles or ornamental tails. Broad soft diamond silhouette, confident smooth ink contours, three flat colors. Elevated view clearly sees wing upper surfaces; head faces screen down-right.",
+      "motion_hint": "Soft flutter / dust pulse",
+      "move": "One gentle mirrored wing flutter with slight body bob.",
+      "attack": "Wings close then open for one centered dust pulse.",
+      "death": "Wings fold over the short body and descend.",
+      "qa": "Two simplified broad wing masses and two antennae pass; legs are intentionally hidden. Bilateral large oval wing pattern is mirror-friendly; flutter needs construction guides to retain pattern registration."
+    }
+  ]
+}

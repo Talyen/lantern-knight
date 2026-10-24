@@ -1,0 +1,366 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Mosswell Slime",
+  "ability": "mossglue_spit",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "mossglue_spit_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      320,
+      540
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": [
+      92,
+      203,
+      548,
+      540
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        21,
+        116,
+        252,
+        265
+      ],
+      [
+        272,
+        137,
+        511,
+        265
+      ],
+      [
+        525,
+        96,
+        753,
+        269
+      ],
+      [
+        773,
+        62,
+        1002,
+        269
+      ],
+      [
+        20,
+        339,
+        259,
+        536
+      ],
+      [
+        273,
+        334,
+        517,
+        536
+      ],
+      [
+        526,
+        331,
+        776,
+        539
+      ],
+      [
+        778,
+        364,
+        1003,
+        539
+      ],
+      [
+        24,
+        632,
+        297,
+        800
+      ],
+      [
+        292,
+        643,
+        485,
+        809
+      ],
+      [
+        538,
+        654,
+        733,
+        807
+      ],
+      [
+        779,
+        645,
+        996,
+        808
+      ],
+      [
+        21,
+        890,
+        241,
+        1047
+      ],
+      [
+        271,
+        901,
+        496,
+        1051
+      ],
+      [
+        528,
+        912,
+        748,
+        1050
+      ],
+      [
+        779,
+        908,
+        1002,
+        1049
+      ]
+    ],
+    "ordinary_resample_factor": 2.241758241758242,
+    "placements_xywh": [
+      [
+        42,
+        206,
+        518,
+        334
+      ],
+      [
+        74,
+        253,
+        536,
+        287
+      ],
+      [
+        96,
+        152,
+        511,
+        388
+      ],
+      [
+        108,
+        76,
+        513,
+        464
+      ],
+      [
+        100,
+        98,
+        536,
+        442
+      ],
+      [
+        89,
+        87,
+        547,
+        453
+      ],
+      [
+        36,
+        74,
+        560,
+        466
+      ],
+      [
+        124,
+        148,
+        504,
+        392
+      ],
+      [
+        24,
+        163,
+        612,
+        377
+      ],
+      [
+        153,
+        168,
+        433,
+        372
+      ],
+      [
+        158,
+        197,
+        437,
+        343
+      ],
+      [
+        128,
+        175,
+        486,
+        365
+      ],
+      [
+        111,
+        188,
+        493,
+        352
+      ],
+      [
+        113,
+        204,
+        504,
+        336
+      ],
+      [
+        112,
+        231,
+        493,
+        309
+      ],
+      [
+        86,
+        224,
+        500,
+        316
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "mossglue_spit_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      768,
+      768
+    ],
+    "pivot_top_left_px": [
+      384,
+      560
+    ],
+    "durations_ms": [
+      30,
+      35,
+      45,
+      90,
+      110,
+      140,
+      160,
+      185
+    ],
+    "start_ms": 1050,
+    "offset_from_actor_pivot_px": [
+      330,
+      0
+    ],
+    "ordinary_resample_factor": 1.35,
+    "source_cel_boxes": [
+      [
+        58,
+        1147,
+        192,
+        1226
+      ],
+      [
+        275,
+        1139,
+        503,
+        1221
+      ],
+      [
+        537,
+        1173,
+        749,
+        1217
+      ],
+      [
+        789,
+        1159,
+        980,
+        1256
+      ],
+      [
+        43,
+        1356,
+        238,
+        1472
+      ],
+      [
+        286,
+        1359,
+        491,
+        1477
+      ],
+      [
+        532,
+        1363,
+        740,
+        1476
+      ],
+      [
+        783,
+        1419,
+        995,
+        1478
+      ]
+    ],
+    "baked_trajectory_note": "Fixed-canvas flight after embedded launch cel. First splash cel starts at1160ms. No extra transform support required."
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1160,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1x4czQzyEyws_YIQPUZorsg_9T-1naThH",
+    "url": "https://drive.google.com/file/d/1x4czQzyEyws_YIQPUZorsg_9T-1naThH/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right.",
+    "Delayed separate projectile until baked-in launch cel ends; baked flight-to-ground trajectory into a fixed 768px effect canvas. Target contact remains 1160 ms.",
+    "Actor recovery may begin before delayed target impact. Exactly one unchanged gameplay damage event.",
+    "Contact 1160ms; effect starts 1050ms. Current effect canvas and pivot are authoritative."
+  ],
+  "polish_revision": "physical-polish-v1"
+}

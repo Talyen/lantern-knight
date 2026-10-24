@@ -1,0 +1,138 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2770149,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "a3669394904cc3ecd9dd039613d2d6c89c345c4e0a2eeb624550d4374e66df5c"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 29683412,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "2f4ed85d5153ed80610a74117c2362979a44827db29469f836508a7fba580e4d"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 8886173,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "ae410ae2cfead59442509322269b84608f11f9244e341e18c257811c20865cf6"
+  },
+  "review_views/lower_courtyard_hero_context.png": {
+    "bytes": 1990827,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "609849b0b0d6096fc69b60425893a50677f333b43988e8ff540b6cb119592ef3"
+  },
+  "review_views/mausoleum_approach_AI_display2p5x_ground.png": {
+    "bytes": 2221381,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "9bad65af9f66e48f71e229fd1d94dcf416f682d3dbe68b24ca9072d7dcb3209e"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 2374544,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "57eb20cd8f678077c37b335ccbde62a831614dc75417ca7871798697abddbb94"
+  },
+  "review_views/central_crossroads_hero_context.png": {
+    "bytes": 1905599,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ba19e04f0bac8d177cdea86edffd8947d4d8b0038f22f9b06564bfae0931082a"
+  },
+  "review_views/central_crossroads_AI_display2p5x_ground.png": {
+    "bytes": 1891328,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "efdb54750c3719a247fa02116b721d92d862ced6db4effa599d0fa9b92371811"
+  },
+  "review_views/mausoleum_approach_hero_context.png": {
+    "bytes": 2230760,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "f40ffd2eba8b1ac144da7b8a14d8928a14ddc84d7f245cbf7863bcb0ae3a07de"
+  },
+  "review_views/lower_courtyard_AI_display2p5x_ground.png": {
+    "bytes": 1977637,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0c2d03b41b2777af1b69b6f0e5cc3c423b7f30d19ed37901b93a5b21fee0ebd9"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2768634,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "e6e553446cc0f96854ab9753c66efd947e8a330b7e6ac6359743bed71c07a084"
+  },
+  "ai_upscale/checks/lower_crossroads_untiled4x.png": {
+    "bytes": 630638,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "840784a397bb6b85e1c5c84681e58f472cfc8b009bc1b941402ccd6fbdfe7aa3"
+  },
+  "ai_upscale/checks/lower_crossroads_comparison.png": {
+    "bytes": 192539,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "233fc3fdbb1657344f75d3ca0a13d55f39196ae3336ecca56ff49533e66294c9"
+  },
+  "ai_upscale/checks/paving_and_scenery_native.png": {
+    "bytes": 66577,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "8b839025b41926959a36053c131af2e2d27ef916d4bec38a57f142f22188a055"
+  },
+  "ai_upscale/checks/paving_and_scenery_comparison.png": {
+    "bytes": 174558,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "ebb378b76e00f94b9e06d7c294333b17a8f4a626dc3d4a29243394fa5266d6c5"
+  },
+  "ai_upscale/checks/paving_and_scenery_untiled4x.png": {
+    "bytes": 604801,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "cda9c427d0b85e6b22bddbcaff9427d4710055643df7aface3b4abbf19f60a2d"
+  },
+  "ai_upscale/checks/lower_crossroads_native.png": {
+    "bytes": 68389,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "1ed356cb2361844f82e1147f82abd04e9394f1668b0339c539bc339618676953"
+  }
+}

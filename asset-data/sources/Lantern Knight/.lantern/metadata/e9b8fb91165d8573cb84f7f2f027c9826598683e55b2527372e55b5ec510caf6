@@ -1,0 +1,269 @@
+{
+  "clip": "special",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": false,
+  "durations_ms": [
+    180,
+    180,
+    180,
+    220,
+    180,
+    60,
+    60,
+    100,
+    120,
+    120,
+    120,
+    140
+  ],
+  "total_ms": 1660,
+  "atlas": "atlases/special_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/special/special_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/special/special_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        54,
+        172,
+        617,
+        550
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/special/special_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        50,
+        156,
+        635,
+        550
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/special/special_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        50,
+        139,
+        656,
+        550
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/special/special_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        32,
+        197,
+        648,
+        550
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/special/special_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        23,
+        165,
+        620,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/special/special_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        38,
+        229,
+        616,
+        550
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/special/special_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        19,
+        219,
+        615,
+        550
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/special/special_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        42,
+        221,
+        618,
+        550
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/special/special_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        65,
+        209,
+        602,
+        550
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/special/special_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        65,
+        215,
+        611,
+        550
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/special/special_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0
+    },
+    {
+      "name": "single_damage_impact",
+      "time_ms": 1000,
+      "frame": 6,
+      "damage_windows": 1
+    },
+    {
+      "name": "recovery",
+      "time_ms": 1060
+    }
+  ],
+  "target_footprint": {
+    "offset_px": [
+      0,
+      0
+    ],
+    "ellipse_radii_px": [
+      235,
+      75
+    ],
+    "facing": "screen_left"
+  },
+  "effect": {
+    "clip": "slam_fx",
+    "start_ms": 0,
+    "impact_ms": 1000,
+    "impact_frame": 5,
+    "offset_px": [
+      0,
+      0
+    ],
+    "note": "One damage event at actor frame6 / FX frame5, both start at 0ms. Aftermath non-damaging."
+  }
+}

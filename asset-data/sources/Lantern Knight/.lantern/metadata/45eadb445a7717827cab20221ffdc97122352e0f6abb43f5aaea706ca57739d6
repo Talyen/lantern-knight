@@ -1,0 +1,269 @@
+{
+  "frame_count": 21,
+  "frames": [
+    {
+      "file": "collection_00.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        92,
+        152,
+        164,
+        228
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "collection_01.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        78,
+        105,
+        179,
+        228
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "collection_02.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        77,
+        11,
+        180,
+        227
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "collection_03.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        80,
+        48,
+        168,
+        226
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "collection_04.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        119,
+        65,
+        138,
+        133
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "collection_05.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        122,
+        41,
+        134,
+        68
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "drops_00.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        23,
+        59,
+        233,
+        229
+      ],
+      "white_rgb_mask": null
+    },
+    {
+      "file": "drops_01.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        42,
+        71,
+        214,
+        228
+      ],
+      "white_rgb_mask": null
+    },
+    {
+      "file": "drops_02.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        45,
+        67,
+        210,
+        228
+      ],
+      "white_rgb_mask": null
+    },
+    {
+      "file": "glint_00.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        123,
+        124,
+        132,
+        132
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "glint_01.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        115,
+        117,
+        140,
+        139
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "glint_02.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        111,
+        110,
+        145,
+        147
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "glint_03.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        105,
+        97,
+        151,
+        161
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "glint_04.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        116,
+        114,
+        144,
+        140
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "glint_05.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        124,
+        124,
+        132,
+        132
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "landing_00.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        79,
+        198,
+        177,
+        229
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "landing_01.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        71,
+        134,
+        185,
+        229
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "landing_02.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        58,
+        49,
+        200,
+        232
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "landing_03.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        32,
+        160,
+        225,
+        235
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "landing_04.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        72,
+        170,
+        186,
+        227
+      ],
+      "white_rgb_mask": true
+    },
+    {
+      "file": "landing_05.png",
+      "edge_nontransparent": 0,
+      "alpha_bbox": [
+        111,
+        197,
+        153,
+        229
+      ],
+      "white_rgb_mask": true
+    }
+  ],
+  "visual_review": "All 21 runtime frames reviewed on charcoal contact sheet; three silhouettes reviewed at approximately 64px art footprint. Landing was regenerated to match clean ink collection style. Its source spacing is nonuniform, so custom ROIs isolate each drawing rather than na\u00efve equal-cell slicing. Anchor placements and common per-effect scales reviewed; no source-neighbor fragments visible. Static drops are persistent, not animation clips.",
+  "generated_source": [
+    {
+      "file": "collection.png",
+      "native_size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "file": "drops.png",
+      "native_size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "file": "glint.png",
+      "native_size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "file": "landing.png",
+      "native_size": [
+        2043,
+        770
+      ]
+    }
+  ],
+  "upscaling": false,
+  "caveat": "Camera angles are prompt/art-direction constraints, not an exported 3D camera."
+}

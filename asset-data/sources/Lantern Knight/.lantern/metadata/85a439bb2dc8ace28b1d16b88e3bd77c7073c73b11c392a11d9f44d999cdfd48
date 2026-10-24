@@ -1,0 +1,9 @@
+LANTERN / REVISION 02 / MATERIALS
+
+Original native-vector illustration and animation. Full-canvas transparent straight-alpha PNGs, editable SVG frames, stable union-cropped atlases and per-frame timing/pivots. Original versions preserved separately.
+
+Import: use 30 fps; review movies repeat each drawing twice at 60 Hz without interpolation. Alpha blend normal. Fixed pivot (320,386) in source canvas 640x560. Union atlas crop does not change registration. Atlas padding is six pixels: two edge-extrusion pixels and four transparent gutter pixels. Disable generic atlas mipmaps or generate per-sprite mip chains. No engine integration is claimed.
+
+Camera limitation: ground ellipses are registered to 35.264389682754654-degree elevation and 45-degree azimuth; contour effects and material fragments are authored illustrative billboards rather than volumetric meshes. Do not use as arbitrary-angle 3D assets.
+
+Sources are in ../source. All paths are authored; no bitmap repainting or image-generation frame cascades.

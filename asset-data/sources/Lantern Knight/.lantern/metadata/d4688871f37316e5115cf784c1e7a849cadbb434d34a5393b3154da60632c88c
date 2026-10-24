@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "dock_broken_jetty_section_01",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_broken_jetty_section_01.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_broken_jetty_section_01.png",
+    "sha256": "eb22f3beca48e40d3bf3725c3c9e7767a6384d75518aad83c5901cce02dba410",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_broken_jetty_section_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1418,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      165,
+      25,
+      1386,
+      932
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9678,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-808ad175-8a52-4588-aa4c-9a048d804cc4.png"
+  },
+  {
+    "asset_id": "dock_coiled_mooring_line_01",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_coiled_mooring_line_01.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_coiled_mooring_line_01.png",
+    "sha256": "7630c5fcacca2f15da60132f3b2fd06922d80dfbceebf3a9dff14d12f65879ce",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/dock_coiled_mooring_line_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      21,
+      1436,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      234,
+      134,
+      1317,
+      912
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96862,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "dock_mooring_cleat_02",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_mooring_cleat_02.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_mooring_cleat_02.png",
+    "sha256": "a077d566ca6b5662528adef8824520c703aa31d4d630257e995cb1b15d909ddb",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_mooring_cleat_02.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      157,
+      21,
+      1450,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      160,
+      71,
+      1447,
+      985
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97564,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-ae2fa755-25cf-492a-aca7-82fbff6fa30d.png"
+  },
+  {
+    "asset_id": "dock_navigation_post_01",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_navigation_post_01.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_navigation_post_01.png",
+    "sha256": "7e7e32367f854a690ea74e65d25c3568468b5189d1eb8f17f04e7133bd84862d",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_navigation_post_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      41,
+      808,
+      1472
+    ],
+    "alpha_bounds_ge128": [
+      232,
+      44,
+      719,
+      1469
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96755,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-3eaa72c6-e286-45b3-aa95-3aecd0673b52.png"
+  },
+  {
+    "asset_id": "dock_overturned_rowboat_01",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_overturned_rowboat_01.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_overturned_rowboat_01.png",
+    "sha256": "02cebd7d9832c42e41e5f26bce42d399f0d8582eed3c4ef93dd0164e82073679",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_overturned_rowboat_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      37,
+      1507,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      100,
+      81,
+      1505,
+      905
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98195,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-2f99f3d0-7f93-4dc7-b34a-9a3d68189564.png"
+  },
+  {
+    "asset_id": "dock_piled_fishing_nets_02",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_piled_fishing_nets_02.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_piled_fishing_nets_02.png",
+    "sha256": "9a49d8ce0fcfab04f825ccf5de6e25563d718a2ca4a3288eac059f3648557e86",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_piled_fishing_nets_02.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      32,
+      1458,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      147,
+      137,
+      1431,
+      883
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98035,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-bab9c03d-8552-44b5-839d-450f7a0bd987.png"
+  },
+  {
+    "asset_id": "dock_wood_iron_capstan_01",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_wood_iron_capstan_01.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_wood_iron_capstan_01.png",
+    "sha256": "cb856d5c3a4d9000a3fa1a02224c138c05f26c5810ab63b8baef344642a3d5b0",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_wood_iron_capstan_01.prompt.txt",
+    "size": [
+      1374,
+      1145
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      9,
+      1348,
+      1145
+    ],
+    "alpha_bounds_ge128": [
+      113,
+      58,
+      1266,
+      1060
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.96907,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-fa4a3909-3059-4ceb-96f7-52f85c326aa9.png"
+  },
+  {
+    "asset_id": "dock_wooden_fish_trap_01",
+    "pack": "volume_09_dock",
+    "path": "assets/dock_wooden_fish_trap_01.png",
+    "original_path": "lantern_environment_candidates/volume_09_dock/assets/dock_wooden_fish_trap_01.png",
+    "sha256": "24b5c6c27317b9134146ba4618b78147e11f2a2ab3d7ba4b87b1dc5128cb1135",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/dock_wooden_fish_trap_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      25,
+      23,
+      1502,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      120,
+      47,
+      1458,
+      989
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.94477,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-21043070-d9c6-4565-9e66-b64980126e6d.png"
+  }
+]

@@ -1,9 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { randomUUID } from 'node:crypto';
 import { createHash } from 'node:crypto';
-import { projectRoot, sourceLibrary } from './paths';
+import { projectRoot, sourceLibrary, sourceLibraryRoot } from './paths';
 import { readLibrarySource as libraryRead, sourceGroup } from './sources';
 import { compile as compileAtlas } from '../compiler';
 import type { Manifest } from '../../src/assets/schema';
@@ -336,7 +335,7 @@ export function preparationOptions(workspace: string, env: NodeJS.ProcessEnv): P
     workspace,
     budget: Number(env.LANTERN_PREPARE_BUDGET ?? 3 * 1024 ** 3),
     sourceRoot: sourceLibrary(env),
-    libraryRoot: env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents', 'Asset Library'),
+    libraryRoot: sourceLibraryRoot(),
     outputLog: env.LANTERN_STEP_OUTPUT_LOG,
     inputLog: env.LANTERN_STEP_INPUT_LOG,
     environment: env,

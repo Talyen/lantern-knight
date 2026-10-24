@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "upper_initiation_floor",
+      "display_crop_box": [
+        375,
+        375,
+        1911,
+        1399
+      ],
+      "source_crop_box": [
+        150.0,
+        150.0,
+        764.4,
+        559.6
+      ],
+      "display_hero_foot": [
+        1075,
+        995
+      ],
+      "source_hero_foot": [
+        430.0,
+        398.0
+      ]
+    },
+    {
+      "name": "lower_ritual_ring",
+      "display_crop_box": [
+        2125,
+        1450,
+        3661,
+        2474
+      ],
+      "source_crop_box": [
+        850.0,
+        580.0,
+        1464.4,
+        989.6
+      ],
+      "display_hero_foot": [
+        2800,
+        1923
+      ],
+      "source_hero_foot": [
+        1120.0,
+        769.2
+      ]
+    },
+    {
+      "name": "eastern_passage",
+      "display_crop_box": [
+        2250,
+        375,
+        3786,
+        1399
+      ],
+      "source_crop_box": [
+        900.0,
+        150.0,
+        1514.4,
+        559.6
+      ],
+      "display_hero_foot": [
+        3050,
+        893
+      ],
+      "source_hero_foot": [
+        1220.0,
+        357.2
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

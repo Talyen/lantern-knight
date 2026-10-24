@@ -1,0 +1,58 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_whole_map_crop_overview.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/review_views/whole_map_crop_overview.png",
+    "name": "forest_gathering_A_v2_whole_map_crop_overview.png",
+    "size": 2187719,
+    "sha256": "8cefc229723029b5e66d23b0342440bab0d02bb3a7ca859ced2c2d5214e8bd58",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_upper_altar_crossing_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/review_views/upper_altar_crossing_hero_context.png",
+    "name": "forest_gathering_A_v2_upper_altar_crossing_hero_context.png",
+    "size": 1695484,
+    "sha256": "e0a953650c1e0f43b88f4e7094c24de7641dd56e1212ef675050e7ca0077bf38",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_western_altar_route_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/review_views/western_altar_route_hero_context.png",
+    "name": "forest_gathering_A_v2_western_altar_route_hero_context.png",
+    "size": 1608438,
+    "sha256": "85f1efeda674ac42efd2caa7feecfc86f23d305e606c124b7e700cf5adf48eee",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_eastern_altar_passage_hero_context.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/review_views/eastern_altar_passage_hero_context.png",
+    "name": "forest_gathering_A_v2_eastern_altar_passage_hero_context.png",
+    "size": 1645081,
+    "sha256": "23180b24ee96ae79bf440ae24df44360fdeeba99e07956a1e068bb04a5408813",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_native_floor.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/native_floor.png",
+    "name": "forest_gathering_A_v2_native_floor.png",
+    "size": 2713006,
+    "sha256": "bb84174d466fd9520ead9937872b5494e21357f8a1103268bf23d652b2c216a7",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_full_upscaled4x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/ai_upscale/full_upscaled4x.png",
+    "name": "forest_gathering_A_v2_full_upscaled4x.png",
+    "size": 22888285,
+    "sha256": "564045e3be55a372036e1be560e3c1e0eaf7484331782fa73143d1d680a0c1e4",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/forest_gathering_A_v2_full_upscaled2x.png",
+    "source_path": "/workspace/scratch/1a83d58417d5/selected_full_deliveries_oct09/forest_gathering_A_v2/ai_upscale/full_upscaled2x.png",
+    "name": "forest_gathering_A_v2_full_upscaled2x.png",
+    "size": 6923502,
+    "sha256": "ed52bed7dd627ea373fc75a88b99f496a858dd9110cbe7202ebce7fd7ee96568",
+    "library_artifact_type": "image"
+  }
+]

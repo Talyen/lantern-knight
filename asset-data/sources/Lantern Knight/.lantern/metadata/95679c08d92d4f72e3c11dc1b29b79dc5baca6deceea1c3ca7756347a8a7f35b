@@ -1,0 +1,10 @@
+Lantern wilderness variants | October 9, 2026
+A/B labels refer only to this NEW wilderness-variants batch, not earlier approved A/B selections.
+Six new native viewport samples; no whole-map expansions or engine work.
+Each native is 1536x1024, generated separately with built-in image_gen.
+Exact prompts and provenance are included. Native scene pixels are untouched.
+Hero contexts composite the original approved sprite at 160px visible height, with a small contact shadow. No hero regeneration.
+Paired sheets are review thumbnails; use natives/contexts for full resolution.
+Rebuild contexts from the complete three-theme set with python build_deliverables.py (Pillow required).
+Camera/scale are visual targets only, not validated engine geometry, collision or occlusion.
+No water, hazards, traps or puzzles.

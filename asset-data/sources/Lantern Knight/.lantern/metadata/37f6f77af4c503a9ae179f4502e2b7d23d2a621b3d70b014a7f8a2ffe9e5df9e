@@ -1,0 +1,124 @@
+{
+  "scene_number": 12,
+  "scene": "Haunted Woodland/Full Scene C",
+  "prop": "a closed travel backpack",
+  "source_master_url": "https://drive.google.com/file/d/134Xae-b3ysLnJpwdyPOVV5WMFTxQv_xv/view?usp=drivesdk",
+  "animation": {
+    "name": "open",
+    "loop": false,
+    "frame_durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "hold_final": true,
+    "final_state": "open_empty",
+    "trigger": "interaction"
+  },
+  "frame_count": 6,
+  "runtime_frame_size": [
+    65,
+    61
+  ],
+  "runtime_anchor_bottom_contact": [
+    30,
+    60
+  ],
+  "native_frame_size": [
+    459,
+    430
+  ],
+  "native_anchor_bottom_contact": [
+    211,
+    418
+  ],
+  "runtime_scale_from_native": 0.14250614250614252,
+  "source_cells": [
+    512,
+    512
+  ],
+  "source_bounds": [
+    [
+      58,
+      91,
+      465,
+      494
+    ],
+    [
+      51,
+      91,
+      461,
+      497
+    ],
+    [
+      43,
+      90,
+      453,
+      495
+    ],
+    [
+      71,
+      52,
+      493,
+      452
+    ],
+    [
+      54,
+      50,
+      473,
+      452
+    ],
+    [
+      40,
+      50,
+      459,
+      452
+    ]
+  ],
+  "source_contact_anchors": [
+    [
+      229,
+      494
+    ],
+    [
+      245,
+      497
+    ],
+    [
+      217,
+      495
+    ],
+    [
+      270,
+      452
+    ],
+    [
+      244,
+      452
+    ],
+    [
+      230,
+      452
+    ]
+  ],
+  "preview_scene_size": [
+    1200,
+    800
+  ],
+  "preview_anchor": [
+    640,
+    440
+  ],
+  "native_note": "Imagegen-produced cels, translated to shared ground contact; no AI upscaling. Runtime is a mechanical downsample.",
+  "qa": {
+    "alpha": true,
+    "frame_clipping": false,
+    "fixed_ground_contact": true,
+    "distinct_hand_drawn_cels": true,
+    "empty_interior": true,
+    "scene_fit": "Reviewed at gameplay distance on original master; all previews are mechanical composites."
+  }
+}

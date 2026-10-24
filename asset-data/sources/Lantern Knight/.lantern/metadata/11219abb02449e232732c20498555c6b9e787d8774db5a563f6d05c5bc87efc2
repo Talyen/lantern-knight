@@ -1,0 +1,393 @@
+{
+  "name": "Cinder Breath | Rolling billow v3",
+  "physical_character": "Forward pressure: rolling charcoal lobes advect right and stretch into thinning turbulent ash ribbons.",
+  "authored_tail_cels": 9,
+  "total_encoded_frames": 14,
+  "all_13_art_frames_distinct": true,
+  "apng_decodes_match_source_rgba_on_nontransparent_pixels": true,
+  "encoded_durations_ms": [
+    20.0,
+    20.0,
+    30.0,
+    80.0,
+    60.0,
+    60.0,
+    60.0,
+    70.0,
+    70.0,
+    70.0,
+    70.0,
+    70.0,
+    70.0,
+    500.0
+  ],
+  "clear_frame_alpha_extrema": [
+    0,
+    0
+  ],
+  "zero_output_edge_alpha": true,
+  "source_layout": [
+    3,
+    3
+  ],
+  "source_cell_size": [
+    418,
+    418
+  ],
+  "source_cell_boundaries": [
+    {
+      "tail_cel": 1,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        53,
+        156,
+        375,
+        331
+      ],
+      "alpha_mass": 6032246
+    },
+    {
+      "tail_cel": 2,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        29,
+        150,
+        365,
+        333
+      ],
+      "alpha_mass": 5913575
+    },
+    {
+      "tail_cel": 3,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        18,
+        146,
+        364,
+        341
+      ],
+      "alpha_mass": 6011219
+    },
+    {
+      "tail_cel": 4,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        53,
+        122,
+        401,
+        314
+      ],
+      "alpha_mass": 5648029
+    },
+    {
+      "tail_cel": 5,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        41,
+        135,
+        399,
+        323
+      ],
+      "alpha_mass": 4492806
+    },
+    {
+      "tail_cel": 6,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        71,
+        144,
+        380,
+        309
+      ],
+      "alpha_mass": 2000864
+    },
+    {
+      "tail_cel": 7,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        110,
+        108,
+        392,
+        285
+      ],
+      "alpha_mass": 2012744
+    },
+    {
+      "tail_cel": 8,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        103,
+        125,
+        373,
+        287
+      ],
+      "alpha_mass": 530304
+    },
+    {
+      "tail_cel": 9,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        187,
+        145,
+        367,
+        289
+      ],
+      "alpha_mass": 129872
+    }
+  ],
+  "fixed_tail_placement": [
+    111,
+    111
+  ],
+  "per_tail_frame_transforms": false,
+  "original_opening_transform": {
+    "scale": 0.65,
+    "placement": [
+      111,
+      128
+    ]
+  },
+  "reference_anchor_for_metrics": [
+    195,
+    356
+  ],
+  "frame_metrics": [
+    {
+      "frame": 0,
+      "phase": "Gather",
+      "alpha_mass_gt12": 562096,
+      "centroid": [
+        207.9,
+        355.1
+      ],
+      "mean_distance_from_reference_anchor": 21.9,
+      "bbox_gt12": [
+        173,
+        329,
+        254,
+        383
+      ],
+      "horizontal_span_gt12": 81
+    },
+    {
+      "frame": 1,
+      "phase": "Onset",
+      "alpha_mass_gt12": 1177357,
+      "centroid": [
+        253.9,
+        358.9
+      ],
+      "mean_distance_from_reference_anchor": 65.6,
+      "bbox_gt12": [
+        161,
+        328,
+        371,
+        385
+      ],
+      "horizontal_span_gt12": 210
+    },
+    {
+      "frame": 2,
+      "phase": "Strike",
+      "alpha_mass_gt12": 5238525,
+      "centroid": [
+        306.1,
+        356.4
+      ],
+      "mean_distance_from_reference_anchor": 118.1,
+      "bbox_gt12": [
+        159,
+        268,
+        411,
+        445
+      ],
+      "horizontal_span_gt12": 252
+    },
+    {
+      "frame": 3,
+      "phase": "Peak",
+      "alpha_mass_gt12": 6562194,
+      "centroid": [
+        341.7,
+        345.5
+      ],
+      "mean_distance_from_reference_anchor": 152.7,
+      "bbox_gt12": [
+        161,
+        250,
+        447,
+        436
+      ],
+      "horizontal_span_gt12": 286
+    },
+    {
+      "frame": 4,
+      "phase": "Neck tears",
+      "alpha_mass_gt12": 6004507,
+      "centroid": [
+        382.2,
+        353.8
+      ],
+      "mean_distance_from_reference_anchor": 190.5,
+      "bbox_gt12": [
+        164,
+        267,
+        486,
+        442
+      ],
+      "horizontal_span_gt12": 322
+    },
+    {
+      "frame": 5,
+      "phase": "Billow rolls",
+      "alpha_mass_gt12": 5874195,
+      "centroid": [
+        366.5,
+        355.0
+      ],
+      "mean_distance_from_reference_anchor": 176.0,
+      "bbox_gt12": [
+        140,
+        261,
+        476,
+        444
+      ],
+      "horizontal_span_gt12": 336
+    },
+    {
+      "frame": 6,
+      "phase": "Front frays",
+      "alpha_mass_gt12": 5959602,
+      "centroid": [
+        368.9,
+        356.4
+      ],
+      "mean_distance_from_reference_anchor": 179.7,
+      "bbox_gt12": [
+        129,
+        257,
+        475,
+        452
+      ],
+      "horizontal_span_gt12": 346
+    },
+    {
+      "frame": 7,
+      "phase": "Lobes separate",
+      "alpha_mass_gt12": 5601339,
+      "centroid": [
+        401.9,
+        329.1
+      ],
+      "mean_distance_from_reference_anchor": 212.5,
+      "bbox_gt12": [
+        164,
+        233,
+        512,
+        425
+      ],
+      "horizontal_span_gt12": 348
+    },
+    {
+      "frame": 8,
+      "phase": "Ash stretches",
+      "alpha_mass_gt12": 4435690,
+      "centroid": [
+        396.9,
+        338.2
+      ],
+      "mean_distance_from_reference_anchor": 206.6,
+      "bbox_gt12": [
+        152,
+        246,
+        510,
+        434
+      ],
+      "horizontal_span_gt12": 358
+    },
+    {
+      "frame": 9,
+      "phase": "Ribbons thin",
+      "alpha_mass_gt12": 1917374,
+      "centroid": [
+        396.8,
+        338.8
+      ],
+      "mean_distance_from_reference_anchor": 205.4,
+      "bbox_gt12": [
+        182,
+        255,
+        491,
+        420
+      ],
+      "horizontal_span_gt12": 309
+    },
+    {
+      "frame": 10,
+      "phase": "Forward wisps",
+      "alpha_mass_gt12": 1934721,
+      "centroid": [
+        419.3,
+        313.8
+      ],
+      "mean_distance_from_reference_anchor": 231.2,
+      "bbox_gt12": [
+        221,
+        219,
+        503,
+        396
+      ],
+      "horizontal_span_gt12": 282
+    },
+    {
+      "frame": 11,
+      "phase": "Last soot",
+      "alpha_mass_gt12": 443831,
+      "centroid": [
+        417.8,
+        316.0
+      ],
+      "mean_distance_from_reference_anchor": 229.4,
+      "bbox_gt12": [
+        214,
+        236,
+        484,
+        398
+      ],
+      "horizontal_span_gt12": 270
+    },
+    {
+      "frame": 12,
+      "phase": "Far ash trace",
+      "alpha_mass_gt12": 85938,
+      "centroid": [
+        425.2,
+        327.3
+      ],
+      "mean_distance_from_reference_anchor": 234.7,
+      "bbox_gt12": [
+        298,
+        256,
+        478,
+        400
+      ],
+      "horizontal_span_gt12": 180
+    }
+  ],
+  "mp4_duration_seconds": 5.0,
+  "inspection": "All 9 tail cels inspected on a neutral composite; all 13 registered art frames inspected in temporal contact order. APNG decoded and compared with source PNGs. Final clear and output-edge alpha verified.",
+  "limitations": [
+    "Authored key-cel illustration rather than a physical simulation; small contour/fragment identity changes remain.",
+    "Source material remains at fixed cell/world placement. Opening is rescaled once by a constant to match tail material scale, not animated resizing.",
+    "Imagegen did not enforce full35px requested cell padding, but no substantial geometry was cut at cell boundaries."
+  ]
+}

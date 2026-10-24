@@ -1,0 +1,39 @@
+{
+  "actor": "CT02 Bellbound Monk",
+  "generation_date_utc": "2026-10-08",
+  "generation_method": "built-in image_gen, fresh original reference + heading-only guide",
+  "model_selection": "No named model was selected; Sunburst2.5 is retained exact prompt text only",
+  "native_size": [
+    1536,
+    1024
+  ],
+  "native_pixels_unchanged": true,
+  "reference_inputs": [
+    "source/original.png",
+    "source/DL_guide.png",
+    "source/UL_guide.png",
+    "source/UR_guide.png"
+  ],
+  "sources": {
+    "source/DL_attack.png": "449a2165be45426ecc3e0ec07ad69ef2d4e8ddf0a65480c0b8ac887d90255728",
+    "source/DL_attack.prompt.txt": "bccd7783f4294dda3e7b153ed80a4af4d0a03327515d6b6366d597132bcf2313",
+    "source/DL_guide.png": "bae87b6981e61c75d3f4d8a54ef99b1c24f1a7747d4baaad37fc8f5decbd7445",
+    "source/DL_move.png": "43886a64a5c07cad49e007395087c1cc58c01c0e9d575fcd45db44873e89c5db",
+    "source/DL_move.prompt.txt": "09ff2880e4f04c53327f80b0c4b1427e9a4c2d59bb704bbd9ed8d111b3a6b429",
+    "source/UL_attack.png": "6c56ff12247f5692b0c39dd11229b622e7fe74faa3422c386390b575c00b00c0",
+    "source/UL_attack.prompt.txt": "98a3d5f034e3f03b4be371901d6827ac5ba9aa439f9f13d471a671bfd9413335",
+    "source/UL_guide.png": "6a6aaca83d864d91b1ee2377879fca41fc343132b23836438388e4e4cf108562",
+    "source/UL_move.png": "750021a972d79a30e2bafbf1e37b1d94de11afe6353bce3b1f0b9cd17fe211b6",
+    "source/UL_move.prompt.txt": "12bd9f4b76c68b0034a793c0794d6bf62944b064164ac185d4300289203bf9d4",
+    "source/UR_attack.png": "9b6c4367507678e4dccf010d5eeb21f8c1e75b197315803776efbdbd8abf1ab2",
+    "source/UR_attack.prompt.txt": "0810645570dfcc800ffb3422ea2f36eff1c2fd4b44df0ce941732a78f4122f57",
+    "source/UR_guide.png": "a1c4fc7b6affc5d8160e9f09ce706486902441805ae9d4d0d678c48531565852",
+    "source/UR_move.png": "ec7a8d899e7162f35a1e871bb93008f57243f4acf5ef8655bc050c6d2c5b2dc6",
+    "source/UR_move.prompt.txt": "34d7fac078b6c3baf3994f3b7a6184c7609f4d632da6e91c8b36b453444a4580",
+    "source/original.png": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7"
+  },
+  "selection_exception": "UR_move native cel1 has an extra shoe and is excluded. Five unique valid cels selected; no edited replacement.",
+  "rejected_generations": "One UL attack bent-bell draft and one UR attack front-turn draft were rejected and are not included or referenced by generation.",
+  "approval": "New bytes require fresh review; no old approval applied.",
+  "source_processing": "Connected alpha components with documented ownership; preserve RGB; remove alpha<=16; promote alpha>=245; native integer translation; no resizing/mirroring/rotation/tweening."
+}

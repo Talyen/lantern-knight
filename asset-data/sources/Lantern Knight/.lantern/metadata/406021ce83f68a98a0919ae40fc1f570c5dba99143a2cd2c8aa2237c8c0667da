@@ -1,0 +1,27 @@
+Use case: stylized-concept.
+Asset type: production hand-painted 2D game VFX animation sprite sheet, ONE single 4 by 4 grid with exactly 16 equal square cels, read left-to-right then top-to-bottom. Real transparent RGBA canvas. No visible grid, borders, numbers, labels or background.
+Primary request: an EPHEMERAL SUMMONED IVORY FUNERAL BELL ATTACK. The bell forms visibly out of converging shards in the air, draws UP in a clear telegraph, then violently SLAMS DOWN onto a consistent invisible contact plane, compresses with a low debris ring, rebounds slightly, disintegrates and fully vanishes. Draw 16 genuinely evolving animation cels, including partial construction and deconstruction, NOT sixteen static bells with added particles.
+
+View/material: the same cracked hollow ivory ceramic funeral bell, broad chalky overlapping broken plates, black seams, subdued gray-lavender interior and a small heavy ivory clapper. Slightly overhead oblique 3/4 game camera. Muted old bone and charcoal, desaturated dark-fantasy painterly sculptural forms, crisp readable silhouette, no emissive light. NO gold shine, no orange edge, no glow, no luminous magic, no smoke clouds.
+
+CRUCIAL FIXED COORDINATES WITHIN EVERY CELL: invisible vertical attack axis x=50%; contact plane y=72%. Camera fixed, same physical bell dimensions once formed (about 23% cell width, 29% cell height). Formation bell center y=40%; loaded bell center moves UP to y=30%; strike brings the lower rim DOWN to the contact plane y=72%. Preserve the actual vertical travel; DO NOT individually center each frame's artwork. All artwork including debris stays within x=20%..80%, y=14%..80% of its cell. Very generous completely transparent gutters. Invisible ground: only an authored impact debris ring, no environment, no floor, no cast shadow.
+
+CHRONOLOGICAL CEL SCRIPT:
+1. Almost completely empty. Only three tiny dull ivory seeds at x38%,50%,62% around y38%; absolutely NO formed bell.
+2. Six separated cracked ivory shards converging inward from around x30%-70%, y24%-57%. The central bell-shaped volume is still entirely empty.
+3. Disconnected rim quarter-arcs and top loop fragments move together around center (50%,40%). Half the outline only, big visible gaps, no continuous body.
+4. Half-built bell in air at (50%,40%): rim assembled, several side plates attach, crown still disconnected. Visible empty holes reveal transparency through the half-formed body.
+5. Bell finishes forming at (50%,40%), last outer plate shards locking in; small clapper appears. This is the first complete bell.
+6. Complete bell deliberately DRAWS UP to center (50%,34%), small fragments still lag below. Upright, danger gathers. Clearly higher than cel 5.
+7. Extreme held anticipation: complete bell at center (50%,29%), tilted just 10 degrees, braced for downward blow, small clapper pulled upward. Clearly the highest bell pose.
+8. FAST DOWNWARD STRIKE: bell already at center (50%,47%), narrow ivory directional smear above it pointing down, lower rim approaching y62%. Dramatic downward displacement compared to cel 7.
+9. INITIAL CONTACT: lower rim reaches y72%, bell squashes and cracks wider, clapper driven down; very small flattened horizontal chip burst right at y72%.
+10. MAXIMUM IMPACT HOLD: broad compressed bell directly on y72%, wider low elliptical ring of angular bone-colored debris bursts sideways, upward splinters. No upward magic burst. Strong compact contact.
+11. Contact releases: bell begins slight lift, lower rim y68%; low debris ring spreads outward to x23%-77%, fragments still hugging contact plane y72%. Material is visibly fractured.
+12. Small physical rebound only: lower rim y61%, bell splitting apart into several big curved plates, clapper drops separately toward y72%, broken side plates clearly detach.
+13. Majority of bell breaks apart. Only a disconnected crown and two broken rim pieces remain near center, other fragments fling outward and dissolve around y48%-73%. No intact silhouette.
+14. Only a sparse set of much smaller ivory fragments at y47%-74%; NO bell body, NO full ring. Fragments shrink into dust through redrawn breakup.
+15. Barely visible four or five tiny desaturated grit flecks near y66%-74%; almost empty.
+16. COMPLETELY EMPTY transparent square. Absolutely no object, dust, mark or shadow.
+
+The FIRST AND LAST CEL MUST BE NEARLY EMPTY / COMPLETELY EMPTY respectively. A bell present from frame 1 is wrong. Construction, clear upward anticipation, fast actual downward travel, impact compression, rebound and full dispersal are mandatory. Render separate changing silhouettes and materially different cels, not simple resized/transformed duplicates. Preserve translucent fragment edges on true alpha.

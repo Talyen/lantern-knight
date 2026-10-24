@@ -1,0 +1,12 @@
+Skeletal Archer: partial directional extension
+
+New content: DL movement, UL movement and attack, UR movement. Install alongside the unchanged DR baseline. DL and UR attacks are not supplied and must not be substituted by mirroring. This is not a complete four-direction combat set.
+
+Every movement uses six drawings and 48 ticks at 60 Hz. Canvas 640 x 640, pivot [320,520] measured from the top-left (x right, y down), estimated 256 pixels per world unit. All registration is baked into the pixels. Do not apply registration offsets again. World movement is external.
+
+UL attack reuses one movement ready-rest drawing as its last cel; release is zero-based frame 2. The unloaded native string and short arrow were corrected with a deterministic ink string/shaft overlay and relocation of the native arrowhead. No character anatomy was repainted.
+
+Rebuild: python rebuild.py .
+Requires Python 3, Pillow, numpy, scipy and ffmpeg. The source archive includes the exact approved original, native generations, prompts, pose guides, registration/masking configuration and unchanged DR runtime used only for the comparison preview. No network or image-generation call is needed for rebuild. The output runtime directory contains only the new directions.
+
+The preview is encoded at native tick timing, not an engine integration test. The 35.2643897-degree camera is an illustrated visual target, not calibrated 3D geometry. Back clothing details are minimally inferred.

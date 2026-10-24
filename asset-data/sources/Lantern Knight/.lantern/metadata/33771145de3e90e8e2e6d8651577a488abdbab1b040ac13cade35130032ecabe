@@ -1,0 +1,45 @@
+{
+  "description": "Diagnostic only: each complete prototype drawing receives a vertical translation that places its selected weight-bearing support on horizontal near/far ground tracks. This exposes the 04/08 reach-foot mismatch. Exported sprite PNGs are unchanged.",
+  "frames": [
+    {
+      "frame": 1,
+      "diagnostic_only_vertical_translation_px": -15,
+      "horizontal_support_y": 580
+    },
+    {
+      "frame": 2,
+      "diagnostic_only_vertical_translation_px": -15,
+      "horizontal_support_y": 580
+    },
+    {
+      "frame": 3,
+      "diagnostic_only_vertical_translation_px": -4,
+      "horizontal_support_y": 580
+    },
+    {
+      "frame": 4,
+      "diagnostic_only_vertical_translation_px": 28,
+      "horizontal_support_y": 580
+    },
+    {
+      "frame": 5,
+      "diagnostic_only_vertical_translation_px": -12,
+      "horizontal_support_y": 564
+    },
+    {
+      "frame": 6,
+      "diagnostic_only_vertical_translation_px": -12,
+      "horizontal_support_y": 564
+    },
+    {
+      "frame": 7,
+      "diagnostic_only_vertical_translation_px": -5,
+      "horizontal_support_y": 564
+    },
+    {
+      "frame": 8,
+      "diagnostic_only_vertical_translation_px": 21,
+      "horizontal_support_y": 564
+    }
+  ]
+}

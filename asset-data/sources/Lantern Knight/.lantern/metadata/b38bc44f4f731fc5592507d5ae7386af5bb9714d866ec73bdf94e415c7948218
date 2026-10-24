@@ -1,0 +1,35 @@
+{
+  "result": "Both camera-guided clips credible for separate visual test; exact runtime match not claimed.",
+  "hover": "Parent accepted camera/identity and independent auditor passed exact native row24 translation.",
+  "spell": "All six individually inspected against exact guide and current hero world+X gameplay art: broad fabric crown, top shoulder/cuff planes, narrow down-right mask, coherent single halo/orb and exactly two gloved hands; no feet or extra appendages.",
+  "spell_cels": [
+    {
+      "cel": 1,
+      "finding": "Quiet low orb, clear elevated hood and staggered brass shoulder fittings."
+    },
+    {
+      "cel": 2,
+      "finding": "Two hands gather orb inward/up; top sleeve planes visible, no camera reset."
+    },
+    {
+      "cel": 3,
+      "finding": "Clear forward presentation; near and far forearms/cuffs separate; one orb."
+    },
+    {
+      "cel": 4,
+      "finding": "Maximum reach and veil flare, halo remains single and tilted; two cupping hands retained. Strongest motion cel, not full original starburst."
+    },
+    {
+      "cel": 5,
+      "finding": "Recoil draws orb back as rear/side veil trails, elevated perspective maintained."
+    },
+    {
+      "cel": 6,
+      "finding": "Returns toward quiet stance; cowl, eye pair and hand/orb identity intact. Some body placement variation remains."
+    }
+  ],
+  "registration": "No common spell-row correction applied: halo/crown/shoulder residuals gave different12\u201319px estimates, and the release reach includes actual pose change. Shared512grid plus64padding preserved.",
+  "native_integrity": "Twelve frame crops have clear canvas borders. Hover frame files copied byte-for-byte from accepted row24 candidate. Spell frames contain exact raw512RGBA crop bytes at64,64. Native alpha max254 retained.",
+  "residuals": "Native hand-drawn scale/shape variation remains; world root/PPU not calibrated; cross-clip proportions differ.",
+  "more_art_calls": false
+}

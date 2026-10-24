@@ -1,0 +1,16 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "image_sha256": "df14522721cf0e625d4faeedd5a11cdbcb221a6ce2cb22fe3fddb9cc177f514f",
+  "style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "verbatim_style_prefix_verified": true,
+  "tool": "built-in image_gen__imagegen",
+  "upscaled": false,
+  "environment_image_inputs": [],
+  "style_reference_image": "/workspace/scratch/1a83d58417d5/scene_retry_samples/style_recovery/references/canonical_hero.png",
+  "source_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-ce6988ec-8785-4792-8c6e-27ebcc1f4756.png",
+  "submitted_parameters": "submitted_parameters.json",
+  "exact_prompt": "exact_prompt.txt"
+}

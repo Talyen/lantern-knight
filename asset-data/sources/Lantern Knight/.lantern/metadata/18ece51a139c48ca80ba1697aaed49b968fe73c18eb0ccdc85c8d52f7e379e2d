@@ -1,0 +1,131 @@
+{
+  "frames": [
+    {
+      "tick": 0,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.78,
+      "sword_tip_ground_clearance": 0.25666746786387196,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.0009004715830087662,
+        "Left": 0.11658850312232971
+      }
+    },
+    {
+      "tick": 5,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.78,
+      "sword_tip_ground_clearance": 0.39255231604179175,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.014290567487478256,
+        "Left": 0.0927143394947052
+      }
+    },
+    {
+      "tick": 10,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.7799999999999999,
+      "sword_tip_ground_clearance": 0.3561345618197197,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.15232370793819427,
+        "Left": 0.11128397285938263
+      }
+    },
+    {
+      "tick": 15,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.78,
+      "sword_tip_ground_clearance": 0.23414461815740772,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.2934405505657196,
+        "Left": 0.006175540387630463
+      }
+    },
+    {
+      "tick": 20,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.78,
+      "sword_tip_ground_clearance": 0.2676581376770044,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.1513720005750656,
+        "Left": 0.009335898794233799
+      }
+    },
+    {
+      "tick": 25,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.78,
+      "sword_tip_ground_clearance": 0.36630276395992667,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.14923982322216034,
+        "Left": 0.023276960477232933
+      }
+    },
+    {
+      "tick": 30,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.78,
+      "sword_tip_ground_clearance": 0.3510810928440523,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.0900813415646553,
+        "Left": 0.17814375460147858
+      }
+    },
+    {
+      "tick": 35,
+      "all65_source_joints_present": true,
+      "maximum_pairwise_vector_change": 0.0,
+      "vertical_values_exact": true,
+      "hip_horizontal_zero": true,
+      "metal_blade_length": 0.7800000000000001,
+      "sword_tip_ground_clearance": 0.2652352653360842,
+      "complete_common_crop": true,
+      "minimum_toe_proxy_height": {
+        "Right": 0.0009762579575181007,
+        "Left": 0.2800953984260559
+      }
+    }
+  ],
+  "ticks": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35
+  ],
+  "all_joint_vectors_preserved": true,
+  "all_vertical_motion_exact": true,
+  "all_unclipped": true,
+  "minimum_sword_tip_clearance": 0.23414461815740772,
+  "maximum_metal_length_error": 1.1102230246251565e-16
+}

@@ -1,0 +1,88 @@
+{
+  "name": "Ossuary Rail",
+  "timebase": "milliseconds",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "frame_index": 0,
+      "time_ms": 0
+    },
+    {
+      "name": "commit",
+      "frame_index": 7,
+      "time_ms": 980
+    },
+    {
+      "name": "impact",
+      "frame_index": 8,
+      "time_ms": 1020,
+      "damage_count": 1
+    },
+    {
+      "name": "clear",
+      "frame_index": 16,
+      "time_ms": 1580
+    }
+  ],
+  "damage": {
+    "event": "impact",
+    "frame_index": 8,
+    "apply_once_per_playback": true,
+    "exclude_formation_and_recovery": true,
+    "center_damaged": false,
+    "note": "Use game collision on the single impact event. Do not derive damage from sprite alpha or apply repeated damage throughout recovery."
+  },
+  "pivot_px": [
+    155,
+    431
+  ],
+  "pivot_normalized": [
+    0.151367,
+    0.612216
+  ],
+  "footprint_guide": {
+    "type": "lane",
+    "polygon_px": [
+      [
+        155,
+        417
+      ],
+      [
+        873,
+        417
+      ],
+      [
+        873,
+        450
+      ],
+      [
+        155,
+        450
+      ]
+    ],
+    "approximate": true,
+    "world_design_dimensions": {
+      "length_m": 18,
+      "width_m": 3.0
+    },
+    "world_dimensions_status": "Proposed game-design footprint; not engine validated.",
+    "polygon_normalized": [
+      [
+        0.151367,
+        0.59233
+      ],
+      [
+        0.852539,
+        0.59233
+      ],
+      [
+        0.852539,
+        0.639205
+      ],
+      [
+        0.151367,
+        0.639205
+      ]
+    ]
+  }
+}

@@ -1,0 +1,495 @@
+{
+  "name": "Candlebone Oracle SK03",
+  "revision": "Original identity restoration v02",
+  "created_utc": "2026-10-07",
+  "status": "Identity-corrected review candidate; exact camera projection not certified",
+  "generation": "Three independent fresh image_gen generations from canonical SK03 and camera guide. Unified third sheet selected. No generative edit cascades.",
+  "camera": {
+    "target_elevation_degrees": 35.2643897,
+    "target_azimuth_degrees": 45,
+    "facing": "screen down-right",
+    "verified": false,
+    "assessment": "Unified sheet visibly improves elevated hood/shoulder read; numeric angle remains unverified. Requires engine visual spot-check."
+  },
+  "processing": {
+    "rescaling": false,
+    "per_frame_fitting": false,
+    "rgb_changed": false,
+    "registration": "Fixed nominal grid origins plus constant 64px translation. No frame-by-frame fit or recenter. Same source and scale across both clips.",
+    "isolation": "12 disconnected main actor components, nearest-component ownership of detached low-area details; alpha <=16 removed, original RGB and other alpha retained.",
+    "interpolation": "None; integer held drawings at60Hz."
+  },
+  "identity": "Rigid pointed cowl; adult angular skull, exposed neck, sunburst clasp/pendant, smooth long charcoal robe, broad sleeves, two ankle-banded skeletal feet; one cracked bone orb with large insets retained through cast.",
+  "clips": {
+    "hover": {
+      "source": "source/unified_native.png",
+      "source_dimensions": [
+        1086,
+        1448
+      ],
+      "frame_dimensions": [
+        400,
+        620
+      ],
+      "fixed_root_pixels": [
+        204,
+        554
+      ],
+      "normalized_pivot_bottom_origin": [
+        0.51,
+        0.1064516129032258
+      ],
+      "root_note": "Nominal shared ground anchor, not fitted to feet. Identical scale and pivot across clips; no in-engine integration performed.",
+      "ticks_per_loop": 72,
+      "duration_seconds": 1.2,
+      "unique_drawing_count": 6,
+      "atlas": "atlases/hover_atlas.png",
+      "atlas_grid": [
+        3,
+        2
+      ],
+      "video": "previews/hover_60hz.mp4",
+      "video_frame_count": 216,
+      "frames": [
+        {
+          "index": 1,
+          "file": "frames/hover/hover_01.png",
+          "phase": "Ready / low hover",
+          "hold_ticks_60hz": 12,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 1,
+          "source_grid_origin": [
+            0,
+            0
+          ],
+          "component_bbox": [
+            46,
+            19,
+            236,
+            478
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "native_pixel_translation": [
+            64,
+            64
+          ]
+        },
+        {
+          "index": 2,
+          "file": "frames/hover/hover_02.png",
+          "phase": "Rise",
+          "hold_ticks_60hz": 12,
+          "sha256": "ff3b941204a5a50cd20258dec11bdcba1b9a338e165bac0f1deceaf3f0690761",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 2,
+          "source_grid_origin": [
+            272,
+            0
+          ],
+          "component_bbox": [
+            298,
+            15,
+            506,
+            478
+          ],
+          "alpha_bbox": [
+            90,
+            79,
+            298,
+            542
+          ],
+          "native_pixel_translation": [
+            -208,
+            64
+          ]
+        },
+        {
+          "index": 3,
+          "file": "frames/hover/hover_03.png",
+          "phase": "Apex",
+          "hold_ticks_60hz": 12,
+          "sha256": "8567c99e518e8d43d95f6e8abc187a8657a156d477a4698509fe8a8763d7fff1",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 3,
+          "source_grid_origin": [
+            543,
+            0
+          ],
+          "component_bbox": [
+            562,
+            8,
+            786,
+            472
+          ],
+          "alpha_bbox": [
+            83,
+            72,
+            307,
+            536
+          ],
+          "native_pixel_translation": [
+            -479,
+            64
+          ]
+        },
+        {
+          "index": 4,
+          "file": "frames/hover/hover_04.png",
+          "phase": "Suspended breath",
+          "hold_ticks_60hz": 12,
+          "sha256": "285d6d77b79cd5d67f75fd074d3750580219366c6a891307ca089fe460ab5ddb",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 4,
+          "source_grid_origin": [
+            815,
+            0
+          ],
+          "component_bbox": [
+            816,
+            17,
+            1070,
+            478
+          ],
+          "alpha_bbox": [
+            65,
+            81,
+            319,
+            542
+          ],
+          "native_pixel_translation": [
+            -751,
+            64
+          ]
+        },
+        {
+          "index": 5,
+          "file": "frames/hover/hover_05.png",
+          "phase": "Descent",
+          "hold_ticks_60hz": 12,
+          "sha256": "e2a1ee7cdbdff9e00495eaba9622c527a3e92fd963e4e6184f83dec99f681dcb",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 5,
+          "source_grid_origin": [
+            0,
+            483
+          ],
+          "component_bbox": [
+            33,
+            500,
+            247,
+            952
+          ],
+          "alpha_bbox": [
+            97,
+            81,
+            311,
+            533
+          ],
+          "native_pixel_translation": [
+            64,
+            -419
+          ]
+        },
+        {
+          "index": 6,
+          "file": "frames/hover/hover_06.png",
+          "phase": "Settle",
+          "hold_ticks_60hz": 12,
+          "sha256": "db9c01df16edc26db93904ab5e8b899a0025cf4434e259a6759f317d56c11b38",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 6,
+          "source_grid_origin": [
+            272,
+            483
+          ],
+          "component_bbox": [
+            323,
+            497,
+            519,
+            955
+          ],
+          "alpha_bbox": [
+            115,
+            78,
+            311,
+            536
+          ],
+          "native_pixel_translation": [
+            -208,
+            -419
+          ]
+        }
+      ]
+    },
+    "spell": {
+      "source": "source/unified_native.png",
+      "source_dimensions": [
+        1086,
+        1448
+      ],
+      "frame_dimensions": [
+        400,
+        620
+      ],
+      "fixed_root_pixels": [
+        204,
+        554
+      ],
+      "normalized_pivot_bottom_origin": [
+        0.51,
+        0.1064516129032258
+      ],
+      "root_note": "Nominal shared ground anchor, not fitted to feet. Identical scale and pivot across clips; no in-engine integration performed.",
+      "ticks_per_loop": 74,
+      "duration_seconds": 1.2333333333333334,
+      "unique_drawing_count": 7,
+      "atlas": "atlases/spell_atlas.png",
+      "atlas_grid": [
+        4,
+        2
+      ],
+      "video": "previews/spell_60hz.mp4",
+      "video_frame_count": 222,
+      "frames": [
+        {
+          "index": 1,
+          "file": "frames/spell/spell_01.png",
+          "phase": "Shared ready",
+          "hold_ticks_60hz": 10,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 1,
+          "source_grid_origin": [
+            0,
+            0
+          ],
+          "component_bbox": [
+            46,
+            19,
+            236,
+            478
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "native_pixel_translation": [
+            64,
+            64
+          ]
+        },
+        {
+          "index": 2,
+          "file": "frames/spell/spell_02.png",
+          "phase": "Gather",
+          "hold_ticks_60hz": 10,
+          "sha256": "3f37243b40c9504c901ec6e02095bc4563098f029a7dc186721016905c1a0696",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 7,
+          "source_grid_origin": [
+            543,
+            483
+          ],
+          "component_bbox": [
+            589,
+            502,
+            772,
+            948
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            293,
+            529
+          ],
+          "native_pixel_translation": [
+            -479,
+            -419
+          ]
+        },
+        {
+          "index": 3,
+          "file": "frames/spell/spell_03.png",
+          "phase": "Charge",
+          "hold_ticks_60hz": 10,
+          "sha256": "759567aeed0790399f7c3adae2acf5eacdc70f5836428e55b340dceddc17a3df",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 8,
+          "source_grid_origin": [
+            815,
+            483
+          ],
+          "component_bbox": [
+            859,
+            502,
+            1058,
+            955
+          ],
+          "alpha_bbox": [
+            108,
+            83,
+            307,
+            536
+          ],
+          "native_pixel_translation": [
+            -751,
+            -419
+          ]
+        },
+        {
+          "index": 4,
+          "file": "frames/spell/spell_04.png",
+          "phase": "Open",
+          "hold_ticks_60hz": 8,
+          "sha256": "89bef7b095f091bc067768565fea3f075a65d81b98f8c341e568590c13110f9e",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 9,
+          "source_grid_origin": [
+            0,
+            965
+          ],
+          "component_bbox": [
+            27,
+            968,
+            254,
+            1421
+          ],
+          "alpha_bbox": [
+            91,
+            67,
+            318,
+            520
+          ],
+          "native_pixel_translation": [
+            64,
+            -901
+          ]
+        },
+        {
+          "index": 5,
+          "file": "frames/spell/spell_05.png",
+          "phase": "Release",
+          "hold_ticks_60hz": 6,
+          "sha256": "f0aa6af6683fe04750d63baa715b67351146b8139532d236017d42d38a95e4af",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 10,
+          "source_grid_origin": [
+            272,
+            965
+          ],
+          "component_bbox": [
+            292,
+            978,
+            600,
+            1422
+          ],
+          "alpha_bbox": [
+            84,
+            77,
+            392,
+            521
+          ],
+          "native_pixel_translation": [
+            -208,
+            -901
+          ]
+        },
+        {
+          "index": 6,
+          "file": "frames/spell/spell_06.png",
+          "phase": "Follow-through",
+          "hold_ticks_60hz": 8,
+          "sha256": "ecf90615e23c7c33097909f68e009b307e6b98a101475260bb98f40578f1878e",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 11,
+          "source_grid_origin": [
+            543,
+            965
+          ],
+          "component_bbox": [
+            586,
+            970,
+            807,
+            1417
+          ],
+          "alpha_bbox": [
+            107,
+            69,
+            328,
+            516
+          ],
+          "native_pixel_translation": [
+            -479,
+            -901
+          ]
+        },
+        {
+          "index": 7,
+          "file": "frames/spell/spell_07.png",
+          "phase": "Recover",
+          "hold_ticks_60hz": 10,
+          "sha256": "fdadc4c12be35c45f37f872e900424c1a507ed3dbf0326784136ddc94f7be002",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 12,
+          "source_grid_origin": [
+            815,
+            965
+          ],
+          "component_bbox": [
+            862,
+            978,
+            1054,
+            1423
+          ],
+          "alpha_bbox": [
+            111,
+            77,
+            303,
+            522
+          ],
+          "native_pixel_translation": [
+            -751,
+            -901
+          ]
+        },
+        {
+          "index": 8,
+          "file": "frames/spell/spell_08.png",
+          "phase": "Shared ready",
+          "hold_ticks_60hz": 12,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1",
+          "opaque_edge_pixels": 0,
+          "source_drawing": 1,
+          "source_grid_origin": [
+            0,
+            0
+          ],
+          "component_bbox": [
+            46,
+            19,
+            236,
+            478
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "native_pixel_translation": [
+            64,
+            64
+          ]
+        }
+      ]
+    }
+  }
+}

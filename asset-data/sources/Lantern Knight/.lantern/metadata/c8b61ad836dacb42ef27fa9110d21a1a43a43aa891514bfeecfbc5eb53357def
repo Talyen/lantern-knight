@@ -1,0 +1,44 @@
+{
+  "asset": "woodland C: dusk pine trail and broad clearing",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-3f3bc80d-ab71-4554-b393-6da07d52f291.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_pixels": 160,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "verified": false
+  },
+  "upscaled": false,
+  "expanded": false,
+  "sha256": "220ca06d5bd00f7ab31d300f568953f64711c2e927343da778720716f2a2ab05",
+  "visual_review": {
+    "status": "usable native viewport sample; pending user selection",
+    "strengths": [
+      "distinct slate-blue dusk atmosphere with crisp pine and deadwood silhouettes",
+      "very broad clear playable combat ground with no obstructing center props",
+      "quieter earth treatment than A/B with sparse edge moss and small isolated stones",
+      "no water, people, horizon or text"
+    ],
+    "caveats": [
+      "subtle tonal earth patches remain; not perfectly uniform flat fill",
+      "composition is more clearing-like and edge-framed than A/B",
+      "camera angles and hero scale are prompt targets, not geometrically or in-engine verified",
+      "trees, rocks and walls are baked into this preview"
+    ]
+  },
+  "candidate_hero_feet": [
+    800,
+    595
+  ]
+}

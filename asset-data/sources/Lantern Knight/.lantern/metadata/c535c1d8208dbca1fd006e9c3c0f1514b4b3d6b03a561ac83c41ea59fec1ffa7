@@ -1,0 +1,6 @@
+VEIL SHEAR — small telegraphed single-impact test
+
+15 newly image-generated painted cels plus an empty terminal cel. 512px straight RGBA. Playback is one shot; MP4 repeats three isolated cycles for review.
+Formation 200ms, load 80ms, strike 50ms, one contact 90ms, recovery 310ms, clear pause340ms.
+Source and complete generation/revision prompts included. Imagegen created the artwork. Code only crops cels, applies one common scale/coordinate transform, preserves alpha, and assembles timelines/atlas/previews. No procedural VFX, per-frame bbox centering, opacity fades, morphs or interpolated frames.
+Read timing_manifest.json for source crops, pivot, intended target lane, and single damage-event suggestion. Coordinates are design guides; no engine changes made.

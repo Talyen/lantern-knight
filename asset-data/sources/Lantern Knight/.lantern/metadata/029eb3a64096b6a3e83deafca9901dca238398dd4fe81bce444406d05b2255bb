@@ -1,0 +1,12 @@
+{
+  "status": "ACCEPTED_AFTER_ONE_BOUNDED_TRADITIONAL_CLOTH_CLEANUP",
+  "supersedes": "metadata/visual_review.json describes the pre-cleanup source hold and remains historical only. It is not the current candidate decision.",
+  "current_source": "source/UR_lowcarry8_cloth_cleanup_v01.png",
+  "sha256": "9ed75b38f34a59703640832900ecfb2a16e9d88db79b8d6aee363bdd83ff847e",
+  "human_and_phase_review": "Eight coherent running phases, comfortably connected low left carry; no neck-level lamp or duplicate equipment.",
+  "cloth_review": "Small residual stitch/scuff marks acceptable at native size. No more edits requested.",
+  "mask_audit": "2099 RGB pixels changed, zero outside-mask changes, alpha identical.",
+  "extraction_audit": "All eight alpha>8 borders clear, no remote significant components of 3 or more pixels, no discarded-neighbor fragments.",
+  "engine_validated": false,
+  "older_UR_attempts": "Remain held."
+}

@@ -1,0 +1,20 @@
+{
+  "rootwood/A/native.png": "b03cf6132a57523a0bc3bd996f7d6d5f8126841242caff217ca42d8f8c8ef517",
+  "rootwood/A/exact_prompt.txt": "44ebe75ab4ea13830b10aa3e48487cbc29442dbc12c50b34834f1d2af6e2f6b8",
+  "rootwood/A/metadata.json": "1c412dff60f95f307166aab6e98f51e9693588d6093375f6f3eaa42a78e68307",
+  "rootwood/A/hero_context_metadata.json": "fe5b7f29e1f9bc002a4ec4750e3de9eaf94c5143143f6bbc8c930101b645ab90",
+  "rootwood/B/native.png": "e0a4d6ab582e257708768c9f0903138753712a7ea6482eb78639d9910392118b",
+  "rootwood/B/exact_prompt.txt": "5f0e3114fb05ae21e711d79f3839321b53d3fbcbf32242b0bf52924bd81e3090",
+  "rootwood/B/metadata.json": "e11a650c15f84587d1fc0469649cae4b1cfb3b7f457738f72113512b764b248e",
+  "rootwood/B/hero_context_metadata.json": "4370a3d6b2aafe83dd550791348ea78809df2832031556aa9c47a0c711e728b9",
+  "rootwood/C/native.png": "e49f9d3f33ce079e5e90ebf8c35605561a5e8443cabf044dd7a527263bf8a8e4",
+  "rootwood/C/exact_prompt.txt": "cab0cb2e7819e2dad88339e7d0bcfb0239cc1fbfd5fafbfb3212f802afd6e34b",
+  "rootwood/C/metadata.json": "d1f18acf7b4af51ee004a27fa528a45701edf2c7b8e128ee7074c640ddfd71c3",
+  "rootwood/C/hero_context_metadata.json": "e4f71d8360ed4a6c17890ca68f1ed2bf2ea4a42413010f581b261c3b473f73fb",
+  "rootwood/hero_placements.json": "11da68eeb573fcd24346ad82c6bfdd0a8b48199f89a93491655b87f71304ca7a",
+  "rootwood/review_summary.json": "3c046f8ce77126fb49288283484cb937f0096b5336983eedc0c7306e840c38bd",
+  "rootwood/ABC_hero_comparison.png": "ff3696af8e509ff4f84b6c2d624ab85146a9d11608ac8b6cbf34ea5da2a6f2dd",
+  "review/build_contexts.py": "4f5ec5965cce46666b8838e58bed186feec524eca00b6ae849cf2377deac93d4",
+  "review/package_theme.py": "30869a31fcd5f084483170ed4d5af4a4533138fa0bfa439d5e88344ee5158332",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

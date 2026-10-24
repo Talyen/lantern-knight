@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_crypt_door_01.png",
+    "new": "volume_02_gothic/assets/arch_crypt_door_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_gothic_wall_01.png",
+    "new": "volume_02_gothic/assets/arch_gothic_wall_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_iron_fence_01.png",
+    "new": "volume_02_gothic/assets/arch_iron_fence_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_pointed_arch_01.png",
+    "new": "volume_02_gothic/assets/arch_pointed_arch_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_square_pillar_01.png",
+    "new": "volume_02_gothic/assets/arch_square_pillar_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_stone_tomb_01.png",
+    "new": "volume_02_gothic/assets/arch_stone_tomb_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_three_stairs_01.png",
+    "new": "volume_02_gothic/assets/arch_three_stairs_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_02_gothic/assets/arch_wall_corner_01.png",
+    "new": "volume_02_gothic/assets/arch_wall_corner_01.png"
+  }
+]

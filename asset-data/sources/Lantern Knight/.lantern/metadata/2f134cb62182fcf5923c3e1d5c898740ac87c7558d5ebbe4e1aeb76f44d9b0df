@@ -1,0 +1,50 @@
+{
+  "name": "Lantern four-heading sweep native tests",
+  "version": 1,
+  "unique_drawings_per_clip": 9,
+  "total_unique_drawings": 36,
+  "camera_contract": "contracts/shared_camera_contract.json",
+  "prop_contract": "contracts/shared_prop_contract.json",
+  "world_convention": "Y up; positive actor heading rotates world+X toward world+Z; camera fixed at elevation35.264389682754654\u00b0,world bearing45\u00b0",
+  "clips": [
+    {
+      "key": "world_positive_X",
+      "name": "Sweep world+X / down-right",
+      "manifest": "clips/world_positive_X/animation.json",
+      "duration_ms": 1170,
+      "timeline_cels": 11
+    },
+    {
+      "key": "world_positive_Z",
+      "name": "Sweep positive_Z / down-left",
+      "manifest": "clips/world_positive_Z/animation.json",
+      "duration_ms": 1045,
+      "timeline_cels": 11
+    },
+    {
+      "key": "world_negative_X",
+      "name": "Sweep negative_X / up-left",
+      "manifest": "clips/world_negative_X/animation.json",
+      "duration_ms": 945,
+      "timeline_cels": 10
+    },
+    {
+      "key": "world_negative_Z",
+      "name": "Sweep negative_Z / up-right",
+      "manifest": "clips/world_negative_Z/animation.json",
+      "duration_ms": 940,
+      "timeline_cels": 10
+    }
+  ],
+  "status": "Human-first selected native movement tests. Root-reviewed base poses; bounded recovery pass selected. Minor endpoint/foot/prop differences remain.",
+  "important_limits": [
+    "+X retains earlier approved ready source; three new headings use shared directional-ready family.",
+    "+Z recovery uses one repeated mid-sweep cel; \u2212X reuse trial rejected and direct return retained; \u2212Z unchanged.",
+    "Fully hidden UL ready sword is physically defensible behind the coat; unseen artwork is not independently certifiable.",
+    "Clip durations are provisional visual timings, not a unified combat-event/hitbox contract.",
+    "Generated illustration projection follows fixed-camera guide references but is visually approximate, not mathematically certified.",
+    "The source model name was requested in prompts; actual built-in model selection is unverified."
+  ],
+  "correction_revision": "qa20261007",
+  "correction_notes": "Only UL right forearm and DL right sleeve corrected non-generatively; timelines and native placement unchanged."
+}

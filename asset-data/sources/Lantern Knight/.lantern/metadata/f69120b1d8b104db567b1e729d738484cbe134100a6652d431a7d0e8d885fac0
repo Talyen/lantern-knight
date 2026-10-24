@@ -1,0 +1,87 @@
+{
+  "id": "lantern_archetype_concept_01_skeletal_archer",
+  "name": "Skeletal archer",
+  "family": "02_archetypes_06",
+  "collection": "current_ink_revision02",
+  "canonical_status": "RETAINED ORIGINAL; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "1SwQiEOo91ozktb2WgguyeM83g8qP5mZG",
+  "source_url": "https://drive.google.com/file/d/1SwQiEOo91ozktb2WgguyeM83g8qP5mZG/view?usp=drivesdk",
+  "source_archive": "02_archetypes_06_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_archetypes_06_ink_revision02/packs/02_archetypes_06/assets/01_skeletal_archer.png",
+  "source_sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "remove_components_below": 2000,
+  "bottom_crop_extra": {
+    "attack": {
+      "0": 16,
+      "1": 16,
+      "2": 16
+    },
+    "move": {
+      "0": 8
+    }
+  },
+  "left_crop_extra": {
+    "attack": {
+      "2": 24
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        20,
+        10
+      ],
+      "1": [
+        27,
+        0
+      ],
+      "2": [
+        -27,
+        0
+      ],
+      "3": [
+        5,
+        10
+      ],
+      "4": [
+        3,
+        10
+      ],
+      "5": [
+        25,
+        10
+      ]
+    },
+    "attack": {
+      "0": [
+        -6,
+        -10
+      ],
+      "1": [
+        30,
+        -10
+      ],
+      "2": [
+        90,
+        -10
+      ],
+      "3": [
+        -10,
+        0
+      ],
+      "4": [
+        30,
+        0
+      ],
+      "5": [
+        68,
+        0
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "native.png": "4e92d52e60e470af59359c5c0c5e5d74005b34db971409a359a31e9979c31451",
+  "exact_regeneration_prompt.txt": "961bc3718a98fe31b4a41777acd7746f363081a07bbb7af4c7bdf2f93bfa3c73",
+  "metadata.json": "798c669f30fc5daf5474fef401ebc0ec0c07c7d69c365fe056297c8559f6e978",
+  "README.txt": "3d3cac214f3d42b4adc1ec1afeb8305352caf09e9c70490ea773d06a8e303026",
+  "hero160_viewport_context.png": "d6f5fe9244c683524532dd6a8412778e8ef42c9369cb207d09b6f8fbc6944d4a",
+  "hero_original.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "runtime_provenance.json": "46a517061dc080cb9aa5c1542e79bbde4454199ec1cc6ed74aec58e3a41609f9",
+  "run_metadata.json": "c17620c488312050837ee16f9e844515cc17bd2c0c5965e94c33773b19b0c0c5",
+  "seam_metrics.json": "eb3d3de75cebf18bc029f26b0ae346a928e27a4ab5a2532a91e56785fdb511fb",
+  "build_contexts.py": "4c64152890a579f933d8d530b57e61b1bd38c17a20aaf59a58cdfa961f99062f"
+}

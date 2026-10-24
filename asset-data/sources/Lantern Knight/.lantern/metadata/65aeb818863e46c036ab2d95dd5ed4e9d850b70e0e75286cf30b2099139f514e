@@ -1,0 +1,20 @@
+{
+  "defeat_cel4": {
+    "source_sheet": "source/defeat_fresh_v02.png",
+    "local_crop_exclusion_xyxy": [
+      256,
+      0,
+      262,
+      5
+    ],
+    "source_sheet_exclusion_xyxy": [
+      256,
+      512,
+      262,
+      517
+    ],
+    "method": "Bounded alpha-zero rectangle before common downsample; excludes foreign cel1 robe tip crossing row boundary. Raw source sheet and raw crop retained unchanged.",
+    "affected_foreign_component_alpha_gt16_pixels": 21,
+    "legitimate_cel4_art_modified": false
+  }
+}

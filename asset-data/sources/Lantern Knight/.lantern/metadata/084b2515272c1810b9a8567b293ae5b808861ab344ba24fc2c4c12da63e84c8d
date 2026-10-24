@@ -1,0 +1,323 @@
+{
+  "name": "Ashen Veil Flare",
+  "canvas": [
+    768,
+    640
+  ],
+  "release_ms": 110,
+  "durations_ms": [
+    20,
+    20,
+    30,
+    40,
+    70,
+    50,
+    50,
+    50,
+    50,
+    50,
+    60,
+    60,
+    60,
+    60,
+    70,
+    70,
+    500
+  ],
+  "total_visual_ms": 810,
+  "clear_pause_ms": 500,
+  "new_tail_cels": 11,
+  "tail_registration": "One common uniform scale and placement for every tail cel; no per-cel centering, source anchoring, positional tween or dynamic scale.",
+  "tail_bindings": [
+    {
+      "tail_frame": 1,
+      "source_rect": [
+        350,
+        40,
+        665,
+        455
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        176,
+        16
+      ],
+      "visible_alpha_centroid": [
+        414.54,
+        346.05
+      ]
+    },
+    {
+      "tail_frame": 2,
+      "source_rect": [
+        665,
+        40,
+        990,
+        455
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        178,
+        16
+      ],
+      "visible_alpha_centroid": [
+        410.62,
+        343.06
+      ]
+    },
+    {
+      "tail_frame": 3,
+      "source_rect": [
+        990,
+        40,
+        1254,
+        455
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        194,
+        16
+      ],
+      "visible_alpha_centroid": [
+        412.63,
+        339.99
+      ]
+    },
+    {
+      "tail_frame": 4,
+      "source_rect": [
+        0,
+        458,
+        395,
+        873
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        125,
+        16
+      ],
+      "visible_alpha_centroid": [
+        451.87,
+        297.62
+      ]
+    },
+    {
+      "tail_frame": 5,
+      "source_rect": [
+        395,
+        458,
+        720,
+        873
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        239,
+        16
+      ],
+      "visible_alpha_centroid": [
+        478.89,
+        301.46
+      ]
+    },
+    {
+      "tail_frame": 6,
+      "source_rect": [
+        720,
+        458,
+        1030,
+        873
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        255,
+        16
+      ],
+      "visible_alpha_centroid": [
+        482.48,
+        321.73
+      ]
+    },
+    {
+      "tail_frame": 7,
+      "source_rect": [
+        1030,
+        458,
+        1254,
+        873
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        250,
+        16
+      ],
+      "visible_alpha_centroid": [
+        429.59,
+        308.51
+      ]
+    },
+    {
+      "tail_frame": 8,
+      "source_rect": [
+        0,
+        876,
+        410,
+        1254
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        125,
+        16
+      ],
+      "visible_alpha_centroid": [
+        511.74,
+        256.75
+      ]
+    },
+    {
+      "tail_frame": 9,
+      "source_rect": [
+        410,
+        876,
+        750,
+        1254
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        260,
+        16
+      ],
+      "visible_alpha_centroid": [
+        534.68,
+        251.21
+      ]
+    },
+    {
+      "tail_frame": 10,
+      "source_rect": [
+        750,
+        876,
+        1035,
+        1254
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        297,
+        16
+      ],
+      "visible_alpha_centroid": [
+        524.41,
+        240.94
+      ]
+    },
+    {
+      "tail_frame": 11,
+      "source_rect": [
+        1035,
+        876,
+        1254,
+        1254
+      ],
+      "uniform_scale": 1.4,
+      "placement": [
+        257,
+        16
+      ],
+      "visible_alpha_centroid": [
+        483.4,
+        296.42
+      ]
+    }
+  ],
+  "qa": [
+    {
+      "frame": 0,
+      "edge_max_alpha": 0,
+      "sha256": "7e499033f45b4d5284d8d5cc9f3076af20640256f8003aad281622f0c5fd846b"
+    },
+    {
+      "frame": 1,
+      "edge_max_alpha": 0,
+      "sha256": "533550a24191ba9d9cf9680a8bc27e047203555c77df92568ed6062a3feb69ec"
+    },
+    {
+      "frame": 2,
+      "edge_max_alpha": 0,
+      "sha256": "a590f4a1c5e5024ca9d217eb4934a89a2d213f92555c4458933c911803e99395"
+    },
+    {
+      "frame": 3,
+      "edge_max_alpha": 0,
+      "sha256": "d09e096b5c2feac53cae4dbe6a1642271cbb39629ebbf8f0ac2a3297ae482577"
+    },
+    {
+      "frame": 4,
+      "edge_max_alpha": 0,
+      "sha256": "6aca59d213b3458f54107814f6990d89784598b652bcbd55abb4a8ad96b26d4c"
+    },
+    {
+      "frame": 5,
+      "edge_max_alpha": 0,
+      "sha256": "ca41cd8f65906344d82ce30810008553efe6f11b50aba0135eda22851a43d0a9"
+    },
+    {
+      "frame": 6,
+      "edge_max_alpha": 0,
+      "sha256": "d09f2dc8820db77c6b7bc3a4c5728f65e6639caf9ea27777868fc14d5cb0f90c"
+    },
+    {
+      "frame": 7,
+      "edge_max_alpha": 0,
+      "sha256": "2b544d6dc3d79b2493b73b51a8543b814d9f5c285e3cea7ac93870995342c3b0"
+    },
+    {
+      "frame": 8,
+      "edge_max_alpha": 0,
+      "sha256": "9e799c298e7616b208ddd49eae47992ece7a06234ddb3f561ea789174d9538f1"
+    },
+    {
+      "frame": 9,
+      "edge_max_alpha": 0,
+      "sha256": "f6d1ac8a773362082e92fca4f0050c323674f37ee6725a896764abc68071896e"
+    },
+    {
+      "frame": 10,
+      "edge_max_alpha": 0,
+      "sha256": "fc9bcb7bc66e94d9e9d511b5473895059b58488f82f807b5026309cf4fd27e51"
+    },
+    {
+      "frame": 11,
+      "edge_max_alpha": 0,
+      "sha256": "ce1d1f112e15f18c3b6ddc46e423c4a90d94a275f3fdfeefe7d10d907a7a576f"
+    },
+    {
+      "frame": 12,
+      "edge_max_alpha": 0,
+      "sha256": "449eb1b6c98e161e0a43c65031256ad3c12b0314d336ea684b033084909eee5a"
+    },
+    {
+      "frame": 13,
+      "edge_max_alpha": 0,
+      "sha256": "64c1ddd03ed893a587cb689dc41fe4efeb2be025edbae1ee34234b4f17f4c12e"
+    },
+    {
+      "frame": 14,
+      "edge_max_alpha": 0,
+      "sha256": "a1c7bfeac9067bdcda774ff20a9f868910ba9f2d3e1dc0d4e234eb374691eb98"
+    },
+    {
+      "frame": 15,
+      "edge_max_alpha": 0,
+      "sha256": "c264a0e1fd26193d8177da7c1b5de7f458de1058ac308d159d6aea5e7b9e0539"
+    },
+    {
+      "frame": 16,
+      "edge_max_alpha": 0,
+      "sha256": "92fd45c62bf2641e0dd33eb05d215c9c15b5c5856aaa4a758bcde6d65ea16e4f"
+    }
+  ],
+  "apng_frames": 17,
+  "apng_final_alpha": [
+    0,
+    0
+  ]
+}

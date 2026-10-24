@@ -1,0 +1,198 @@
+{
+  "recipe": "tended-native-cutouts-v1",
+  "frames": [
+    {
+      "pack": "ink-tended-marker",
+      "id": "marker",
+      "source": "references/art/last-tended-light-v1/marker-v1.png",
+      "sourceHash": "3b686ed46b294a8caa412bbd16397842edaf575893a340ddc2deb663afbc9416",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        1536,
+        2048
+      ],
+      "uniformScale": 1,
+      "paddingOffset": [
+        256,
+        256
+      ],
+      "sourceAnchor": [
+        536,
+        1478
+      ],
+      "derivativeAnchor": [
+        792,
+        1734
+      ],
+      "density": 1700,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "pack": "ink-tended-fragments",
+      "id": "fragments",
+      "source": "references/art/last-tended-light-v1/fragments-v1.png",
+      "sourceHash": "99f7b990bbc117d6cc074693ab83dbc02f8fa97aa9d4d2c1d6a4e3fd98364a1f",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        2048,
+        1536
+      ],
+      "uniformScale": 1,
+      "paddingOffset": [
+        256,
+        256
+      ],
+      "sourceAnchor": [
+        920,
+        897
+      ],
+      "derivativeAnchor": [
+        1176,
+        1153
+      ],
+      "density": 1000,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "pack": "ink-tended-roots",
+      "id": "roots",
+      "source": "references/art/last-tended-light-v1/roots-v1.png",
+      "sourceHash": "52c3ccd59a87cc3ddefd0255a909849e034dd34f502d6ce884e49640bc975ba9",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        2048,
+        1536
+      ],
+      "uniformScale": 1,
+      "paddingOffset": [
+        256,
+        256
+      ],
+      "sourceAnchor": [
+        970,
+        985
+      ],
+      "derivativeAnchor": [
+        1226,
+        1241
+      ],
+      "density": 800,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "pack": "ink-tended-understory",
+      "id": "understory",
+      "source": "references/art/last-tended-light-v1/understory-v1.png",
+      "sourceHash": "13f23ed5da7ed865dc5c6cd33400cca04f4bce63a31b3cf4451c7433cf7ed66a",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        2048,
+        1536
+      ],
+      "uniformScale": 1,
+      "paddingOffset": [
+        256,
+        256
+      ],
+      "sourceAnchor": [
+        768,
+        880
+      ],
+      "derivativeAnchor": [
+        1024,
+        1136
+      ],
+      "density": 600,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "pack": "ink-tended-woodland-near",
+      "id": "woodland-near",
+      "source": "references/art/last-tended-light-v1/woodland-near-v1.png",
+      "sourceHash": "aeedd558c254d6ea9c1f99fbbb11e198226182cd190fcf636f93d74f5ba76822",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        2048,
+        1536
+      ],
+      "uniformScale": 1,
+      "paddingOffset": [
+        256,
+        256
+      ],
+      "sourceAnchor": [
+        775,
+        946
+      ],
+      "derivativeAnchor": [
+        1031,
+        1202
+      ],
+      "density": 300,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "pack": "ink-tended-woodland-far",
+      "id": "woodland-far",
+      "source": "references/art/last-tended-light-v1/woodland-far-v1.png",
+      "sourceHash": "213c77dd2303f0f7dc6c8cc29aa45084106c09c7ffdfc15626c713f39ee73a43",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        2048,
+        1536
+      ],
+      "uniformScale": 1,
+      "paddingOffset": [
+        256,
+        256
+      ],
+      "sourceAnchor": [
+        770,
+        965
+      ],
+      "derivativeAnchor": [
+        1026,
+        1221
+      ],
+      "density": 340,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    }
+  ],
+  "originalsPreserved": true
+}

@@ -1,0 +1,15 @@
+{
+  "graveyard/graveyard_B_native.png": "547e5124dfc79ce38bc0d0411922766878871a2e5a59f2723c65a21d4957b1bb",
+  "graveyard/provenance.json": "fbf752ed5aaa13d0dd9ed61eba275985cf5f0277729117a63afbd4f1e1a9b430",
+  "graveyard/graveyard_A_exact_prompt.txt": "f476bff3d75d487e4da9aa3e7b4f819ad85880e3166b9a3f13b8736e1cc9d580",
+  "graveyard/graveyard_A_hero160_context.png": "d802d8057d1078badb756829a0714d448900677a4a1521cb53ae0d8f29ca5644",
+  "graveyard/graveyard_AB_comparison.png": "33b4bc51b209a24bcaa066c125e343b069c14e55c244479dd4ba95b1ed6d0e53",
+  "graveyard/graveyard_B_exact_prompt.txt": "7f3d499b24e1b4554c6142614ca63779e07f05285fd9063f4bff3317b44efb85",
+  "graveyard/graveyard_A_native.png": "97882e947d12fa0d358f60753de5da989b7211e39cc1ad0e90ec198ef961cf4e",
+  "graveyard/graveyard_A_context_metadata.json": "ce0732d61e2b93018018a1513c6471349521560d2e902bfc19db04b22c53c08d",
+  "graveyard/graveyard_B_context_metadata.json": "c36872606b0cf0dba2dfd9cc9a973d35eaa5d036bf5806d40f65678ef0fca416",
+  "graveyard/graveyard_B_hero160_context.png": "97152a359b4e4eabea32d21dcc5119941bb62d0f97637ab0eea3d7ccadcf9a5f",
+  "README.txt": "95679c08d92d4f72e3c11dc1b29b79dc5baca6deceea1c3ca7756347a8a7f35b",
+  "build_deliverables.py": "45189beff381c6108fc617216dc24622c9af5c8864673e2309df921b24f68a59",
+  "references/hero_original.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

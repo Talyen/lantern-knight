@@ -7,7 +7,7 @@ import path from 'node:path';
 // deletes the complete checkout, including local-only files, and retains its branch.
 export function removeIntegratedWorktree(main: string, task: string, branch: string, head: string) {
   const git = (...args: string[]) =>
-    execFileSync('git', args, { cwd: main, encoding: 'utf8' }).trim();
+    execFileSync('git', args, { cwd: main, encoding: 'utf8', maxBuffer: 32 * 1024 ** 2 }).trim();
   if (task === main || fs.lstatSync(task).isSymbolicLink())
     throw new Error('Unexpected task checkout');
   const records = git('worktree', 'list', '--porcelain', '-z').split('\0\0');

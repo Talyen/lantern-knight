@@ -1,0 +1,421 @@
+{
+  "schema": "lantern.revision02.illustrated-effects",
+  "pack": "occult",
+  "clip_count": 14,
+  "source_fps": 30,
+  "preview_fps": 60,
+  "source_native": "deterministic authored vector paths, editable per-frame SVG; PNGs are direct 3x antialiased renders",
+  "camera": {
+    "elevation": 35.264389682754654,
+    "azimuth": 45,
+    "registration": "fixed; effect roots and ground ellipses registered; contour artwork is art-directed, not a true volumetric renderer"
+  },
+  "clips": [
+    {
+      "id": "cold_shard_burst",
+      "family": "cold_shard_burst",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "cursed_chain_strike",
+      "family": "cursed_chain_strike",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "ink_shadow_burst",
+      "family": "ink_shadow_burst",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 36,
+      "duration_seconds": 1.2,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "lightning_fork",
+      "family": "lightning_fork",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 30,
+      "duration_seconds": 1.0,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "pale_ghost_flame",
+      "family": "pale_ghost_flame",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 48,
+      "duration_seconds": 1.6,
+      "loop": true,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "poison_mist_puff",
+      "family": "poison_mist_puff",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 48,
+      "duration_seconds": 1.6,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "ritual_circle_activation",
+      "family": "ritual_circle_activation",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 48,
+      "duration_seconds": 1.6,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "soul_leech_ribbon",
+      "family": "soul_leech_ribbon",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 48,
+      "duration_seconds": 1.6,
+      "loop": true,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "spectral_bolt_flight",
+      "family": "spectral_bolt",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 36,
+      "duration_seconds": 1.2,
+      "loop": true,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "spectral_bolt_impact",
+      "family": "spectral_bolt",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 30,
+      "duration_seconds": 1.0,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "spectral_bolt_launch",
+      "family": "spectral_bolt",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 30,
+      "duration_seconds": 1.0,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "summoning_vortex",
+      "family": "summoning_vortex",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 60,
+      "duration_seconds": 2.0,
+      "loop": true,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "thorn_eruption",
+      "family": "thorn_eruption",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 42,
+      "duration_seconds": 1.4,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    },
+    {
+      "id": "ward_break",
+      "family": "ward_break",
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 36,
+      "duration_seconds": 1.2,
+      "loop": false,
+      "canvas": [
+        640,
+        560
+      ],
+      "pivot": [
+        320,
+        386
+      ],
+      "alpha": "straight",
+      "camera": "fixed orthographic ground registration; deliberately illustrated world-anchored contours / no 3D volume claim",
+      "world_density_px_per_metre": 112,
+      "preview_interpolation": "none; each source drawing repeats twice",
+      "atlas": {
+        "gutter_px": 6,
+        "extrusion_px": 2,
+        "max_size": 2048,
+        "sampler": "clamp; disable mipmaps or use per-sprite mip generation; two extruded edge pixels plus four transparent gutter pixels",
+        "rotation": false,
+        "trim": "one union crop shared across all frames; original canvas and pivot retained"
+      }
+    }
+  ]
+}

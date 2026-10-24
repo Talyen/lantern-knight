@@ -43,7 +43,9 @@
     "tools/diagnostics.ts",
     "tools/test-reporter.ts",
     "playwright.config.ts",
-    "tools/ui-study/main.ts"
+    "tools/ui-study/main.ts",
+    "tools/assets/import.ts",
+    "tools/assets/migrate.ts"
   ],
   "project": [
     "src/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}",

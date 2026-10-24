@@ -1,0 +1,11 @@
+PEWBREAKER — F2 full artwork and animation kit
+
+Identity: living heavy chapel pew, two pointed Gothic arches, olive upholstery, broad rigid oak furniture and four wooden knuckle legs. Native 1536x1024 RGBA master. No engine changes.
+
+Eight clips: idle, in-place move, basic horizontal body ram, rear-up double-front-knuckle SINGLE slam, get-hit, defeat, spawn, and separate splinter/dust target FX. Each runtime clip has 12 cels. Evolving generated poses, not still-image zoom/fade animation. Reusable ready cel joins action endpoints. Source pages use four cels each. Runtime art is downsampled from native generation; canvas padding is not resolution upscaling. Idle palette balanced to the oak action palette. Slight frame-to-frame hand-painted line variation remains.
+
+Runtime: all RGBA PNG frames 768x640. Pivot in top-left pixel coordinates (384,550), normalized bottom-left (0.5,0.140625). 4x3 atlases are 3072x1920. JSON includes exact frame rectangles, variable durations, one-shot damage timing, and target footprint. Leftward ram includes modest baked pose/root displacement relative to the fixed pivot. Move loop is in place; engine controls navigation.
+
+Attack timing: 1000 ms dodge tell followed by ONE impact at 1000 ms, actor frame 6 (zero-based). Damage is an event, not persistent across held frames. Special FX starts with the actor at 0 ms and bursts at FX frame 5, also 1000 ms. Rear-up precedes a simultaneous front-knuckle landing. All remaining dust and splinters are non-damaging aftermath. Effect and body use the same origin. Basic target offset (-145,0), ellipse radii (100,48); slam ellipse (235,75) centered at the actor. Gameplay values are integration suggestions, not engine edits.
+
+Each clip ZIP contains 12 runtime PNGs, atlas, timing/pivot JSON, its native generated source pages, contact sheet, and labeled MP4. One ZIP per clip, each below 20 MB. No redundant combined ZIP. Separate full master, all-cel contact, reel and global runtime JSON accompany them. Reel clips play twice at exact supplied durations, including synchronized special FX. Runtime alpha bounds, ready endpoints, damage timestamps and MP4 durations verified.

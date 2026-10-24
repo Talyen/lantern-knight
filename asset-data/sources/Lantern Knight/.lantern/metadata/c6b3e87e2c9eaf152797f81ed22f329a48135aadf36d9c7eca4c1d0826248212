@@ -1,0 +1,17 @@
+LANTERN DEATH COLLAPSE — COMPLETE ILLUSTRATED SOURCES
+
+Delivered clip:22 unique complete drawings,84 ticks at60Hz,1.40s. Exact R0 is the entry. The final exact D0 receives26 ticks in that finite duration, then persists indefinitely until game state changes. It is not an idle loop.
+
+The initial24-drawing plan was revised during anatomical QA: an unintended opposite-knee setup and its dependent bridge were omitted. Five new whole-character transition drawings improve the moving collapse, and their final bridge matches D0 directly. The removed6 ticks were assigned to the final still. Holds are not counted as new illustrations.
+
+Native AI illustration masters and executed prompts are retained. Coherent multi-drawing masters contain some unselected candidates; those are not additional delivered frames. Only selected runtime PNGs are approved animation frames. Original pose-reference endpoint PNGs are included only where used by the retained bridge prompts.
+
+The actual collapse begins with the near anatomical RIGHT rear knee going down while the far LEFT forward boot remains planted, then both knees, hip/coat and shoulder/forearm/cheek. Both props stay held: near/right sword with short black wraps; far/left rectangular brass lantern with long brown bracer. No weapon release, vanishing, mirrored anatomy or gore.
+
+Native crop rectangles, one source-wide normalization, whole-drawing integer offsets and physical support landmarks are recorded in the source inventory and animation manifest. Late contact corrections use jointly observed hand-knuckles, cheek and lantern-base landmarks, not head-locking or part warps. Original source scale and final D0 were preserved.
+
+No CGI, cutout puppet, optical flow, mechanical tweening, morphs, blending or independent per-frame bounds fitting. Original masters retain their alpha and hidden RGB; actual alpha composites are authoritative if a generator preview displays hidden backdrop colors. Full-figure extraction partitions separated source regions while preserving assigned RGBA.
+
+Import canvas1536x1024, root(768,892) top-left. The R0_contract describes the original1024 canvas; delivery_canvas_contract records the additional(+256,0) transparent padding and frozen1536 result. Use the accepted pixels-per-world-unit; padding must not shrink the actor. The view/ground plane is illustrated and uncalibrated. No engine/repository changes or gameplay configuration were performed. Runtime integration was not tested.
+
+Every generation prompt requested Sunburst2.5 (gpt-image-2.5-sunburst); actual backend model was not exposed or verified.

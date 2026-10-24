@@ -1,0 +1,509 @@
+{
+  "clip_id": "locomotion_face_R_move_D",
+  "facing": "R",
+  "travel": "D",
+  "relative_movement": "right",
+  "facing_world_xyz": [
+    0.7071067811865476,
+    0,
+    -0.7071067811865476
+  ],
+  "travel_world_xyz": [
+    0.7071067811865476,
+    0,
+    0.7071067811865476
+  ],
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256.0,
+    401.0
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.216796875
+  ],
+  "pixels_per_unit_approximate": 165.0,
+  "cycle": {
+    "ticks": 40,
+    "hz": 60,
+    "duration_seconds": 0.6666666666666666,
+    "duplicate_end_frame": false
+  },
+  "switch_rule": "Preserve elapsed cycle phase q=(elapsed_seconds*60)%40; select last frame start_tick <=q; no blend or phase reset",
+  "handedness": {
+    "anatomical_right": "sword",
+    "anatomical_left": "lantern"
+  },
+  "mirror": false,
+  "root_motion": false,
+  "schema_version": 2,
+  "packaging_revision": 2,
+  "status": "visually_reviewed_runtime_test",
+  "engine_validated": false,
+  "runtime_resampled": true,
+  "pivot_calibration": "Manual sole-based clip-wide pivot(256,401); approximate guide-contact subtraction, not engine certified.",
+  "scale_calibration": {
+    "pixels_per_unit": 165.0,
+    "method": "Manual per-facing visual body-density estimate relative to selected DR art; not physical metrology",
+    "guide_bob_render_density_used": 175
+  },
+  "ground_calibration": {
+    "method": "One clip-wide median of manually observed sole midpoints minus guide contact projection; not bbox fitting or exact footlocking",
+    "observations": [
+      {
+        "frame_index": 0,
+        "manual_native_sole_xy": [
+          311,
+          660
+        ],
+        "support_side_interpretation": "Right",
+        "runtime_sole_y": 402.9259259259259,
+        "guide_contact_offset_y": -0.36405448065980733,
+        "implied_root_y": 403.28998040658576
+      },
+      {
+        "frame_index": 1,
+        "manual_native_sole_xy": [
+          338,
+          655
+        ],
+        "support_side_interpretation": "Right",
+        "runtime_sole_y": 385.66265060240966,
+        "guide_contact_offset_y": -10.378909279995112,
+        "implied_root_y": 396.0415598824048
+      },
+      {
+        "frame_index": 2,
+        "manual_native_sole_xy": [
+          311,
+          617
+        ],
+        "support_side_interpretation": "Right",
+        "runtime_sole_y": 394.79079497907946,
+        "guide_contact_offset_y": -9.380483884192127,
+        "implied_root_y": 404.1712788632716
+      },
+      {
+        "frame_index": 3,
+        "manual_native_sole_xy": [
+          336,
+          625
+        ],
+        "support_side_interpretation": "Right",
+        "runtime_sole_y": 401.5,
+        "guide_contact_offset_y": 2.5335294895529397,
+        "implied_root_y": 398.96647051044704
+      },
+      {
+        "frame_index": 4,
+        "manual_native_sole_xy": [
+          338,
+          666
+        ],
+        "support_side_interpretation": "Right",
+        "runtime_sole_y": 394.5849056603774,
+        "guide_contact_offset_y": 21.096055023659495,
+        "implied_root_y": 373.48885063671787
+      },
+      {
+        "frame_index": 5,
+        "manual_native_sole_xy": [
+          290,
+          668
+        ],
+        "support_side_interpretation": "Right",
+        "runtime_sole_y": 404.49056603773585,
+        "guide_contact_offset_y": 26.774618731848424,
+        "implied_root_y": 377.7159473058874
+      },
+      {
+        "frame_index": 6,
+        "manual_native_sole_xy": [
+          293,
+          637
+        ],
+        "support_side_interpretation": "Left",
+        "runtime_sole_y": 394.45283018867923,
+        "guide_contact_offset_y": -47.77427678269174,
+        "implied_root_y": 442.227106971371
+      },
+      {
+        "frame_index": 7,
+        "manual_native_sole_xy": [
+          264,
+          640
+        ],
+        "support_side_interpretation": "Left",
+        "runtime_sole_y": 394.811320754717,
+        "guide_contact_offset_y": -35.860263408946714,
+        "implied_root_y": 430.6715841636637
+      }
+    ]
+  },
+  "native_pixel_policy": "Selected source/native cels retain their original bytes. Runtime cels use the recorded uniform scales and whole-cel translations; no nonuniform warping.",
+  "native_frames": [
+    {
+      "index": 0,
+      "file": "source/native/01.png",
+      "sha256": "c647b0aee9796f2ea6508324436f8ce9d6c627ee398af75ad8946ede115be756",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 1,
+      "file": "source/native/02.png",
+      "sha256": "a6ee53716432783d09dab0ded90cf2986bd39415b4dcf52fbf51b3cc243ca36d",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 2,
+      "file": "source/native/03.png",
+      "sha256": "70b365d3499efee3c1246b5cc1e56555c4d2f6d26e691a2b05fae86f5ebd703e",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 3,
+      "file": "source/native/04.png",
+      "sha256": "764e61e33dba4517cfe548526eaf4f53b82b2f740fb725f96fbf5aa0ce1cc7b5",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 4,
+      "file": "source/native/05.png",
+      "sha256": "1a74aad60f797b6e9bc6e2a1310036e8af79be7e4b7faa9e81207ed89c854741",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 5,
+      "file": "source/native/06.png",
+      "sha256": "1c9aef84c1c2b93f182e3043f579843974410191c4ddbcd914914f2efb142a7d",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 6,
+      "file": "source/native/07.png",
+      "sha256": "3eaed7f572aef50284e38decae25fbcc51c37c15271c2ee971eca0641856941b",
+      "size_px": [
+        561,
+        701
+      ]
+    },
+    {
+      "index": 7,
+      "file": "source/native/08.png",
+      "sha256": "d6a961b71ce2cdb3b720c4e5cb342b5ae4c7f5414f4ea0fb08387989d88239f7",
+      "size_px": [
+        561,
+        701
+      ]
+    }
+  ],
+  "runtime_frames": [
+    {
+      "index": 0,
+      "file": "runtime/frames/00.png",
+      "sha256": "7ccfbca9c85f13889bfeb25e2ec3243cdb95c4978ca871fcde8b8da4f073b5f7",
+      "start_tick": 0,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 1,
+      "file": "runtime/frames/01.png",
+      "sha256": "5f91e5245eb971da922d5414c0be12158d3e278a3ad1e60af963b4771301839b",
+      "start_tick": 5,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 2,
+      "file": "runtime/frames/02.png",
+      "sha256": "24299837a4ee01e4cff761b51a482a935eb88f51de3b8683ab7f2bf298ee134d",
+      "start_tick": 10,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 3,
+      "file": "runtime/frames/03.png",
+      "sha256": "ef213f117ae1c02cfe7811f05f5b3670a99f0458a1cf10b9f77edb21e438fe52",
+      "start_tick": 15,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 4,
+      "file": "runtime/frames/04.png",
+      "sha256": "99e9b166febb8ea1f84aa99b55b6fed501e28f6c65ef1901421af5042400e1e2",
+      "start_tick": 20,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 5,
+      "file": "runtime/frames/05.png",
+      "sha256": "a516b5c9d2dfda2d770c93c3901e6805cccaa4f7bc6c1828ec33e1b1c5eef6d3",
+      "start_tick": 25,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 6,
+      "file": "runtime/frames/06.png",
+      "sha256": "6a9e12de14d79739a542a0fe5181cf3fbf29fd7a6baab9e7a4836c32b398c436",
+      "start_tick": 30,
+      "hold_ticks_60hz": 5
+    },
+    {
+      "index": 7,
+      "file": "runtime/frames/07.png",
+      "sha256": "10e856fc67ef5f3c811cdf67ba0a3de605cc7c8159bb51303ff0328a98fe3886",
+      "start_tick": 35,
+      "hold_ticks_60hz": 5
+    }
+  ],
+  "transforms": [
+    {
+      "index": 0,
+      "uniform_scale": 0.49382716049382713,
+      "translation_xy": [
+        100,
+        77
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          295,
+          64
+        ],
+        "belt_center_xy": [
+          315,
+          307
+        ],
+        "support_sole_xy": [
+          311,
+          660
+        ],
+        "support_side": "Right",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        -6.787127829192469
+      ]
+    },
+    {
+      "index": 1,
+      "uniform_scale": 0.4819277108433735,
+      "translation_xy": [
+        84,
+        70
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          343,
+          97
+        ],
+        "belt_center_xy": [
+          357,
+          346
+        ],
+        "support_sole_xy": [
+          338,
+          655
+        ],
+        "support_side": "Right",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        1.7860862708401233
+      ]
+    },
+    {
+      "index": 2,
+      "uniform_scale": 0.502092050209205,
+      "translation_xy": [
+        86,
+        85
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          315,
+          67
+        ],
+        "belt_center_xy": [
+          338,
+          306
+        ],
+        "support_sole_xy": [
+          311,
+          617
+        ],
+        "support_side": "Right",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        3.214955287512222
+      ]
+    },
+    {
+      "index": 3,
+      "uniform_scale": 0.5,
+      "translation_xy": [
+        70,
+        89
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          349,
+          56
+        ],
+        "belt_center_xy": [
+          373,
+          296
+        ],
+        "support_sole_xy": [
+          336,
+          625
+        ],
+        "support_side": "Right",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        1.7860862708401233
+      ]
+    },
+    {
+      "index": 4,
+      "uniform_scale": 0.4528301886792453,
+      "translation_xy": [
+        109,
+        93
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          303,
+          33
+        ],
+        "belt_center_xy": [
+          325,
+          298
+        ],
+        "support_sole_xy": [
+          338,
+          666
+        ],
+        "support_side": "Right",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        -6.787127829192469
+      ]
+    },
+    {
+      "index": 5,
+      "uniform_scale": 0.4528301886792453,
+      "translation_xy": [
+        124,
+        102
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          264,
+          33
+        ],
+        "belt_center_xy": [
+          292,
+          298
+        ],
+        "support_sole_xy": [
+          290,
+          668
+        ],
+        "support_side": "Right",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        1.7860862708401233
+      ]
+    },
+    {
+      "index": 6,
+      "uniform_scale": 0.4528301886792453,
+      "translation_xy": [
+        107,
+        106
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          309,
+          27
+        ],
+        "belt_center_xy": [
+          330,
+          292
+        ],
+        "support_sole_xy": [
+          293,
+          637
+        ],
+        "support_side": "Left",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        3.214955287512222
+      ]
+    },
+    {
+      "index": 7,
+      "uniform_scale": 0.4528301886792453,
+      "translation_xy": [
+        120,
+        105
+      ],
+      "observed_anchors": {
+        "crown_xy": [
+          277,
+          25
+        ],
+        "belt_center_xy": [
+          301,
+          290
+        ],
+        "support_sole_xy": [
+          264,
+          640
+        ],
+        "support_side": "Left",
+        "confidence": "approximate manual visual"
+      },
+      "guide_hip_delta_runtime_px": [
+        0.0,
+        1.7860862708401233
+      ]
+    }
+  ],
+  "caveats": [
+    "Visual runtime-test art; approximate import scale and ground registration, not engine validated.",
+    "Small guide-derived bob and redraw/proportion variation may remain; no exact sole-contact or perfect heading-transition guarantee."
+  ]
+}

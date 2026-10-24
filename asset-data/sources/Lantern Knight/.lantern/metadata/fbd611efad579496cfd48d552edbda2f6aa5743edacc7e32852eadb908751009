@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lantern planned asset manifest example schema",
+  "description": "Provisional schema for this planned/example manifest only. This is not a production importer schema. File existence and cross-field geometry must be checked separately.",
+  "type": "object",
+  "required": [
+    "documentType",
+    "manifestVersion",
+    "productionReady",
+    "status",
+    "artContract",
+    "warning",
+    "assets",
+    "atlasExamples",
+    "frameExamples"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "documentType": {
+      "const": "asset_manifest_example"
+    },
+    "manifestVersion": {
+      "type": "string"
+    },
+    "productionReady": {
+      "const": false
+    },
+    "status": {
+      "const": "illustrative_example_not_importable_as_production"
+    },
+    "artContract": {
+      "type": "string"
+    },
+    "warning": {
+      "type": "string"
+    },
+    "pathsAreRelativeTo": {
+      "type": "string"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      },
+      "minItems": 1
+    },
+    "atlasExamples": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/atlas"
+      }
+    },
+    "frameExamples": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/frame"
+      }
+    },
+    "eventExamples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "clipId",
+          "directionId",
+          "eventTrackStatus",
+          "events"
+        ],
+        "properties": {
+          "animationInstanceId": {
+            "type": "string"
+          },
+          "clipId": {
+            "type": "string"
+          },
+          "directionId": {
+            "$ref": "#/$defs/direction"
+          },
+          "eventTrackStatus": {
+            "const": "illustrative_not_approved"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/event"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "productionManifestRequirements": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "schemaLimitations": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "direction": {
+      "enum": [
+        "d00",
+        "d45",
+        "d90",
+        "d135",
+        "d180",
+        "d225",
+        "d270",
+        "d315"
+      ]
+    },
+    "vec2": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "size": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "rect": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "id",
+        "timeMs",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "timeMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "type": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "delivered",
+        "plannedOutputs",
+        "files"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "actor",
+            "ground_material",
+            "environment_module",
+            "prop",
+            "vfx"
+          ]
+        },
+        "status": {
+          "const": "planned"
+        },
+        "delivered": {
+          "const": false
+        },
+        "cameraId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "physicalSizeWorldUnits": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "sourceCanvasPx": {
+          "$ref": "#/$defs/size"
+        },
+        "rootAnchorSourcePx": {
+          "$ref": "#/$defs/vec2"
+        },
+        "directionIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/direction"
+          },
+          "uniqueItems": true
+        },
+        "clipIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "variantIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "stateIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "equipmentMode": {
+          "type": "string"
+        },
+        "surfaceOrientation": {
+          "type": "string"
+        },
+        "projectionRule": {
+          "type": "string"
+        },
+        "occlusionPlan": {
+          "type": "string"
+        },
+        "anchorRule": {
+          "type": "string"
+        },
+        "collisionRule": {
+          "type": "string"
+        },
+        "compositePolicy": {
+          "type": "string"
+        },
+        "abilityStatus": {
+          "type": "string"
+        },
+        "plannedOutputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "files": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "atlas": {
+      "type": "object",
+      "required": [
+        "id",
+        "status",
+        "path",
+        "fileExists",
+        "sizePx",
+        "colorSpace",
+        "alphaMode",
+        "rotatedPacking",
+        "extrusionPx",
+        "paddingPxPerSide"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "const": "illustrative_not_generated"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^EXAMPLE_ONLY/"
+        },
+        "fileExists": {
+          "const": false
+        },
+        "sizePx": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "colorSpace": {
+          "enum": [
+            "sRGB",
+            "linear_non_color"
+          ]
+        },
+        "alphaMode": {
+          "enum": [
+            "straight",
+            "premultiplied"
+          ]
+        },
+        "rotatedPacking": {
+          "const": false
+        },
+        "extrusionPx": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "paddingPxPerSide": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "frame": {
+      "type": "object",
+      "required": [
+        "id",
+        "assetId",
+        "status",
+        "clipId",
+        "directionId",
+        "frameIndex",
+        "durationMs",
+        "sourceCanvasPx",
+        "rootAnchorSourcePx",
+        "atlasId",
+        "atlasRectPx",
+        "trimInSourcePx",
+        "rotated",
+        "socketSamples2D",
+        "socketSamples3D",
+        "sourceImagePath",
+        "contentSha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "assetId": {
+          "type": "string"
+        },
+        "status": {
+          "const": "illustrative_not_measured"
+        },
+        "clipId": {
+          "type": "string"
+        },
+        "directionId": {
+          "$ref": "#/$defs/direction"
+        },
+        "frameIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "durationMs": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sourceCanvasPx": {
+          "$ref": "#/$defs/size"
+        },
+        "rootAnchorSourcePx": {
+          "$ref": "#/$defs/vec2"
+        },
+        "atlasId": {
+          "type": "string"
+        },
+        "atlasRectPx": {
+          "$ref": "#/$defs/rect"
+        },
+        "trimInSourcePx": {
+          "$ref": "#/$defs/rect"
+        },
+        "rotated": {
+          "const": false
+        },
+        "socketSamples2D": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "sourcePx",
+              "visible"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "sourcePx": {
+                "$ref": "#/$defs/vec2"
+              },
+              "visible": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "socketSamples3D": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "sourceImagePath": {
+          "type": "null"
+        },
+        "contentSha256": {
+          "type": "null"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

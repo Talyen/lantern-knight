@@ -1,0 +1,15 @@
+{
+  "id": "lantern_alch_prop_02_three_vial_rack",
+  "name": "Three-vial rack",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/02_three_vial_rack.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Rack and angular bottles look procedural; vary bottle shoulders and timber contour intentionally.",
+  "pack": "Lantern - Alchemy Tabletop Props 07",
+  "folder": "alchemy_tabletop_07",
+  "destination": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/02_three_vial_rack.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A THREE-VIAL RACK: rough dark timber rack holding exactly three differently shouldered stoppered glass vials, muted russet, olive and gray-blue liquids, solid black recesses in wood. Functional supports. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-18fe441c-18d3-4100-8d5c-2e5b9bca28b0.png",
+  "review": "Stable supports and clamp contacts, differentiated ceramic/glass/copper/wood, clear pigment powder heaps and specimen-case vent. Glass reflections are intentional material cues. Passed large overview and 64px light/dark proxy; native alpha preserved."
+}

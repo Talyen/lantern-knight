@@ -1,0 +1,172 @@
+{
+  "source": "/workspace/scratch/1a83d58417d5/mixamo_reference/unpacked/standing-torch-run-forward/joint-samples.json",
+  "joint_file_sha256": "61d7c234c6725bc7afcfec336e267e4f03470c3a8d1d00be30969de076b70058",
+  "source_fbx_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+  "product_id": "b5b82299-62da-49dd-ac55-9fde07ae45d8",
+  "fps": 60,
+  "cycle_ticks": 40,
+  "cycle_seconds": 0.6666666666666666,
+  "samples": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35
+  ],
+  "endpoint40_excluded": true,
+  "camera_contract": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/camera_contract.json",
+  "prop_contract": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/shared_prop_contract.json",
+  "horizontal_root_removal": "Subtract current frame Hips worldX/worldZ from ALL joints; do not subtract Y. No fixed-point per-limb refitting.",
+  "root_bob_preserved": true,
+  "source_rotations": "Joint-chain positions/torso orientations retained. Independent bone axial rotations absent from export; not claimed recovered.",
+  "right_arm_adaptation": "None",
+  "reference_canvas": [
+    1280,
+    1000
+  ],
+  "reference_root": [
+    635,
+    800
+  ],
+  "pixels_per_meter": 350,
+  "common_square_crop": [
+    350,
+    260,
+    1050,
+    960
+  ],
+  "sheet_layout": "4columns\u00d72rows,512px square cells,left-to-right/top-to-bottom",
+  "frames": [
+    {
+      "tick": 0,
+      "source_time_seconds": 0.0,
+      "source_root_world": [
+        0.0003288363222964108,
+        0.9547399878501892,
+        0.00014313103747554123
+      ],
+      "removed_world_translation": [
+        0.0003288363222964108,
+        0.0,
+        0.00014313103747554123
+      ],
+      "sword_tip_clearance": 0.25666746786387196,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_00/reference_close.png"
+    },
+    {
+      "tick": 5,
+      "source_time_seconds": 0.08333333333333333,
+      "source_root_world": [
+        0.3541674017906189,
+        0.9871142506599426,
+        -0.0012035960098728538
+      ],
+      "removed_world_translation": [
+        0.3541674017906189,
+        0.0,
+        -0.0012035960098728538
+      ],
+      "sword_tip_clearance": 0.39255231604179175,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_05/reference_close.png"
+    },
+    {
+      "tick": 10,
+      "source_time_seconds": 0.16666666666666666,
+      "source_root_world": [
+        0.7164734601974487,
+        0.9776105880737305,
+        -0.009547746740281582
+      ],
+      "removed_world_translation": [
+        0.7164734601974487,
+        0.0,
+        -0.009547746740281582
+      ],
+      "sword_tip_clearance": 0.3561345618197197,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_10/reference_close.png"
+    },
+    {
+      "tick": 15,
+      "source_time_seconds": 0.25,
+      "source_root_world": [
+        1.0541187524795532,
+        0.9169251918792725,
+        -0.020967742428183556
+      ],
+      "removed_world_translation": [
+        1.0541187524795532,
+        0.0,
+        -0.020967742428183556
+      ],
+      "sword_tip_clearance": 0.23414461815740772,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_15/reference_close.png"
+    },
+    {
+      "tick": 20,
+      "source_time_seconds": 0.3333333333333333,
+      "source_root_world": [
+        1.3891681432724,
+        0.9167810082435608,
+        -0.027166809886693954
+      ],
+      "removed_world_translation": [
+        1.3891681432724,
+        0.0,
+        -0.027166809886693954
+      ],
+      "sword_tip_clearance": 0.2676581376770044,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_20/reference_close.png"
+    },
+    {
+      "tick": 25,
+      "source_time_seconds": 0.4166666666666667,
+      "source_root_world": [
+        1.743810772895813,
+        0.9785078167915344,
+        -0.021156026050448418
+      ],
+      "removed_world_translation": [
+        1.743810772895813,
+        0.0,
+        -0.021156026050448418
+      ],
+      "sword_tip_clearance": 0.36630276395992667,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_25/reference_close.png"
+    },
+    {
+      "tick": 30,
+      "source_time_seconds": 0.5,
+      "source_root_world": [
+        2.1083593368530273,
+        0.9832899570465088,
+        -0.011910145170986652
+      ],
+      "removed_world_translation": [
+        2.1083593368530273,
+        0.0,
+        -0.011910145170986652
+      ],
+      "sword_tip_clearance": 0.3510810928440523,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_30/reference_close.png"
+    },
+    {
+      "tick": 35,
+      "source_time_seconds": 0.5833333333333334,
+      "source_root_world": [
+        2.442854404449463,
+        0.9421271085739136,
+        -0.006655430421233177
+      ],
+      "removed_world_translation": [
+        2.442854404449463,
+        0.0,
+        -0.006655430421233177
+      ],
+      "sword_tip_clearance": 0.2652352653360842,
+      "close": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/mixamo_torch_run8_source_follow/tick_35/reference_close.png"
+    }
+  ]
+}

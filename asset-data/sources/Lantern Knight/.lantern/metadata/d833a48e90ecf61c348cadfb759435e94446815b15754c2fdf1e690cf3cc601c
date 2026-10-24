@@ -1,0 +1,7 @@
+Inspected all 14 registered frames on neutral backgrounds: 13 distinct art cels plus a fully transparent clear frame. The first four retain the approved art; nine new tail cels are newly image-generated.
+
+All tail cels use fixed-grid crops and identical placement, with no per-frame registration, recentering, global fade or shrink. The entire opening stage was uniformly resampled by a constant 0.8 factor to match the new sheet scale; this is a single conversion, not animated shrinking.
+
+Tail mass trends upper-right and away from the cast anchor. Small frame-to-frame shape and fragment-motion variations remain. Nine tail cels at 60 ms each replace the previous long-held shrinking terminal poses. The emission coil breaks apart and does not reappear at the end.
+
+Validated a 14-frame APNG with fully transparent final frame and zero-alpha borders on every output frame. MP4 preview backgrounds are opaque; source PNG/APNG assets preserve transparency. This remains an experimental keyframe motion study, not an engine-tested production effect.

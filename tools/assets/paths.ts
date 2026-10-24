@@ -21,9 +21,12 @@ function assetRoot() {
   if (process.env.LANTERN_ASSET_WORKSPACE) return path.resolve(process.env.LANTERN_ASSET_WORKSPACE);
   const lock = JSON.parse(fs.readFileSync(path.join(projectRoot, 'assets/lock.json'), 'utf8')) as {
     sha256: string;
+    schemaVersion: number;
   };
   if (!/^[a-f0-9]{64}$/.test(lock.sha256)) throw new Error('Invalid asset pack hash');
-  return path.join(cacheRoot(), 'entries', `pack-${lock.sha256}`);
+  return lock.schemaVersion === 5
+    ? path.join(projectRoot, '.cache/repository-assets', lock.sha256)
+    : path.join(cacheRoot(), 'entries', `pack-${lock.sha256}`);
 }
 const publicRoot = () => path.join(assetRoot(), 'public');
 export const publicFile = (file: string) => path.join(publicRoot(), safeRelative(file));
@@ -34,14 +37,12 @@ function stagingRoot() {
   return path.join(assetRoot(), 'staging');
 }
 const stagingFile = (file: string) => path.join(stagingRoot(), safeRelative(file));
-export function sourceLibrary(env: NodeJS.ProcessEnv = process.env) {
+export const sourceLibraryRoot = () => path.join(projectRoot, 'asset-data/sources');
+export function sourceLibrary(_env: NodeJS.ProcessEnv = process.env) {
   const sources = JSON.parse(
     fs.readFileSync(path.join(projectRoot, 'assets/sources.json'), 'utf8'),
   ) as { libraryDirectory: string };
-  return path.join(
-    env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents', 'Asset Library'),
-    safeRelative(sources.libraryDirectory),
-  );
+  return path.join(sourceLibraryRoot(), safeRelative(sources.libraryDirectory));
 }
 export function assetFile(file: string) {
   if (path.isAbsolute(file)) return file;

@@ -1,0 +1,51 @@
+tick,time_seconds,drawing,phase
+0,0.0,1,Threatening ready
+1,0.016666667,1,Threatening ready
+2,0.033333333,1,Threatening ready
+3,0.05,1,Threatening ready
+4,0.066666667,1,Threatening ready
+5,0.083333333,1,Threatening ready
+6,0.1,1,Threatening ready
+7,0.116666667,1,Threatening ready
+8,0.133333333,2,Gather / compress
+9,0.15,2,Gather / compress
+10,0.166666667,2,Gather / compress
+11,0.183333333,2,Gather / compress
+12,0.2,2,Gather / compress
+13,0.216666667,2,Gather / compress
+14,0.233333333,2,Gather / compress
+15,0.25,2,Gather / compress
+16,0.266666667,2,Gather / compress
+17,0.283333333,2,Gather / compress
+18,0.3,3,Coiled lift
+19,0.316666667,3,Coiled lift
+20,0.333333333,3,Coiled lift
+21,0.35,3,Coiled lift
+22,0.366666667,3,Coiled lift
+23,0.383333333,3,Coiled lift
+24,0.4,3,Coiled lift
+25,0.416666667,3,Coiled lift
+26,0.433333333,3,Coiled lift
+27,0.45,3,Coiled lift
+28,0.466666667,3,Coiled lift
+29,0.483333333,3,Coiled lift
+30,0.5,4,Pounce / paired reach
+31,0.516666667,4,Pounce / paired reach
+32,0.533333333,4,Pounce / paired reach
+33,0.55,5,Impact / cloth recoil
+34,0.566666667,5,Impact / cloth recoil
+35,0.583333333,5,Impact / cloth recoil
+36,0.6,5,Impact / cloth recoil
+37,0.616666667,5,Impact / cloth recoil
+38,0.633333333,5,Impact / cloth recoil
+39,0.65,5,Impact / cloth recoil
+40,0.666666667,6,Recover
+41,0.683333333,6,Recover
+42,0.7,6,Recover
+43,0.716666667,6,Recover
+44,0.733333333,6,Recover
+45,0.75,6,Recover
+46,0.766666667,6,Recover
+47,0.783333333,6,Recover
+48,0.8,6,Recover
+49,0.816666667,6,Recover

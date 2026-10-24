@@ -1,0 +1,53 @@
+{
+  "name": "Abandoned wolf snare",
+  "scene": "Haunted Woodland C",
+  "native_canvas": [
+    560,
+    480
+  ],
+  "runtime_canvas": [
+    280,
+    240
+  ],
+  "authored_cels": 7,
+  "states": [
+    "sprung",
+    "catch_lifting",
+    "spring_unloading",
+    "jaws_half_spread",
+    "jaws_flat",
+    "chain_settling",
+    "disabled"
+  ],
+  "frame_duration_ms": [
+    140,
+    100,
+    150,
+    150,
+    120,
+    120,
+    140
+  ],
+  "start_hold": "sprung",
+  "end_hold": "disabled",
+  "completion_frame": 6,
+  "contact_anchor_native": [
+    270,
+    280
+  ],
+  "ground_anchor_native": [
+    330,
+    310
+  ],
+  "reward_marker_native": [
+    280,
+    340
+  ],
+  "gameplay_suggestion": "Safely pry open a sprung trap and permanently disable its trigger; optional salvage supplied by game after completion",
+  "implementation": "No game code",
+  "loop": false,
+  "qa_status": "Root visually approved 2026-10-18",
+  "source": "Built-in imagegen, highest native quality requested; model selection not exposed",
+  "scene_master_id": "134Xae-b3ysLnJpwdyPOVV5WMFTxQv_xv",
+  "source_library_id": "libfile_ee513a2a55d08191a806f4708f1db536"
+}

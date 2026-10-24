@@ -1,0 +1,85 @@
+{
+  "authorship": "deterministic horizontal mirror of authored UL; not independently drawn",
+  "name": "Mourning Moth UR",
+  "reference": {
+    "id": "BT03",
+    "sha256": "e71d196ee30ef3ae2e95efc8aaee2f4a1111a9d1f783abf080769737b67137b5"
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation, not 3D calibrated"
+  },
+  "facing": "UR flight head upper-right tail lower-left",
+  "mirroring": "validated deterministic UL horizontal mirror; lighting reverses; do not mirror again",
+  "world_position": "engine-owned; all drawing offsets baked; do not reapply",
+  "clips": {
+    "move": {
+      "loop": true,
+      "holds_60hz": [
+        6,
+        5,
+        4,
+        5,
+        5,
+        6
+      ],
+      "frames": [
+        "move_00.png",
+        "move_01.png",
+        "move_02.png",
+        "move_03.png",
+        "move_04.png",
+        "move_05.png"
+      ],
+      "attack_event_frame_zero_based": null,
+      "event_is_visual_reference_only": true,
+      "end": "loop"
+    },
+    "attack": {
+      "loop": false,
+      "holds_60hz": [
+        8,
+        10,
+        12,
+        5,
+        8,
+        14
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_event_frame_zero_based": 3,
+      "event_is_visual_reference_only": true,
+      "end": "hold final then return movement"
+    }
+  },
+  "png_sha256": {
+    "move_00.png": "265e64e8e8906ed835589a592cedd58962f8058735e185b752f48fda8bad0b10",
+    "move_01.png": "ba496802d2294af511fae3fde620c58eaffaea1ffbd9270bc61f8840e0a351af",
+    "move_02.png": "e8ee0b20a909570cef7bbdd3fef6a7bc474ffc2058c8d1d84df047a1dd472c22",
+    "move_03.png": "980625bda8cebe58eaf8a7548b4902f96e04891479588ac8737f9d08b6b979ea",
+    "move_04.png": "82621c703ce0ba483f95d3d25298ba3eabbafe6c52aa71a7cdc585efa7c605f2",
+    "move_05.png": "acea9f6cbb1a29eeda5bc7dba30a205918c9289df233ad839395dfba493e992e",
+    "attack_00.png": "c842ea799e571ee4b09ee662856b31f847fafbfde01039fe2adc3224c5c64428",
+    "attack_01.png": "7296fa3580f68741131a9414f7b4be0cbf70c748e93ef8a645f6fc6e34411a37",
+    "attack_02.png": "69cbcc2090eb30c34df9937442388463ce61159abd1c4c39314facde0e07d09d",
+    "attack_03.png": "90cb9ee3896b8b6ce6d1fc76d6d19266bfa56c880bc6d203370a77ea0c6677ca",
+    "attack_04.png": "f7f58cdac2ee5ba7ba9a7e4cda948376804f825a1ef95478eef31c51946bd7a3",
+    "attack_05.png": "c2ba8c7da7b4e3299268228255e8b0fbca2ad0a0ca38964b0e9ca97c1109f8b6"
+  }
+}

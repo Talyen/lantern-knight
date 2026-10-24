@@ -1,0 +1,16 @@
+{
+  "method": "Built-in image generation, fresh generation from original identity reference, then deterministic compositing",
+  "identity_reference": "source/original_F5.png",
+  "accepted_output": "source/native_sheet_02.png",
+  "rejected_output": "source/native_sheet.png",
+  "rejected_reason": "Insufficient cell spacing",
+  "model_identity": "Not asserted",
+  "requested_prompt_phrase": "Sunburst 2.5",
+  "generation_date": "2026-10-07",
+  "sha256": {
+    "source/native_sheet.png": "242b76d3aee3c96f22bfd3719dbc34ff8a60151268a996d0a6a2e4dbb4c6c685",
+    "source/acting_mask.png": "a84c03ea1072014ec06ad298a860ca36b9dbc97913fc24fcb1d68209ac73f536",
+    "source/native_sheet_02.png": "dbc4e747175b12d45e2d581fde88493f36f3437bd06797892d12c77775842e46",
+    "source/original_F5.png": "48979f197c2d1085823119f00faec3ea3edcde6ed6262c56a24f4db10cf9dfc8"
+  }
+}

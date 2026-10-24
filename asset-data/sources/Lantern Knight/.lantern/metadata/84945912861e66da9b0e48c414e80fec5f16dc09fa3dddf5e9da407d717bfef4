@@ -1,0 +1,43 @@
+# Lantern: Ruined Beacon, polished
+
+A restrained polish pass on the existing clean cut-paper belfry tableau. The same architecture, seven-color palette, suspended flame lantern, ravens, moon, thorns and stone path are retained. All artwork remains editable vector geometry: no raster art, textures, grain or gradients.
+
+## Deliverables
+
+All five silent H.264 / yuv420p MP4s are authored directly at **1920 × 1080, 60 fps**.
+
+| File suffix | Duration | Frames | Purpose |
+|---|---:|---:|---|
+| Intro | 2 seconds | 120 | Theatre shutters open |
+| Hold | 4 seconds | 240 | Seamless periodic loading loop |
+| Complete | 2 seconds | 120 | Theatre shutters close |
+| Preview | 8 seconds | 480 | Intro → Hold → Complete |
+| Title | 9 seconds | 540 | Exact outlined title: Lantern |
+
+Full prefix: `Lantern_D_RuinedBeacon_Polished_`.
+
+`beacon_master.svg` is the editable loading master at hold time zero. `title_master.svg` is the settled title master. `render.py` contains the complete scene geometry, timing and native renderer; `title_glyphs.json` contains the seven outlined letterforms. There is no runtime font dependency. The inherited DejaVu Serif attribution is in `FONT_LICENSE.txt`.
+
+## What changed
+
+1. Ravens now face their actual horizontal travel, briefly turning edge-on as flat paper at the ends of their orbits. Far arcs pass behind the tower; near arcs cross below the lantern. Windblown leaves also pass behind the masonry, keeping the flame and cage unobstructed.
+2. Wingbeats are calmer: five cycles per four-second hold instead of eight, with smaller articulated wing excursions and eased phase variation.
+3. The hanging lantern is 78% of its prior size and swings ±3.2° instead of ±9°. The cage clears the alcove sides and the pendant has visible space above the sill. Its flame and counter-swing remain independently animated.
+4. Background masonry is anchored instead of sliding sideways. Clouds, rope, foliage, leaves and birds provide environmental motion.
+5. The title rises as intact outlined letterforms with much smaller rotations. All seven letters settle at 3.62 seconds; the ornament settles at 4.75 seconds. The fully settled title holds for 4.25 seconds through the end. Tracking increases slightly while the overall word remains centered.
+
+## Playback contract
+
+Play Intro once, Hold repeatedly, and Complete once. Start Complete at a Hold loop boundary. The conceptual endpoint of Intro equals Hold's start, Hold's four-second endpoint equals its start, and Complete starts at that same phase. Export sampling is half-open: the last stored frame is one frame before the conceptual endpoint, avoiding a duplicate held frame at a loop boundary.
+
+Loading clips contain no visible text. The separate title does not fade away; it ends readable. The world continues moving behind the settled title. The 8-second Preview and 9-second Title are the native previews.
+
+## Rebuild and verification
+
+System requirements: Python 3, FFmpeg/FFprobe, Cairo, librsvg and GObject shared libraries. Debian/Ubuntu library package names include `libcairo2` and `librsvg2-2`. Python requirements are in `requirements.txt`.
+
+Run `bash rebuild.sh` from an extracted copy. It regenerates all five native production MP4s, both SVG masters, poster proofs and validation outputs. The exporter uses a fixed two-thread libx264 encoder. Exact binary reproducibility is expected with the same renderer and codec versions; different Cairo, librsvg or FFmpeg versions may produce different bytes.
+
+`verify.py` checks export metadata, frame counts, source phase equality, decoded motion, loop continuity, exact title lettering, settled-title stability and source/master correspondence. `check_clearance.py` raster-tests every one of the 240 native hold poses for raven overdraw intersecting the animated lantern silhouette, and confirms that the lantern silhouette stays inside the belfry aperture.
+
+`manifest.json` lists SHA-256 hashes for every other file in this archive. Verify it before a rebuild, since a rebuild rewrites derived validation files. The archive excludes lower-resolution drafts, old clips and before/after review images.

@@ -1,0 +1,245 @@
+{
+  "asset": "lantern_inspect_DR_v01",
+  "version": "v01",
+  "status": "ART_REVIEW_INTEGRATION_CANDIDATE",
+  "facing": "DR",
+  "heading_world": "+X",
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "verification": "visually conditioned only"
+  },
+  "equipment": {
+    "sword_hand": "right",
+    "lantern_hand": "left",
+    "lantern_support": "Closed left fist grips handle top; lantern hangs below the actual hand. No wrist strap.",
+    "mirrored": false
+  },
+  "runtime": {
+    "cell_size": [
+      512,
+      512
+    ],
+    "atlas_size": [
+      1536,
+      1024
+    ],
+    "grid": [
+      3,
+      2
+    ],
+    "atlas": "lantern_inspect_DR_v01_atlas.png",
+    "fps": 60,
+    "frame_count": 6,
+    "unique_drawings": 6,
+    "duration_ticks": 84,
+    "duration_seconds": 1.4,
+    "loop": false,
+    "pivot_px_top_left": [
+      256,
+      456
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.109375
+    ],
+    "suggested_pixels_per_unit": 292.0,
+    "pixels_per_unit_status": "approximate clip-wide import starting value; no resampling baked in",
+    "root_motion_track": null
+  },
+  "state_flow": {
+    "mode": "one_shot_or_hold",
+    "enter_frame_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "optional_host_hold_frame": 3,
+    "hold_is_static": true,
+    "exit_frame_indices": [
+      4,
+      5
+    ],
+    "default_preview_hold_ticks": 30,
+    "gameplay_effects": [],
+    "note": "Default one-shot is 84 ticks. Host may pause cel 3 to inspect until explicit input, then play 4-5; no automatic interaction success."
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/lantern_inspect_DR_v01_00.png",
+      "label": "low_ready",
+      "hold_ticks_60hz": 10,
+      "atlas_rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "source_rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        512,
+        512
+      ],
+      "edge_alpha_max": 1,
+      "sha256": "032bcd4058d09b376408b544dc5a003c85f520515728c7dd481ff4b85544ca03"
+    },
+    {
+      "index": 1,
+      "file": "frames/lantern_inspect_DR_v01_01.png",
+      "label": "raise_to_chest",
+      "hold_ticks_60hz": 9,
+      "atlas_rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "source_rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        1,
+        9,
+        512,
+        512
+      ],
+      "edge_alpha_max": 1,
+      "sha256": "759c888bcb657dff6eb8e1cb83ee82f5c408e233ddfa8db3af829b79c0a6b896"
+    },
+    {
+      "index": 2,
+      "file": "frames/lantern_inspect_DR_v01_02.png",
+      "label": "extend_lantern",
+      "hold_ticks_60hz": 12,
+      "atlas_rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "source_rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        0,
+        9,
+        496,
+        512
+      ],
+      "edge_alpha_max": 1,
+      "sha256": "8f65a27dd9d9efe7d2eeb22dd4aada226e186e1916f8596d7632af83aaf45507"
+    },
+    {
+      "index": 3,
+      "file": "frames/lantern_inspect_DR_v01_03.png",
+      "label": "inspect_hold",
+      "hold_ticks_60hz": 30,
+      "atlas_rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "source_rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "edge_alpha_max": 1,
+      "sha256": "c9f24fed8cec4a7db3b544cdb7be4d0f4fc483b40b344850657ab3edb124160b"
+    },
+    {
+      "index": 4,
+      "file": "frames/lantern_inspect_DR_v01_04.png",
+      "label": "lower_lantern",
+      "hold_ticks_60hz": 12,
+      "atlas_rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "source_rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "edge_alpha_max": 1,
+      "sha256": "35d7371f156faa10319c280f682aa0977a183fefae90176f0d14eff30cad4fef"
+    },
+    {
+      "index": 5,
+      "file": "frames/lantern_inspect_DR_v01_05.png",
+      "label": "low_ready_return",
+      "hold_ticks_60hz": 11,
+      "atlas_rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "source_rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        504,
+        512
+      ],
+      "edge_alpha_max": 1,
+      "sha256": "eb62421088f055650f7c7a0a6f8c85b6f296b56d25d8b9b21ebe447d58fa37b3"
+    }
+  ],
+  "source": {
+    "native_sheet_size": [
+      1536,
+      1024
+    ],
+    "generator": "built-in image_gen",
+    "source_sha256": "5aec9053c5a62c5412c3a76d7d0117938eb72f415545f34805c4fb3c108dec42",
+    "prompt_file": "prompt.txt",
+    "canonical_identity": "C / Rust hero",
+    "native_rgba_preserved": true
+  },
+  "known_limits": [
+    "Generated test animation artwork; engine integration, collisions, gameplay state changes and root motion are not implemented.",
+    "Native 1536 x 1024 source sheet cropped on one exact 3 x 2 grid. No scaling, mirroring, warping, interpolation, per-frame recentering, background repainting or AI upscaling.",
+    "Fixed canvas and import pivot do not solve generated pose/foot drift. Natural source foot drift and slight costume/prop shape variation remain; inspect in engine before shipping.",
+    "Native alpha includes a few alpha=1 background/border pixels; visible silhouette is separated from cell borders. Native bytes were kept unchanged rather than retouching the approved frames.",
+    "Camera and PPU are visual approximations. Suggested PPU 292 is a clip-wide starting estimate based on upright body height versus canonical ready at nominal 350 PPU; it is not a metric camera solve.",
+    "First and last cels are distinct drawings and are not pixel-identical to the existing ready or idle. Host should review seams; no seamless cross-clip transition certification."
+  ]
+}

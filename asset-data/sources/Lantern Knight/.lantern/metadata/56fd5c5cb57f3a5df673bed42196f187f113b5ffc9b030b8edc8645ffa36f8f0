@@ -1,0 +1,111 @@
+[
+  {
+    "id": "lantern_concept_enemy_03_masked_cultist",
+    "name": "Masked cultist",
+    "audit_verdict": "keep",
+    "audit_direction": "Strong ivory face, dark cowl and burgundy triangular folds; best clean shadow-shape example.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_enemies/assets/03_masked_cultist.png",
+    "revised_image": "packs/02_enemies/assets/03_masked_cultist.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_enemies/assets/03_masked_cultist.png",
+    "sha256": "eaa675ed1177ba59e3c12cffd0534ad775195818d2035861d7a3cb825f70317d",
+    "native_size": [
+      1199,
+      1312
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      26,
+      3,
+      1105,
+      1285
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_concept_enemy_08_clockwork_penitent",
+    "name": "Clockwork penitent",
+    "audit_verdict": "selective repair",
+    "audit_direction": "Distinct coffin torso and wheel, but evenly outlined machinery and thin limbs need darker shadow grouping.",
+    "status": "REBUILT — fresh ink drawing",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_enemies/assets/08_clockwork_penitent.png",
+    "revised_image": "packs/02_enemies/assets/08_clockwork_penitent.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/characters/source/08_clockwork_penitent.png",
+    "sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      333,
+      20,
+      964,
+      1226
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated",
+    "padded_import": {
+      "id": "lantern_concept_enemy_08_clockwork_penitent",
+      "native_asset": "packs/02_enemies/assets/08_clockwork_penitent.png",
+      "padded_asset": "import_padded/02_enemies/08_clockwork_penitent.png",
+      "native_canvas": [
+        1254,
+        1254
+      ],
+      "padded_canvas": [
+        1254,
+        1398
+      ],
+      "source_offset_xy": [
+        0,
+        76
+      ],
+      "added_padding_ltrb": [
+        0,
+        76,
+        0,
+        68
+      ],
+      "visible_bounds_alpha_gt_16_native": [
+        333,
+        20,
+        964,
+        1226
+      ],
+      "visible_bounds_alpha_gt_16_padded": [
+        333,
+        96,
+        964,
+        1302
+      ],
+      "provisional_ground_pivot_native_px": [
+        648.5,
+        1226
+      ],
+      "provisional_ground_pivot_padded_px": [
+        648.5,
+        1302
+      ],
+      "ground_pivot_shift_xy": [
+        0,
+        76
+      ],
+      "provisional_ground_pivot_padded_normalized": [
+        0.5171451355661882,
+        0.9313304721030042
+      ],
+      "pivot_caveat": "Bottom-center of visible bounds is a provisional import anchor, not a certified ground/rig pivot; especially review hovering or flying creatures.",
+      "pixel_preservation_verified": true,
+      "operation": "Pure transparent canvas extension; no crop, resampling, recoloring, matte extraction or alpha modification",
+      "sha256": "f0c1b1d9d156e9dcad42ada01e8b598cce40429405f97c3966883ed467ee3a17"
+    }
+  }
+]

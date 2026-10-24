@@ -1,0 +1,378 @@
+{
+  "character": "Gallows Gardener",
+  "clip": "hit",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_px": [
+    360,
+    530
+  ],
+  "pivot_normalized": [
+    0.5625,
+    0.828125
+  ],
+  "facing": "three-quarter screen-left",
+  "loop": false,
+  "duration_ms": 990,
+  "frames": [
+    {
+      "file": "frames/hit_000.png",
+      "atlas_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 55,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    },
+    {
+      "file": "frames/hit_001.png",
+      "atlas_rect": [
+        640,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 55,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_a.png",
+        "source_cel": 2,
+        "source_bbox": [
+          540,
+          41,
+          987,
+          484
+        ],
+        "source_anchor": [
+          835.0,
+          484.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/hit_002.png",
+      "atlas_rect": [
+        1280,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 60,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_a.png",
+        "source_cel": 3,
+        "source_bbox": [
+          986,
+          37,
+          1523,
+          488
+        ],
+        "source_anchor": [
+          1280.0,
+          488.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/hit_003.png",
+      "atlas_rect": [
+        1920,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 80,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_a.png",
+        "source_cel": 4,
+        "source_bbox": [
+          11,
+          527,
+          594,
+          950
+        ],
+        "source_anchor": [
+          290.0,
+          950.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/hit_004.png",
+      "atlas_rect": [
+        0,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 75,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_a.png",
+        "source_cel": 5,
+        "source_bbox": [
+          561,
+          556,
+          1060,
+          967
+        ],
+        "source_anchor": [
+          850.0,
+          967.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/hit_005.png",
+      "atlas_rect": [
+        640,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 75,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_a.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1055,
+          562,
+          1527,
+          979
+        ],
+        "source_anchor": [
+          1320.0,
+          979.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/hit_006.png",
+      "atlas_rect": [
+        1280,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 75,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_b.png",
+        "source_cel": 1,
+        "source_bbox": [
+          20,
+          110,
+          528,
+          503
+        ],
+        "source_anchor": [
+          360.0,
+          503.0
+        ],
+        "downsample": 0.77
+      }
+    },
+    {
+      "file": "frames/hit_007.png",
+      "atlas_rect": [
+        1920,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 75,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_b.png",
+        "source_cel": 2,
+        "source_bbox": [
+          544,
+          96,
+          1001,
+          494
+        ],
+        "source_anchor": [
+          860.0,
+          494.0
+        ],
+        "downsample": 0.77
+      }
+    },
+    {
+      "file": "frames/hit_008.png",
+      "atlas_rect": [
+        0,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 75,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_b.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1012,
+          65,
+          1495,
+          477
+        ],
+        "source_anchor": [
+          1360.0,
+          477.0
+        ],
+        "downsample": 0.77
+      }
+    },
+    {
+      "file": "frames/hit_009.png",
+      "atlas_rect": [
+        640,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 75,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_b.png",
+        "source_cel": 4,
+        "source_bbox": [
+          25,
+          525,
+          522,
+          946
+        ],
+        "source_anchor": [
+          355.0,
+          946.0
+        ],
+        "downsample": 0.77
+      }
+    },
+    {
+      "file": "frames/hit_010.png",
+      "atlas_rect": [
+        1280,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 90,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_b.png",
+        "source_cel": 5,
+        "source_bbox": [
+          525,
+          511,
+          984,
+          950
+        ],
+        "source_anchor": [
+          855.0,
+          950.0
+        ],
+        "downsample": 0.77
+      }
+    },
+    {
+      "file": "frames/hit_011.png",
+      "atlas_rect": [
+        1920,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/hit_b.png",
+        "source_cel": 6,
+        "source_bbox": [
+          998,
+          517,
+          1480,
+          940
+        ],
+        "source_anchor": [
+          1360.0,
+          940.0
+        ],
+        "downsample": 0.77
+      }
+    },
+    {
+      "file": "frames/hit_012.png",
+      "atlas_rect": [
+        0,
+        1920,
+        640,
+        640
+      ],
+      "duration_ms": 100,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    }
+  ],
+  "events": [],
+  "atlas": "hit_atlas.png",
+  "source_resolution": "native imagegen 1536x1024; six drawn cels per source; runtime downsample only",
+  "root_motion": "in-place; no engine behavior added"
+}

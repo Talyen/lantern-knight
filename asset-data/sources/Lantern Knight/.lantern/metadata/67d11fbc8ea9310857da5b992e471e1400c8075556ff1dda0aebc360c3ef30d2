@@ -1,0 +1,15 @@
+{
+  "woodland/woodland_B_native.png": "c4babbfe0adcc0a24943cbd0c1a2e876b919fadebe6674df832f542072bfce1c",
+  "woodland/woodland_B_prompt.txt": "a638c466ad4daae2847e68591610efd892bd2cb283bcf9d7cbcde1708eff0d5b",
+  "woodland/woodland_A_prompt.txt": "e8ca1640bc0b5aef630e555c34964e42483dadbbf760bb77911c0e30d225f06c",
+  "woodland/provenance.json": "9d0581bb855b5320dd15e68e6b004e859672c5ca39c4bb850c6c7bc1cee54737",
+  "woodland/woodland_B_hero160_context.png": "4386fbe6d33ef2715e6c6419a4e0bab7100db29474becb798a79427eea6896ab",
+  "woodland/woodland_A_native.png": "0e5df8db2cfc49e0c332f8225ad9eac5db8198fcbf270791c381c3dc5cd89b3f",
+  "woodland/woodland_AB_comparison.png": "75be4347bcb24c4aab3970e04884cf0fe1f6daf4af736b7ade138d9851ffb49a",
+  "woodland/woodland_A_context_metadata.json": "efe1a356495f06c3249cd5d48e748ac79231bdae8c12d95b21e1a28b1d6fdd74",
+  "woodland/woodland_B_context_metadata.json": "0d7562a355a9498ca4a79d487537d288c565abee2332f0c91f02124d84008879",
+  "woodland/woodland_A_hero160_context.png": "2071179469e9735b660b20d7b94dcd1c950d7dde87e7b1a415ed470d9e4c4f06",
+  "README.txt": "95679c08d92d4f72e3c11dc1b29b79dc5baca6deceea1c3ca7756347a8a7f35b",
+  "build_deliverables.py": "45189beff381c6108fc617216dc24622c9af5c8864673e2309df921b24f68a59",
+  "references/hero_original.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

@@ -1,0 +1,31 @@
+{
+  "alpha_empty_final": true,
+  "unique_drawn_cels": 23,
+  "source_edge_pixels": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    8,
+    17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "output_clear_edges": true
+}

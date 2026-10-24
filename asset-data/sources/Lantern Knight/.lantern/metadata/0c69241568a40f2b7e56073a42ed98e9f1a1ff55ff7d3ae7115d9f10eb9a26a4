@@ -1,0 +1,38 @@
+{
+  "name": "cloister_B",
+  "status": "independent_untiled_seam_comparison_complete",
+  "metrics": [
+    {
+      "name": "courtyard_junction",
+      "junction_source_xy": [
+        640,
+        480
+      ],
+      "check_source_box": [
+        592,
+        432,
+        688,
+        528
+      ],
+      "mean_abs_rgb_difference": 0.013637966579861112,
+      "max_abs_rgb_difference": 5.0,
+      "pct_pixels_over_2": 0.00881618923611111
+    },
+    {
+      "name": "eastern_arcade_junction",
+      "junction_source_xy": [
+        960,
+        640
+      ],
+      "check_source_box": [
+        912,
+        592,
+        1008,
+        688
+      ],
+      "mean_abs_rgb_difference": 0.01001880787037037,
+      "max_abs_rgb_difference": 3.0,
+      "pct_pixels_over_2": 0.002034505208333333
+    }
+  ]
+}

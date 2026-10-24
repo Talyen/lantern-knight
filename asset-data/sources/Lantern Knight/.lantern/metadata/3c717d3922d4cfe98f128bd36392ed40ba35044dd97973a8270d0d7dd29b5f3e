@@ -1,0 +1,4622 @@
+{
+  "schema_version": 1,
+  "title": "Lantern current gameplay-view hero animation TEST index",
+  "snapshot_utc": "2026-10-07T08:21:41.546740+00:00",
+  "status": "CURRENT_TEST_INDEX_COMPLETE_WITH_KNOWN_GAPS",
+  "scope": "Local delivery index only; no art, per-frame metadata or game repository changes. This is an allowlist for review, not user approval.",
+  "asset_root": "lantern_hero_core_animations_01",
+  "bundle_contains_art": false,
+  "all_assets_test_only": true,
+  "user_acceptance_claimed": false,
+  "game_integration_claimed": false,
+  "directions": {
+    "DR": [
+      1,
+      0,
+      0
+    ],
+    "DL": [
+      0,
+      0,
+      1
+    ],
+    "UL": [
+      -1,
+      0,
+      0
+    ],
+    "UR": [
+      0,
+      0,
+      -1
+    ]
+  },
+  "camera_target": {
+    "world_up": "+Y",
+    "ground": "XZ",
+    "elevation_degrees": 35.264389682754654,
+    "world_azimuth_degrees": 45,
+    "gameplay_vertical_span_m": 13,
+    "unity_orthographic_size": 6.5,
+    "limit": "Exact construction target; painted projections are visual approximations."
+  },
+  "anatomical_handedness": {
+    "right": "sword; short black wrist wrap",
+    "left": "lantern; long brown bracer"
+  },
+  "native_pixel_policy": "Preserve all delivered runtime files and native source companions unchanged. No new mirroring, fitting, resampling or limb warps. Most current clips preserve generated/cropped pixels at1x with padding; sweep DR has earlier whole-source scale/translation processing. Sweep other headings preserve native pixels but contain baked per-cel integer placement. Read each package contract.",
+  "packages": [
+    {
+      "package_id": "ready_idle",
+      "local_path_from_hero_root": "directional_ready_idle_v01/Lantern_Ready_Idle_FourDirections_v01_RuntimeTest.zip",
+      "filename": "Lantern_Ready_Idle_FourDirections_v01_RuntimeTest.zip",
+      "bytes": 11871179,
+      "sha256": "cb4d927654d95afe1e9053339253050d5125a7a54de90498f92999bb63336b23",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "uploaded_verified",
+        "id": "1P80OU4vzKPjfLOANndsopPtdx9uO5yrx",
+        "size_bytes": 11871179,
+        "shared": false,
+        "url": "https://drive.google.com/file/d/1P80OU4vzKPjfLOANndsopPtdx9uO5yrx/view?usp=drivesdk",
+        "receipt": "ready_lunge_run_drive_receipt.json",
+        "verified_at": "2026-10-07T07:39:40Z"
+      },
+      "readme_paths": [
+        "README.txt"
+      ]
+    },
+    {
+      "package_id": "dodge",
+      "local_path_from_hero_root": "dodge_lantern_overnight/delivery_four_directions/Lantern_Dodge_4Directions_Runtime.zip",
+      "filename": "Lantern_Dodge_4Directions_Runtime.zip",
+      "bytes": 7984794,
+      "sha256": "b0a0bc386738c741bad7a5c6fe5234bb49d652f7990c832ed1f1afa1ad40f8b0",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "uploaded_verified",
+        "id": "1FF_84XtR9ajpJlvShcHKs1JxX88_Rq5p",
+        "size_bytes": 7984794,
+        "shared": false,
+        "url": "https://drive.google.com/file/d/1FF_84XtR9ajpJlvShcHKs1JxX88_Rq5p/view?usp=drivesdk",
+        "receipt": "dodge_lantern_overnight/delivery_four_directions/drive_receipt.json",
+        "verified_at": "2026-10-07T07:39:40Z"
+      },
+      "readme_paths": [
+        "DR/README_clean_native.txt",
+        "DL/README_clean_native.txt",
+        "UL/README_clean_native.txt",
+        "UR/README_clean_native.txt"
+      ]
+    },
+    {
+      "package_id": "lantern",
+      "local_path_from_hero_root": "dodge_lantern_overnight/delivery_four_directions/Lantern_Lantern_4Directions_Runtime.zip",
+      "filename": "Lantern_Lantern_4Directions_Runtime.zip",
+      "bytes": 10053333,
+      "sha256": "9a08b3cb78e623da0a3127cb83485a8821e436dbbc8ffe4f92fad74122a8c6b1",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "uploaded_verified",
+        "id": "1Kf8YcFZXj2TiFxWH_xlePI7lW_Sq5wVY",
+        "size_bytes": 10053333,
+        "shared": false,
+        "url": "https://drive.google.com/file/d/1Kf8YcFZXj2TiFxWH_xlePI7lW_Sq5wVY/view?usp=drivesdk",
+        "receipt": "dodge_lantern_overnight/delivery_four_directions/drive_receipt.json",
+        "verified_at": "2026-10-07T07:39:40Z"
+      },
+      "readme_paths": [
+        "DR/README_clean_native.txt",
+        "DL/README_clean_native.txt",
+        "UL/README_clean_native.txt",
+        "UR/README_clean_native.txt"
+      ]
+    },
+    {
+      "package_id": "lunge",
+      "local_path_from_hero_root": "lunge_lowcarry_four_headings_native_v01.zip",
+      "filename": "lunge_lowcarry_four_headings_native_v01.zip",
+      "bytes": 8948452,
+      "sha256": "bcd8dc3324ec58d3a957ef3edb12b6d16de556d071a27908efb78abd5df27229",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "uploaded_verified",
+        "id": "14KyodT_TOFm0UQe5L-3cOgFo5zya8SSJ",
+        "size_bytes": 8948452,
+        "shared": false,
+        "url": "https://drive.google.com/file/d/14KyodT_TOFm0UQe5L-3cOgFo5zya8SSJ/view?usp=drivesdk",
+        "receipt": "ready_lunge_run_drive_receipt.json",
+        "verified_at": "2026-10-07T07:39:40Z"
+      },
+      "readme_paths": [
+        "README.txt",
+        "DL/README.txt",
+        "UR/README.txt",
+        "UL/README.txt",
+        "DR/approximate_integration/README.txt",
+        "DR/lunge_lowcarry8_v01/README.md"
+      ]
+    },
+    {
+      "package_id": "run_DR",
+      "local_path_from_hero_root": "run_mixamo_sheet_01/rust_run_mixamo8_runtime_test_v01.zip",
+      "filename": "rust_run_mixamo8_runtime_test_v01.zip",
+      "bytes": 3512228,
+      "sha256": "6bf03648c31bb9b8b5560a8cdaedefbb34bc2126cb7364282733b7d7bc3100b7",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "drive_verified_by_delivery_coordinator",
+        "id": "1yrnCMmDb1Rfs4gqqIpi4r4GLepHiQcUN",
+        "receipt": "run_mixamo_sheet_01/drive_receipt.json",
+        "chat_attachment_status": "uncertain; no retry performed"
+      },
+      "readme_paths": [
+        "README.txt"
+      ]
+    },
+    {
+      "package_id": "run_UL",
+      "local_path_from_hero_root": "run_mixamo_directional_01/rust_run_UL_mixamo8_runtime_test_v01.zip",
+      "filename": "rust_run_UL_mixamo8_runtime_test_v01.zip",
+      "bytes": 3281263,
+      "sha256": "3c1da0f9b3edd3bd74e777a8729c3154453f278311f85d0b3e15fbbed6c975db",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "uploaded_verified",
+        "id": "1PMPVBJsAHpNCrTYRXIRGEiXSsmM6bXu3",
+        "size_bytes": 3281263,
+        "shared": false,
+        "url": "https://drive.google.com/file/d/1PMPVBJsAHpNCrTYRXIRGEiXSsmM6bXu3/view?usp=drivesdk",
+        "receipt": "ready_lunge_run_drive_receipt.json",
+        "verified_at": "2026-10-07T07:39:40Z"
+      },
+      "readme_paths": [
+        "README.txt"
+      ]
+    },
+    {
+      "package_id": "sweep",
+      "local_path_from_hero_root": "sweep_four_headings_native_v01/Lantern_Sweep_Four_Headings_Runtime_v01.zip",
+      "filename": "Lantern_Sweep_Four_Headings_Runtime_v01.zip",
+      "bytes": 12196215,
+      "sha256": "55860f089ef203bf1097f69b4345aee693d8a4420e6ab6244e7247b401de25b4",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "chat_accepted_and_full_archive_drive_verified",
+        "chat_message_id": "Sentinel_e2e901c2088c819198b05dce57fa7a5e",
+        "reported_utc": "2026-10-07T07:50:00Z",
+        "runtime_library_file_id": "libfile_b21912c97c308191a4442a643286316c",
+        "source_library_file_id": "libfile_d37bdb0b797c819180d9b44ad536e1b8",
+        "preview_library_file_id": "libfile_b943b13df54c8191934bb0e9cda13277",
+        "drive_full_archive_id": "1lgzXUE3qkgnHSEgHaKAGTUj_YsaYogq2",
+        "drive_full_archive_bytes": 34971756,
+        "drive_shared": false,
+        "note": "Runtime and source companion delivered separately in chat; Drive copy is the larger full archive."
+      },
+      "readme_paths": [
+        "README.txt"
+      ],
+      "source_companion_path": "sweep_four_headings_native_v01/Lantern_Sweep_Four_Headings_Source_Companion_v01.zip",
+      "combined_preview_path": "sweep_four_headings_native_v01/pack/preview/sweep_four_directions_equal_worldsize.mp4"
+    },
+    {
+      "package_id": "run_DL",
+      "local_path_from_hero_root": "run_mixamo_directional_01/rust_run_DL_mixamo7_runtime_test_v01.zip",
+      "filename": "rust_run_DL_mixamo7_runtime_test_v01.zip",
+      "bytes": 2206223,
+      "sha256": "70428f88962a9eac1b4ab1664aa0692914f4efdc13a5a69e845a7cb8bb66003a",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "chat_accepted_and_drive_verified",
+        "chat_message_id": "Sentinel_72ab1dbb613c819190492757ad1beaba",
+        "reported_utc": "2026-10-07T08:01:00Z",
+        "runtime_library_file_id": "libfile_a5c7fcc8caa0819186aa3a175555c8b9",
+        "source_library_file_id": "libfile_39c466963cd8819191989f46d0722459",
+        "preview_library_file_id": "libfile_7784d1499f3881919d7a97fa5ce2c02c",
+        "integration_companion_library_file_id": "libfile_4d0eb2b6b7588191b846ea17e1495f93",
+        "drive": {
+          "name": "rust_run_DL_mixamo7_runtime_test_v01.zip",
+          "status": "uploaded_verified",
+          "id": "186zAw8ADWGggZH3MIHZBXT8DrN-E7jpF",
+          "size_bytes": 2206223,
+          "sha256": "70428f88962a9eac1b4ab1664aa0692914f4efdc13a5a69e845a7cb8bb66003a",
+          "parent_ids": [
+            "1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N"
+          ],
+          "shared": false,
+          "url": "https://drive.google.com/file/d/186zAw8ADWGggZH3MIHZBXT8DrN-E7jpF/view?usp=drivesdk"
+        },
+        "drive_receipt": "run_dl_drive_receipt.json",
+        "drive_verified_at": "2026-10-07T08:03:33Z"
+      },
+      "readme_paths": [
+        "README.txt"
+      ],
+      "source_companion_path": "run_mixamo_directional_01/rust_run_DL_mixamo7_sources_v01.zip",
+      "pre_delivery_reseal_note": "Isolated neighboring discarded sourcecel3 tip removed from retained sourcecel2; final independent semantic audit passed. Count, timing, current SHA and atlas/frame equality rechecked.",
+      "final_audit_path": "run_mixamo_directional_01/metadata/DL_independent_package_audit.json"
+    },
+    {
+      "package_id": "hit",
+      "local_path_from_hero_root": "hit_death_compact8_v01/delivery/Lantern_Hit_4Directions_RuntimeTest.zip",
+      "filename": "Lantern_Hit_4Directions_RuntimeTest.zip",
+      "bytes": 9988270,
+      "sha256": "b60208e87ea3de5227e64a10e178c13f0f0871b16cc4489aa7d4fd5a7c1e4cdf",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "chat_accepted_and_drive_verified",
+        "chat_message_id": "Sentinel_a9e51cb069e88191b40c00018b0b077f",
+        "preview_library_file_id": "libfile_816da1f08e708191ab973f2cb5a62da1",
+        "runtime_library_file_id": "libfile_8c95449ef67c8191a3920c02ffb7507e",
+        "source_library_file_id": "libfile_e81c185e9d2081918f1b2d33744ff6c0",
+        "drive": {
+          "name": "Lantern_Hit_4Directions_RuntimeTest.zip",
+          "status": "uploaded_verified",
+          "id": "1ajg5cueRgrcl8r_ciumOhyBfSmgRgddM",
+          "size_bytes": 9988270,
+          "sha256": "b60208e87ea3de5227e64a10e178c13f0f0871b16cc4489aa7d4fd5a7c1e4cdf",
+          "parent_ids": [
+            "1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N"
+          ],
+          "shared": false,
+          "url": "https://drive.google.com/file/d/1ajg5cueRgrcl8r_ciumOhyBfSmgRgddM/view?usp=drivesdk"
+        },
+        "drive_receipt": "hit_death_compact8_v01/delivery/drive_receipt.json",
+        "drive_verified_at": "2026-10-07T08:19:40Z",
+        "source_drive": {
+          "name": "Lantern_Hit_4Directions_NativeSources.zip",
+          "status": "uploaded_verified",
+          "id": "1dJsXgIx88cOVwgpSs_qQz9NJc_AjTZTJ",
+          "size_bytes": 4717635,
+          "sha256": "b9ce6e8fd2d6b06452a43c389ff285e00c564589c2f873e81c391fb4d526492d",
+          "parent_ids": [
+            "1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N"
+          ],
+          "shared": false,
+          "url": "https://drive.google.com/file/d/1dJsXgIx88cOVwgpSs_qQz9NJc_AjTZTJ/view?usp=drivesdk"
+        }
+      },
+      "readme_paths": [
+        "README.txt",
+        "hit_DL/README.txt",
+        "hit_DR/README.txt",
+        "hit_UL/README.txt",
+        "hit_UR/README.txt"
+      ],
+      "source_companion": {
+        "local_path_from_hero_root": "hit_death_compact8_v01/delivery/Lantern_Hit_4Directions_NativeSources.zip",
+        "bytes": 4717635,
+        "sha256": "b9ce6e8fd2d6b06452a43c389ff285e00c564589c2f873e81c391fb4d526492d",
+        "zip_crc_check": "passed",
+        "selected": true
+      },
+      "qa_metadata": "QA_summary.json",
+      "review_limits": {
+        "human_anatomy": "All selected drawings inspected as ordinary human poses before technical checks. No gross limb/neck/joint defect found in selected art.",
+        "identity": "Right sword/short black wrap; left lantern/long brown bracer. UR kneel wrong lower-right coat patches removed with bounded traditional cloth masks.",
+        "ordered_stills": "Every selected cel and ordered extraction board inspected. Abrupt apex-to-catch transition uses short holds.",
+        "encoded_preview": "60Hz frame count, order, exposure holds and terminal retention are verified by decoding/probing.",
+        "real_time_playback": "Not visually certified in this environment. Runtime motion/contact/transition approval remains open.",
+        "alpha": "All57selected native PNG borders transparent. Separate source-edge audit finds5faint antialiased hair-fringe pixels at hitDLcel4top edge(maximumalpha15/255); this tiny source crop is disclosed, not repaired. Selected limb/prop silhouettes are complete."
+      },
+      "known_limits": [
+        "Blade width/length and cloth redraw variation remain.",
+        "Generated art does not certify physical ground/blade collision or exact metric prop length.",
+        "Shared-ready joins are approximate; UL hit far-sword carry differs visibly from staticready.",
+        "Actual real-time temporal approval and engine integration still required.",
+        "HitDLcel4retains a tiny faint5pixel source-edge hairfringe crop; padding does not restore it."
+      ],
+      "review_preview": {
+        "local_path_from_hero_root": "hit_death_compact8_v01/delivery/combined_previews/Lantern_Hit_Four_Directions_60Hz_Review.mp4",
+        "bytes": 881918,
+        "sha256": "f2784ec8d281e66578b53d3c532a5f9c57bdff311b5002f46673082cd85af943",
+        "library_file_id": "libfile_816da1f08e708191ab973f2cb5a62da1"
+      }
+    },
+    {
+      "package_id": "death",
+      "local_path_from_hero_root": "hit_death_compact8_v01/delivery/Lantern_Death_4Directions_RuntimeTest.zip",
+      "filename": "Lantern_Death_4Directions_RuntimeTest.zip",
+      "bytes": 8927182,
+      "sha256": "840d1feff54e635219ac4091bf0b6e6cb1941c4844400087ea84fa16cbdd281e",
+      "status": "CURRENT_SELECTED_TEST",
+      "user_accepted": false,
+      "game_integrated": false,
+      "zip_crc_check": "passed",
+      "delivery": {
+        "status": "chat_accepted_and_drive_verified",
+        "chat_message_id": "Sentinel_ceab1494eda88191a8d175c600527234",
+        "preview_library_file_id": "libfile_ae805310aea88191867fa72c69d91208",
+        "runtime_library_file_id": "libfile_5bd61006708c8191b49f293a1dcdbc54",
+        "source_library_file_id": "libfile_2c6894f5bdd88191b8988414ca202d97",
+        "drive": {
+          "name": "Lantern_Death_4Directions_RuntimeTest.zip",
+          "status": "uploaded_verified",
+          "id": "1_aZLWN8CYq2rljP0yL62r6iyh84gRxi6",
+          "size_bytes": 8927182,
+          "sha256": "840d1feff54e635219ac4091bf0b6e6cb1941c4844400087ea84fa16cbdd281e",
+          "parent_ids": [
+            "1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N"
+          ],
+          "shared": false,
+          "url": "https://drive.google.com/file/d/1_aZLWN8CYq2rljP0yL62r6iyh84gRxi6/view?usp=drivesdk"
+        },
+        "drive_receipt": "hit_death_compact8_v01/delivery/drive_receipt.json",
+        "drive_verified_at": "2026-10-07T08:19:40Z",
+        "source_drive": {
+          "name": "Lantern_Death_4Directions_NativeSources_v02.zip",
+          "status": "uploaded_verified",
+          "id": "1LknPzST4azObr2C3VCxtVvPLWV8skhm7",
+          "size_bytes": 12245462,
+          "sha256": "a041c9d71dbf76abb069f3cd1fcb4041838edf81e96e8e75d63637b52b8d7373",
+          "parent_ids": [
+            "1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N"
+          ],
+          "shared": false,
+          "url": "https://drive.google.com/file/d/1LknPzST4azObr2C3VCxtVvPLWV8skhm7/view?usp=drivesdk"
+        }
+      },
+      "readme_paths": [
+        "README.txt",
+        "death_DL/README.txt",
+        "death_DR/README.txt",
+        "death_UL/README.txt",
+        "death_UR/README.txt"
+      ],
+      "source_companion": {
+        "local_path_from_hero_root": "hit_death_compact8_v01/delivery/Lantern_Death_4Directions_NativeSources_v02.zip",
+        "bytes": 12245462,
+        "sha256": "a041c9d71dbf76abb069f3cd1fcb4041838edf81e96e8e75d63637b52b8d7373",
+        "zip_crc_check": "passed",
+        "selected": true,
+        "revision_note": "v02 corrects glass-mask provenance metadata only, including111previously uncovered edited pixels. All original source art and death runtime remain unchanged. Unversioned earlier NativeSources ZIP is superseded and was never uploaded."
+      },
+      "qa_metadata": "QA_summary.json",
+      "review_limits": {
+        "human_anatomy": "All selected drawings inspected as ordinary human poses before technical checks. No gross limb/neck/joint defect found in selected art.",
+        "identity": "Right sword/short black wrap; left lantern/long brown bracer. UR kneel wrong lower-right coat patches removed with bounded traditional cloth masks.",
+        "ordered_stills": "Every selected cel and ordered extraction board inspected. Abrupt apex-to-catch transition uses short holds.",
+        "encoded_preview": "60Hz frame count, order, exposure holds and terminal retention are verified by decoding/probing.",
+        "real_time_playback": "Not visually certified in this environment. Runtime motion/contact/transition approval remains open.",
+        "alpha": "All57selected native PNG borders transparent. Separate source-edge audit finds5faint antialiased hair-fringe pixels at hitDLcel4top edge(maximumalpha15/255); this tiny source crop is disclosed, not repaired. Selected limb/prop silhouettes are complete."
+      },
+      "known_limits": [
+        "Blade width/length and cloth redraw variation remain.",
+        "Generated art does not certify physical ground/blade collision or exact metric prop length.",
+        "Shared-ready joins are approximate; UL hit far-sword carry differs visibly from staticready.",
+        "Actual real-time temporal approval and engine integration still required.",
+        "HitDLcel4retains a tiny faint5pixel source-edge hairfringe crop; padding does not restore it."
+      ],
+      "superseded_source_companion": {
+        "local_path_from_hero_root": "hit_death_compact8_v01/delivery/Lantern_Death_4Directions_NativeSources.zip",
+        "status": "SUPERSEDED_NOT_RECOMMENDED_NEVER_UPLOADED",
+        "replaced_by": "Lantern_Death_4Directions_NativeSources_v02.zip"
+      },
+      "review_preview": {
+        "local_path_from_hero_root": "hit_death_compact8_v01/delivery/combined_previews/Lantern_Death_Four_Directions_60Hz_Review.mp4",
+        "bytes": 326751,
+        "sha256": "9324067fc4142f2c8631dfaac64be330b25d370a771637ab5df1f92d53c5f018",
+        "library_file_id": "libfile_ae805310aea88191867fa72c69d91208"
+      }
+    }
+  ],
+  "clips": [
+    {
+      "clip_id": "ready_DR",
+      "role": "ready",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "ready_metadata.json",
+      "source_status": "HUMAN_AND_IDENTITY_QA_PASSED_TRADITIONAL_CORRECTION",
+      "source_drawings": 1,
+      "unique_drawings_in_selected_playback": 1,
+      "loop": false,
+      "hold": "static",
+      "canvas_px": [
+        632,
+        688
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left_px": [
+        301.0,
+        556.0
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4762658227848101,
+        0.19186046511627908
+      ],
+      "integration_confidence": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "package_id": "ready_idle",
+      "frame_files": [
+        "ready_world_positive_X_DR_native.png"
+      ],
+      "observed_png_count": 1,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "ready_DL",
+      "role": "ready",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "ready_metadata.json",
+      "source_status": "HUMAN_AND_IDENTITY_QA_PASSED_TRADITIONAL_CORRECTION",
+      "source_drawings": 1,
+      "unique_drawings_in_selected_playback": 1,
+      "loop": false,
+      "hold": "static",
+      "canvas_px": [
+        632,
+        688
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left_px": [
+        301.0,
+        556.0
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4762658227848101,
+        0.19186046511627908
+      ],
+      "integration_confidence": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "package_id": "ready_idle",
+      "frame_files": [
+        "ready_world_positive_Z_DL_native.png"
+      ],
+      "observed_png_count": 1,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "ready_UL",
+      "role": "ready",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "ready_metadata.json",
+      "source_status": "HUMAN_AND_IDENTITY_QA_PASSED_TRADITIONAL_CORRECTION",
+      "source_drawings": 1,
+      "unique_drawings_in_selected_playback": 1,
+      "loop": false,
+      "hold": "static",
+      "canvas_px": [
+        632,
+        688
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left_px": [
+        301.0,
+        556.0
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4762658227848101,
+        0.19186046511627908
+      ],
+      "integration_confidence": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "package_id": "ready_idle",
+      "frame_files": [
+        "ready_world_negative_X_UL_native.png"
+      ],
+      "observed_png_count": 1,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "ready_UR",
+      "role": "ready",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "ready_metadata.json",
+      "source_status": "HUMAN_AND_IDENTITY_QA_PASSED_TRADITIONAL_CORRECTION",
+      "source_drawings": 1,
+      "unique_drawings_in_selected_playback": 1,
+      "loop": false,
+      "hold": "static",
+      "canvas_px": [
+        632,
+        688
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left_px": [
+        301.0,
+        556.0
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4762658227848101,
+        0.19186046511627908
+      ],
+      "integration_confidence": "Approximate art registration. Same unscaled native construction-guide root plus uniformpadding. Supersedes earlier proportional-canvas pivot.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "package_id": "ready_idle",
+      "frame_files": [
+        "ready_world_negative_Z_UR_native.png"
+      ],
+      "observed_png_count": 1,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "idle_UL",
+      "role": "idle",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "idle_world_negative_X_UL/clip.json",
+      "source_status": "HUMAN_IDENTITY_ALPHA_QA_PASSED_RUNTIME_TEST",
+      "source_drawings": 6,
+      "unique_drawings_in_selected_playback": 6,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds_ms": [
+        333,
+        333,
+        334,
+        333,
+        333,
+        334
+      ],
+      "duration_ms": 2000,
+      "canvas_px": [
+        522,
+        565
+      ],
+      "pixels_per_unit": 290.985,
+      "pivot_top_left_px": [
+        269.1589,
+        476.2738
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5156300766283525,
+        0.15703752212389377
+      ],
+      "integration_confidence": "Approximate/moderate. Human artwork is not a calibrated 3D render. Residual pose and root offsets need engine review; do not call transitions seamless.",
+      "scale_method": "One clip-wide median boot-sole-to-crown projected body height ratio relative to same-direction ready. Sword and coat extremities excluded. One common pivot derived from mean sole reference and guide-root offset. No individual cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "limits": [
+        "Quiet hand-drawn liveliness and small flame/line/prop variations; no claim of a choreographed breathing arc.",
+        "Minor redraw shimmer and a few pixels of foot/prop variation remain.",
+        "Static-ready fallback supplied for each heading.",
+        "Guide matrices are exact; generated art projection is visually approximate."
+      ],
+      "package_id": "ready_idle",
+      "frame_files": [
+        "idle_world_negative_X_UL/idle_UL_00.png",
+        "idle_world_negative_X_UL/idle_UL_01.png",
+        "idle_world_negative_X_UL/idle_UL_02.png",
+        "idle_world_negative_X_UL/idle_UL_03.png",
+        "idle_world_negative_X_UL/idle_UL_04.png",
+        "idle_world_negative_X_UL/idle_UL_05.png"
+      ],
+      "observed_png_count": 6,
+      "observed_png_dimensions_px": [
+        [
+          522,
+          565
+        ]
+      ],
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "idle_UR",
+      "role": "idle",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "idle_world_negative_Z_UR/clip.json",
+      "source_status": "HUMAN_IDENTITY_ALPHA_QA_PASSED_RUNTIME_TEST",
+      "source_drawings": 6,
+      "unique_drawings_in_selected_playback": 6,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds_ms": [
+        333,
+        333,
+        334,
+        333,
+        333,
+        334
+      ],
+      "duration_ms": 2000,
+      "canvas_px": [
+        524,
+        572
+      ],
+      "pixels_per_unit": 291.7699,
+      "pivot_top_left_px": [
+        230.5684,
+        476.3254
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4400160305343511,
+        0.16726328671328672
+      ],
+      "integration_confidence": "Approximate/moderate. Human artwork is not a calibrated 3D render. Residual pose and root offsets need engine review; do not call transitions seamless.",
+      "scale_method": "One clip-wide median boot-sole-to-crown projected body height ratio relative to same-direction ready. Sword and coat extremities excluded. One common pivot derived from mean sole reference and guide-root offset. No individual cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "limits": [
+        "Quiet hand-drawn liveliness and small flame/line/prop variations; no claim of a choreographed breathing arc.",
+        "Minor redraw shimmer and a few pixels of foot/prop variation remain.",
+        "Static-ready fallback supplied for each heading.",
+        "Guide matrices are exact; generated art projection is visually approximate."
+      ],
+      "package_id": "ready_idle",
+      "frame_files": [
+        "idle_world_negative_Z_UR/idle_UR_00.png",
+        "idle_world_negative_Z_UR/idle_UR_01.png",
+        "idle_world_negative_Z_UR/idle_UR_02.png",
+        "idle_world_negative_Z_UR/idle_UR_03.png",
+        "idle_world_negative_Z_UR/idle_UR_04.png",
+        "idle_world_negative_Z_UR/idle_UR_05.png"
+      ],
+      "observed_png_count": 6,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          572
+        ]
+      ],
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "idle_DR",
+      "role": "idle",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "idle_world_positive_X_DR/clip.json",
+      "source_status": "HUMAN_IDENTITY_ALPHA_QA_PASSED_RUNTIME_TEST",
+      "source_drawings": 6,
+      "unique_drawings_in_selected_playback": 6,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds_ms": [
+        333,
+        333,
+        334,
+        333,
+        333,
+        334
+      ],
+      "duration_ms": 2000,
+      "canvas_px": [
+        492,
+        558
+      ],
+      "pixels_per_unit": 301.2855,
+      "pivot_top_left_px": [
+        201.0465,
+        483.6259
+      ],
+      "pivot_bottom_left_normalized": [
+        0.40863109756097565,
+        0.13328691756272404
+      ],
+      "integration_confidence": "Approximate/moderate. Human artwork is not a calibrated 3D render. Residual pose and root offsets need engine review; do not call transitions seamless.",
+      "scale_method": "One clip-wide median boot-sole-to-crown projected body height ratio relative to same-direction ready. Sword and coat extremities excluded. One common pivot derived from mean sole reference and guide-root offset. No individual cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "limits": [
+        "Quiet hand-drawn liveliness and small flame/line/prop variations; no claim of a choreographed breathing arc.",
+        "Minor redraw shimmer and a few pixels of foot/prop variation remain.",
+        "Static-ready fallback supplied for each heading.",
+        "Guide matrices are exact; generated art projection is visually approximate."
+      ],
+      "package_id": "ready_idle",
+      "frame_files": [
+        "idle_world_positive_X_DR/idle_DR_00.png",
+        "idle_world_positive_X_DR/idle_DR_01.png",
+        "idle_world_positive_X_DR/idle_DR_02.png",
+        "idle_world_positive_X_DR/idle_DR_03.png",
+        "idle_world_positive_X_DR/idle_DR_04.png",
+        "idle_world_positive_X_DR/idle_DR_05.png"
+      ],
+      "observed_png_count": 6,
+      "observed_png_dimensions_px": [
+        [
+          492,
+          558
+        ]
+      ],
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "idle_DL",
+      "role": "idle",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "idle_world_positive_Z_DL/clip.json",
+      "source_status": "HUMAN_IDENTITY_ALPHA_QA_PASSED_RUNTIME_TEST",
+      "source_drawings": 6,
+      "unique_drawings_in_selected_playback": 6,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds_ms": [
+        333,
+        333,
+        334,
+        333,
+        333,
+        334
+      ],
+      "duration_ms": 2000,
+      "canvas_px": [
+        504,
+        561
+      ],
+      "pixels_per_unit": 316.9929,
+      "pivot_top_left_px": [
+        294.9051,
+        497.7153
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5851291666666667,
+        0.11280695187165768
+      ],
+      "integration_confidence": "Approximate/moderate. Human artwork is not a calibrated 3D render. Residual pose and root offsets need engine review; do not call transitions seamless.",
+      "scale_method": "One clip-wide median boot-sole-to-crown projected body height ratio relative to same-direction ready. Sword and coat extremities excluded. One common pivot derived from mean sole reference and guide-root offset. No individual cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "limits": [
+        "Quiet hand-drawn liveliness and small flame/line/prop variations; no claim of a choreographed breathing arc.",
+        "Minor redraw shimmer and a few pixels of foot/prop variation remain.",
+        "Static-ready fallback supplied for each heading.",
+        "Guide matrices are exact; generated art projection is visually approximate."
+      ],
+      "package_id": "ready_idle",
+      "frame_files": [
+        "idle_world_positive_Z_DL/idle_DL_00.png",
+        "idle_world_positive_Z_DL/idle_DL_01.png",
+        "idle_world_positive_Z_DL/idle_DL_02.png",
+        "idle_world_positive_Z_DL/idle_DL_03.png",
+        "idle_world_positive_Z_DL/idle_DL_04.png",
+        "idle_world_positive_Z_DL/idle_DL_05.png"
+      ],
+      "observed_png_count": 6,
+      "observed_png_dimensions_px": [
+        [
+          504,
+          561
+        ]
+      ],
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "dodge_DR",
+      "role": "dodge",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "DR/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        10,
+        5,
+        3,
+        3,
+        3,
+        5,
+        6,
+        10
+      ],
+      "duration_ticks": 45,
+      "duration_seconds": 0.75,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 249.691,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Some low-travel cels overlap sword and boot in screen space. Foreground ordering is plausible but does not prove3D/floor clearance.",
+        "Coat front skirt can form a third visible panel end in addition to the two rear tails."
+      ],
+      "package_id": "dodge",
+      "frame_files": [
+        "DR/frames_clean_native/dodge_DR_01.png",
+        "DR/frames_clean_native/dodge_DR_02.png",
+        "DR/frames_clean_native/dodge_DR_03.png",
+        "DR/frames_clean_native/dodge_DR_04.png",
+        "DR/frames_clean_native/dodge_DR_05.png",
+        "DR/frames_clean_native/dodge_DR_06.png",
+        "DR/frames_clean_native/dodge_DR_07.png",
+        "DR/frames_clean_native/dodge_DR_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "dodge_DL",
+      "role": "dodge",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "DL/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        10,
+        5,
+        3,
+        3,
+        3,
+        5,
+        6,
+        10
+      ],
+      "duration_ticks": 45,
+      "duration_seconds": 0.75,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 237.876,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Some low-travel cels overlap sword and boot in screen space. Foreground ordering is plausible but does not prove3D/floor clearance.",
+        "Coat front skirt can form a third visible panel end in addition to the two rear tails."
+      ],
+      "package_id": "dodge",
+      "frame_files": [
+        "DL/frames_clean_native/dodge_DL_01.png",
+        "DL/frames_clean_native/dodge_DL_02.png",
+        "DL/frames_clean_native/dodge_DL_03.png",
+        "DL/frames_clean_native/dodge_DL_04.png",
+        "DL/frames_clean_native/dodge_DL_05.png",
+        "DL/frames_clean_native/dodge_DL_06.png",
+        "DL/frames_clean_native/dodge_DL_07.png",
+        "DL/frames_clean_native/dodge_DL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "dodge_UL",
+      "role": "dodge",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "UL/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        10,
+        5,
+        3,
+        3,
+        3,
+        5,
+        6,
+        10
+      ],
+      "duration_ticks": 45,
+      "duration_seconds": 0.75,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 216.57,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Some low-travel cels overlap sword and boot in screen space. Foreground ordering is plausible but does not prove3D/floor clearance.",
+        "Coat front skirt can form a third visible panel end in addition to the two rear tails.",
+        "UL sharedready has the sword forward and occluded. These actions visibly carry the far sword trailing; transitioning to sharedready needs intentional weapon settling."
+      ],
+      "package_id": "dodge",
+      "frame_files": [
+        "UL/frames_clean_native/dodge_UL_01.png",
+        "UL/frames_clean_native/dodge_UL_02.png",
+        "UL/frames_clean_native/dodge_UL_03.png",
+        "UL/frames_clean_native/dodge_UL_04.png",
+        "UL/frames_clean_native/dodge_UL_05.png",
+        "UL/frames_clean_native/dodge_UL_06.png",
+        "UL/frames_clean_native/dodge_UL_07.png",
+        "UL/frames_clean_native/dodge_UL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "dodge_UR",
+      "role": "dodge",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "UR/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        10,
+        5,
+        3,
+        3,
+        3,
+        5,
+        6,
+        10
+      ],
+      "duration_ticks": 45,
+      "duration_seconds": 0.75,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 225.309,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Some low-travel cels overlap sword and boot in screen space. Foreground ordering is plausible but does not prove3D/floor clearance.",
+        "Coat front skirt can form a third visible panel end in addition to the two rear tails."
+      ],
+      "package_id": "dodge",
+      "frame_files": [
+        "UR/frames_clean_native/dodge_UR_01.png",
+        "UR/frames_clean_native/dodge_UR_02.png",
+        "UR/frames_clean_native/dodge_UR_03.png",
+        "UR/frames_clean_native/dodge_UR_04.png",
+        "UR/frames_clean_native/dodge_UR_05.png",
+        "UR/frames_clean_native/dodge_UR_06.png",
+        "UR/frames_clean_native/dodge_UR_07.png",
+        "UR/frames_clean_native/dodge_UR_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lantern_DR",
+      "role": "lantern",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "DR/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        12,
+        7,
+        8,
+        10,
+        6,
+        8,
+        8,
+        14
+      ],
+      "duration_ticks": 73,
+      "duration_seconds": 1.2166666666666666,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 257.407,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Warm lantern pulse material lighting is baked into cel5; no separate FX layer."
+      ],
+      "package_id": "lantern",
+      "frame_files": [
+        "DR/frames_clean_native/lantern_DR_01.png",
+        "DR/frames_clean_native/lantern_DR_02.png",
+        "DR/frames_clean_native/lantern_DR_03.png",
+        "DR/frames_clean_native/lantern_DR_04.png",
+        "DR/frames_clean_native/lantern_DR_05.png",
+        "DR/frames_clean_native/lantern_DR_06.png",
+        "DR/frames_clean_native/lantern_DR_07.png",
+        "DR/frames_clean_native/lantern_DR_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lantern_DL",
+      "role": "lantern",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "DL/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        12,
+        7,
+        8,
+        10,
+        6,
+        8,
+        8,
+        14
+      ],
+      "duration_ticks": 73,
+      "duration_seconds": 1.2166666666666666,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 262.035,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Warm lantern pulse material lighting is baked into cel5; no separate FX layer.",
+        "Presentation reaches somewhat toward camera instead of strictly alongDL heading, with plausible shoulder/forearm motion."
+      ],
+      "package_id": "lantern",
+      "frame_files": [
+        "DL/frames_clean_native/lantern_DL_01.png",
+        "DL/frames_clean_native/lantern_DL_02.png",
+        "DL/frames_clean_native/lantern_DL_03.png",
+        "DL/frames_clean_native/lantern_DL_04.png",
+        "DL/frames_clean_native/lantern_DL_05.png",
+        "DL/frames_clean_native/lantern_DL_06.png",
+        "DL/frames_clean_native/lantern_DL_07.png",
+        "DL/frames_clean_native/lantern_DL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lantern_UL",
+      "role": "lantern",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "UL/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        12,
+        7,
+        8,
+        10,
+        6,
+        8,
+        8,
+        14
+      ],
+      "duration_ticks": 73,
+      "duration_seconds": 1.2166666666666666,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 238.953,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Warm lantern pulse material lighting is baked into cel5; no separate FX layer.",
+        "UL sharedready has the sword forward and occluded. These actions visibly carry the far sword trailing; transitioning to sharedready needs intentional weapon settling."
+      ],
+      "package_id": "lantern",
+      "frame_files": [
+        "UL/frames_clean_native/lantern_UL_01.png",
+        "UL/frames_clean_native/lantern_UL_02.png",
+        "UL/frames_clean_native/lantern_UL_03.png",
+        "UL/frames_clean_native/lantern_UL_04.png",
+        "UL/frames_clean_native/lantern_UL_05.png",
+        "UL/frames_clean_native/lantern_UL_06.png",
+        "UL/frames_clean_native/lantern_UL_07.png",
+        "UL/frames_clean_native/lantern_UL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lantern_UR",
+      "role": "lantern",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "UR/manifest_clean_native.json",
+      "source_status": "HUMAN_FIRST_PASS_TEST_CANDIDATE",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": false,
+      "tick_rate_hz": 60,
+      "holds_ticks": [
+        12,
+        7,
+        8,
+        10,
+        6,
+        8,
+        8,
+        14
+      ],
+      "duration_ticks": 73,
+      "duration_seconds": 1.2166666666666666,
+      "canvas_px": [
+        524,
+        524
+      ],
+      "pixels_per_unit": 265.432,
+      "pivot_top_left_px": [
+        262,
+        460
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12213740458015267
+      ],
+      "integration_confidence": "Fixed-cell integration estimate, not calibrated skeleton/ground solve; Approximate: pose/anatomy variation prevents exact world-height certification",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "Original cell-relative body motion retained; no root-motion track",
+      "limits": [
+        "Art-review candidate, not final production integration approval.",
+        "Eight original native drawings;60Hz videos use integer repeated holds, no interpolation.",
+        "Endpoints are new drawings, not pixel-identical to sharedready.",
+        "One approximate body-height density per entire clip. Body length/proportion and planted-foot drift remain possible within clip; no per-frame normalization.",
+        "Exact camera/0.78m blade/physical sword-ground clearance are NOT metrically certified from painted output.",
+        "No gameplay invulnerability, damage, collision, root-motion calculation or controller integration.",
+        "Warm lantern pulse material lighting is baked into cel5; no separate FX layer.",
+        "Far-side lantern uses a low outward left-side presentation to retain honest arm ownership; no overhead reach. Native cels1/5 swordtips cross nominal grid gutters, preserved with uniform40px padding and semantic alpha ownership."
+      ],
+      "package_id": "lantern",
+      "frame_files": [
+        "UR/frames_clean_native/lantern_UR_01.png",
+        "UR/frames_clean_native/lantern_UR_02.png",
+        "UR/frames_clean_native/lantern_UR_03.png",
+        "UR/frames_clean_native/lantern_UR_04.png",
+        "UR/frames_clean_native/lantern_UR_05.png",
+        "UR/frames_clean_native/lantern_UR_06.png",
+        "UR/frames_clean_native/lantern_UR_07.png",
+        "UR/frames_clean_native/lantern_UR_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          524,
+          524
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lunge_DR",
+      "role": "lunge",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "DR/lunge_lowcarry8_v01/clip.json",
+      "integration_metadata": "DR/approximate_integration/approximate_integration.json",
+      "source_status": "NATIVE_FIXED_CELL_IN_GAME_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 7,
+      "loop": true,
+      "playback_note": "Review loop repeats 01_READY at the end. The preserved 08_READY is not selected by this loop. Action integration is unvalidated.",
+      "timeline": [
+        {
+          "frame": "01_READY",
+          "start_tick": 0,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "02_LOAD",
+          "start_tick": 6,
+          "hold_ticks": 8
+        },
+        {
+          "frame": "03_DRIVE",
+          "start_tick": 14,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "04_THRUST",
+          "start_tick": 18,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "05_BRAKE",
+          "start_tick": 22,
+          "hold_ticks": 5
+        },
+        {
+          "frame": "06_RETRACT",
+          "start_tick": 27,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "07_RETURN",
+          "start_tick": 33,
+          "hold_ticks": 9
+        },
+        {
+          "frame": "01_READY",
+          "start_tick": 42,
+          "hold_ticks": 12
+        }
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 54,
+      "duration_seconds": 0.9,
+      "canvas_px": [
+        560,
+        510
+      ],
+      "pixels_per_unit": 233.882,
+      "pivot_top_left_px": [
+        230,
+        390
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4107142857142857,
+        0.23529411764705888
+      ],
+      "integration_confidence": "Approximate; scale uncertainty about 12%; pivot uncertainty 12px. Not physical calibration.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "omitted_faulty_source_cels": [],
+      "limits": [
+        "Body-only scale estimates approximately12%uncertain; pivots12\u201315pxuncertain.",
+        "Sourcefootdrift, posevariation and finite6\u20137unique-drawingloop timing remain.",
+        "DL06blade reversal omitted; somegazeoffaxis inDL2/3.",
+        "ULfar sword chain partlyhidden; no claim of fulltraceability.",
+        "GeneratedReady endpoints are not pixelidentical to sharedreadyfamily."
+      ],
+      "package_id": "lunge",
+      "frame_files": [
+        "DR/lunge_lowcarry8_v01/frames/01_READY.png",
+        "DR/lunge_lowcarry8_v01/frames/02_LOAD.png",
+        "DR/lunge_lowcarry8_v01/frames/03_DRIVE.png",
+        "DR/lunge_lowcarry8_v01/frames/04_THRUST.png",
+        "DR/lunge_lowcarry8_v01/frames/05_BRAKE.png",
+        "DR/lunge_lowcarry8_v01/frames/06_RETRACT.png",
+        "DR/lunge_lowcarry8_v01/frames/07_RETURN.png",
+        "DR/lunge_lowcarry8_v01/frames/08_READY.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          560,
+          510
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lunge_DL",
+      "role": "lunge",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "DL/clip.json",
+      "integration_metadata": "DL/approximate_integration.json",
+      "source_status": "NATIVE_ACTION_ART_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 6,
+      "loop": true,
+      "playback_note": "Review loop repeats 01_READY at the end. The preserved 08_READY is not selected by this loop. Action integration is unvalidated.",
+      "timeline": [
+        {
+          "frame": "01_READY",
+          "start_tick": 0,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "02_LOAD",
+          "start_tick": 6,
+          "hold_ticks": 8
+        },
+        {
+          "frame": "03_DRIVE",
+          "start_tick": 14,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "04_THRUST",
+          "start_tick": 18,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "05_BRAKE",
+          "start_tick": 22,
+          "hold_ticks": 7
+        },
+        {
+          "frame": "07_RETURN",
+          "start_tick": 29,
+          "hold_ticks": 13
+        },
+        {
+          "frame": "01_READY",
+          "start_tick": 42,
+          "hold_ticks": 12
+        }
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 54,
+      "duration_seconds": 0.9,
+      "canvas_px": [
+        684,
+        576
+      ],
+      "pixels_per_unit": 253.641,
+      "pivot_top_left_px": [
+        408,
+        444
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5964912280701754,
+        0.22916666666666663
+      ],
+      "integration_confidence": "Approximate; scale uncertainty about 12%; pivot uncertainty 15px. Not physical calibration.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "omitted_faulty_source_cels": [
+        "06_RETRACT"
+      ],
+      "limits": [
+        "Body-only scale estimates approximately12%uncertain; pivots12\u201315pxuncertain.",
+        "Sourcefootdrift, posevariation and finite6\u20137unique-drawingloop timing remain.",
+        "DL06blade reversal omitted; somegazeoffaxis inDL2/3.",
+        "ULfar sword chain partlyhidden; no claim of fulltraceability.",
+        "GeneratedReady endpoints are not pixelidentical to sharedreadyfamily."
+      ],
+      "package_id": "lunge",
+      "frame_files": [
+        "DL/frames/01_READY.png",
+        "DL/frames/02_LOAD.png",
+        "DL/frames/03_DRIVE.png",
+        "DL/frames/04_THRUST.png",
+        "DL/frames/05_BRAKE.png",
+        "DL/frames/06_RETRACT.png",
+        "DL/frames/07_RETURN.png",
+        "DL/frames/08_READY.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          684,
+          576
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lunge_UL",
+      "role": "lunge",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "UL/clip.json",
+      "integration_metadata": "UL/approximate_integration.json",
+      "source_status": "NATIVE_ACTION_ART_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 7,
+      "loop": true,
+      "playback_note": "Review loop repeats 01_READY at the end. The preserved 08_READY is not selected by this loop. Action integration is unvalidated.",
+      "timeline": [
+        {
+          "frame": "01_READY",
+          "start_tick": 0,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "02_LOAD",
+          "start_tick": 6,
+          "hold_ticks": 8
+        },
+        {
+          "frame": "03_DRIVE",
+          "start_tick": 14,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "04_THRUST",
+          "start_tick": 18,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "05_BRAKE",
+          "start_tick": 22,
+          "hold_ticks": 5
+        },
+        {
+          "frame": "06_RETRACT",
+          "start_tick": 27,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "07_RETURN",
+          "start_tick": 33,
+          "hold_ticks": 9
+        },
+        {
+          "frame": "01_READY",
+          "start_tick": 42,
+          "hold_ticks": 12
+        }
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 54,
+      "duration_seconds": 0.9,
+      "canvas_px": [
+        624,
+        572
+      ],
+      "pixels_per_unit": 254.706,
+      "pivot_top_left_px": [
+        307,
+        463
+      ],
+      "pivot_bottom_left_normalized": [
+        0.49198717948717946,
+        0.19055944055944052
+      ],
+      "integration_confidence": "Approximate; scale uncertainty about 12%; pivot uncertainty 15px. Not physical calibration.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "omitted_faulty_source_cels": [],
+      "limits": [
+        "Body-only scale estimates approximately12%uncertain; pivots12\u201315pxuncertain.",
+        "Sourcefootdrift, posevariation and finite6\u20137unique-drawingloop timing remain.",
+        "DL06blade reversal omitted; somegazeoffaxis inDL2/3.",
+        "ULfar sword chain partlyhidden; no claim of fulltraceability.",
+        "GeneratedReady endpoints are not pixelidentical to sharedreadyfamily."
+      ],
+      "package_id": "lunge",
+      "frame_files": [
+        "UL/frames/01_READY.png",
+        "UL/frames/02_LOAD.png",
+        "UL/frames/03_DRIVE.png",
+        "UL/frames/04_THRUST.png",
+        "UL/frames/05_BRAKE.png",
+        "UL/frames/06_RETRACT.png",
+        "UL/frames/07_RETURN.png",
+        "UL/frames/08_READY.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          624,
+          572
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "lunge_UR",
+      "role": "lunge",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "UR/clip.json",
+      "integration_metadata": "UR/approximate_integration.json",
+      "source_status": "NATIVE_ACTION_ART_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 7,
+      "loop": true,
+      "playback_note": "Review loop repeats 01_READY at the end. The preserved 08_READY is not selected by this loop. Action integration is unvalidated.",
+      "timeline": [
+        {
+          "frame": "01_READY",
+          "start_tick": 0,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "02_LOAD",
+          "start_tick": 6,
+          "hold_ticks": 8
+        },
+        {
+          "frame": "03_DRIVE",
+          "start_tick": 14,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "04_THRUST",
+          "start_tick": 18,
+          "hold_ticks": 4
+        },
+        {
+          "frame": "05_BRAKE",
+          "start_tick": 22,
+          "hold_ticks": 5
+        },
+        {
+          "frame": "06_RETRACT",
+          "start_tick": 27,
+          "hold_ticks": 6
+        },
+        {
+          "frame": "07_RETURN",
+          "start_tick": 33,
+          "hold_ticks": 9
+        },
+        {
+          "frame": "01_READY",
+          "start_tick": 42,
+          "hold_ticks": 12
+        }
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 54,
+      "duration_seconds": 0.9,
+      "canvas_px": [
+        642,
+        566
+      ],
+      "pixels_per_unit": 259.839,
+      "pivot_top_left_px": [
+        311,
+        463
+      ],
+      "pivot_bottom_left_normalized": [
+        0.48442367601246106,
+        0.1819787985865724
+      ],
+      "integration_confidence": "Approximate; scale uncertainty about 12%; pivot uncertainty 15px. Not physical calibration.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "omitted_faulty_source_cels": [],
+      "limits": [
+        "Body-only scale estimates approximately12%uncertain; pivots12\u201315pxuncertain.",
+        "Sourcefootdrift, posevariation and finite6\u20137unique-drawingloop timing remain.",
+        "DL06blade reversal omitted; somegazeoffaxis inDL2/3.",
+        "ULfar sword chain partlyhidden; no claim of fulltraceability.",
+        "GeneratedReady endpoints are not pixelidentical to sharedreadyfamily."
+      ],
+      "package_id": "lunge",
+      "frame_files": [
+        "UR/frames/01_READY.png",
+        "UR/frames/02_LOAD.png",
+        "UR/frames/03_DRIVE.png",
+        "UR/frames/04_THRUST.png",
+        "UR/frames/05_BRAKE.png",
+        "UR/frames/06_RETRACT.png",
+        "UR/frames/07_RETURN.png",
+        "UR/frames/08_READY.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          642,
+          566
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true
+    },
+    {
+      "clip_id": "run_DR",
+      "role": "run",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "manifest.json",
+      "source_status": "PLAYABLE_TEST_WITH_DISCLOSED_LIMITATIONS",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "holds_ticks": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 40,
+      "duration_seconds": 0.6666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pixels_per_unit": 275,
+      "ppu_status": "Approximate starting PPU from separate companion; not embedded in original runtime manifest.",
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "native_cell_pivot_top_left_px": [
+        218,
+        359
+      ],
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect_sizes_px": [
+        [
+          443,
+          443
+        ],
+        [
+          443,
+          444
+        ],
+        [
+          444,
+          443
+        ],
+        [
+          444,
+          444
+        ]
+      ],
+      "integration_confidence": "rough visual starting point, approximately\u00b115%; not measured engine calibration",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "In-place art. Source horizontal root removed; world movement must be chosen separately. Preserve authored vertical bob.",
+      "limits": [
+        "Eight held cels; no inbetweens generated or artificial blended frames.",
+        "Cell5 has naturally overlapping boots that read less clearly than other poses.",
+        "Left arm is a deliberate elevated torch-derived lantern carry, with less swing than sword arm.",
+        "Far-left patches mostly occluded; no patch forced onto right sleeve or right coat flap.",
+        "Left grip retains dark glove-like source shading.",
+        "Original straight blades have approximately\u00b110percent projected length variance; no destructive correction included.",
+        "Source contacts are joint proxies; illustrated sole/root alignment is approximate and not engine-tested."
+      ],
+      "package_id": "run_DR",
+      "frame_files": [
+        "frames/run_00.png",
+        "frames/run_01.png",
+        "frames/run_02.png",
+        "frames/run_03.png",
+        "frames/run_04.png",
+        "frames/run_05.png",
+        "frames/run_06.png",
+        "frames/run_07.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          1536,
+          1024
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true,
+      "integration_metadata": "run_import_companion.json",
+      "density_method": {
+        "reference_ready_ppu": 350,
+        "ruler": "Body-only cranial silhouette width; no sword, lantern, coat-tail or overall pose bounds. Measure alpha>32 across crown+8..37pixel rows, manually exclude shoulder/prop overlaps; use one median perclip.",
+        "same_heading_ready_width_px": 100,
+        "selected_run_widths_px": [
+          80,
+          79,
+          76,
+          75,
+          79
+        ],
+        "selected_source_sheet_cells_1based": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "exclusion_note": "DR6\u20138 andDL6 excluded from cranial-width pool because neighboring shoulder/arm silhouette contaminates the narrow measurement band. DLwrongsourcecel3 excluded entirely. No per-frame scaling follows from these exclusions.",
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest5PPU.",
+        "limitations": "Drawn hair volume, head tilt and stylization make this approximate. The one density is fixed across the fullclip; do not force each bent pose to equal standingheight."
+      },
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12890625
+      ]
+    },
+    {
+      "clip_id": "run_UL",
+      "role": "run",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "manifest.json",
+      "source_status": "PLAYABLE_TEST_WITH_DISCLOSED_LIMITATIONS",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "holds_ticks": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 40,
+      "duration_seconds": 0.6666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pixels_per_unit": 295,
+      "ppu_status": "Approximate starting PPU from separate companion; not embedded in original runtime manifest.",
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "native_cell_pivot_top_left_px": [
+        245,
+        390
+      ],
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect_sizes_px": [
+        [
+          443,
+          443
+        ],
+        [
+          443,
+          444
+        ],
+        [
+          444,
+          443
+        ],
+        [
+          444,
+          444
+        ]
+      ],
+      "integration_confidence": "rough visual starting point, approximately\u00b115%; not measured engine calibration",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "root_motion": "In-place art. Source horizontal root removed; world movement must be chosen separately. Preserve authored vertical bob.",
+      "limits": [
+        "Far-right sword arm and weapon are substantially occluded by coat in this rear view; unobservable anchors are null.",
+        "Original clean drawn sword projection retained; no destructive length-normalization edits.",
+        "Foot/root calibration is approximate; source contacts are joint proxies.",
+        "Eight held drawings only; no manufactured inbetweens or duplicate endpoint."
+      ],
+      "package_id": "run_UL",
+      "frame_files": [
+        "frames/run_00.png",
+        "frames/run_01.png",
+        "frames/run_02.png",
+        "frames/run_03.png",
+        "frames/run_04.png",
+        "frames/run_05.png",
+        "frames/run_06.png",
+        "frames/run_07.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          1536,
+          1024
+        ]
+      ],
+      "png_mode_check": true,
+      "declared_frame_sha256_match": true,
+      "integration_metadata": "run_import_companion.json",
+      "density_method": {
+        "reference_ready_ppu": 350,
+        "ruler": "Body-only cranial silhouette width; no sword, lantern, coat-tail or overall pose bounds. Measure alpha>32 across crown+8..37pixel rows, manually exclude shoulder/prop overlaps; use one median perclip.",
+        "same_heading_ready_width_px": 93,
+        "selected_run_widths_px": [
+          79,
+          79,
+          78,
+          77,
+          76,
+          76,
+          78,
+          79
+        ],
+        "selected_source_sheet_cells_1based": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "exclusion_note": "DR6\u20138 andDL6 excluded from cranial-width pool because neighboring shoulder/arm silhouette contaminates the narrow measurement band. DLwrongsourcecel3 excluded entirely. No per-frame scaling follows from these exclusions.",
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest5PPU.",
+        "limitations": "Drawn hair volume, head tilt and stylization make this approximate. The one density is fixed across the fullclip; do not force each bent pose to equal standingheight."
+      },
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12890625
+      ]
+    },
+    {
+      "clip_id": "sweep_DR",
+      "package_id": "sweep",
+      "role": "sweep",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "clips/world_positive_X/animation.json",
+      "source_status": "Root-reviewed compact native test; minor registration limits remain",
+      "source_drawings": 9,
+      "unique_drawings_in_selected_playback": 9,
+      "loop": "review player repeats timeline; combat behavior unvalidated",
+      "timeline_ms": [
+        {
+          "drawing": 0,
+          "duration_ms": 100,
+          "beat": "Ready"
+        },
+        {
+          "drawing": 1,
+          "duration_ms": 80,
+          "beat": "Load"
+        },
+        {
+          "drawing": 2,
+          "duration_ms": 110,
+          "beat": "Turn / chamber"
+        },
+        {
+          "drawing": 3,
+          "duration_ms": 130,
+          "beat": "Wind-up"
+        },
+        {
+          "drawing": 4,
+          "duration_ms": 55,
+          "beat": "Release"
+        },
+        {
+          "drawing": 5,
+          "duration_ms": 45,
+          "beat": "Crossing cut"
+        },
+        {
+          "drawing": 6,
+          "duration_ms": 65,
+          "beat": "Cut exit"
+        },
+        {
+          "drawing": 7,
+          "duration_ms": 115,
+          "beat": "Follow-through"
+        },
+        {
+          "drawing": 8,
+          "duration_ms": 110,
+          "beat": "Recover"
+        },
+        {
+          "drawing": 1,
+          "duration_ms": 100,
+          "beat": "Settle step"
+        },
+        {
+          "drawing": 0,
+          "duration_ms": 260,
+          "beat": "Ready return"
+        }
+      ],
+      "duration_ms": 1170,
+      "density_scope": "All runtime drawings use350PPU; earlier source-to-runtime processing differs from new headings.",
+      "drawings": [
+        {
+          "id": 0,
+          "label": "ready",
+          "file": "clips/world_positive_X/runtime/frames/00_ready.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/00_ready.png",
+          "native_source_sha256": "529b541b2f20d820ee81a6826afb3d6cd83ae6b6612790c50df1f9c3171d117d",
+          "runtime_sha256": "b79a4d3a92ee804ad41e1b86d5c2c7a2ccc9e7c5c7b402b5a15ad9cb5d4897f5"
+        },
+        {
+          "id": 1,
+          "label": "load_settle",
+          "file": "clips/world_positive_X/runtime/frames/01_load_settle.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/01_load_settle.png",
+          "native_source_sha256": "f70044b2e1b94db7b7ab07a6b1057905184e9d29fa454d5f08a706d7415992a5",
+          "runtime_sha256": "ac941442b7c3e5eaea3828b5039f6d5c479548acdac6259c4c459d8c7941b7a9"
+        },
+        {
+          "id": 2,
+          "label": "turn_chamber",
+          "file": "clips/world_positive_X/runtime/frames/02_turn_chamber.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/02_turn_chamber.png",
+          "native_source_sha256": "1398a4adb506653076dc2f96519efa57c1eba8c5b0db21f457b8f657b21ab883",
+          "runtime_sha256": "db7ee228f29c8774c13ed24f7e0fa4603aa772306a8fa43745cbfa234d4aace4"
+        },
+        {
+          "id": 3,
+          "label": "windup",
+          "file": "clips/world_positive_X/runtime/frames/03_windup.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/03_windup.png",
+          "native_source_sha256": "71e74069a5b8d6a1c115894c8a981966aa2737f55ff8934e9c37f51da8857be4",
+          "runtime_sha256": "fb3b0410a0b231d9c50cc5572187cfd046353945e058bdf9ccd73f8469f7251d"
+        },
+        {
+          "id": 4,
+          "label": "release",
+          "file": "clips/world_positive_X/runtime/frames/04_release.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/04_release.png",
+          "native_source_sha256": "dd500236b6993b373c41c551947895c3bf47b8f250387a0794cd69baf85df9aa",
+          "runtime_sha256": "061ffdd8c1c9ea4358ec58e526776363fbb71f0c36b4351b2cefa1e67ca077c6"
+        },
+        {
+          "id": 5,
+          "label": "crossing_cut",
+          "file": "clips/world_positive_X/runtime/frames/05_crossing_cut.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/05_crossing_cut.png",
+          "native_source_sha256": "55421c4ffd228f25a9efeb9cbd425fe9f0d9a9cb1e1ecde0a182a4bd954abb80",
+          "runtime_sha256": "e2b2e30916d0d5cfc9d2d0979c63889d989deb8229cfe61075e512841b8e4f29"
+        },
+        {
+          "id": 6,
+          "label": "cut_exit",
+          "file": "clips/world_positive_X/runtime/frames/06_cut_exit.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/06_cut_exit.png",
+          "native_source_sha256": "51cf6e709110ef97362244f0e3df047767779a61dad9eea61b5770b25518a03f",
+          "runtime_sha256": "21c9d677ef3ad13ca34ede16d4785ec2f81d872e6210944177e17f23d512f8dc"
+        },
+        {
+          "id": 7,
+          "label": "followthrough",
+          "file": "clips/world_positive_X/runtime/frames/07_followthrough.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/07_followthrough.png",
+          "native_source_sha256": "ce555649bb57069a9aef3b5e8354c6d25eb2846d0d4b9ac4889cd1c9d3323b1a",
+          "runtime_sha256": "e4c6de6a7fd0a4cea70a7590a223f8a219bdca041e1f1a218d4d8d5ba9a2204b"
+        },
+        {
+          "id": 8,
+          "label": "recover",
+          "file": "clips/world_positive_X/runtime/frames/08_recover.png",
+          "size": [
+            1280,
+            1000
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            635,
+            800
+          ],
+          "pivot_normalized_bottom_left": [
+            0.49609375,
+            0.2
+          ],
+          "native_source": "native/08_recover.png",
+          "native_source_sha256": "891dc653f001f60925a154053f3ca390b8d7e72d8172c71b75583894a71e1ab6",
+          "runtime_sha256": "bca65deb29f6f2f830bbbc7ddc125dcf3cbef54348ed7026a2621ddfd362f3cf"
+        }
+      ],
+      "frame_files": [
+        "clips/world_positive_X/runtime/frames/00_ready.png",
+        "clips/world_positive_X/runtime/frames/01_load_settle.png",
+        "clips/world_positive_X/runtime/frames/02_turn_chamber.png",
+        "clips/world_positive_X/runtime/frames/03_windup.png",
+        "clips/world_positive_X/runtime/frames/04_release.png",
+        "clips/world_positive_X/runtime/frames/05_crossing_cut.png",
+        "clips/world_positive_X/runtime/frames/06_cut_exit.png",
+        "clips/world_positive_X/runtime/frames/07_followthrough.png",
+        "clips/world_positive_X/runtime/frames/08_recover.png"
+      ],
+      "observed_png_count": 9,
+      "observed_png_dimensions_px": [
+        [
+          1280,
+          1000
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true,
+      "native_art_scale": null,
+      "native_resolution_caveat": "Runtime resampled from high-resolution native masters with whole-image Lanczos resize (rounded dimensions), followed by integer paste. Original masters retained. See sweep_runtime_sampling_contract.json for existing per-drawing transforms.",
+      "mirrored": false,
+      "integration_confidence": "Approximate registration; not seamless engine validation.",
+      "limits": [
+        "Earlier approved high-resolution independent masters, with whole-source uniform scale/translation in runtime frames. Original high-resolution natives included.",
+        "This +X clip retains the earlier approved shared ready artwork. It has not been silently replaced by the later four-direction ready sheet.",
+        "Final settling step reuses the existing load drawing. Minor foot/body repositioning remains."
+      ],
+      "sampling_contract_companion": "sweep_runtime_sampling_contract.json"
+    },
+    {
+      "clip_id": "sweep_DL",
+      "package_id": "sweep",
+      "role": "sweep",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "clips/world_positive_Z/animation.json",
+      "source_status": "Human-first poses and bounded recovery reviewed; native movement test with approximate joins",
+      "source_drawings": 9,
+      "unique_drawings_in_selected_playback": 9,
+      "loop": "review player repeats timeline; combat behavior unvalidated",
+      "timeline_ms": [
+        {
+          "drawing": 0,
+          "duration_ms": 110,
+          "beat": "Ready"
+        },
+        {
+          "drawing": 1,
+          "duration_ms": 80,
+          "beat": "Load"
+        },
+        {
+          "drawing": 2,
+          "duration_ms": 85,
+          "beat": "Turn"
+        },
+        {
+          "drawing": 3,
+          "duration_ms": 60,
+          "beat": "Chamber"
+        },
+        {
+          "drawing": 5,
+          "duration_ms": 45,
+          "beat": "Crossing"
+        },
+        {
+          "drawing": 4,
+          "duration_ms": 45,
+          "beat": "Sweep"
+        },
+        {
+          "drawing": 6,
+          "duration_ms": 55,
+          "beat": "Cut exit"
+        },
+        {
+          "drawing": 7,
+          "duration_ms": 85,
+          "beat": "Follow-through"
+        },
+        {
+          "drawing": 6,
+          "duration_ms": 110,
+          "beat": "Unwind"
+        },
+        {
+          "drawing": 8,
+          "duration_ms": 130,
+          "beat": "Return"
+        },
+        {
+          "drawing": 0,
+          "duration_ms": 240,
+          "beat": "Ready return"
+        }
+      ],
+      "duration_ms": 1045,
+      "density_scope": "Per drawing record: ready uses 350 PPU, action family uses one common density. Do not force a single density onto mixed ready/action timeline.",
+      "drawings": [
+        {
+          "id": 0,
+          "label": "Shared ready",
+          "file": "clips/world_positive_Z/ready_native.png",
+          "size": [
+            632,
+            688
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            301.0,
+            556.0
+          ],
+          "runtime_sha256": "13fcf64d6fcbef5b9b576f7f7129f9d93cc3ec44b004385a90ab2664d44a3c6c",
+          "native_source": "ready_native.png",
+          "native_source_sha256": "13fcf64d6fcbef5b9b576f7f7129f9d93cc3ec44b004385a90ab2664d44a3c6c",
+          "pivot_normalized_bottom_left": [
+            0.4762658227848101,
+            0.19186046511627908
+          ]
+        },
+        {
+          "id": 1,
+          "label": "Action source 0",
+          "file": "clips/world_positive_Z/action_frames/raw_00.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_00_native.png",
+          "native_source_sha256": "30aa0b07b40377d8fb6b447f6b0cbed3b456f8fc83aa79c25f623fe3d8290024",
+          "runtime_sha256": "8a26089fed75fc3d471b278af0c059af396a03e5f12180c5641c68ca81fa7e35",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            154,
+            122
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 2,
+          "label": "Action source 1",
+          "file": "clips/world_positive_Z/action_frames/raw_01.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_01_native.png",
+          "native_source_sha256": "446bbed6f6ad23937009dc5b425482195a38f2d74f038d5410f0ac9fa0725cdf",
+          "runtime_sha256": "dc2dc1ff399d1eb110dfc4415bdeb95e30ca0083f3fedb2f81217761c4d4313e",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            218,
+            109
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 3,
+          "label": "Action source 2",
+          "file": "clips/world_positive_Z/action_frames/raw_02.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_02_native.png",
+          "native_source_sha256": "f218da656f85d3721b63cb8d208a4d6203bbd1240db9966f7fc11782ad2910f6",
+          "runtime_sha256": "7b8df2ab8af6516a5569fc1faaaef0f2e68fb3b839059c1604a68d3cd0c24d2d",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            195,
+            123
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 4,
+          "label": "Action source 3",
+          "file": "clips/world_positive_Z/action_frames/raw_03.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_03_native.png",
+          "native_source_sha256": "badc1dc25897e5e51a1fe17fbe7c280dc2fb3e800c80878bab9fb7412447c94c",
+          "runtime_sha256": "0245b19c1e6d163185719c9f65b9bee076f88fb680b2753bac471783112e6fbc",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            103,
+            137
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 5,
+          "label": "Action source 4",
+          "file": "clips/world_positive_Z/action_frames/raw_04.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_04_native.png",
+          "native_source_sha256": "56fad9a6414cd98450dd85fd4a4eb6842480493188c97590d319429a9c8b6ec8",
+          "runtime_sha256": "f22212e318c2b383d60c2effc4157b563f9d4391ee84485f6ef6dc6f47325e62",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            164,
+            101
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 6,
+          "label": "Action source 5",
+          "file": "clips/world_positive_Z/action_frames/raw_05.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_05_native.png",
+          "native_source_sha256": "a8b14ac0a7c6ec0359d374cb02cf6cd14b1ff912f195c6eb0bd6456eda5a8b79",
+          "runtime_sha256": "7ec563aae4a206706fc69bbb891bbcaf76e738398d58172f391f54be0f163f5e",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            15,
+            90
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 7,
+          "label": "Action source 6",
+          "file": "clips/world_positive_Z/action_frames/raw_06.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_06_native.png",
+          "native_source_sha256": "592e36254e1f619e24bb1e9e7e629daf1f8a6f6bb1d80bc47f74cb7281e4cf37",
+          "runtime_sha256": "520ba5a27841f4bd3b6b889cb09d882174d51bf0ed0c0843df1c9751650a0085",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            144,
+            87
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 8,
+          "label": "Action source 7",
+          "file": "clips/world_positive_Z/action_frames/raw_07.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 243,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_07_native.png",
+          "native_source_sha256": "bd7539f3ad293215da7d819cad11bc52f59f98efe01eff3bb7020c90239161f9",
+          "runtime_sha256": "36e98cc2997559972bc25daa3c5c238f09af8bb43f183f367ee2402a2b98c89f",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            158,
+            72
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        }
+      ],
+      "frame_files": [
+        "clips/world_positive_Z/ready_native.png",
+        "clips/world_positive_Z/action_frames/raw_00.png",
+        "clips/world_positive_Z/action_frames/raw_01.png",
+        "clips/world_positive_Z/action_frames/raw_02.png",
+        "clips/world_positive_Z/action_frames/raw_03.png",
+        "clips/world_positive_Z/action_frames/raw_04.png",
+        "clips/world_positive_Z/action_frames/raw_05.png",
+        "clips/world_positive_Z/action_frames/raw_06.png",
+        "clips/world_positive_Z/action_frames/raw_07.png"
+      ],
+      "observed_png_count": 9,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ],
+        [
+          768,
+          640
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true,
+      "native_art_scale": 1,
+      "native_resolution_caveat": "Native action pixels preserved; per-cel integer placements following guide footprints are already baked into runtime frames.",
+      "mirrored": false,
+      "integration_confidence": "Approximate visual world scale; no metric camera certification or per-cel normalization.",
+      "limits": [
+        "Chamber raw2 blade crosses in front of left wrist/handle; plausible articulation but crowded separation. Brief exposure.",
+        "Raworder0,1,2,4,3,5,6,7 restores monotonic sweep direction; raw model ordering would reverse blade motion.",
+        "Followthrough\u2192return is a large return movement; not a second attack.",
+        "Shared ready and action texture use different sampling density without altering native pixels.",
+        "Small native foot/shape/prop variation remains.",
+        "No body warps, mirroring or per-cel resize.",
+        "Recovery v02 reuses raw5 once after follow-through as an intentional slower unwind, before lowering into ready. Original candidate preserved.",
+        "Shared ready nominal350PPU; one global action-sheet sampling density preserves native pixels while approximating matching world size.",
+        "One clip-wide offset aligns the visible ready foot reference; per-cel integer translations follow guide ground footprints. Foot locking is not guaranteed.",
+        "Selected recoveryv02 reuses the horizontal mid-sweep drawing at110ms to bridge high follow-through into low carry."
+      ]
+    },
+    {
+      "clip_id": "sweep_UL",
+      "package_id": "sweep",
+      "role": "sweep",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "clips/world_negative_X/animation.json",
+      "source_status": "Human-first poses and bounded recovery reviewed; native movement test with approximate joins",
+      "source_drawings": 9,
+      "unique_drawings_in_selected_playback": 9,
+      "loop": "review player repeats timeline; combat behavior unvalidated",
+      "timeline_ms": [
+        {
+          "drawing": 0,
+          "duration_ms": 110,
+          "beat": "Ready"
+        },
+        {
+          "drawing": 1,
+          "duration_ms": 80,
+          "beat": "Load"
+        },
+        {
+          "drawing": 2,
+          "duration_ms": 85,
+          "beat": "Turn"
+        },
+        {
+          "drawing": 3,
+          "duration_ms": 70,
+          "beat": "Chamber"
+        },
+        {
+          "drawing": 4,
+          "duration_ms": 45,
+          "beat": "Crossing"
+        },
+        {
+          "drawing": 5,
+          "duration_ms": 45,
+          "beat": "Sweep"
+        },
+        {
+          "drawing": 6,
+          "duration_ms": 55,
+          "beat": "Cut exit"
+        },
+        {
+          "drawing": 7,
+          "duration_ms": 85,
+          "beat": "Follow-through"
+        },
+        {
+          "drawing": 8,
+          "duration_ms": 130,
+          "beat": "Return"
+        },
+        {
+          "drawing": 0,
+          "duration_ms": 240,
+          "beat": "Ready return"
+        }
+      ],
+      "duration_ms": 945,
+      "density_scope": "Per drawing record: ready uses 350 PPU, action family uses one common density. Do not force a single density onto mixed ready/action timeline.",
+      "drawings": [
+        {
+          "id": 0,
+          "label": "Shared ready",
+          "file": "clips/world_negative_X/ready_native.png",
+          "size": [
+            632,
+            688
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            301.0,
+            556.0
+          ],
+          "runtime_sha256": "1af57d5b688327a20bdf97317694750ff54fe1bdbee1a5f31f91bdf667462beb",
+          "native_source": "ready_native.png",
+          "native_source_sha256": "1af57d5b688327a20bdf97317694750ff54fe1bdbee1a5f31f91bdf667462beb",
+          "pivot_normalized_bottom_left": [
+            0.4762658227848101,
+            0.19186046511627908
+          ]
+        },
+        {
+          "id": 1,
+          "label": "Action source 0",
+          "file": "clips/world_negative_X/action_frames/raw_00.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_00_native.png",
+          "native_source_sha256": "a3d4ba6729a63d88e00adb7a1bfcf95e945a79864fdc70c1ea40a460dbbb984b",
+          "runtime_sha256": "189f87ca14835a783a872b844b1ec1ce63595ee9759bd703653ebafc06c347ba",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            181,
+            226
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 2,
+          "label": "Action source 1",
+          "file": "clips/world_negative_X/action_frames/raw_01.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_01_native.png",
+          "native_source_sha256": "bbc6fc6e963009756099a1cbfccc71ba4623996a338cd4d36e6d603e4cc5774c",
+          "runtime_sha256": "fa17caa8d9bfd433dd54c57306eb1ea09a3d98b9230ce26875722fec351d3be9",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            158,
+            244
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 3,
+          "label": "Action source 2",
+          "file": "clips/world_negative_X/action_frames/raw_02.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_02_native.png",
+          "native_source_sha256": "05208f5cfa1242e722f2f45ab426ee8f00e60d94de82f686da98f81d550d79ff",
+          "runtime_sha256": "c9f415b3571198ba397c6ed4102c65bae15d46ef224adc339bb2d56c4e1d11e9",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            185,
+            276
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 4,
+          "label": "Action source 3",
+          "file": "clips/world_negative_X/action_frames/raw_03.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_03_native.png",
+          "native_source_sha256": "42a57f8b8fd3f3bf571bc6cdcabd4826c6a51e602d585a15b55e472f6de030a8",
+          "runtime_sha256": "981f6f103665fe508ae2630ad18b3e7f5df3db553820e80c2120a376d0f98fdc",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            76,
+            259
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 5,
+          "label": "Action source 4",
+          "file": "clips/world_negative_X/action_frames/raw_04.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_04_native.png",
+          "native_source_sha256": "ab77441d76e6de4cf3e72b6aff32ed58e7a1a9555e493277e1417873f3611148",
+          "runtime_sha256": "277db5f0bd59bc5ff5929f6630ca67a443025de364427ca542a545944d382ff5",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            49,
+            245
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 6,
+          "label": "Action source 5",
+          "file": "clips/world_negative_X/action_frames/raw_05.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_05_native.png",
+          "native_source_sha256": "148ee2c0d6a34a26ab2b3a3cc9466d12ceb004c73bfa4cae5558687f954c4646",
+          "runtime_sha256": "5a1221908c45d532fc538b7a22d1fc20bcd10c03960284fca46c1ff98444a52c",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            171,
+            190
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 7,
+          "label": "Action source 6",
+          "file": "clips/world_negative_X/action_frames/raw_06.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_06_native.png",
+          "native_source_sha256": "dd2fce89b194f4dec493f942cc96497e3f435d2f0a97412431b39b1c8915770f",
+          "runtime_sha256": "a06067a56c93c3cac484f7b30bc335ababfb596b2a61fa57e1babb22dc3a55c2",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            211,
+            223
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        },
+        {
+          "id": 8,
+          "label": "Action source 7",
+          "file": "clips/world_negative_X/action_frames/raw_07.png",
+          "size": [
+            768,
+            768
+          ],
+          "pixels_per_unit": 258,
+          "pivot_top_left": [
+            384.0,
+            650.0
+          ],
+          "native_source": "native_cels/cel_07_native.png",
+          "native_source_sha256": "be869c812009f40f2341109ffd919b5db2e4484271b9436adf1d82b4b6892a31",
+          "runtime_sha256": "24683e2e4b8059db3b0024d0ffa190d37c2dcfd04affa65f98938fb07ce89d6c",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            147,
+            228
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.15364583333333337
+          ]
+        }
+      ],
+      "frame_files": [
+        "clips/world_negative_X/ready_native.png",
+        "clips/world_negative_X/action_frames/raw_00.png",
+        "clips/world_negative_X/action_frames/raw_01.png",
+        "clips/world_negative_X/action_frames/raw_02.png",
+        "clips/world_negative_X/action_frames/raw_03.png",
+        "clips/world_negative_X/action_frames/raw_04.png",
+        "clips/world_negative_X/action_frames/raw_05.png",
+        "clips/world_negative_X/action_frames/raw_06.png",
+        "clips/world_negative_X/action_frames/raw_07.png"
+      ],
+      "observed_png_count": 9,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ],
+        [
+          768,
+          768
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true,
+      "native_art_scale": 1,
+      "native_resolution_caveat": "Native action pixels preserved; per-cel integer placements following guide footprints are already baked into runtime frames.",
+      "mirrored": false,
+      "integration_confidence": "Approximate visual world scale; no metric camera certification or per-cel normalization.",
+      "limits": [
+        "Compact chamber and raised crossing passed human-first/connected-grip review; hidden far-side anatomy remains visually assessed.",
+        "Freshv02 replaced rejectedv01 detached sword. Native order retained; projected sword arc rises through follow-through.",
+        "Followthrough\u2192return is a large return movement; not a second attack.",
+        "Shared ready and action texture use different sampling density without altering native pixels.",
+        "Small native foot/shape/prop variation remains.",
+        "No body warps, mirroring or per-cel resize.",
+        "Shared ready nominal350PPU; one global action-sheet sampling density preserves native pixels while approximating matching world size.",
+        "One clip-wide offset aligns the visible ready foot reference; per-cel integer translations follow guide ground footprints. Foot locking is not guaranteed.",
+        "Up-left ready sword is fully occluded by the coat under the exact projected far wrist-to-tip segment. Complete occlusion is physically defensible; unseen artwork cannot itself be certified.",
+        "Recovery reuse trial was rejected because it re-lifted the knee and read as a second action. Original direct return retained."
+      ]
+    },
+    {
+      "clip_id": "sweep_UR",
+      "package_id": "sweep",
+      "role": "sweep",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "clips/world_negative_Z/animation.json",
+      "source_status": "Human-first poses and bounded recovery reviewed; native movement test with approximate joins",
+      "source_drawings": 9,
+      "unique_drawings_in_selected_playback": 9,
+      "loop": "review player repeats timeline; combat behavior unvalidated",
+      "timeline_ms": [
+        {
+          "drawing": 0,
+          "duration_ms": 110,
+          "beat": "Ready"
+        },
+        {
+          "drawing": 1,
+          "duration_ms": 80,
+          "beat": "Load"
+        },
+        {
+          "drawing": 2,
+          "duration_ms": 60,
+          "beat": "Turn"
+        },
+        {
+          "drawing": 3,
+          "duration_ms": 75,
+          "beat": "Chamber"
+        },
+        {
+          "drawing": 4,
+          "duration_ms": 45,
+          "beat": "Crossing"
+        },
+        {
+          "drawing": 6,
+          "duration_ms": 45,
+          "beat": "Sweep"
+        },
+        {
+          "drawing": 5,
+          "duration_ms": 55,
+          "beat": "Cut exit"
+        },
+        {
+          "drawing": 7,
+          "duration_ms": 100,
+          "beat": "Follow-through"
+        },
+        {
+          "drawing": 8,
+          "duration_ms": 130,
+          "beat": "Return"
+        },
+        {
+          "drawing": 0,
+          "duration_ms": 240,
+          "beat": "Ready return"
+        }
+      ],
+      "duration_ms": 940,
+      "density_scope": "Per drawing record: ready uses 350 PPU, action family uses one common density. Do not force a single density onto mixed ready/action timeline.",
+      "drawings": [
+        {
+          "id": 0,
+          "label": "Shared ready",
+          "file": "clips/world_negative_Z/ready_native.png",
+          "size": [
+            632,
+            688
+          ],
+          "pixels_per_unit": 350,
+          "pivot_top_left": [
+            301.0,
+            556.0
+          ],
+          "runtime_sha256": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4",
+          "native_source": "ready_native.png",
+          "native_source_sha256": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4",
+          "pivot_normalized_bottom_left": [
+            0.4762658227848101,
+            0.19186046511627908
+          ]
+        },
+        {
+          "id": 1,
+          "label": "Action source 0",
+          "file": "clips/world_negative_Z/action_frames/raw_00.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_00_native.png",
+          "native_source_sha256": "445f46bd13a944d9a242325919d3c284f2ddbf5457e124e9f782aa10d49424a6",
+          "runtime_sha256": "d7ff69e1e61224d9c7aebfe28997249831f454c047c4aa8fee6010cb65d6eba5",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            182,
+            109
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 2,
+          "label": "Action source 1",
+          "file": "clips/world_negative_Z/action_frames/raw_01.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_01_native.png",
+          "native_source_sha256": "0980376c02ee7583db556986d7fb08abc67426a2727799396d97155b2d47657f",
+          "runtime_sha256": "ea348d8fab52d5306a052a2fb083af69098b1bce1e2cd4b2b1dc068a2e296f17",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            67,
+            171
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 3,
+          "label": "Action source 2",
+          "file": "clips/world_negative_Z/action_frames/raw_02.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_02_native.png",
+          "native_source_sha256": "7ec4aa978d073cff775ce487dbea532e099232836589313e0eca020fc98924bc",
+          "runtime_sha256": "0f8524499a66d28ef74f88eb5df975c271d57d8e1560e8d745b8b19524cd69ed",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            87,
+            140
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 4,
+          "label": "Action source 3",
+          "file": "clips/world_negative_Z/action_frames/raw_03.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_03_native.png",
+          "native_source_sha256": "3f7c63460ed22d43a7a0af1f8fe8812281d33bd63ed859b342528a91d5152560",
+          "runtime_sha256": "f789feb8ed80361bf1ff14a52080c276765655c134d1d6b593a8f77c12d09fb1",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            120,
+            108
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 5,
+          "label": "Action source 4",
+          "file": "clips/world_negative_Z/action_frames/raw_04.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_04_native.png",
+          "native_source_sha256": "7919c06a7295418e7ebf89c22e80e76b66e967d3264ff4b10eb530f50077e446",
+          "runtime_sha256": "952a84db62dda4749289166d66eec643fe271abb16bfc12ec7d45050cea72e7a",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            176,
+            135
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 6,
+          "label": "Action source 5",
+          "file": "clips/world_negative_Z/action_frames/raw_05.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_05_native.png",
+          "native_source_sha256": "5cba48256e3a8bdc9adb7168320089d745cdde2b8989c55fce9e30774fb7bd8f",
+          "runtime_sha256": "61e28750b06a73bdb4b108cd16ff85e9294ccd9e6d938840659f546858ae403b",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            120,
+            118
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 7,
+          "label": "Action source 6",
+          "file": "clips/world_negative_Z/action_frames/raw_06.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_06_native.png",
+          "native_source_sha256": "0edba87abce747e9d80496db7c804ef03243d4b95010188cd4ae0253650961ad",
+          "runtime_sha256": "682da306449493326e65848f1dc1e9bf84e91553b4eef1afa7313113d657b7af",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            120,
+            145
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        },
+        {
+          "id": 8,
+          "label": "Action source 7",
+          "file": "clips/world_negative_Z/action_frames/raw_07.png",
+          "size": [
+            768,
+            640
+          ],
+          "pixels_per_unit": 220,
+          "pivot_top_left": [
+            384.0,
+            500.0
+          ],
+          "native_source": "native_cels/cel_07_native.png",
+          "native_source_sha256": "426c69c66b1a0207c422e381af81077e8ff28eb2bb95ed86502963e382f77ccc",
+          "runtime_sha256": "8326f1c26716b03633a31475cc41545265c7b737446e19acfe2b86c072f7b97f",
+          "native_pixels_resampled": false,
+          "placement_integer_xy": [
+            118,
+            136
+          ],
+          "pivot_normalized_bottom_left": [
+            0.5,
+            0.21875
+          ]
+        }
+      ],
+      "frame_files": [
+        "clips/world_negative_Z/ready_native.png",
+        "clips/world_negative_Z/action_frames/raw_00.png",
+        "clips/world_negative_Z/action_frames/raw_01.png",
+        "clips/world_negative_Z/action_frames/raw_02.png",
+        "clips/world_negative_Z/action_frames/raw_03.png",
+        "clips/world_negative_Z/action_frames/raw_04.png",
+        "clips/world_negative_Z/action_frames/raw_05.png",
+        "clips/world_negative_Z/action_frames/raw_06.png",
+        "clips/world_negative_Z/action_frames/raw_07.png"
+      ],
+      "observed_png_count": 9,
+      "observed_png_dimensions_px": [
+        [
+          632,
+          688
+        ],
+        [
+          768,
+          640
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true,
+      "native_art_scale": 1,
+      "native_resolution_caveat": "Native action pixels preserved; per-cel integer placements following guide footprints are already baked into runtime frames.",
+      "mirrored": false,
+      "integration_confidence": "Approximate visual world scale; no metric camera certification or per-cel normalization.",
+      "limits": [
+        "Raw1 sword grip is occluded in front of the head; visible arm direction is plausible but hidden wrist is not fully certified. Brief exposure.",
+        "Raworder0,1,2,3,5,4,6,7 restores clockwise descending sweep direction; raw model ordering would reverse blade motion.",
+        "Wide stance returns toward common ready; native foot/pelvis placement is approximate.",
+        "Shared ready and action texture use different sampling density without altering native pixels.",
+        "Small native foot/shape/prop variation remains.",
+        "No body warps, mirroring or per-cel resize.",
+        "Shared ready nominal350PPU; one global action-sheet sampling density preserves native pixels while approximating matching world size.",
+        "One clip-wide offset aligns the visible ready foot reference; per-cel integer translations follow guide ground footprints. Foot locking is not guaranteed."
+      ]
+    },
+    {
+      "clip_id": "run_DL",
+      "package_id": "run_DL",
+      "role": "run",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "manifest.json",
+      "source_status": "PLAYABLE_TEST_WITH_DISCLOSED_LIMITATIONS",
+      "source_drawings": 7,
+      "original_source_sheet_cels": 8,
+      "unique_drawings_in_selected_playback": 7,
+      "loop": true,
+      "timeline_frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "holds_ticks": [
+        5,
+        7,
+        8,
+        5,
+        5,
+        5,
+        5
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 40,
+      "duration_seconds": 0.6666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pixels_per_unit": 320,
+      "ppu_status": "Approximate starting PPU from separate companion; not embedded in original runtime manifest.",
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "native_cell_pivot_top_left_px": [
+        245,
+        390
+      ],
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "native_art_scale": 1,
+      "mirrored": false,
+      "integration_confidence": "rough visual starting point, approximately\u00b115%; not measured engine calibration",
+      "retiming": {
+        "omitted_source_cell": 3,
+        "reason": "Wrong opposite leg phase in generated cel; excluded entirely.",
+        "remaining_source_ticks": [
+          0,
+          5,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "holds_ticks": [
+          5,
+          7,
+          8,
+          5,
+          5,
+          5,
+          5
+        ],
+        "note": "Missing5ticks redistributed +2to priorcel,+3to followingcel. Full40tickcycle remains, with larger2\u21924 spacing and unequal holds; no wrongpose/duplicate filler."
+      },
+      "limits": [
+        "Larger sourcecel2\u21924 spacing and unequal holds.",
+        "Boot detail varies; one sourceboot is simpler/unstrapped, preserved without new geometry.",
+        "Original clean drawn weapon proportions retained.",
+        "Observed anchors and root/foot calibration approximate; source contacts are joint proxies."
+      ],
+      "frame_files": [
+        "frames/run_00.png",
+        "frames/run_01.png",
+        "frames/run_02.png",
+        "frames/run_03.png",
+        "frames/run_04.png",
+        "frames/run_05.png",
+        "frames/run_06.png"
+      ],
+      "observed_png_count": 7,
+      "observed_png_dimensions_px": [
+        [
+          1536,
+          1024
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true,
+      "integration_metadata": "run_import_companion.json",
+      "density_method": {
+        "reference_ready_ppu": 350,
+        "ruler": "Body-only cranial silhouette width; no sword, lantern, coat-tail or overall pose bounds. Measure alpha>32 across crown+8..37pixel rows, manually exclude shoulder/prop overlaps; use one median perclip.",
+        "same_heading_ready_width_px": 95,
+        "selected_run_widths_px": [
+          86,
+          86,
+          87,
+          87,
+          87,
+          87
+        ],
+        "selected_source_sheet_cells_1based": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          8
+        ],
+        "exclusion_note": "DR6\u20138 andDL6 excluded from cranial-width pool because neighboring shoulder/arm silhouette contaminates the narrow measurement band. DLwrongsourcecel3 excluded entirely. No per-frame scaling follows from these exclusions.",
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest5PPU.",
+        "limitations": "Drawn hair volume, head tilt and stylization make this approximate. The one density is fixed across the fullclip; do not force each bent pose to equal standingheight."
+      },
+      "pivot_bottom_left_normalized": [
+        0.5,
+        0.12890625
+      ]
+    },
+    {
+      "clip_id": "hit_DR",
+      "package_id": "hit",
+      "role": "hit",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "hit_DR/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "variant": "recoil_and_recovery",
+      "loop": false,
+      "terminal_hold_indefinite": false,
+      "exit": "return to same-direction ready; exact join unverified",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "holds_ticks": [
+        3,
+        2,
+        3,
+        2,
+        2,
+        4,
+        5,
+        9
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 30,
+      "duration_seconds": 0.5,
+      "canvas_px": [
+        634,
+        637
+      ],
+      "pixels_per_unit": 254.6,
+      "pivot_top_left_px": [
+        315,
+        511
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4968454258675079,
+        0.19780219780219777
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {},
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified."
+      ],
+      "frame_files": [
+        "hit_DR/frames/hit_DR_01.png",
+        "hit_DR/frames/hit_DR_02.png",
+        "hit_DR/frames/hit_DR_03.png",
+        "hit_DR/frames/hit_DR_04.png",
+        "hit_DR/frames/hit_DR_05.png",
+        "hit_DR/frames/hit_DR_06.png",
+        "hit_DR/frames/hit_DR_07.png",
+        "hit_DR/frames/hit_DR_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          634,
+          637
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "hit_DL",
+      "package_id": "hit",
+      "role": "hit",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "hit_DL/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "variant": "recoil_and_recovery",
+      "loop": false,
+      "terminal_hold_indefinite": false,
+      "exit": "return to same-direction ready; exact join unverified",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "holds_ticks": [
+        3,
+        2,
+        3,
+        2,
+        2,
+        4,
+        5,
+        9
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 30,
+      "duration_seconds": 0.5,
+      "canvas_px": [
+        682,
+        594
+      ],
+      "pixels_per_unit": 245.6,
+      "pivot_top_left_px": [
+        344,
+        469
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5043988269794721,
+        0.21043771043771042
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {},
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified.",
+        "Source cel4 has5faint antialiased hair-fringe pixels on the native top edge (maximumalpha15/255). Kept as a disclosed tiny source crop; output padding does not restore that fringe. No selected limb/prop is clipped."
+      ],
+      "frame_files": [
+        "hit_DL/frames/hit_DL_01.png",
+        "hit_DL/frames/hit_DL_02.png",
+        "hit_DL/frames/hit_DL_03.png",
+        "hit_DL/frames/hit_DL_04.png",
+        "hit_DL/frames/hit_DL_05.png",
+        "hit_DL/frames/hit_DL_06.png",
+        "hit_DL/frames/hit_DL_07.png",
+        "hit_DL/frames/hit_DL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          682,
+          594
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true,
+      "known_source_crop": "Cel4 retains a faint five-pixel hair-fringe source-edge crop, alpha9/13/15/13/9. Padding does not restore missing source pixels; disclosed and not repaired."
+    },
+    {
+      "clip_id": "hit_UL",
+      "package_id": "hit",
+      "role": "hit",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "hit_UL/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "variant": "recoil_and_recovery",
+      "loop": false,
+      "terminal_hold_indefinite": false,
+      "exit": "return to same-direction ready; exact join unverified",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "holds_ticks": [
+        3,
+        2,
+        3,
+        2,
+        2,
+        4,
+        5,
+        9
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 30,
+      "duration_seconds": 0.5,
+      "canvas_px": [
+        682,
+        594
+      ],
+      "pixels_per_unit": 216.3,
+      "pivot_top_left_px": [
+        325,
+        472
+      ],
+      "pivot_bottom_left_normalized": [
+        0.47653958944281527,
+        0.20538720538720534
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {},
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified.",
+        "Far sword becomes exposed with a different carried angle from shared-ready. State transition needs engine review."
+      ],
+      "frame_files": [
+        "hit_UL/frames/hit_UL_01.png",
+        "hit_UL/frames/hit_UL_02.png",
+        "hit_UL/frames/hit_UL_03.png",
+        "hit_UL/frames/hit_UL_04.png",
+        "hit_UL/frames/hit_UL_05.png",
+        "hit_UL/frames/hit_UL_06.png",
+        "hit_UL/frames/hit_UL_07.png",
+        "hit_UL/frames/hit_UL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          682,
+          594
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "hit_UR",
+      "package_id": "hit",
+      "role": "hit",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "hit_UR/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "variant": "recoil_and_recovery",
+      "loop": false,
+      "terminal_hold_indefinite": false,
+      "exit": "return to same-direction ready; exact join unverified",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "holds_ticks": [
+        3,
+        2,
+        3,
+        2,
+        2,
+        4,
+        5,
+        9
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 30,
+      "duration_seconds": 0.5,
+      "canvas_px": [
+        682,
+        594
+      ],
+      "pixels_per_unit": 233.2,
+      "pivot_top_left_px": [
+        287,
+        479
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4208211143695015,
+        0.19360269360269355
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {},
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified."
+      ],
+      "frame_files": [
+        "hit_UR/frames/hit_UR_01.png",
+        "hit_UR/frames/hit_UR_02.png",
+        "hit_UR/frames/hit_UR_03.png",
+        "hit_UR/frames/hit_UR_04.png",
+        "hit_UR/frames/hit_UR_05.png",
+        "hit_UR/frames/hit_UR_06.png",
+        "hit_UR/frames/hit_UR_07.png",
+        "hit_UR/frames/hit_UR_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          682,
+          594
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "death_DR",
+      "package_id": "death",
+      "role": "death",
+      "direction": "DR",
+      "world_forward": [
+        1,
+        0,
+        0
+      ],
+      "source_metadata": "death_DR/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 6,
+      "unique_drawings_in_selected_playback": 6,
+      "variant": "backward_collapse",
+      "loop": false,
+      "terminal_hold_indefinite": true,
+      "exit": "last cel holds indefinitely; game owns reset/fade",
+      "timeline_source_cels": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "holds_ticks": [
+        4,
+        5,
+        5,
+        5,
+        7,
+        64
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 90,
+      "duration_seconds": 1.5,
+      "canvas_px": [
+        634,
+        637
+      ],
+      "pixels_per_unit": 258.3,
+      "pivot_top_left_px": [
+        289,
+        515
+      ],
+      "pivot_bottom_left_normalized": [
+        0.4558359621451104,
+        0.1915227629513344
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {
+        "2": "Sword-tip overlap tangent on near boot",
+        "8": "Outer boot cut by native sheet edge; complete cel7is terminal"
+      },
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified."
+      ],
+      "frame_files": [
+        "death_DR/frames/death_DR_01.png",
+        "death_DR/frames/death_DR_02.png",
+        "death_DR/frames/death_DR_03.png",
+        "death_DR/frames/death_DR_04.png",
+        "death_DR/frames/death_DR_05.png",
+        "death_DR/frames/death_DR_06.png"
+      ],
+      "observed_png_count": 6,
+      "observed_png_dimensions_px": [
+        [
+          634,
+          637
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "death_DL",
+      "package_id": "death",
+      "role": "death",
+      "direction": "DL",
+      "world_forward": [
+        0,
+        0,
+        1
+      ],
+      "source_metadata": "death_DL/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 8,
+      "unique_drawings_in_selected_playback": 8,
+      "variant": "backward_collapse",
+      "loop": false,
+      "terminal_hold_indefinite": true,
+      "exit": "last cel holds indefinitely; game owns reset/fade",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "holds_ticks": [
+        3,
+        4,
+        5,
+        5,
+        5,
+        6,
+        8,
+        54
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 90,
+      "duration_seconds": 1.5,
+      "canvas_px": [
+        682,
+        594
+      ],
+      "pixels_per_unit": 246.3,
+      "pivot_top_left_px": [
+        361,
+        484
+      ],
+      "pivot_bottom_left_normalized": [
+        0.5293255131964809,
+        0.18518518518518523
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {},
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified."
+      ],
+      "frame_files": [
+        "death_DL/frames/death_DL_01.png",
+        "death_DL/frames/death_DL_02.png",
+        "death_DL/frames/death_DL_03.png",
+        "death_DL/frames/death_DL_04.png",
+        "death_DL/frames/death_DL_05.png",
+        "death_DL/frames/death_DL_06.png",
+        "death_DL/frames/death_DL_07.png",
+        "death_DL/frames/death_DL_08.png"
+      ],
+      "observed_png_count": 8,
+      "observed_png_dimensions_px": [
+        [
+          682,
+          594
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "death_UL",
+      "package_id": "death",
+      "role": "death",
+      "direction": "UL",
+      "world_forward": [
+        -1,
+        0,
+        0
+      ],
+      "source_metadata": "death_UL/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 5,
+      "unique_drawings_in_selected_playback": 5,
+      "variant": "kneel_and_extinguish",
+      "loop": false,
+      "terminal_hold_indefinite": true,
+      "exit": "last cel holds indefinitely; game owns reset/fade",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds_ticks": [
+        5,
+        6,
+        9,
+        12,
+        58
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 90,
+      "duration_seconds": 1.5,
+      "canvas_px": [
+        704,
+        704
+      ],
+      "pixels_per_unit": 305.2,
+      "pivot_top_left_px": [
+        341,
+        601
+      ],
+      "pivot_bottom_left_normalized": [
+        0.484375,
+        0.14630681818181823
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {
+        "6": "Outermost sword tip reaches/clips native image edge. Complete cel5with bounded glass-only extinguish is terminal."
+      },
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified.",
+        "Intentional alternate death variant with bowed kneeling hold; not an exact rotation of DR/DL full collapse. Game may fade/reset from terminal."
+      ],
+      "frame_files": [
+        "death_UL/frames/death_UL_01.png",
+        "death_UL/frames/death_UL_02.png",
+        "death_UL/frames/death_UL_03.png",
+        "death_UL/frames/death_UL_04.png",
+        "death_UL/frames/death_UL_05.png"
+      ],
+      "observed_png_count": 5,
+      "observed_png_dimensions_px": [
+        [
+          704,
+          704
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    },
+    {
+      "clip_id": "death_UR",
+      "package_id": "death",
+      "role": "death",
+      "direction": "UR",
+      "world_forward": [
+        0,
+        0,
+        -1
+      ],
+      "source_metadata": "death_UR/clip.json",
+      "source_status": "HUMAN_FIRST_REVIEWED_NATIVE_RUNTIME_TEST",
+      "source_drawings": 6,
+      "unique_drawings_in_selected_playback": 6,
+      "variant": "kneel_and_extinguish",
+      "loop": false,
+      "terminal_hold_indefinite": true,
+      "exit": "last cel holds indefinitely; game owns reset/fade",
+      "timeline_source_cels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "holds_ticks": [
+        5,
+        6,
+        8,
+        10,
+        12,
+        49
+      ],
+      "tick_rate_hz": 60,
+      "duration_ticks": 90,
+      "duration_seconds": 1.5,
+      "canvas_px": [
+        704,
+        704
+      ],
+      "pixels_per_unit": 318.5,
+      "pivot_top_left_px": [
+        294,
+        613
+      ],
+      "pivot_bottom_left_normalized": [
+        0.41761363636363635,
+        0.12926136363636365
+      ],
+      "integration_confidence": "Approximate/low-to-moderate. Pivot estimated from first standing support and ready root offset, common for entire action. Needs engine contact/transition review.",
+      "scale_method": "Single whole-action initial standing crown-to-near-sole visual height ratio versus same-direction shared-ready. No per-cel normalization.",
+      "native_art_scale": 1,
+      "mirrored": false,
+      "excluded_source_cels": {},
+      "operations": [
+        "Native fixed-grid extraction with connected-figure gutter ownership; disconnected weak alpha background specks removed, original local alpha preserved",
+        "Uniform transparent padding",
+        "Native atlas reassembly",
+        "Native-pixel preview compositing"
+      ],
+      "limits": [
+        "Approximate visually matched camera; exact camera matrices apply to construction guides, not generated art.",
+        "One approximate PPU and one common pivot per action/heading; native pixels untouched by density setting.",
+        "Native sheet registration preserves authored body/ground movement. No per-frame recentering or scale fitting; residual drawing drift remains.",
+        "Blade length/width and coat hem redraw variation remain; no metric contact or seamless shared-ready join certified.",
+        "Intentional alternate death variant with bowed kneeling hold; not an exact rotation of DR/DL full collapse. Game may fade/reset from terminal."
+      ],
+      "frame_files": [
+        "death_UR/frames/death_UR_01.png",
+        "death_UR/frames/death_UR_02.png",
+        "death_UR/frames/death_UR_03.png",
+        "death_UR/frames/death_UR_04.png",
+        "death_UR/frames/death_UR_05.png",
+        "death_UR/frames/death_UR_06.png"
+      ],
+      "observed_png_count": 6,
+      "observed_png_dimensions_px": [
+        [
+          704,
+          704
+        ]
+      ],
+      "declared_frame_sha256_match": true,
+      "png_mode_check": true
+    }
+  ],
+  "import_warnings": [
+    {
+      "id": "scale_once",
+      "severity": "import_guardrail",
+      "summary": "Use the declared density scope for each package: most clips have one PPU; sweep timelines mix a ready drawing at350PPU with an action family at its own common PPU. Do not combine density compensation with another body_scale_ratio/density_factor_to_ready or already-baked registration transform."
+    },
+    {
+      "id": "pivot_space",
+      "severity": "import_guardrail",
+      "summary": "Pixel pivots use top-left origin; Unity normalized pivots use bottom-left. For width W,height H, convert (x/W,1-y/H). Do not Y-flip an already normalized bottom-left value."
+    },
+    {
+      "id": "run_atlas_canvas",
+      "severity": "high",
+      "summary": "Choose padded run PNGs or native atlas slices. Padded root is (768,892); native cell roots are DR(218,359), UL/DL(245,390). Common translations are already baked into padded files; do not apply them again. Atlas rectangle widths/heights include 443/444px variation; use exact rectangles and the included companion."
+    },
+    {
+      "id": "run_missing_ppu",
+      "severity": "resolved_by_companion",
+      "summary": "Original run ZIPs lack PPU. Included run_import_companion.json supplies approximate starting densities DR275,UL295,DL320 (about\u00b115%) plus exact atlas coordinate conversions. Runtime ZIPs remain unchanged except DL was resealed before first delivery for isolated neighboring-cell alpha bleed."
+    },
+    {
+      "id": "lunge_dr_companion",
+      "severity": "high",
+      "summary": "DR original clip intentionally leaves physical PPU/root null. Use DR/approximate_integration/approximate_integration.json for optional approximate integration, not the padding origin (48,24). Other headings store estimates directly; schemas differ."
+    },
+    {
+      "id": "timing",
+      "severity": "high",
+      "summary": "60Hz is a tick timebase, not one fresh drawing per tick. Honor per-cel holds. Lunge selected loops use only 7/6/7/7 unique drawings for DR/DL/UL/UR despite preserving 8 files each; DL06_RETRACT is omitted."
+    },
+    {
+      "id": "transition_limits",
+      "severity": "known_limit",
+      "summary": "Endpoints are generally newly drawn, not identical shared-ready pixels. Source foot/body drift, redraw shimmer and scale uncertainty remain. UL dodge/lantern carries a visible trailing far sword while shared ready occludes it forward; intentional settling is needed."
+    },
+    {
+      "id": "ruler_disagreement",
+      "severity": "known_limit",
+      "summary": "Body rulers differ slightly across families (ready/idle DR564,DL562,UL599,UR565px; dodge/lantern reference DR567,DL565,UL602,UR567px). They are approximate visual measurements, not exact shared calibration. Do not silently normalize individual cels."
+    },
+    {
+      "id": "source_vs_runtime",
+      "severity": "import_guardrail",
+      "summary": "Some runtime manifests cite original source sheets absent from runtime-only ZIPs; use separate source companions for provenance. Lunge external_preview and source paths may be producer-local; bundled four-heading review is the portable preview."
+    },
+    {
+      "id": "movement",
+      "severity": "import_guardrail",
+      "summary": "Run source travel (~2.755m/stride, ~4.133m/s) is reference data, not validated game speed. No package here establishes gameplay root motion, collisions, invulnerability or damage. Avoid applying source displacement on top of controller motion."
+    },
+    {
+      "id": "sweep_mixed_contract",
+      "severity": "high",
+      "summary": "Sweep DR runtime is1280\u00d71000,350PPU,pivot(635,800), with earlier source scale/translation and a legacy ready drawing. New-heading ready is632\u00d7688,350PPU,pivot(301,556); action DL768\u00d7640,243PPU,pivot(384,500); UL768\u00d7768,258PPU,pivot(384,650); UR768\u00d7640,220PPU,pivot(384,500). Follow per-drawing metadata. Baked per-cel placements must not be applied a second time."
+    },
+    {
+      "id": "death_variants_and_terminal",
+      "severity": "high",
+      "summary": "DeathDR/DL are backward collapse; UL/UR are alternate kneel/extinguish, not four identical rotations. All play90ticks at60Hz then hold last art indefinitely; game owns reset/fade. Never loop a death clip."
+    },
+    {
+      "id": "hit_death_review_limits",
+      "severity": "known_limit",
+      "summary": "Hit/death ordered stills and encoded timing were checked, but real-time playback was not visually certified. HitDLcel4 retains five faint source-edge hair-fringe pixels (maxalpha15/255); source crop disclosed, not repaired."
+    }
+  ],
+  "held_or_excluded": [
+    {
+      "asset": "UR run latest trial",
+      "path": "run_mixamo_directional_01/",
+      "status": "HELD_NOT_RUNTIME_READY",
+      "reason": "Latest single-lantern rear view still reads as bracing an arm behind the neck with the lantern beside the face. Earlier rejected variants also had duplicate lamps or off-model details. UR is deferred; no mirrored substitute.",
+      "evidence": "run_mixamo_directional_01/RUN_TASK_STATUS.txt"
+    },
+    {
+      "asset": "Old 26-drawing run",
+      "path": "run_cycle/",
+      "status": "REJECTED_BY_USER",
+      "reason": "Anatomical limb swapping and incoherent stride topology. Older artwork-approved flags are superseded.",
+      "evidence": "run_cycle/REJECTED_STATUS.txt"
+    },
+    {
+      "asset": "Overhead-lantern gameplay lunge, including gameplay_lunge_test_v02",
+      "path": "lunge_gameplay_v01/",
+      "status": "REJECTED_BY_USER",
+      "reason": "Implausible behind-head lantern-arm articulation. Excluded from low-carry replacement.",
+      "evidence": "lunge_gameplay_v01/REJECTED_NOTICE.txt"
+    },
+    {
+      "asset": "Rising attack",
+      "path": "sword_combo/rising_fill/",
+      "status": "REJECTED_BY_USER_SCRAPPED",
+      "reason": "User scrapped this attack. Prior technical approval does not authorize reuse.",
+      "evidence": "sword_combo/PRODUCTION_HOLD_2026-10-07.json"
+    },
+    {
+      "asset": "Diagonal attack and heavy attack",
+      "path": "sword_combo/",
+      "status": "ON_HOLD",
+      "reason": "Not rejected wholesale; no production or delivery advance from old approval flags.",
+      "evidence": "sword_combo/READ_FIRST_PRODUCTION_HOLD.txt"
+    },
+    {
+      "asset": "16-drawing gameplay run and sparse repair run",
+      "path": "run_production_16_gameplay/; run_repair_v04/",
+      "status": "WIP_NOT_DELIVERABLE",
+      "reason": "Incoherent motion/scale and rejected art candidates. Do not use as replacement runtime.",
+      "evidence": [
+        "run_production_16_gameplay/README_WIP.txt",
+        "run_repair_v04/sparse_cycle_gate/ART_REVIEW_STATUS.txt"
+      ]
+    },
+    {
+      "asset": "Old sweep three-key study",
+      "path": "reference_led_attacks/sweep_study/",
+      "status": "REJECTED_BY_USER",
+      "reason": "Wrong sword-hand read and awkward posing. Does not apply to new separately versioned sweep.",
+      "evidence": "reference_led_attacks/sweep_study/REJECTED_STATUS.txt"
+    },
+    {
+      "asset": "Other old-camera / near-horizontal or legacy packages",
+      "path": "delivery/; dash_flare/; hit_death/; ready_idle/; shared_states/; reference_led_attacks/",
+      "status": "NOT_IN_CURRENT_SELECTION",
+      "reason": "Historical files and references are not the current gameplay-view test allowlist. Do not bulk-import the project root or substitute these for current packages. This is not a blanket artistic rejection."
+    },
+    {
+      "asset": "Rear-facing full-supine death trials and omitted damaged cels",
+      "path": "hit_death_compact8_v01/",
+      "status": "HELD_OUT_OF_SELECTED_RUNTIME",
+      "reason": "Supine trials had torso/patch/lantern-arm problems. DRdeath sourcecel2blade/boot tangent and clippedcel8 excluded; ULkneel clippedcel6 excluded, completecel5 terminal with bounded glass-only darkening.",
+      "evidence": "hit_death_compact8_v01/delivery/QA_summary.json"
+    }
+  ],
+  "pending_additions": [],
+  "delivery_notes": {
+    "drive_folder": "https://drive.google.com/drive/folders/1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N",
+    "source_companion_exception": {
+      "filename": "Lantern_Dodge_4Directions_Sources.zip",
+      "drive_status": "upload tool cancelled; not retried; do not assume present in Drive",
+      "library_file_id": "libfile_2161af73558081919b8632ce4779b4b2",
+      "runtime_drive_status": "verified"
+    },
+    "dr_run_chat_attachments": "uncertain; do not claim delivered. Drive verification recorded separately.",
+    "dl_and_import_companion_drive_receipt": "run_dl_drive_receipt.json",
+    "hit_death_drive_receipt": "hit_death_compact8_v01/delivery/drive_receipt.json",
+    "death_source_selection": "Use NativeSources_v02 only. Earlier unversioned Death NativeSources was superseded before upload; no artwork or runtime change."
+  },
+  "validation": {
+    "zip_crc": "Passed for all 10 selected runtime packages.",
+    "individual_png_records": 240,
+    "png_modes": "all inspected individual frames RGBA",
+    "frame_dimensions": "read from actual PNG headers and recorded per clip",
+    "declared_frame_hashes": "All individually declared selected-frame SHA-256 values in ready, dodge, lantern, lunge, run, sweep and hit/death metadata matched. Idle checks include ZIPCRC/PNGheaders/count; no per-frame hash is declared in its clip.json.",
+    "scope_limit": "Structural inventory only; no new visual acceptance, exact calibration or engine QA claim.",
+    "run_atlas_to_padded_rgba": "All23DR/DL/UL atlas slices reconstruct padded frames exactly using declared common translations.",
+    "run_companion_manifest_hashes": "All3companion manifest hashes match current DR/UL/DL runtime ZIPs; per-slice rectangle and pivot conversions checked.",
+    "selected_runtime_packages": 10,
+    "clip_records": 35,
+    "final_archive_hash_recheck": "All runtime package hashes still match immediately before index ZIP creation.",
+    "death_source_v02_change_scope": "Compared archive entries: changed qa/death_UL_terminal5_glass_masks.png and qa/traditional_corrections.json; added README_Source_Companion_v02.txt, SHA256SUMS.txt and qa/source_integrity_correction.json. All other common members, including source art, identical. Death runtime SHA unchanged.",
+    "hit_death_final_independent_audit": "Passed per delivery coordinator. Ordered-still/encoded-timing and real-time-playback scope caveats remain as documented; this does not establish game integration or user acceptance."
+  },
+  "included_companions": [
+    {
+      "file": "sweep_runtime_sampling_contract.json",
+      "source_local_path": "sweep_four_headings_native_v01/runtime_sampling_contract.json",
+      "sha256": "02362051a55c95a8c18c6c4fb83b6b5eea9e43e261f61edc5ce50cc5b360bb9a",
+      "purpose": "Existing sweep sampling/registration provenance, copied unchanged."
+    },
+    {
+      "file": "run_import_companion.json",
+      "source_local_path": "run_integration_companion_v01/run_import_companion.json",
+      "sha256": "3319f855fddef6f1cce7bae2fb3b43057f5dee975e7b8abeab65c72839772b2f",
+      "purpose": "Existing approximate run import companion, copied unchanged."
+    },
+    {
+      "file": "run_import_README.txt",
+      "source_local_path": "run_integration_companion_v01/README.txt",
+      "sha256": "9277428bbda62e7a0c03297f565cf47da941d0a3b65c75b30a66b752dbca5ac4",
+      "purpose": "Existing approximate run import companion, copied unchanged."
+    }
+  ],
+  "coverage": {
+    "ready": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "idle": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "dodge": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "lantern": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "lunge": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "sweep": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "hit": [
+      "DR",
+      "DL",
+      "UL",
+      "UR"
+    ],
+    "death": {
+      "DR": "backward_collapse",
+      "DL": "backward_collapse",
+      "UL": "kneel_and_extinguish",
+      "UR": "kneel_and_extinguish"
+    },
+    "run": {
+      "selected": [
+        "DR",
+        "DL",
+        "UL"
+      ],
+      "held_missing": [
+        "UR"
+      ],
+      "mirror_substitution_allowed": false
+    }
+  }
+}

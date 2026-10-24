@@ -1,0 +1,63 @@
+# Lantern walk: original 8 versus interleaved 16
+
+Status: controlled density review test. This package is not production-approved, calibrated d135, or certified engine-ready.
+
+## Review
+Start with preview/AB_original8_vs_test16_100s.mp4. Left is the untouched eight-drawing baseline; right is the interleaved sixteen-drawing test. Both repeat a one-second cycle five times.
+
+preview/test16_100s.mp4 is the sixteen-drawing-only view. preview/AB_original8_vs_test16_ground_guide.mp4 adds the same approximate sloped reference tracks to both sides. All MP4 files contain exactly 300 frames at 60 Hz and last 5.000 seconds.
+
+The large view uses the untrimmed 512 × 640 canvas at 1× scale. Small views apply one uniform affine scale of 163/493 or 122/493 to every full canvas on both sides. The 493 px value is a shared reference height, not each drawing's measured height: poses can appear taller or shorter. There is no per-frame fitting, centering, warping, optical flow, tweening, frame blending, imposed bob, or temporal smoothing in this packaging step. H.264 delivery compression is lossy; the import PNGs and atlases are lossless.
+
+## Separate import sets
+- original8_import/ contains the original eight PNG files and a 4 × 2 atlas.
+- test16_import/ contains sixteen PNGs in order old 01, new 01, old 02, new 02, …, old 08, new 08, plus a 4 × 4 atlas.
+- Each canvas is 512 × 640 with root (256,572) from top left, (256,68) from bottom left, or normalized bottom-origin pivot (0.5,0.10625).
+- Each atlas cell is 528 × 656: an 8 px transparent gutter on all four sides. Rectangles in the JSON exclude gutters. The 16-frame atlas is 2112 × 2624.
+- Keep the supplied full canvas and a single shared sprite scale for every frame. Metadata is engine-neutral; this is not a preconfigured Unity asset or an engine integration claim.
+
+## Controlled timing
+Original 8 holds at 60 Hz: [9,8,7,6,9,8,7,6].
+Test 16 holds at 60 Hz: [5,4,4,4,4,3,3,3,5,4,4,4,4,3,3,3].
+Both total 60 ticks = 1 second. Original phase onsets remain [0,9,17,24,30,39,47,54] ticks. New drawings replace the latter part of each old hold; they do not move the next old key's onset. Retaining phase onsets does not retain the old key's full display duration. The final new drawing is held at ticks 57–59 before original 01 returns at tick 60.
+
+This is an A/B test of adding eight separately illustrated drawings to an unchanged baseline at the same cadence. It is not a pure drawing-count experiment isolated from illustration quality: new drawings can introduce pose, silhouette, scale, cloth, face, sword, and lantern inconsistencies. Distinct hashes verify distinct pixels, not artistic quality or accurate anatomy. A smoother result is an open review question, not a claim.
+
+## New drawing sources and normalization
+Only test16_import/frames/ contains the final sixteen-frame playback assets. Source masters are an audit trail and include rejected attempts. B1–B8 and N01–N08 refer to the same eight new drawings.
+
+The six selected sheet drawings (B1, B2, B4, B5, B6, B8) were extracted at native 1.0 scale from inbetween_master_02.png. The separately redrawn B3 was normalized once with a uniform isotropic 0.41 scale from b3_06.png; B7 used uniform 0.42 from b7_04.png. Their source illustrations were higher resolution. All registered PNGs are then copied without additional resizing or displacement. Source normalization is recorded openly; the A/B preview still applies exactly the same display scaling to every registered frame.
+
+Source selection:
+- inbetween_master_01.png: Rejected: wrong scale and B3/B7 poses
+- inbetween_master_02.png: Selected B1,B2,B4,B5,B6,B8 only
+- critical_pair_03.png: Rejected: wide stride and near-coat patch regression
+- b7_04.png: Selected B7
+- b3_05.png: Rejected: far bracer wrong
+- b3_06.png: Selected B3
+
+New-art review limitations:
+- Original 8 key drawings are untouched; original approximate camera/ground and prop variation remain.
+- New source drawings add small costume/face/prop and anatomical differences; this is an animation-density review test, not certified production artwork.
+- In-betweens are newly illustrated interpretations; some phases are closer to one neighboring key rather than a mathematically interpolated midpoint.
+- No frame blending or temporal interpolation.
+- B3 and B7 passed visual review as genuine short-reach stages between their original neighbors; this is a qualitative illustration review, not motion-capture or anatomical certification.
+- B1 sword wrist swings approximately 30 px farther back than either original O01/O02 before returning, which can cause flicker.
+- B6 sword arm and lantern remain close to O06 rather than halfway toward O07, so the arm/prop transition is uneven.
+- B1 and B5 trailing-foot/arm silhouettes can be wider than a strict midpoint between neighboring originals.
+- Leg poses progress and all sixteen frames are distinct illustrations, but residual pose/detail flicker remains; this test does not claim completely smooth animation.
+- B7/N07 lantern appears slimmer than its neighboring original drawings; residual prop, body, and line variation can still flicker.
+
+All new generation prompts also requested “Sunburst 2.5 (gpt-image-2.5-sunburst)”; the actual generation backend was not exposed or verified. The source-selection JSON preserves which figures were used and each selected master's hash. source/register_new_frames.py is the verbatim registration script; its original authoring folder layout must be reconstructed to rerun it. raw_new_figures preserves the selected native source crops before normalization. preview/transition_checks/ contains the supplied old/new/old triplets, including the critical B3 and B7 transitions.
+
+## Inherited limitations
+The requested nominal d135 heading should project horizontally toward screen right under the requested camera. The baseline art instead implies slightly down-right travel, with approximate slope +0.18 y/x (about 10.2°). No exact horizontal d135 projection or calibrated 3D camera is established. The requested 35.2643897° camera elevation and 45° azimuth are illustration targets, not measured geometry.
+
+Original frames 04 and 08 draw the forward reaching boot lower than the rear supporting toe; on a horizontal floor the forward boot intersects the expected ground. The approximate sloped guides do not solve that geometry. Foot plants and opposite-foot clearance remain uncertified. Baseline passing-to-up transitions 03→04 and 07→08 open abruptly. The original frame 06 rear lantern and frame 07 sword vary in apparent size, and cloth/body/item details vary. The originals are unchanged, so their limitations remain. New in-betweens do not certify their correction.
+
+The source eight are AI-generated frame-by-frame illustrations, not a claim that a human artist hand-drew them. Their prompt requested “Sunburst 2.5 (gpt-image-2.5-sunburst)”; the generation tool did not expose or verify its backend model. New source prompts, masters, and registration are preserved when supplied. This packaging script only copies, combines, and previews completed drawings.
+
+## Audit and source material
+integrity.json records per-frame file and RGBA hashes, original-copy byte/pixel matches, distinctness checks, unchanged phase onsets, source-package immutability, atlas round trips, and alpha bounds. SHA256SUMS.json covers all packaged files except itself. playback_schedule_60hz.json lists the complete one-cycle tick schedule. preview/media_validation.json records ffprobe results and rendered-frame input hashes. source/original8/ contains the original README, metadata, and supplied source material. source/new16/ contains new registration and supplied sources: source, source_prompts, source_masters, raw_new_figures.
+
+The original review package is read-only input and is not edited. No other headings, attacks, animations, engine changes, publication, or uploads are performed here.

@@ -1,0 +1,23 @@
+LANTERN KNIGHT — MODULAR UI KIT
+
+21 production PNG layers/masks; nine assembled 24 fps state animations; one standalone illustrated 8-pose flame loop at 8 fps. Animation metadata, PNG frames and atlases included. Native generated artwork is in the separate sources package.
+
+VESSELS
+All layers use a 1254×1254 canvas; scale uniformly. Stack optional backing, clipped health/mana fill, optional glass tint, independent highlights, bezel, native runtime text. Use vessel_mask. Fill y = 927 - 645 * clamp(value/max,0,1). This means visible aperture HEIGHT, not circular area. Keep text out of sprites. Blank plate placement and anchors are in ui_metadata.json.
+
+CHARGE
+Housing canvas 1024×1536. Fill window [433,465,157,683], bottom-to-top. When full, optionally play charge_flame_overlay at 8 fps. It has eight illustrated poses, 256×512 frames, pivot [.5,.8984375], 4×2 atlas. Place at [392,500,240,720] and clip to charge_mask before the housing.
+
+PANELS / SLOTS
+panel_9slice is 1468×640, source insets 160 pixels each side. Preserve corners, stretch only middle edge strips, leave center transparent. Display border width can be smaller (e.g. 35 CSS px); minimum source-coordinate panel size 320×320. Reward ornament is a separate top-center child. Ability bezel is uniformly scaled, not 9-sliced. Runtime icon/text/cooldown goes behind/above the relevant layers. Menu, tooltip, reward and status frames share the same border system.
+
+MOTION
+Idle, low-health and charge-ready loop. Deplete, refill, selection, reward, cooldown and activation are one-shot. Nine state animations are assembled from modular illustrated art using fill/opacity/scale/slide changes. The standalone flame loop has eight illustrated poses; activation uses an illustrated corner-spark overlay with a mechanical opacity envelope.
+
+State atlases: six columns, 320×320 frames; exact rectangles in JSON. Add 2–4px padding/extrusion when repacking for filtered game atlases. Clamp texture edges; no repeat. PNGs use straight alpha; art in sRGB, masks linear. Registered canvases must not be tightly recropped independently. No engine project was changed.
+
+RESPONSIVE DEMO
+Open index.html with the folders beside it. Flexible grid, live health/mana/charge sliders, editable text, resizable panel. It imposes no fixed full-screen HUD. Demo JavaScript syntax was checked, but browser runtime testing was blocked in the build environment; test it and engine import in your target runtime.
+
+REDUCED MOTION
+Use static/ examples or freeze effects at a stable frame. Keep functional live values and native text updating. Disable wave, pulse, sparks, and animated embers; use a steady fill/ready state. The supplied static frames are examples, not fixed values required by gameplay.

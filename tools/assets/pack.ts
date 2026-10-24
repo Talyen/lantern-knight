@@ -41,6 +41,16 @@ const preparation = z.strictObject({
   payloadSha256: hash,
 });
 export const LockSchema = z.union([
+  z
+    .strictObject({ schemaVersion: z.literal(5), ...identityFields, preparation })
+    .superRefine((pin, ctx) => {
+      if (
+        createHash('sha256').update(JSON.stringify(pin.preparation.inputs)).digest('hex') !==
+          pin.preparation.recipeSha256 ||
+        pin.sha256 !== pin.preparation.payloadSha256
+      )
+        ctx.addIssue({ code: 'custom', message: 'Invalid repository preparation identity' });
+    }),
   ArchiveLockSchema,
   z
     .strictObject({
@@ -90,7 +100,7 @@ export const LockSchema = z.union([
     }),
 ]);
 export type AssetLock = z.infer<typeof LockSchema>;
-export type ArchivePin = Exclude<AssetLock, { schemaVersion: 4 }>;
+export type ArchivePin = Extract<AssetLock, { schemaVersion: 1 | 2 | 3 }>;
 export type FilePin = Extract<AssetLock, { schemaVersion: 3 | 4 }>;
 export type FilePublicationIdentity = Pick<
   FilePin,

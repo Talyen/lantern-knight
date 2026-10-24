@@ -1,0 +1,10 @@
+{
+  "verified_against": "actual accepted generation_attempt.parameters and matching final_parameters/exact_final_parameters",
+  "accepted_attempt": 3,
+  "native_sha256": "0646e7daa96966fc1367542f6b480a9215bf49e97eaaad8b8daac59d7029a930",
+  "exact_prompt_sha256": "71aa91a15a3fea803f2597e78a36cb286cfab964ee7baae6d381293489a568ef",
+  "approved_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "exact_style_prefix": true,
+  "canonical_hero_only": true,
+  "artwork_unchanged": true
+}

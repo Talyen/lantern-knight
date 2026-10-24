@@ -1,0 +1,51 @@
+LANTERN — CONTACT EFFECTS v01
+
+Two new independent contact overlays: neutral_contact_snap and blocked_contact_shear.
+Each uses SIX fresh generated drawings, followed by one empty transparent end state.
+They complement existing sword trails and amber hit effects; nothing replaces those assets.
+
+ART
+Fresh built-in imagegen raster illustration, one coherent sheet per effect. Sunburst2.5
+was an art-direction phrase in the prompts, not a claim about the generation model.
+Source sheets and exact prompts are preserved. Traditional processing only: six-cell
+extraction, weak alpha-residue cleanup, uniform 0.75 resize, manual impact-point
+registration. No procedural vector substitute, interpolated frame synthesis or chained
+generation edits. No sword, shield, target fragment or rigid prop is baked in.
+
+IMPORT
+512x512 RGBA straight-alpha PNGs; common fixed pivot (256,256). Use normal source-over
+blending. RGB is sRGB; alpha is linear. Fully transparent RGB is zero. Each atlas is
+1560x1560 with three columns, 512px cells and 8px inter-cell transparent gutters.
+Manifest rectangles exclude gutters. Disable mipmaps unless you implement per-sprite
+alpha-safe extrusion and mip chains. Individual PNGs are interchangeable with atlas cells.
+
+TIMING
+Do not play these at an assumed FPS. The manifest gives explicit 60 Hz tick holds:
+hit: 1,3,2,2,2,2,1 = 13 ticks (0.2167 seconds)
+block: 1,4,2,2,3,3,1 = 16 ticks (0.2667 seconds)
+The final tick is fully transparent. One-shot; remove afterward. Source drawings are
+held exactly; no tweening or optical flow. Review MP4s repeat the same one-shot with
+a 24-tick blank gap only for review. Runtime clips themselves never loop.
+
+PLACEMENT
+Camera-facing screen-plane effect layers for the fixed orthographic Lantern view.
+The default positive gesture points upper-right in image space (1,-1). Rotate the
+entire frame around the impact pivot to align with a projected impact normal. Use
+uniform scale. No directional 3D geometry, collision, damage timing or target attachment
+logic is supplied. They are not an eight-heading volumetric animation bake.
+Source drawing impact junctions were inspected and translated to a common pivot;
+fragment dispersal is intentional and must not be re-centered by alpha bounding box.
+
+REVIEW / LIMITS
+All six processed cels of both clips inspected on light and dark contact sheets.
+Clean silhouette progression, registered onset/impact, no baked physical targets;
+late fragment trajectories are stylized hand-drawn motion, not simulated particles.
+QA checks RGBA, transparent end, hidden RGB, unique drawings, canvas margins, atlas
+mapping, native frame hashes, and 60 Hz video headers. No in-engine integration,
+screen-scale gameplay test or engine-performance certification has been performed.
+The generated source sheets are approximations; hard numeric camera projection applies
+to the game context, not to a generated 3D mesh.
+
+REBUILD
+Python 3, Pillow, numpy, ffmpeg with libx264. Run python source/build.py, then python source/verify.py from any cwd.
+Preserved generated sheets make processing reproducible without another generation call.

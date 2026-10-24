@@ -1,0 +1,5 @@
+Scenic v02a passed the bounded repair review on 6 October 2026. Waterwheel paddle edges gained source-derived depth. The original nonzero-alpha rim edges remain intact.
+
+Actual repair: 40mm source-derived timber edge depth now makes edge-on paddles solid rather than dotted hairlines. Before/after frames004,010,020 plus regenerated 24-phase sample and eight consecutive peak-change frames056–063 inspected on proper composited backgrounds. Rims, hub and supports remain connected/stable; no new critical seam or floating fragment identified. All240 wheel frames independently scanned; loop seam ordinary relative to motion, border clear. All five unaffected clip folders independently verified byte-identical. Prior bounded passes carry forward for these five families.
+
+Evidence: scenic_r02a_waterwheel_sample.jpg, scenic_r02a_waterwheel_peak.jpg; scenic_r02a_independent_scan.json; scenic_r02a_independent_preservation.json. No real-time/engine performance certification. Exact plane projection and approximate painted volume distinction retained.

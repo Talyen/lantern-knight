@@ -1,0 +1,39 @@
+# Lantern traditional floor cleanup experiments
+
+Three deterministic, non-generative cleanup variants for two existing 1536 × 1024 floor illustrations. No repainting model, enlargement, or global palette quantization was used.
+
+## Start here
+
+- `cleanup_closeup_comparison.png`: original and all three methods, same 384 × 384 crop boxes enlarged exactly 2× with nearest-neighbor display
+- `crypt_b_flat_stone.png`: strongest texture removal and calmest gameplay surface
+- `crypt_c_two_tone_stone.png`: less plain alternative with a few broad two-value patches
+- `graveyard_b_flat_stone.png`: selective stone cleanup, with important limitations below
+
+## Methods
+
+A. Edge-aware smoothing: approximate luminance-guided bilateral filtering, spatial sigma 5 pixels, range sigma 18/255. Removes low-contrast grain while retaining larger contrast boundaries.
+
+B. Flat stone faces: detect dark local contours by 7 × 7 grayscale closing, label the bounded interior regions, and replace eligible stone regions with their mean color. Preserve and blend the region boundaries, then restore connected high-contrast original ink. The graveyard additionally excludes vegetation-colored regions and very large connected areas. This avoids global color reduction and the resulting posterization flecks.
+
+C. Two-tone stone faces: use B, plus broad dark patches derived from low-frequency source shading. Remove small threshold islands and patches under 250 pixels. These shapes come from the source, but their stylized boundaries are a transformation rather than authored shadows.
+
+## Assessment and limitations
+
+- The crypt is the clear success: most slab interiors become clean flat fills while slab joints and much of the original ink remain. Variant B can feel too plain; C retains more visual interest.
+- The graveyard improves mainly on isolated stones. Moss remains busy, and bilateral smoothing makes some dirt areas visibly softer. It is not a complete solution for clean vegetation.
+- Incomplete source contours can cause adjacent faces to be grouped. Some faint cracks, scratches, small chips, and veins simplify or disappear. The final ink-preservation pass restores strong connected source lines but cannot perfectly distinguish every intentional line from texture.
+- This is selective pixel processing, not semantic illustration cleanup. Parameters were tuned for these two images. Do not apply blindly to already-clean art.
+- These are flattened illustrations with existing lighting, perspective, scenery, and edge content. No claim of seamless tiling, material-layer separation, or runtime-ready atlas construction is made.
+
+## Reproduce
+
+Use Python with Pillow, NumPy, and SciPy installed. Run `bash run_all.sh` from the extracted kit. No model weights or network calls are used. The original inputs are included and the scripts resolve paths relative to themselves.
+
+Outputs are regenerated deterministically, apart from irrelevant library-specific pixel rounding differences. `run_cleanup.py` generates A/B/C, and `refine_ink.py` restores connected original ink for B/C and regenerates comparison sheets.
+
+## Input provenance and crop boxes
+
+- Graveyard input: supplied native_floor_retry.png, retained as graveyard_original.png. Comparison box: (490, 310, 874, 694).
+- Crypt input: supplied crypt_native.png, retained as crypt_original.png. Comparison box: (720, 350, 1104, 734).
+
+Made October 9, 2026.

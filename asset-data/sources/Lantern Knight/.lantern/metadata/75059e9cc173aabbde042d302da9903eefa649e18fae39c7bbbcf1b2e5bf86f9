@@ -1,0 +1,107 @@
+{
+  "id": "ZB02",
+  "name": "Gravetoll Hauler",
+  "family": "03 Zombies",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1lU6WlrBD_Mfl5kAjTSURbgAhmLS8bZLo",
+  "source_url": "https://drive.google.com/file/d/1lU6WlrBD_Mfl5kAjTSURbgAhmLS8bZLo/view?usp=drivesdk",
+  "source_archive": "03_zombies_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/03_zombies_selection_pack/03_zombies/assets/ZB02_gravetoll_hauler.png",
+  "source_sha256": "c88791b222dca9dfc84645cb1c6f394b7045b0987b558bd5cea7c4ac805e8e3d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "remove_components_below": 160,
+  "right_crop_extra": {
+    "move": {
+      "3": 24
+    },
+    "attack": {
+      "3": 24
+    }
+  },
+  "clear_left_pixels": {
+    "move": {
+      "4": 32
+    },
+    "attack": {
+      "4": 32
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -15,
+        0
+      ],
+      "1": [
+        0,
+        0
+      ],
+      "2": [
+        -8,
+        0
+      ],
+      "3": [
+        -20,
+        0
+      ],
+      "4": [
+        0,
+        0
+      ],
+      "5": [
+        0,
+        0
+      ]
+    },
+    "attack": {
+      "0": [
+        -15,
+        -12
+      ],
+      "1": [
+        0,
+        -12
+      ],
+      "2": [
+        20,
+        -12
+      ],
+      "3": [
+        -15,
+        8
+      ],
+      "4": [
+        0,
+        8
+      ],
+      "5": [
+        20,
+        2
+      ]
+    }
+  },
+  "source_order": {
+    "move": [
+      0,
+      1,
+      4,
+      2,
+      3,
+      5
+    ]
+  },
+  "holds": {
+    "move": [
+      8,
+      7,
+      7,
+      7,
+      8,
+      11
+    ]
+  }
+}

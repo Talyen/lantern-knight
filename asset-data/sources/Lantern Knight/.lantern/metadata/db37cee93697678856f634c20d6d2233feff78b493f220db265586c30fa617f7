@@ -1,0 +1,235 @@
+{
+  "art_gate": "PASS corrected same-right-knee descent, actual side contact registration, expressive impact/cloth follow-through, stable final D0 transition/hold.",
+  "frames": 22,
+  "unique_pngs": 22,
+  "ticks": 84,
+  "seconds": 1.4,
+  "D0_start_tick": 58,
+  "D0_finite_hold_ticks": 26,
+  "D0_indefinite_hold": "game-owned after finite action, no automatic return to idle",
+  "R0_exact": true,
+  "all_borders_alpha0": true,
+  "min_bottom_margin": 30,
+  "frames_bounds": [
+    {
+      "frame": 1,
+      "visible_bbox": [
+        603,
+        420,
+        857,
+        927
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 2,
+      "visible_bbox": [
+        607,
+        431,
+        1017,
+        932
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 3,
+      "visible_bbox": [
+        603,
+        426,
+        988,
+        930
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 4,
+      "visible_bbox": [
+        623,
+        490,
+        1024,
+        930
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 5,
+      "visible_bbox": [
+        591,
+        513,
+        1060,
+        939
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 6,
+      "visible_bbox": [
+        545,
+        594,
+        1037,
+        946
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 7,
+      "visible_bbox": [
+        578,
+        603,
+        1014,
+        957
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 8,
+      "visible_bbox": [
+        589,
+        637,
+        1093,
+        954
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 9,
+      "visible_bbox": [
+        568,
+        654,
+        1085,
+        917
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 10,
+      "visible_bbox": [
+        595,
+        621,
+        1103,
+        994
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 11,
+      "visible_bbox": [
+        551,
+        620,
+        1056,
+        949
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 12,
+      "visible_bbox": [
+        588,
+        681,
+        1103,
+        923
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 13,
+      "visible_bbox": [
+        493,
+        677,
+        1077,
+        970
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 14,
+      "visible_bbox": [
+        484,
+        708,
+        1112,
+        983
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 15,
+      "visible_bbox": [
+        464,
+        639,
+        1093,
+        992
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 16,
+      "visible_bbox": [
+        521,
+        741,
+        1073,
+        961
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 17,
+      "visible_bbox": [
+        480,
+        749,
+        1086,
+        967
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 18,
+      "visible_bbox": [
+        494,
+        752,
+        1129,
+        981
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 19,
+      "visible_bbox": [
+        492,
+        747,
+        1158,
+        964
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 20,
+      "visible_bbox": [
+        485,
+        761,
+        1126,
+        986
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 21,
+      "visible_bbox": [
+        489,
+        761,
+        1125,
+        981
+      ],
+      "edge_max_alpha": 0
+    },
+    {
+      "frame": 22,
+      "visible_bbox": [
+        489,
+        762,
+        1123,
+        980
+      ],
+      "edge_max_alpha": 0
+    }
+  ]
+}

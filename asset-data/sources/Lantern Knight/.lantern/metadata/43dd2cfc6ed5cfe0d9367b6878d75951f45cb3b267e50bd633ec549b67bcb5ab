@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "mine_curved_rail_section_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_curved_rail_section_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_curved_rail_section_01.png",
+    "sha256": "3d5a4eb54e31a94a3d0e36c0b1b4c793c6f3b234ecded779e62c86c5f730ef02",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_curved_rail_section_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      31,
+      1523,
+      1006
+    ],
+    "alpha_bounds_ge128": [
+      74,
+      59,
+      1464,
+      966
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.94626,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-046dc097-aacd-45ce-84a1-c75cb206567e.png"
+  },
+  {
+    "asset_id": "mine_empty_ore_cart_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_empty_ore_cart_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_empty_ore_cart_01.png",
+    "sha256": "cd89b29bff5fe7af8bb340f479cad4b37a593b21cf3874cb5e3c709150177066",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_empty_ore_cart_01.prompt.txt",
+    "size": [
+      1402,
+      1122
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      50,
+      1388,
+      1096
+    ],
+    "alpha_bounds_ge128": [
+      128,
+      53,
+      1283,
+      1073
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98179,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-5a3c62c7-ca70-4a08-bb60-e7e8cc7d79f9.png"
+  },
+  {
+    "asset_id": "mine_hoist_frame_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_hoist_frame_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_hoist_frame_01.png",
+    "sha256": "fd6644915a92bf3234ed14fceeb640f6aa6f05e0090c321a3423b08765be302b",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_hoist_frame_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      0,
+      1274,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      107,
+      7,
+      1204,
+      1189
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.94099,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-f0bbba7e-7b13-408f-804d-85499d9625e8.png"
+  },
+  {
+    "asset_id": "mine_ore_seam_rock_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_ore_seam_rock_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_ore_seam_rock_01.png",
+    "sha256": "f974b4d7ef5262a21968ca635e154392360e9802c35cee1e6c9c3cd0d7a47737",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_ore_seam_rock_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      36,
+      1404,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      240,
+      106,
+      1300,
+      946
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98462,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-d68a7425-2b4f-457c-99ed-6c22cf187152.png"
+  },
+  {
+    "asset_id": "mine_scaffold_bay_02",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_scaffold_bay_02.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_scaffold_bay_02.png",
+    "sha256": "b2dfb4f01b2a07097533da5525248ccbea4360fafbe68df814996f8b4bf985b5",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_scaffold_bay_02.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      9,
+      0,
+      1306,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      134,
+      8,
+      1186,
+      1177
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.93678,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-9442e157-0a48-4bac-8ea3-ff5732ac0324.png"
+  },
+  {
+    "asset_id": "mine_timber_support_arch_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_timber_support_arch_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_timber_support_arch_01.png",
+    "sha256": "cb8790ec9c4ed97381fa23624b4fec23bbdf4e817b850d9148652db4a56721ed",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_timber_support_arch_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      21,
+      1266,
+      1185
+    ],
+    "alpha_bounds_ge128": [
+      102,
+      30,
+      1240,
+      1183
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95971,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-bc1cd6a0-8363-493d-b1fa-7d02890c4764.png"
+  },
+  {
+    "asset_id": "mine_tool_rack_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_tool_rack_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_tool_rack_01.png",
+    "sha256": "cfe7280c5aa6f8cd3ae5f23cfc35214e6c880e62379dc5af0979080fc0992d60",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_tool_rack_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      69,
+      8,
+      1292,
+      1181
+    ],
+    "alpha_bounds_ge128": [
+      77,
+      12,
+      1262,
+      1174
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.92014,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-266a346a-3e65-49c8-bb73-f3b391d7ff4a.png"
+  },
+  {
+    "asset_id": "mine_wooden_wheelbarrow_01",
+    "pack": "volume_10_mine",
+    "path": "assets/mine_wooden_wheelbarrow_01.png",
+    "original_path": "lantern_environment_candidates/volume_10_mine/assets/mine_wooden_wheelbarrow_01.png",
+    "sha256": "e545001344abdafcf827778c5ddd85c2ee24928df9167840af86f41db9ff8726",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/mine_wooden_wheelbarrow_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      51,
+      16,
+      1520,
+      974
+    ],
+    "alpha_bounds_ge128": [
+      56,
+      18,
+      1501,
+      966
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96166,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-b5157cad-8fe1-41c4-9e44-aedd2972cb9d.png"
+  }
+]

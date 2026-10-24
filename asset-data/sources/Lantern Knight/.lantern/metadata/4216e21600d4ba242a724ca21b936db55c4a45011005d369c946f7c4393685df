@@ -1,0 +1,267 @@
+{
+  "asset": "Lantern Knight",
+  "clip": "knockdown_DR",
+  "version": "v01",
+  "direction": "DR",
+  "world_heading": "+X",
+  "mirrored": false,
+  "handedness": {
+    "anatomical_right": "sword",
+    "anatomical_left": "lantern"
+  },
+  "timebase_hz": 60,
+  "cell_px": [
+    896,
+    704
+  ],
+  "pivot_px_top_left": [
+    506,
+    518
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5647321428571429,
+    0.2642045454545454
+  ],
+  "pixels_per_unit": 290.425532,
+  "ppu_method": "Approximate clip-wide body-height comparison to approved DR ready at 350 PPU; source native pixels retained.",
+  "duration_ticks": 28,
+  "duration_seconds": 0.4666666666666667,
+  "loop": false,
+  "final_pose_hold": true,
+  "exit_condition": "Explicit gameplay getup request after settle; do not auto-return to ready.",
+  "next_clip": "getup_DR",
+  "root_motion": "In-place visual registration only. Gameplay displacement is external.",
+  "events": [
+    {
+      "tick": 0,
+      "seconds": 0.0,
+      "name": "knockdown_begin"
+    },
+    {
+      "tick": 7,
+      "seconds": 0.11666666666666667,
+      "name": "falling"
+    },
+    {
+      "tick": 11,
+      "seconds": 0.18333333333333332,
+      "name": "ground_contact"
+    },
+    {
+      "tick": 20,
+      "seconds": 0.3333333333333333,
+      "name": "grounded_pose"
+    },
+    {
+      "tick": 28,
+      "seconds": 0.4666666666666667,
+      "name": "hold_until_getup_request"
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "cel": 1,
+      "label": "recoil",
+      "source_component_bbox": [
+        46,
+        14,
+        524,
+        498
+      ],
+      "source_registration_anchor": [
+        272,
+        486
+      ],
+      "integer_translation_xy": [
+        248,
+        74
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/knockdown_DR_01_recoil.png",
+      "duration_ticks": 3,
+      "start_tick": 0,
+      "end_tick": 3,
+      "sha256": "b01097b1cca55cd146c7933a8947d81b3df1c42ad463471e034f118df5a004c9",
+      "atlas_rect": [
+        0,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 1,
+      "cel": 2,
+      "label": "lose_balance",
+      "source_component_bbox": [
+        561,
+        48,
+        1076,
+        518
+      ],
+      "source_registration_anchor": [
+        882,
+        511
+      ],
+      "integer_translation_xy": [
+        -362,
+        49
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/knockdown_DR_02_lose_balance.png",
+      "duration_ticks": 4,
+      "start_tick": 3,
+      "end_tick": 7,
+      "sha256": "a25d0a8ac98bf64a054c5d610436c526600ac61226b55a1c600295636e26b561",
+      "atlas_rect": [
+        896,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 2,
+      "cel": 3,
+      "label": "fall",
+      "source_component_bbox": [
+        1126,
+        140,
+        1633,
+        512
+      ],
+      "source_registration_anchor": [
+        1530,
+        510
+      ],
+      "integer_translation_xy": [
+        -1010,
+        50
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/knockdown_DR_03_fall.png",
+      "duration_ticks": 4,
+      "start_tick": 7,
+      "end_tick": 11,
+      "sha256": "e1206771a2a9bc333182c25b75c111d1d513e740bc8eb3de023591c7c79af304",
+      "atlas_rect": [
+        1792,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 3,
+      "cel": 4,
+      "label": "ground_impact",
+      "source_component_bbox": [
+        82,
+        535,
+        572,
+        917
+      ],
+      "source_registration_anchor": [
+        443,
+        910
+      ],
+      "integer_translation_xy": [
+        77,
+        -350
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/knockdown_DR_04_ground_impact.png",
+      "duration_ticks": 4,
+      "start_tick": 11,
+      "end_tick": 15,
+      "sha256": "dd9c1dfa08a56b732faf15a38d5dd49272b809b30e0f3085f8e3a359bbf84690",
+      "atlas_rect": [
+        0,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 4,
+      "cel": 5,
+      "label": "settle",
+      "source_component_bbox": [
+        634,
+        570,
+        1074,
+        912
+      ],
+      "source_registration_anchor": [
+        1040,
+        901
+      ],
+      "integer_translation_xy": [
+        -520,
+        -341
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/knockdown_DR_05_settle.png",
+      "duration_ticks": 5,
+      "start_tick": 15,
+      "end_tick": 20,
+      "sha256": "bd5b33ec80793d3f05e13ba9f88721a25bb0d9e5dcc41412e3e36f11c5b28c26",
+      "atlas_rect": [
+        896,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 5,
+      "cel": 6,
+      "label": "grounded_hold",
+      "source_component_bbox": [
+        1166,
+        602,
+        1632,
+        930
+      ],
+      "source_registration_anchor": [
+        1531,
+        909
+      ],
+      "integer_translation_xy": [
+        -1011,
+        -349
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/knockdown_DR_06_grounded_hold.png",
+      "duration_ticks": 8,
+      "start_tick": 20,
+      "end_tick": 28,
+      "sha256": "11c79d1bb44e244535871fed2797fa669c370d0ed58066316af97c7256775297",
+      "atlas_rect": [
+        1792,
+        704,
+        896,
+        704
+      ]
+    }
+  ],
+  "atlas_file": "knockdown_DR_atlas.png",
+  "atlas_grid": [
+    3,
+    2
+  ],
+  "authoring": "Built-in image generation reference edit; distinct hand-drawn pose cels, native extraction.",
+  "notes": "Nonfatal fall and ground impact; after the 28-tick authored settle, hold the final cel indefinitely until gameplay requests getup.",
+  "integration_status": "ART_QA_PASSED_ENGINE_UNTESTED",
+  "limitations": [
+    "World-size and root registration are approximate hand-authored values, not calibrated 3D measurements.",
+    "Cross-clip grounded/getup and ready transitions need in-engine review; not claimed pixel-seamless.",
+    "Timing and hit events are integration defaults, not combat-balance certification."
+  ],
+  "registration": {
+    "method": "Integer cel translation using explicitly recorded near-boot/ground landmarks; no individual cel scaling.",
+    "standing_reference_height_px": 564,
+    "reference_ppu": 350
+  }
+}

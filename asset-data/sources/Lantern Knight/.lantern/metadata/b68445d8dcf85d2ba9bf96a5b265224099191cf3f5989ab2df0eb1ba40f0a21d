@@ -1,0 +1,456 @@
+{
+  "name": "cracked_standing_mirror",
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    480
+  ],
+  "pivot_normalized_top_left": [
+    0.5,
+    0.75
+  ],
+  "loop": false,
+  "clip": "break",
+  "duration_ms": 2210,
+  "frame_count": 15,
+  "states": {
+    "intact": 0,
+    "damaged": 3,
+    "broken": 14
+  },
+  "atlas": "break_atlas.png",
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/break_00.png",
+      "duration_ms": 350,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          0,
+          444,
+          425
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          165,
+          72
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 1,
+      "file": "frames/break_01.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          444,
+          0,
+          887,
+          425
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          165,
+          72
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/break_02.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          887,
+          0,
+          1330,
+          425
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          163,
+          72
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/break_03.png",
+      "duration_ms": 220,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1330,
+          0,
+          1774,
+          425
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          161,
+          72
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/break_04.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          425,
+          444,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          164,
+          52
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/break_05.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          444,
+          425,
+          887,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          165,
+          53
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 6,
+      "file": "frames/break_06.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          887,
+          425,
+          1330,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          149,
+          53
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 7,
+      "file": "frames/break_07.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1330,
+          425,
+          1774,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          142,
+          53
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 8,
+      "file": "frames/break_08.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          444,
+          0,
+          887,
+          527
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          144,
+          29
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 9,
+      "file": "frames/break_09.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          887,
+          0,
+          1330,
+          527
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          141,
+          29
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 10,
+      "file": "frames/break_10.png",
+      "duration_ms": 80,
+      "atlas_rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1330,
+          0,
+          1774,
+          527
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          124,
+          29
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 11,
+      "file": "frames/break_11.png",
+      "duration_ms": 90,
+      "atlas_rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          0,
+          527,
+          450,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          109,
+          155
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 12,
+      "file": "frames/break_12.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        0,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          450,
+          527,
+          890,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          118,
+          160
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 13,
+      "file": "frames/break_13.png",
+      "duration_ms": 130,
+      "atlas_rect": [
+        768,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          890,
+          527,
+          1333,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          115,
+          159
+        ],
+        "base_match": 1
+      }
+    },
+    {
+      "index": 14,
+      "file": "frames/break_14.png",
+      "duration_ms": 700,
+      "atlas_rect": [
+        1536,
+        1920,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1333,
+          527,
+          1774,
+          887
+        ]
+      },
+      "registration": {
+        "scale": 1.0,
+        "translation": [
+          114,
+          159
+        ],
+        "base_match": 1
+      }
+    }
+  ],
+  "import": {
+    "alpha": "straight RGBA",
+    "color_space": "sRGB",
+    "trim": false,
+    "rotation": false,
+    "filter": "bilinear",
+    "use_fixed_pivot": true,
+    "stop_on_final_frame": true
+  }
+}

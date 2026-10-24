@@ -1,0 +1,146 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2484434,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "f1619be56a3eda28ff0939f3b4801bd27b8a77fa0e3c54507dd691618bc9fdc7"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 27143083,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "0b2b34cff11e95e2fa7a2d3b8c0a32b22e62f0f6c1d4b6710a35d171a9c4c7b2"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 8067728,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "0de8ea6b78d735f251e9254f68374aaf4a4ccd886561e975dbb95cea08738876"
+  },
+  "review_views/gameplay_contact_sheet.png": {
+    "bytes": 852334,
+    "size": [
+      1536,
+      399
+    ],
+    "sha256": "3d7a387ef79de7ca8a220171084abe7641c3ce7bf1224c535840ffc23fbbd2a1"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 2140435,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "586f334538b76a4e8a6a18a6e57620e89096814537b5001420f745b3572af1b0"
+  },
+  "review_views/central_clearing_AI_display2p5x_ground.png": {
+    "bytes": 1718604,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "2579543ffecd004297c0ae001def387ced886d57dbe70f88c583f43e050fcab5"
+  },
+  "review_views/lower_route_AI_display2p5x_ground.png": {
+    "bytes": 1781871,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "51f7f0afe3b1c03115ad4bee84c1cfca1ef0870592fc086e460f8c6f1213f1e4"
+  },
+  "review_views/lower_route_hero_context.png": {
+    "bytes": 1791945,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "090f074b10f9558dc698dcf7f05aa94723341efdbccaa9d26ce7417884bb43ab"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2496270,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "00e5e08d419ccef6b2ad95a9efef1e414c1e60f1c8c9603ffbbf09c93ca2be8d"
+  },
+  "review_views/central_clearing_hero_context.png": {
+    "bytes": 1734944,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "e2ef621c4aa5c2d61c7b2beba7ac5d5e7ea294f62309c95f51a2cade969ed0d3"
+  },
+  "review_views/upper_clearing_AI_display2p5x_ground.png": {
+    "bytes": 2050002,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0267e360c66fa67730543127f4f339c1c103d22511a600a5f80e1bcd6014ce97"
+  },
+  "review_views/upper_clearing_hero_context.png": {
+    "bytes": 2060236,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "41b6047855d5556031c6548a50c5520c80289855f53387ecdb51c5ef4fe8181e"
+  },
+  "ai_upscale/checks/ruin_and_pines_comparison.png": {
+    "bytes": 199147,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "43f37ac69b1e7edaca30142b9cec9bb785f448a2d9fc00ab4a7de5f808fd5db4"
+  },
+  "ai_upscale/checks/lower_rock_boundary_untiled4x.png": {
+    "bytes": 475759,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "9b714e05d6517bd030a0a8cea1f78889ab59939a2e34f047efea489dc254a8c1"
+  },
+  "ai_upscale/checks/lower_rock_boundary_comparison.png": {
+    "bytes": 161063,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "75b3acfef584295b0bde0f79be7248019f955ed60af641a6c013955e24c789ff"
+  },
+  "ai_upscale/checks/lower_rock_boundary_native.png": {
+    "bytes": 54371,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "16715dae0ee4d7b0f0ee814181e26eb8a495cd588b8461912778e4424b4cd7df"
+  },
+  "ai_upscale/checks/ruin_and_pines_untiled4x.png": {
+    "bytes": 735081,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "c13d13fdaa9585eb9821dc08ccc35381a3cad278314987e4263cfe96f4e51ee7"
+  },
+  "ai_upscale/checks/ruin_and_pines_native.png": {
+    "bytes": 74772,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "79f15b71ad1a90e41cb9af0c47aa21b7b701295a3ed8a13ca03184c423c7858e"
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "name": "Mossfang Scavenger",
+  "identity_id": "GB01",
+  "original_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+  "canvas": [
+    640,
+    640
+  ],
+  "atlas_layout": {
+    "size": [
+      1944,
+      1296
+    ],
+    "cell_size": 640,
+    "transparent_gutter_per_side": 4,
+    "stride": 648,
+    "sampling": "Use frame atlas_rect and clamped sprite UVs; no texture repeat. Native cels unchanged."
+  },
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 300,
+  "facing": "DL / southwest / screen lower-left",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Drawn visual approximation, not calibrated 3D geometry"
+  },
+  "mirroring": "Not approved: clothing detail is asymmetric; no mirrored clip supplied.",
+  "offsets": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+  "clips": {
+    "move": {
+      "loop": true,
+      "frames": [
+        {
+          "file": "move_00.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            57,
+            11,
+            478,
+            490
+          ],
+          "baked_translation": [
+            110,
+            61
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_01.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            578,
+            60,
+            942,
+            481
+          ],
+          "baked_translation": [
+            138,
+            119
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_02.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            1050,
+            147,
+            1469,
+            506
+          ],
+          "baked_translation": [
+            111,
+            181
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_03.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            27,
+            552,
+            548,
+            974
+          ],
+          "baked_translation": [
+            50,
+            106
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_04.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            534,
+            503,
+            1057,
+            939
+          ],
+          "baked_translation": [
+            55,
+            98
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_05.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            1086,
+            530,
+            1498,
+            994
+          ],
+          "baked_translation": [
+            114,
+            76
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "end": "hold last recovery cel until state transition",
+      "visual_event": {
+        "frame_index": 3,
+        "meaning": "Two-handed claw thrust maximum extension",
+        "not_gameplay_damage_guarantee": true
+      },
+      "frames": [
+        {
+          "file": "attack_00.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            66,
+            22,
+            497,
+            505
+          ],
+          "baked_translation": [
+            105,
+            57
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_01.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            605,
+            58,
+            973,
+            509
+          ],
+          "baked_translation": [
+            139,
+            89
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_02.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            1035,
+            40,
+            1516,
+            496
+          ],
+          "baked_translation": [
+            82,
+            84
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_03.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            14,
+            533,
+            628,
+            989
+          ],
+          "baked_translation": [
+            7,
+            84
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_04.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            654,
+            520,
+            1064,
+            985
+          ],
+          "baked_translation": [
+            115,
+            75
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_05.png",
+          "hold_ticks_60hz": 12,
+          "source_box": [
+            1127,
+            520,
+            1532,
+            997
+          ],
+          "baked_translation": [
+            118,
+            63
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ]
+    }
+  },
+  "idle": "First move cel only, not animated idle",
+  "qa_limits": "All cels visually inspected on light/dark; native timing preview encoded. No engine test or real-time playback claim."
+}

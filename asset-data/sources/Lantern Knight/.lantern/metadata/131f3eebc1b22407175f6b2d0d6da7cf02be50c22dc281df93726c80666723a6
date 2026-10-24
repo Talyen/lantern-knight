@@ -1,0 +1,649 @@
+{
+  "schema": "lantern.vfx.flipbook.v1",
+  "name": "Sanguine Seal",
+  "slug": "sanguine_seal",
+  "role": "enemy",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "alpha": "straight RGBA",
+  "loop": false,
+  "drawn_cels": 16,
+  "clear_cels": 1,
+  "duration_ms": 1540,
+  "timing_is": "art prototype; not engine balance",
+  "atlas": {
+    "file": "sanguine_seal_atlas.png",
+    "size_px": [
+      2048,
+      2560
+    ],
+    "cell_px": [
+      512,
+      512
+    ],
+    "columns": 4,
+    "rows": 5
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/sanguine_seal_00.png",
+      "start_ms": 0,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/sanguine_seal_01.png",
+      "start_ms": 120,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/sanguine_seal_02.png",
+      "start_ms": 240,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/sanguine_seal_03.png",
+      "start_ms": 360,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/sanguine_seal_04.png",
+      "start_ms": 480,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/sanguine_seal_05.png",
+      "start_ms": 600,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/sanguine_seal_06.png",
+      "start_ms": 720,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/sanguine_seal_07.png",
+      "start_ms": 840,
+      "duration_ms": 120,
+      "phase": "formation / telegraph",
+      "atlas_rect_px": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/sanguine_seal_08.png",
+      "start_ms": 960,
+      "duration_ms": 80,
+      "phase": "single impact",
+      "atlas_rect_px": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/sanguine_seal_09.png",
+      "start_ms": 1040,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/sanguine_seal_10.png",
+      "start_ms": 1100,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/sanguine_seal_11.png",
+      "start_ms": 1160,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 12,
+      "file": "frames/sanguine_seal_12.png",
+      "start_ms": 1220,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 13,
+      "file": "frames/sanguine_seal_13.png",
+      "start_ms": 1280,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 14,
+      "file": "frames/sanguine_seal_14.png",
+      "start_ms": 1340,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 15,
+      "file": "frames/sanguine_seal_15.png",
+      "start_ms": 1400,
+      "duration_ms": 60,
+      "phase": "outward recovery",
+      "atlas_rect_px": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    },
+    {
+      "index": 16,
+      "file": "frames/sanguine_seal_16.png",
+      "start_ms": 1460,
+      "duration_ms": 80,
+      "phase": "clear",
+      "atlas_rect_px": [
+        0,
+        2048,
+        512,
+        512
+      ],
+      "pivot_px": [
+        256,
+        300
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0,
+      "frame_index": 0
+    },
+    {
+      "name": "commit",
+      "time_ms": 960,
+      "frame_index": 8
+    },
+    {
+      "name": "impact",
+      "time_ms": 960,
+      "frame_index": 8,
+      "hit_count": 1
+    },
+    {
+      "name": "clear",
+      "time_ms": 1460,
+      "frame_index": 16
+    }
+  ],
+  "target_guide": {
+    "kind": "ellipse",
+    "center_px": [
+      256,
+      300
+    ],
+    "radii_px": [
+      146,
+      53
+    ]
+  },
+  "target_guide_note": "Approximate authoring guide. Verify against gameplay collision; no in-engine integration performed.",
+  "transform_support": {
+    "mirror_horizontal": true,
+    "mirror_vertical": false,
+    "mirror_rule": "For each point, x_new = 512 - x; mirror pivot, target, lane and sprite together.",
+    "rotation_note": "Ground-projected ellipse: horizontal mirror is valid. Do not rotate/vertically flip the sprite in screen space; keep the projection or reproject on a ground-plane quad."
+  },
+  "source": {
+    "file": "source_sheet_v2.png",
+    "native_size_px": [
+      1448,
+      1086
+    ],
+    "grid": [
+      4,
+      4
+    ],
+    "crop_and_pad_only": true,
+    "no_per_frame_autofit": true,
+    "cell_extraction": [
+      {
+        "frame": 0,
+        "source_rect": [
+          0,
+          0,
+          362,
+          272
+        ],
+        "nominal_cell_origin": [
+          0,
+          0
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 1,
+        "source_rect": [
+          362,
+          0,
+          724,
+          272
+        ],
+        "nominal_cell_origin": [
+          362,
+          0
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 2,
+        "source_rect": [
+          724,
+          0,
+          1086,
+          272
+        ],
+        "nominal_cell_origin": [
+          724,
+          0
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 3,
+        "source_rect": [
+          1086,
+          0,
+          1448,
+          272
+        ],
+        "nominal_cell_origin": [
+          1086,
+          0
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 4,
+        "source_rect": [
+          0,
+          272,
+          362,
+          518
+        ],
+        "nominal_cell_origin": [
+          0,
+          272
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 5,
+        "source_rect": [
+          362,
+          272,
+          724,
+          518
+        ],
+        "nominal_cell_origin": [
+          362,
+          272
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 6,
+        "source_rect": [
+          724,
+          272,
+          1086,
+          518
+        ],
+        "nominal_cell_origin": [
+          724,
+          272
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 7,
+        "source_rect": [
+          1086,
+          272,
+          1448,
+          518
+        ],
+        "nominal_cell_origin": [
+          1086,
+          272
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 8,
+        "source_rect": [
+          0,
+          518,
+          362,
+          814
+        ],
+        "nominal_cell_origin": [
+          0,
+          543
+        ],
+        "native_destination_offset": [
+          75,
+          95
+        ]
+      },
+      {
+        "frame": 9,
+        "source_rect": [
+          362,
+          518,
+          724,
+          814
+        ],
+        "nominal_cell_origin": [
+          362,
+          543
+        ],
+        "native_destination_offset": [
+          75,
+          95
+        ]
+      },
+      {
+        "frame": 10,
+        "source_rect": [
+          724,
+          518,
+          1086,
+          814
+        ],
+        "nominal_cell_origin": [
+          724,
+          543
+        ],
+        "native_destination_offset": [
+          75,
+          95
+        ]
+      },
+      {
+        "frame": 11,
+        "source_rect": [
+          1086,
+          518,
+          1448,
+          814
+        ],
+        "nominal_cell_origin": [
+          1086,
+          543
+        ],
+        "native_destination_offset": [
+          75,
+          95
+        ]
+      },
+      {
+        "frame": 12,
+        "source_rect": [
+          0,
+          814,
+          362,
+          1086
+        ],
+        "nominal_cell_origin": [
+          0,
+          814
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 13,
+        "source_rect": [
+          362,
+          814,
+          724,
+          1086
+        ],
+        "nominal_cell_origin": [
+          362,
+          814
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 14,
+        "source_rect": [
+          724,
+          814,
+          1086,
+          1086
+        ],
+        "nominal_cell_origin": [
+          724,
+          814
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      },
+      {
+        "frame": 15,
+        "source_rect": [
+          1086,
+          814,
+          1448,
+          1086
+        ],
+        "nominal_cell_origin": [
+          1086,
+          814
+        ],
+        "native_destination_offset": [
+          75,
+          120
+        ]
+      }
+    ],
+    "generation": "Built-in image generation, sixteen genuinely redrawn chronological cels. No tweening, static transforms or texture-based fake animation."
+  }
+}

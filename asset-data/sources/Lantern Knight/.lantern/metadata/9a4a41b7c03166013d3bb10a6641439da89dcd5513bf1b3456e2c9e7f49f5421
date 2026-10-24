@@ -1,0 +1,23 @@
+{
+  "superseded_catalogue_id": "scenic_mechanisms_v1",
+  "superseded_archives": [
+    "Lantern_Scenic_Mechanisms_v1_Assets.zip",
+    "Lantern_Scenic_Mechanisms_v1_Source_and_Review.zip"
+  ],
+  "replacement_archive": "Lantern_Illustrated_Scenic_Mechanisms_v02a.zip",
+  "replacement_root": "Lantern_Illustrated_Scenic_Mechanisms_v02a/",
+  "counts": {
+    "families": 6,
+    "clips": 6,
+    "component_sprites": 24,
+    "fresh_master_images": 6,
+    "source_frame_files": 780,
+    "unique_rgba_images_summed_per_clip": 722,
+    "source_fps": 30,
+    "preview_fps": 60
+  },
+  "excluded": "all rejected vector scenery, rejected wrap experiment, bell v01/v02 masters, and earlier proof images",
+  "contract_changes": "See README.txt, ANALYTIC_MOTION.json and PRIOR_FUNCTIONAL_CONTRACT.json. New artwork sizes/pivots and loop lengths are explicit.",
+  "also_supersedes_revision_archive": "Lantern_Illustrated_Scenic_Mechanisms_v02.zip",
+  "repair_scope": "waterwheel only; other five clip folders byte-identical; no generated master altered"
+}

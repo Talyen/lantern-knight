@@ -1,0 +1,15 @@
+{
+  "spawn_endpoint_pixel_identical": true,
+  "hit_entry_pixel_identical": true,
+  "hit_endpoint_pixel_identical": true,
+  "defeat_entry_pixel_identical": true,
+  "all_frames_native_canvas": true,
+  "no_per_frame_scaling": true,
+  "drawings_per_clip": 6,
+  "limitations": [
+    "Spawn and defeat are freshly illustrated; a small stylistic transition remains at exact original ready handoffs.",
+    "Hit uses whole-art recoil; spawn and defeat have newly illustrated halo perspective and complete terminal halo.",
+    "Gameplay events are proposed, not wired into an engine.",
+    "Common downsampling calibrates new sheets to existing hover; raw native cels are included in source."
+  ]
+}

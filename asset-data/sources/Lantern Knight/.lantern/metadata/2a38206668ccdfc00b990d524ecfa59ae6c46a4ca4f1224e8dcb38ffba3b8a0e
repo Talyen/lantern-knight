@@ -1,0 +1,17 @@
+{
+  "source_only_copy_rebuilt_from_unrelated_working_directory": true,
+  "required_commands": [
+    "python source/build_hazards.py",
+    "python source/package_proof.py"
+  ],
+  "state_and_runtime_frame_png_count": 90,
+  "pixel_file_hash_mismatches": [],
+  "bundled_before_images": 6,
+  "bundled_font_with_license": true,
+  "external_workspace_art_dependency": false,
+  "context_diagrams_rebuilt": true,
+  "exit_codes": [
+    0,
+    0
+  ]
+}

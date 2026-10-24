@@ -1,0 +1,61 @@
+{
+  "title": "forest_gathering_A_v2 fresh variant 01",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "entry",
+      "display_box": [
+        270,
+        910,
+        1806,
+        1934
+      ],
+      "display_foot": [
+        1038,
+        1550
+      ]
+    },
+    {
+      "name": "middle",
+      "display_box": [
+        1507,
+        340,
+        3043,
+        1364
+      ],
+      "display_foot": [
+        2275,
+        980
+      ]
+    },
+    {
+      "name": "far",
+      "display_box": [
+        2207,
+        922,
+        3743,
+        1946
+      ],
+      "display_foot": [
+        2975,
+        1562
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "terrain_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "landmark_junction",
+      "source_xy": [
+        960,
+        640
+      ]
+    }
+  ]
+}

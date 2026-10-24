@@ -4,7 +4,9 @@ import { execFileSync } from 'node:child_process';
 // of a move visible to coverage selection.
 export function changedFiles(root: string, base: string) {
   const git = (...args: string[]) =>
-    execFileSync('git', args, { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
+    execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 32 * 1024 ** 2 })
+      .split('\0')
+      .filter(Boolean);
   const revision = git('rev-parse', '--verify', '--end-of-options', base + '^{commit}')[0]!.trim();
   return [
     ...new Set([

@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "frame_count": 25,
+  "unique_drawings": 9,
+  "duration_ticks_60hz": 84,
+  "duration_seconds": 1.4,
+  "atlas_pages": 1,
+  "exact_alpha_and_visible_rgb_roundtrip": true,
+  "art_review": "not performed by export helper",
+  "runtime_integration": "not performed"
+}

@@ -1,0 +1,36 @@
+{
+  "asset": "crypt",
+  "style_prompt_mode": "condensed_floor_specific_viewport_test",
+  "method": "built-in image_gen; fresh generation using original hero for art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-2ba044d5-061a-4a0e-ae96-9019b02482c4.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "style_verbatim_preserved": false,
+  "intended_hero_height_pixels": 160,
+  "scenery_at_margins": "allowed by latest user relaxation",
+  "sha256": "0a63808e00fcec76e1d72cfefdbd626586edb2e981daffab299a7aa1f0c9e579",
+  "upscaled": false,
+  "status": "promising viewport style sample; awaiting root/user selection",
+  "visual_review": {
+    "strengths": [
+      "clean warm limestone and charcoal slate with sparse seams",
+      "open playable central floor",
+      "selective edge architecture and lighting establish setting",
+      "substantially less mottled than earlier full-map generations"
+    ],
+    "caveats": [
+      "slate floor arrangement is geometric; acceptable only under latest composition flexibility",
+      "edge columns and walls are baked in; tall occluders would need later separation",
+      "broad candle-light gradients exceed literal three-flat-tone rendering",
+      "160px hero scale is a prompt target, not a validated in-engine placement"
+    ]
+  }
+}

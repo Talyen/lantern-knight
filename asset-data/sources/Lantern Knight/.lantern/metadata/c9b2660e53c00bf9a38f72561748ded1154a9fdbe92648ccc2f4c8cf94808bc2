@@ -1,0 +1,14 @@
+{
+  "finisher_DR_atlas.png": "957eafe0492a7202aa2f1f044bf35f68ec833e67ecf7b78f3e29ba51c9915716",
+  "README.txt": "278f541274335d633904fe7cb8f42e876dea0f84fb3835ac10610a7e90f84512",
+  "finisher_DR_animation.json": "54dd84e7ddaf04db711616444a1fbe42e7be3ff6c4e2577a4c7dc81660d7dd19",
+  "finisher_DR_preview_60fps.mp4": "1a31aa463f1b15d910ebabd05a5a6751d7cae678ef9a91dba2905a9137f14fad",
+  "frames/finisher_DR_01_ready.png": "84fdb012b7bcf01915eaac1747878cd2bece9748933bec4fa238bffa328e22f6",
+  "frames/finisher_DR_07_recover_rise.png": "8a3d40cddaf992c0b980bd03316caf2ff29b420c032230e3919b5224104617cb",
+  "frames/finisher_DR_05_low_followthrough.png": "67c27353cda4e4fa302c721e90eaebe64cfc2395320c9b02caf615c0c318ebbf",
+  "frames/finisher_DR_06_recover_low.png": "942c9e2935331e9e594e8515dc3eb1a5b796331f0b583063a2c1848bf7c1050a",
+  "frames/finisher_DR_04_single_hit.png": "2bccd226b01d492d01afe602710283880ab261c045f37578da808577848b247a",
+  "frames/finisher_DR_03_overhead_load.png": "af200818fdc99ddceb2a22fc130e489bb42b940834f88dac9ba9c6b49c29db8a",
+  "frames/finisher_DR_02_compact_lift.png": "64f2041010bac2f9c593811c1f011bf31b1506b1184f9d466d460055f5614429",
+  "frames/finisher_DR_08_ready_return.png": "bb59bb6b4f6b6a16716f7de2bf73b370031a0d6fd94c79e0aafc3bed35d0d3f6"
+}

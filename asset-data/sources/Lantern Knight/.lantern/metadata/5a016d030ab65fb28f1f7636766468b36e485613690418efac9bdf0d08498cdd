@@ -1,0 +1,2 @@
+Authored UR rear-right. Right near LOWERgrip,left far UPPERgrip, frontRIGHT cream badge hiddenfromrear. Inferred rearcoat/harness. Same832canvas/pivot426,740,258estimatedPPU vsDR280 preservesworldheight withoutupscale. DR unchanged.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

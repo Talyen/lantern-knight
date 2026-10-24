@@ -1,0 +1,3943 @@
+{
+  "schema": "lantern.integration_handoff.v1",
+  "revision": "baseline_DR_r01_2026-10-08",
+  "scope": {
+    "actor_count": 18,
+    "clip_count": 36,
+    "authored_headings": [
+      "DR"
+    ],
+    "animated_states": [
+      "move",
+      "attack"
+    ],
+    "not_included": [
+      "animated_idle",
+      "hit",
+      "death",
+      "spawn",
+      "DL",
+      "UR",
+      "UL"
+    ],
+    "engine_validation": false,
+    "directional_extensions": "Separate revisions only; not included or implied here."
+  },
+  "drive_batch_url": "https://drive.google.com/drive/folders/1aN16qvj3xSiG4LpTyfPQGwPiZMTKqPfe",
+  "path_convention": "All paths are relative to the root of the named actor runtime ZIP; extract each actor into its own directory.",
+  "actors": [
+    {
+      "id": "SK01",
+      "name": "Ossuary Thrall",
+      "identity_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "SK01_runtime.zip",
+          "size_bytes": 4187926,
+          "sha256": "b4dcabf5c688fc9c84b3ad4ae6dba2884cda7d72e781f8ebc047410d3860ff9a",
+          "library_file_id": "libfile_e01c7fdd28ac819191c33014ada95083",
+          "drive_id": "1euLxVncE0GSv4BI8yXH104PJSwyyGLFt",
+          "drive_url": "https://drive.google.com/file/d/1euLxVncE0GSv4BI8yXH104PJSwyyGLFt/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "SK01_source.zip",
+          "size_bytes": 7433353,
+          "sha256": "eb2995fdb439a63a158a5fc49af8d06468120d383bf583f699b6e1c07ddf3da4",
+          "library_file_id": "libfile_d2eeb01a08f88191b44e3956bfba4439",
+          "drive_id": "1eZ5OAlN287MPpao0cy_Nt9iWdixNxmoe",
+          "drive_url": "https://drive.google.com/file/d/1eZ5OAlN287MPpao0cy_Nt9iWdixNxmoe/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Short leading-foot shuffle, not natural running. Two-claw attack; recovery registration baked. Some drawn contour variation.",
+      "mirroring": "Not approved; author opposite facing independently",
+      "camera": {
+        "projection": "orthographic visual target",
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibrated_3d": false
+      },
+      "source_schema": "lantern.sprite.v1",
+      "original_metadata_copy": "original_runtime_metadata/SK01.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen down-right (front three-quarter)",
+          "runtime_json_path": "SK01/runtime/animation.json",
+          "runtime_json_sha256": "1902f48f8c0cac54a2d376fffba1e176335ee268ac79497be0d2fc265b79bc0e",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            520
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+          "idle_still_path": "SK01/runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "SK01/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "SK01/runtime/move_00.png",
+                "SK01/runtime/move_01.png",
+                "SK01/runtime/move_02.png",
+                "SK01/runtime/move_03.png",
+                "SK01/runtime/move_04.png",
+                "SK01/runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "cd8edfab26bf90acf6ec94186996d74c45525c62aea97e48dca99dc82e56f5e7",
+                "623a56265cfb83164aeea7144da8e0e32e4a9f2cbf034a42a814e155a07919e0",
+                "9e9b2e94196968774919f8d797d6c5fbe237fbe30eaf2c178d846c3631eaf450",
+                "af9b2f2b6d564f7f38f2c2823270fb8135a7846ed87c26aa6348d7194a0c9559",
+                "d1d447d012b43759bcdafaeefc6ca9d209d2e9f18ccc16857c9b4af486daba57",
+                "2211c243429d6aa99aae02befaf89450890c128f07396d88bf35c20b470dfd0b"
+              ],
+              "atlas_path": "SK01/runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "repeat one shuffle cycle",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_ticks",
+                "visual_event": "clips.move.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "SK01/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                8,
+                7,
+                12
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "SK01/runtime/attack_00.png",
+                "SK01/runtime/attack_01.png",
+                "SK01/runtime/attack_02.png",
+                "SK01/runtime/attack_03.png",
+                "SK01/runtime/attack_04.png",
+                "SK01/runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "a4f3800ef82e9724af51be23fdcfa180c296eb01f6e37ea3e1b11ae8c0aa0176",
+                "4bf1d54a2ae7ac20daadee6b0003384ffa238bb1bd2ec29eece0ca8b2a076633",
+                "21b2603932232a37cecd6a7977486ef8eee0324bdda47de096a4eae85d2f1fa4",
+                "7e2d9f5af5a81f754b5b0582895c35201faccb78d6e0b4e2eef64a88d9530690",
+                "398b24e59dccf1c84af886eb3893c1768806e9166c00dfe9b0ec67fe19e03901",
+                "2bc4a0f5a2a50a22d2660cd92911243b9b576b72184d86f07e8111fa45b3b233"
+              ],
+              "atlas_path": "SK01/runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "return compatible rest; hold last pose",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_ticks",
+                "visual_event": "clips.attack.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "author_confirmed",
+            "confirmed_utc": "2026-10-08T05:56:19Z",
+            "source": "Production author confirmation relayed by coordinator",
+            "derivation": "All five baseline pivot_pixels [320,520] use top-left origin, x right / y down, as intended estimated ground root on 640 canvas. Registration is baked into PNGs; pivot is renderer anchor, not an extra offset.",
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "SK02",
+      "name": "Sepulcher Warden",
+      "identity_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "SK02_runtime.zip",
+          "size_bytes": 4520807,
+          "sha256": "330452401ebdb79a55badbf9c9dd62b7a4f985d0c45e56e142163dd2924114ef",
+          "library_file_id": "libfile_37b8a7381d008191a19ec0db53ed429c",
+          "drive_id": "1EWsAVoxAECtShZaiLEo0yJIyXe9T5V5f",
+          "drive_url": "https://drive.google.com/file/d/1EWsAVoxAECtShZaiLEo0yJIyXe9T5V5f/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "SK02_source.zip",
+          "size_bytes": 7550838,
+          "sha256": "4efa29820718824d88794745af593ce23f7b6bc27aec2d167452cb68eb0d3971",
+          "library_file_id": "libfile_d3479e8e5b488191b97eba0656d58c7c",
+          "drive_id": "1X1CxJaJTq8O1_d_xzTsNYQyu474pTtzA",
+          "drive_url": "https://drive.google.com/file/d/1X1CxJaJTq8O1_d_xzTsNYQyu474pTtzA/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Heavy hitch-step, not natural alternating gait. Two-handed hammer; rear hand partly occluded at strike. Full boot tips recovered from native overscan.",
+      "mirroring": "Not approved; author opposite facing independently",
+      "camera": {
+        "projection": "orthographic visual target",
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibrated_3d": false
+      },
+      "source_schema": "lantern.sprite.v1",
+      "original_metadata_copy": "original_runtime_metadata/SK02.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen down-right (front three-quarter)",
+          "runtime_json_path": "SK02/runtime/animation.json",
+          "runtime_json_sha256": "808fa14f878ce34b411289dbcd2718683bae6eb5a2d45b04bfbbfb7ba87d6c19",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            520
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+          "idle_still_path": "SK02/runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "SK02/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "SK02/runtime/move_00.png",
+                "SK02/runtime/move_01.png",
+                "SK02/runtime/move_02.png",
+                "SK02/runtime/move_03.png",
+                "SK02/runtime/move_04.png",
+                "SK02/runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "6b011c2f1ef95e9935779a596945720156b9cf3160820b82843edf140b78a86c",
+                "8dddce3669acade5d411bd47bf7abc9b6bc60fe51bca38dc21a5b1376f2ad301",
+                "f77aa59bcd6a61190281a24ae552e2251c53bf36f9b18eb99e073833131714e5",
+                "c14da5025c49bce18aec65953cd3ea32a38c37e33858d78906b437bffdb3df33",
+                "98894225e47503e38b8b99c176fcd2e50ed1b2fcf6935cde8c0404c3a1199d80",
+                "d37554f3a7b5285bf8acab2e2e3a268deb08daecd033b6a8b68c5dc864afdea1"
+              ],
+              "atlas_path": "SK02/runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "repeat one shuffle cycle",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_ticks",
+                "visual_event": "clips.move.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "SK02/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                8,
+                7,
+                12
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "SK02/runtime/attack_00.png",
+                "SK02/runtime/attack_01.png",
+                "SK02/runtime/attack_02.png",
+                "SK02/runtime/attack_03.png",
+                "SK02/runtime/attack_04.png",
+                "SK02/runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "2c92de62568663011b7962c09dfca20a20302209f9253a6ac7dc58d79e7521e6",
+                "bfe9e35100e13116aa94aae28cdaef0d664f96d932b8e4c8f658d33e05d38744",
+                "c65a414c4442706d56be35faff6641eef7e3e56936dd39ac3778c408c72b09e9",
+                "464239e2e64a75789d2abe40ab4b34d7c88c3f47af64894b8293cd62017817d2",
+                "b866d0dc3677439eef3cbacbf5a107d4aef4e12117f1d02109cb95b5414eb3fa",
+                "0b5816b29a1b52d17f55b4ac9f84c840a26b90f5d1ae08582b7e58330425e1c1"
+              ],
+              "atlas_path": "SK02/runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "return compatible rest; hold last pose",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_ticks",
+                "visual_event": "clips.attack.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "author_confirmed",
+            "confirmed_utc": "2026-10-08T05:56:19Z",
+            "source": "Production author confirmation relayed by coordinator",
+            "derivation": "All five baseline pivot_pixels [320,520] use top-left origin, x right / y down, as intended estimated ground root on 640 canvas. Registration is baked into PNGs; pivot is renderer anchor, not an extra offset.",
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "ZB01",
+      "name": "Ashen Shambler",
+      "identity_sha256": "c2e8f5cfd33e745e414aa0a93047d18cd51baf283d10478864dbdba6f8a9c631",
+      "baseline_revision": "v02",
+      "artifacts": {
+        "runtime": {
+          "file_name": "ZB01_runtime.zip",
+          "size_bytes": 4264798,
+          "sha256": "3886eb516d0e33314e48fc8f938f89f07ccda9dc61de508911cc23bc9d289bc5",
+          "library_file_id": "libfile_32e51c3799cc81918a592e003dd763d3",
+          "drive_id": "1_duNK3CHwluySQIwyCsUUdtrSABG72r7",
+          "drive_url": "https://drive.google.com/file/d/1_duNK3CHwluySQIwyCsUUdtrSABG72r7/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "ZB01_source.zip",
+          "size_bytes": 7078206,
+          "sha256": "2d307d05c9aa47094d7d1ee1dbc45564cfd3d8eb74e647010ca9a23f8372c95d",
+          "library_file_id": "libfile_68c8a0573a9c81918df9e17761e199e8",
+          "drive_id": "1pqzkCYUbLQ8KnzNSPMtSDlqOZKpmHBxG",
+          "drive_url": "https://drive.google.com/file/d/1pqzkCYUbLQ8KnzNSPMtSDlqOZKpmHBxG/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "v02 final. Small leading-foot shamble, not symmetric walk; grasp attack. Two native toe-edge rows restored; all prior links retained.",
+      "mirroring": "Not approved; author opposite facing independently",
+      "camera": {
+        "projection": "orthographic visual target",
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibrated_3d": false
+      },
+      "source_schema": "lantern.sprite.v1",
+      "original_metadata_copy": "original_runtime_metadata/ZB01.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen down-right (front three-quarter)",
+          "runtime_json_path": "ZB01_v02/runtime/animation.json",
+          "runtime_json_sha256": "56ef2e29f3116e5bfe4735d6ac16034a948d779c6f7fcb655ecb366d82e63c0d",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            520
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+          "idle_still_path": "ZB01_v02/runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "ZB01/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "ZB01_v02/runtime/move_00.png",
+                "ZB01_v02/runtime/move_01.png",
+                "ZB01_v02/runtime/move_02.png",
+                "ZB01_v02/runtime/move_03.png",
+                "ZB01_v02/runtime/move_04.png",
+                "ZB01_v02/runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "cc324b50c378474dc4495b388fadc18428c87beb3c227db4e7a6e5b48f6b58b3",
+                "89c1b5126fd71dc77f86025d8e320d6045c9c850b6b57e9443e75238e30c1f92",
+                "fc41d6df0e68f58d639b9e63d415f1cb77a9774689a662abb48b5d3ec11f362d",
+                "8a6762fbb41bac3d2cb131567eca877a7172b02e68f87345a92d72d2eaf0bfa3",
+                "46f0c09a92e270c4dbcdfe5f8eba4216bc49e2e7b0f846dc1544e212a6542c36",
+                "df384490542fb8a43d0095229d864497289d432c36bdc7540a2764443ce84cb1"
+              ],
+              "atlas_path": "ZB01_v02/runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "repeat one shuffle cycle",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_ticks",
+                "visual_event": "clips.move.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "ZB01/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                8,
+                7,
+                12
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "ZB01_v02/runtime/attack_00.png",
+                "ZB01_v02/runtime/attack_01.png",
+                "ZB01_v02/runtime/attack_02.png",
+                "ZB01_v02/runtime/attack_03.png",
+                "ZB01_v02/runtime/attack_04.png",
+                "ZB01_v02/runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "4a709687dcebf0167f19e32b80c5cfee55d99ea8b9b7148dbe18e147a628f18a",
+                "f943df7a9663ffb14e27475cd69c7757bf5f1761208f40e6a1fd3882ba89e0e2",
+                "b278bd4e297c001d6fa13a3687efdde3329eea1ff4d27463bcb2e2c380b9ca6e",
+                "02a3f446bb9eb17a100544af61167c50b6daa50784ecae42862c6a3ee8122b61",
+                "07210aaf1c9004fc034362c5987098af3a4343cfc8b2e1debdc80abd6970ae8c",
+                "c40c0b006e30035c12c346583fd00c67e57085edccd4c33419aa3092bb31ff45"
+              ],
+              "atlas_path": "ZB01_v02/runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "return compatible rest; hold last pose",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_ticks",
+                "visual_event": "clips.attack.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "author_confirmed",
+            "confirmed_utc": "2026-10-08T05:56:19Z",
+            "source": "Production author confirmation relayed by coordinator",
+            "derivation": "All five baseline pivot_pixels [320,520] use top-left origin, x right / y down, as intended estimated ground root on 640 canvas. Registration is baked into PNGs; pivot is renderer anchor, not an extra offset.",
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "ZB02",
+      "name": "Gravetoll Hauler",
+      "identity_sha256": "c88791b222dca9dfc84645cb1c6f394b7045b0987b558bd5cea7c4ac805e8e3d",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "ZB02_runtime.zip",
+          "size_bytes": 5358777,
+          "sha256": "f1fc0eb5fdaedfd19b95beefa8411e55f6d2e0714fc62074fc715a5606c6fed1",
+          "library_file_id": "libfile_513d1028adb4819187286e7979ad558f",
+          "drive_id": "1IqNA6Q8cwYSlKuYjSeK2Hh3Uhax8B7bZ",
+          "drive_url": "https://drive.google.com/file/d/1IqNA6Q8cwYSlKuYjSeK2Hh3Uhax8B7bZ/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "ZB02_source.zip",
+          "size_bytes": 8204784,
+          "sha256": "3b4a929ec6b733041a1c342ba4f6a0739470e92b428697d53c7d35c284c07349",
+          "library_file_id": "libfile_4ab669404bac8191aec70df645698964",
+          "drive_id": "1fC3tJs67AOcoXKeICS3rxscG3oZGyLAw",
+          "drive_url": "https://drive.google.com/file/d/1fC3tJs67AOcoXKeICS3rxscG3oZGyLAw/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Stiff leading-foot stomp, not alternating walk. Double-fist slam. Reordered single cycle with longer landing settle.",
+      "mirroring": "Not approved; author opposite facing independently",
+      "camera": {
+        "projection": "orthographic visual target",
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibrated_3d": false
+      },
+      "source_schema": "lantern.sprite.v1",
+      "original_metadata_copy": "original_runtime_metadata/ZB02.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen down-right (front three-quarter)",
+          "runtime_json_path": "ZB02/runtime/animation.json",
+          "runtime_json_sha256": "5b0f07b7e74edfa61cdb698904e005f22c273f4b965576d3a52723e9332b51c8",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            520
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+          "idle_still_path": "ZB02/runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "ZB02/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                7,
+                7,
+                7,
+                8,
+                11
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "ZB02/runtime/move_00.png",
+                "ZB02/runtime/move_01.png",
+                "ZB02/runtime/move_02.png",
+                "ZB02/runtime/move_03.png",
+                "ZB02/runtime/move_04.png",
+                "ZB02/runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "66d5cdd52c97f9b2e82d0ee5e24abd4803aaae97becab31fe2b47a66402cf211",
+                "4e479ef677caa140d6af66034ac9db5ee71ef3d5bac4480474247f04d637cd86",
+                "e898e5446ba918f2ec3c263327826dd46c4c0c27b5a0f10f365f947e1cb26864",
+                "4fe23277cd62e6c69042267f3bc654e82af23a47e4b63308787f69c0f8851565",
+                "3a757f6ab2af85129bfd5ef4caec222ded8d0035fa972129a692c2db73c4d37d",
+                "edb1f8ba1f6e2794c209ce5fecd96fee0fde8bf56d03ea215e6df256c89ae685"
+              ],
+              "atlas_path": "ZB02/runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "repeat one shuffle cycle",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_ticks",
+                "visual_event": "clips.move.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "ZB02/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                8,
+                7,
+                12
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "ZB02/runtime/attack_00.png",
+                "ZB02/runtime/attack_01.png",
+                "ZB02/runtime/attack_02.png",
+                "ZB02/runtime/attack_03.png",
+                "ZB02/runtime/attack_04.png",
+                "ZB02/runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "59579b5cfbe8071e63cdac1ab2339d962c91a1422f6c0ecea24de151919d3fe5",
+                "05289d8dcd517ca8cf96d37a39d342673d9ceca2559c07b66ba5b69e5b49b508",
+                "c495cb67ed6748023427c8297411b199c62d8ecc2f9cbb1e6bc2f0fd16bceaa4",
+                "df874e39a8e47fa94e117ed6f08533f1f290c5924e61fbe0453cb1941b62333d",
+                "25114760119f39910488849e1d4f43b52bf110d5262ff4045e67a424b2970e05",
+                "4b828eb98443fb69560682f4795037fd61e093a519bdc43cac1999efe7f2c308"
+              ],
+              "atlas_path": "ZB02/runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "return compatible rest; hold last pose",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_ticks",
+                "visual_event": "clips.attack.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "author_confirmed",
+            "confirmed_utc": "2026-10-08T05:56:19Z",
+            "source": "Production author confirmation relayed by coordinator",
+            "derivation": "All five baseline pivot_pixels [320,520] use top-left origin, x right / y down, as intended estimated ground root on 640 canvas. Registration is baked into PNGs; pivot is renderer anchor, not an extra offset.",
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "GB01",
+      "name": "Mossfang Scavenger",
+      "identity_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "mossfang_scavenger_runtime.zip",
+          "size_bytes": 5188439,
+          "sha256": "59bfb7c00f9b351fc9abf98bb6d0f2f6563d9731b3b70b901044a9f6c162947e",
+          "library_file_id": "libfile_9f04e420ea208191859292dd0bbef619",
+          "drive_id": "1lHTplb7TOiosIn0wgnIs4FD3MacWkWmi",
+          "drive_url": "https://drive.google.com/file/d/1lHTplb7TOiosIn0wgnIs4FD3MacWkWmi/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "mossfang_scavenger_source.zip",
+          "size_bytes": 6139096,
+          "sha256": "089fc31d34ef240eec14e2566e4e1a8f9e8cc9e6408228c09db37a53a003bb1a",
+          "library_file_id": "libfile_398c2ca99ea48191ae01a868eaf2658d",
+          "drive_id": "1ThTzhfe-dlXAxw6O47Uci26I531U2YMR",
+          "drive_url": "https://drive.google.com/file/d/1ThTzhfe-dlXAxw6O47Uci26I531U2YMR/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Single lead-foot scuttle-hop, not alternating sprint. Native order 0,1,4,2,5,3 is already baked into delivered frame numbering. Two-handed claw thrust.",
+      "mirroring": "Not approved: clothing detail is asymmetric; no mirrored clip supplied.",
+      "camera": {
+        "elevation_intent_degrees": 35.2643897,
+        "azimuth_intent_degrees": 45,
+        "note": "Drawn visual approximation, not calibrated 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/GB01.json",
+      "headings": {
+        "DR": {
+          "source_facing": "southeast / screen lower-right",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "ae5e06b42c171f1a87a1728df220b000f84107e3b57db0f0e3f3fe24a184dea9",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            540
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 300,
+          "offset_policy": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "GB01/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                6,
+                6,
+                6,
+                6,
+                7
+              ],
+              "duration_ticks": 38,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "4206575fd2eb303b1664a3e59bd349bc52e22e6802bff60bb36cb5b8563dd8da",
+                "f64d551f180f7285efba0dbb80f1d2b9c74fa1fc8d2e05759935d71164c82674",
+                "b377a8f1f5dcb82629feb003ccac0b629f0f73b2ba903b4cffba265bbc8a4ea6",
+                "c09abdac5f61cfebde8fe6de6d4176367008c88e102a8506078b6f2c81dfd714",
+                "8031384d7e6cc83aa843e5a60dce95cd5a0c1136d2c10678e2377a23e384ef66",
+                "aae2691e129452e8e00aa2dcc8f10204c2e9ef532b535a6a2d24080ed66c14e1"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 300,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": "One lead-foot scuttle-hop grouped as rest, compression, gathered passing, extension, extension follow-through, landing. Native drawing source order 0,1,4,2,5,3.",
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[].file",
+                "hold_ticks": "clips.move.frames[].hold_ticks_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    60,
+                    14,
+                    530,
+                    513
+                  ],
+                  "baked_translation": [
+                    85,
+                    41
+                  ]
+                },
+                {
+                  "source_box": [
+                    644,
+                    41,
+                    1018,
+                    487
+                  ],
+                  "baked_translation": [
+                    133,
+                    94
+                  ]
+                },
+                {
+                  "source_box": [
+                    583,
+                    521,
+                    1010,
+                    1010
+                  ],
+                  "baked_translation": [
+                    107,
+                    49
+                  ]
+                },
+                {
+                  "source_box": [
+                    1085,
+                    17,
+                    1524,
+                    488
+                  ],
+                  "baked_translation": [
+                    101,
+                    62
+                  ]
+                },
+                {
+                  "source_box": [
+                    1075,
+                    509,
+                    1530,
+                    1006
+                  ],
+                  "baked_translation": [
+                    93,
+                    39
+                  ]
+                },
+                {
+                  "source_box": [
+                    23,
+                    514,
+                    510,
+                    1006
+                  ],
+                  "baked_translation": [
+                    77,
+                    48
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "GB01/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                5,
+                7,
+                12
+              ],
+              "duration_ticks": 47,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "12df1b7e3bf0db1086230855f4edd5d1830c1c8faa400025ca6deca739afcc2b",
+                "d93d210c31c146731bf6f1a8169e502d9398cd9a62d302167e163304aee226f7",
+                "6a74e289d1188e5516d03c6751162bb48281cc44d916f81ab0f0c3464ce77d57",
+                "227fd15d82ad8e3ca7fa93d7f95c02fc6dec24c31c911e439fbace409867700a",
+                "dfc48ef29ace605ea37822679b655a6237ac241ff6a03bdadd0e427e25e9f5a1",
+                "e174092862de7b00f9962d89fa65a3e03d7e4135b8bc61915be6c37b813404a4"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 300,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold last recovery cel until state transition",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[].file",
+                "hold_ticks": "clips.attack.frames[].hold_ticks_60hz",
+                "visual_event": "clips.attack.visual_event.frame_index",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    85,
+                    7,
+                    485,
+                    522
+                  ],
+                  "baked_translation": [
+                    120,
+                    25
+                  ]
+                },
+                {
+                  "source_box": [
+                    597,
+                    28,
+                    944,
+                    517
+                  ],
+                  "baked_translation": [
+                    141,
+                    51
+                  ]
+                },
+                {
+                  "source_box": [
+                    1063,
+                    2,
+                    1511,
+                    520
+                  ],
+                  "baked_translation": [
+                    93,
+                    22
+                  ]
+                },
+                {
+                  "source_box": [
+                    49,
+                    528,
+                    599,
+                    1001
+                  ],
+                  "baked_translation": [
+                    63,
+                    67
+                  ]
+                },
+                {
+                  "source_box": [
+                    600,
+                    515,
+                    945,
+                    1019
+                  ],
+                  "baked_translation": [
+                    148,
+                    36
+                  ]
+                },
+                {
+                  "source_box": [
+                    1074,
+                    520,
+                    1475,
+                    1026
+                  ],
+                  "baked_translation": [
+                    120,
+                    34
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "SL01",
+      "name": "Mosswell Slime",
+      "identity_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "mosswell_slime_runtime.zip",
+          "size_bytes": 3190706,
+          "sha256": "6e330eaf812398af69cac4d91d29697b2c03932ba864c7f02c474cec861dad02",
+          "library_file_id": "libfile_7318c2e22df0819198def869e8fc2742",
+          "drive_id": "18uD5SzshfX46Cgc4wlbBc_9cRhXgi2Ej",
+          "drive_url": "https://drive.google.com/file/d/18uD5SzshfX46Cgc4wlbBc_9cRhXgi2Ej/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "mosswell_slime_source.zip",
+          "size_bytes": 4149298,
+          "sha256": "240cb475d05570f6afc2dbd72bd58837c3bffcf19d3deec701031e36c4ef65be",
+          "library_file_id": "libfile_e2ad99cd0e98819180642a1586b7d883",
+          "drive_id": "1R46yRC6dhsm0BVO0K4eYvklb_AEZ_340",
+          "drive_url": "https://drive.google.com/file/d/1R46yRC6dhsm0BVO0K4eYvklb_AEZ_340/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Organic undulating movement and whole-body bash; intentional silhouette deformation. Mirroring only potentially usable, not approved.",
+      "mirroring": "Potentially usable for this unarmed organic silhouette, but not separately authored or approved.",
+      "camera": {
+        "elevation_intent_degrees": 35.2643897,
+        "azimuth_intent_degrees": 45,
+        "note": "Drawn visual approximation, not calibrated 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/SL01.json",
+      "headings": {
+        "DR": {
+          "source_facing": "southeast / screen lower-right",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "72e7627f65133cafe0d7df3e21c8586b8edfcdc5321a20787c30b376e9613ecf",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            540
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 320,
+          "offset_policy": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "SL01/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                7,
+                8,
+                7,
+                7,
+                8
+              ],
+              "duration_ticks": 45,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "c05cb73a81cf192ab58a813696980fb535fee8718c9d788327fbc457539fd306",
+                "86244f2b0166d9c02069042bb0f7276593c51de8c07e231637965d0f3133fa76",
+                "bd3d56e4d7ccb51a5eca07822236831d120dacb9f4fbda35a14f262d967e0ae0",
+                "a80593f00914dd2c6cbd2c9866c20aa4da690202e706b12b5b90611c8abf8158",
+                "082020193b8660ffb28441ec6b82aa2fc213b27e1921be8d78649e7c4766334d",
+                "953078cd844d6a89b9bc55e05adf6a6c70d7a9c38d1326e191d2b157e210ce3f"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 320,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[].file",
+                "hold_ticks": "clips.move.frames[].hold_ticks_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    29,
+                    132,
+                    485,
+                    469
+                  ],
+                  "baked_translation": [
+                    92,
+                    203
+                  ]
+                },
+                {
+                  "source_box": [
+                    525,
+                    178,
+                    1049,
+                    463
+                  ],
+                  "baked_translation": [
+                    58,
+                    255
+                  ]
+                },
+                {
+                  "source_box": [
+                    1067,
+                    77,
+                    1517,
+                    457
+                  ],
+                  "baked_translation": [
+                    95,
+                    160
+                  ]
+                },
+                {
+                  "source_box": [
+                    40,
+                    555,
+                    488,
+                    919
+                  ],
+                  "baked_translation": [
+                    96,
+                    176
+                  ]
+                },
+                {
+                  "source_box": [
+                    532,
+                    648,
+                    1049,
+                    916
+                  ],
+                  "baked_translation": [
+                    62,
+                    272
+                  ]
+                },
+                {
+                  "source_box": [
+                    1068,
+                    604,
+                    1517,
+                    939
+                  ],
+                  "baked_translation": [
+                    96,
+                    205
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "SL01/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                6,
+                8,
+                12
+              ],
+              "duration_ticks": 49,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "4d0c64164489b2e3ab9705278bcf8a346364d6c3ddfefe24adf8f86050dbb85f",
+                "40339236fd0c1319b2427499518e8ae3229af5d7b6d88df7a4fb0aa3fae87c50",
+                "a8a169d1f00a8b41065068de56e06fccd1bc31d8f212f8f4bca6d5cf8d80bd2b",
+                "bace7f81584ae28a8db32649ca6b29d5547d24f437d5080d5614ccd2a9931b7a",
+                "66d6bd2edbd6fae595fe21861b2da71179ebf6fa912027e050827f3e2f9a4c08",
+                "4d911ffedd5aaa8d091941ef758a4ff2ff1716ad63ca385d41e3d83ab3b491dc"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 320,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold last recovery cel until state transition",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[].file",
+                "hold_ticks": "clips.attack.frames[].hold_ticks_60hz",
+                "visual_event": "clips.attack.visual_event.frame_index",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    47,
+                    110,
+                    489,
+                    449
+                  ],
+                  "baked_translation": [
+                    99,
+                    201
+                  ]
+                },
+                {
+                  "source_box": [
+                    546,
+                    196,
+                    1003,
+                    448
+                  ],
+                  "baked_translation": [
+                    80,
+                    288
+                  ]
+                },
+                {
+                  "source_box": [
+                    1052,
+                    159,
+                    1489,
+                    455
+                  ],
+                  "baked_translation": [
+                    110,
+                    244
+                  ]
+                },
+                {
+                  "source_box": [
+                    56,
+                    629,
+                    536,
+                    936
+                  ],
+                  "baked_translation": [
+                    106,
+                    233
+                  ]
+                },
+                {
+                  "source_box": [
+                    576,
+                    590,
+                    988,
+                    920
+                  ],
+                  "baked_translation": [
+                    122,
+                    210
+                  ]
+                },
+                {
+                  "source_box": [
+                    1047,
+                    588,
+                    1490,
+                    928
+                  ],
+                  "baked_translation": [
+                    99,
+                    200
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "SP01",
+      "name": "Veil Wisp",
+      "identity_sha256": "80f8802796d5f44eb4acdfcbf262cf039f9515cf302f6ca43ee6c627b350b795",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "veil_wisp_runtime.zip",
+          "size_bytes": 2831088,
+          "sha256": "5ade1ea04c32fda46a55e5f8475d033380184f1cd5b06c368ab8996dfa0a6198",
+          "library_file_id": "libfile_8d0e032f670081919f603bc549b117a9",
+          "drive_id": "1hg8_ZtbVSA9L6bwkhal4IbfUJW7316oh",
+          "drive_url": "https://drive.google.com/file/d/1hg8_ZtbVSA9L6bwkhal4IbfUJW7316oh/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "veil_wisp_source.zip",
+          "size_bytes": 3532210,
+          "sha256": "0dcb55fe4680bfdbc18691da55887666083914cd0b744e69d51e6292e33e38ac",
+          "library_file_id": "libfile_6a1dceab0ad8819197299b68ffd019f9",
+          "drive_id": "1glOA7m7kDXNwl9Jom2mYJjeIdOwstlz1",
+          "drive_url": "https://drive.google.com/file/d/1glOA7m7kDXNwl9Jom2mYJjeIdOwstlz1/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Restrained hood/tail hover and pulse flare; no projectile supplied. Recovery horizontal correction already baked.",
+      "mirroring": "not validated; use authored facing",
+      "camera": {
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibration": "visual approximation, not 3D calibrated"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/SP01.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen lower-right three-quarter",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "f4321ad6a12f5f8f470768612f127e76f8f53c64254a9bb6d216063d8c268e5f",
+          "canvas_pixels": [
+            768,
+            768
+          ],
+          "pivot_pixels": [
+            384,
+            650
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "engine-owned; all drawing offsets baked; do not reapply",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "SP01/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                9,
+                8,
+                8,
+                8,
+                8,
+                9
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "9b5215f59bec510f5566ebf3369c49462dc10e656d10a6429af6c8d267d932a4",
+                "fa08e46f959eb37704d0e947797633b41022e6d29733d1f18466e395c2d041dc",
+                "7a105695a3a285d02dba5b88260f88f497a00c3c16338ae2012eda3648317c2d",
+                "67d6735293f822014dd5ad6ec31696576a78b1fa9311a7872d6ba9f9097f4949",
+                "8434cdd79c0c0289ae8c3105d81d1e687f4b7ac38267d9bf24f3309bbc115a8d",
+                "5b11b6e6d9d649569373f321157d9500da12898cf2da407cde99a6dbda5a1213"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": "clips.move.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "SP01/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                9,
+                12,
+                5,
+                9,
+                14
+              ],
+              "duration_ticks": 57,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "b234d6658f31f4709d8a36c61820e22607d87bc845451ccf15881d5fd04ec42f",
+                "c59b122d55e4b0cfd9b3e8e3b335f2bd322e7d51a85c0c684ce0f31adb19fab8",
+                "6bcb52ec485de7de08b1cfd104d22b9e35c47c69016462f45d7ce398486b2869",
+                "ff0a82e8dc1e2743c37699b32cd09db692c05c2f690164a0a7b71929252e72b3",
+                "7b1bae4279b7dc2a956ed3df6382cb19837082db91089d34fba73415fef47736",
+                "5eb175ecfcdad6ee9b5a551f4ab73c3cef7e1b80eabda9d8c5bf5a5f6bc4d8ef"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 29,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final then return movement",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "BT03",
+      "name": "Mourning Moth",
+      "identity_sha256": "e71d196ee30ef3ae2e95efc8aaee2f4a1111a9d1f783abf080769737b67137b5",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "mourning_moth_runtime.zip",
+          "size_bytes": 3268463,
+          "sha256": "dc7248d39d6017f0829b8e9d2a2fe0cae94f941cc7d1f72433835992b2e25d6c",
+          "library_file_id": "libfile_c4927fd270608191bbb1567f5293ee04",
+          "drive_id": "1Hp5zYW8FHbs768tz3i9NvZeGPR_R4M1j",
+          "drive_url": "https://drive.google.com/file/d/1Hp5zYW8FHbs768tz3i9NvZeGPR_R4M1j/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "mourning_moth_source.zip",
+          "size_bytes": 3882988,
+          "sha256": "c95f6f8f9651c6a1d797f5dd0a0bfdca42a487bf971608b41356cc031ab46ae4",
+          "library_file_id": "libfile_dad5b381ff408191954840e3a927d29d",
+          "drive_id": "1Ebk2_YJWa3OpBrYoG_Nz2ruTZ_sC5w6B",
+          "drive_url": "https://drive.google.com/file/d/1Ebk2_YJWa3OpBrYoG_Nz2ruTZ_sC5w6B/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Two-wing beat and shallow peck with wings open throughout; no folding-wing attack.",
+      "mirroring": "not validated; use authored facing",
+      "camera": {
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibration": "visual approximation, not 3D calibrated"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/BT03.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen lower-right three-quarter",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "78722ee90bdcc2cfca5ec9f406439ac6064af70dcdbee847afbafefca7587bca",
+          "canvas_pixels": [
+            768,
+            768
+          ],
+          "pivot_pixels": [
+            384,
+            650
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "engine-owned; all drawing offsets baked; do not reapply",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "BT03/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                6,
+                5,
+                4,
+                5,
+                5,
+                6
+              ],
+              "duration_ticks": 31,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "297affb2cf525694e219ff455d23bb144aaaa9947e2390d74f3db28c49c9e52c",
+                "75ffa28883d9e09a5a025fc75bba97be9256dd7ddf20af7e420065a37a12237b",
+                "9246bef5030bae3b91fa4f08da44ff3274c7588f656223fa2ba8199caee74836",
+                "c8def3a49f09c4c451c2efe700a5d70e8a4ee2f930a9e5b6184aaf47d9cdc5a3",
+                "f1d1f0087d582362e57d8b59f5b24864ac12112f893fa94a874566e25972cdb7",
+                "f68c2c9479da316593d7c05c09d38e9b16e3f336d2ea37dbdd295ccf81af4104"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": "clips.move.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "BT03/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                12,
+                5,
+                8,
+                14
+              ],
+              "duration_ticks": 57,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "0d4d09b75fc7f6a684744bd2619a91063d60c0ebc3f0f621e3857f8c6e39dfef",
+                "a8faa60cd5d309bb3a1b58b55e820260b587a145115f4cdf2d6ff069e0c191f7",
+                "088b43df8916554285d639feb3af2a094751e6f8deee67e0da96dd173a1464e6",
+                "a1c548c1d2adadd09f92da6d7005e217344977bc24a7000945fa1f14c9ed8e3a",
+                "8436bb17ed354620d0cb6bb87baacfb782fdc977ce42a62a8ad1c7be4a5860b4",
+                "4da12f99e27675d89a1412663e91fe12c3686d8aa1abb5f00b0516cc0fe83a3a"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 30,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final then return movement",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "FP02",
+      "name": "Ironcap Fungus",
+      "identity_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "ironcap_fungus_runtime.zip",
+          "size_bytes": 4684322,
+          "sha256": "ce728af2490d4222c3eec0fb8233869a6c8cababbaec161481d65701b781dbaf",
+          "library_file_id": "libfile_15b8fbe08cb881918d1e4c49459fcdc6",
+          "drive_id": "1WqbtmDGcgSuNkcYRJoixABjnpdjqv_iz",
+          "drive_url": "https://drive.google.com/file/d/1WqbtmDGcgSuNkcYRJoixABjnpdjqv_iz/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "ironcap_fungus_source.zip",
+          "size_bytes": 5396300,
+          "sha256": "ff848ccc88b6addb51de4366b7539bddfa6f2eee9522888f624c9dccba76b266",
+          "library_file_id": "libfile_c1ee5a1974c081919ee6f54022b8a0e2",
+          "drive_id": "1_IRVG12Jo-6Z_XHYoSsrp-D_d-ZxO-q9",
+          "drive_url": "https://drive.google.com/file/d/1_IRVG12Jo-6Z_XHYoSsrp-D_d-ZxO-q9/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Short shuffle and downward cap bash. Asymmetric cap spots prevent approved mirroring.",
+      "mirroring": "Not approved: asymmetric cap spot arrangement would flip.",
+      "camera": {
+        "elevation_intent_degrees": 35.2643897,
+        "azimuth_intent_degrees": 45,
+        "note": "Drawn visual approximation, not calibrated 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/FP02.json",
+      "headings": {
+        "DR": {
+          "source_facing": "southeast / screen lower-right",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "a57408a481c32a4457c74e3387ad975b4df80c8d3c8228d63f0684e2ca18e354",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            540
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 400,
+          "offset_policy": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "FP02/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "889faa5572d9cf946adb1a7eb5c9d6d846185f0e650372177f85cdd70213296f",
+                "c1cce27f2377fcdb559542d15b2ec28dee5e5bf5084ce50483f1ce4db16357a9",
+                "0b363445ebf9ec42565cadd85d62ca81e695b801af7a1b14507f53a26d781ac0",
+                "b0161e6810156b6e0b07ea5d2e43b9d687e97ab0cf6da28da5223e6dfaeb23cb",
+                "cc093f4ebd21fbed27453cedab12229516ca6b7263a0ed3b3bd80f7ec4e45d69",
+                "2430aa8c06a252c4c4a0beab87f680bc1fbf36a5d5bb4455f7338527be2a3418"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 400,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[].file",
+                "hold_ticks": "clips.move.frames[].hold_ticks_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    37,
+                    50,
+                    492,
+                    499
+                  ],
+                  "baked_translation": [
+                    93,
+                    91
+                  ]
+                },
+                {
+                  "source_box": [
+                    547,
+                    91,
+                    1002,
+                    445
+                  ],
+                  "baked_translation": [
+                    93,
+                    186
+                  ]
+                },
+                {
+                  "source_box": [
+                    1060,
+                    44,
+                    1509,
+                    504
+                  ],
+                  "baked_translation": [
+                    96,
+                    74
+                  ]
+                },
+                {
+                  "source_box": [
+                    45,
+                    560,
+                    493,
+                    977
+                  ],
+                  "baked_translation": [
+                    96,
+                    123
+                  ]
+                },
+                {
+                  "source_box": [
+                    556,
+                    552,
+                    1001,
+                    989
+                  ],
+                  "baked_translation": [
+                    98,
+                    100
+                  ]
+                },
+                {
+                  "source_box": [
+                    1053,
+                    556,
+                    1510,
+                    1004
+                  ],
+                  "baked_translation": [
+                    92,
+                    92
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "FP02/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                11,
+                6,
+                5,
+                8,
+                12
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "b1a29aea7c37849b0a6a82f7fcfdc793394ee811264ff5ceda3342d30a1fd79f",
+                "5645aebe2c1845491c745886868408b6ae276b350f2ed8d682860c7fa8d96906",
+                "ff21e328056dc8ce602b6fccbbc03749fe979a5a88251981aa6335bdf70bc24d",
+                "638ad2a88f9ef32d976249d31e8fb848a29a1e1764592ff383fdb5ee0f0a0b5b",
+                "51e53670170f50067a4c0f528b4b97aceb5a34f82dccaabb7467c3e6c8df4788",
+                "8ff90073c90faa15ef79e0905c2b87ee8a1a03c602cec697135c3f73ed1343b6"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 400,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 25,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold last recovery cel until state transition",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[].file",
+                "hold_ticks": "clips.attack.frames[].hold_ticks_60hz",
+                "visual_event": "clips.attack.visual_event.frame_index",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    25,
+                    46,
+                    488,
+                    509
+                  ],
+                  "baked_translation": [
+                    89,
+                    77
+                  ]
+                },
+                {
+                  "source_box": [
+                    547,
+                    105,
+                    990,
+                    510
+                  ],
+                  "baked_translation": [
+                    95,
+                    135
+                  ]
+                },
+                {
+                  "source_box": [
+                    1058,
+                    45,
+                    1512,
+                    510
+                  ],
+                  "baked_translation": [
+                    87,
+                    71
+                  ]
+                },
+                {
+                  "source_box": [
+                    55,
+                    585,
+                    550,
+                    994
+                  ],
+                  "baked_translation": [
+                    93,
+                    131
+                  ]
+                },
+                {
+                  "source_box": [
+                    554,
+                    539,
+                    1018,
+                    996
+                  ],
+                  "baked_translation": [
+                    88,
+                    80
+                  ]
+                },
+                {
+                  "source_box": [
+                    1043,
+                    541,
+                    1509,
+                    1003
+                  ],
+                  "baked_translation": [
+                    87,
+                    78
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_enemy_03_masked_cultist",
+      "name": "Masked cultist",
+      "identity_sha256": "eaa675ed1177ba59e3c12cffd0534ad775195818d2035861d7a3cb825f70317d",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "masked_cultist_runtime.zip",
+          "size_bytes": 4078639,
+          "sha256": "75b7e9929fbab6d961a7fd3ea4df2ba0db43e7af831121fe42223bd07f05f308",
+          "library_file_id": "libfile_8a7a4fd7ddb88191aca5443424b5d1fd",
+          "drive_id": "1Dhws92rxtb84sP0zYXBs64xAdn2ehNcy",
+          "drive_url": "https://drive.google.com/file/d/1Dhws92rxtb84sP0zYXBs64xAdn2ehNcy/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "masked_cultist_source.zip",
+          "size_bytes": 4312936,
+          "sha256": "3052fb23cc3f8d661e8ddc17fb3df1be4702b3cf37510c97a00d9b3726573c3c",
+          "library_file_id": "libfile_fe490419b9b88191aa4099b5ace2c012",
+          "drive_id": "1rrFS0r_N8KBRBu65MyP5Q8c8NZVg2N6Y",
+          "drive_url": "https://drive.google.com/file/d/1rrFS0r_N8KBRBu65MyP5Q8c8NZVg2N6Y/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Creeping shuffle, not alternating full walk. Book remains left arm, dagger right hand. Short outward slash.",
+      "mirroring": "not permitted; asymmetric equipment requires authored opposite facings",
+      "camera": {
+        "target_elevation_degrees": 35.2643897,
+        "target_azimuth_degrees": 45,
+        "calibration": "2D artist target; not measured 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_concept_enemy_03_masked_cultist.json",
+      "headings": {
+        "DR": {
+          "source_facing": "single southeast-facing three-quarter view",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "c9fa288d2ae8eb560223df25c67f186e7288879938c5461965558cf46e494d78",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            374,
+            555
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 240,
+          "offset_policy": "in place; world actor transform controlled separately; no runtime sprite offsets; registration baked into PNGs",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_concept_enemy_03_masked_cultist/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ],
+              "duration_ticks": 42,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "89d804f8b4d5aa3f46b4983dc71cdac38a2dc80a846001d5c34d29bc39ed224c",
+                "2524f95feae8043252c5946f1da35d39cd8026142fbd281258200798fcb5dd75",
+                "1a967eb154c446bb8093a72f88758e5abd191cecba52bd097de5afadfe010cda",
+                "52222cbf689386aeba8e325c7293f047a5d9eacde15d5b09bca5cb8e99b305b1",
+                "7a19891d840c4eaeca7f2fad3aab47df1e224fa253421914bcc37c5a4ddd223b",
+                "98168400c8ffaf98fe781cd69e681e0acf73219619d6a30ca7cc8de9d6c87558"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                374,
+                555
+              ],
+              "estimated_pixels_per_unit": 240,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.cels[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_concept_enemy_03_masked_cultist/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                8,
+                10,
+                5,
+                8,
+                10
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "27840f263487c278e92de4ffd03bb29f485515f7ffe0b633960695d494f0aae0",
+                "d6d8228d39bce9437ad6a773995c8a58797e68a0408da07a9c574683f5ebd9cc",
+                "7cbdffe66628f735b0cff5d731c6bc0d4eee80a3f4b39f5785b56a8925abbc8f",
+                "5a44495dcac3af53c6a6703229b07fee4d6b76387004e0f7784e6f5f7f069f2b",
+                "fd213b87b686aafe1a206974fc1683c17313feb55abbdaad0f5e8a658e34fb1d",
+                "b4e23c0ff5681c7e3bed4fa48e9e5a09ca73b12539a9dbe046d1d0f4d2f02ff9"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                374,
+                555
+              ],
+              "estimated_pixels_per_unit": 240,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 25,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final cel then transition to move_00 or idle_still",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.cels[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event.cel_index",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "author_confirmed",
+            "confirmed_utc": "2026-10-08T05:56:43Z",
+            "source": "Production author confirmation relayed by coordinator",
+            "derivation": "Masked Cultist pivot [374,555] uses top-left origin, x right / y down, on 640 square canvas. Pivot is renderer anchor; registration remains baked.",
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_enemy_08_clockwork_penitent",
+      "name": "Clockwork penitent",
+      "identity_sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "clockwork_penitent_runtime.zip",
+          "size_bytes": 5432427,
+          "sha256": "9fc53b2f2bf502d46b204887906bdfaefe351e709e4ff90bd44976844a8a00f1",
+          "library_file_id": "libfile_127e467d356881919d9dd47a4e63d5db",
+          "drive_id": "1FkHBwjRQdeZrTqFwF7I6Jnq2bmLH7Wy-",
+          "drive_url": "https://drive.google.com/file/d/1FkHBwjRQdeZrTqFwF7I6Jnq2bmLH7Wy-/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "clockwork_penitent_source.zip",
+          "size_bytes": 3858957,
+          "sha256": "feef5b2a18ff46f2a4d36854f75efee848cbdc117e15144d392a3bce5afdb98f",
+          "library_file_id": "libfile_0734a9898bb08191bc5d4ab8555dc9c2",
+          "drive_id": "1hDhWxbsd0oFnIMKw8rdH_rTgJ2e18Wzw",
+          "drive_url": "https://drive.google.com/file/d/1hDhWxbsd0oFnIMKw8rdH_rTgJ2e18Wzw/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "One mechanical hitch-step, not alternating march. Some wheel-perspective variation. Whole move clip uniformly reduced to 92% to match attack; do not rescale again.",
+      "mirroring": "not permitted; asymmetric equipment requires authored opposite facings",
+      "camera": {
+        "target_elevation_degrees": 35.2643897,
+        "target_azimuth_degrees": 45,
+        "calibration": "2D artist target; not measured 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_concept_enemy_08_clockwork_penitent.json",
+      "headings": {
+        "DR": {
+          "source_facing": "single southeast-facing three-quarter view",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "69edf49010cdaa093f21cea59b52c34406cb6d24259f91d310bac1b91b8cd39b",
+          "canvas_pixels": [
+            768,
+            768
+          ],
+          "pivot_pixels": [
+            400,
+            697
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 320,
+          "offset_policy": "in place; world actor transform controlled separately; no runtime sprite offsets; registration baked into PNGs",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_concept_enemy_08_clockwork_penitent/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ],
+              "duration_ticks": 42,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "58aee2097204221051f0ec2928662813cc5d3b51d3c7925f2b6abd4cff015478",
+                "41cdb79a6e4f1cdde25653449d77c438843ee545c19b602f52c88b0cf727aeaf",
+                "d5c76a12d65627afab10caa54208807166777b426565e15b2d90038ee128cbc0",
+                "660aae58fc6a91ecba9819a2e4badabf58a1ae46151f83eeb6ec90bf13cd7d00",
+                "45436be8d7f3406766e6ac7072dcf5d0aa0fd7321c1db312a73fa54dda1019ab",
+                "0fa080f1268298c3912265fcabdecc66fe093a2f9784046cb12c093cc42807fc"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                400,
+                697
+              ],
+              "estimated_pixels_per_unit": 320,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.cels[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_concept_enemy_08_clockwork_penitent/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                8,
+                10,
+                5,
+                8,
+                10
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "fb83c940ef351f111fea7fe56c23195be2aacde2e4318186df1c6aa21729aea6",
+                "a4f12a6cd1dd5c8a9b3c4d6d679eb52858bd21a3d92b111ba6364a5cce338c73",
+                "e3d241f769a0686b2387158b3f9163ddd50d7e24c731bc49e96f133c904ec66d",
+                "50e248ab394fba1105d77b713fc8477ed655afdf2dd14d5611ee283ac87db290",
+                "f8b9ce8f662e20186b0f68339e86374cbc6109b70fc6b3fd8f76d4552214594c",
+                "0b565a1a746fda775ab1601bf6acdcb9629a7aa07839a21ec7c85aea9c25d5e5"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                400,
+                697
+              ],
+              "estimated_pixels_per_unit": 320,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 25,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final cel then transition to move_00 or idle_still",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.cels[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event.cel_index",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "inferred_and_verified_from_rebuild",
+            "source_archive_path": "build.py",
+            "config_archive_path": "config.json",
+            "derivation": "config pivot.y equals ground_y; py = ground_y - (cel.getbbox()[3]-1), followed by canvas.alpha_composite(cel,(px,py)); rest alpha bbox bottom = ground_y+1.",
+            "ground_y": 697,
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_creature_concept_03_moth_oracle",
+      "name": "Moth oracle",
+      "identity_sha256": "2d558003603bc1f3791e951bd5d021177e07a62ae7308937581c6483d4411fa6",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "moth_oracle_runtime.zip",
+          "size_bytes": 4458392,
+          "sha256": "dc3a3b9c62186f073c8363aac44d73b96520cbf0dbb2afddb11670bfc3019139",
+          "library_file_id": "libfile_487b756239a88191af6f87762d542370",
+          "drive_id": "1lazQCSisKi6VuQmnByY5A1cycWR_yvMo",
+          "drive_url": "https://drive.google.com/file/d/1lazQCSisKi6VuQmnByY5A1cycWR_yvMo/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "moth_oracle_source.zip",
+          "size_bytes": 4653819,
+          "sha256": "1fca9b152bab3280196ecfb49639667bd9d0dfc75cf650118041a3e5be7ae5f2",
+          "library_file_id": "libfile_576ea2b29bc88191abc8525d47cd2d26",
+          "drive_id": "1d2aSVurHJcPqv8jOE5Ii0e4gtAiHVi0r",
+          "drive_url": "https://drive.google.com/file/d/1d2aSVurHJcPqv8jOE5Ii0e4gtAiHVi0r/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Four-wing beat and command/palm-release attack. Wing lobes overlap intentionally. No new projectile/prop asset.",
+      "mirroring": "not validated; use authored facing",
+      "camera": {
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibration": "visual approximation, not 3D calibrated"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_creature_concept_03_moth_oracle.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen lower-right three-quarter",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "55eada0e584e49d871b3577942ca227692923f5c44c3076240a1caaf40891792",
+          "canvas_pixels": [
+            768,
+            768
+          ],
+          "pivot_pixels": [
+            384,
+            650
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "engine-owned; all drawing offsets baked; do not reapply",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_creature_concept_03_moth_oracle/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                7,
+                7,
+                7,
+                7,
+                8
+              ],
+              "duration_ticks": 44,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "140be5fcc05400c9b13d9e5f0944bdb0c93f381e0cb53e0adc1028c4042c88dd",
+                "b11749de437aacebc24dba4ed3c035e017dce96daf220d293ddc583a7059abe2",
+                "4a6cceb651e635c424ac88a3010ec335fdeaaedb6f205e52445e06b2d810337a",
+                "a829dccd7cc3e268be0206c0223742ba35784ddb2306c4289e3a2ed13eea89a0",
+                "a651770756e6c2a6f14ebbd8496c4ef46b7332b3639f6c0fe62050a62d0748b7",
+                "d8bc894a94cca2e565858d92e92f99c956622f4a4bc7d334f4cf3c0b65a4134b"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": "clips.move.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_creature_concept_03_moth_oracle/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                9,
+                12,
+                6,
+                9,
+                14
+              ],
+              "duration_ticks": 58,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "99ae7db689c151f1d5322d5bbddccc4195a2c5d018c19a75ac6a00452b7a57ec",
+                "233e56237e127b05c1c30840652d3dfe2dd39eca4753c0c2a0013e7e58808cc3",
+                "7c602a1157fbc1ea23247a05cea4af761e4fbca8bf0f2ceaa0d6ad926f8a926a",
+                "5ffc28164b9e302f38b1467d3b0b5eaccfeb16dff86bb2c2208f2d3d3cf35624",
+                "018dd39290486797102fbeb1de52895cd0c8e3b0ee416a8f798f243dab5adbbe",
+                "564e1f6dfcd099a09ae49128c0a9decec7dccfd52c07079940dadd1714f4e93e"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 29,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final then return movement",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_elite_concept_01_bellbearing_pilgrim",
+      "name": "Bell-bearing pilgrim",
+      "identity_sha256": "02146b8881a520f3de89fde37f58e81c2822ca96cd7e9296c4831a19b8006d5e",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "bell_bearing_pilgrim_runtime.zip",
+          "size_bytes": 4694792,
+          "sha256": "6e941dbbbff92f4aa9395980e99b40fc409503c0b242a912437c6c38f994880f",
+          "library_file_id": "libfile_48840d950810819185d0247cacc6b58c",
+          "drive_id": "12BR-Uk2iU2NJ4ekZMzt-VM5-immGgpEG",
+          "drive_url": "https://drive.google.com/file/d/12BR-Uk2iU2NJ4ekZMzt-VM5-immGgpEG/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "bell_bearing_pilgrim_source.zip",
+          "size_bytes": 4370936,
+          "sha256": "7c8246aa7376c6e3f9b79b5840785a12a26117ed869b7cb2ff790cc1613a3128",
+          "library_file_id": "libfile_129986526cfc819191d56e8eead65e32",
+          "drive_id": "15vYjAuYzdCZgqwQuOMPczonDJrj-vInN",
+          "drive_url": "https://drive.google.com/file/d/15vYjAuYzdCZgqwQuOMPczonDJrj-vInN/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Burdened hitching shuffle and braced bell-toll bow. Whole move clip reduced to 83% to match attack; no additional scale correction needed.",
+      "mirroring": "not permitted; asymmetric equipment requires authored opposite facings",
+      "camera": {
+        "target_elevation_degrees": 35.2643897,
+        "target_azimuth_degrees": 45,
+        "calibration": "2D artist target; not measured 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_elite_concept_01_bellbearing_pilgrim.json",
+      "headings": {
+        "DR": {
+          "source_facing": "single southeast-facing three-quarter view",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "6638d8229430e28c7d52d796e79693f4b2568db1fcb88a6b58366f4fa93532ae",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            360,
+            565
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 240,
+          "offset_policy": "in place; world actor transform controlled separately; no runtime sprite offsets; registration baked into PNGs",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_elite_concept_01_bellbearing_pilgrim/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ],
+              "duration_ticks": 42,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "061463a84efcf1bc7c8f8d6a057e4551a403e6aedfd2cd570142bc00ab3a691e",
+                "b7ffa57f0a8dd6f5f06e88f385d9bdf199e4f6042b0f9248d7b9bcd0a0953923",
+                "02a778dfceeb19a56b9e3840756e4a8120eeb2ccfaab628a60fe7f2c6b002b86",
+                "8a5e561f653d75a92d1db3c09b15c9e5579fdb5eefc99a77d09313cad69e398f",
+                "ff0f8caf145851497c07ab23d72d0a540fe55fe50d91fa76531fe3d45d47a3c2",
+                "c02e7eff65da8cbf21bfebcfbbf61383f110bd6c6ed3d2c863857cd5566fce44"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                360,
+                565
+              ],
+              "estimated_pixels_per_unit": 240,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.cels[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_elite_concept_01_bellbearing_pilgrim/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                8,
+                10,
+                5,
+                8,
+                10
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "310f5ea62f1d0142f95e1775585923d5aac228b371e162da441405cbc7c2e756",
+                "2037e083f078639697384997dc841ea26c7ea4b4e43e55c067351e566df7ec0b",
+                "ac24a99a637dffec510b3258c30df7e47236f56dc3f845ff65e8fef11e812d70",
+                "9e8e2f940b6928e600bd1c205ac915fe934df8f372a23b0c1f5b62f47724cdd6",
+                "0d2644c9bdf6f31cc1d2cc65fe0f5e43118310abf6ddc6ecc6c9623c5335cf5f",
+                "ac642938bd767d09b3736a00944e67a1650d2d29f6f7a0a004fb6ceb620f7abb"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                360,
+                565
+              ],
+              "estimated_pixels_per_unit": 240,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 25,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final cel then transition to move_00 or idle_still",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.cels[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event.cel_index",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "inferred_and_verified_from_rebuild",
+            "source_archive_path": "build.py",
+            "config_archive_path": "config.json",
+            "derivation": "config pivot.y equals ground_y; py = ground_y - (cel.getbbox()[3]-1), followed by canvas.alpha_composite(cel,(px,py)); rest alpha bbox bottom = ground_y+1.",
+            "ground_y": 565,
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_elite_concept_05_candle_procession_wraith",
+      "name": "Candle-procession wraith",
+      "identity_sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "candle_procession_wraith_runtime.zip",
+          "size_bytes": 3583839,
+          "sha256": "4283fc2a70020b9674cee87a756f9255e7d1fda6d8f808b271b0de177a9867f0",
+          "library_file_id": "libfile_91035e7c265c81919c5df6d63a59aed6",
+          "drive_id": "12j5imawmCmN_ypnd_3oK4x8Rbm5jcZDV",
+          "drive_url": "https://drive.google.com/file/d/12j5imawmCmN_ypnd_3oK4x8Rbm5jcZDV/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "candle_procession_wraith_source.zip",
+          "size_bytes": 3892043,
+          "sha256": "ab2f079f41a9b2ac3b2ad5b0cdea6fc47336392a8d12a11ee628054c03ba2156",
+          "library_file_id": "libfile_4de008bee73481918211fd6821087b41",
+          "drive_id": "1fojuOXWZV6ph9301UE0o-NTP4p2o582b",
+          "drive_url": "https://drive.google.com/file/d/1fojuOXWZV6ph9301UE0o-NTP4p2o582b/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Restrained nonperiodic hover and prayer/curse-release. Four-candle yoke retained; no projectile supplied.",
+      "mirroring": "not validated; use authored facing",
+      "camera": {
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibration": "visual approximation, not 3D calibrated"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_elite_concept_05_candle_procession_wraith.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen lower-right three-quarter",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "9eeaf3afe8a138a41c2d7e2f2ff2004fbaa028ec1a1d7f9b646ba8ca2de531cb",
+          "canvas_pixels": [
+            768,
+            768
+          ],
+          "pivot_pixels": [
+            384,
+            650
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "engine-owned; all drawing offsets baked; do not reapply",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_elite_concept_05_candle_procession_wraith/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                9,
+                8,
+                8,
+                9,
+                8,
+                8
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "e2b3a0ec0dc4bed2ef8316c18837b774d8293f4d0f17f11017216860019e39c6",
+                "f6b817b4341957aba5d40df2e33d6800666622dd4d3c70d7dcd5ad70c17486d4",
+                "11730a165d3651e41dab265e1ed2b9cdfbde3e32ddfc90104ebe140eb3def015",
+                "299b82c64e8dc841ac8fb89203d25daeb565870e35f9cce2810dfdd06a758a5d",
+                "29045412fdc8ec5ccb09a121772252047d8c6976758694ca83a94010639116c3",
+                "6724d769697642e7cfda0d4288009743d30924d87f131d87032ca4eb38cc6726"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": "clips.move.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_elite_concept_05_candle_procession_wraith/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                9,
+                12,
+                6,
+                9,
+                14
+              ],
+              "duration_ticks": 58,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "068b9045f536e96e248640f89c65941eca8460d892cbbe2eab9033cd96cbe76a",
+                "c997f49ad6b10f8eb19b2e2e391613be8aea6afead823447afa3d487d72a26b7",
+                "2a912470713ee7f5e19d0227e3fcd32cbe5327824d84f3aa26596cfc61fa2da0",
+                "b78ad799ce348fb410a0e4d6d35b928cfb6b2af9624e1429c4cc637b3232533f",
+                "48224a737998c4adcca9ee12f73358012fe9a6280a80b4f2af2bac5011f10b95",
+                "3cf970c8f6b48e426d40d1a68c7431bb962ddf296bbee03f6f0196ce19b4c3d4"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 29,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final then return movement",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_elite_concept_06_rootbound_stone_saint",
+      "name": "Root-entangled stone saint",
+      "identity_sha256": "bce07386e2a424c6b3232e4d4a9efc08272e10e362ca4f81ea53ca17a7e1e98d",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "root_entangled_stone_saint_runtime.zip",
+          "size_bytes": 6076845,
+          "sha256": "4ed885cb1102607a96ac2a63bfbda1c6ece02496574f7900ca29a905216cc66b",
+          "library_file_id": "libfile_fa63c4268368819196ea564325ca3f94",
+          "drive_id": "16CAlkdoWyPoJcBXnMXErJytHom6OsI4r",
+          "drive_url": "https://drive.google.com/file/d/16CAlkdoWyPoJcBXnMXErJytHom6OsI4r/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "root_entangled_stone_saint_source.zip",
+          "size_bytes": 7039773,
+          "sha256": "df7c1da711e1f8cf6e84111fd1a99510d773eb892683c81b34edb5a3d879ef6b",
+          "library_file_id": "libfile_139e432f94fc8191b97e98ef3aa55a2b",
+          "drive_id": "1rcXl-eLs6Xy4ieSgiUIrWp9GGA_0H9cs",
+          "drive_url": "https://drive.google.com/file/d/1rcXl-eLs6Xy4ieSgiUIrWp9GGA_0H9cs/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Rooted heavy movement and connected ground-root burst/palm press. Root wrap and broken halo asymmetric; do not mirror.",
+      "mirroring": "Forbidden: asymmetric root wrap and broken halo must retain authored sides.",
+      "camera": {
+        "elevation_intent_degrees": 35.2643897,
+        "azimuth_intent_degrees": 45,
+        "note": "Drawn visual approximation, not calibrated 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_elite_concept_06_rootbound_stone_saint.json",
+      "headings": {
+        "DR": {
+          "source_facing": "southeast / screen lower-right",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "134630509f68d54f1a2d8d4c1050b9b99dc477bf4b9643f1e702a5f0e7433847",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            540
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 220,
+          "offset_policy": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_elite_concept_06_rootbound_stone_saint/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                10,
+                9,
+                10,
+                9,
+                9,
+                10
+              ],
+              "duration_ticks": 57,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "14b6a170fbe89e2bf1f3c3a12152126eacb775f99490d21537f0dcecd0d7ce2f",
+                "ba4b025d58b97606a9f9839d6c84fd3947115589c50aeac4d4253a60041c4912",
+                "9c25a1646bcdeb01060199b4ae3f61ca2ce2fed57bfa8a72a47189cb65f9f55c",
+                "2f7266d23a3682228002b68307aeb2f2b0e8ab8459aa7b05bd4b95512d25f2ce",
+                "0ac31f6e55f7211445debff69b132d773fde412fc210d478d91c7b200177ca85",
+                "946bbdef89e259424ccaa4178e26bfaeced7de8462a70e48647e9b8b7526679b"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 220,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[].file",
+                "hold_ticks": "clips.move.frames[].hold_ticks_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    121,
+                    6,
+                    445,
+                    513
+                  ],
+                  "baked_translation": [
+                    158,
+                    33
+                  ]
+                },
+                {
+                  "source_box": [
+                    587,
+                    10,
+                    1005,
+                    512
+                  ],
+                  "baked_translation": [
+                    111,
+                    38
+                  ]
+                },
+                {
+                  "source_box": [
+                    1107,
+                    7,
+                    1447,
+                    511
+                  ],
+                  "baked_translation": [
+                    150,
+                    31
+                  ]
+                },
+                {
+                  "source_box": [
+                    90,
+                    517,
+                    527,
+                    1016
+                  ],
+                  "baked_translation": [
+                    102,
+                    41
+                  ]
+                },
+                {
+                  "source_box": [
+                    582,
+                    515,
+                    979,
+                    1014
+                  ],
+                  "baked_translation": [
+                    122,
+                    38
+                  ]
+                },
+                {
+                  "source_box": [
+                    1109,
+                    516,
+                    1461,
+                    1016
+                  ],
+                  "baked_translation": [
+                    144,
+                    40
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_elite_concept_06_rootbound_stone_saint/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                9,
+                11,
+                9,
+                7,
+                10,
+                14
+              ],
+              "duration_ticks": 60,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "2af93ba380858a66338cb0d8042ebd83c795a9b58b1292ab479c438f7262a7f2",
+                "ade680078a76ff7c2b359e17ebee5969c19b50ddaa9957c8378cba0087a2386a",
+                "012a76442dbfd7098f2b45ab717f90202de8b4114ef3bf56ba681047c497c4ba",
+                "c568c6739f46ab13c21e9e9f36ca300ecec36b76cc8ab9a00f6cbbafe407febb",
+                "1a6b6cf9aa3479a020fd5ed8ab152f852f41a8d14b62a92506f70a6759b2b804",
+                "9d153a7e18d772f952fcd9e9fe8d0d0e6570faee5b0218841851feebf4d4492e"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                540
+              ],
+              "estimated_pixels_per_unit": 220,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 29,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold last recovery cel until state transition",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[].file",
+                "hold_ticks": "clips.attack.frames[].hold_ticks_60hz",
+                "visual_event": "clips.attack.visual_event.frame_index",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": [
+                {
+                  "source_box": [
+                    144,
+                    4,
+                    468,
+                    516
+                  ],
+                  "baked_translation": [
+                    158,
+                    28
+                  ]
+                },
+                {
+                  "source_box": [
+                    646,
+                    5,
+                    944,
+                    516
+                  ],
+                  "baked_translation": [
+                    169,
+                    29
+                  ]
+                },
+                {
+                  "source_box": [
+                    1102,
+                    3,
+                    1426,
+                    516
+                  ],
+                  "baked_translation": [
+                    155,
+                    24
+                  ]
+                },
+                {
+                  "source_box": [
+                    56,
+                    518,
+                    596,
+                    1017
+                  ],
+                  "baked_translation": [
+                    58,
+                    41
+                  ]
+                },
+                {
+                  "source_box": [
+                    617,
+                    518,
+                    995,
+                    1021
+                  ],
+                  "baked_translation": [
+                    131,
+                    37
+                  ]
+                },
+                {
+                  "source_box": [
+                    1108,
+                    517,
+                    1428,
+                    1022
+                  ],
+                  "baked_translation": [
+                    160,
+                    35
+                  ]
+                }
+              ],
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_archetype_concept_01_skeletal_archer",
+      "name": "Skeletal archer",
+      "identity_sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "ARCHER_runtime.zip",
+          "size_bytes": 4764290,
+          "sha256": "4a38d22fcfd3f7319ce9646a759335fa59f566de4839c3bd9e334fbe5318270d",
+          "library_file_id": "libfile_290301629ef481918a2e8b300a8b1e04",
+          "drive_id": "1-inwFLZ2TxY-IqipqYyRnpu_nOsnLwcO",
+          "drive_url": "https://drive.google.com/file/d/1-inwFLZ2TxY-IqipqYyRnpu_nOsnLwcO/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "ARCHER_source.zip",
+          "size_bytes": 7833340,
+          "sha256": "9853c21bd2ecf1a98b38b7146a5d6564235fbe25ea092b9e55478920f1be4da7",
+          "library_file_id": "libfile_d73f1da213dc81918a4f77183531233d",
+          "drive_id": "1-CN_s3hYbMmA_ObGGvvmYsqL4iepFhQf",
+          "drive_url": "https://drive.google.com/file/d/1-CN_s3hYbMmA_ObGGvvmYsqL4iepFhQf/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Cautious shuffle, not run. Draw/release/rearm. Bow left hand; arrow right. Quiver count is illustrative; engine must spawn projectile and manage ammunition; projectile asset absent.",
+      "mirroring": "Not approved; author opposite facing independently",
+      "camera": {
+        "projection": "orthographic visual target",
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibrated_3d": false
+      },
+      "source_schema": "lantern.sprite.v1",
+      "original_metadata_copy": "original_runtime_metadata/lantern_archetype_concept_01_skeletal_archer.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen down-right (front three-quarter)",
+          "runtime_json_path": "ARCHER/runtime/animation.json",
+          "runtime_json_sha256": "8951ed05639808b43a3a2473b1eaed8d930a74d7fb809cfde9455e28242960e9",
+          "canvas_pixels": [
+            640,
+            640
+          ],
+          "pivot_pixels": [
+            320,
+            520
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "World actor movement external. All registration baked into PNG; no runtime offsets.",
+          "idle_still_path": "ARCHER/runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_archetype_concept_01_skeletal_archer/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "ARCHER/runtime/move_00.png",
+                "ARCHER/runtime/move_01.png",
+                "ARCHER/runtime/move_02.png",
+                "ARCHER/runtime/move_03.png",
+                "ARCHER/runtime/move_04.png",
+                "ARCHER/runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "194acfab1dd2c047c578079d88c85955cf0b499f84afd2d9d007bf0aafdfb4d6",
+                "50e8ccb31c4d76d38e01f4b6188cb50765c4d172e2984c4d8e6c67447a85cc51",
+                "8176d3c2df361912cc7120208a711768278a509c82a376ac248eb48c102f003c",
+                "03521403bf0ee9911e8cc6489bc272b1db8bc1821688b3ae5e090a1261b09ac3",
+                "5013f3628cfb8acd013de79b524a9c33676fdc87b959987dc82d504bdd3992b3",
+                "da92735de50bb134d64855b9c056515c5b558eeb4c806bc865c6255922dfc0a1"
+              ],
+              "atlas_path": "ARCHER/runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "repeat one shuffle cycle",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_ticks",
+                "visual_event": "clips.move.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_archetype_concept_01_skeletal_archer/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                5,
+                8,
+                7,
+                12
+              ],
+              "duration_ticks": 50,
+              "frame_paths": [
+                "ARCHER/runtime/attack_00.png",
+                "ARCHER/runtime/attack_01.png",
+                "ARCHER/runtime/attack_02.png",
+                "ARCHER/runtime/attack_03.png",
+                "ARCHER/runtime/attack_04.png",
+                "ARCHER/runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "1c40e4c411ac30928a0bd1a98aaece4bf5c8a3e4dced11c08de8b1870a79b2db",
+                "2bcc8f062c6e54968dbd6f1fd2331eb246dc8a9d83fdbc49608cf23b8d213a0e",
+                "129330c261742a55a1e925dadbde1aec29259e82da10ac72df761d5711486673",
+                "f613bcd2a8d5beb7a2c242fa85b5e0f85651572e194a5e6eb8fe0fadf01a0815",
+                "d0395213652715125c336bc646acd399eb4e7ec884a713820f174ebd8948fd1e",
+                "e27fa7c23cabff8c52b84f60aacfb4d1d22f76b5a5bfca6e5ea9a86d130d44db"
+              ],
+              "atlas_path": "ARCHER/runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                1920,
+                1280
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                640,
+                640
+              ],
+              "pivot_pixels": [
+                320,
+                520
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 23,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "return compatible rest; hold last pose",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_ticks",
+                "visual_event": "clips.attack.attack_visual_event_frame",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "author_confirmed",
+            "confirmed_utc": "2026-10-08T05:56:19Z",
+            "source": "Production author confirmation relayed by coordinator",
+            "derivation": "All five baseline pivot_pixels [320,520] use top-left origin, x right / y down, as intended estimated ground root on 640 canvas. Registration is baked into PNGs; pivot is renderer anchor, not an extra offset.",
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_hostile_faction_concept_04_censer_keeper",
+      "name": "Censer keeper",
+      "identity_sha256": "6665d22253e78bdb1acc1300ee58cfafae6dabb9f11a8bf8199f97b71ad19a05",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "censer_keeper_runtime.zip",
+          "size_bytes": 4411469,
+          "sha256": "eaae49399ef29ce28802eb84efecf12208992986ce4073c6ea4ce0d3d8daf250",
+          "library_file_id": "libfile_bb72af8dff708191a11f381e03bc8f8f",
+          "drive_id": "1noMdoeewSbcCP0F20EL2cQnP_QqUgXyp",
+          "drive_url": "https://drive.google.com/file/d/1noMdoeewSbcCP0F20EL2cQnP_QqUgXyp/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "censer_keeper_source.zip",
+          "size_bytes": 3972611,
+          "sha256": "f502213fcd8ff4db5cd841f463a92c9637b37df7ce66772e0a1c462233a5c481",
+          "library_file_id": "libfile_e1a0a3dfe34c819197052040678e2ca4",
+          "drive_id": "18HBalqz8hrd3rt_u4sTu2iQQ9z2sohf-",
+          "drive_url": "https://drive.google.com/file/d/18HBalqz8hrd3rt_u4sTu2iQQ9z2sohf-/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Processional shuffle and two-handed forward press. Whole move clip reduced to 88% to match attack. Chain/cage attached; no runtime swing rig.",
+      "mirroring": "not permitted; asymmetric equipment requires authored opposite facings",
+      "camera": {
+        "target_elevation_degrees": 35.2643897,
+        "target_azimuth_degrees": 45,
+        "calibration": "2D artist target; not measured 3D geometry"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_hostile_faction_concept_04_censer_keeper.json",
+      "headings": {
+        "DR": {
+          "source_facing": "single southeast-facing three-quarter view",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "fe9678963e8ff14118e5f0e8fcf3bb49c5784f20223615f8dc1a8a54968b5730",
+          "canvas_pixels": [
+            832,
+            832
+          ],
+          "pivot_pixels": [
+            426,
+            740
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 280,
+          "offset_policy": "in place; world actor transform controlled separately; no runtime sprite offsets; registration baked into PNGs",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_hostile_faction_concept_04_censer_keeper/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ],
+              "duration_ticks": 42,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "27d2b3cbfe751c1f72f277adc79f549c3f9f30f5c26e2d72d1defefb8050e5bd",
+                "3a18bda38ddb99dedc823bc2b819a10502f1fa639d03426fab14876019a0410c",
+                "5ca0fc096716f648806d2502d3992225563ce02164c830739238e9dd38566443",
+                "37583c7589a8b48f1abfdc8f757365dd0aa0eab24c150d93d30a14df2f01486d",
+                "9f037b05ad54eabf710b22d8608d74fa03252ca16383198530f2bcce7dc71ff6",
+                "f3b57f961c808960dedc0b7aeb4b0e9fb2e89348bda90fd97d7f2f81343b5f25"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2496,
+                1664
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                832,
+                832
+              ],
+              "pivot_pixels": [
+                426,
+                740
+              ],
+              "estimated_pixels_per_unit": 280,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.cels[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": null,
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_hostile_faction_concept_04_censer_keeper/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                7,
+                8,
+                10,
+                5,
+                8,
+                10
+              ],
+              "duration_ticks": 48,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "18a42c24d1adf5fe02dc8aadbf90e7b57860af17202cc460dad913417da1ba4c",
+                "503e4385d30937ce976409cea6649727fbae323d82fca472eb7f0513482b7b45",
+                "3da162a744c1d81ca7f166a769da603455803a462c04264602726c470719e54b",
+                "97003d7db9914380f57ed3508350a9f0f2973068079a05c07d81101f594c9eb4",
+                "76068f1ba087efe5284e4be8cc551710bc4e10c048350674cf0cf7e36cb9547e",
+                "b1810f78fcf7fb983bf5eb29c0f1805ea391e34fe757d28028a4652b5ee6ac10"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2496,
+                1664
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                832,
+                832
+              ],
+              "pivot_pixels": [
+                426,
+                740
+              ],
+              "estimated_pixels_per_unit": 280,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 25,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final cel then transition to move_00 or idle_still",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.cels[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event.cel_index",
+                "pivot": "pivot_pixels",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "inferred_and_verified_from_rebuild",
+            "source_archive_path": "build.py",
+            "config_archive_path": "config.json",
+            "derivation": "config pivot.y equals ground_y; py = ground_y - (cel.getbbox()[3]-1), followed by canvas.alpha_composite(cel,(px,py)); rest alpha bbox bottom = ground_y+1.",
+            "ground_y": 740,
+            "original_json_origin_explicit": false
+          }
+        }
+      }
+    },
+    {
+      "id": "lantern_cave_creature_06_hovering_broken_mask",
+      "name": "Hovering broken mask",
+      "identity_sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f",
+      "baseline_revision": "approved_baseline",
+      "artifacts": {
+        "runtime": {
+          "file_name": "hovering_broken_mask_runtime.zip",
+          "size_bytes": 3695131,
+          "sha256": "6b94db6b6801465a14f1050aa92ccf82e454715fe835b45bea6ec673442d7214",
+          "library_file_id": "libfile_52d38f97b684819187cc6f540aa2153c",
+          "drive_id": "1URwOeE7LL_jev8x7udejizoCD5eOPZ7o",
+          "drive_url": "https://drive.google.com/file/d/1URwOeE7LL_jev8x7udejizoCD5eOPZ7o/view?usp=drivesdk"
+        },
+        "source": {
+          "file_name": "hovering_broken_mask_source.zip",
+          "size_bytes": 3863633,
+          "sha256": "c483fe00b438fbccc9a2796ccb5bb4381557171f9c5f193055852419e502643b",
+          "library_file_id": "libfile_05be380c0f2c8191bc6ce8628f24c7fe",
+          "drive_id": "1_AXNlAgpdUF8fqpv74Qr6Iz6j4fI4Deg",
+          "drive_url": "https://drive.google.com/file/d/1_AXNlAgpdUF8fqpv74Qr6Iz6j4fI4Deg/view?usp=drivesdk"
+        }
+      },
+      "generation_limitations": "Restrained rigid-stone hover and headbutt; some fracture microdetail drawing variation. Asymmetric silhouette must not be mirrored.",
+      "mirroring": "not validated; use authored facing",
+      "camera": {
+        "elevation_degrees": 35.2643897,
+        "azimuth_degrees": 45,
+        "calibration": "visual approximation, not 3D calibrated"
+      },
+      "source_schema": "unversioned",
+      "original_metadata_copy": "original_runtime_metadata/lantern_cave_creature_06_hovering_broken_mask.json",
+      "headings": {
+        "DR": {
+          "source_facing": "screen lower-right three-quarter",
+          "runtime_json_path": "runtime/animation.json",
+          "runtime_json_sha256": "63358527bf696e7c9e3358ad3e60e210818e0bc9ca9961280e5fd1dd4b42521d",
+          "canvas_pixels": [
+            768,
+            768
+          ],
+          "pivot_pixels": [
+            384,
+            650
+          ],
+          "pivot_origin": "top_left",
+          "estimated_pixels_per_unit": 256,
+          "offset_policy": "engine-owned; all drawing offsets baked; do not reapply",
+          "idle_still_path": "runtime/idle_still.png",
+          "idle_is_animated": false,
+          "clips": {
+            "move": {
+              "key": "lantern_cave_creature_06_hovering_broken_mask/move/DR",
+              "loop": true,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                10,
+                9,
+                10,
+                10,
+                9,
+                10
+              ],
+              "duration_ticks": 58,
+              "frame_paths": [
+                "runtime/move_00.png",
+                "runtime/move_01.png",
+                "runtime/move_02.png",
+                "runtime/move_03.png",
+                "runtime/move_04.png",
+                "runtime/move_05.png"
+              ],
+              "frame_sha256": [
+                "d9625c8e99afa9144cc3ef777b754957495ed403798e9b45a0499e10013b7618",
+                "58107faed3e19fa998d61baaf53ffe57fc96cc7fb5b004539a41e52ab865986e",
+                "299b28ce84c0182879b3f1c3d336caf1d0ec022381529fe192a833738df59657",
+                "337db6225d50702e5226f74b3462dd9f432c9d13a38f9e16423558a371c12d8e",
+                "e8951669587a6257f7be854f67edc30842b9faedc602886952c2a489a4abb9d9",
+                "30d48d06d70b47b92bf391ff4082354c2f1bb9fef897db9d143e688174e5068c"
+              ],
+              "atlas_path": "runtime/move_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": null,
+              "visual_event_tick": null,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "loop",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.move.frames[]",
+                "hold_ticks": "clips.move.holds_60hz",
+                "visual_event": "clips.move.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            },
+            "attack": {
+              "key": "lantern_cave_creature_06_hovering_broken_mask/attack/DR",
+              "loop": false,
+              "tick_rate_hz": 60,
+              "hold_ticks": [
+                8,
+                10,
+                12,
+                5,
+                8,
+                14
+              ],
+              "duration_ticks": 57,
+              "frame_paths": [
+                "runtime/attack_00.png",
+                "runtime/attack_01.png",
+                "runtime/attack_02.png",
+                "runtime/attack_03.png",
+                "runtime/attack_04.png",
+                "runtime/attack_05.png"
+              ],
+              "frame_sha256": [
+                "36cdb8a85180197b6743e9370fcb28d61122f5c2ee295eadc7624e4c353b8c23",
+                "3a880886e436db5a9ea7404613ad64a9b573a0b54844125814d0fe9485068382",
+                "407050e4a185beb9ce1d9bb0d69c3959d32241c04f339387ade99ebe5d35f05c",
+                "55e397fbe4a63107efddbf5c03448c6adfcb9963d82dc4f3f5118dd26e0b7cf9",
+                "94fc89fc4027ea36b40f083e3d0b0446e9372af9f27d6230bd4dbfda0bc6398b",
+                "8485fc02272b550b79b3552147a84a1b37bf0fe94fcc64fa2821651ff4a3d9c0"
+              ],
+              "atlas_path": "runtime/attack_atlas.png",
+              "atlas_size_pixels": [
+                2304,
+                1536
+              ],
+              "atlas_grid_measured": [
+                3,
+                2
+              ],
+              "canvas_pixels": [
+                768,
+                768
+              ],
+              "pivot_pixels": [
+                384,
+                650
+              ],
+              "estimated_pixels_per_unit": 256,
+              "visual_event_frame_zero_based": 3,
+              "visual_event_tick": 30,
+              "visual_event_is_damage_guarantee": false,
+              "end_behavior": "hold final then return movement",
+              "description": null,
+              "source_field_mapping": {
+                "frame_paths": "clips.attack.frames[]",
+                "hold_ticks": "clips.attack.holds_60hz",
+                "visual_event": "clips.attack.attack_event_frame_zero_based",
+                "pivot": "pivot_pixels_top_left",
+                "ppu": "estimated_pixels_per_unit"
+              },
+              "baked_frame_provenance": null,
+              "pivot_origin": "top_left"
+            }
+          },
+          "pivot_origin_evidence": {
+            "status": "explicit_source_field",
+            "original_json_origin_explicit": true
+          }
+        }
+      }
+    }
+  ]
+}

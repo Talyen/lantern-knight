@@ -1,0 +1,81 @@
+LANTERN CORE ANIMATIONS — PORTABLE IMPORT CONTRACT v1.0
+
+FULL PNGS ARE AUTHORITATIVE
+Every delivery frame is 1536x1024 RGBA, root (768,892) in top-left coordinates.
+Bottom-left root: (768,132); normalized bottom-left: (0.5,0.12890625).
+PNG bytes are copied unchanged. Packaging never resizes, warps, mirrors, blends,
+auto-centers or changes registration. Source artwork remains untouched.
+
+CRITICAL: KEEP THE SAME ACTOR PIXELS-PER-WORLD-UNIT
+The wider canvas is transparent padding, NOT a different-sized character.
+Compared with the accepted 512x640 walk, raw quad canvas dimensions become
+3x width and 1.6x height at the SAME pixel scale. Padding is (+512,+320).
+Do not force the padded frame into the old quad height: that shrinks the actor.
+Frozen 1024x1024 R0 is unchanged; delivery adds exactly (+256,0).
+No numeric runtime pixels-per-unit value is invented. Inherit the accepted walk.
+
+TIMING AND STATES
+action_role is stable: idle, run, attack_sword_01/02/03, dash, lantern_flare, hit, death.
+clip_id and filenames may be versioned; route runtime states by action_role.
+Technical fixtures have delivery_eligible=false and never enter final asset indexes.
+Frames are ordered 1-based; hold_60hz is an integer number of 1/60-second ticks.
+No frame blending or interpolation. Onsets and durations are derived from holds.
+cycle_duration_* applies only to a looping clip; action_duration_* to one-shots.
+preview_repeat_count and preview_timed_duration_seconds describe presentation
+only. They never lengthen the action/cycle or turn a one-shot into a loop.
+Death's finite collapse ends at D0; indefinite game-owned D0 persistence is
+separate from the finite duration. Extra illustrated bridges require real slots.
+R0/J1/J2 shared_state_id values must identify the exact same drawing and root.
+Shared states are checked within packs and across packs with verify-shared.
+Combo routing remains explicit: attack01 1-14, attack02 5-14, attack03 5-24 in the
+original plan. Update routing if approved slots change; do not double-hold J1/J2.
+These are assets and suggested visual events, not gameplay or collision changes.
+
+OPTIONAL TRIMMED ATLAS
+Pages are <=4096x4096. No rotation. Every allocation has 8 transparent pixels
+on each side (16 between neighboring non-overlapping allocations). No extrusion.
+sourceSize = full delivery canvas; sourceTrimRect = {x,y,w,h} in that canvas.
+atlas_page selects atlas.pages[index]; atlasRect/atlas_rect select the crop.
+All rectangle coordinates are top-left; right/bottom edges are exclusive.
+To reconstruct: allocate transparent sourceSize, COPY (not alpha-composite)
+atlasRect to sourceTrimRect.x,y. Use rootPivot=(768,892) on that full canvas.
+Alternatively keep the trimmed image but use trimmed_root_pivot_px_top_left,
+which may lie OUTSIDE the crop. Never auto-center or normalize to its bounds.
+Trim includes every alpha>0 pixel without thresholding, preserving exact alpha
+and visible RGB. Hidden RGB at alpha=0 outside the crop need not reconstruct;
+use full PNGs when byte-for-byte original hidden RGB is required.
+Empty effect frames have zero-size trim and null atlas refs; synthesize a fully
+transparent full canvas. Empty actor frames are rejected by default.
+Existing sampling settings are not changed. Mipmaps need separate padding-aware
+validation. Alpha remains straight; do not premultiply it twice.
+
+EXPORT WORKFLOW (Python 3.10+, existing Pillow; no new services)
+1. Copy the relevant templates/<clip>.input.json and set actual final file paths.
+   Paths are relative to that INPUT manifest; file may also be an absolute path.
+   Preserve source_registration/native lineage fields. Templates are planning
+   examples, not approval or proof of completed frames; revise counts/timing.
+2. After visual QA, set artwork_approved=true. Mark exact shared state frames.
+3. From the workspace root:
+   python lantern_hero_core_animations_01/packaging/export_core.py export INPUT.json OUTPUT_DIRECTORY --atlas
+   python lantern_hero_core_animations_01/packaging/export_core.py verify OUTPUT_DIRECTORY
+   python lantern_hero_core_animations_01/packaging/export_core.py verify-shared PACK1/timing_and_registration.json PACK2/timing_and_registration.json
+   python lantern_hero_core_animations_01/packaging/export_core.py zip OUTPUT_DIRECTORY ZIP_PREFIX --max-mib 30
+Use a NEW output directory. Existing directories/archives are never overwritten.
+Use --review-only solely for explicitly labelled unapproved fixtures.
+Unknown input keys and source registration metadata are retained. Portable file
+paths/derived output metadata are updated; original file paths remain source_file.
+input_manifest_snapshot.json preserves the exact input data for provenance.
+Source-master references are provenance, not runtime dependencies; deliver raw
+masters/prompts separately in an ordinary companion ZIP if desired.
+
+DELIVERY AND CHECKS
+Target <=30 MiB per chat ZIP; --max-mib may be raised, never above 100 MiB.
+Larger sets become ordinary complementary ZIPs, each independently readable.
+Extract all parts into the same parent folder. No binary splits or nested ZIPs.
+Each runtime package includes SHA256SUMS and validation_report.json.
+Validation covers timing, source sizes, root, shared states, checksums, trim
+round trips, page bounds and gutters. It does NOT certify art or engine import.
+Run tests: python -m unittest discover -s lantern_hero_core_animations_01/packaging -p 'test_*.py' -v
+
+RUN ROLE ADDITION
+run_cycle maps to the stable action_role run. Run loops contain one full alternating left+right stride, no duplicated endpoint. Authored normalized stride and contact metadata are design intent, not measured engine world speed. Keep in-place body bounce and constant registration. R0 is an optional separate transition and is not inserted into the run loop.

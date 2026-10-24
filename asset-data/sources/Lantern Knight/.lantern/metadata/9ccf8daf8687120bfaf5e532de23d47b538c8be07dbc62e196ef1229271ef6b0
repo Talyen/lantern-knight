@@ -1,0 +1,86 @@
+{
+  "README.txt": {
+    "bytes": 5756,
+    "sha256": "3260106243202eaf53f2a5f87ef1736275c946f2b7795425d1899ba39d707317"
+  },
+  "exact_prompt.txt": {
+    "bytes": 1956,
+    "sha256": "3a93465e13d65ed17e0241d879855c546e2b2a5eec7d258fb85989f6aceec1c0"
+  },
+  "review_views_metadata.json": {
+    "bytes": 1705,
+    "sha256": "8dddd0dd88f311dd2dfaad97317c08db3415dd907cea1b32489bfd2d95b7d78c"
+  },
+  "metadata.json": {
+    "bytes": 2430,
+    "sha256": "04ad2827a09e5a3c40ef5ca3c5547ba522dad9f2aa902e7bd147a42797a3e674"
+  },
+  "review_config.json": {
+    "bytes": 850,
+    "sha256": "e7ccd06a688ec9cc25a6ffe13e245a364fe6e7278cbe320252cd958456ec6a47"
+  },
+  "native_floor.png": {
+    "bytes": 3009545,
+    "sha256": "6a21abb37ab90ca9508420f0c7ee32f69b2231d70da87e7bc8492dc351d02bec"
+  },
+  "provenance/reference_images.json": {
+    "bytes": 256,
+    "sha256": "6569b1726a8889dc3c8220b26f828f4238b15fc69a5cf9932952bd6004424ded"
+  },
+  "provenance/ncnn-LICENSE.txt": {
+    "bytes": 6427,
+    "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255"
+  },
+  "provenance/source_model.json": {
+    "bytes": 580,
+    "sha256": "34674977388ec7fe8b5b3b9ab10af02c0ac8d841d2ee72036d3a7d318bc4df40"
+  },
+  "provenance/Real-ESRGAN-LICENSE.txt": {
+    "bytes": 1519,
+    "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2"
+  },
+  "references/hero_original.png": {
+    "bytes": 204034,
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+  },
+  "references/approved_reference_1_native.png": {
+    "bytes": 2556602,
+    "sha256": "e0a4d6ab582e257708768c9f0903138753712a7ea6482eb78639d9910392118b"
+  },
+  "metrics/tested_run.log": {
+    "bytes": 8437,
+    "sha256": "8fe112018af5e3e3e84c32beb2324734d329050e9056627c92dda2fc8a4f27fe"
+  },
+  "metrics/separate_output_manifest.json": {
+    "bytes": 3647,
+    "sha256": "b4045df87f36976183075521320d521b8b065bdbbf6ee39b83b1a65d1df8b01a"
+  },
+  "metrics/seam_metrics.json": {
+    "bytes": 600,
+    "sha256": "e20529fd012d608aa1cc47f8542be1adb2e39f356ce6d59c93855640a4c3382f"
+  },
+  "metrics/resume_config.json": {
+    "bytes": 137,
+    "sha256": "d4821bf59b2589dd00963cc27dc3d94a17e37b8007cce44354d2bfbdf06603f2"
+  },
+  "metrics/run_metadata.json": {
+    "bytes": 17086,
+    "sha256": "a5af9eb216aa826e83a314d457a515896ae576e1541e8af6664b1958781372b6"
+  },
+  "inference/build_scene_review.py": {
+    "bytes": 4041,
+    "sha256": "e0a6a7181661af0907bd1e1501fdfc89fddbccab23f5878f08928da258b4b5ee"
+  },
+  "inference/run_isolated.py": {
+    "bytes": 3465,
+    "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f"
+  },
+  "inference/check_scene_seams.py": {
+    "bytes": 1805,
+    "sha256": "979b505dcdd77f8ff2015d61f027d14ca18e4ac11e4bc0418f75b3c453a02cce"
+  },
+  "inference/run_test.py": {
+    "bytes": 2347,
+    "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236"
+  }
+}

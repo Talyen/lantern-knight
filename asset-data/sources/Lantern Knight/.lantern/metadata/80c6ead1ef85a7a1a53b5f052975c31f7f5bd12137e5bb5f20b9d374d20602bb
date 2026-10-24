@@ -1,0 +1,15 @@
+{
+  "build_DL_sword_carry.py": "e2206450616489298636ac47cac381605b87ef1b0ed0b0dae21b6ee109d574a0",
+  "guides/DL_sword_carry/adaptations.json": "9a1d96f562500dc5006885eb0836ab269df8688a0ab55935515057403c0ff0f2",
+  "guides/DL_sword_carry/run8_guide_sheet.png": "66b1b64f15cf455704b670429c0129cbba519fa6ae2f7f8116591a0efb22bcf3",
+  "metadata/DL_boot_restore_mask_v03.png": "880b48e48d418c27ce47656577d411e6a8b19b8ec77aadc43cc87b748b2b7327",
+  "metadata/DL_boot_restore_v03.json": "6218eb72d0fe01cbd5ec085a2798e4e39de45bfa2c22f382b3ffd8c85cf99531",
+  "metadata/DL_bracer_restore_mask_v02.png": "095ea51cbeb66b8ac762146433c586c4b21b994c7af1a830ca54f364b9bb31d2",
+  "metadata/DL_bracer_restore_v02.json": "d739859d6147c6b58512c6e4526564de1589523309b88f10d30bb3daa417729c",
+  "metadata/DL_seven_clean_mask_v01.png": "898b5bdc0dca5c52b0b738594d5ca56a84017be91e708d61826cf823554cbb54",
+  "metadata/DL_seven_clean_v01.json": "a2b13eb7ee1e05e517b24a55a5211153f800e3b73812f342f6a1eb5be2893e47",
+  "prompts/DL_run8_v03_swordcarry_readyref.txt": "5e2123a02cf51bc6c2077cc038a008157da22d6bc25c4f62ae7eb3a57055146d",
+  "source/DL_run8_v03_swordcarry_readyref_native.png": "effdd9886f6398034bc991c1711ae77ee20e1cecbe2491f395828aac79d6b13d",
+  "source/DL_seven_clean_sheet_v03.png": "0f11bc55178da4b5c651d5460d5a74c2b41cab9a383caaad29492beefa5e8c6c",
+  "metadata/DL_source_ownership_cleanup.json": "e8143edb2ed8a5b2bad2fc2dc880c5d56aff2a6d78d86c4e6f5db27e20a60103"
+}

@@ -1,0 +1,37 @@
+RECOVERED FULLSCENE OBSERVATORY_A SOURCE AND PROVENANCE KIT
+
+SOURCE STATUS AND PROMPT LIMITATION
+native_floor.png is the unchanged recovered 1536x1024 fullscene original. SHA-256: b439bf3c0b2972f1871c5a2e61b9f599a4c63b2cb34e13497b4eb09effa33f6c.
+The exact full-expansion generation prompt, original fullscene backend/model metadata, and reference-call parameters are unavailable. No fullscene prompt or provenance has been invented. The exact preserved prompt under references/selected_viewport_sample_prompt.txt belongs ONLY to the earlier selected viewport sample, whose matching PNG and sample metadata are included. It does not reproduce or document the fullscene generation. See FULLSCENE_PROMPT_UNAVAILABLE.txt.
+The recovered fullscene source is an opaque, flattened raster. No layered original, occlusion masks, collision data or engine scene are available in this kit.
+
+UPSCALE METHOD AND ACTUAL RESULTS
+The separately delivered 6144x4096 PNG is genuine 4x inference using the official Real-ESRGAN x4plus anime 6B model through NCNN CPU. The 3072x2048 PNG is a Pillow Lanczos reduction of that 4x result, not a native 2x model result. AI upscaling does not restore unavailable ground-truth detail.
+A continuous original is processed in 70 computational tiles using 160px cores, 32px context, and 16px additional reflected input padding. Context is discarded without blending; the output canvas is assembled from those inferred core pixels. This is computational tiling, not artistic scene stitching.
+This scene's completed inference wall time: 239.861 seconds; peak child RSS: 3316808 KiB. Two full scenes were run concurrently during recovery. Scripts request 2 threads after model loading; the load-time NCNN setting is 4 threads. OMP_NUM_THREADS=2 is also set.
+Two boundary-junction checks compare the actual full output pixels against independent untiled inference in metrics/seam_metrics.json. They assess computational boundary consistency, not ground-truth reconstruction quality or all possible boundaries.
+
+HERO SCALE AND REVIEW METHOD
+The unchanged RGBA hero reference is alpha-cropped at alpha > 30, resized with Lanczos to 160px visible height, and composited conventionally with a small shadow. The adopted art scale is a 64px hero equivalent in the native source, or 256px at raw 4x scale. Raw AI4x is reduced by 0.625 to 3840x2560, equivalent to a 2.5x scene display scale. Each 1536x1024 review viewport therefore spans 614.4x409.6 native pixels. Exact crop boxes, foot locations and scale conversions are in review_config.json and review_views_metadata.json.
+Three meaningful views were visually inspected for an unclipped hero standing on apparently clear ground. Hero and shadow overlays appear only in review previews, never in the native or upscaled fullscenes. These are scale illustrations, not gameplay validation. Baked trees, walls, stairs, pillars and props need explicit collision and foreground occlusion work. Numerical camera angles, world coverage and engine scale were not verified.
+
+RUNTIME, MODEL AND LICENSES
+Python 3.12.14, NCNN 1.0.20250916 CPU, NumPy 2.3.5, Pillow 12.3.0, Linux CPU. Runtime/model versions and verified hashes are in provenance. NCNN and Real-ESRGAN BSD-3-Clause notices are included. The restored model archive and .bin/.param hashes match the previously delivered initiation-chamber source kit.
+Official model archive: https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+Model information: https://github.com/xinntao/Real-ESRGAN/blob/master/docs/anime_model.md
+NCNN: https://github.com/Tencent/ncnn
+No external scene upload or paid API was used for the recovered upscaling.
+
+REPRODUCTION FROM THE EXTRACTED KIT
+Large AI outputs, model/runtime binaries, intermediate tiles and review PNGs are delivered separately and excluded here. Install a compatible Linux/Python environment with NumPy and Pillow; several GB of RAM are required per inference process. Commands from the extracted kit directory:
+python -m pip install --target inference/runtime --no-deps ncnn==1.0.20250916
+curl -fL -o official_models_bundle.zip https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+unzip official_models_bundle.zip 'models/realesrgan-x4plus-anime.*' -d inference
+python inference/run_isolated.py "$PWD/native_floor.png" "$PWD/ai_upscale"
+LANTERN_AI_RUNTIME="$PWD/inference" python inference/check_scene_seams.py "$PWD"
+python inference/build_scene_review.py "$PWD"
+
+run_isolated.py, run_test.py and check_scene_seams.py were restored from the prior delivered initiation-chamber kit. The review script is the restored script with only hero-reference path resolution adapted to support portable scene-relative paths; its original is included as recovered_original_build_scene_review.py. The exact extracted-kit installation flow was not separately retested. Matching source/settings tiles can resume; the source/config hash protects against cross-source tile reuse.
+
+INTEGRITY
+kit_manifest.json hashes every included file except itself. metrics/separate_output_manifest.json hashes the seven separately delivered PNGs; the outer manifest.json also hashes this ZIP. Native source preservation and output dimensions were checked before packaging. Visual review findings are in visual_review.json.

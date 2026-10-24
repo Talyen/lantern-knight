@@ -1,0 +1,21 @@
+{
+  "tool": "built-in image_gen",
+  "files": [
+    {
+      "file": "boundary-z.png",
+      "source": "/Users/ryanmcintire/.codex/generated_images/01a11482-ffdf-73c0-80b9-bd8ccc443df0/exec-6556e453-4460-4c69-8559-c3c9508266a3.png",
+      "sha256": "cd5c21f6ca2dd91a7d5d6d4c1204bd3deb3ec4464e70e3660576b7792c7c30a1"
+    },
+    {
+      "file": "boundary-x.png",
+      "source": "/Users/ryanmcintire/.codex/generated_images/01a11482-ffdf-73c0-80b9-bd8ccc443df0/exec-69d88177-ede8-43ad-9720-5071981d561d.png",
+      "sha256": "4ec2f8b574defe89d645f8ad72d9b073ae42c82fba9953531553527ab9427f87"
+    }
+  ],
+  "originalSourcesPreserved": true,
+  "prompts": {
+    "boundaryZ": "Seamless low limestone cemetery wall, lower-left to upper-right. Orthographic 35.2643897/45, straight butt ends, clean ink, transparent background. Style reference: original arch_gothic_wall_01. Native maximum resolution and highest quality; literal model request gpt-image-2.5 sunburst.",
+    "boundaryX": "Matching perpendicular upper-left to lower-right module, same limestone, ink and scale, transparent background.",
+    "cleanup": "Remove only translucent exterior matte, keep wall shape and detail. Actual RGBA transparency."
+  }
+}

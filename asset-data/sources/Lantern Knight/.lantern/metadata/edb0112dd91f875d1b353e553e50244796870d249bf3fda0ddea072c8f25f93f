@@ -1,0 +1,283 @@
+{
+  "clip_id": "Lantern_Enemy_shroud_crawler_defeat_DR_rebuilt_v01",
+  "family": "shroud_crawler_defeat",
+  "facing": "DR",
+  "producer": "fill_enemy_damage_animation_gaps",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+  "equipment_contract": "Preserve enemy anatomy, shroud and one bell; no mirrored frames.",
+  "timing_source": "Approved rebuilt_selection.json unchanged original60Hz action timings.",
+  "source_timing": [
+    3,
+    5,
+    6,
+    7,
+    9,
+    12
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; originals retained in provenance.",
+  "runtime_pixel_policy": "Uniform resampling and integer whole-cel translation only; no masking or pose-height normalization.",
+  "frames": [
+    {
+      "crop_xyxy": [
+        0,
+        0,
+        565,
+        550
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        46,
+        70
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          280,
+          480
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "395790ffc4867cd068c7c3239a476a745dc76db9d258d87d036a26b3ac7cd29e",
+      "native_size_px": [
+        565,
+        550
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "2d15bf212c36be50c48f3bee1f3d2172c92af7b455e5409d38a0f11ebfc34d8c",
+      "source_sha256": "2d06e3d8273af2403673b39e88aaa6a786a5af3ec86ef4ba4ae18d8425860dee",
+      "start_tick": 0,
+      "hold_ticks": 3,
+      "runtime_alpha_bbox": [
+        46,
+        123,
+        469,
+        482
+      ],
+      "equipment_state": "Shroud and anatomical hands preserved."
+    },
+    {
+      "crop_xyxy": [
+        565,
+        0,
+        1052,
+        550
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        86,
+        70
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          227,
+          480
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "e22cddc0cde7d09fb445fdf590be2ec5035649b0fadf4522efca693e315f6e55",
+      "native_size_px": [
+        487,
+        550
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "fa4571f4ffb4aa3775e0b9a16f7c88c025bb133fafe01e9973d48397a1aa3baa",
+      "source_sha256": "2d06e3d8273af2403673b39e88aaa6a786a5af3ec86ef4ba4ae18d8425860dee",
+      "start_tick": 3,
+      "hold_ticks": 5,
+      "runtime_alpha_bbox": [
+        86,
+        77,
+        451,
+        482
+      ],
+      "equipment_state": "Shroud and anatomical hands preserved."
+    },
+    {
+      "crop_xyxy": [
+        1052,
+        0,
+        1536,
+        550
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        67,
+        70
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          252,
+          480
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "f561efec494a5da24644f09b2afea502c290bdbf38288fed69351cf135a33efb",
+      "native_size_px": [
+        484,
+        550
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "acf07db4e2ce766492e384a25454ed05e542d014415bfd48477d661e0bc1e7ad",
+      "source_sha256": "2d06e3d8273af2403673b39e88aaa6a786a5af3ec86ef4ba4ae18d8425860dee",
+      "start_tick": 8,
+      "hold_ticks": 6,
+      "runtime_alpha_bbox": [
+        67,
+        108,
+        415,
+        481
+      ],
+      "equipment_state": "Shroud and anatomical hands preserved."
+    },
+    {
+      "crop_xyxy": [
+        0,
+        550,
+        565,
+        1024
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        46,
+        98
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          280,
+          442
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "929a28e58fb71894812eeffe73450d3209ef0419b5d86c596020a8d1fc7224f5",
+      "native_size_px": [
+        565,
+        474
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "572c9e2f0d8585e33526cc140a748429cf95521d64f807fd355fb21c771dfa70",
+      "source_sha256": "2d06e3d8273af2403673b39e88aaa6a786a5af3ec86ef4ba4ae18d8425860dee",
+      "start_tick": 14,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        46,
+        98,
+        470,
+        438
+      ],
+      "equipment_state": "Shroud and anatomical hands preserved."
+    },
+    {
+      "crop_xyxy": [
+        565,
+        550,
+        1052,
+        1024
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        86,
+        98
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          227,
+          442
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "326a32017749a1ceb2bd0608dc3f64ffdb578e9a8fbe219faadc6319efc52bd0",
+      "native_size_px": [
+        487,
+        474
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "65daf6c626cbc821df1ab2de8634c9b2fde2e98a8aff303b9fe0b5e6394cd09a",
+      "source_sha256": "2d06e3d8273af2403673b39e88aaa6a786a5af3ec86ef4ba4ae18d8425860dee",
+      "start_tick": 21,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        86,
+        98,
+        451,
+        454
+      ],
+      "equipment_state": "Shroud and anatomical hands preserved."
+    },
+    {
+      "crop_xyxy": [
+        1052,
+        550,
+        1536,
+        1024
+      ],
+      "uniform_scale": 0.75,
+      "translation_xy": [
+        67,
+        98
+      ],
+      "observed_anchors": {
+        "fixed_source_cell_ground_origin_xy": [
+          252,
+          442
+        ]
+      },
+      "registration_note": "Fresh rebuilt source inspected on alpha composite. One clip-wide0.75density and fixed grid-relative ground origin preserve authored recoil and collapse displacement, without pose-height fitting. Rectangular boundaries use true transparent gutters to preserve extended hands and dropped bell.",
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "fb9e58a97a4062e3cfb0662a9cc5dde6d0f2d8c85f2c1a6313b9f0a15dfdd23f",
+      "native_size_px": [
+        484,
+        474
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "94f1808f315c84be80e2665887f38223413739fa402a14a3241ff51c23e9d145",
+      "source_sha256": "2d06e3d8273af2403673b39e88aaa6a786a5af3ec86ef4ba4ae18d8425860dee",
+      "start_tick": 30,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        67,
+        99,
+        420,
+        454
+      ],
+      "equipment_state": "Shroud and anatomical hands preserved."
+    }
+  ],
+  "terminal_hold": true,
+  "transition_policy": "hold_last_indefinitely",
+  "total_ticks": 42,
+  "duration_seconds": 0.7,
+  "unique_native_count": 6,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "99b830fb027737db77d2cb2a011409708e1690403a9f42f1838d945b75659758"
+  }
+}

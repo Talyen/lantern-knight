@@ -1,0 +1,22 @@
+[
+  {
+    "archive": "lantern_revision_02/effects/delivery/Lantern_Illustrated_Scenic_Mechanisms_v02.zip",
+    "sha256": "7883e994fd465a39b4d3c1bb2cb16a9b9367e73ac3cdf73a6493e63c05e140b7",
+    "matches_frozen_v02": true
+  },
+  {
+    "archive": "lantern_revision_02/effects/delivery/Lantern_Illustrated_Scenic_Mechanisms_v02_part01of03.zip",
+    "sha256": "bfd58909526b437765cd6136e19db7ce0897e9863377e2b83c38799a09e067aa",
+    "matches_frozen_v02": true
+  },
+  {
+    "archive": "lantern_revision_02/effects/delivery/Lantern_Illustrated_Scenic_Mechanisms_v02_part02of03.zip",
+    "sha256": "dd6c889268ebe76cb475791da97b81057328cd77ea25ea8c3e3bdcd9261da0d3",
+    "matches_frozen_v02": true
+  },
+  {
+    "archive": "lantern_revision_02/effects/delivery/Lantern_Illustrated_Scenic_Mechanisms_v02_part03of03.zip",
+    "sha256": "8dc85e8bf58bafe667cc9f847b1ad6210f881569af45b990682f7690257ad323",
+    "matches_frozen_v02": true
+  }
+]

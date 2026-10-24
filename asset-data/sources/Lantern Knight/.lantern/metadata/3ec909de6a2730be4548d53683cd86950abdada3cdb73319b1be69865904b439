@@ -1,0 +1,102 @@
+{
+  "canvas": [
+    768,
+    704
+  ],
+  "pivot_top_left": [
+    416,
+    584
+  ],
+  "hz": 60,
+  "clips": {
+    "glide": {
+      "duration_ticks": 48,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 2,
+          "start_tick": 10,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 3,
+          "start_tick": 18,
+          "hold_ticks": 6
+        },
+        {
+          "cel": 4,
+          "start_tick": 24,
+          "hold_ticks": 6
+        },
+        {
+          "cel": 5,
+          "start_tick": 30,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 6,
+          "start_tick": 38,
+          "hold_ticks": 10
+        }
+      ],
+      "events": {},
+      "root_motion": "in-place engine root; supply movement in engine, do not infer displacement from robe tail",
+      "production_note": "Source placement and drawn proportions drift. No per-cel alignment, scaling, warping or mirroring was applied. Shared pivot is an authoring anchor rather than proven anatomical registration."
+    },
+    "ritual_attack": {
+      "duration_ticks": 72,
+      "timeline": [
+        {
+          "cel": 1,
+          "start_tick": 0,
+          "hold_ticks": 12
+        },
+        {
+          "cel": 2,
+          "start_tick": 12,
+          "hold_ticks": 12
+        },
+        {
+          "cel": 3,
+          "start_tick": 24,
+          "hold_ticks": 7
+        },
+        {
+          "cel": 4,
+          "start_tick": 31,
+          "hold_ticks": 5
+        },
+        {
+          "cel": 5,
+          "start_tick": 36,
+          "hold_ticks": 3
+        },
+        {
+          "cel": 6,
+          "start_tick": 39,
+          "hold_ticks": 8
+        },
+        {
+          "cel": 7,
+          "start_tick": 47,
+          "hold_ticks": 10
+        },
+        {
+          "cel": 8,
+          "start_tick": 57,
+          "hold_ticks": 15
+        }
+      ],
+      "events": {
+        "contact_tick": 31,
+        "release_tick": 36
+      },
+      "root_motion": "in-place engine root; supply movement in engine, do not infer displacement from robe tail",
+      "production_note": "Source placement and drawn proportions drift. No per-cel alignment, scaling, warping or mirroring was applied. Shared pivot is an authoring anchor rather than proven anatomical registration."
+    }
+  }
+}

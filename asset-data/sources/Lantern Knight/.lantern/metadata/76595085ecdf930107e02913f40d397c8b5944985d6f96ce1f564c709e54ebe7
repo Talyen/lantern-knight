@@ -1,0 +1,17 @@
+[
+  {
+    "path": "references/hero_original.png",
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+    "size": 204034
+  },
+  {
+    "path": "references/reference_sources.json",
+    "sha256": "eecbc4817f2e48278d0c4fd23e9a20131123414d9c23fb75c4a3a53350f391e4",
+    "size": 517
+  },
+  {
+    "path": "references/selected_viewport_sample.png",
+    "sha256": "db385d67c1cfacd779af034c204bec77df8dabe85bfab3bddf22ef3319ac0a3e",
+    "size": 2333174
+  }
+]

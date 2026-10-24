@@ -1,0 +1,129 @@
+{
+  "id": "lantern_elite_concept_01_bellbearing_pilgrim",
+  "name": "Bell-bearing pilgrim",
+  "family": "02_elites_05",
+  "collection": "current_ink_revision02",
+  "canonical_status": "RETAINED ORIGINAL; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "15QNekPiObQwJwJpOiKocL1Sr8AdOfLOn",
+  "source_url": "https://drive.google.com/file/d/15QNekPiObQwJwJpOiKocL1Sr8AdOfLOn/view?usp=drivesdk",
+  "source_archive": "02_elites_05_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_elites_05_ink_revision02/packs/02_elites_05/assets/01_bellbearing_pilgrim.png",
+  "source_sha256": "02146b8881a520f3de89fde37f58e81c2822ca96cd7e9296c4831a19b8006d5e",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "slug": "bell_bearing_pilgrim_DL_extension",
+  "canvas_size": 640,
+  "pivot": [
+    360,
+    565
+  ],
+  "ppu": 228,
+  "ground_y": 565,
+  "clip_scale": {},
+  "order": {},
+  "notes": "New authored DL pair. Leftface/toes and rotated bell/yoke. Same640canvas/pivot360,565 with228estimatedPPU vsDR240 forworldscale. Attackuses compatible drawn movementrest plus5drawn attackposes,6distinctdrawings total; clipped sourceattack1excluded. Phase3bowevent retained. OriginalDR untouched.",
+  "facing": "DL toward lower-left front-left three-quarter",
+  "overscan_top": {
+    "move": [
+      0,
+      0,
+      0,
+      25,
+      25,
+      25
+    ],
+    "attack": [
+      0,
+      0,
+      0,
+      25,
+      25,
+      25
+    ]
+  },
+  "offsets": {
+    "move": [
+      [
+        0,
+        0
+      ],
+      [
+        55,
+        0
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        35,
+        0
+      ],
+      [
+        30,
+        0
+      ],
+      [
+        45,
+        0
+      ]
+    ],
+    "attack": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        45,
+        0
+      ],
+      [
+        30,
+        0
+      ],
+      [
+        35,
+        0
+      ],
+      [
+        55,
+        0
+      ]
+    ]
+  },
+  "frames_spec": {
+    "attack": [
+      {
+        "sheet": "move_native.png",
+        "index": 0
+      },
+      {
+        "sheet": "attack_native.png",
+        "index": 0
+      },
+      {
+        "sheet": "attack_native.png",
+        "index": 3
+      },
+      {
+        "sheet": "attack_native.png",
+        "index": 2
+      },
+      {
+        "sheet": "attack_native.png",
+        "index": 4
+      },
+      {
+        "sheet": "attack_native.png",
+        "index": 5
+      }
+    ]
+  }
+}

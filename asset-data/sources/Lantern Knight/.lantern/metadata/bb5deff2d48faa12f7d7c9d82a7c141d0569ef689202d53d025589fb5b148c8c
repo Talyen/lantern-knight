@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "test": "Extracted compact delivery into an isolated directory, without the original pack, siblings or external font paths; ran python source/build_delivery.py.",
+  "stills_compared": 24,
+  "frames_compared": 96,
+  "byte_exact_PNG_matches": 120,
+  "mismatches": [],
+  "full_rebuild_completed": true,
+  "font": "Bundled DejaVu font + redistribution license",
+  "source_inputs": "All present in compact archive; no image generation or external service required.",
+  "optional_mp4": "Rebuilt using ffmpeg when available; PNG/GIF generation does not require it."
+}

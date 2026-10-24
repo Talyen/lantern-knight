@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "issues": [],
+  "clipCount": 4,
+  "retainedByteIdenticalClipCount": 2,
+  "minimumBoundaryMarginPx": 85,
+  "clips": [
+    {
+      "id": "sparse_rain",
+      "status": "retained_byte_identical",
+      "frames": 90,
+      "uniqueFrames": 90,
+      "minimumMarginPx": 85,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.16214752197265625
+    },
+    {
+      "id": "wind_ash",
+      "status": "retained_byte_identical",
+      "frames": 90,
+      "uniqueFrames": 90,
+      "minimumMarginPx": 133,
+      "loop": null,
+      "firstLastMeanAbsDifference": 0.15523420061383927
+    },
+    {
+      "id": "rolling_ground_mist",
+      "status": "repaired",
+      "frames": 120,
+      "uniqueFrames": 120,
+      "minimumMarginPx": 106,
+      "loop": {
+        "periodMaximumChannelDifference": 0,
+        "periodMeanChannelDifference": 0.0,
+        "firstLastIntentionallyNotDuplicated": true,
+        "seamMeanAbsDifference": 0.17624010358537948,
+        "largestInteriorStepMeanAbsDifference": 1.6437410627092635,
+        "seamToLargestStepRatio": 0.10721889693191411
+      },
+      "firstLastMeanAbsDifference": 0.17624010358537948
+    },
+    {
+      "id": "autumn_leaf_gust",
+      "status": "repaired",
+      "frames": 90,
+      "uniqueFrames": 90,
+      "minimumMarginPx": 106,
+      "loop": {
+        "periodMaximumChannelDifference": 0,
+        "periodMeanChannelDifference": 0.0,
+        "firstLastIntentionallyNotDuplicated": true,
+        "seamMeanAbsDifference": 0.1803468976702009,
+        "largestInteriorStepMeanAbsDifference": 0.2836183820452009,
+        "seamToLargestStepRatio": 0.6358787338454621
+      },
+      "firstLastMeanAbsDifference": 0.1803468976702009
+    }
+  ],
+  "previews": [
+    {
+      "file": "wind_ash_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "3.000000",
+      "nb_frames": "180"
+    },
+    {
+      "file": "sparse_rain_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "3.000000",
+      "nb_frames": "180"
+    },
+    {
+      "file": "autumn_leaf_gust_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "3.000000",
+      "nb_frames": "180"
+    },
+    {
+      "file": "rolling_ground_mist_60hz.mp4",
+      "r_frame_rate": "60/1",
+      "duration": "4.000000",
+      "nb_frames": "240"
+    }
+  ],
+  "tests": "Every alpha frame, atlas crop and transparent gutter. Periodic source endpoint equality for repaired loops. Nonloop clear endpoints. Retained PNG hashes against original. Source timing30fps versus60Hz video header. These are offline file tests, not uninterrupted human playback or engine certification."
+}

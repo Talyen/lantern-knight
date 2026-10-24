@@ -1,0 +1,151 @@
+[
+  {
+    "frame": 0,
+    "edge_max_alpha": 0,
+    "alpha_mass": 1639761,
+    "bbox_gt12": [
+      229,
+      364,
+      413,
+      468
+    ]
+  },
+  {
+    "frame": 1,
+    "edge_max_alpha": 0,
+    "alpha_mass": 2978647,
+    "bbox_gt12": [
+      217,
+      340,
+      434,
+      467
+    ]
+  },
+  {
+    "frame": 2,
+    "edge_max_alpha": 0,
+    "alpha_mass": 5918349,
+    "bbox_gt12": [
+      188,
+      278,
+      442,
+      470
+    ]
+  },
+  {
+    "frame": 3,
+    "edge_max_alpha": 0,
+    "alpha_mass": 9863528,
+    "bbox_gt12": [
+      172,
+      200,
+      456,
+      471
+    ]
+  },
+  {
+    "frame": 4,
+    "edge_max_alpha": 0,
+    "alpha_mass": 8981669,
+    "bbox_gt12": [
+      174,
+      214,
+      506,
+      483
+    ]
+  },
+  {
+    "frame": 5,
+    "edge_max_alpha": 0,
+    "alpha_mass": 7465177,
+    "bbox_gt12": [
+      138,
+      224,
+      505,
+      484
+    ]
+  },
+  {
+    "frame": 6,
+    "edge_max_alpha": 0,
+    "alpha_mass": 6972905,
+    "bbox_gt12": [
+      121,
+      243,
+      499,
+      488
+    ]
+  },
+  {
+    "frame": 7,
+    "edge_max_alpha": 0,
+    "alpha_mass": 6895075,
+    "bbox_gt12": [
+      133,
+      219,
+      524,
+      471
+    ]
+  },
+  {
+    "frame": 8,
+    "edge_max_alpha": 0,
+    "alpha_mass": 4516545,
+    "bbox_gt12": [
+      131,
+      253,
+      514,
+      466
+    ]
+  },
+  {
+    "frame": 9,
+    "edge_max_alpha": 0,
+    "alpha_mass": 2582660,
+    "bbox_gt12": [
+      111,
+      263,
+      500,
+      471
+    ]
+  },
+  {
+    "frame": 10,
+    "edge_max_alpha": 0,
+    "alpha_mass": 1668199,
+    "bbox_gt12": [
+      146,
+      268,
+      503,
+      434
+    ]
+  },
+  {
+    "frame": 11,
+    "edge_max_alpha": 0,
+    "alpha_mass": 699269,
+    "bbox_gt12": [
+      123,
+      295,
+      512,
+      436
+    ]
+  },
+  {
+    "frame": 12,
+    "edge_max_alpha": 0,
+    "alpha_mass": 264185,
+    "bbox_gt12": [
+      138,
+      350,
+      486,
+      430
+    ]
+  },
+  {
+    "frame": 13,
+    "edge_max_alpha": 0,
+    "alpha_mass": 0,
+    "bbox_gt12": null
+  }
+]

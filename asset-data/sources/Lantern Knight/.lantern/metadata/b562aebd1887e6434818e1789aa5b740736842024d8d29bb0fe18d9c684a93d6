@@ -1,0 +1,38 @@
+{
+  "title": "01 Skeletons",
+  "variants": [
+    {
+      "id": "SK01",
+      "slug": "ossuary_thrall",
+      "name": "Ossuary Thrall",
+      "description": "Lanky exposed-bone baseline, matching cuffs and centered waist ornament.",
+      "motion_hint": "Rattle-step / paired rake",
+      "move": "Short alternating rattle-steps with one small ribcage bob.",
+      "attack": "Raise both arms and rake down together.",
+      "death": "Knees fold, spine collapses and a few large bone clusters separate.",
+      "qa": "Two arms and two legs readable; five-digit open hands; broad skull, cuff pairing and isolated silhouette pass. More internal bone shading than the other variants; refine toward the chosen final style if selected."
+    },
+    {
+      "id": "SK02",
+      "slug": "sepulcher_warden",
+      "name": "Sepulcher Warden",
+      "description": "Compact armored guard with matching armor and a two-handed centered stone hammer.",
+      "motion_hint": "Heavy step / central slam",
+      "move": "Short heavy steps and slight shoulder bob; keep weapon centered.",
+      "attack": "Lift and drop a single two-handed hammer on the centerline.",
+      "death": "Fall to both knees, then tip forward with hammer.",
+      "qa": "Matching armor, complete limbs and believable shared grip pass. Stacked hands and cast highlights must be checked after mirroring. Fresh replacement chosen over a more textured draft."
+    },
+    {
+      "id": "SK03",
+      "slug": "candlebone_oracle",
+      "name": "Candlebone Oracle",
+      "description": "Slender hooded skeleton, continuous robe silhouette and one central ritual orb.",
+      "motion_hint": "Glide / orb pulse",
+      "move": "Gentle vertical glide with small synchronized sleeve sway.",
+      "attack": "Hands close beneath orb, then open for a centered pulse.",
+      "death": "Orb dims; robe contracts and falls empty.",
+      "qa": "Both cupped hands and two visible lower legs pass. Fingers simplify at gameplay scale; keep orb and robe motion separate. Camera reads shallower than the most crouched design and needs final calibration."
+    }
+  ]
+}

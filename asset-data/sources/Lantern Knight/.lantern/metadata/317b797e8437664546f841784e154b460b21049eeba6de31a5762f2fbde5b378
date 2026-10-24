@@ -1,0 +1,502 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "garden_01",
+  "title": "Lantern Wetland & Garden - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Plant silhouettes include existing-family variants rather than eight new taxonomic subjects. No botanical accuracy, plant growth, swaying, fluid behavior or canopy depth splits are supplied; tree views are front-biased approximate illustrations.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "garden_pollarded_willow_01",
+      "name": "Pollarded willow form",
+      "file": "assets/garden_pollarded_willow_01.png",
+      "prompt_file": "provenance/garden_pollarded_willow_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 844496,
+      "sha256": "5f7e505c0eca5fb625d733540af6717e3826b038af85bcc63daba58d98ecdcfc",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        25,
+        35,
+        1270,
+        1134
+      ],
+      "alpha_at_least_16_bounds_px": [
+        91,
+        87,
+        1243,
+        1114
+      ],
+      "fully_transparent_pixel_fraction": 0.642523,
+      "fully_opaque_pixel_fraction": 0.00043,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.77
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.27,
+          0.74
+        ],
+        [
+          0.51,
+          0.68
+        ],
+        [
+          0.8,
+          0.76
+        ],
+        [
+          0.57,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "New pruned/drooping silhouette within the existing tree family. View remains somewhat front-biased and approximate.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "garden_hollow_stump_01",
+      "name": "Hollow stump form",
+      "file": "assets/garden_hollow_stump_01.png",
+      "prompt_file": "provenance/garden_hollow_stump_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1122851,
+      "sha256": "aae5fa0d8f76dba2587651ddefc3423e167bc3ed3b61a9e91321f89b76c5eb28",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        35,
+        1436,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        191,
+        89,
+        1373,
+        966
+      ],
+      "fully_transparent_pixel_fraction": 0.709179,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 23,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.68
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.13,
+          0.65
+        ],
+        [
+          0.47,
+          0.51
+        ],
+        [
+          0.9,
+          0.68
+        ],
+        [
+          0.67,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Alternate stump/root-family form; hollow center is painted dark interior, not a terrain opening.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "garden_broad_cattails_01",
+      "name": "Broad cattail clump",
+      "file": "assets/garden_broad_cattails_01.png",
+      "prompt_file": "provenance/garden_broad_cattails_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1512607,
+      "sha256": "5e42b206d45037ed40a79f925c3a975d3c1e729cfeeb2f679cf5fc7f8ad7b791",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        17,
+        24,
+        1504,
+        1008
+      ],
+      "alpha_at_least_16_bounds_px": [
+        130,
+        82,
+        1437,
+        966
+      ],
+      "fully_transparent_pixel_fraction": 0.732756,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.54,
+        0.85
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.36,
+          0.83
+        ],
+        [
+          0.51,
+          0.75
+        ],
+        [
+          0.72,
+          0.85
+        ],
+        [
+          0.59,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Wide reed-family alternate, not a wholly new object subject or registered growth/animation state.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "garden_water_lilies_01",
+      "name": "Water-lily cluster",
+      "file": "assets/garden_water_lilies_01.png",
+      "prompt_file": "provenance/garden_water_lilies_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1216261,
+      "sha256": "bf5e10b3c6c54127ef11cc5492dffe9cb0648e885bfb6a460b96a474b39db7fc",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        35,
+        1452,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        142,
+        189,
+        1394,
+        837
+      ],
+      "fully_transparent_pixel_fraction": 0.647034,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.56
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.09,
+          0.55
+        ],
+        [
+          0.34,
+          0.21
+        ],
+        [
+          0.73,
+          0.23
+        ],
+        [
+          0.91,
+          0.53
+        ],
+        [
+          0.64,
+          0.83
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "WATER-SURFACE anchor estimate; no water image, fluid simulation or wave-following behavior. Leaves and bud form one static compound prop.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "water_surface_visual_estimate"
+    },
+    {
+      "id": "garden_crooked_orchard_tree_01",
+      "name": "Crooked orchard tree",
+      "file": "assets/garden_crooked_orchard_tree_01.png",
+      "prompt_file": "provenance/garden_crooked_orchard_tree_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 667894,
+      "sha256": "d3eeb8d9f3a87cd4fe8954d0da8bb1f6ba767742d248ba9807f07f5dffa597a7",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        89,
+        19,
+        1256,
+        1160
+      ],
+      "alpha_at_least_16_bounds_px": [
+        184,
+        43,
+        1143,
+        1158
+      ],
+      "fully_transparent_pixel_fraction": 0.661667,
+      "fully_opaque_pixel_fraction": 0.000716,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.43,
+        0.84
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.24,
+          0.83
+        ],
+        [
+          0.44,
+          0.76
+        ],
+        [
+          0.67,
+          0.87
+        ],
+        [
+          0.48,
+          0.97
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Existing tree-family variant, visibly front-biased. Canopy, fruit and trunk are one card without occlusion splits.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "garden_thorn_vine_planter_01",
+      "name": "Thorn-vine stone planter",
+      "file": "assets/garden_thorn_vine_planter_01.png",
+      "prompt_file": "provenance/garden_thorn_vine_planter_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1334354,
+      "sha256": "8c291823251f2a3a8eca3558bfc289114df3f8520db0078512e3ded2d62ec575",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        25,
+        1466,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        294,
+        143,
+        1374,
+        924
+      ],
+      "fully_transparent_pixel_fraction": 0.698044,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.75
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.19,
+          0.69
+        ],
+        [
+          0.65,
+          0.43
+        ],
+        [
+          0.83,
+          0.64
+        ],
+        [
+          0.39,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Stone vessel, soil and vine are painted into one compound prop. No plant growth or separately usable planter state.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "garden_tangled_hedge_gap_01",
+      "name": "Tangled hedge gap",
+      "file": "assets/garden_tangled_hedge_gap_01.png",
+      "prompt_file": "provenance/garden_tangled_hedge_gap_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1348955,
+      "sha256": "ef12f83fd7849d9320181d637c801429385adc5b790ad87f86339944139e7e47",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        17,
+        1522,
+        1006
+      ],
+      "alpha_at_least_16_bounds_px": [
+        101,
+        89,
+        1483,
+        926
+      ],
+      "fully_transparent_pixel_fraction": 0.694209,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 2,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.53,
+        0.76
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.06,
+          0.65
+        ],
+        [
+          0.19,
+          0.52
+        ],
+        [
+          0.89,
+          0.7
+        ],
+        [
+          0.97,
+          0.84
+        ],
+        [
+          0.81,
+          0.91
+        ],
+        [
+          0.31,
+          0.72
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Open gap is transparent; overall polygon is a visual envelope, never a solid collision polygon across the passage.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "garden_fallen_root_ball_01",
+      "name": "Fallen root ball",
+      "file": "assets/garden_fallen_root_ball_01.png",
+      "prompt_file": "provenance/garden_fallen_root_ball_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 924149,
+      "sha256": "2beef54264fab48b51c6699d668b716c8d341d5ef5f0a7da7d73272de1f6959d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        89,
+        54,
+        1234,
+        1136
+      ],
+      "alpha_at_least_16_bounds_px": [
+        137,
+        98,
+        1231,
+        1134
+      ],
+      "fully_transparent_pixel_fraction": 0.623678,
+      "fully_opaque_pixel_fraction": 0.000549,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.78
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.12,
+          0.78
+        ],
+        [
+          0.43,
+          0.58
+        ],
+        [
+          0.83,
+          0.73
+        ],
+        [
+          0.91,
+          0.8
+        ],
+        [
+          0.5,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "New fallen form in the root/tree family. Soil core and roots are one static object, no digging or physics state.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    }
+  ]
+}

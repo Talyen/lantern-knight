@@ -2,7 +2,6 @@
 
 import hashlib
 import json
-import os
 import pathlib
 import struct
 
@@ -186,6 +185,6 @@ def describe(root, index):
 if __name__ == "__main__":
     index = load_index(PROJECT / "assets/sources.json")
     library = pathlib.Path(
-        os.environ.get("ASSET_LIBRARY_ROOT", pathlib.Path.home() / "Documents/Asset Library")
+        PROJECT / "asset-data/sources"
     )
     print(json.dumps(describe(library / index["libraryDirectory"], index)))

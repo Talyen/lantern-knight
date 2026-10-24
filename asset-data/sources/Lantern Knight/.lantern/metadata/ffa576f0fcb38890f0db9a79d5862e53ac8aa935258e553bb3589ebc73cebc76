@@ -1,0 +1,846 @@
+{
+  "schema": "lantern.vfx.flipbook.v2",
+  "name": "Pallbearer's Fan",
+  "slug": "pallbearers_fan",
+  "role": "enemy",
+  "shape_group": "wide_cone",
+  "canvas_px": [
+    1024,
+    768
+  ],
+  "coordinate_origin": "top_left",
+  "pivot_px": [
+    210,
+    430
+  ],
+  "pivot_normalized": [
+    0.205078,
+    0.559896
+  ],
+  "alpha": "straight RGBA; alpha preserved exactly from source",
+  "color_space": "sRGB artwork; import to match engine project",
+  "drawn_cel_count": 16,
+  "clear_cel_count": 1,
+  "duration_ms": 1700,
+  "loop": false,
+  "interpolation": "none; exact drawn cels with holds",
+  "timing_status": "Authored prototype; not gameplay balanced or engine tested.",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "frame_index": 0,
+      "time_ms": 0
+    },
+    {
+      "name": "commit",
+      "frame_index": 7,
+      "time_ms": 980
+    },
+    {
+      "name": "impact",
+      "frame_index": 8,
+      "time_ms": 1020,
+      "damage_count": 1
+    },
+    {
+      "name": "clear",
+      "frame_index": 16,
+      "time_ms": 1580
+    }
+  ],
+  "damage": {
+    "event": "impact",
+    "frame_index": 8,
+    "apply_once_per_playback": true,
+    "exclude_formation_and_recovery": true,
+    "center_damaged": false,
+    "note": "Use game collision on the single impact event. Do not derive damage from sprite alpha or apply repeated damage throughout recovery."
+  },
+  "footprint_guide": {
+    "type": "projected_cone",
+    "origin_px": [
+      210,
+      430
+    ],
+    "forward": "right",
+    "polygon_px": [
+      [
+        210,
+        430
+      ],
+      [
+        626,
+        206
+      ],
+      [
+        704,
+        290
+      ],
+      [
+        742,
+        425
+      ],
+      [
+        716,
+        539
+      ],
+      [
+        629,
+        604
+      ]
+    ],
+    "approximate": true,
+    "world_design_dimensions": {
+      "range_m": 11,
+      "angle_deg": 105
+    },
+    "world_dimensions_status": "Proposed game-design footprint; not engine validated.",
+    "polygon_normalized": [
+      [
+        0.205078,
+        0.559896
+      ],
+      [
+        0.611328,
+        0.268229
+      ],
+      [
+        0.6875,
+        0.377604
+      ],
+      [
+        0.724609,
+        0.553385
+      ],
+      [
+        0.699219,
+        0.701823
+      ],
+      [
+        0.614258,
+        0.786458
+      ]
+    ]
+  },
+  "footprint_note": "Approximate screen-space authoring guide fitted to the registered telegraph, not a tested collision mesh.",
+  "transform_support": {
+    "horizontal_mirror": true,
+    "vertical_flip": false,
+    "arbitrary_screen_rotation": false,
+    "mirror_rule": "Mirror sprite, pivot and footprint together; x_new = 1024 - x.",
+    "rotation_note": "Ground-projected artwork. Reproject or author direction variants for arbitrary world headings; do not spin the raster in screen space."
+  },
+  "atlas": {
+    "file": "atlas.png",
+    "size_px": [
+      4096,
+      3840
+    ],
+    "cell_px": [
+      1024,
+      768
+    ],
+    "columns": 4,
+    "rows": 5,
+    "frame_order": "row-major; cells after index 16 are empty"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/00.png",
+      "phase": "formation / telegraph",
+      "start_ms": 0,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        768
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        136,
+        61
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        136,
+        61
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/01.png",
+      "phase": "formation / telegraph",
+      "start_ms": 140,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        768
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        0
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        136,
+        60
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        136,
+        60
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/02.png",
+      "phase": "formation / telegraph",
+      "start_ms": 280,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        768
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        627
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        137,
+        86
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        137,
+        86
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/03.png",
+      "phase": "formation / telegraph",
+      "start_ms": 420,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        768
+      ],
+      "source_file": "part_01.png",
+      "source_part": 1,
+      "source_rect_px": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        627
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        141,
+        88
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        141,
+        88
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/04.png",
+      "phase": "formation / telegraph",
+      "start_ms": 560,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        0,
+        768,
+        1024,
+        768
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        141,
+        61
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        141,
+        61
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/05.png",
+      "phase": "formation / telegraph",
+      "start_ms": 700,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        1024,
+        768,
+        1024,
+        768
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        0
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        148,
+        58
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        148,
+        58
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/06.png",
+      "phase": "formation / telegraph",
+      "start_ms": 840,
+      "duration_ms": 140,
+      "atlas_rect_px": [
+        2048,
+        768,
+        1024,
+        768
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        0,
+        627,
+        663,
+        1254
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        627
+      ],
+      "source_separator_x_px": 663,
+      "native_destination_offset_px": [
+        143,
+        88
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        143,
+        88
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/07.png",
+      "phase": "committed strike",
+      "start_ms": 980,
+      "duration_ms": 40,
+      "atlas_rect_px": [
+        3072,
+        768,
+        1024,
+        768
+      ],
+      "source_file": "part_02.png",
+      "source_part": 2,
+      "source_rect_px": [
+        663,
+        627,
+        1254,
+        1254
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        627
+      ],
+      "source_separator_x_px": 663,
+      "native_destination_offset_px": [
+        184,
+        88
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        148,
+        88
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/08.png",
+      "phase": "single impact",
+      "start_ms": 1020,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        0,
+        1536,
+        1024,
+        768
+      ],
+      "source_file": "part_03.png",
+      "source_part": 3,
+      "source_rect_px": [
+        0,
+        0,
+        668,
+        627
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 668,
+      "native_destination_offset_px": [
+        147,
+        54
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        147,
+        54
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/09.png",
+      "phase": "outward breakup",
+      "start_ms": 1090,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        1024,
+        1536,
+        1024,
+        768
+      ],
+      "source_file": "part_03.png",
+      "source_part": 3,
+      "source_rect_px": [
+        668,
+        0,
+        1254,
+        627
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        0
+      ],
+      "source_separator_x_px": 668,
+      "native_destination_offset_px": [
+        198,
+        51
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        157,
+        51
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/10.png",
+      "phase": "outward breakup",
+      "start_ms": 1160,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        2048,
+        1536,
+        1024,
+        768
+      ],
+      "source_file": "part_03.png",
+      "source_part": 3,
+      "source_rect_px": [
+        0,
+        627,
+        662,
+        1254
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        627
+      ],
+      "source_separator_x_px": 662,
+      "native_destination_offset_px": [
+        147,
+        81
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        147,
+        81
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/11.png",
+      "phase": "outward breakup",
+      "start_ms": 1230,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        3072,
+        1536,
+        1024,
+        768
+      ],
+      "source_file": "part_03.png",
+      "source_part": 3,
+      "source_rect_px": [
+        662,
+        627,
+        1254,
+        1254
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        627
+      ],
+      "source_separator_x_px": 662,
+      "native_destination_offset_px": [
+        192,
+        77
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        157,
+        77
+      ]
+    },
+    {
+      "index": 12,
+      "file": "frames/12.png",
+      "phase": "outward breakup",
+      "start_ms": 1300,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        0,
+        2304,
+        1024,
+        768
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        0,
+        0,
+        671,
+        627
+      ],
+      "source_grid_cell": [
+        0,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        0
+      ],
+      "source_separator_x_px": 671,
+      "native_destination_offset_px": [
+        147,
+        54
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        147,
+        54
+      ]
+    },
+    {
+      "index": 13,
+      "file": "frames/13.png",
+      "phase": "outward breakup",
+      "start_ms": 1370,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        1024,
+        2304,
+        1024,
+        768
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        671,
+        0,
+        1254,
+        627
+      ],
+      "source_grid_cell": [
+        1,
+        0
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        0
+      ],
+      "source_separator_x_px": 671,
+      "native_destination_offset_px": [
+        201,
+        51
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        157,
+        51
+      ]
+    },
+    {
+      "index": 14,
+      "file": "frames/14.png",
+      "phase": "outward breakup",
+      "start_ms": 1440,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        2048,
+        2304,
+        1024,
+        768
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_grid_cell": [
+        0,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        0,
+        627
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        147,
+        81
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        147,
+        81
+      ]
+    },
+    {
+      "index": 15,
+      "file": "frames/15.png",
+      "phase": "outward breakup",
+      "start_ms": 1510,
+      "duration_ms": 70,
+      "atlas_rect_px": [
+        3072,
+        2304,
+        1024,
+        768
+      ],
+      "source_file": "part_04.png",
+      "source_part": 4,
+      "source_rect_px": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_grid_cell": [
+        1,
+        1
+      ],
+      "nominal_source_cell_origin_px": [
+        627,
+        627
+      ],
+      "source_separator_x_px": 627,
+      "native_destination_offset_px": [
+        157,
+        77
+      ],
+      "registration_translation_from_nominal_cell_px": [
+        157,
+        77
+      ]
+    },
+    {
+      "index": 16,
+      "file": "frames/16.png",
+      "phase": "clear",
+      "start_ms": 1580,
+      "duration_ms": 120,
+      "atlas_rect_px": [
+        0,
+        3072,
+        1024,
+        768
+      ]
+    }
+  ],
+  "provenance": {
+    "generator": "built-in image generation",
+    "source_sheets": [
+      {
+        "file": "part_01.png",
+        "sha256": "63b9989b04085ccba2b81d6c096f490e22cbda6d11953062a740392c1dd17453",
+        "native_size_px": [
+          1254,
+          1254
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      },
+      {
+        "file": "part_02.png",
+        "sha256": "a73d5ec77976304f5cac75b15b376e4b49bb2bcba2b92385226a78985e2f7197",
+        "native_size_px": [
+          1254,
+          1254
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      },
+      {
+        "file": "part_03.png",
+        "sha256": "30cc81b05d1ea5ece069c98a23993d70fe394cc75cacbced98c13de396239193",
+        "native_size_px": [
+          1254,
+          1254
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      },
+      {
+        "file": "part_04.png",
+        "sha256": "4c7020243a8182b1e50ff08c19fe64941b256bbee0fb610d28544c0f0c38a6bf",
+        "native_size_px": [
+          1254,
+          1254
+        ],
+        "grid": [
+          2,
+          2
+        ]
+      }
+    ],
+    "native_cell_sizes_px": [
+      [
+        627,
+        627
+      ],
+      [
+        627,
+        627
+      ],
+      [
+        627,
+        627
+      ],
+      [
+        627,
+        627
+      ]
+    ],
+    "processing": "Native-pixel extraction, transparent padding, integer translation-only registration. No scaling, warping, alpha thresholding, recoloring, interpolation or invented animation cels.",
+    "registration_note": "The left-hand cone origin is registered through the anticipation and impact cels. Recovery inherits the source-row coordinate anchors fixed at the strike, including after the origin has broken away. Tangentially drifting panels are never auto-centered. Vertical extraction seams move into actual empty gaps to keep every panel intact.",
+    "alpha_analysis_threshold": 16,
+    "alpha_analysis_only": true,
+    "source_sheet_note": "Final chosen sheet hashes identify provenance. Raw source sheets are omitted from this compact runtime kit."
+  }
+}

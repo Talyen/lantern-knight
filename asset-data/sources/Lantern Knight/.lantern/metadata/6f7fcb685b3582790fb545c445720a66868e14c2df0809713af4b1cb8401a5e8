@@ -1,0 +1,146 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2326501,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "99e181aaee7f3a623430a3175f58427bc3ee7e8e0dae2ba90affc071d434f950"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 24779892,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "f8aa9ed8aaa377037d987d690b680d715682471590a4796723a8369da8724e61"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 7490449,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "990b03548f9f91e0c056998be88fd30c61f1203648cf40483f1abcce28300292"
+  },
+  "review_views/side_chapel_AI_display2p5x_ground.png": {
+    "bytes": 1924354,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "445edf2ee4e431551f8094b922feab282d2e24c5d75cac6d0cb26cdc6ad8759a"
+  },
+  "review_views/main_nave_hero_context.png": {
+    "bytes": 1997343,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0abaf1c8026eca101a54e65789bb57c3a6d5d01bc9a848b13ce8f61cae742b21"
+  },
+  "review_views/sanctuary_aisle_hero_context.png": {
+    "bytes": 2050433,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "09fbd279a95814065383813cc58146889334d556e94c71310efa6033bdcccb7c"
+  },
+  "review_views/main_nave_AI_display2p5x_ground.png": {
+    "bytes": 1990794,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "18ccf1344bddbb02691910271e29fa9591beb06184c6bd5e76cdc3ac1256bb36"
+  },
+  "review_views/gameplay_contact_sheet.png": {
+    "bytes": 921605,
+    "size": [
+      1536,
+      399
+    ],
+    "sha256": "0cb73cadd9ac9206bde3ba3fb260c7ade969320e3d1c33efe19607a3d6793a25"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 2118961,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "f8d0e563973a5e8cc83857500d82d1362ebb0e98e727d77937c963c9b4a608c4"
+  },
+  "review_views/sanctuary_aisle_AI_display2p5x_ground.png": {
+    "bytes": 2044682,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "b815fe6cc2140d8b241414a9c8858b7a1442f907d43e39d976828a08d4be91fa"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2332094,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "0282d6944a1ef9a4fb299623b17c37092246a379cfb281b9807b8095a2756d9e"
+  },
+  "review_views/side_chapel_hero_context.png": {
+    "bytes": 1934218,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "9eb97fdc26158a49612666bc1505ca0c6388c7f6c54ff5062c98eb33d724ea95"
+  },
+  "ai_upscale/checks/nave_carpet_edge_comparison.png": {
+    "bytes": 188481,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "75e5871a598c4f1f12f5e83f71ffe23c137fd7d53b065b5d4397ecd1b6387e73"
+  },
+  "ai_upscale/checks/altar_and_columns_untiled4x.png": {
+    "bytes": 752430,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "5bc874fd1f67c561e57402cbccd13b77c956c3575ac84ecccdd6cdaecbbfc812"
+  },
+  "ai_upscale/checks/nave_carpet_edge_untiled4x.png": {
+    "bytes": 598655,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "3d22d42daf75c19844f77acba26d9646eb031701496849da3d3ea13fd25116f4"
+  },
+  "ai_upscale/checks/nave_carpet_edge_native.png": {
+    "bytes": 65083,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "18a9c9ccc262b0f233bac97be5b15620e02ef265b47263b0dfe66095527b7f44"
+  },
+  "ai_upscale/checks/altar_and_columns_native.png": {
+    "bytes": 75251,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "61b01fb95ddd92849cc153ff91cb9a29c1f199c3c6d55ceb0028284cbfaca210"
+  },
+  "ai_upscale/checks/altar_and_columns_comparison.png": {
+    "bytes": 266309,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "bc6fc17f704da9bc99b08d846d659c87ac0f3f7f9bb932f9f254c38ba5fdd17e"
+  }
+}

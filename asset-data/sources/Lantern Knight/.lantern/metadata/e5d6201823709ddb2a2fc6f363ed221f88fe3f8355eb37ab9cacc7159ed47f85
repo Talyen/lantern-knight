@@ -1,0 +1,218 @@
+[
+  {
+    "scene": "Chapel_C",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/chapel_cloister_crypt/chapel_C_sample_native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "908ae66a3fb5d2303d4832380a723cdd8a985351a470acb65df7e7c97d2ef1d0",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Chapel_C_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Chapel_C_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1244,
+      1068,
+      2780,
+      2092
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      805,
+      675
+    ]
+  },
+  {
+    "scene": "Cloister_B",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/chapel_cloister_crypt/cloister_B_sample_native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "74dea70bf6c73d2eab171da3f071052142b080987620801cd02841c14483e889",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Cloister_B_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Cloister_B_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1120,
+      1068,
+      2656,
+      2092
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      755,
+      675
+    ]
+  },
+  {
+    "scene": "Crypt",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/chapel_cloister_crypt/crypt_sample_native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "3c11184cf5d8728555e8753b073b92f57c2668e350722bdd92c0488988aefc2b",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Crypt_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Crypt_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1144,
+      985,
+      2680,
+      2009
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      765,
+      642
+    ]
+  },
+  {
+    "scene": "Keepers_Glade_A",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/keepers_glade_A/native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "63f4eb7a969d94a343c98af2966fc69b722042df61eaeec7642c0abc2deafe30",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Keepers_Glade_A_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Keepers_Glade_A_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1540,
+      962,
+      3076,
+      1986
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      923,
+      633
+    ]
+  },
+  {
+    "scene": "Keepers_Glade_B",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/keepers_glade_B/native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "347b7eecd8a2eaffb1fe5cad97a436f1a8eb610b0b72f75cc84e7b0187a5ada1",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Keepers_Glade_B_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Keepers_Glade_B_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1782,
+      918,
+      3318,
+      1942
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      1020,
+      615
+    ]
+  },
+  {
+    "scene": "Woodland_C",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/woodland_C/native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "b65a9a1e988c4916b2865b46f93ee4ae2e7af2b24b6abf04045b98e32b394984",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Woodland_C_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Woodland_C_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      74,
+      685,
+      1610,
+      1709
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      337,
+      522
+    ]
+  },
+  {
+    "scene": "Observatory_B",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/B/native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "7681512b3eb12d83b15ae133b7b9b962a51bb85b887494fbc07cfe20ec82a442",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Observatory_B_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Observatory_B_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1007,
+      880,
+      2543,
+      1904
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      710,
+      600
+    ]
+  },
+  {
+    "scene": "Observatory_C",
+    "source": "/workspace/scratch/1a83d58417d5/scene_retry_samples/observatories/C/native.png",
+    "native_size": [
+      1536,
+      1024
+    ],
+    "native_sha256": "4b5de213b055220d894136ed1d125f644ef0f6513a246655bdd8c17960841ec9",
+    "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Observatory_C_Restored_Detail_Sample.png",
+    "hero160_review": "/workspace/scratch/1a83d58417d5/scene_retry_samples/delivery/Lantern_Observatory_C_Hero160_Review.png",
+    "review_method": "Non-AI display resampling and canonical hero compositing for scale review only; not production upscaled art",
+    "display_whole_scene": [
+      3840,
+      2560
+    ],
+    "review_crop": [
+      1107,
+      1030,
+      2643,
+      2054
+    ],
+    "hero_visible_height": 160,
+    "hero_native_feet": [
+      750,
+      660
+    ]
+  }
+]

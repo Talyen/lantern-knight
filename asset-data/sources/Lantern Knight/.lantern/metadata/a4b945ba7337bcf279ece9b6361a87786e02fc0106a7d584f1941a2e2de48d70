@@ -1,0 +1,28 @@
+Production hand-painted dark fantasy game sprite sheet of one RUST CHAIN LASH attack. Exact format: landscape PNG 1536x1024, true transparent alpha, 24 evenly-spaced square animation cels in a strict SIX-COLUMN by FOUR-ROW grid. Each cel 256x256. No text, numbers, grid lines or background. Paint each cel SMALL inside its own central 170x170 safe zone, at least 40 pixels of empty transparent gutter on ALL sides. Style matte worn rusty iron, muted earthen brown, cool dark steel; no orange glow, no atmosphere outside object.
+The chain CONDENSES link by link from sparse rust dust, curls up and behind its fixed lower-left root, makes one lash to the right, strikes once, then falls apart outward. Every cel has same camera, scale and registration. Fixed lower-left ROOT at normalized(.25,.72). Fixed lower-right target oval centered (.72,.72), 0.18 wide and 0.055 tall. A quiet rusty dust oval marks that exact endpoint throughout windup; never moves or grows, no second marker. Chain root NEVER shifts position. Visible holes in articulated metal links.
+Exactly these 24 sequential poses, left to right then next row:
+1 three tiny dust grains only.
+2 loose disconnected unfinished links gather at root.
+3 three links join, barely visible target oval.
+4 four joined links curl upward.
+5 five links and loose dust, stronger C shape.
+6 seven joined links curving upward from root.
+7 longer loop curves up and left behind root.
+8 larger loose spiral curls backward.
+9 spiral tightens; free tip curls inward.
+10 spiral bends backward and compresses.
+11 tighter compressed spiral leans backward.
+12 loop bows farther left in anticipation.
+13 final compact bent loaded spiral.
+14 slight additional compression, tense final anticipation.
+15 single fast forward lash: chain root stays lower-left and body makes large UPPER arch reaching toward target, tip just above target; no impact yet.
+16 SINGLE CONTACT: keep same lower-left root and UPPER arched chain body. Far-right tip curves downward and scrapes exactly target oval with small hard rightward iron scrape chips. MUST retain arched chain from lower-left root to upper-middle to lower-right contact. Never a diagonal straight chain floating from upper-left.
+17 same extended arch recoils slightly upward at right tip and starts breaking into separated links; NEVER return to standing C shape.
+18 arch breaks into five outward-moving disconnected groups.
+19 three scattered short lengths and rust dust, moving outward.
+20 four smaller separated link fragments and less dust.
+21 a few individual links and tiny flakes spread out.
+22 three tiny rust chips.
+23 one tiny flake.
+24 EMPTY transparent.
+Make all 24 distinct cels. Formation evolves for fourteen cels; the single contact is row3,column4 only. Genuinely transparent gutters, no full-canvas aura or haze. No hands, actors, bodies, stage, neon, fire, words or cropped sprites.

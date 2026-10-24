@@ -1,0 +1,18 @@
+{
+  "source": "/workspace/shared/lantern_artful_floors_oct09/graveyard/native_floor_retry.png",
+  "source_box": [
+    490,
+    310,
+    874,
+    694
+  ],
+  "native_source_size": [
+    1536,
+    1024
+  ],
+  "crop_size": [
+    384,
+    384
+  ],
+  "purpose": "AI4x cleanup reduced back to native384x384 for style comparison"
+}

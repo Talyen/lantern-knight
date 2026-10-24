@@ -1,0 +1,20 @@
+{
+  "initiation_chamber/A/native.png": "4942eed6fbd9bb7fc334a914520d95596af0787b0b0becfd454295be4ecab26a",
+  "initiation_chamber/A/exact_prompt.txt": "d581f0296d58b13e1b7564c772ef34c0fe0ff17025892d615877861ddbae80ee",
+  "initiation_chamber/A/metadata.json": "6bd6332110affdc22ae062935c5a5868091f17ba6f6d0381f4ca45ce1a306555",
+  "initiation_chamber/A/hero_context_metadata.json": "37bfeb5e0120c173e57c117590ab8a08b22d859aa0f03e7de2bf0381507636a4",
+  "initiation_chamber/B/native.png": "fa651d7b6a2f462bcfd99ccf3dec765c115870880f62bd4ce27081031953a455",
+  "initiation_chamber/B/exact_prompt.txt": "cf05d68ec50c3f03c522787ee7e764e9bed7d9167e668bf77e7a894a3f2fdf10",
+  "initiation_chamber/B/metadata.json": "2057c5ccee8d947a5e268c18e4f23771f4cd14db2b5a2ee0c17e4943fbd44c04",
+  "initiation_chamber/B/hero_context_metadata.json": "c9bac56b71aec7ab85e4c6a17e8a4df1347ea92ea744a40424e1bcc5ab5b3c7b",
+  "initiation_chamber/C/native.png": "89049125aec0652ff45e53bf08050eb2fe6986576d878c87b7e04d200cdd3177",
+  "initiation_chamber/C/exact_prompt.txt": "bcd13c6e483ade65c659ddbcbd56fc60182dd4f23b3aefed9b0f0db94975c4a4",
+  "initiation_chamber/C/metadata.json": "a8c19c1a35338ea1fd0a3c4866da66352a32aca9e2cc0b3d59948b7d7494e1ab",
+  "initiation_chamber/C/hero_context_metadata.json": "7a63aea3ad66c45fcc5a5f686d50cfbe45fea647081d4c5cfdbc2dc8e1cf3b72",
+  "initiation_chamber/hero_placements.json": "d388b0471b8cb7441cc5024d981079b87cadff978a5a5ff09d4212272249ffe3",
+  "initiation_chamber/review_summary.json": "661da549793428ede7395b20abc385727bf29101750b9591a5b50f39ae472fb4",
+  "initiation_chamber/ABC_hero_comparison.png": "4d71fc3110ea4e217e05bbdc551b6e52eafa471cf3dd23637b71ba7f088bed97",
+  "review/build_contexts.py": "fcd25e260050784ce9f722462c2ef076dfd4637b0bd7b4285170e59d23f4aa36",
+  "review/package_theme.py": "ff2db93c466803e43d88bca0029c8d53eeaad2540aa43ec885949fb92aa3ad3e",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

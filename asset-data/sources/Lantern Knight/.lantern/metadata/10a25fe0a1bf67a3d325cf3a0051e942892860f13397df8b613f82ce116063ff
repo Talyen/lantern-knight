@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_blacksmith_anvil_01.png",
+    "new": "volume_05_furnishings/assets/furn_blacksmith_anvil_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_bookcase_01.png",
+    "new": "volume_05_furnishings/assets/furn_bookcase_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_grindstone_01.png",
+    "new": "volume_05_furnishings/assets/furn_grindstone_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_hand_plough_01.png",
+    "new": "volume_05_furnishings/assets/furn_hand_plough_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_shop_counter_01.png",
+    "new": "volume_05_furnishings/assets/furn_shop_counter_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_simple_bed_01.png",
+    "new": "volume_05_furnishings/assets/furn_simple_bed_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_wooden_bench_01.png",
+    "new": "volume_05_furnishings/assets/furn_wooden_bench_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_05_furnishings/assets/furn_workbench_01.png",
+    "new": "volume_05_furnishings/assets/furn_workbench_01.png"
+  }
+]

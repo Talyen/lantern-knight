@@ -1,0 +1,1051 @@
+{
+  "recipe": "graveyard-art-v1",
+  "frames": [
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "pine",
+      "source": "references/art/ink-collection-01/volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png",
+      "sourceHash": "4f8bcbc8efc7bb9b03017693b42689575abf0f6ee039dc929926d0a5c1d5b4d1",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "uniformScale": 0.9695688466782337,
+      "paddingOffset": [
+        1006,
+        1300
+      ],
+      "sourceAnchor": [
+        547,
+        1495
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 4.9,
+      "measurementPixels": 1469
+    },
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "birch",
+      "source": "references/art/ink-collection-01/volume_15_tree_forms/assets/vegetation_pale_birch_cluster_01.png",
+      "sourceHash": "8af140da6dc66466076e6abff650c2651f7f4c5b4b64c186d8dace3b9858f257",
+      "sourceCanvas": [
+        1226,
+        1283
+      ],
+      "uniformScale": 1.020320788640133,
+      "paddingOffset": [
+        896,
+        1473
+      ],
+      "sourceAnchor": [
+        627,
+        1252
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 4.3,
+      "measurementPixels": 1225
+    },
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "juniper",
+      "source": "references/art/ink-collection-01/volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+      "sourceHash": "f47b3bb5398e0fbbfd60f992c541ec57a780c384e567354fef9f275d32cb262c",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "uniformScale": 0.3272475038261323,
+      "paddingOffset": [
+        1284,
+        2459
+      ],
+      "sourceAnchor": [
+        770.5,
+        888
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 0.85,
+      "measurementPixels": 755
+    },
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "fallen-marker",
+      "source": "references/art/ink-collection-01/volume_12_crypt/assets/crypt_leaning_sarcophagus_lid_01.png",
+      "sourceHash": "b87c8bfe3107e6fad15a77682bb470c0774c35c9a2d82978e7d3722dd2f7e2bc",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "uniformScale": 0.16550763434036755,
+      "paddingOffset": [
+        1447,
+        2505
+      ],
+      "sourceAnchor": [
+        535,
+        1480
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 0.8,
+      "measurementPixels": 1405
+    },
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "lantern-hardware",
+      "source": "references/art/ink-collection-01/Lantern_Lighting03_CleanInk/png/watch_lantern_unlit.png",
+      "sourceHash": "b28cc6c136727bc6b5d4b55d26e294d62c76ed582e72ad032d5c592c589e5ea5",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "uniformScale": 0.4152468325861006,
+      "paddingOffset": [
+        1217,
+        2220
+      ],
+      "sourceAnchor": [
+        768,
+        1276
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 0.6,
+      "measurementPixels": 420
+    },
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "cresset-hardware",
+      "source": "references/art/ink-collection-01/Lantern_Lighting03_CleanInk/png/wall_cresset_unlit.png",
+      "sourceHash": "0249bb4a56dee5d590366e0f9f765f3d13f79b21f20d3ff8918b9088b23f6e87",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "uniformScale": 0.36639426404655945,
+      "paddingOffset": [
+        1250,
+        2385
+      ],
+      "sourceAnchor": [
+        780,
+        995
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 0.45,
+      "measurementPixels": 357
+    },
+    {
+      "pack": "ink-graveyard-scenery",
+      "id": "crook-lamp",
+      "source": "references/art/ink-collection-01/Lantern_Lighting03_CleanInk/png/crook_street_lamp_unlit.png",
+      "sourceHash": "0b0b1a5315154f157c11eeb36d5df6286a04f34e87cc89aa4b8c0e347caa4b74",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "uniformScale": 0.9974066076823006,
+      "paddingOffset": [
+        770,
+        1469
+      ],
+      "sourceAnchor": [
+        768,
+        1284
+      ],
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "physicalHeightMetres": 2.8,
+      "measurementPixels": 816
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-0",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/000.svg",
+      "sourceHash": "b1894bfeaedaa8ac1e796871dae9ea25426b3af465267d621f4cd0743144ad20",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-1",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/001.svg",
+      "sourceHash": "3eab1cb47d75e47f7a26a8126a18bb8463c15e4dff135ff702c6b3eac9ee9e87",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-2",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/002.svg",
+      "sourceHash": "0fa56ddc8d5602518901bae162f7091766efb6786aa99eb9cacd10cf9481c127",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-3",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/003.svg",
+      "sourceHash": "4cb325d8b520c176a4c45e95908ddb1afeabd8d8410b07911cb58c17870fa734",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-4",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/004.svg",
+      "sourceHash": "f32dfe2b7e558e362143d0a2b284c573c693b1dbe4357ac3af45cd8d34af4c10",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-5",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/005.svg",
+      "sourceHash": "25220a3be06cd92ec7d38ec230a4311a23684ae086b7c3afd822ffb9d458813c",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-6",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/006.svg",
+      "sourceHash": "da766adcc62f457da8149afe7e44736872e0ec55bbb571c7a3f6c989c6f4a26c",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-7",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/007.svg",
+      "sourceHash": "09ecb1cfa3d6f44436c4c4cc46037857ff64b8c45745a20de5fb394ac22c72fa",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-8",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/008.svg",
+      "sourceHash": "0d162d7e02ab45f1d0d16d2c77734f84a9253893da86880909923e7ffba1dac3",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-9",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/009.svg",
+      "sourceHash": "bbf0ec2f5b879f705e4006995527314896f0a1bc410655e1c350cf8827ec210c",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-10",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/010.svg",
+      "sourceHash": "04af3e840f838f0268f2e509193a6072fc0d5261fef72df473de022d73eec536",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-11",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/011.svg",
+      "sourceHash": "2743ca099dcd54a5e0b0fb8f62fbca7a4eaf063f97c8f33cd0281b13cbc8deed",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-12",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/012.svg",
+      "sourceHash": "d443b8fa523e189b7aaeaa2dbee30dd6e6154d35e1c28c4dc45f6fa86a40a339",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-13",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/013.svg",
+      "sourceHash": "c1c2f1ee657df97f733e35b226066d96e930aab55aa0b424b5086530ce722572",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-14",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/014.svg",
+      "sourceHash": "dff31fa96e2cdb92aaf5d2b9f7ccc5ef08702b7b1d90f17bd6f39f0f02ba152e",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-15",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/015.svg",
+      "sourceHash": "d8d585de52541801896a1146f8689bb611cbff284806ac08106b68300ee04fd7",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-16",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/016.svg",
+      "sourceHash": "2c919f5d35bc1461a066dd86d781f91c5aa5a683031c4fe838b5de71e96a1339",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-17",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/017.svg",
+      "sourceHash": "6a130c923f872d80da80783a3d6fd02742c582662778a826318dea4b300ade48",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-18",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/018.svg",
+      "sourceHash": "18d3f8934c8fa359d5db43ea19112fa0fe3ae39bd0e048015724aacddc8d068c",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-19",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/019.svg",
+      "sourceHash": "21d3ae777c4b8e4ce3700c7f6f3a0629ec129f7950c62421b0669c048b55b06e",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-20",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/020.svg",
+      "sourceHash": "32155169a26148381b10711341b0d3fe1b759d089622e116211935b587789c7b",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-21",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/021.svg",
+      "sourceHash": "c7aa0bc0ef9427620289faf37afd6bdbd0c0141bd9c7d43655b14d98772b39d7",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-22",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/022.svg",
+      "sourceHash": "256d9c9f8bfa5078f90de766aa22966a78471b09e4335e74f495e3dc7f5e07ff",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "lamp-flame-23",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/lamp_flame/023.svg",
+      "sourceHash": "8433068cca13a7ad5624c393d67ff37b8578a35d9ca14a5dc756209d574b5029",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-0",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/000.svg",
+      "sourceHash": "46e930c8e6c49da447285ed002435752c9cd0bc443332aa15286e0dfe7c023df",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-1",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/001.svg",
+      "sourceHash": "7a150193ae7c33f669d97c66c4c97666c814eeb28477cbc00144443bd9e8f790",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-2",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/002.svg",
+      "sourceHash": "2f49c9520317410d3292555a1c54745875e80c8eb83cca3f08b8c19b7b99e6da",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-3",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/003.svg",
+      "sourceHash": "ce3a07e86691bb99978e442947c5ec7bd9affd1b074e0346c6b428dc9c02b9be",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-4",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/004.svg",
+      "sourceHash": "4bd21414055734024081d5b44b9f78779fb63ea7ead0052d2ed514a6fdece550",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-5",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/005.svg",
+      "sourceHash": "9409218c9a2f1b5119c8e2a6b3b6acda719aaedbf08be1348a238f26964220ba",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-6",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/006.svg",
+      "sourceHash": "b9018a55132a833b7a11a1d9b4db6aae1c645c17f5ff9e3483f2719554849f87",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-7",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/007.svg",
+      "sourceHash": "e67a0d61acfbfbc747d2eb090e02f070f84f3c1c20ccc88a3eea6c9a16855082",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-8",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/008.svg",
+      "sourceHash": "85ddb877dbd86ef64b5dac4fb333323c9b1b5a4f61837a215855ce9fb6eff57d",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-9",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/009.svg",
+      "sourceHash": "e5472f28718d2cfbb0fb959c87b767211773792cbed3d13205edfb9571400609",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-10",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/010.svg",
+      "sourceHash": "4ebbf19be8f2bb587d25b6d9b56f9409a2e542f702cd5e25e01f7d17cb4a1def",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-11",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/011.svg",
+      "sourceHash": "2f6853b0957e62ed120da912bb91852487119a3fa97168a2b184aba42a2a4f38",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-12",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/012.svg",
+      "sourceHash": "9b98538b46a7290aabddd7337ca22f4d78aa8025aaefd1474431ee5724caf488",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-13",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/013.svg",
+      "sourceHash": "faa57b4e84bc2148a038fb47b02be60ccc33cbb6a78647c19494855f9f5f00f5",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-14",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/014.svg",
+      "sourceHash": "2c6252f81f85b2b8a751be2db416ccd6a453d1de0d87f3a6b71e9565a113253a",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-15",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/015.svg",
+      "sourceHash": "126b947a92a505b6c17360117cf5358b6aac770db5d0e18a00c78a7c2cd52a5d",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-16",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/016.svg",
+      "sourceHash": "157defada62212a0b2307be80e17468a83744fc0147882bee558e6e4a4e615be",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-17",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/017.svg",
+      "sourceHash": "63b9023903ef30d75a5c48260a1341ab97efc9c677d9b568bde99add2d44803e",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-18",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/018.svg",
+      "sourceHash": "f85df77703b49c236cfd75bcfaebdef4500eb3861ae42e6782ff116d345dcba4",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-19",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/019.svg",
+      "sourceHash": "bad75802683fc8cdf066cde57166703a79af097510496e1e30bd6f339d2716f3",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-20",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/020.svg",
+      "sourceHash": "b86a027b076d8e995ab00c2062b19c6e0d65fb6a9272fe5e9ecec16e6afb3006",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-21",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/021.svg",
+      "sourceHash": "51c75b85a2a7999658be95bc56147a7c82f7a2df266d63157a0542d25a83348f",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-22",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/022.svg",
+      "sourceHash": "4d80ab66dc42198d9f131747fc0f5a0138e1654437e37c65080b3d734e82a48e",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "quiet-smoke-23",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/quiet_smoke/023.svg",
+      "sourceHash": "e0947376bb840fbe45c052eed94763843edb6b1c8d8609103c5f321bc71a8197",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-0",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/000.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-1",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/001.svg",
+      "sourceHash": "80412cb19cd50537a5dc7b2547f2305b15f8869c8118aa76b305514b5cdaf531",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-2",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/002.svg",
+      "sourceHash": "011e6ff467e01cddf8970968aa77b4fe7bc35e23e58904427858caa72e67bb6e",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-3",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/003.svg",
+      "sourceHash": "e52831333a4af5adcad62aa5f0c563620de2d8c181d425d24b0a703e7bda46be",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-4",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/004.svg",
+      "sourceHash": "8881b98820cd86fa788c0b4ecb64ad2a556065dd37a534efc246c0742401638f",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-5",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/005.svg",
+      "sourceHash": "4184b61c35b12cb6a250c2fe793db68cdbab0c2f9c97876f18bed32640d50c48",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-6",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/006.svg",
+      "sourceHash": "63668386619b775afad6a58e9d9ec6327a470d8d27e2acc76b0972e5cad8fcc4",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-7",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/007.svg",
+      "sourceHash": "d706f16ec8d0e54e7caaeb1cba2e85be7809781b9e03d9e3b45fbb342080d334",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-8",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/008.svg",
+      "sourceHash": "522d0090d718fa865efeef46ce4e87ae7ed764cc3d7d05a074a6bd5928eeb8f8",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-9",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/009.svg",
+      "sourceHash": "d67e8d26a14f1bc355157a28dd87e052e0086662d58b52a08580585e92f6fa2c",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-10",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/010.svg",
+      "sourceHash": "75f90d5159d5db3eca259621e89ee54aef7f38f8dce22c6920be993abfe9bf92",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-11",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/011.svg",
+      "sourceHash": "f3177116422a553520354fe11aac3d90767702aad9887907c445840d01ed6881",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-12",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/012.svg",
+      "sourceHash": "edf18036045a6b8273e68e6467b41b9243d1c8948d78647d22a6d417f47b15ad",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-13",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/013.svg",
+      "sourceHash": "651f44ad87686a91203282155882a60d025cd4f007362fe7d71dae4e849360e7",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-14",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/014.svg",
+      "sourceHash": "73101bd979e156517f4ace646cf246004e4c4132b957fb1fb3ae93deaac0227f",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-15",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/015.svg",
+      "sourceHash": "3fac841a84055fe58e17dc52a4124c8b0018fdc8322265db7126b6779c9649f6",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-16",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/016.svg",
+      "sourceHash": "2fbc6faa9e387024ea5c276a5973548da89d636aba996af475dfc26b6f45f55a",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-17",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/017.svg",
+      "sourceHash": "01feb426aa280c728615ee9697005a2718167c1cc9e3c63a86feba4474947146",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-18",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/018.svg",
+      "sourceHash": "5ba15dfd31429a5238b48fcd6ee9d8784a99979349f25360deb1905e7dc38f74",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-19",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/019.svg",
+      "sourceHash": "90b2961eeab9f9f0111c5b8217d18c4dee4329a7edf31eddb84e24f6386248ed",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-20",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/020.svg",
+      "sourceHash": "04e806fd7ad7e926f65f3b4f067a865d35062977a9582a78589f75cfe45f69ef",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-21",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/021.svg",
+      "sourceHash": "3b391983aaf7da6da3df28aa19b37c90fad8e3fc33ad55238761bfbc8e74212a",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-22",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/022.svg",
+      "sourceHash": "4c3f356881c2799e7412bdc4dbc7023b9be71f6392ab8333ef03cdce9b03e790",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    },
+    {
+      "pack": "ink-ambient",
+      "id": "tumbling-leaf-23",
+      "source": "references/art/ink-collection-01/ambient_pack_v1/vectors/tumbling_leaf/023.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "uniformScale": 3,
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "density": 336
+    }
+  ]
+}

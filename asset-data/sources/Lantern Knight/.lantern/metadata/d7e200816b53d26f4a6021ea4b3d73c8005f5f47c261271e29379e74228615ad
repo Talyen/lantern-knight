@@ -1,0 +1,21 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "image_sha256": "3d83438e112e3cf5c395ca65993bc47c2eb29fcd3661f2a6e364cd23aa3de6ab",
+  "style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "verbatim_style_prefix_verified": true,
+  "tool": "built-in image_gen__imagegen",
+  "tool_size_parameter_available": false,
+  "requested_native_dimensions": [
+    1536,
+    1024
+  ],
+  "upscaled": false,
+  "environment_image_inputs": [],
+  "source_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-3f686016-9371-46eb-a659-88e0cd804dbe.png",
+  "submitted_parameters": "submitted_parameters.json",
+  "exact_prompt": "exact_prompt.txt"
+}

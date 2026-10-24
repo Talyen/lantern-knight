@@ -1,0 +1,369 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Sepulcher Warden",
+  "ability": "graveguard_shove",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_right",
+  "actor": {
+    "atlas": "graveguard_shove_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      640,
+      640
+    ],
+    "pivot_top_left_px": [
+      320,
+      520
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_canvas_offset_px": [
+      0,
+      0
+    ],
+    "baseline_visible_bbox": [
+      172,
+      67,
+      457,
+      580
+    ],
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        30,
+        13,
+        218,
+        257
+      ],
+      [
+        289,
+        17,
+        479,
+        256
+      ],
+      [
+        547,
+        10,
+        741,
+        256
+      ],
+      [
+        805,
+        10,
+        1000,
+        256
+      ],
+      [
+        27,
+        268,
+        234,
+        513
+      ],
+      [
+        280,
+        263,
+        489,
+        513
+      ],
+      [
+        539,
+        264,
+        749,
+        513
+      ],
+      [
+        801,
+        264,
+        1005,
+        513
+      ],
+      [
+        25,
+        522,
+        285,
+        750
+      ],
+      [
+        265,
+        527,
+        547,
+        750
+      ],
+      [
+        547,
+        527,
+        768,
+        753
+      ],
+      [
+        811,
+        521,
+        1004,
+        760
+      ],
+      [
+        30,
+        771,
+        224,
+        1038
+      ],
+      [
+        288,
+        774,
+        486,
+        1037
+      ],
+      [
+        551,
+        783,
+        734,
+        1038
+      ],
+      [
+        822,
+        767,
+        991,
+        1040
+      ]
+    ],
+    "ordinary_resample_factor": 2.0805860805860807,
+    "placements_xywh": [
+      [
+        245,
+        72,
+        391,
+        508
+      ],
+      [
+        241,
+        83,
+        395,
+        497
+      ],
+      [
+        232,
+        68,
+        404,
+        512
+      ],
+      [
+        230,
+        68,
+        406,
+        512
+      ],
+      [
+        205,
+        70,
+        431,
+        510
+      ],
+      [
+        201,
+        60,
+        435,
+        520
+      ],
+      [
+        199,
+        62,
+        437,
+        518
+      ],
+      [
+        212,
+        62,
+        424,
+        518
+      ],
+      [
+        95,
+        106,
+        541,
+        474
+      ],
+      [
+        49,
+        116,
+        587,
+        464
+      ],
+      [
+        4,
+        110,
+        460,
+        470
+      ],
+      [
+        234,
+        83,
+        402,
+        497
+      ],
+      [
+        232,
+        24,
+        404,
+        556
+      ],
+      [
+        224,
+        33,
+        412,
+        547
+      ],
+      [
+        255,
+        49,
+        381,
+        531
+      ],
+      [
+        280,
+        12,
+        352,
+        568
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution."
+  },
+  "effect": {
+    "atlas": "graveguard_shove_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1050,
+    "offset_from_actor_pivot_px": [
+      340,
+      -160
+    ],
+    "ordinary_resample_factor": 1.145374449339207,
+    "source_cel_boxes": [
+      [
+        86,
+        1120,
+        172,
+        1238
+      ],
+      [
+        299,
+        1109,
+        482,
+        1266
+      ],
+      [
+        526,
+        1069,
+        753,
+        1296
+      ],
+      [
+        782,
+        1124,
+        999,
+        1283
+      ],
+      [
+        48,
+        1305,
+        229,
+        1500
+      ],
+      [
+        291,
+        1327,
+        487,
+        1499
+      ],
+      [
+        575,
+        1350,
+        732,
+        1492
+      ],
+      [
+        837,
+        1371,
+        951,
+        1480
+      ]
+    ]
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1050,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1DzlXxSVxuKaQ_Ybene0B-udAntN-a26P",
+    "url": "https://drive.google.com/file/d/1DzlXxSVxuKaQ_Ybene0B-udAntN-a26P/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right.",
+    "Aligned impact debris to hammer-head contact point rather than below the weapon.",
+    "Actor recovery may begin before delayed target impact. Exactly one unchanged gameplay damage event.",
+    "Contact 1050ms; effect starts 1050ms. Current effect canvas and pivot are authoritative."
+  ],
+  "polish_revision": "physical-polish-v1"
+}

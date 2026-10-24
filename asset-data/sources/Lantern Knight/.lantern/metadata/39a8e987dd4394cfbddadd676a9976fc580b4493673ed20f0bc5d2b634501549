@@ -1,0 +1,1062 @@
+{
+  "schema": "lantern.final_handoff.v1",
+  "status": "FROZEN_FINAL",
+  "snapshot_utc": "2026-10-08T08:52:41.018749+00:00",
+  "inventory_sha256": "d7df95e60f7c0eb19b5e6f9e394b0c93e507c32f336d04a496423553c07ed01b",
+  "batch_drive_id": "1aN16qvj3xSiG4LpTyfPQGwPiZMTKqPfe",
+  "batch_drive_url": "https://drive.google.com/drive/folders/1aN16qvj3xSiG4LpTyfPQGwPiZMTKqPfe",
+  "summary": {
+    "new_actor_count": 18,
+    "new_actors_with_DR_move_and_attack": 18,
+    "new_actors_with_four_way_move_and_attack": 15,
+    "new_actors_with_saved_DR_hit_and_defeat": 18,
+    "existing_enemy_saved_directional_extensions": 5,
+    "pack_count": 59,
+    "engine_validation": false
+  },
+  "null_semantics": "Unknown or not retained, never inferred complete. Blank CSV values have the same meaning.",
+  "actors": [
+    {
+      "id": "SK01",
+      "name": "Ossuary Thrall",
+      "group": "new_18",
+      "identity_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "SK01:baseline:1",
+        "SK01:directional_extension:1",
+        "SK01:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "SK02",
+      "name": "Sepulcher Warden",
+      "group": "new_18",
+      "identity_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "SK02:baseline:1",
+        "SK02:directional_extension:1",
+        "SK02:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "ZB01",
+      "name": "Ashen Shambler",
+      "group": "new_18",
+      "identity_sha256": "c2e8f5cfd33e745e414aa0a93047d18cd51baf283d10478864dbdba6f8a9c631",
+      "baseline_revision": "v02",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "ZB01:baseline:1",
+        "ZB01:directional_extension:1",
+        "ZB01:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "ZB02",
+      "name": "Gravetoll Hauler",
+      "group": "new_18",
+      "identity_sha256": "c88791b222dca9dfc84645cb1c6f394b7045b0987b558bd5cea7c4ac805e8e3d",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "ZB02:baseline:1",
+        "ZB02:directional_extension:1",
+        "ZB02:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "GB01",
+      "name": "Mossfang Scavenger",
+      "group": "new_18",
+      "identity_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "GB01:baseline:1",
+        "GB01:directional_extension:1",
+        "GB01:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "SL01",
+      "name": "Mosswell Slime",
+      "group": "new_18",
+      "identity_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "SL01:baseline:1",
+        "SL01:directional_extension:1",
+        "SL01:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "SP01",
+      "name": "Veil Wisp",
+      "group": "new_18",
+      "identity_sha256": "80f8802796d5f44eb4acdfcbf262cf039f9515cf302f6ca43ee6c627b350b795",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "SP01:baseline:1",
+        "SP01:directional_extension:1",
+        "SP01:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "BT03",
+      "name": "Mourning Moth",
+      "group": "new_18",
+      "identity_sha256": "e71d196ee30ef3ae2e95efc8aaee2f4a1111a9d1f783abf080769737b67137b5",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "BT03:baseline:1",
+        "BT03:directional_extension:1",
+        "BT03:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "UR move/attack is deterministic horizontal mirror of UL; lighting flips. DR/DL/UL authored.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "FP02",
+      "name": "Ironcap Fungus",
+      "group": "new_18",
+      "identity_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "FP02:baseline:1",
+        "FP02:directional_extension:1",
+        "FP02:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_concept_enemy_03_masked_cultist",
+      "name": "Masked cultist",
+      "group": "new_18",
+      "identity_sha256": "eaa675ed1177ba59e3c12cffd0534ad775195818d2035861d7a3cb825f70317d",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_concept_enemy_03_masked_cultist:baseline:1",
+        "lantern_concept_enemy_03_masked_cultist:directional_extension:1",
+        "lantern_concept_enemy_03_masked_cultist:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_concept_enemy_08_clockwork_penitent",
+      "name": "Clockwork penitent",
+      "group": "new_18",
+      "identity_sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_concept_enemy_08_clockwork_penitent:baseline:1",
+        "lantern_concept_enemy_08_clockwork_penitent:directional_extension:1",
+        "lantern_concept_enemy_08_clockwork_penitent:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_creature_concept_03_moth_oracle",
+      "name": "Moth oracle",
+      "group": "new_18",
+      "identity_sha256": "2d558003603bc1f3791e951bd5d021177e07a62ae7308937581c6483d4411fa6",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_creature_concept_03_moth_oracle:baseline:1",
+        "lantern_creature_concept_03_moth_oracle:directional_extension:1",
+        "lantern_creature_concept_03_moth_oracle:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_elite_concept_01_bellbearing_pilgrim",
+      "name": "Bell-bearing pilgrim",
+      "group": "new_18",
+      "identity_sha256": "02146b8881a520f3de89fde37f58e81c2822ca96cd7e9296c4831a19b8006d5e",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL"
+        ],
+        "attack": [
+          "DR",
+          "DL"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_elite_concept_01_bellbearing_pilgrim:baseline:1",
+        "lantern_elite_concept_01_bellbearing_pilgrim:directional_extension:1",
+        "lantern_elite_concept_01_bellbearing_pilgrim:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_elite_concept_05_candle_procession_wraith",
+      "name": "Candle-procession wraith",
+      "group": "new_18",
+      "identity_sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_elite_concept_05_candle_procession_wraith:baseline:1",
+        "lantern_elite_concept_05_candle_procession_wraith:directional_extension:1",
+        "lantern_elite_concept_05_candle_procession_wraith:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_elite_concept_06_rootbound_stone_saint",
+      "name": "Root-entangled stone saint",
+      "group": "new_18",
+      "identity_sha256": "bce07386e2a424c6b3232e4d4a9efc08272e10e362ca4f81ea53ca17a7e1e98d",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "UL"
+        ],
+        "attack": [
+          "DR",
+          "UL"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [
+          "DL",
+          "UR"
+        ],
+        "attack": [
+          "DL",
+          "UR"
+        ],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_elite_concept_06_rootbound_stone_saint:baseline:1",
+        "lantern_elite_concept_06_rootbound_stone_saint:directional_extension:1",
+        "lantern_elite_concept_06_rootbound_stone_saint:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_archetype_concept_01_skeletal_archer",
+      "name": "Skeletal archer",
+      "group": "new_18",
+      "identity_sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "UL"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [
+          "DL",
+          "UR"
+        ],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_archetype_concept_01_skeletal_archer:baseline:1",
+        "lantern_archetype_concept_01_skeletal_archer:directional_extension:1",
+        "lantern_archetype_concept_01_skeletal_archer:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_hostile_faction_concept_04_censer_keeper",
+      "name": "Censer keeper",
+      "group": "new_18",
+      "identity_sha256": "6665d22253e78bdb1acc1300ee58cfafae6dabb9f11a8bf8199f97b71ad19a05",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_hostile_faction_concept_04_censer_keeper:baseline:1",
+        "lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1",
+        "lantern_hostile_faction_concept_04_censer_keeper:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "lantern_cave_creature_06_hovering_broken_mask",
+      "name": "Hovering broken mask",
+      "group": "new_18",
+      "identity_sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f",
+      "baseline_revision": "approved_baseline",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "hit": [
+          "DR"
+        ],
+        "defeat": [
+          "DR"
+        ]
+      },
+      "missing_coverage": {
+        "move": [],
+        "attack": [],
+        "hit": [
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "defeat": [
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "pack_ids": [
+        "lantern_cave_creature_06_hovering_broken_mask:baseline:1",
+        "lantern_cave_creature_06_hovering_broken_mask:directional_extension:1",
+        "lantern_cave_creature_06_hovering_broken_mask:DR_reaction_extension:1"
+      ],
+      "authored_headings_note": "Listed move/attack views are authored; do not mirror asymmetric actors to invent gaps.",
+      "other_states": "No newly authored animated idle, spawn or other states claimed. A supplied idle still is not an animated idle.",
+      "engine_validation": false
+    },
+    {
+      "id": "CT04",
+      "name": "Halo Veil Cantor",
+      "group": "existing_enemy",
+      "identity_sha256": null,
+      "baseline_revision": "compactv03 DR unchanged",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "coverage_dependency": "DR belongs to the previously supplied baseline and is not newly included in this extension.",
+      "missing_coverage": {
+        "move": [],
+        "attack": []
+      },
+      "pack_ids": [
+        "CT04:existing_enemy_directional_extension:1"
+      ],
+      "other_states": "Previously supplied states unchanged. This batch adds no hit/defeat/idle/spawn art for this existing enemy. Their prior coverage is not re-audited here.",
+      "engine_validation": false
+    },
+    {
+      "id": "SK03",
+      "name": "Candlebone Oracle",
+      "group": "existing_enemy",
+      "identity_sha256": null,
+      "baseline_revision": "v02 DR unchanged",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "coverage_dependency": "DR belongs to the previously supplied baseline and is not newly included in this extension.",
+      "missing_coverage": {
+        "move": [],
+        "attack": []
+      },
+      "pack_ids": [
+        "SK03:existing_enemy_directional_extension:1"
+      ],
+      "other_states": "Previously supplied states unchanged. This batch adds no hit/defeat/idle/spawn art for this existing enemy. Their prior coverage is not re-audited here.",
+      "engine_validation": false
+    },
+    {
+      "id": "CT01",
+      "name": "Waxmask Acolyte",
+      "group": "existing_enemy",
+      "identity_sha256": null,
+      "baseline_revision": "Current unified v03 DR unchanged",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "coverage_dependency": "DR belongs to the previously supplied baseline and is not newly included in this extension.",
+      "missing_coverage": {
+        "move": [],
+        "attack": []
+      },
+      "pack_ids": [
+        "CT01:existing_enemy_directional_extension:1"
+      ],
+      "other_states": "Previously supplied states unchanged. This batch adds no hit/defeat/idle/spawn art for this existing enemy. Their prior coverage is not re-audited here.",
+      "engine_validation": false
+    },
+    {
+      "id": "ZB04",
+      "name": "Shroud Crawler",
+      "group": "existing_enemy",
+      "identity_sha256": null,
+      "baseline_revision": null,
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "coverage_dependency": "DR belongs to the previously supplied baseline and is not newly included in this extension.",
+      "missing_coverage": {
+        "move": [],
+        "attack": []
+      },
+      "pack_ids": [
+        "ZB04:existing_enemy_directional_extension:1"
+      ],
+      "other_states": "Previously supplied states unchanged. This batch adds no hit/defeat/idle/spawn art for this existing enemy. Their prior coverage is not re-audited here.",
+      "engine_validation": false
+    },
+    {
+      "id": "CT02",
+      "name": "Bellbound Monk",
+      "group": "existing_enemy",
+      "identity_sha256": null,
+      "baseline_revision": "Existing DR unchanged",
+      "coverage": {
+        "move": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ],
+        "attack": [
+          "DR",
+          "DL",
+          "UL",
+          "UR"
+        ]
+      },
+      "coverage_dependency": "DR belongs to the previously supplied baseline and is not newly included in this extension.",
+      "missing_coverage": {
+        "move": [],
+        "attack": []
+      },
+      "pack_ids": [
+        "CT02:existing_enemy_directional_extension:1"
+      ],
+      "other_states": "Previously supplied states unchanged. This batch adds no hit/defeat/idle/spawn art for this existing enemy. Their prior coverage is not re-audited here.",
+      "engine_validation": false
+    }
+  ]
+}

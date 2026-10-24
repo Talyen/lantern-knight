@@ -1,0 +1,78 @@
+{
+  "purpose": "TECHNICAL GUIDE ONLY. Fresh clean-ink final art required.",
+  "camera_file": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_repair_v04/volume_guides/production_camera_35p264_world45/shared_camera.py",
+  "elevation_degrees": 35.264389682754654,
+  "world_azimuth_degrees": 45.0,
+  "actor_forward_world": "+X",
+  "projection_matrix": [
+    [
+      0.7071067811865475,
+      0.7071067811865475,
+      0.0
+    ],
+    [
+      0.4082482904638631,
+      -0.4082482904638631,
+      -0.8164965809277261
+    ],
+    [
+      0.5773502691896258,
+      -0.5773502691896258,
+      0.5773502691896258
+    ]
+  ],
+  "canvas_per_cel": [
+    576,
+    576
+  ],
+  "pixels_per_meter": 176.0,
+  "fixed_origin": [
+    268.0,
+    477.0
+  ],
+  "frame_transform": "One shared projection and pixel scale; no per-frame fitting, recentering, or resizing.",
+  "poses": [
+    {
+      "index": 1,
+      "phase": 0.0,
+      "rise_m": 0.0,
+      "cloth_expansion_fraction": 0.0,
+      "lag": -0.479425538604203
+    },
+    {
+      "index": 2,
+      "phase": 0.16666666666666666,
+      "rise_m": 0.018499999999999996,
+      "cloth_expansion_fraction": 0.24999999999999994,
+      "lag": 0.5202960232131906
+    },
+    {
+      "index": 3,
+      "phase": 0.3333333333333333,
+      "rise_m": 0.05549999999999999,
+      "cloth_expansion_fraction": 0.7499999999999999,
+      "lag": 0.9997215618173937
+    },
+    {
+      "index": 4,
+      "phase": 0.5,
+      "rise_m": 0.074,
+      "cloth_expansion_fraction": 1.0,
+      "lag": 0.4794255386042031
+    },
+    {
+      "index": 5,
+      "phase": 0.6666666666666666,
+      "rise_m": 0.055500000000000015,
+      "cloth_expansion_fraction": 0.7500000000000002,
+      "lag": -0.5202960232131902
+    },
+    {
+      "index": 6,
+      "phase": 0.8333333333333334,
+      "rise_m": 0.018499999999999996,
+      "cloth_expansion_fraction": 0.24999999999999994,
+      "lag": -0.9997215618173937
+    }
+  ]
+}

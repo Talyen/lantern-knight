@@ -1,0 +1,1 @@
+Skeletal Archer DL and UR primary attacks. Add alongside existing DR/UL. Each six illustrated cels, 640px canvas, pivot[320,520], PPU256. Spawn exactly one gameplay arrow entering frame3. No traveling projectile in artwork. Registration baked into PNG. No engine integration test.

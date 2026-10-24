@@ -1,0 +1,1079 @@
+{
+  "name": "Ivory Flakefall",
+  "version": 1,
+  "canvas": [
+    1536,
+    1024
+  ],
+  "coordinate_space": "screen",
+  "pivot": [
+    768,
+    512
+  ],
+  "fps": 12,
+  "loop": true,
+  "duration_ms": 8000,
+  "alpha_mode": "straight",
+  "blend_mode": "normal",
+  "recommended_screen_fit": "cover",
+  "frames": [
+    {
+      "index": 0,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 1,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 2,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 3,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 4,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 5,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 6,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 7,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 8,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 9,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 10,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 11,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 12,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 13,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 14,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 15,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_01.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 16,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 17,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 18,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 19,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 20,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 21,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 22,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 23,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 24,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 25,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 26,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 27,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 28,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 29,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 30,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 31,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_02.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 32,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 33,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 34,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 35,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 36,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 37,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 38,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 39,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 40,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 41,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 42,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 43,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 44,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 45,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 46,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 47,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_03.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 48,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 49,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 50,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 51,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 52,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 53,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 54,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 55,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 56,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 57,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 58,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 59,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 60,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 61,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 62,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 63,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_04.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 64,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 65,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 66,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 67,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 68,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 69,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 70,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 71,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 72,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 73,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 74,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 75,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 76,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 77,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 78,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 79,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_05.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 80,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 81,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 82,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 83,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 84,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 85,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 86,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 87,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 88,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 89,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 90,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 91,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 92,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 93,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 94,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 95,
+      "atlas": "Lantern_Weather_Ivory_Flakefall_Atlas_06.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    }
+  ],
+  "sampling": "Clamp to frame region with half-texel inset; render below HUD.",
+  "source": "Sixteen newly AI-generated particle sprites animated with periodic material-specific motion, tumble and flutter; no ping-pong."
+}

@@ -1,0 +1,32 @@
+{
+  "scene": "forest_gathering_A_v2",
+  "status": "passed",
+  "reviewed_on_utc": "2026-10-09",
+  "inspection": [
+    "Native whole scene at scaled inspection size",
+    "Final hero-context contact sheet for each of three views",
+    "Original-resolution hero placement patches for all three final views",
+    "Final whole-map overview at scaled inspection size",
+    "Detailed AI-output support-surface crops for all six candle clusters",
+    "Programmatic dimensions, crop bounds, scale values, and hero containment checks"
+  ],
+  "hero_visible_height_px": 160,
+  "scene_display_scale": 2.5,
+  "checks": {
+    "three_distinct_views": true,
+    "hero_unclipped": true,
+    "hero_feet_on_apparently_clear_ground": true,
+    "overview_crop_boxes_inside_canvas": true,
+    "legible_overview_labels": true,
+    "exact_fullscene_prompt_preserved": true,
+    "candle_cluster_count": 6,
+    "all_candle_clusters_on_solid_horizontal_altar_tops": true,
+    "no_apparent_floating_candles": true
+  },
+  "caveats": [
+    "Visual placement assessment only; no navigation, collision, depth sorting, occlusion-mask or engine validation.",
+    "All scenery and original scene shadows are baked into the flattened raster.",
+    "Camera angles and physical scale are prompt intentions, not mathematically verified geometry.",
+    "This is a fresh replacement for the earlier Forest Gathering A fullscene; that earlier source remains separate."
+  ]
+}

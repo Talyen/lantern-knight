@@ -1,0 +1,391 @@
+{
+  "pack_id": "lantern_wall_dressing_01",
+  "version": "2.0.0",
+  "count": 8,
+  "canvas_pixels": [
+    1024,
+    1024
+  ],
+  "canvas_wall_metres": [
+    4,
+    4
+  ],
+  "source_texels_per_metre": 256,
+  "source_orientation": "FLAT FRONT-FACING WALL ART, not top-down ground and not a camera-baked sprite",
+  "wall_local_axes": "image-right = wall-local +U; image-down = -world Y; normal points out from the wall",
+  "canonical_wall_basis": {
+    "U_game_world": [
+      1,
+      0,
+      0
+    ],
+    "up_game_world": [
+      0,
+      1,
+      0
+    ],
+    "front_normal_game_world": [
+      0,
+      0,
+      1
+    ]
+  },
+  "anchor_pixels": [
+    512,
+    1024
+  ],
+  "anchor_meaning": "bottom centre of 4 m canvas on wall plane; visible art may hang above this anchor",
+  "colour_space": "sRGB",
+  "alpha": "straight RGBA; transparent exterior margins",
+  "assets": [
+    {
+      "id": "w01_arched_stained_glass",
+      "name": "Arched stained glass",
+      "png": "png/faces/w01_arched_stained_glass.png",
+      "paint_bounds_pixels": [
+        294,
+        135,
+        731,
+        863
+      ],
+      "visible_face_metres": [
+        1.70703125,
+        2.84375
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          260,
+          11,
+          995,
+          1236
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5942857142857143,
+        "placement_xy": [
+          294,
+          135
+        ]
+      },
+      "source_master": "source/masters/faces/w01_arched_stained_glass.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "263df63ba01769268c151b986f469ced928fa14ae661fbb2adc616b5ab99856f"
+    },
+    {
+      "id": "w02_boarded_window_face",
+      "name": "Boarded window face",
+      "png": "png/faces/w02_boarded_window_face.png",
+      "paint_bounds_pixels": [
+        302,
+        231,
+        727,
+        849
+      ],
+      "visible_face_metres": [
+        1.66015625,
+        2.4140625
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          232,
+          32,
+          1027,
+          1188
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5346020761245674,
+        "placement_xy": [
+          302,
+          231
+        ]
+      },
+      "source_master": "source/masters/faces/w02_boarded_window_face.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "60561319b6598706859e15909aecd9ff0223bd1dc274decad2bf4f767a66cd19"
+    },
+    {
+      "id": "w03_hanging_heraldic_cloth",
+      "name": "Hanging heraldic cloth",
+      "png": "png/faces/w03_hanging_heraldic_cloth.png",
+      "paint_bounds_pixels": [
+        305,
+        273,
+        723,
+        779
+      ],
+      "visible_face_metres": [
+        1.6328125,
+        1.9765625
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          150,
+          59,
+          1104,
+          1213
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.4381551362683438,
+        "placement_xy": [
+          305,
+          273
+        ]
+      },
+      "source_master": "source/masters/faces/w03_hanging_heraldic_cloth.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "446b8a6ca6786243c191c6cc495cf727d84dc7542611bf95b81521c52b8dd3f1"
+    },
+    {
+      "id": "w04_faded_mural_fragment",
+      "name": "Faded mural fragment",
+      "png": "png/faces/w04_faded_mural_fragment.png",
+      "paint_bounds_pixels": [
+        288,
+        205,
+        704,
+        808
+      ],
+      "visible_face_metres": [
+        1.625,
+        2.35546875
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          224,
+          29,
+          1048,
+          1224
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5046025104602511,
+        "placement_xy": [
+          288,
+          205
+        ]
+      },
+      "source_master": "source/masters/faces/w04_faded_mural_fragment.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "515b8b05e6cb04906dc88d748213b90861b4df9c109f6cbb69e697b4a66058f2"
+    },
+    {
+      "id": "w05_iron_ventilation_grille",
+      "name": "Iron ventilation grille",
+      "png": "png/faces/w05_iron_ventilation_grille.png",
+      "paint_bounds_pixels": [
+        307,
+        324,
+        714,
+        704
+      ],
+      "visible_face_metres": [
+        1.58984375,
+        1.484375
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          113,
+          143,
+          1142,
+          1105
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.39552964042759964,
+        "placement_xy": [
+          307,
+          324
+        ]
+      },
+      "source_master": "source/masters/faces/w05_iron_ventilation_grille.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "e66d0a257f7a771f2a00a97e86e6e98fcfa3368f8bd1ab56e3956aae4b32998e"
+    },
+    {
+      "id": "w06_carved_stone_niche_back",
+      "name": "Carved stone niche back",
+      "png": "png/faces/w06_carved_stone_niche_back.png",
+      "paint_bounds_pixels": [
+        310,
+        165,
+        715,
+        848
+      ],
+      "visible_face_metres": [
+        1.58203125,
+        2.66796875
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          283,
+          33,
+          972,
+          1195
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5877796901893287,
+        "placement_xy": [
+          310,
+          165
+        ]
+      },
+      "source_master": "source/masters/faces/w06_carved_stone_niche_back.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "0dac3611ba516272b432b9da829c3ffc006f2e28412fd84bce2d4faa64cedca8"
+    },
+    {
+      "id": "w07_peeling_plaster_patch",
+      "name": "Peeling plaster patch",
+      "png": "png/faces/w07_peeling_plaster_patch.png",
+      "paint_bounds_pixels": [
+        298,
+        275,
+        727,
+        767
+      ],
+      "visible_face_metres": [
+        1.67578125,
+        1.921875
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          136,
+          65,
+          1123,
+          1198
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.43424536628420124,
+        "placement_xy": [
+          298,
+          275
+        ]
+      },
+      "source_master": "source/masters/faces/w07_peeling_plaster_patch.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "3b195603699ce7636c69ce6ccd1d81f223089ba61005ad8d1bd09127b746ad1a"
+    },
+    {
+      "id": "w08_broad_ivy_growth",
+      "name": "Broad ivy growth overlay",
+      "png": "png/faces/w08_broad_ivy_growth.png",
+      "paint_bounds_pixels": [
+        148,
+        112,
+        819,
+        991
+      ],
+      "visible_face_metres": [
+        2.62109375,
+        3.43359375
+      ],
+      "anchor_pixels": [
+        512,
+        1024
+      ],
+      "semantics": "Flat illustrated wall face with material-specific ink drawing. Painted recesses and glass have no actual aperture, depth, collision or emission. Original figurative Lantern world artwork, no text or logo.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          173,
+          23,
+          1095,
+          1231
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.7276490066225165,
+        "placement_xy": [
+          148,
+          112
+        ]
+      },
+      "source_master": "source/masters/faces/w08_broad_ivy_growth.png",
+      "revision": "02 illustrated rebuild",
+      "sha256": "473f3f01b31911c038a7332b9295d13dc6aa29976b218a81557538df0efd5748"
+    }
+  ],
+  "proofs": {
+    "contact": "proofs/Contact_Sheet.png",
+    "before_after": "proofs/Before_After.png"
+  },
+  "status": "Art reviewed; runtime import untested",
+  "limits": [
+    "No real window apertures, depth, thickness, collision, cloth simulation or light emission.",
+    "The canonical front-facing source may be mapped to a vertical plane; do not pre-project it again.",
+    "No seamless tiling, corner-matching wall system, normal maps or height maps supplied."
+  ],
+  "provenance": "Fresh independently generated raster illustrations using the approved clean-ink door as style-only reference. No bitmap edit cascades. Runtime files are uniformly packaged into source-native topdown or frontview canvas. Earlier SVG masters are superseded, not used.",
+  "art_provenance": "Fresh independently generated raster illustrations using the approved clean-ink door as style-only reference. No bitmap edit cascades. Runtime files are uniformly packaged into source-native topdown or frontview canvas. Earlier SVG masters are superseded, not used.",
+  "revision_notes": "Original identifiers, 1024px canvases,4m footprint and alpha roles retained. Actual paint bounds may differ within original placement envelopes. Painted black recesses do not cut geometry holes. Camera not baked into runtime artwork."
+}

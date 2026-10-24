@@ -1,0 +1,24 @@
+[
+  {
+    "id": "crypt_ossuary",
+    "six_rgba_cels": true,
+    "fixed_canvas": true,
+    "stationary_lower_body": true,
+    "transparent_canvas_edges": true,
+    "event_matches_final_start": true,
+    "unique_frames": true,
+    "ticks_total": 52,
+    "visual_review": "All six cels inspected on light/dark. Empty interiors. Ossuary architecture pinned. Hamper fixed rear tangent with visible lash hinges. No clipping or loose ghost components; native source low-alpha specks cleaned."
+  },
+  {
+    "id": "reed_hamper",
+    "six_rgba_cels": true,
+    "fixed_canvas": true,
+    "stationary_lower_body": true,
+    "transparent_canvas_edges": true,
+    "event_matches_final_start": true,
+    "unique_frames": true,
+    "ticks_total": 52,
+    "visual_review": "All six cels inspected on light/dark. Empty interiors. Ossuary architecture pinned. Hamper fixed rear tangent with visible lash hinges. No clipping or loose ghost components; native source low-alpha specks cleaned."
+  }
+]

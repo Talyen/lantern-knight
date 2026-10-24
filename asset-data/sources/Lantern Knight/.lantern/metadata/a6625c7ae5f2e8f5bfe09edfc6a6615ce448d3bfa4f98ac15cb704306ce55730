@@ -1,0 +1,62 @@
+[
+  {
+    "clip": "astrolabe",
+    "width": 1280,
+    "height": 700,
+    "r_frame_rate": "60/1",
+    "duration": "4.000000",
+    "nb_frames": "240",
+    "expected_frames": 240,
+    "frame_count_correct": true
+  },
+  {
+    "clip": "bubble_chamber",
+    "width": 1280,
+    "height": 700,
+    "r_frame_rate": "60/1",
+    "duration": "2.000000",
+    "nb_frames": "120",
+    "expected_frames": 120,
+    "frame_count_correct": true
+  },
+  {
+    "clip": "exposed_gear_pair",
+    "width": 1280,
+    "height": 700,
+    "r_frame_rate": "60/1",
+    "duration": "8.000000",
+    "nb_frames": "480",
+    "expected_frames": 480,
+    "frame_count_correct": true
+  },
+  {
+    "clip": "pulley_chain_sway",
+    "width": 1280,
+    "height": 700,
+    "r_frame_rate": "60/1",
+    "duration": "2.000000",
+    "nb_frames": "120",
+    "expected_frames": 120,
+    "frame_count_correct": true
+  },
+  {
+    "clip": "tower_bell",
+    "width": 1280,
+    "height": 700,
+    "r_frame_rate": "60/1",
+    "duration": "2.000000",
+    "nb_frames": "120",
+    "expected_frames": 120,
+    "frame_count_correct": true
+  },
+  {
+    "clip": "waterwheel",
+    "width": 1280,
+    "height": 700,
+    "r_frame_rate": "60/1",
+    "duration": "8.000000",
+    "nb_frames": "480",
+    "expected_frames": 480,
+    "frame_count_correct": true
+  }
+]

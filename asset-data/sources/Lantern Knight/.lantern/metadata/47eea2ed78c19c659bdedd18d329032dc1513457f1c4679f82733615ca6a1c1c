@@ -1,0 +1,69 @@
+{
+  "asset": "Keeper's Herb Press",
+  "authored_cels": 8,
+  "native_canvas": [
+    512,
+    576
+  ],
+  "runtime_canvas": [
+    256,
+    288
+  ],
+  "states": [
+    "ready",
+    "turn_start",
+    "quarter_press",
+    "half_turn",
+    "half_press",
+    "firm_press",
+    "settling",
+    "compressed_hold"
+  ],
+  "timing_ms": [
+    700,
+    130,
+    130,
+    130,
+    130,
+    130,
+    160,
+    1200
+  ],
+  "start_hold": "states/start.png",
+  "persistent_final_hold": "states/end.png",
+  "one_shot": true,
+  "completion_frame": 7,
+  "ground_anchor_native": [
+    256,
+    552
+  ],
+  "contact_anchor_native": [
+    255,
+    145
+  ],
+  "reward_anchor_native": [
+    240,
+    510
+  ],
+  "suggested_gameplay": "One-use gathered-remedy preparation. Award the resource separately after compression; tray remains empty.",
+  "implementation": "Suggested hooks only, no gameplay integration",
+  "source_native_size": [
+    1536,
+    1024
+  ],
+  "processing": "Mechanical extraction of authored cels, alpha-isolation, translation-only alignment, runtime downsampling and preview encoding. No code-created art or interpolated poses.",
+  "model_note": "Built-in imagegen; highest native quality/resolution requested. Preferred model naming was prompt intent, selection not exposed or verified.",
+  "qa": "Root approved",
+  "ground_anchor_runtime": [
+    128.0,
+    276.0
+  ],
+  "contact_anchor_runtime": [
+    127.5,
+    72.5
+  ],
+  "reward_anchor_runtime": [
+    120.0,
+    255.0
+  ]
+}

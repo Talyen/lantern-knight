@@ -1,0 +1,66 @@
+{
+  "method": "Fresh built-in image generation from canonical identity and pose/direction references. No existing generated bitmap editing.",
+  "backend_selection_verified": false,
+  "entries": [
+    {
+      "native_file": "hit_DR_v01_native.png",
+      "native_sha256": "fbb1b63d09f251dbc7ed53f921fd34728e9d982f5a27fd5f1050b8d580ab9717",
+      "prompt": "prompts/hit_DR_v01.txt",
+      "prompt_sha256": "cab8c9e516e8bdccbcc71af56a63de7df3c02647d87f1c2e5eaf3928be3bc024"
+    },
+    {
+      "native_file": "death_DR_v01_native.png",
+      "native_sha256": "e0ac619d8f37bb1107dd58f3b0c8f41a0c95af3b1ac7b6e42cadd88a3bd55ea1",
+      "prompt": "prompts/death_DR_v01.txt",
+      "prompt_sha256": "6f28f2881d0ba7fe53fcfcce81b52eafdaf6b759124483ba359b0fd89ee9f3c0"
+    },
+    {
+      "native_file": "hit_DL_v01_native.png",
+      "native_sha256": "697ff2e78982037863e39802eb0e59c2d3d945b93d99521c10c5b7fcd4376661",
+      "prompt": "prompts/hit_DL_v01.txt",
+      "prompt_sha256": "587cee3f9b9f82f673f311e357ecfb5f1a6604aab73696a057dc840a8132223e"
+    },
+    {
+      "native_file": "death_DL_v01_native.png",
+      "native_sha256": "71e7314f3a6a7d4a381fcc153809e67d9239e03ffa74fcf76ff1a3cc6c637a40",
+      "prompt": "prompts/death_DL_v01.txt",
+      "prompt_sha256": "afc028758f8a8b8d9a7a16eb4f6455c91aa96a8c8516e920e1126f88c7020206"
+    },
+    {
+      "native_file": "hit_UL_v01_native.png",
+      "native_sha256": "067ef59d1838ecc9612f8d1abab2d14e995d72ea799258e4866de88bdef38b7e",
+      "prompt": "prompts/hit_UL_v01.txt",
+      "prompt_sha256": "9aba12a818726fd4798818e0ec1156cd8988639fa23e69460adb586e81e8591c"
+    },
+    {
+      "native_file": "death_UL_v01_native.png",
+      "native_sha256": "029bfc1701992d7b8c9981adcd97d96090490436db54a711740eaff2f6ea8424",
+      "prompt": "prompts/death_UL_v01.txt",
+      "prompt_sha256": "6509e80c6617eb75ac4bcd4f610ce897a1d9984c942da1dabf5c86262bcc35a1"
+    },
+    {
+      "native_file": "hit_UR_v01_native.png",
+      "native_sha256": "57699d4a8b9b38ddc003dc287c19c93032c2f418f1cb6d19b65fe557dcae952b",
+      "prompt": "prompts/hit_UR_v01.txt",
+      "prompt_sha256": "0aa0a38f6be101c150d46020321f85238c74670f2b4d240c1102821f0536064b"
+    },
+    {
+      "native_file": "death_UR_v02_native.png",
+      "native_sha256": "33777c7722a2112b70b34f88543d2d1a247129a4c9e9b4af61fb51286c58e872",
+      "prompt": "prompts/death_UR_v02.txt",
+      "prompt_sha256": "d4d9a8216e4cec36c6fc428a4bafb3cc5ab87aa9ac11fcd3ee7c7d86202b8cc9"
+    },
+    {
+      "native_file": "death_UL_kneel_v01_native.png",
+      "native_sha256": "80b11cb725dda1a371afa299bbb846ac795e854fe9b5c105b4d9126558c3f877",
+      "prompt": "prompts/death_UL_kneel_v01.txt",
+      "prompt_sha256": "9fed968be3762796bb568aa52996b9bb1c37861fa74131d8f748806b58051822"
+    },
+    {
+      "native_file": "death_UR_kneel_v01_native.png",
+      "native_sha256": "7dee08e3366ac2c61a6c339aa895e356a6e2e16cd3afd959f83e5108b41ba8fa",
+      "prompt": "prompts/death_UR_kneel_v01.txt",
+      "prompt_sha256": "32eccb5a16f5c5adb44e137b4a9054e477f89f7fc25da5c210bd834d0f456b1a"
+    }
+  ]
+}

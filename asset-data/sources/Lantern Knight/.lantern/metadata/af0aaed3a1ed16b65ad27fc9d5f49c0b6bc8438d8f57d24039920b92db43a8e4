@@ -1,0 +1,68 @@
+{
+  "title": "Forest Gathering A v2 | Grounded Candle Altars",
+  "hero_source": "references/hero_original.png",
+  "views": [
+    {
+      "name": "upper_altar_crossing",
+      "display_box": [
+        975,
+        200,
+        2511,
+        1224
+      ],
+      "display_foot": [
+        1875,
+        775
+      ],
+      "placement_note": "Visually selected clear route beside solid candle-support altars; presentation-only, no engine collision or navigation validation."
+    },
+    {
+      "name": "western_altar_route",
+      "display_box": [
+        250,
+        625,
+        1786,
+        1649
+      ],
+      "display_foot": [
+        1025,
+        1250
+      ],
+      "placement_note": "Visually selected clear route beside solid candle-support altars; presentation-only, no engine collision or navigation validation."
+    },
+    {
+      "name": "eastern_altar_passage",
+      "display_box": [
+        2250,
+        1075,
+        3786,
+        2099
+      ],
+      "display_foot": [
+        2975,
+        1600
+      ],
+      "placement_note": "Visually selected clear route beside solid candle-support altars; presentation-only, no engine collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "upper_altar_route_junction",
+      "source_xy": [
+        640,
+        320
+      ]
+    },
+    {
+      "name": "eastern_altar_route_junction",
+      "source_xy": [
+        1120,
+        640
+      ]
+    }
+  ],
+  "scene_notes": [
+    "Freshly generated replacement for the prior Forest Gathering A fullscene. Preserve exact prompt.txt and generation_metadata.json.",
+    "Six candle clusters are visibly supported by horizontal stone surfaces. Scenery and lighting remain baked; collision, navigation and occlusion are not engine-validated."
+  ]
+}

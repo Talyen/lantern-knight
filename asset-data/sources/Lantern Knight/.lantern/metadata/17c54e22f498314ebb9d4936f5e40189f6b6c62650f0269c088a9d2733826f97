@@ -1,0 +1,54 @@
+{
+  "README.md": {
+    "bytes": 4359,
+    "sha256": "e162a9b68c227fe55641f9d776ac4768c81113f8bbb587ba1c7ea1d797e6597d"
+  },
+  "ART_PROMPT.txt": {
+    "bytes": 1837,
+    "sha256": "eac2187d0bcd317d14a6643616450954d569a53ad74788c4c07d0856f1ee6a95"
+  },
+  "requirements.txt": {
+    "bytes": 52,
+    "sha256": "83a5d45008425c255ac8df3a090c9ddaffc047e46f1d2a98cc846a9298b1814a"
+  },
+  "render_threshold.py": {
+    "bytes": 8222,
+    "sha256": "b4a31f25c0ca9a9bbde744cc05a926357788d91e3d0588fe9ab4555f1a8f9714"
+  },
+  "validate_threshold.py": {
+    "bytes": 1502,
+    "sha256": "97a2117f0084b4b55a36d6a9c8cb2209be88b029f66643ef9929981e771c5f22"
+  },
+  "rebuild.sh": {
+    "bytes": 164,
+    "sha256": "e700f721ebf432abcb0fcfba27376450d4a287d735dc00540613342b12880b81"
+  },
+  "VALIDATION.json": {
+    "bytes": 1692,
+    "sha256": "c03771a6f2433f54897b49e4c59e589b1106173e95b503f24d0f91196d431299"
+  },
+  "assets/threshold_plate.png": {
+    "bytes": 2629305,
+    "sha256": "29cfa48a515caef477b38016d9f3c7689fecd1dead0f3d29de90eb8da2c68507"
+  },
+  "proof/RAW_LOOP_CHECK.json": {
+    "bytes": 401,
+    "sha256": "b658d80f3066d2f4b27d47f86785dee59416f788e1b4b716813c225fe932c685"
+  },
+  "proof/threshold_poster.jpg": {
+    "bytes": 368072,
+    "sha256": "a5dd529b32b4815d944f4acbd84cf3912d42101abcf188797da4b6fdfd1bb14b"
+  },
+  "output/threshold_intro_1920x1080_60fps.mp4": {
+    "bytes": 1985596,
+    "sha256": "aa0b741b33bf9aa287f3537daf135213419034e7c60c7f5f328cefbcdac5c247"
+  },
+  "output/threshold_hold_1920x1080_60fps.mp4": {
+    "bytes": 1958286,
+    "sha256": "5c3e6a9165f201ab70eba97adc2b05bf198182b08188fbe5186341d4e196ec8b"
+  },
+  "output/threshold_complete_1920x1080_60fps.mp4": {
+    "bytes": 1649361,
+    "sha256": "67c910edaf1b219c6042d9c6dc540e91ed65c0425099a7cc83c5e6a0df4f34b3"
+  }
+}

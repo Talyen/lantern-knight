@@ -1,0 +1,22 @@
+WORKSHOP 04 — INDEPENDENT VISUAL AND MOTION REVIEW
+Final review: 6 October 2026, 18:11 UTC
+Status: PASS, bounded candidate-art and source-frame review.
+
+Reviewed all 24 state images, the before/after sheet, and all 96 opening frames.
+The final material treatment is clean and illustrated. Leather, cloth and wicker
+damage now use material-specific seam, fabric and reed constructions.
+
+The final drawer sequence was rechecked through every frame: its tray reveals
+continuously under the stationary shell, with no previous 009-to-010 visibility
+jump. Detached neighboring-atlas slivers are absent from the drawer and hamper.
+The satchel retains its connected lining and two buckle tongues during unrolling.
+Coffin and cabinet motion remains registered through the expected thin edge views.
+
+Independently verified all 96 current frame hashes and transparent borders.
+All eight first/last frame comparisons with closed/open states are pixel-exact.
+Numeric evidence is supplied in qa_report.json and independent_endpoints.json.
+
+Scope: This is not runtime or engine certification. It does not certify playback
+performance, collision, sorting, gameplay timing or mathematically exact body
+perspective. Body illustrations are fixed-view 2.5D art; moving-part transforms
+are projected by the declared camera. Runtime import/integration remains open.

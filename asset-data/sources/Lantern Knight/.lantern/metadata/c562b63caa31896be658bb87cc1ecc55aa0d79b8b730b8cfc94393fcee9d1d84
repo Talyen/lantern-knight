@@ -1,0 +1,266 @@
+[
+  {
+    "id": "canal_water_clean_ink_topdown",
+    "file": "source/assets/canal_water_clean_ink_topdown.png",
+    "original_source": "lantern_revision_02/compositions/source/new_materials/canal_water_clean_ink_topdown.png",
+    "sha256": "232521f42e30a7574993f0c29296fa57040280bce50f44b2530ec8d7e7edc638",
+    "size": [
+      1254,
+      1254
+    ],
+    "source_view": "top_down_material"
+  },
+  {
+    "id": "10_soot_brick",
+    "file": "source/assets/10_soot_brick.png",
+    "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/10_soot_brick.png",
+    "sha256": "8737283a624fcbb2749e156781ab9598f64cfa5e2b5f24f04e124eb1af91bb0b",
+    "size": [
+      1024,
+      1024
+    ],
+    "source_view": "top_down_material"
+  },
+  {
+    "id": "01_old_flagstone",
+    "file": "source/assets/01_old_flagstone.png",
+    "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/01_old_flagstone.png",
+    "sha256": "edef4cd4dbeec4b54f09c3d63b7bab9194427cd0327e374c5bf1da6b0642f571",
+    "size": [
+      1024,
+      1024
+    ],
+    "source_view": "top_down_material"
+  },
+  {
+    "id": "04_wood_plank_floor",
+    "file": "source/assets/04_wood_plank_floor.png",
+    "original_source": "lantern_revision_02/surfaces/published/Ground_Surfaces_Decals_r02a/png/materials/04_wood_plank_floor.png",
+    "sha256": "ddbf79ea8e84a98998b60d0c6c673373819bc0c1efe92bcd642eb1618892fecb",
+    "size": [
+      1024,
+      1024
+    ],
+    "source_view": "top_down_material"
+  },
+  {
+    "id": "service_masonry_chimney_01",
+    "file": "source/assets/service_masonry_chimney_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_13_service_architecture/assets/service_masonry_chimney_01.png",
+    "sha256": "efba24778fc10164c68ff7d0066f0b6bd424d2187b81dc35842a2556c020e43e",
+    "size": [
+      1024,
+      1536
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "arch_gothic_wall_01",
+    "file": "source/assets/arch_gothic_wall_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_gothic_wall_01.png",
+    "sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "02_compact_smithy_v1",
+    "file": "source/assets/02_compact_smithy_v1.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_17_small_buildings/assets/02_compact_smithy_v1.png",
+    "sha256": "a005392bd9c764f8ffb0bf098c7f21fac5e72da77a833095e8078dc598244972",
+    "size": [
+      1312,
+      1199
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "landmark_cold_furnace_alcove_01",
+    "file": "source/assets/landmark_cold_furnace_alcove_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_08_landmarks/assets/landmark_cold_furnace_alcove_01.png",
+    "sha256": "351e6da62961a99d40119623348c244de803f5ffbda50d06c629682b9bf07c82",
+    "size": [
+      1283,
+      1226
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "prop_valve_pipe_01",
+    "file": "source/assets/prop_valve_pipe_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_03_occult_industrial/assets/prop_valve_pipe_01.png",
+    "sha256": "07bad88af178833691751dd01b0b5d081a650c5b1249d93898f0d80a21322e65",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "furn_workbench_01",
+    "file": "source/assets/furn_workbench_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_05_furnishings/assets/furn_workbench_01.png",
+    "sha256": "7cd9bf0004f459dac5c6925930ff31399b51b6d33757f47459252b0c6c95f255",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "furn_blacksmith_anvil_01",
+    "file": "source/assets/furn_blacksmith_anvil_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_05_furnishings/assets/furn_blacksmith_anvil_01.png",
+    "sha256": "c5d27ab7ddd1b81a960c66f226901a8e131f158159d7f55e75190a116e4921cd",
+    "size": [
+      1312,
+      1199
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "prop_riveted_boiler_01",
+    "file": "source/assets/prop_riveted_boiler_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_03_occult_industrial/assets/prop_riveted_boiler_01.png",
+    "sha256": "41a38151bd446f0b9db990acc29ce6624cbc4b886ebe87ede14987afaac3ef48",
+    "size": [
+      1312,
+      1199
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "furn_grindstone_01",
+    "file": "source/assets/furn_grindstone_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_05_furnishings/assets/furn_grindstone_01.png",
+    "sha256": "a0a2d4080de2b6a2c31e2e8200d1000297f7d71b5f63cb6f7476fafbc973d5d9",
+    "size": [
+      1312,
+      1199
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "town_rain_barrel_01",
+    "file": "source/assets/town_rain_barrel_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_06_town/assets/town_rain_barrel_01.png",
+    "sha256": "0dace0464639c3d89a7d741c1997d20127e3af0757af54e6c54d47f65cf3b993",
+    "size": [
+      1295,
+      1214
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "dock_coiled_mooring_line_01",
+    "file": "source/assets/dock_coiled_mooring_line_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_coiled_mooring_line_01.png",
+    "sha256": "7630c5fcacca2f15da60132f3b2fd06922d80dfbceebf3a9dff14d12f65879ce",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "dock_mooring_cleat_02",
+    "file": "source/assets/dock_mooring_cleat_02.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_mooring_cleat_02.png",
+    "sha256": "a077d566ca6b5662528adef8824520c703aa31d4d630257e995cb1b15d909ddb",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "dock_navigation_post_01",
+    "file": "source/assets/dock_navigation_post_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_navigation_post_01.png",
+    "sha256": "7e7e32367f854a690ea74e65d25c3568468b5189d1eb8f17f04e7133bd84862d",
+    "size": [
+      1024,
+      1536
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "dock_broken_jetty_section_01",
+    "file": "source/assets/dock_broken_jetty_section_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_broken_jetty_section_01.png",
+    "sha256": "eb22f3beca48e40d3bf3725c3c9e7767a6384d75518aad83c5901cce02dba410",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "dock_piled_fishing_nets_02",
+    "file": "source/assets/dock_piled_fishing_nets_02.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_piled_fishing_nets_02.png",
+    "sha256": "445762675ce1d647f4ae8b6894b355704d4efda4b96a764bbc50ece5da812fac",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "arch_wall_corner_01",
+    "file": "source/assets/arch_wall_corner_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_02_gothic/assets/arch_wall_corner_01.png",
+    "sha256": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "prop_wooden_handcart_01",
+    "file": "source/assets/prop_wooden_handcart_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_03_occult_industrial/assets/prop_wooden_handcart_01.png",
+    "sha256": "a35f713ca746621fc6947bf9acc5b8d7a5a2fbecc34183390066bed1a207e9b1",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "dock_overturned_rowboat_01",
+    "file": "source/assets/dock_overturned_rowboat_01.png",
+    "original_source": "lantern_revision_02/environment_architecture/volume_09_dock/assets/dock_overturned_rowboat_01.png",
+    "sha256": "02cebd7d9832c42e41e5f26bce42d399f0d8582eed3c4ef93dd0164e82073679",
+    "size": [
+      1536,
+      1024
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "crook_street_lamp_lit",
+    "file": "source/assets/crook_street_lamp_lit.png",
+    "original_source": "lantern_revision_02/03_lighting/png/crook_street_lamp_lit.png",
+    "sha256": "97dff4646c5ada08747a2b20361b75311059384b446b072ed989a3679c98bedb",
+    "size": [
+      1536,
+      1536
+    ],
+    "source_view": "approximate_isometric_illustration"
+  },
+  {
+    "id": "watch_lantern_lit",
+    "file": "source/assets/watch_lantern_lit.png",
+    "original_source": "lantern_revision_02/03_lighting/png/watch_lantern_lit.png",
+    "sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+    "size": [
+      1536,
+      1536
+    ],
+    "source_view": "approximate_isometric_illustration"
+  }
+]

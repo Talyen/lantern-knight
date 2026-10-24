@@ -1,0 +1,71 @@
+{
+  "title": "Observatory C | Black-stone Eclipse Halls",
+  "hero_source": "references/hero_original.png",
+  "views": [
+    {
+      "name": "central_eclipse_hall",
+      "display_box": [
+        1138,
+        712,
+        2674,
+        1736
+      ],
+      "display_foot": [
+        1862,
+        1275
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "upper_hall_crossing",
+      "display_box": [
+        1138,
+        125,
+        2674,
+        1149
+      ],
+      "display_foot": [
+        1850,
+        625
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "lower_celestial_passage",
+      "display_box": [
+        1000,
+        1450,
+        2536,
+        2474
+      ],
+      "display_foot": [
+        1775,
+        1975
+      ],
+      "placement_note": "Selected by visual inspection on apparently clear ground. Presentation-only; no collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "eclipse_floor_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "lower_passage_junction",
+      "source_xy": [
+        960,
+        640
+      ]
+    }
+  ],
+  "approved_reference_images": [
+    "references/selected_viewport_sample.png"
+  ],
+  "scene_notes": [
+    "Recovered fullscene original; exact full-expansion generation prompt unavailable. Included prompt belongs only to the earlier selected viewport sample.",
+    "Scenery, shadows and height transitions are baked. Walkability and occlusion are illustrative only; no engine integration or exact camera geometry has been validated."
+  ]
+}

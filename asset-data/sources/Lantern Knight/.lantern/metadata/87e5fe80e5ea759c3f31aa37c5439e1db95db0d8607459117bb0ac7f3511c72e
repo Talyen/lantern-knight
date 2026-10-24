@@ -1,0 +1,7 @@
+{
+  "compared_384_frames": 60,
+  "prior_frozen_zip_sha256": "92f0af5f70eaebd9fb1c754377cab57e7e9ac00d16cd0375334992a54d55e7eb",
+  "all_alpha_planes_unchanged": true,
+  "all_visible_rgba_unchanged": true,
+  "original_master_files_byte_identical": true
+}

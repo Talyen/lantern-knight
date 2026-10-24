@@ -1,0 +1,35 @@
+{
+  "name": "Penitent's Lash",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0,
+      "frame_index": 0
+    },
+    {
+      "name": "commit",
+      "time_ms": 960,
+      "frame_index": 8
+    },
+    {
+      "name": "impact",
+      "time_ms": 1010,
+      "frame_index": 9,
+      "hit_count": 1
+    },
+    {
+      "name": "clear",
+      "time_ms": 1450,
+      "frame_index": 16
+    }
+  ],
+  "target_guide": {
+    "kind": "endpoint",
+    "center_px": [
+      435,
+      276
+    ],
+    "radius_px": 32
+  },
+  "timebase": "milliseconds"
+}

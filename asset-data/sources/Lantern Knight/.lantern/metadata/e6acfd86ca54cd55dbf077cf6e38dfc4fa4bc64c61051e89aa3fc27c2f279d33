@@ -1,0 +1,363 @@
+{
+  "schema": "lantern_knight_additive_ability_v1",
+  "enemy": "Clockwork Beetle",
+  "ability": "burrowing_ram",
+  "loop": false,
+  "engine_changes": false,
+  "facing": "down_left",
+  "actor": {
+    "atlas": "burrowing_ram_actor_atlas.png",
+    "frames": 16,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      260
+    ],
+    "durations_ms": [
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      125,
+      50,
+      60,
+      80,
+      90,
+      100,
+      110,
+      130,
+      325
+    ],
+    "baseline_visible_bbox": null,
+    "source_native_sheet_px": [
+      1024,
+      1536
+    ],
+    "source_cel_boxes": [
+      [
+        10,
+        135,
+        261,
+        321
+      ],
+      [
+        271,
+        134,
+        530,
+        313
+      ],
+      [
+        530,
+        140,
+        763,
+        313
+      ],
+      [
+        768,
+        149,
+        1017,
+        306
+      ],
+      [
+        14,
+        427,
+        255,
+        611
+      ],
+      [
+        272,
+        434,
+        503,
+        607
+      ],
+      [
+        512,
+        448,
+        753,
+        613
+      ],
+      [
+        759,
+        462,
+        1020,
+        610
+      ],
+      [
+        5,
+        669,
+        281,
+        889
+      ],
+      [
+        281,
+        694,
+        514,
+        906
+      ],
+      [
+        514,
+        719,
+        763,
+        893
+      ],
+      [
+        763,
+        737,
+        1019,
+        901
+      ],
+      [
+        12,
+        975,
+        256,
+        1143
+      ],
+      [
+        267,
+        978,
+        503,
+        1144
+      ],
+      [
+        514,
+        989,
+        753,
+        1151
+      ],
+      [
+        764,
+        988,
+        1011,
+        1158
+      ]
+    ],
+    "ordinary_resample_factor": 1.1272727272727272,
+    "placements_xywh": [
+      [
+        35,
+        50,
+        283,
+        210
+      ],
+      [
+        4,
+        58,
+        292,
+        202
+      ],
+      [
+        4,
+        65,
+        263,
+        195
+      ],
+      [
+        66,
+        83,
+        281,
+        177
+      ],
+      [
+        44,
+        53,
+        272,
+        207
+      ],
+      [
+        120,
+        65,
+        260,
+        195
+      ],
+      [
+        108,
+        74,
+        272,
+        186
+      ],
+      [
+        4,
+        93,
+        294,
+        167
+      ],
+      [
+        4,
+        12,
+        311,
+        248
+      ],
+      [
+        12,
+        21,
+        263,
+        239
+      ],
+      [
+        4,
+        64,
+        281,
+        196
+      ],
+      [
+        4,
+        75,
+        289,
+        185
+      ],
+      [
+        4,
+        71,
+        275,
+        189
+      ],
+      [
+        63,
+        73,
+        266,
+        187
+      ],
+      [
+        33,
+        77,
+        269,
+        183
+      ],
+      [
+        44,
+        68,
+        278,
+        192
+      ]
+    ],
+    "detail_note": "Generated source cels are roughly200\u2013300px. Export is ordinary Lanczos resampling to baseline visible footprint, not native640/768 detail or AI super-resolution.",
+    "polish_replaced_cels": [
+      9
+    ]
+  },
+  "effect": {
+    "atlas": "burrowing_ram_effect_atlas.png",
+    "frames": 8,
+    "columns": 4,
+    "cell_px": [
+      384,
+      384
+    ],
+    "pivot_top_left_px": [
+      192,
+      280
+    ],
+    "durations_ms": [
+      50,
+      50,
+      60,
+      90,
+      110,
+      140,
+      160,
+      235
+    ],
+    "start_ms": 1050,
+    "offset_from_actor_pivot_px": [
+      -180,
+      -25
+    ],
+    "ordinary_resample_factor": 1.3229571984435797,
+    "source_cel_boxes": [
+      [
+        35,
+        1289,
+        242,
+        1332
+      ],
+      [
+        283,
+        1239,
+        509,
+        1339
+      ],
+      [
+        525,
+        1222,
+        753,
+        1343
+      ],
+      [
+        770,
+        1204,
+        1001,
+        1343
+      ],
+      [
+        13,
+        1359,
+        270,
+        1512
+      ],
+      [
+        277,
+        1395,
+        499,
+        1508
+      ],
+      [
+        524,
+        1412,
+        744,
+        1507
+      ],
+      [
+        788,
+        1456,
+        989,
+        1503
+      ]
+    ]
+  },
+  "events": [
+    {
+      "time_ms": 0,
+      "event": "telegraph_start"
+    },
+    {
+      "time_ms": 1000,
+      "event": "commit"
+    },
+    {
+      "time_ms": 1050,
+      "event": "single_hit",
+      "damage_count": 1
+    },
+    {
+      "time_ms": 1110,
+      "event": "recovery_start"
+    },
+    {
+      "time_ms": 1945,
+      "event": "ready"
+    }
+  ],
+  "total_ms": 1945,
+  "hit_policy": "Exactly one gameplay damage event. Persisting patch, particles and recovery are cosmetic and must not re-hit.",
+  "source_reference": {
+    "drive_id": "1fWOT6sj6Sd51quSJMmvTrCNG7pVv0ca6",
+    "url": "https://drive.google.com/file/d/1fWOT6sj6Sd51quSJMmvTrCNG7pVv0ca6/view?usp=drivesdk"
+  },
+  "review_notes": [
+    "New cel-drawn anticipation/strike/recovery; no synthesized in-between poses.",
+    "Actor planted-pivot convention matches documented baseline. No engine-calibrated PPU changes.",
+    "Effect source contains only8 hand-drawn evolution cels; playback uses variable frame durations.",
+    "Directional beetle retains reference down-left presentation; other physical kits face down-right.",
+    "Repaired clipped left silhouette and displaced shell in actor cel 10 with one reference-guided redraw.",
+    "Actor recovery may begin before delayed target impact. Exactly one unchanged gameplay damage event.",
+    "Contact 1050ms; effect starts 1050ms. Current effect canvas and pivot are authoritative."
+  ],
+  "polish_revision": "physical-polish-v1"
+}

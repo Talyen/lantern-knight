@@ -1,0 +1,26 @@
+Requested model preference: Sunburst 2.5 (gpt-image-2.5-sunburst). This is a generation preference, NOT text to draw.
+Create a NEW COHESIVE EIGHT-DRAWING ANIME WALK CYCLE sheet. This is a new unified full redraw of all eight complete standalone character illustrations, not a collage or reshaping existing sprites. Strong confident ink contours and angular cel shadows at professional animation-cel quality.
+
+INPUT ROLES:
+1 = the eight separately illustrated motion poses, in chronological order 1-8. Use ONLY their gait actions, anatomical overlap and arm chronology. Correct their inconsistent body bulk, head proportions, prop dimensions and camera into ONE on-model character. The skinny passing figures 3/7 must be broadened to the same rugged build as 1/2/4/5/6/8.
+2 = canonical ORIGINAL detail board: sole identity, costume and item-design authority, not pose.
+3 = precise elevated SIDE camera for every figure, not pose.
+4 = cropped quality benchmark, use only crisp ink/cel-shadow finish, not pose or camera.
+5 = low passing pose diagrams, use their NEAR/FAR LEG ROLES to distinguish passing 3 from opposite passing 7.
+
+Layout: exactly FOUR columns by TWO rows, eight isolated FULL-BODY figures, evenly spaced, in the supplied chronological order. Large 3072x2304 master if possible. All are SAME anatomical drawing scale: identical head size, shoulder breadth, ribcage/waist mass, pelvis size, boot size, sword dimensions and lantern dimensions. No per-cell autofit. No giant or tiny props. Fixed screen-right direction and fixed elevated camera. Generous transparent gutters, no clipping of swords or boots. Actual transparent alpha background. No text, no panels/boxes, no labels, no floor, no cast shadows.
+
+Camera and design: exact elevated right-side view from image 3, top of head/shoulders/boots visible, 35.2643897-degree elevation, 45-degree azimuth. Nose in right-facing profile, a narrow strip of chest visible; DO NOT turn more frontal or lower camera for any frame. Rugged broad-shouldered man, original dark gray-templed hair and gray beard, long rust coat, cream rolled sleeves/open shirt, dark vest, crossed belts, dark trousers and brown strapped boots.
+Anatomical RIGHT is NEAR: SHORT BLACK wrist wrap, plain UNPATCHED right upper sleeve AND plain UNPATCHED right coat skirt, right hand carries steel sword. Anatomical LEFT is FAR: LONG BROWN forearm bracer, LEFT sleeve and lower-coat patches stay far-side/mostly hidden, left hand carries brass lantern. Never mirror/swap these. Every sword same blade length and hilt construction; every lantern same size/design. The lantern may be occluded but must not shrink.
+
+Eight PHASES, with REAL alternating legs, modest natural knee lift, and securely gripped carried items:
+1 RIGHT CONTACT: NEAR RIGHT heel forward, FAR LEFT toe behind. Sword arm back, lantern forward.
+2 RIGHT DOWN: NEAR RIGHT knee visibly bends over planted flat foot; far LEFT toe releases behind. Body lowest. Arms begin returning toward neutral.
+3 LEFT PASSING: NEAR RIGHT support leg nearly vertical under pelvis, right boot flat. FAR LEFT knee passes slightly forward of support knee, left boot clears just above support ANKLE, not knee. Both arms beside hips and lantern mostly hidden by torso, not still swung far forward. Rugged body same width/mass as neighbors.
+4 RIGHT UP: NEAR RIGHT heel lifted on trailing toe, FAR LEFT heel reaching forward while still airborne. Body highest. Sword arm forward, lantern back.
+5 LEFT CONTACT: FAR LEFT heel forward, NEAR RIGHT toe trailing behind. Near right thigh goes down-left, far left thigh down-right. Opposite contact from 1. Sword arm forward, lantern back.
+6 LEFT DOWN: FAR LEFT knee flexes over planted flat left foot; near RIGHT toe releases behind. Body lowest. Arms return toward neutral; lantern full consistent size even partly hidden.
+7 RIGHT PASSING: FAR LEFT support leg nearly vertical under pelvis, LEFT boot flat. NEAR RIGHT knee passes slightly forward of support knee, RIGHT boot lifted just above LEFT ANKLE. NOT a high-knee march; near right thigh slopes downward. Near swing leg overlaps the far support leg. Both hands beside hips, lantern mostly occluded. Same rugged body width/mass as all others.
+8 LEFT UP: FAR LEFT heel raised on trailing toe; NEAR RIGHT heel reaches ahead still airborne, ready for 1. Body highest. Sword arm back, lantern forward.
+
+Make every pose a distinct full illustration with convincing weight-bearing, heel strike/toe off, subtle pelvis-shoulder counterrotation, coherent head/torso rise and fall, and restrained redrawn coat-fold/hem lag. Do not collapse to eight copies of one stride. Do not copy the separate pose examples' body/prop/camera inconsistencies. Keep the pose sequence but DRAW ONE COHERENT ON-MODEL SET. No CGI, no cutout-puppet effect, no blur or optical-flow art.

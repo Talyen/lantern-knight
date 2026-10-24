@@ -1,0 +1,87 @@
+[
+  {
+    "id": "lantern_cone_flare__d000",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d045",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d090",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d135",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d180",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d225",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d270",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "lantern_cone_flare__d315",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d000",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d045",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d090",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d135",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d180",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d225",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d270",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "dash_wake__d315",
+    "replayedFrames": 18,
+    "pixelFileMismatches": []
+  },
+  {
+    "id": "stagger_shards__unoriented",
+    "replayedFrames": 24,
+    "pixelFileMismatches": []
+  }
+]

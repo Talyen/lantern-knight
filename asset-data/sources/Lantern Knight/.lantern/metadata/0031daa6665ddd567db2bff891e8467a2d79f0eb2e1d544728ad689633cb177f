@@ -1,0 +1,84 @@
+{
+  "name": "Candle-procession Wraith UR",
+  "reference": {
+    "id": "lantern_elite_concept_05_candle_procession_wraith",
+    "sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a"
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation, not 3D calibrated"
+  },
+  "facing": "UR rear three-quarter",
+  "mirroring": "not validated; use authored facing",
+  "world_position": "engine-owned; all drawing offsets baked; do not reapply",
+  "clips": {
+    "move": {
+      "loop": true,
+      "holds_60hz": [
+        9,
+        8,
+        8,
+        9,
+        8,
+        8
+      ],
+      "frames": [
+        "move_00.png",
+        "move_01.png",
+        "move_02.png",
+        "move_03.png",
+        "move_04.png",
+        "move_05.png"
+      ],
+      "attack_event_frame_zero_based": null,
+      "event_is_visual_reference_only": true,
+      "end": "loop"
+    },
+    "attack": {
+      "loop": false,
+      "holds_60hz": [
+        8,
+        9,
+        12,
+        6,
+        9,
+        14
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_event_frame_zero_based": 3,
+      "event_is_visual_reference_only": true,
+      "end": "hold final then return movement"
+    }
+  },
+  "png_sha256": {
+    "move_00.png": "ace7939ff7096d1cf09db3b892db7e18b1688c262d2ce4b38c1bef9374f7895e",
+    "move_01.png": "d64e601f0d2c852fa47416c9708f6635b793f79d101d0d6ab3592d264cae30ce",
+    "move_02.png": "8c1ad2e2fab19d9827793738607865f21cd58c82d086ad8ae0f1945fcce9808a",
+    "move_03.png": "dbeb08ac799d6e3f863274720a1cb0a4ec0a10850c41470f11d405844f8cb3e0",
+    "move_04.png": "1f3f1b88ea8308af0a4b240fc018eb3539cfad68a25bb5e7df07ee3bc157cba1",
+    "move_05.png": "5ba87898a02eea35dd9281c9c5282d5b8cf1f6a37e1e8b66d66878dbda64726b",
+    "attack_00.png": "a560ff7541a9f525fee074279be2b8b413a851391800ec45d8f02ec8e7baf76a",
+    "attack_01.png": "ca7e798f700f669460bd0aa39994f10254a5ec4da9f25dc95cc62ad36344507e",
+    "attack_02.png": "967b18f451a7d2e2b626113b3c2dc5d702e70023daa8f40b6ab49d287504a163",
+    "attack_03.png": "10715e3012a39c43ce59c0d976bb8707b4476f7f436728865b9ae02c82a480e5",
+    "attack_04.png": "3eedbd85a6b23237948781bb58b20e6648f22ad42a7517d8c2eb63ab9c9250ad",
+    "attack_05.png": "39ae085716ba047e08ebc3f5dac48b46381e87665f24504fe390008c3f3ef528"
+  }
+}

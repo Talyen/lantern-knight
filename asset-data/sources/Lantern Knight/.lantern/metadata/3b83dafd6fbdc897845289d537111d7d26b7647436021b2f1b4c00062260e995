@@ -1,0 +1,274 @@
+{
+  "character": "crawler",
+  "clip": "awakening",
+  "status": "TEST: visually reviewed; not engine validated",
+  "loop": false,
+  "unique_drawings": 7,
+  "new_drawings": 6,
+  "shared_endpoint_drawings": 1,
+  "tick_rate": 60,
+  "frame_hold_ticks": [
+    18,
+    8,
+    7,
+    7,
+    5,
+    5,
+    10
+  ],
+  "total_ticks": 60,
+  "duration_seconds": 1.0,
+  "events": {
+    "awakening_start": 0,
+    "hands_or_shoulders_engage": 18,
+    "ready": 50,
+    "handoff_to_move": 60
+  },
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_top_left_px": [
+    448,
+    488
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5833333333333334,
+    0.36458333333333337
+  ],
+  "atlas": {
+    "file": "crawler_awaken_DR_atlas.png",
+    "grid": [
+      4,
+      2
+    ],
+    "last_cell_empty": true
+  },
+  "import_contract": {
+    "pixels_per_unit": "B",
+    "B": "Current approved movement PPU for this actor. Preserve existing world size. No assumed 256 PPU.",
+    "equivalent_reference_pixel_scale": 1.0,
+    "visual_child_scale": [
+      1,
+      1,
+      1
+    ],
+    "visual_child_offset": [
+      0,
+      0,
+      0
+    ],
+    "root_motion": "none; actor root and collider unchanged",
+    "filter": "bilinear",
+    "compression": "none for review",
+    "mipmaps": false
+  },
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "heading": "world +X / screen down-right",
+    "validation": "visual intent, not mathematically certified"
+  },
+  "processing": "Native source pixels, alpha threshold <=16 to zero and >=250 to255, connected-component ownership and integer landmark registration. No resize, warp, tween, mirror, or per-frame bounding-box normalization. Source-sheet row layout offsets removed; pose deformation and rise retained.",
+  "endpoint": "Drawing07 is decoded-pixel-identical to current move drawing01. Start movement from drawing01 after awakening. Generated06 to shared07 remains a hand-drawn pose transition, not a promise of pixel-perfect continuity.",
+  "drawings": [
+    {
+      "source_component_bbox": [
+        23,
+        73,
+        496,
+        456
+      ],
+      "source_cell": [
+        0,
+        0
+      ],
+      "cell_to_canvas_translation": [
+        135,
+        138
+      ],
+      "native_rgb_preserved": true,
+      "index": 1,
+      "file": "crawler_awaken_DR_01.png",
+      "phase": "Dormant sealed cocoon",
+      "hold_ticks": 18,
+      "start_tick": 0,
+      "end_tick_exclusive": 18,
+      "sha256": "3664f9d20260bee9ef4d50dd8d14dfb0c631dbe83ae26e1221a65eb124490511",
+      "alpha_bbox": [
+        158,
+        211,
+        631,
+        594
+      ]
+    },
+    {
+      "source_component_bbox": [
+        542,
+        73,
+        996,
+        472
+      ],
+      "source_cell": [
+        512,
+        0
+      ],
+      "cell_to_canvas_translation": [
+        135,
+        138
+      ],
+      "native_rgb_preserved": true,
+      "index": 2,
+      "file": "crawler_awaken_DR_02.png",
+      "phase": "Paired fingertips emerge",
+      "hold_ticks": 8,
+      "start_tick": 18,
+      "end_tick_exclusive": 26,
+      "sha256": "6ab4ad6a38683a82b8ecbb7fc0272571b9f8c385a4c7799d74bc949bb0840875",
+      "alpha_bbox": [
+        165,
+        211,
+        619,
+        610
+      ]
+    },
+    {
+      "source_component_bbox": [
+        1050,
+        73,
+        1514,
+        481
+      ],
+      "source_cell": [
+        1024,
+        0
+      ],
+      "cell_to_canvas_translation": [
+        135,
+        138
+      ],
+      "native_rgb_preserved": true,
+      "index": 3,
+      "file": "crawler_awaken_DR_03.png",
+      "phase": "Two hands find ground",
+      "hold_ticks": 7,
+      "start_tick": 26,
+      "end_tick_exclusive": 33,
+      "sha256": "3674b681f7ed8c123b41c12dcac0a924d0f95366e0ff234199ee987550237a26",
+      "alpha_bbox": [
+        161,
+        211,
+        625,
+        619
+      ]
+    },
+    {
+      "source_component_bbox": [
+        30,
+        535,
+        540,
+        957
+      ],
+      "source_cell": [
+        0,
+        512
+      ],
+      "cell_to_canvas_translation": [
+        135,
+        185
+      ],
+      "native_rgb_preserved": true,
+      "index": 4,
+      "file": "crawler_awaken_DR_04.png",
+      "phase": "Hood and face emerge",
+      "hold_ticks": 7,
+      "start_tick": 33,
+      "end_tick_exclusive": 40,
+      "sha256": "fcf47bf841a2f217d162d39bbb4be5a2ecbced78b09f1d105a5f137321c92e68",
+      "alpha_bbox": [
+        165,
+        208,
+        675,
+        630
+      ]
+    },
+    {
+      "source_component_bbox": [
+        531,
+        533,
+        1039,
+        959
+      ],
+      "source_cell": [
+        512,
+        512
+      ],
+      "cell_to_canvas_translation": [
+        146,
+        185
+      ],
+      "native_rgb_preserved": true,
+      "index": 5,
+      "file": "crawler_awaken_DR_05.png",
+      "phase": "Brace and unfold",
+      "hold_ticks": 5,
+      "start_tick": 40,
+      "end_tick_exclusive": 45,
+      "sha256": "fc989da4f318281874ed770fa4bfd50cc133621f0751dee90a1dfd4683ececa7",
+      "alpha_bbox": [
+        165,
+        206,
+        673,
+        632
+      ]
+    },
+    {
+      "source_component_bbox": [
+        1039,
+        533,
+        1525,
+        971
+      ],
+      "source_cell": [
+        1024,
+        512
+      ],
+      "cell_to_canvas_translation": [
+        150,
+        185
+      ],
+      "native_rgb_preserved": true,
+      "index": 6,
+      "file": "crawler_awaken_DR_06.png",
+      "phase": "Crawl-ready settle",
+      "hold_ticks": 5,
+      "start_tick": 45,
+      "end_tick_exclusive": 50,
+      "sha256": "fd72032a6d176118ab8c1016291e7706576d7f07a278bbb8b03390f95338bf4f",
+      "alpha_bbox": [
+        165,
+        206,
+        651,
+        644
+      ]
+    },
+    {
+      "exact_shared_endpoint": true,
+      "source": "source/references/crawler_move_ready.png",
+      "source_sha256": "8e396b046ac6d0e7e025668c2e034d311a1e58e07bc59aef08b98adb83cbcfe2",
+      "index": 7,
+      "file": "crawler_awaken_DR_07.png",
+      "phase": "Exact existing move-ready",
+      "hold_ticks": 10,
+      "start_tick": 50,
+      "end_tick_exclusive": 60,
+      "sha256": "8e396b046ac6d0e7e025668c2e034d311a1e58e07bc59aef08b98adb83cbcfe2",
+      "alpha_bbox": [
+        189,
+        210,
+        668,
+        608
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+# Lantern hero animation TEST handoff · 7 October 2026
+
+This is the current gameplay-view test selection. None of these assets is claimed as user-accepted production art or game-integrated. This small handoff contains the index and import companions; the animation ZIPs remain separate and unchanged.
+
+Coverage: four headings for ready/idle, dodge, lantern, lunge, sweep and hit/death. Run has DR, DL and UL only. UR run is held; do not mirror another heading to fill it.
+
+## Selected packages
+
+Local paths are relative to `lantern_hero_core_animations_01/`. `catalog.json` contains exact paths, archive hashes, frame lists, timing, densities, pivots, limits and available delivery receipts.
+
+| Test | Drawing counts | Exact runtime ZIP |
+|---|---|---|
+| Ready + idle | 4 ready; idle 6 per heading | `directional_ready_idle_v01/Lantern_Ready_Idle_FourDirections_v01_RuntimeTest.zip` |
+| Dodge | 8 per heading | `dodge_lantern_overnight/delivery_four_directions/Lantern_Dodge_4Directions_Runtime.zip` |
+| Lantern action | 8 per heading | `dodge_lantern_overnight/delivery_four_directions/Lantern_Lantern_4Directions_Runtime.zip` |
+| Low-carry lunge | 8 files per heading; selected loop DR7/DL6/UL7/UR7 | `lunge_lowcarry_four_headings_native_v01.zip` |
+| Sweep | 9 per heading | `sweep_four_headings_native_v01/Lantern_Sweep_Four_Headings_Runtime_v01.zip` |
+| Run DR | 8 | `run_mixamo_sheet_01/rust_run_mixamo8_runtime_test_v01.zip` |
+| Run DL | 7 | `run_mixamo_directional_01/rust_run_DL_mixamo7_runtime_test_v01.zip` |
+| Run UL | 8 | `run_mixamo_directional_01/rust_run_UL_mixamo8_runtime_test_v01.zip` |
+| Hit | 8 per heading | `hit_death_compact8_v01/delivery/Lantern_Hit_4Directions_RuntimeTest.zip` |
+| Death | DR6 / DL8 / UL5 / UR6 | `hit_death_compact8_v01/delivery/Lantern_Death_4Directions_RuntimeTest.zip` |
+
+### Playback details
+
+- Idle: 6 cels over 2 seconds; holds 333/333/334/333/333/334 ms. Static ready is the quieter fallback.
+- Dodge: 45 ticks / 0.75 s; holds 10/5/3/3/3/5/6/10. Lantern: 73 ticks / 1.2167 s; holds 12/7/8/10/6/8/8/14. Neither loops. Lantern pulse lighting is baked into cel 5.
+- Lunge: 54 ticks / 0.9 s. Selected review loops end by repeating 01_READY; original 08_READY remains preserved. DL omits faulty 06_RETRACT. Use the clip timeline rather than alphabetical file order.
+- Run: 40 ticks / 0.6667 s. DR/UL hold each of 8 cels for 5 ticks. DL uses 5/7/8/5/5/5/5; wrong-phase source cel 3 is excluded, leaving larger 2→4 spacing. No duplicate endpoint.
+- Sweep: DR 1170 ms, DL 1045 ms, UL 945 ms, UR 940 ms. Follow ordered drawing IDs in animation.json, including intentional reuse and reordered blade motion. These are visual timings, not a shared hitbox/event contract.
+- Hit: 30 ticks / 0.5 s; holds 3/2/3/2/2/4/5/9, then return to ready. Exact joins are unverified.
+- Death: 90 ticks / 1.5 s, then hold the final drawing indefinitely. Do not loop. DR/DL are backward collapses; UL/UR are alternate kneel/extinguish presentations, not rear-view versions of the same collapse. Excluded damaged poses and failed supine trials are not selected.
+
+Ticks above use a 60Hz clock; they do not represent 60 new drawings per second.
+
+Hit/death limits: ordered stills and encoded timing were checked, but real-time playback was not visually certified. Hit DL cel 4 retains a tiny five-pixel faint source-edge hair-fringe crop (maximum alpha 15/255); padding does not restore it.
+
+## Coordinate and density contracts
+
+All pixel pivots here use a top-left origin. `catalog.json` retains each exact clip setting. PPU estimates are visual starting points, not physical calibration.
+
+| Package | Frame / atlas origin | Density scope |
+|---|---|---|
+| Ready + idle | Ready 632×688, pivot (301,556); each idle has its own dimensions/pivot | Ready 350 PPU; one fixed PPU/pivot per idle heading |
+| Dodge / lantern | 524×524 frames and atlas cells; pivot (262,460) | One PPU per action-heading; retain baked 40 px padding |
+| Low-carry lunge | Heading-specific padded frames | One approximate PPU/pivot per heading; DR estimate is in its separate approximate_integration JSON, not the original null-PPU/root fields |
+| DR / DL / UL run | Padded 1536×1024 root (768,892), OR exact 443/444 px atlas slices; local roots DR (218,359), DL/UL (245,390) | Companion starting PPU DR 275 / DL 320 / UL 295, about ±15% |
+| Sweep DR | Registered 1280×1000, pivot (635,800); legacy ready | 350 PPU; earlier whole-source resampling/translation already baked |
+| Sweep DL / UL / UR | Ready 632×688, pivot (301,556); action DL/UR 768×640, pivot (384,500); UL 768×768, pivot (384,650) | Ready 350 PPU; action DL 243 / UL 258 / UR 220. Follow each drawing record |
+| Hit / death | Same-size padded frames and atlas cells within each action-heading; exact dimensions/pivots in clip.json | One PPU/common pivot for the whole action-heading, including collapse and terminal hold |
+
+### Import checklist
+
+1. Choose padded PNGs OR atlas slices. Registration and padding are already baked. Do not add the recorded translation again.
+2. Apply density compensation once. Do not combine PPU with another compensating transform, body_scale_ratio or density_factor_to_ready. Sweep ready/action textures intentionally have different densities.
+3. Convert top-left pixel pivot to normalized bottom-left using (x/width, 1−y/height). Already-normalized Unity pivots need no second Y flip. Run slice sizes vary slightly; use the companion’s exact conversions.
+4. Preserve authored body bob and cell-relative motion. Do not stack another silhouette-centering, per-frame fit, stabilization or root-movement pass on top of existing registration.
+5. Keep the native sources and delivered runtime pixels unchanged. No mirrored substitutes or new upscaling. Sweep DR is an explicit exception to untouched native runtime: its high-resolution masters were Lanczos-resampled as whole images. Other sweep headings use native pixels with baked integer placements.
+6. Review ready ↔ action joins at gameplay size. Feet, props and endpoints may shift. UL actions can expose a trailing far sword that shared ready hides forward. No seamless transition or physical foot-contact claim is made.
+
+Included companions:
+- `run_import_companion.json` and `run_import_README.txt`: exact padded/atlas conversions and approximate body-only cranial-width densities; source runtime manifest hashes match
+- `sweep_runtime_sampling_contract.json`: existing DR source scales, rounded resize dimensions and integer placements, plus mixed ready/action density exceptions
+
+Lunge estimates carry about 12% scale and 12–15 px pivot uncertainty. Other family rulers differ by a few pixels and use different body measurements. Do not normalize individual drawings to erase those differences. Run’s source travel (~2.755 m/stride, ~4.133 m/s) is reference data; choose controller speed separately and apply world movement once.
+
+## Shared view
+
+DR = world +X; DL = +Z; UL = −X; UR = −Z. World up +Y, ground XZ. Camera target: 35.264389682754654° elevation, 45° world azimuth, 13 m vertical span (Unity orthographicSize 6.5). Guide geometry is exact; painted projection is approximate. Anatomical right owns the sword/black wrist wrap; left owns the lantern/brown bracer. Natural rear-view occlusion is intentional.
+
+## Do not import these as current replacements
+
+- `run_cycle/`: old 26-drawing run rejected for limb swaps and incoherent stride
+- `lunge_gameplay_v01/`: overhead-lantern variants, including gameplay_lunge_test_v02, rejected for implausible lantern-arm articulation
+- `sword_combo/rising_fill/`: rising attack scrapped; diagonal/heavy remain on hold rather than rejected wholesale
+- `run_production_16_gameplay/`, sparse `run_repair_v04/`, and old `reference_led_attacks/sweep_study/`: WIP/rejected candidates, not replacements
+- UR run: deferred for an unreadable high lantern-arm silhouette; earlier duplicate-lantern/off-model trials remain excluded
+- Other legacy or wrong-angle archives outside this selection: historical references only. Do not bulk-import the project root. Old approval strings do not override later rejection/hold notices.
+
+## Delivery and checks
+
+[Verified delivery folder](https://drive.google.com/drive/folders/1psVmH9SVKkndgPSV0v-8ziMVh_iDKr1N). Available exact file IDs/links and receipt evidence are in the catalog. This indexing pass made no external-service changes.
+
+Hit and death runtime/source deliveries are verified in chat and Drive. For death sources, use only `Lantern_Death_4Directions_NativeSources_v02.zip`: its glass-mask provenance metadata was corrected; artwork and runtime are unchanged. The earlier unversioned Death NativeSources ZIP was superseded before upload and is not recommended.
+
+Dodge runtime is verified in Drive. Its separate source-companion upload was cancelled and not retried; a Drive-only folder download must not be assumed to contain it. It is saved in Library as `libfile_2161af73558081919b8632ce4779b4b2`. Earlier DR-run chat attachment delivery remains uncertain; Drive status is separate.
+
+DL was resealed before first delivery to remove an isolated tip from the discarded neighboring cel. Final semantic extraction audit passed. Current runtime SHA-256: `70428f88962a9eac1b4ab1664aa0692914f4efdc13a5a69e845a7cb8bb66003a`.
+
+Some runtime manifests refer to source companions or producer-local preview paths. Use the exact selected runtime packages; source originals and review media are separate. Sweep’s offline player requires full ZIP extraction.
+
+Inventory checks: 10 runtime ZIP CRC/hash checks; 35 clip records; 240 individual frame-file records checked for count/dimensions/RGBA. Declared frame hashes were checked where supplied. All 23 run atlas slices reconstruct padded PNGs exactly. These are structural checks, not new art acceptance or engine QA.

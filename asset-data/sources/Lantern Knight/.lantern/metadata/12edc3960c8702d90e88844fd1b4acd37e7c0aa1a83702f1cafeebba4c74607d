@@ -1,0 +1,395 @@
+{
+  "pack_id": "lantern_floor_features_01",
+  "version": "2.0.0",
+  "status": "Art reviewed; runtime import untested",
+  "canvas_pixels": [
+    1024,
+    1024
+  ],
+  "canvas_world_metres": [
+    4,
+    4
+  ],
+  "source_texels_per_metre": 256,
+  "pivot_pixels": [
+    512,
+    512
+  ],
+  "pivot_world_metres": [
+    2,
+    2
+  ],
+  "world_axes": "X right, Y up; image-down maps +Z on horizontal ground.",
+  "source_projection": "top-down; camera applied once by scene",
+  "colour_space": "sRGB",
+  "alpha": "straight RGBA",
+  "count": 8,
+  "assets": [
+    {
+      "id": "f01_inset_drain",
+      "name": "Inset drain grate",
+      "png": "png/features/f01_inset_drain.png",
+      "paint_bounds_pixels": [
+        339,
+        380,
+        685,
+        644
+      ],
+      "visible_footprint_metres": [
+        1.3515625,
+        1.03125
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          118,
+          240,
+          1138,
+          1017
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.3392156862745098,
+        "placement_xy": [
+          339,
+          380
+        ]
+      },
+      "source_master": "source/masters/features/f01_inset_drain.png",
+      "revision": "02 illustrated selective repair",
+      "sha256": "50b993ac49e7430d935953619c009f6236dfd31f8409aeef2655f59fc10b5ea6",
+      "exact_projection_preview": "proofs/f01_inset_drain_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f02_stone_hatch_cover",
+      "name": "Stone hatch cover",
+      "png": "png/features/f02_stone_hatch_cover.png",
+      "paint_bounds_pixels": [
+        293,
+        298,
+        731,
+        727
+      ],
+      "visible_footprint_metres": [
+        1.7109375,
+        1.67578125
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          101,
+          112,
+          1157,
+          1146
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.4147727272727273,
+        "placement_xy": [
+          293,
+          298
+        ]
+      },
+      "source_master": "source/masters/features/f02_stone_hatch_cover.png",
+      "revision": "02 illustrated selective repair",
+      "sha256": "27567a78fae331925b2d3cb67e85d5cf16720e09d309944ed67f3d0734ce07d8",
+      "exact_projection_preview": "proofs/f02_stone_hatch_cover_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f03_ritual_dais_top",
+      "name": "Ritual dais top",
+      "png": "png/features/f03_ritual_dais_top.png",
+      "paint_bounds_pixels": [
+        206,
+        205,
+        819,
+        815
+      ],
+      "visible_footprint_metres": [
+        2.39453125,
+        2.3828125
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          30,
+          32,
+          1223,
+          1219
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5139005897219882,
+        "placement_xy": [
+          206,
+          205
+        ]
+      },
+      "source_master": "source/masters/features/f03_ritual_dais_top.png",
+      "revision": "02 illustrated selective repair",
+      "sha256": "23ffb82473230d08908b71947245314339524302cfd679870f226b2759c3fd83",
+      "exact_projection_preview": "proofs/f03_ritual_dais_top_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f04_broken_paving_reveal",
+      "name": "Broken paving reveal",
+      "png": "png/features/f04_broken_paving_reveal.png",
+      "paint_bounds_pixels": [
+        270,
+        261,
+        744,
+        751
+      ],
+      "visible_footprint_metres": [
+        1.8515625,
+        1.9140625
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          74,
+          58,
+          1180,
+          1202
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.42832167832167833,
+        "placement_xy": [
+          270,
+          261
+        ]
+      },
+      "source_master": "source/masters/features/f04_broken_paving_reveal.png",
+      "revision": "02 illustrated selective repair",
+      "sha256": "c15c02ac3a84112e388628145ebab0c7b9ea391b934d9af6dd6e7106cec89791",
+      "exact_projection_preview": "proofs/f04_broken_paving_reveal_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f05_timber_trapdoor_top",
+      "name": "Timber trapdoor top",
+      "png": "png/features/f05_timber_trapdoor_top.png",
+      "paint_bounds_pixels": [
+        290,
+        293,
+        735,
+        731
+      ],
+      "visible_footprint_metres": [
+        1.73828125,
+        1.7109375
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          129,
+          137,
+          1126,
+          1119
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.4460285132382892,
+        "placement_xy": [
+          290,
+          293
+        ]
+      },
+      "source_master": "source/masters/features/f05_timber_trapdoor_top.png",
+      "revision": "02 illustrated selective repair",
+      "sha256": "8e0b554436d15d6a5f503f3c200f8190e862975ce40f8a19ca3d0e6b74984db4",
+      "exact_projection_preview": "proofs/f05_timber_trapdoor_top_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f06_iron_maintenance_panel",
+      "name": "Iron maintenance panel",
+      "png": "png/features/f06_iron_maintenance_panel.png",
+      "paint_bounds_pixels": [
+        291,
+        315,
+        735,
+        705
+      ],
+      "visible_footprint_metres": [
+        1.734375,
+        1.5234375
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          89,
+          144,
+          1166,
+          1091
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.4118268215417107,
+        "placement_xy": [
+          291,
+          315
+        ]
+      },
+      "source_master": "source/masters/features/f06_iron_maintenance_panel.png",
+      "revision": "02 illustrated selective repair",
+      "sha256": "781396a11ee8af09ac314a79df71cd5416706934aadac5657d1a112d5bd624c1",
+      "exact_projection_preview": "proofs/f06_iron_maintenance_panel_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f07_shallow_puddle_bed",
+      "name": "Shallow puddle bed",
+      "png": "png/features/f07_shallow_puddle_bed.png",
+      "paint_bounds_pixels": [
+        246,
+        365,
+        757,
+        654
+      ],
+      "visible_footprint_metres": [
+        1.99609375,
+        1.12890625
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Runtime PNG copied byte-for-byte from reviewed original"
+      },
+      "source_master": "source/masters/features/f07_shallow_puddle_bed.png",
+      "revision": "retained original; art reviewed",
+      "sha256": "77951e361c2198bad51acaa6fd957eae25c9b1ea945a38c282172462dfdfd2b1",
+      "source_svg": "source/svg/f07_shallow_puddle_bed.svg",
+      "exact_projection_preview": "proofs/f07_shallow_puddle_bed_exact_35.2643897_45.png"
+    },
+    {
+      "id": "f08_path_stepping_slabs",
+      "name": "Path stepping slabs",
+      "png": "png/features/f08_path_stepping_slabs.png",
+      "paint_bounds_pixels": [
+        192,
+        126,
+        817,
+        827
+      ],
+      "visible_footprint_metres": [
+        2.44140625,
+        2.73828125
+      ],
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "pivot_pixels": [
+        512,
+        512
+      ],
+      "seamless": false,
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "packaging": {
+        "method": "Runtime PNG copied byte-for-byte from reviewed original"
+      },
+      "source_master": "source/masters/features/f08_path_stepping_slabs.png",
+      "revision": "retained original; art reviewed",
+      "sha256": "f445cc9192cc208ee1cdef8049067b07a8221d2539aa6ab6aa7b55e98fc386f3",
+      "source_svg": "source/svg/f08_path_stepping_slabs.svg",
+      "exact_projection_preview": "proofs/f08_path_stepping_slabs_exact_35.2643897_45.png"
+    }
+  ],
+  "proofs": {
+    "contact": "proofs/Contact_Sheet.png",
+    "before_after": "proofs/Before_After.png"
+  },
+  "limits": [
+    "Standalone art overlays; no physical holes, height, collision, interactions or gameplay semantics.",
+    "Not seamless textures or an autotile system.",
+    "No normal/roughness/height maps, runtime blending, mip or performance validation."
+  ],
+  "provenance": "Six independent fresh illustrated repairs; original quiet puddle bed and stepping slabs retained, with their SVG sources. No edit cascades.",
+  "art_provenance": "Six independent fresh illustrated repairs; original quiet puddle bed and stepping slabs retained, with their SVG sources. No edit cascades.",
+  "revision_notes": "Topdown4m canvas,1024RGBA,centre pivot512,512 retained. Each repaired picture uniformly fitted to original footprint envelope. Actual painted outlines differ; no world geometry or physics included."
+}

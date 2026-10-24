@@ -1,0 +1,14 @@
+{
+  "runtime": {
+    "filename": "CT01_waxmask_acolyte_runtime.zip",
+    "sha256": "ac12b2212d920263741f69b5221a04ce61499d98b69c43fbd0fac1d607471c85",
+    "drive_url": "https://drive.google.com/file/d/1JnkbmcujpDTy40EBCYI-qixwaSzXaxMj/view",
+    "unchanged": true
+  },
+  "source": {
+    "filename": "CT01_waxmask_acolyte_source.zip",
+    "sha256": "dd96b3ffd0afa932d66be90a80d56c0a6e8067a8eaf18eb02b711caf413e2b94",
+    "drive_url": "https://drive.google.com/file/d/1lbfJtnIkuADnksu2K9UJwXRc7kuWEMZV/view",
+    "unchanged": true
+  }
+}

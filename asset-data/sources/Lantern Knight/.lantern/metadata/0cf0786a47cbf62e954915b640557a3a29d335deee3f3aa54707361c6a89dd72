@@ -1,0 +1,347 @@
+{
+  "name": "Oil-Wick Surge outward decay v3",
+  "canvas": [
+    768,
+    640
+  ],
+  "release_ms": 110,
+  "durations_ms": [
+    20,
+    20,
+    30,
+    40,
+    70,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    500
+  ],
+  "total_visual_ms": 780,
+  "clear_pause_ms": 500,
+  "new_tail_cels": 12,
+  "tail_registration": "One fixed uniform scale 1.25 and fixed placement for all tail cels; no per-cel centering, source anchoring, scaling changes or positional tween.",
+  "tail_bindings": [
+    {
+      "tail_frame": 0,
+      "source_rect": [
+        0,
+        0,
+        362,
+        382
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        298.98,
+        286.51
+      ]
+    },
+    {
+      "tail_frame": 1,
+      "source_rect": [
+        362,
+        0,
+        724,
+        382
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        314.52,
+        284.2
+      ]
+    },
+    {
+      "tail_frame": 2,
+      "source_rect": [
+        724,
+        0,
+        1086,
+        382
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        309.87,
+        283.1
+      ]
+    },
+    {
+      "tail_frame": 3,
+      "source_rect": [
+        1086,
+        0,
+        1448,
+        382
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        314.73,
+        292.74
+      ]
+    },
+    {
+      "tail_frame": 4,
+      "source_rect": [
+        0,
+        362,
+        362,
+        744
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        344.61,
+        269.63
+      ]
+    },
+    {
+      "tail_frame": 5,
+      "source_rect": [
+        362,
+        362,
+        724,
+        744
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        359.46,
+        278.68
+      ]
+    },
+    {
+      "tail_frame": 6,
+      "source_rect": [
+        724,
+        362,
+        1086,
+        744
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        370.95,
+        264.21
+      ]
+    },
+    {
+      "tail_frame": 7,
+      "source_rect": [
+        1086,
+        362,
+        1448,
+        744
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        379.97,
+        263.28
+      ]
+    },
+    {
+      "tail_frame": 8,
+      "source_rect": [
+        0,
+        724,
+        362,
+        1106
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        430.57,
+        242.57
+      ]
+    },
+    {
+      "tail_frame": 9,
+      "source_rect": [
+        362,
+        724,
+        724,
+        1106
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        451.5,
+        218.65
+      ]
+    },
+    {
+      "tail_frame": 10,
+      "source_rect": [
+        724,
+        724,
+        1086,
+        1106
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        467.28,
+        208.82
+      ]
+    },
+    {
+      "tail_frame": 11,
+      "source_rect": [
+        1086,
+        724,
+        1448,
+        1106
+      ],
+      "uniform_scale": 1.25,
+      "placement": [
+        85,
+        25
+      ],
+      "visible_alpha_centroid": [
+        464.94,
+        219.9
+      ]
+    }
+  ],
+  "qa": [
+    {
+      "frame": 0,
+      "edge_max_alpha": 0,
+      "sha256": "5b28cd4196634f56fd9bae590d0c95192280d15a1b9f2678a3269465d4347230"
+    },
+    {
+      "frame": 1,
+      "edge_max_alpha": 0,
+      "sha256": "a7a87b7e0f62df2c8cda87173d701db6af3ee3cb1974f0a86a27e7f0b2167d33"
+    },
+    {
+      "frame": 2,
+      "edge_max_alpha": 0,
+      "sha256": "616cb6617d62026c53d5e5c413aa556163371ded044e36321e3d7b5c74abda02"
+    },
+    {
+      "frame": 3,
+      "edge_max_alpha": 0,
+      "sha256": "98a23ab0962163c7b45b38642a3dcec99bce133d2a7196b5ef32579066e2caa6"
+    },
+    {
+      "frame": 4,
+      "edge_max_alpha": 0,
+      "sha256": "a05282b344c7b13a4dd2d6a05966ffca6c10452ad5fec7c1e7c5abaf6ad5dda7"
+    },
+    {
+      "frame": 5,
+      "edge_max_alpha": 0,
+      "sha256": "dfb16d624448208b4f122dbbe12d9e5ff86842568a22b09f0366d52370b931e2"
+    },
+    {
+      "frame": 6,
+      "edge_max_alpha": 0,
+      "sha256": "e8865bd38f6253bdcd9cef0e2635504ef0f26f22d49eb4fe65429dbb1c92fb39"
+    },
+    {
+      "frame": 7,
+      "edge_max_alpha": 0,
+      "sha256": "f44f70d3210f03043397f144f8a8570c7a866e8ae8acf77c4c19daddec00e9ef"
+    },
+    {
+      "frame": 8,
+      "edge_max_alpha": 0,
+      "sha256": "5945dd3c4bd75d184db9ff0baaa6f57fa810450bfdca905f0118249329db5692"
+    },
+    {
+      "frame": 9,
+      "edge_max_alpha": 0,
+      "sha256": "505d84d5bb98260980016d0c78cf5d19a35dec5332bee70e2e7dc81b6824538f"
+    },
+    {
+      "frame": 10,
+      "edge_max_alpha": 0,
+      "sha256": "e51d452078942a31d051db96324325cc8f0218ec16967e56321384a9736f245d"
+    },
+    {
+      "frame": 11,
+      "edge_max_alpha": 0,
+      "sha256": "05c090fba550a00faa7d11f8c7ee031bf7eb5502bd2dda268265162f55457bef"
+    },
+    {
+      "frame": 12,
+      "edge_max_alpha": 0,
+      "sha256": "8fafdebf4baf8a67a6571b47262823cb474531bb87c4ca8144ae84377e101142"
+    },
+    {
+      "frame": 13,
+      "edge_max_alpha": 0,
+      "sha256": "8aa7de0cb9c2c89ffd2062a87994a17da3185e1a1d0fba612529dfe9edc5991b"
+    },
+    {
+      "frame": 14,
+      "edge_max_alpha": 0,
+      "sha256": "3c1b89c8d69c1bf299199580d3e9a77295e0552b15afee2c302a626d951d02b7"
+    },
+    {
+      "frame": 15,
+      "edge_max_alpha": 0,
+      "sha256": "21b6084495f2b8f994e78a376a2252d622de4f01e79dc23ea8e930c9f5e699d6"
+    },
+    {
+      "frame": 16,
+      "edge_max_alpha": 0,
+      "sha256": "133a6172338fecaa767ce5fe9666b03af5bba2b66a3e688f2deff1c4264b656e"
+    },
+    {
+      "frame": 17,
+      "edge_max_alpha": 0,
+      "sha256": "92fd45c62bf2641e0dd33eb05d215c9c15b5c5856aaa4a758bcde6d65ea16e4f"
+    }
+  ],
+  "apng_frames": 18,
+  "apng_final_alpha": [
+    0,
+    0
+  ]
+}

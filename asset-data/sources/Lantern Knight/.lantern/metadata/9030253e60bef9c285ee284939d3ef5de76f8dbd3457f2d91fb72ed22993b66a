@@ -1,0 +1,28 @@
+{
+  "source_drive_file_id": "11HLLfd9Ty38KHaQeroP-N2zh7l_GlqZI",
+  "source_pack": "Lantern_Containers01_CleanInk",
+  "source_revision": "clean_ink_r02_20261006",
+  "new_generation": false,
+  "method": "Existing clean-ink illustration masters, original exact world-space hinge projection; seven authored held poses with overshoot/settle. No draft sent to imagegen.",
+  "original_sources": [
+    {
+      "file": "source/masters/lid_undersides.png",
+      "sha256": "0f808ef67c8ba3459d9d0a46d0dbb0f84b2ed8e32da2459a59910e45887cc6f6"
+    },
+    {
+      "file": "source/masters/masons_tool_chest.png",
+      "sha256": "0953a51c2bb7138f88f48409bd48f6ac68e8491da17164d2aa65ccf602484e5e"
+    },
+    {
+      "file": "source/masters/provision_hopper.png",
+      "sha256": "5742d93a7bc977bf26202b30cf53f1afbceb79c8ba1656a23e466e904583fea5"
+    }
+  ],
+  "native_canvas_px": [
+    1024,
+    1024
+  ],
+  "no_upscale": true,
+  "drawn_frame_limitation": "Component-animated illustrated raster poses, not independent redraws.",
+  "postprocess": "Deterministic lower-body pixel lock to closed source: chest rows 850-1023, hopper rows 640-1023. Fixes inherited repeated alpha compositing. No resize/upscale."
+}

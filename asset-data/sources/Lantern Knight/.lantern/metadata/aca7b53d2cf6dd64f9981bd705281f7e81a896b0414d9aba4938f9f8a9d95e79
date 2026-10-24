@@ -1,0 +1,10 @@
+# Gothic manor desk: drawer search
+Click plays one-shot opening, then hold final. Game spawns loot at tick 25 (0.417 s); no loot is drawn. 60 Hz timeline, 1 second total including rest. Transparent PNGs and 3x2 atlas. Native sprite pixels are not upscaled.
+
+Six generated source cels; five unique runtime drawings because final rest reuses the open drawing to eliminate held-state drift. Tabletop, legs and outside body are locked to cel 1. Drawer extends forward-left while front plane stays parallel; empty interior remains attached to desk. Ground pivot and scale are approximate integration guidance, not calibrated scene measurements.
+
+Built-in image generation, fresh creation, no generative draft edits. Sunburst2.5 is a requested prompt phrase, not a verified model identity. The requested 35.264 degree orthographic view is an artistic approximation. Small drawer-panel contour/handle variations remain across native cels. No runtime interpolation is required.
+
+Rebuild: python rebuild.py (Pillow; ffmpeg on PATH).
+
+Integration: Fire loot_release once when elapsed ticks cross 25; guard with persistent object looted flag. Never retrigger on held final frame. Hold the final open state indefinitely. Keep hit bounds and pivot static. Gameplay loot is spawned separately.

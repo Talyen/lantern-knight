@@ -1,0 +1,5 @@
+Beetle r02b passed the final bounded repair review on 6 October 2026 at 17:09 UTC. The corrected side shoulder remains connected; the prior detached sliver is gone.
+
+All174 frames across six clips reviewed chronologically using independent sheets (48idle,24front,24side,24rear,30attack,24recoil). Attack006/008/012 no longer show floating teeth; front006 shoulder/knee and rear018 hip/body seams are filled coherently. No additional critical visible error identified. Original design and illustrated material hierarchy preserved. Cutout motion is restrained; scuttle needs specified actor travel to prevent ground sliding. Three illustrated views remain approximate, not calibrated arbitrary3D headings.
+
+All174 final384PNG borders independently confirmed clear; counts and per-frame hashes captured in beetle_r02b_independent_final_scan.json. Loop seam metrics have ordinary scale; one-shot attack/recoil return to matching rest. No uninterrupted real-time playback or engineFPS/collision/import certification. This is an art/registration gate, not a universal runtime guarantee.

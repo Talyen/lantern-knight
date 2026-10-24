@@ -1,0 +1,27 @@
+BELLBOUND MONK + SHROUD CRAWLER — AWAKENINGS — TEST v01
+
+Two seven-drawing one-shot clips: six fresh drawings plus one exact shared current movement-ready drawing. No new enemies, traps, hazards or puzzles.
+Monk: folded robe gathers, bell rises in a two-hand grip, heavy settle.
+Crawler: closed cocoon stirs, paired hands find ground, hood/face emerges, crawl-ready settle. The cocoon remains sealed; no exposed stump.
+
+IMPORT
+Use each actor's CURRENT APPROVED MOVEMENT PPU B for this clip. Do not assume 256 PPU or alter actor world size. Native sampling is matched visually to movement rigid mask/head/prop sizes; no per-frame PPU changes or resampling.
+Monk: 640x576 cells; fixed pivot top-left (320,500), Unity normalized bottom-left (0.5,0.13194444444444445).
+Crawler: 768x768 cells; fixed pivot top-left (448,488), Unity normalized bottom-left (0.5833333333333334,0.36458333333333337).
+Renderer scale (1,1,1), offset (0,0,0); actor root/collider unchanged. Atlas grid 4x2, seventh cell is endpoint, eighth empty. Use bilinear/no compression/no mipmaps for review. Manifest holds/events are on a 60 Hz clock. Do not play unique drawings at 60 drawings/second.
+
+TIMING AND HANDOFF
+Monk holds: 16,8,8,6,5,5,10 =58 ticks (0.9667s).
+Crawler holds: 18,8,7,7,5,5,10 =60 ticks (1s).
+Drawing07 is decoded-RGBA-identical to existing movement01. Transition into movement01 after the clip. Preview contains awakening plus two full movement loops, repeated three times. Existing movement timings are preserved.
+There is a small pose handoff from newly drawn06 to existing07, especially the Crawler forearms moving into the first crawling reach. Identity/head size is maintained; it is not a mathematically seamless interpolated transition.
+
+CAMERA
+35.2643897-degree elevation,45-degree azimuth, world+X / screen down-right facing. Visual gameplay-view match only; no geometric certification.
+
+PROVENANCE / REPRODUCTION
+Built-in image generation, one independent fresh six-pose sheet per enemy using original canonical and current ready images as references. No generative edit cascade. Backend model identity is not exposed or certified. Exact prompts, source PNGs and canonical/move references are included in the source archive.
+Run python source/build_pack.py from any working directory; requires Python, Pillow, NumPy, SciPy and ffmpeg/ffprobe. Native source RGB is unchanged. Only alpha cleanup <=16 to0 / >=250 to255, connected-figure ownership and integer registration are applied. Source-sheet layout registration uses grounded/rigid landmarks, not per-frame bounding-box fitting. No upscale, resize, warp, mirror, synthetic tween or per-frame PPU adjustment. Intended rise and pose deformation are retained.
+
+QA / LIMITS
+Every native drawing and handoff visually reviewed; parent visual review accepted. Two hands, single head/hood, Monk single bell/mask; no new equipment. Native ownership/source-pixel checks, unique-frame checks, bounds, atlas cells, exact-ready equality and encoded60fps counts recorded in runtime/qa.json and review/ownership_verification.json. No engine import/playtest has been performed. All deliverables are TEST assets awaiting gameplay review.

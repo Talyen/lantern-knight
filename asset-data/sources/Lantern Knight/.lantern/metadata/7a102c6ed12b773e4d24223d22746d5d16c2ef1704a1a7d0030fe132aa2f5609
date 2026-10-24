@@ -1,0 +1,377 @@
+{
+  "character": "Briar Midwife",
+  "clip": "defeat",
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_px": [
+    350,
+    660
+  ],
+  "pivot_normalized": [
+    0.4557291666666667,
+    0.859375
+  ],
+  "coordinate_system": "top-left, +x right, +y down",
+  "facing": "three-quarter screen-right",
+  "root_motion": "in-place; consumer supplies movement",
+  "loop": false,
+  "duration_ms": 2040,
+  "frames": [
+    {
+      "file": "frames/defeat_000.png",
+      "duration_ms": 80,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "canonical_ready",
+        "original_source": {
+          "source": "sources/defeat_p1.png",
+          "source_cel": 1,
+          "source_bbox": [
+            31,
+            11,
+            525,
+            765
+          ],
+          "source_anchor": [
+            290,
+            765
+          ],
+          "source_to_runtime_scale": 0.8
+        }
+      }
+    },
+    {
+      "file": "frames/defeat_001.png",
+      "duration_ms": 90,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p1.png",
+        "source_cel": 2,
+        "source_bbox": [
+          558,
+          57,
+          987,
+          775
+        ],
+        "source_anchor": [
+          801,
+          775
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/defeat_002.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p1.png",
+        "source_cel": 3,
+        "source_bbox": [
+          101,
+          834,
+          506,
+          1509
+        ],
+        "source_anchor": [
+          298,
+          1509
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/defeat_003.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p2_polished.png",
+        "source_cel": 1,
+        "source_bbox": [
+          24,
+          172,
+          528,
+          757
+        ],
+        "source_anchor": [
+          300,
+          757
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/defeat_004.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p1.png",
+        "source_cel": 4,
+        "source_bbox": [
+          553,
+          926,
+          984,
+          1516
+        ],
+        "source_anchor": [
+          806,
+          1516
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/defeat_005.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p3.png",
+        "source_cel": 1,
+        "source_bbox": [
+          13,
+          213,
+          539,
+          763
+        ],
+        "source_anchor": [
+          300,
+          763
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/defeat_006.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p2_polished.png",
+        "source_cel": 2,
+        "source_bbox": [
+          507,
+          286,
+          1001,
+          759
+        ],
+        "source_anchor": [
+          760,
+          759
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/defeat_007.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        2304,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p2_polished.png",
+        "source_cel": 3,
+        "source_bbox": [
+          24,
+          965,
+          488,
+          1340
+        ],
+        "source_anchor": [
+          250,
+          1340
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/defeat_008.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        0,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p3.png",
+        "source_cel": 2,
+        "source_bbox": [
+          524,
+          408,
+          1017,
+          787
+        ],
+        "source_anchor": [
+          765,
+          787
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/defeat_009.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        768,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p2_polished.png",
+        "source_cel": 4,
+        "source_bbox": [
+          514,
+          1054,
+          999,
+          1345
+        ],
+        "source_anchor": [
+          739,
+          1345
+        ],
+        "source_to_runtime_scale": 0.86
+      }
+    },
+    {
+      "file": "frames/defeat_010.png",
+      "duration_ms": 160,
+      "atlas_rect": [
+        1536,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p3.png",
+        "source_cel": 3,
+        "source_bbox": [
+          7,
+          1088,
+          510,
+          1342
+        ],
+        "source_anchor": [
+          252,
+          1342
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/defeat_011.png",
+      "duration_ms": 850,
+      "atlas_rect": [
+        2304,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/defeat_p3.png",
+        "source_cel": 4,
+        "source_bbox": [
+          520,
+          1103,
+          1022,
+          1336
+        ],
+        "source_anchor": [
+          750,
+          1336
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    }
+  ],
+  "atlas": "defeat_atlas.png",
+  "source_info": "Built-in imagegen; 4 evolving drawn cels per native 1024x1536 source page; downsample only; no scale/fade-only animation; alpha kept and edge specks removed",
+  "events": []
+}

@@ -1,0 +1,420 @@
+{
+  "stills": [
+    {
+      "asset": "retracting_spike_trap",
+      "state": "idle",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        421,
+        942,
+        1112,
+        1408
+      ]
+    },
+    {
+      "asset": "retracting_spike_trap",
+      "state": "engaged",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        421,
+        872,
+        1112,
+        1408
+      ]
+    },
+    {
+      "asset": "retracting_spike_trap",
+      "state": "broken",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        404,
+        942,
+        1112,
+        1408
+      ]
+    },
+    {
+      "asset": "bronze_iris_gate",
+      "state": "closed",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        405,
+        356,
+        1145,
+        1398
+      ]
+    },
+    {
+      "asset": "bronze_iris_gate",
+      "state": "open",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        405,
+        356,
+        1145,
+        1398
+      ]
+    },
+    {
+      "asset": "bronze_iris_gate",
+      "state": "jammed",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        405,
+        356,
+        1145,
+        1398
+      ]
+    },
+    {
+      "asset": "ceiling_pendulum_blade",
+      "state": "idle",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        573,
+        285,
+        928,
+        1198
+      ]
+    },
+    {
+      "asset": "ceiling_pendulum_blade",
+      "state": "active",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        616,
+        285,
+        1222,
+        1263
+      ]
+    },
+    {
+      "asset": "ceiling_pendulum_blade",
+      "state": "jammed",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        430,
+        285,
+        808,
+        1100
+      ]
+    },
+    {
+      "asset": "pressure_steam_vent",
+      "state": "idle",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        605,
+        983,
+        1057,
+        1317
+      ]
+    },
+    {
+      "asset": "pressure_steam_vent",
+      "state": "active",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        605,
+        731,
+        1058,
+        1317
+      ]
+    },
+    {
+      "asset": "pressure_steam_vent",
+      "state": "broken",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        605,
+        962,
+        1059,
+        1317
+      ]
+    },
+    {
+      "asset": "hinged_bridge_panel",
+      "state": "lowered",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        319,
+        845,
+        1240,
+        1420
+      ]
+    },
+    {
+      "asset": "hinged_bridge_panel",
+      "state": "raised",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        736,
+        330,
+        1233,
+        1194
+      ]
+    },
+    {
+      "asset": "hinged_bridge_panel",
+      "state": "jammed",
+      "canvas": [
+        1536,
+        1536
+      ],
+      "root": [
+        768.0,
+        1220.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        413,
+        762,
+        1235,
+        1194
+      ]
+    },
+    {
+      "asset": "guided_stone_crusher",
+      "state": "raised",
+      "canvas": [
+        1536,
+        1792
+      ],
+      "root": [
+        768.0,
+        1420.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        358,
+        56,
+        1267,
+        1704
+      ]
+    },
+    {
+      "asset": "guided_stone_crusher",
+      "state": "lowered",
+      "canvas": [
+        1536,
+        1792
+      ],
+      "root": [
+        768.0,
+        1420.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        358,
+        56,
+        1267,
+        1704
+      ]
+    },
+    {
+      "asset": "guided_stone_crusher",
+      "state": "jammed",
+      "canvas": [
+        1536,
+        1792
+      ],
+      "root": [
+        768.0,
+        1420.0
+      ],
+      "rgba": true,
+      "edge_contact": false,
+      "bounds": [
+        358,
+        56,
+        1267,
+        1704
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "asset": "retracting_spike_trap",
+      "start_matches_still": true,
+      "end_matches_still": true
+    },
+    {
+      "asset": "bronze_iris_gate",
+      "start_matches_still": true,
+      "end_matches_still": true
+    },
+    {
+      "asset": "ceiling_pendulum_blade",
+      "phase0_equals_idle_still": true,
+      "quarter_phase_equals_active_still": true,
+      "phase0_equals_phase1": true
+    }
+  ],
+  "mechanics": {
+    "iris_fixed_pivot_rigid_shape_distance_error_max": 4.440892098500626e-16,
+    "iris_vertex_envelope_radius_max_m": 1.7921976385583507,
+    "iris_required_hidden_chamber_radius_m": 1.85,
+    "iris_envelope_within_required_chamber": true,
+    "spikes_rigid_vertical_travel_m": 0.5,
+    "spikes_clipped_by_fixed_deck_y": 0.181,
+    "pendulum_fixed_pivot": [
+      0,
+      2.38,
+      0.03
+    ],
+    "bridge_fixed_hinge": [
+      0,
+      0.225,
+      -0.86
+    ],
+    "steam_fixed_outlet": [
+      0,
+      0.218,
+      0
+    ],
+    "crusher_head_clearance_m": {
+      "raised": 1.86,
+      "lowered": 0.23
+    },
+    "crusher_chain_link_scale": "Fractional UV clip from a fixed1.9m master; links do not stretch when exposed."
+  },
+  "untouched_master_sha256": {
+    "steam_plume_clean.png": "60dc3b01f627d35ba159257eb8a57ac48193eb15be4ffc2468ce8bcfba73dcfe",
+    "ceiling_pendulum_blade.png": "a1d440c0e03269dcb17cc6d42e30f1c4cff3aeeaa18fff2ea6c0758048b86c4a",
+    "pressure_steam_vent.png": "1ab0bd43c1f4998ecdb6a64729c1e22dae4f5c56fa426e2618f75a4ccb933037",
+    "retracting_spike_trap.png": "cac5d87e4034bcf629ea1c425bbf3978e9cc28db8fa9c3fc002d7029084d9986",
+    "hinged_bridge_panel.png": "48744c70c11060aa498bc25698ac1f4874e85f68cff1bcef61235178f1f4266d",
+    "guided_stone_crusher.png": "c80369cc19f4f81792886fae81891a1366bf4c5613eb692973f0f0bb4575a602",
+    "bronze_iris_gate.png": "3c1c742df6ab4b42899d1a58fcd4422067e55e3d95c4f544baa6603ca1847ee9",
+    "guided_stone_crusher_isovolumes.png": "34635c50affec5b64f39d9def1071e4cb9cfb61cdbf939072b371ac0bbcf7d20"
+  }
+}

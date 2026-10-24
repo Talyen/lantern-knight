@@ -1,0 +1,1677 @@
+{
+  "category": "Socketcraft",
+  "items": [
+    {
+      "id": "twin_throat_field_flask",
+      "label": "Twin-Throat Field Flask",
+      "category": "consumables",
+      "reference_extent_cm": 21,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "bddf34ee63c00b528e1d0f51ebd206f0939472bfa335f053b17aa1ce0e8ba901",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            235,
+            237,
+            277,
+            274
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.033734939759036145,
+          "sha256": "204f5940943b621b55e78cdc4465c980ba594813698eef4b8f35927d8c8a53c2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            115,
+            116,
+            141,
+            139
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.016867469879518072,
+          "sha256": "2799b958a6d641086ddde842f033359670c81853f4cd544d4debb546095bbed9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            57,
+            480,
+            455
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3598393574297189,
+          "sha256": "e6ce3ccaa8dbd01a8a5289e822408aad5f992e24cba5a6036de5ebe06c38d39b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            113
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08995983935742972,
+          "sha256": "35d869250aa89767504c5ab524bb232b5f94eea29cd617dd05f7334ed2fe5f21",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04497991967871486,
+          "sha256": "7263cf8af64a85f13431578ebea332d1bede16a01a04e4cf62da17ccb90f119c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02248995983935743,
+          "sha256": "ea24ddaa702da9b18d81a1640a46027fb43e9bd25d549796eed600074d01082a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            420,
+            272,
+            448
+          ],
+          "visible_extent": 32,
+          "source_resampling_factor": 0.02570281124497992,
+          "sha256": "dcb4bbc7cb2810b15175446f879cadc617ba3ce58a8fda8c86690b05aeb41ab9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 25, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "consumables/twin_throat_field_flask/twin_throat_field_flask__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            420,
+            272,
+            448
+          ],
+          "visible_extent": 32,
+          "source_resampling_factor": 0.02570281124497992,
+          "sha256": "dcb4bbc7cb2810b15175446f879cadc617ba3ce58a8fda8c86690b05aeb41ab9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 32,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "gravesmith_rune_punch",
+      "label": "Gravesmith Rune Punch",
+      "category": "tools",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "56ae5813aac6163c8b842fadaadbfaef98cd2e227c007f20572ea6a0823ac10b",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            242,
+            272,
+            269
+          ],
+          "visible_extent": 32,
+          "source_resampling_factor": 0.024150943396226414,
+          "sha256": "7542300e39b95c949779ebd3414211855b664eb8fd555387be5cb42a395fcac0",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            120,
+            137,
+            137
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.012075471698113207,
+          "sha256": "65a79e8f314b7ba709d214d024706db536fa84d272760c79803484a8b32c55f8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            66,
+            480,
+            446
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.33811320754716984,
+          "sha256": "aba2dec076457c7a45133ad74c8a2138951dbb2f922bd98d9eb0b59d926d9c6f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            111
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08452830188679246,
+          "sha256": "964d07d08b10170f02dba9524b0b10dcb9aeb88f79499d3ed68612d99380bb82",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            56
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04226415094339623,
+          "sha256": "823b867b755722580f62d5385ceb43306c7ac73f62676eba3e0d3e74872b8f93",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.021132075471698115,
+          "sha256": "1fcc3ea2216a4c2c40b382e5998328093489af687669e9b57f9a193ecd8c200f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            428,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.018113207547169812,
+          "sha256": "ef9a0236af329e5a89f3bbd310ddc1d34212115571e70ac2892539df8f1775f2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 26, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "tools/gravesmith_rune_punch/gravesmith_rune_punch__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            428,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.018113207547169812,
+          "sha256": "ef9a0236af329e5a89f3bbd310ddc1d34212115571e70ac2892539df8f1775f2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "split_crown_socket_collar",
+      "label": "Split-Crown Socket Collar",
+      "category": "materials",
+      "reference_extent_cm": 5,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__full_native.png",
+          "dimensions": [
+            1320,
+            1192
+          ],
+          "sha256": "765ceae177aa3b79e6ee942538ef5364fd3133ba8dd2dbff8d261c0c9c230ebd",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            248,
+            264,
+            263
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.014022787028921999,
+          "sha256": "36f1667edad6e0ba661a3ad0555dcd940a84b08331ca40100ac50a3fd172234c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            123,
+            123,
+            133,
+            134
+          ],
+          "visible_extent": 11,
+          "source_resampling_factor": 0.007011393514460999,
+          "sha256": "fff6670acb2c0ca5a2aef00147d604217622cb8f00f91999f136831926d62f8f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            49,
+            480,
+            464
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.39263803680981596,
+          "sha256": "392923162212ebee4ee49372eab666c80bf1423251fd8e59b33a2d17e6856f71",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            116
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09815950920245399,
+          "sha256": "99954bd3a47673d0390eb73dfbdbdf24fa2155c6c0d08efe2d8e3c8d929942ca",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            58
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.049079754601226995,
+          "sha256": "40cd8b48ce5480d7a64595d121b26e8d0470c8ef4495b35b10638328c9c0e33a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.024539877300613498,
+          "sha256": "bbe8b6acb0ad4362dadc75d893eb169712b4931c8097172ac02b55c5e1dee437",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            433,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.014022787028921999,
+          "sha256": "57ad398133179cf15d90875b16fd3aac1a30cd78c08937df8eca416799c3e860",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 27, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "materials/split_crown_socket_collar/split_crown_socket_collar__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            250,
+            437,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "source_resampling_factor": 0.010517090271691499,
+          "sha256": "49f82a08a4b1565bb6a6fdb402c3d0287d0ec726138b5376eed6fb959c9e6f61",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "caged_cinder_cabochon",
+      "label": "Caged Cinder Cabochon",
+      "category": "materials",
+      "reference_extent_cm": 4.5,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "aa90529e2b2ee6b93c5a9cd5ad642edcc76b8dcade8b42f1f1caf09c5bbea071",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            249,
+            264,
+            263
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.014787430683918669,
+          "sha256": "1ddc54fcec54dd0a9f132f56a6bb24ca57e4745defe5ef413ad5596481c59b6e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            123,
+            122,
+            133,
+            134
+          ],
+          "visible_extent": 12,
+          "source_resampling_factor": 0.0073937153419593345,
+          "sha256": "16c3d95e641b696029c93af7e2e6090d31aec53f467ff4849efe0f743dd47404",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            67,
+            480,
+            445
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.41404805914972276,
+          "sha256": "b0fce2c809eafef4fccde0d140c6aa6c80fb76b87998531fcd580595be4332e3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            111
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.10351201478743069,
+          "sha256": "8a69f61b6c43e54e7a97650a3ee75b9743fe3e1950173bd82e2201055c20c1a3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            55
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.051756007393715345,
+          "sha256": "8442b1f0e07c3cd2bc8a2e6c4b85e4ee9793a9edcac4662f1bf5a219c5ad9308",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.025878003696857672,
+          "sha256": "a6927c2e0ea2679aa143b368b331f5d73568b0ea83ab9355a2ad884fea9f134f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            434,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.014787430683918669,
+          "sha256": "35c58da473b41b211e91af7700b1762e5e98ac7915c3f78663b398ad21a88c6a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 28, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "materials/caged_cinder_cabochon/caged_cinder_cabochon__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            250,
+            438,
+            262,
+            448
+          ],
+          "visible_extent": 12,
+          "source_resampling_factor": 0.011090573012939002,
+          "sha256": "af2c4c27b22af257e623f6f059dccd44e06e2776f1c132fa2969f0b0e97dd4fc",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 12,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "oathwax_cake",
+      "label": "Oathwax Cake",
+      "category": "materials",
+      "reference_extent_cm": 9,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/oathwax_cake/oathwax_cake__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "287d10b2b7ee7924d674aa37c038b884d286d33f46074bb05de9e45dbd1ff9fd",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "materials/oathwax_cake/oathwax_cake__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            247,
+            248,
+            265,
+            264
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.015371477369769428,
+          "sha256": "8433594607d29fc3fce377e1640f60dadd9af89ac86bfda3721123f3addbbdf1",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "materials/oathwax_cake/oathwax_cake__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            121,
+            123,
+            135,
+            134
+          ],
+          "visible_extent": 14,
+          "source_resampling_factor": 0.007685738684884714,
+          "sha256": "b41e34f52fd629548a9a6b7cb7b601ed7267c92659ab1f1ed69bb97dc41a94ac",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "materials/oathwax_cake/oathwax_cake__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            51,
+            480,
+            461
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3825789923142613,
+          "sha256": "efd30f910f0f37708db36d48363ae95ba656f83efc4e26b235e0561aa69f5066",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "materials/oathwax_cake/oathwax_cake__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            115
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09564474807856532,
+          "sha256": "f5a334b2c6e0d30acb2d8c6d14a6437b2c8f39d72dfe2aff94286319f0e9ab91",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "materials/oathwax_cake/oathwax_cake__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            57
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04782237403928266,
+          "sha256": "c8f3e934c1aa9720beb4058573416c42863a8e0e8fc6539bcf6444b0d168ca52",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "materials/oathwax_cake/oathwax_cake__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02391118701964133,
+          "sha256": "40bf996f3c6b60b93d8ea5b28cf0c1a8b6293329dcbf95188c54d1df8afcbe8a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "materials/oathwax_cake/oathwax_cake__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            248,
+            433,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "source_resampling_factor": 0.013663535439795047,
+          "sha256": "db227301f4f2730c68d9221a8fcce1318ce63c03e51d81832bff87fff71afed7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 29, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "materials/oathwax_cake/oathwax_cake__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            249,
+            435,
+            263,
+            448
+          ],
+          "visible_extent": 14,
+          "source_resampling_factor": 0.011955593509820665,
+          "sha256": "4ab4ebf4c30ddfa21211ca26acae4019bda7f2c8f228bda4bf17f70ad14f9157",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 14,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "spiral_gate_cipher",
+      "label": "Spiral Gate Cipher",
+      "category": "quest",
+      "reference_extent_cm": 13,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "415163de45fa88fe2c2c7210b499532c11f37c4e4c2d221adf00ab1c7ae14625",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            243,
+            247,
+            269,
+            264
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.01885424220449601,
+          "sha256": "ea9000618e30adac0b05c40f2d11a4c30805c136c76a5274796a5ceab6e84961",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            121,
+            137,
+            133
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.009427121102248005,
+          "sha256": "3c66c5c4e4c9a198196c33ae489ee7f941343907ed3434e291bbdabd76e2205d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            106,
+            480,
+            406
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3248730964467005,
+          "sha256": "342b1b2cc7c0991a2edd4f64c922663d1914a6eb315cf3b3d9eeee0860dbc093",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            26,
+            120,
+            101
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08121827411167512,
+          "sha256": "fba838974deb0f3b2561ee28c2d5765b993acf146101905e7e19666a72f36aa5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            13,
+            60,
+            50
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04060913705583756,
+          "sha256": "c6a84eac113b2a97b1a0767e9ab2a01864bcf2e93bf3d86e353eac1cab52a028",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            25
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02030456852791878,
+          "sha256": "0136d52d12112dbe73dec64687a891c54b1b4fcc7a0feb9bd5f3a646117dd45c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            435,
+            266,
+            448
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.014503263234227702,
+          "sha256": "fb9a61f44887d6f9051134480b258abff60037c20e170b66282cec16b287ced7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 30, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "quest/spiral_gate_cipher/spiral_gate_cipher__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            435,
+            266,
+            448
+          ],
+          "visible_extent": 20,
+          "source_resampling_factor": 0.014503263234227702,
+          "sha256": "fb9a61f44887d6f9051134480b258abff60037c20e170b66282cec16b287ced7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 20,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "pilgrims_route_disc",
+      "label": "Pilgrim's Route Disc",
+      "category": "quest",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "38daf5bae56016c98033f2caafb48e8b314742e66b5024baca5900e257256aae",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            246,
+            268,
+            266
+          ],
+          "visible_extent": 24,
+          "source_resampling_factor": 0.020202020202020204,
+          "sha256": "f2051d05bb0b8d4419f0acb8a80469c9d3953a6aaae05290798f47a2d7e5579a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            121,
+            122,
+            135,
+            134
+          ],
+          "visible_extent": 14,
+          "source_resampling_factor": 0.010101010101010102,
+          "sha256": "e9ace5b2cf0b4b3d8ff59cf097fa0cb1b05da2f047ec16f25b5fab189a49d17c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            67,
+            480,
+            444
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3771043771043771,
+          "sha256": "67a5a023b3cc81db7e7ed5e469ba18404f017ed8d243204f8326305c162d4cfa",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            17,
+            120,
+            111
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09427609427609428,
+          "sha256": "d75c19ebe970b99f03f884eee6311d264ce5ed2b44d051dfb9a55e2035299854",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            55
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04713804713804714,
+          "sha256": "f4dc158893fb885976cf8f9b3833c26ca76c61770eef7952f9839289408a4e5a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02356902356902357,
+          "sha256": "9afbcd2ac694bba6fc48f9195217fed8d9958f5bfa53db76dee81aadbc2c1213",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            247,
+            433,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.015151515151515152,
+          "sha256": "17deffeb28e41bb9af7928b2a491721d47935292568708ae620fdaa31f321785",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 31, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "quest/pilgrims_route_disc/pilgrims_route_disc__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            247,
+            433,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "source_resampling_factor": 0.015151515151515152,
+          "sha256": "17deffeb28e41bb9af7928b2a491721d47935292568708ae620fdaa31f321785",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "crypt_sounding_fork",
+      "label": "Crypt Sounding Fork",
+      "category": "tools",
+      "reference_extent_cm": 28,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "246d36dbb3f8aea723a1457b195fc80fe50073c6654b168f845bc036a63fac8e",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            228,
+            234,
+            284,
+            277
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.043010752688172046,
+          "sha256": "30429a4d549d2aed8065b292903684d33aaee6b87c63b5768dfd88378e84cc8b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            113,
+            116,
+            143,
+            141
+          ],
+          "visible_extent": 30,
+          "source_resampling_factor": 0.021505376344086023,
+          "sha256": "e5cfc34b24f8d9d3089d6b5023135ef80b26b9b818f89e0fcf0c17e6413a119f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            85,
+            480,
+            427
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.34408602150537637,
+          "sha256": "2a586fde8ac9e13872ca5f66374a80886cd57a18f2bd3f725bdf2a75f65dd2a8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            21,
+            120,
+            107
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08602150537634409,
+          "sha256": "6124067e3e51382b9e26d59c95e2611efd9fe844f4f3ee4d93173e850b1a40f1",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            10,
+            60,
+            53
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.043010752688172046,
+          "sha256": "d9a11d19df7b9a11edb493955e2bad3afc6784b9332da4ff05ff7f2351de7ff7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.021505376344086023,
+          "sha256": "e804c921d2b36152d868cf6c559a2197d3906baed97631bee683db9b5ad0a725",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            235,
+            416,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.03225806451612903,
+          "sha256": "5822f2f07b50c28b3a5458b97d8840a18e92b1b53cc2bbe662a0ea72e8d422bb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original Lantern Knight expansion concept 32, individually generated using built-in image_gen; original design, broad ARPG item-category inspiration only."
+        },
+        "ground_scaled_512": {
+          "path": "tools/crypt_sounding_fork/crypt_sounding_fork__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            235,
+            416,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "source_resampling_factor": 0.03225806451612903,
+          "sha256": "5822f2f07b50c28b3a5458b97d8840a18e92b1b53cc2bbe662a0ea72e8d422bb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    }
+  ]
+}

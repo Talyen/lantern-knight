@@ -1,0 +1,76 @@
+{
+  "clip_checks": [
+    {
+      "id": "weathered_satchel_open",
+      "endpoint_0_equals_closed": true,
+      "endpoint_23_equals_open": true,
+      "unique_frames": 24,
+      "fixed_root_all_frames": true,
+      "all_alpha_bounds_inside_canvas": true,
+      "semantic_loop": false,
+      "loop_QA": "Not applicable: original opening is one-shot. GIF/MP4 review uses hold/open/hold/reverse and is not a runtime loop.",
+      "preview_fixed_crop": [
+        424,
+        501,
+        1128,
+        1425
+      ]
+    },
+    {
+      "id": "burial_coffin_open",
+      "endpoint_0_equals_closed": true,
+      "endpoint_23_equals_open": true,
+      "unique_frames": 24,
+      "fixed_root_all_frames": true,
+      "all_alpha_bounds_inside_canvas": true,
+      "semantic_loop": false,
+      "loop_QA": "Not applicable: original opening is one-shot. GIF/MP4 review uses hold/open/hold/reverse and is not a runtime loop.",
+      "preview_fixed_crop": [
+        304,
+        406,
+        1258,
+        1503
+      ]
+    },
+    {
+      "id": "bowed_apothecary_cabinet_open",
+      "endpoint_0_equals_closed": true,
+      "endpoint_23_equals_open": true,
+      "unique_frames": 24,
+      "fixed_root_all_frames": true,
+      "all_alpha_bounds_inside_canvas": true,
+      "semantic_loop": false,
+      "loop_QA": "Not applicable: original opening is one-shot. GIF/MP4 review uses hold/open/hold/reverse and is not a runtime loop.",
+      "preview_fixed_crop": [
+        388,
+        401,
+        1071,
+        1470
+      ]
+    },
+    {
+      "id": "curved_spice_drawer_open",
+      "endpoint_0_equals_closed": true,
+      "endpoint_23_equals_open": true,
+      "unique_frames": 24,
+      "fixed_root_all_frames": true,
+      "all_alpha_bounds_inside_canvas": true,
+      "semantic_loop": false,
+      "loop_QA": "Not applicable: original opening is one-shot. GIF/MP4 review uses hold/open/hold/reverse and is not a runtime loop.",
+      "preview_fixed_crop": [
+        301,
+        721,
+        1154,
+        1429
+      ]
+    }
+  ],
+  "state_count": 24,
+  "clip_count": 4,
+  "frame_count": 96,
+  "all_states_transparent_RGBA": true,
+  "visual_audit": "PASS: independent bounded visual/motion review, see independent_visual_motion_review.txt",
+  "all_state_alpha_bounds_inside_canvas": true,
+  "state_IDs_match_original": true,
+  "clip_IDs_match_original": true
+}

@@ -1,0 +1,144 @@
+{
+  "name": "wax_sealed_charter_tube",
+  "revision": "generic_empty_opening",
+  "animation": "open_and_settle",
+  "canvas": [
+    640,
+    800
+  ],
+  "pivot_pixels": [
+    320,
+    750
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.9375
+  ],
+  "loop": false,
+  "frame_count": 7,
+  "durations_ms": [
+    350,
+    90,
+    100,
+    110,
+    120,
+    140,
+    700
+  ],
+  "total_ms": 1610,
+  "terminal_state": "wax_sealed_charter_tube_open_empty.png",
+  "initial_state": "wax_sealed_charter_tube_closed.png",
+  "atlas": "wax_sealed_charter_tube_atlas.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frames": [
+    {
+      "file": "frames/wax_sealed_charter_tube_00.png",
+      "rect": [
+        0,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 350
+    },
+    {
+      "file": "frames/wax_sealed_charter_tube_01.png",
+      "rect": [
+        640,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 90
+    },
+    {
+      "file": "frames/wax_sealed_charter_tube_02.png",
+      "rect": [
+        1280,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/wax_sealed_charter_tube_03.png",
+      "rect": [
+        1920,
+        0,
+        640,
+        800
+      ],
+      "duration_ms": 110
+    },
+    {
+      "file": "frames/wax_sealed_charter_tube_04.png",
+      "rect": [
+        0,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 120
+    },
+    {
+      "file": "frames/wax_sealed_charter_tube_05.png",
+      "rect": [
+        640,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 140
+    },
+    {
+      "file": "frames/wax_sealed_charter_tube_06.png",
+      "rect": [
+        1280,
+        800,
+        640,
+        800
+      ],
+      "duration_ms": 700
+    }
+  ],
+  "source": "Content-free opening poses edited with image_gen; extraction phase removed. No procedural pose tweening. Original endpoint pixels retained exactly.",
+  "registration": [
+    {
+      "scale": 0.975,
+      "offset": [
+        0,
+        -1
+      ],
+      "correlation": 0.9533656762676742
+    },
+    {
+      "scale": 0.975,
+      "offset": [
+        0,
+        -1
+      ],
+      "correlation": 0.9576384302032115
+    },
+    {
+      "scale": 0.97,
+      "offset": [
+        0,
+        -1
+      ],
+      "correlation": 0.9538471264749127
+    },
+    {
+      "scale": 0.965,
+      "offset": [
+        0,
+        -1
+      ],
+      "correlation": 0.9551490147212288
+    }
+  ],
+  "loot_visuals": "none; interiors are empty/dark throughout"
+}

@@ -1,0 +1,79 @@
+{
+  "canvas": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "fonts": "none; original custom path lettering",
+  "artwork": "original editable vector geometry",
+  "videos": {
+    "Lantern_05_Constellation_Loading.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "8.000000",
+      "nb_read_frames": "480",
+      "bytes": 632291,
+      "sha256": "0eff4ee438a6f14c254fc9a38320841b12d582fa0a6f93ed611122be16fc47e6"
+    },
+    "Lantern_05_Constellation_Title.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "10.000000",
+      "nb_read_frames": "600",
+      "bytes": 547359,
+      "sha256": "4fa4830975474ed375943bf9b4f669301183243eefa6b6e4ea538efe68bfef16"
+    },
+    "Lantern_05_Constellation_Intro.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_read_frames": "120",
+      "bytes": 159830,
+      "sha256": "06388f1c0fbd7b4eab012de0e32b61b2a42391cc1be5d51ff05c320852df6706"
+    },
+    "Lantern_05_Constellation_Hold.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "4.000000",
+      "nb_read_frames": "240",
+      "bytes": 264349,
+      "sha256": "7448d4efa687c9b7761ab89133dc0e37b12192f7ba34d10c93da50a3e0108310"
+    },
+    "Lantern_05_Constellation_Complete.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_read_frames": "120",
+      "bytes": 241278,
+      "sha256": "2bd1c2107353b997d4c77fa52d068e43980df1062f7f6448abd1f0e74f75fb48"
+    }
+  },
+  "source_hold_loop_max_pixel_error": 0,
+  "source_continuity_mean_abs_pixel_change": {
+    "intro_to_hold": 0.05961934156378601,
+    "hold_to_complete": 0.05961934156378601
+  },
+  "title_full_readable_hold_seconds": 3,
+  "loading_has_text_elements": false,
+  "external_images_or_fonts": false
+}

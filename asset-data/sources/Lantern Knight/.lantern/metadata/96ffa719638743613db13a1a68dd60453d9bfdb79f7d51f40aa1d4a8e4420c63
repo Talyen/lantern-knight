@@ -1,0 +1,378 @@
+{
+  "character": "Gallows Gardener",
+  "clip": "idle",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_px": [
+    360,
+    530
+  ],
+  "pivot_normalized": [
+    0.5625,
+    0.828125
+  ],
+  "facing": "three-quarter screen-left",
+  "loop": true,
+  "duration_ms": 1820,
+  "frames": [
+    {
+      "file": "frames/idle_000.png",
+      "atlas_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    },
+    {
+      "file": "frames/idle_001.png",
+      "atlas_rect": [
+        640,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_a.png",
+        "source_cel": 2,
+        "source_bbox": [
+          509,
+          9,
+          1038,
+          481
+        ],
+        "source_anchor": [
+          850.0,
+          481.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/idle_002.png",
+      "atlas_rect": [
+        1280,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_a.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1021,
+          9,
+          1531,
+          482
+        ],
+        "source_anchor": [
+          1360.0,
+          482.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/idle_003.png",
+      "atlas_rect": [
+        1920,
+        0,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_a.png",
+        "source_cel": 4,
+        "source_bbox": [
+          8,
+          504,
+          536,
+          994
+        ],
+        "source_anchor": [
+          340.0,
+          994.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/idle_004.png",
+      "atlas_rect": [
+        0,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_a.png",
+        "source_cel": 5,
+        "source_bbox": [
+          512,
+          497,
+          1054,
+          994
+        ],
+        "source_anchor": [
+          855.0,
+          994.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/idle_005.png",
+      "atlas_rect": [
+        640,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_a.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1021,
+          498,
+          1533,
+          994
+        ],
+        "source_anchor": [
+          1365.0,
+          994.0
+        ],
+        "downsample": 0.72
+      }
+    },
+    {
+      "file": "frames/idle_006.png",
+      "atlas_rect": [
+        1280,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_b_polished.png",
+        "source_cel": 1,
+        "source_bbox": [
+          37,
+          53,
+          503,
+          459
+        ],
+        "source_anchor": [
+          325.0,
+          459.0
+        ],
+        "downsample": 0.85
+      }
+    },
+    {
+      "file": "frames/idle_007.png",
+      "atlas_rect": [
+        1920,
+        640,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_b_polished.png",
+        "source_cel": 2,
+        "source_bbox": [
+          541,
+          54,
+          1005,
+          460
+        ],
+        "source_anchor": [
+          835.0,
+          460.0
+        ],
+        "downsample": 0.85
+      }
+    },
+    {
+      "file": "frames/idle_008.png",
+      "atlas_rect": [
+        0,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_b_polished.png",
+        "source_cel": 3,
+        "source_bbox": [
+          1042,
+          53,
+          1509,
+          460
+        ],
+        "source_anchor": [
+          1345.0,
+          460.0
+        ],
+        "downsample": 0.85
+      }
+    },
+    {
+      "file": "frames/idle_009.png",
+      "atlas_rect": [
+        640,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_b_polished.png",
+        "source_cel": 4,
+        "source_bbox": [
+          36,
+          536,
+          500,
+          943
+        ],
+        "source_anchor": [
+          325.0,
+          943.0
+        ],
+        "downsample": 0.85
+      }
+    },
+    {
+      "file": "frames/idle_010.png",
+      "atlas_rect": [
+        1280,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_b_polished.png",
+        "source_cel": 5,
+        "source_bbox": [
+          537,
+          534,
+          1013,
+          944
+        ],
+        "source_anchor": [
+          840.0,
+          944.0
+        ],
+        "downsample": 0.85
+      }
+    },
+    {
+      "file": "frames/idle_011.png",
+      "atlas_rect": [
+        1920,
+        1280,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "sources/idle_b_polished.png",
+        "source_cel": 6,
+        "source_bbox": [
+          1042,
+          535,
+          1503,
+          944
+        ],
+        "source_anchor": [
+          1350.0,
+          944.0
+        ],
+        "downsample": 0.85
+      }
+    },
+    {
+      "file": "frames/idle_012.png",
+      "atlas_rect": [
+        0,
+        1920,
+        640,
+        640
+      ],
+      "duration_ms": 140,
+      "pivot_px": [
+        360,
+        530
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    }
+  ],
+  "events": [],
+  "atlas": "idle_atlas.png",
+  "source_resolution": "native imagegen 1536x1024; six drawn cels per source; runtime downsample only",
+  "root_motion": "in-place; no engine behavior added"
+}

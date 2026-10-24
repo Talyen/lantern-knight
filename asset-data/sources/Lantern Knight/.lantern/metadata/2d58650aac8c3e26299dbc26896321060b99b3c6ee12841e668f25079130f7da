@@ -1,0 +1,4324 @@
+{
+  "category": "consumables",
+  "items": [
+    {
+      "id": "antidote",
+      "label": "Antidote Vial",
+      "category": "consumables",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/antidote/antidote__full_native.png",
+          "dimensions": [
+            1137,
+            1169
+          ],
+          "sha256": "db1a58db37ca380c3c5a671ac5bedb72cc1bc7f73bc890aa0eb1be895e23d7ad"
+        },
+        "inventory512": {
+          "path": "consumables/antidote/antidote__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "beed250c5a365423ba81b46ffc4ff40a52fe1668f593d6d9e2794b8bca02a77e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            246,
+            244,
+            266,
+            268
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "consumables/antidote/antidote__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5826213c85d747bae3ad8876fab572e4452d48bb50fc4365332f487c21436073",
+          "visible_bbox": [
+            122,
+            121,
+            135,
+            135
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "consumables/antidote/antidote__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "371cb20de5d2f9bf2aacf9861ecf94e7a83e15ce071fcfcdead20202bbcaf8d2",
+          "visible_bbox": [
+            69,
+            32,
+            443,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/antidote/antidote__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c8168767ac209814f5581de73af7cc2e7b0c45405756645da077044aacafc9fa",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            17,
+            8,
+            111,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/antidote/antidote__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "06760e36a80885da651a2e3ee150bc21bf0505ccf2156671c91bff5ae5984037",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            55,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/antidote/antidote__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "05787f628190513a43b06df35a6ca4b03d329af6f8ec0dc2e42d604397c8880d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/antidote/antidote__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "19e620f716f66a84dccc0e37cda60a60f80ca98925f2d1b787bac6618b122862",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            430,
+            264,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/antidote/antidote__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "19e620f716f66a84dccc0e37cda60a60f80ca98925f2d1b787bac6618b122862",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            430,
+            264,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "dried_meat",
+      "label": "Dried Meat",
+      "category": "consumables",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/dried_meat/dried_meat__full_native.png",
+          "dimensions": [
+            1127,
+            1211
+          ],
+          "sha256": "fca917b3626cc294f5f667465215c30bdd2b543055a03fc48f907c8fa8098dae"
+        },
+        "inventory512": {
+          "path": "consumables/dried_meat/dried_meat__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a037fccd51eb72f420b6b492ca1139faf23d120115dbed70e5aec87b82218eb2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            234,
+            236,
+            278,
+            276
+          ],
+          "visible_extent": 44
+        },
+        "thumb256": {
+          "path": "consumables/dried_meat/dried_meat__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "52899f5e32638dea0b3da2b38b92a44f15b7016e45a3c16d1dd4525d510a3130",
+          "visible_bbox": [
+            116,
+            118,
+            140,
+            139
+          ],
+          "visible_extent": 24
+        },
+        "detail512": {
+          "path": "consumables/dried_meat/dried_meat__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6ea59dec5db3476bc44b404af6bdca378ee29ac675ed999824730c95a5803a95",
+          "visible_bbox": [
+            32,
+            50,
+            480,
+            461
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/dried_meat/dried_meat__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "cca4aa0a60c177023237e1fc240f621413f930dee8b4ad28e47e1fb626fd3ba1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            115
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/dried_meat/dried_meat__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "19bb28d26acb35918d15e5a4a28c7112db8248884e72ded242c48b79f147002a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/dried_meat/dried_meat__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "d03a3e61dc6a76d3ccf77776c4e470615f1fa036772e865ecd66e8bb4dc944d9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/dried_meat/dried_meat__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0539ea14a7981c9e93f52779fe021b71bac02a9e8430260437b74768ac05aa7a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            418,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/dried_meat/dried_meat__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0539ea14a7981c9e93f52779fe021b71bac02a9e8430260437b74768ac05aa7a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            418,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "healing_potion",
+      "label": "Healing Potion",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/healing_potion/healing_potion__full_native.png",
+          "dimensions": [
+            1548,
+            1016
+          ],
+          "sha256": "68b3b605c1000e69220aa33497ea3e82864ad50648e385268b321d9d7a987e22"
+        },
+        "inventory512": {
+          "path": "consumables/healing_potion/healing_potion__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "59190a8e6f1474d0c3520c31f8bb9f297a444d3decc38c1a720678711ba1b8c9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            243,
+            240,
+            269,
+            272
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "consumables/healing_potion/healing_potion__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "29fc975e692f577572b02e783fc7f52dbde148f6825374ff702265449dfd5150",
+          "visible_bbox": [
+            119,
+            119,
+            137,
+            137
+          ],
+          "visible_extent": 18
+        },
+        "detail512": {
+          "path": "consumables/healing_potion/healing_potion__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c2054363bf4f98d7ff04fb7b73c7d356a074c8584509e33e210fa08750966af7",
+          "visible_bbox": [
+            74,
+            32,
+            437,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/healing_potion/healing_potion__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c28fcb706c2d479dfc64118eeeef0ab8db81df46392c354731c6eebdcf8c02d7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            18,
+            8,
+            109,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/healing_potion/healing_potion__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "f2f7fe2f939aa5b2919ef0a039f312d3b229853ed1ebfd1ac85989d115647d9f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            9,
+            4,
+            55,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/healing_potion/healing_potion__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "47b7e8eb8b32487d8c30a5040d63adb85058537a6c4b95f7ee538fa227dafb1f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/healing_potion/healing_potion__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2f0283d1d306c5c87f965ce4a0ff336288ef9ee49cab99c2b61c96a62d6582b0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            219,
+            360,
+            294,
+            449
+          ],
+          "visible_extent": 89
+        },
+        "ground_scaled_512": {
+          "path": "consumables/healing_potion/healing_potion__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a7b0217804d5ca6422e49a7e19e40f0e509f74dd7a6360df43e067b3bea35bd4",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            424,
+            266,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "bomb",
+      "label": "Iron Bomb",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/bomb/bomb__full_native.png",
+          "dimensions": [
+            1214,
+            1241
+          ],
+          "sha256": "4d387b59e3c280ed076ff13b69cdaef3300ff836fd2c4a2e52a6b1e668bf5221"
+        },
+        "inventory512": {
+          "path": "consumables/bomb/bomb__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6df21824d297b31d634d157fd709f7ea8643893c2a00f7fae83ef29ede42737a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            243,
+            240,
+            268,
+            272
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "consumables/bomb/bomb__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "f9426949d64ed8d5dd41020804f91a4560e5f9e7684dfe6b4eedb5e862c8e301",
+          "visible_bbox": [
+            119,
+            120,
+            136,
+            137
+          ],
+          "visible_extent": 17
+        },
+        "detail512": {
+          "path": "consumables/bomb/bomb__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e14d9b2d0d4a80e5778d2c7d64c409dac30ac225e45f0c2103f80fb2f61170b2",
+          "visible_bbox": [
+            81,
+            33,
+            430,
+            479
+          ],
+          "visible_extent": 446
+        },
+        "ui128": {
+          "path": "consumables/bomb/bomb__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "799566acba345194d25b366d4ccf04843d591bfb7e1c3b94bc26f5454ac7da40",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            20,
+            8,
+            107,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/bomb/bomb__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "f9836713f745a7b2e53c60ef135a7a22f174c463d894cbd8b1b57c001bfcc6ac",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            54,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/bomb/bomb__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c8bd5d7eee240dfd37e856dc39e077afa1cac0f4064c76c5aa635a3bc8e52b0e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/bomb/bomb__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c200363759cf9705a4d4ccf9e952370fa7503b8f282ad8f8e2ceb966c69147b3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            424,
+            266,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/bomb/bomb__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c200363759cf9705a4d4ccf9e952370fa7503b8f282ad8f8e2ceb966c69147b3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            424,
+            266,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "bandages",
+      "label": "Linen Bandages",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/bandages/bandages__full_native.png",
+          "dimensions": [
+            1244,
+            1254
+          ],
+          "sha256": "5276fa7def5f6ec0dbb52143b2bb255875b18e8e9f2ef6c59f01d49349a15f33"
+        },
+        "inventory512": {
+          "path": "consumables/bandages/bandages__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0b2c9ba18634eae4e10fc7e75c329d1b003ab0bda51df300f9dd832aa96df3dc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            238,
+            274,
+            273
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "consumables/bandages/bandages__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "c2a5e47f217780b10aac62f19c7950f43e32f46072abcaaecb957d9740511d94",
+          "visible_bbox": [
+            118,
+            118,
+            137,
+            137
+          ],
+          "visible_extent": 19
+        },
+        "detail512": {
+          "path": "consumables/bandages/bandages__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3bd1c4593cfba4445b2f81450edee740fc155d52f1f1d0505a059188f0dc1aa6",
+          "visible_bbox": [
+            32,
+            38,
+            480,
+            473
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/bandages/bandages__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "2fe30d08c285ec75c75a67c423b9bf54aa7e197ef3b6a3515ab9623ff414908c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/bandages/bandages__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "5116846c84e535bb5c963bbf2db7e5f60ca3202005dabe98749867417f7efb80",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/bandages/bandages__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "0526a0395088141f6d9e01922f5bb338b4821104ea5a1e029607aed9a9834f7f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/bandages/bandages__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5f58ab0eed0987666e7edb79f8570d74bf3f862172e37a9c9f5c600830eb2220",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            422,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/bandages/bandages__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5f58ab0eed0987666e7edb79f8570d74bf3f862172e37a9c9f5c600830eb2220",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            422,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "mana_potion",
+      "label": "Mana Potion",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/mana_potion/mana_potion__full_native.png",
+          "dimensions": [
+            1173,
+            1223
+          ],
+          "sha256": "f66085ba535b53e4b11e423a54ba2d88ce5d1d49154d8a99d376072aa1fc134d"
+        },
+        "inventory512": {
+          "path": "consumables/mana_potion/mana_potion__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "965160f32491aa6c5f7798f3e86458ba1d5bb6f7fba259df1599408b519689da",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            242,
+            238,
+            270,
+            274
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "consumables/mana_potion/mana_potion__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "22ee594f3406116dc91f2c262092efcbb2511d2ed3ab1b50ff6643fd043d5c39",
+          "visible_bbox": [
+            120,
+            118,
+            136,
+            138
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "consumables/mana_potion/mana_potion__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "53951327c1548a147b7af0c692229a95336c9d6e6692884405cbdf8432ca20e4",
+          "visible_bbox": [
+            80,
+            32,
+            431,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/mana_potion/mana_potion__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "6d19ab4294dd80aa9c9cfc7fe15dd9c037b3d2d7c9c0486fe34c0ea34328cf7c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            20,
+            8,
+            108,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/mana_potion/mana_potion__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "85d3e739bf89ad0b6778137dfd9adb93d74c492729b3b0e7e67b4aafbb5899d8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            54,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/mana_potion/mana_potion__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c026b001bade7d942b9c4ddc0d29afc18d16a06ab9abd5791e57a83af82c248b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/mana_potion/mana_potion__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d75026cba2b73af4f799fb744f9362cae27722d969a83c2310bdc90d4aa6d81d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            421,
+            267,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/mana_potion/mana_potion__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d75026cba2b73af4f799fb744f9362cae27722d969a83c2310bdc90d4aa6d81d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            421,
+            267,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "oil_flask",
+      "label": "Oil Flask",
+      "category": "consumables",
+      "reference_extent_cm": 24,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/oil_flask/oil_flask__full_native.png",
+          "dimensions": [
+            1250,
+            1255
+          ],
+          "sha256": "b83bde10721912d474cf0b6d7a6b3f4ee551db5de1a78548d5cff1f77241e35a"
+        },
+        "inventory512": {
+          "path": "consumables/oil_flask/oil_flask__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "862e857c67b5206a3993825946f87b754c2e45f582dcb93db923592e88175a3f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            239,
+            232,
+            273,
+            280
+          ],
+          "visible_extent": 48
+        },
+        "thumb256": {
+          "path": "consumables/oil_flask/oil_flask__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "483f7fc573c8a7ab51c3978364b2459bcfe7c1cb6c7701b1e28a096248be1ee6",
+          "visible_bbox": [
+            117,
+            115,
+            139,
+            142
+          ],
+          "visible_extent": 27
+        },
+        "detail512": {
+          "path": "consumables/oil_flask/oil_flask__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d9711a4a70ead9d41ad5ccd00c46c3b03da14a8324fc8f6da40e50c4c6839937",
+          "visible_bbox": [
+            98,
+            32,
+            414,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/oil_flask/oil_flask__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "eeb8cddab42ddfe464293dda7bf30560d432a65bfc5af350720f526d8944edf2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            24,
+            8,
+            103,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/oil_flask/oil_flask__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "3149e485e120d8a60af5a11588678c9e8b456c2a282c0f63a269862f4768a41a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            4,
+            51,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/oil_flask/oil_flask__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "3ea0aa1c301c10251740baf187aff754fd7c5589bb793b5d77429bcd60e445a5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            2,
+            26,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/oil_flask/oil_flask__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f74bc30cea7e831044272ed842695b5d8174b15b6993d013558ddbc9245483eb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            412,
+            269,
+            448
+          ],
+          "visible_extent": 36,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/oil_flask/oil_flask__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f74bc30cea7e831044272ed842695b5d8174b15b6993d013558ddbc9245483eb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            412,
+            269,
+            448
+          ],
+          "visible_extent": 36,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "bread",
+      "label": "Rye Bread",
+      "category": "consumables",
+      "reference_extent_cm": 25,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/bread/bread__full_native.png",
+          "dimensions": [
+            1261,
+            1245
+          ],
+          "sha256": "ae9557f011cd06b604dee0d99b5b8e18abd376055c5d1d858a31bcaa7d786b68"
+        },
+        "inventory512": {
+          "path": "consumables/bread/bread__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f51a5418eb71923128e6d13012046a6192e54ac26d358b0dd4e85c434d57cf90",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            231,
+            234,
+            281,
+            277
+          ],
+          "visible_extent": 50
+        },
+        "thumb256": {
+          "path": "consumables/bread/bread__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "068d765a7baabb574de21d8dda0266d9821a2bd2a25f3a982fba75ab69831143",
+          "visible_bbox": [
+            113,
+            116,
+            143,
+            141
+          ],
+          "visible_extent": 30
+        },
+        "detail512": {
+          "path": "consumables/bread/bread__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e56d2bc51af6c59977276a17c09c658db1705db279fbeadeb42b3e98a163cc10",
+          "visible_bbox": [
+            32,
+            63,
+            480,
+            448
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/bread/bread__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "4ba35045ecbe61736fcf7f84d74b2c6288343162a49163936b5769b3236dc827",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            112
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/bread/bread__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "7b305ba8e6c487ef3ad01e4f32e7324eb9de715e3f0f44f058bcbe75ce1b6784",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            56
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/bread/bread__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "bcff64419848336b51db7ff4553893799c8bdd4306c90e024c3c1bf713128b86",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/bread/bread__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fec6656048da7e5570857a53e4cb0838d45d82b04413aebf002e35dabf8c75b9",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            415,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/bread/bread__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fec6656048da7e5570857a53e4cb0838d45d82b04413aebf002e35dabf8c75b9",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            415,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "scroll",
+      "label": "Spell Scroll",
+      "category": "consumables",
+      "reference_extent_cm": 30,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/scroll/scroll__full_native.png",
+          "dimensions": [
+            1233,
+            1179
+          ],
+          "sha256": "9b765536a2ba381095a0a7a1aae9c91b9381f7be9bcbd46308fe6a9987fc9c32"
+        },
+        "inventory512": {
+          "path": "consumables/scroll/scroll__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e4a9e8c198bfb80b3e1df1ffa205b7a3ee7b5df385fb17b58f5a813fe6c86411",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            226,
+            237,
+            286,
+            274
+          ],
+          "visible_extent": 60
+        },
+        "thumb256": {
+          "path": "consumables/scroll/scroll__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "c48efe3ad29b6a959e8a267168c1a28bd9c6f2d90f177ca4dfd8d7c2a7d25851",
+          "visible_bbox": [
+            112,
+            116,
+            144,
+            137
+          ],
+          "visible_extent": 32
+        },
+        "detail512": {
+          "path": "consumables/scroll/scroll__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "863a9cc4038b58969b8356e32913e151c7d601f1773fa07e794eaf74eb4371dd",
+          "visible_bbox": [
+            32,
+            116,
+            480,
+            396
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/scroll/scroll__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "a73c64fee5082d17edd94e87a8d0cc752cbee70fdeb4127c67a080b8c1b02df4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            29,
+            120,
+            99
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/scroll/scroll__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "2913d8138cc59b67d554242bbb1a8c3c41d7ece965405d8cf014068693d41bc5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            49
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/scroll/scroll__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "9239506e78a61f8202c07fbbf382f735e2e3d9d190a12206ab380c62cd8b08b9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/scroll/scroll__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c3b2dc515be685d6474f50055bcba5dbb38c9aff8354b2059f83a8b9468fcfaa",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            420,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/scroll/scroll__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c3b2dc515be685d6474f50055bcba5dbb38c9aff8354b2059f83a8b9468fcfaa",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            420,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "stamina_potion",
+      "label": "Stamina Tonic",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/stamina_potion/stamina_potion__full_native.png",
+          "dimensions": [
+            1199,
+            1223
+          ],
+          "sha256": "b51bd68b1f2e5556c5f14ae72867dc0b4de7bc93d2353e4559690baf719af2cd"
+        },
+        "inventory512": {
+          "path": "consumables/stamina_potion/stamina_potion__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d0e4b030e8d6a2e82b9ae28c2e601a58659a53e933ebba45721c428f3372cada",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            243,
+            238,
+            268,
+            274
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "consumables/stamina_potion/stamina_potion__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "537071d702150d4ff7dbeb205cce7a23b31ffdd8ab726f1f8dfb4d4b4aa3a48a",
+          "visible_bbox": [
+            119,
+            118,
+            136,
+            138
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "consumables/stamina_potion/stamina_potion__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "69c0a0967b63a77d1ccbcc54cfd95d844f565a8f5ab295c15add76bb5b68a6bf",
+          "visible_bbox": [
+            101,
+            32,
+            411,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/stamina_potion/stamina_potion__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "31982dc81d8f0539c4dd0c96edb678076f2abca562bfc6863cc49e4350428634",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            25,
+            8,
+            103,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/stamina_potion/stamina_potion__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "1bfbd16be482077be93c61cbf56051381704c18f0c7f6034849d93e920cce9de",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            4,
+            51,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/stamina_potion/stamina_potion__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "6d0c32a5ef9c9bb861859a5c93a196a105893ea16ab8e365d2bee6d4848f530d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            2,
+            25,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/stamina_potion/stamina_potion__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0f585c11d5e419375fe95938abe43a943a98cde0ef4bee3c11b5f5c4446b7679",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            421,
+            266,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/stamina_potion/stamina_potion__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0f585c11d5e419375fe95938abe43a943a98cde0ef4bee3c11b5f5c4446b7679",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            421,
+            266,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "torch",
+      "label": "Unlit Pitch Torch",
+      "category": "consumables",
+      "reference_extent_cm": 55,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/torch/torch__full_native.png",
+          "dimensions": [
+            2169,
+            725
+          ],
+          "sha256": "8cda75f6bd55e65129d7ad2b04cd6fa7a414d1be24924b4dfc6c24aff0898e7f"
+        },
+        "inventory512": {
+          "path": "consumables/torch/torch__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8d6d5d4ecf39af8d4053ca15e5c98dc0d1b6fbbcf76fc822ea5e66845548f555",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            242,
+            311,
+            269
+          ],
+          "visible_extent": 110
+        },
+        "thumb256": {
+          "path": "consumables/torch/torch__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "59bc8a260dff2b08153390979b24e6b8c8682aae46fcf9cb87a17c9f06f48f51",
+          "visible_bbox": [
+            98,
+            119,
+            158,
+            137
+          ],
+          "visible_extent": 60
+        },
+        "detail512": {
+          "path": "consumables/torch/torch__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1efb8e7dbc31b2897f331a61386604f5c9a07ba94a2b6c12d02114f68974cbd5",
+          "visible_bbox": [
+            32,
+            201,
+            480,
+            311
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/torch/torch__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "ce99350fdff65eea9c7a5e6e2ba8e7c545b817657a6b9d4d3bf00adae40e4c0c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            50,
+            120,
+            78
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/torch/torch__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "d31fdf76d7ed2d31eec9e860fd561e154faf9e7bb1bed0b3db3d21fe9b9df1fb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            25,
+            60,
+            39
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/torch/torch__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "731a9d7a031c8048669b0c408a4c18b4ebfb5f6bcfbd7dc532d19095fa554ef8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            12,
+            30,
+            19
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/torch/torch__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "79e698dd6daa64b4977f72e67c778d0ccbfa78924dad2a5f4bb3026ddf25663e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            427,
+            297,
+            448
+          ],
+          "visible_extent": 82
+        },
+        "ground_scaled_512": {
+          "path": "consumables/torch/torch__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5d69e0c2763ad9dd09a3fc97de28cc79882eb95263d0031b1dc9fc294addb866",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            428,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "whetstone",
+      "label": "Whetstone",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/whetstone/whetstone__full_native.png",
+          "dimensions": [
+            2092,
+            751
+          ],
+          "sha256": "6ea915b16cbbfbb371a26c9ddae56a2c2a6d9603e9589972cd483d8f5ec95c7a"
+        },
+        "inventory512": {
+          "path": "consumables/whetstone/whetstone__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "85111aa0eee71adcd6abc3ed48db9cb503fe02f1bf0187f49350b7563a3dad50",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            249,
+            274,
+            262
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "consumables/whetstone/whetstone__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "bd8c075df4ab4716888c9eb0deff862e56fa65af4cc4cd1cad5f5d6c1de2a0d0",
+          "visible_bbox": [
+            118,
+            122,
+            138,
+            133
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "consumables/whetstone/whetstone__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7b0236222907236b49d8e32a3c54d005cbac670a9b8dfe0a89f67ceefd42100e",
+          "visible_bbox": [
+            32,
+            176,
+            480,
+            336
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/whetstone/whetstone__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "e7da4793ed0ac4d46c840cb1d441519c825850e67f88b21d0e41b6d420f8a508",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            44,
+            120,
+            84
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/whetstone/whetstone__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "eae836f3498c246be735043494fd4fa80bb7bbf78d83498fbd5aec4743e20957",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            22,
+            60,
+            42
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/whetstone/whetstone__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ef99e80026b913714145534687e887b293c658abd4775f2facca7737e130d143",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            11,
+            30,
+            21
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/whetstone/whetstone__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5e951dee92585efecdc7be455937b804622c926e62e1a0c88538dc3d6bcdb657",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            438,
+            270,
+            448
+          ],
+          "visible_extent": 27
+        },
+        "ground_scaled_512": {
+          "path": "consumables/whetstone/whetstone__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3d34041ba7b18a15322a02927e9246477f3e465837eef960d18a72fa8249c74d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            438,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "smoke_bomb",
+      "label": "Smoke Bomb",
+      "category": "consumables",
+      "reference_extent_cm": 14,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/smoke_bomb/smoke_bomb__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "064e0ecd38b1ab763fb6742c245420dbece89f5220345a681c080006c2f6a131"
+        },
+        "inventory512": {
+          "path": "consumables/smoke_bomb/smoke_bomb__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d96b930a2f56d31f0a1500fbd0853cc7287bc609d2c3710b47e4e61db6cacb9f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            242,
+            242,
+            270,
+            269
+          ],
+          "visible_extent": 28
+        },
+        "thumb256": {
+          "path": "consumables/smoke_bomb/smoke_bomb__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5df990814963e5f8073a63f71cf59e7845d302d6cdb771e6311bb64690a3c4df",
+          "visible_bbox": [
+            120,
+            121,
+            136,
+            137
+          ],
+          "visible_extent": 16
+        },
+        "detail512": {
+          "path": "consumables/smoke_bomb/smoke_bomb__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "58a70b4973a74600a8f3e72fe44c3379fb98f12e983f257e3b3e3053299bfa9b",
+          "visible_bbox": [
+            32,
+            38,
+            480,
+            474
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/smoke_bomb/smoke_bomb__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "696e6ab3191650e238b280cdfe6cbc6b6be9a2d942392620259a9be22729f6b5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/smoke_bomb/smoke_bomb__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "b626e745bf96245f5adef50b41f8f0fdbbe8e5f2179c2670d49a5d287f7c1f38",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/smoke_bomb/smoke_bomb__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "eb9a2785d84b4c61cd7afc538ff60f1f8f369b3c5cacb2a003685e7bbbc8882a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/smoke_bomb/smoke_bomb__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "767835d8e95085881ed33537b1f5a74df40ec614d2a5d070b986c38f5b138d48",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            428,
+            267,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/smoke_bomb/smoke_bomb__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "767835d8e95085881ed33537b1f5a74df40ec614d2a5d070b986c38f5b138d48",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            428,
+            267,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "holy_water",
+      "label": "Holy Water",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/holy_water/holy_water__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "0177516f336f139b7aa44bdd2b7114b22b127a113f49ba0117749dbabc162034"
+        },
+        "inventory512": {
+          "path": "consumables/holy_water/holy_water__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b86c6a1cda3790c73d2991fd0c550c5dc8422ab24f734004d40ec593ee6b2f2f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            252,
+            240,
+            260,
+            272
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "consumables/holy_water/holy_water__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "589dace7da4d5a89e4f514901e160f251ca3ce395436d125a716747933329c4f",
+          "visible_bbox": [
+            124,
+            119,
+            132,
+            137
+          ],
+          "visible_extent": 18
+        },
+        "detail512": {
+          "path": "consumables/holy_water/holy_water__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5cc151b9fc05c8f907b5932d334fc21eea3475963fe4bd2690e0951c9d409bda",
+          "visible_bbox": [
+            200,
+            32,
+            311,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/holy_water/holy_water__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8a73f4c712b316c4470e31ef5b576d32bbfee481b934c06b493cf0b2ef401637",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            50,
+            8,
+            78,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/holy_water/holy_water__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a21f0999177a88eebd2a0dc971733beb7aa0f0ca7db86cdd5e152254858cbf92",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            25,
+            4,
+            39,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/holy_water/holy_water__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "eb58f6692e7ce4b4e62843f33e0bd69f5c49839c3cf4c361774f7baddf1582c4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            2,
+            19,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/holy_water/holy_water__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0fb38634b252a1ebe32951fb886c48becbb58492c84401a18b755df8dce37755",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            253,
+            424,
+            259,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/holy_water/holy_water__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0fb38634b252a1ebe32951fb886c48becbb58492c84401a18b755df8dce37755",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            253,
+            424,
+            259,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "poison_vial",
+      "label": "poison vial",
+      "category": "consumables",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/poison_vial/poison_vial__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "ed6fa45351b40c110cb932862bd8880e869222e677fa6f956519fe1d75543e1a"
+        },
+        "inventory512": {
+          "path": "consumables/poison_vial/poison_vial__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d265a64970416e62deeb12d16939f3d49e37812d47f5089ff083b0bde584d2ee",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            251,
+            244,
+            260,
+            268
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "consumables/poison_vial/poison_vial__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "84d7d2199df50945010a84db531c453c873df642937551f3f681719397907899",
+          "visible_bbox": [
+            123,
+            121,
+            131,
+            135
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "consumables/poison_vial/poison_vial__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "472ea784cd50b95bcec4d60eb9829814ad3ca0cb71fb42663ade7bf55827495a",
+          "visible_bbox": [
+            174,
+            32,
+            337,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/poison_vial/poison_vial__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "7caa072bf50f790fd19b33380569592edf0b0692f6c549e3fce770c3b734c090",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            43,
+            8,
+            84,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/poison_vial/poison_vial__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e8249c5331a8c857112b28952c09e68493ac79515a07181e30df28df91dd236c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            22,
+            4,
+            42,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/poison_vial/poison_vial__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "270ec4178512eaa072e74335b3cfdb18de5d49f5f29ba53da513596f32aa1304",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            2,
+            21,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/poison_vial/poison_vial__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3f3621c20e11c371718a83999df62c6d15aeed439a62fcc919de46d9d04be7dd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            253,
+            430,
+            260,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/poison_vial/poison_vial__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3f3621c20e11c371718a83999df62c6d15aeed439a62fcc919de46d9d04be7dd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            253,
+            430,
+            260,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_01_lantern_oil_flask",
+      "label": "Lantern-oil flask",
+      "category": "consumables",
+      "reference_extent_cm": 24,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "a18aa7cc5aede7d13df6c901ffd0309e97b9cd31d7b3bd7bbb19816fc4a1d4fd"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "789b6e17d95b3c2269565fd9637c719d79d03799251e35ec017dc61f83216adc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            232,
+            234,
+            280,
+            278
+          ],
+          "visible_extent": 48
+        },
+        "thumb256": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "59f53a61724a5b4fbcbe5844484fac019992a914a5018848140826ea978432f7",
+          "visible_bbox": [
+            114,
+            116,
+            142,
+            141
+          ],
+          "visible_extent": 28
+        },
+        "detail512": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "819cc5f014bdf9ef50c0186cf67f9a8e42fe8712d615e876b6eed4777dc2b37c",
+          "visible_bbox": [
+            32,
+            51,
+            479,
+            462
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "2479c7ce318b7189a43eb7738e88aae4aebc5345b805d3c8cfc744f3001d85ca",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            115
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "0418c66aa00adc31540d63f5a1b4da5e7da90211c8b80de6b895dcc0b0cbf466",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c8f17716965c0847c370c606076d190263518e64ff3ec59c43b1c63c15b97f81",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bde48e87d955621379c058b2d0d003228ba9b8d6fe4f476682ab42548e3e65f5",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            238,
+            415,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_utility_prop_01_lantern_oil_flask/lantern_utility_prop_01_lantern_oil_flask__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bde48e87d955621379c058b2d0d003228ba9b8d6fe4f476682ab42548e3e65f5",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            238,
+            415,
+            274,
+            448
+          ],
+          "visible_extent": 36,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_03_rolled_bandages",
+      "label": "Paired bandage rolls",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "4f531986cd6a861f1542299ea2b6ab8ffea504af5128b2aacf0a7b42b15ed410"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "66bf25193543b668b05c70a741299e5d21c01601a56f6c4b2dc836cfd3cd9aa2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            239,
+            274,
+            272
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "404a3a3924bdca8c4998572c005056df04aee399fe20625df7d8971bd72a616e",
+          "visible_bbox": [
+            119,
+            117,
+            137,
+            137
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f54384e775f7a8385f9fc1b2bdfe25b5862696e87191af1002c9f7e172032064",
+          "visible_bbox": [
+            32,
+            50,
+            480,
+            462
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "23b11e79bc7fd7102c157f2df758e8721b58074831622d06b0bc6c4b9eb770d9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            12,
+            120,
+            115
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "b8869059d56cbbe3ece183e00dcd6ef7ca8c033a0dff2c6f9b7e8c02a6ac167e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            6,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c43221ddf20e56e8480255999ccc11499449cb6ae4c8a905d7d4318323ee3c44",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccbae46935f945b2f448132817159680a5c0c1b963b8b61b624fbda0e30e7083",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            423,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_utility_prop_03_rolled_bandages/lantern_utility_prop_03_rolled_bandages__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccbae46935f945b2f448132817159680a5c0c1b963b8b61b624fbda0e30e7083",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            423,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_04_waxed_ration_parcel",
+      "label": "Waxed ration parcel",
+      "category": "consumables",
+      "reference_extent_cm": 25,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "6cff08ed91d8fa20021958e2cf3e9b4e89394edf6081141db8c3756fad2f20d2"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fe91df7be397895e55a2853931761bd34236832e8de4a68389308c52dd94b5fb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            231,
+            236,
+            281,
+            275
+          ],
+          "visible_extent": 50
+        },
+        "thumb256": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "6e89c380af29756a2e3d8308c6c286cc89c5c5160be48698d9422a642da18f2d",
+          "visible_bbox": [
+            113,
+            117,
+            143,
+            140
+          ],
+          "visible_extent": 30
+        },
+        "detail512": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c9decee3790eccfd3c4c7f2891354aa4272baeb5a30fb3a9cfe541398c211593",
+          "visible_bbox": [
+            32,
+            81,
+            479,
+            431
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "91c9188a8794c1554998ff840c6686bd768ba31aaabf3e7a673cfde62507ec16",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            20,
+            120,
+            108
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "b4cdea33c2f9183cf7873e94b14c2d6f47dd35ce46ebf88a7eefe29c8108d4be",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            10,
+            60,
+            54
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "2eec2890122293334d051870352aace4f777d0505a353d9961609d32f6e196ef",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "52b40a126bdf51a38c098ae4057d7fec163ee17ec1203265534cf224cf9ef332",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            418,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_utility_prop_04_waxed_ration_parcel/lantern_utility_prop_04_waxed_ration_parcel__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "52b40a126bdf51a38c098ae4057d7fec163ee17ec1203265534cf224cf9ef332",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            418,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_06_stoppered_antidote_vial",
+      "label": "Amber stoppered vial",
+      "category": "consumables",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "18c8833e7edf845b31ff616bdf834a8535aad0941e3eb9020ee0524b1ff299fc"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "13b364f6138ce32aae492fd8b9a4ef7519bb7a229d5f391342445805ed3c2bb0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            249,
+            244,
+            263,
+            268
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "b5b1b6d9f1b69f427b4116174589bc2f85927e7ce2f21a119f09a93dd14f2f4f",
+          "visible_bbox": [
+            122,
+            121,
+            134,
+            135
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4df380c6ded286a9714208f3cbd6c6168c4d551085cb728e2cf7a2cf8dcadb93",
+          "visible_bbox": [
+            125,
+            33,
+            386,
+            479
+          ],
+          "visible_extent": 446
+        },
+        "ui128": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "eff588434ac878f8e76690130118448af12d999d85ac66cf64942951b1cafcd5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            31,
+            8,
+            97,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a1ce7d6ba7fcf8f4220e5efe20dea7b6ad0ed5b21f767f8fcc0f303d8f4ed4f5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            15,
+            4,
+            48,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b86bb2f242ee43528d8f00c84acb8330eda0b9d12d1ed3da712530535fb7798e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccfd8c328ffe1ad9c18af86440f1ccff64555acef35e119a54f7f8340ab9627e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            430,
+            262,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_utility_prop_06_stoppered_antidote_vial/lantern_utility_prop_06_stoppered_antidote_vial__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ccfd8c328ffe1ad9c18af86440f1ccff64555acef35e119a54f7f8340ab9627e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            430,
+            262,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_07_sealed_powder_pot",
+      "label": "Sealed ceramic powder pot",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "c1e9e4503feef4e8bd26dcab8471ba9e9944f09a44c23bd8364518449f07cf40"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "27e186a1882d9fee94d679b9acc6bd1d9b3feca5ecc06d49f14fb735a9772aa4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            241,
+            240,
+            271,
+            272
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "16edc565e595c700d810cac6253ca0558f542b88188a41c419105e9e5033b876",
+          "visible_bbox": [
+            118,
+            118,
+            138,
+            138
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "14a0449792ac69d29e0cd81bc773c1661800b65db1d4fefd3c14e19c1e5d4158",
+          "visible_bbox": [
+            42,
+            32,
+            469,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "2e0e40ae93b5b44ee8d153284e2ec720ad6bc927e38cd532ba0def95a5a3457a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            8,
+            117,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "2826eb5faf8a7ca923fd457404807e55d775ec2358a36683cfd79a96b5796f03",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "42227558eead0455aa998a2f00a54703479b890a5f97a366a2d978713bcb10d6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ae4550db8fefc48bbcd0544e05d15b050f1b7b7323398f982a3e75b44ed4f5f8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            245,
+            424,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_utility_prop_07_sealed_powder_pot/lantern_utility_prop_07_sealed_powder_pot__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ae4550db8fefc48bbcd0544e05d15b050f1b7b7323398f982a3e75b44ed4f5f8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            245,
+            424,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_08_folded_ward_papers",
+      "label": "Folded ward papers",
+      "category": "consumables",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "33141596beca5978d09e2c3ef6a806b780f4ceee9044e0e9bb301e6377fb05f5"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7311c81f70f28f32fdb3d19fd26cd2df8ef7bc67120e4118daba7a0427f4cf51",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            234,
+            234,
+            278,
+            277
+          ],
+          "visible_extent": 44
+        },
+        "thumb256": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "0ebc877f34e35e572af47ed04d81dd9752ecdb006a8b16aaaa92b667fc95b859",
+          "visible_bbox": [
+            116,
+            117,
+            139,
+            139
+          ],
+          "visible_extent": 23
+        },
+        "detail512": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "af9638a6eb25f51b505b6e1a4e0c89802b4b3eaaa8df7973ce197d4bf62fc9fe",
+          "visible_bbox": [
+            32,
+            34,
+            479,
+            477
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8ec1897810bc166128aad07933525daf0a121322b4ee0cf6adc0102ee97d8b8c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            120,
+            119
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "6a8b2270016899cb6121ba0e9e79de6da8327382787b927f6670563956a09118",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b3c7fb1de6f3c58f2f97958fab2c44517bc23d64e3698deaa8d84406e1a54b53",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9d0e7714496f03d3aa4d6decf3f6a3c8ceefaaca167d0875f09f5b6e26b75eae",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            415,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_utility_prop_08_folded_ward_papers/lantern_utility_prop_08_folded_ward_papers__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9d0e7714496f03d3aa4d6decf3f6a3c8ceefaaca167d0875f09f5b6e26b75eae",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            415,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_06_slate_whetstone",
+      "label": "Slate whetstone",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "151b9696fde9c1f8c33face2ceef0385ae8b0c5690434af2305620807b5f6686"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4b3a2d990dbca51c0e4bc9041227aa0da57bf7194c5790c4e43784d17b40f67d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            243,
+            274,
+            269
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "bfdc402d9283d9a68eaa0859006b6eba6c832404c152c7a2641c3b3de5dbed6e",
+          "visible_bbox": [
+            118,
+            119,
+            138,
+            135
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4165c475a7448478cc8c2da8ebd2997f2c1c07415a64bb60c89488c6f39ffa46",
+          "visible_bbox": [
+            32,
+            92,
+            479,
+            419
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c246537b676ead3e36b3c64858e900f9312730df21f008b9be50aaafc0b72981",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            23,
+            120,
+            105
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e2c152d5dcdb1fe815ce8d82967bcbb80f826a005f4325e0add39a55332c3d57",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "324f7224b5d3e95a4be5501908d19c439506b5020eb8c917e78dd162a02c61bc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bb4c4a4783a615359918686944528df7198a83abea7f94ffe0ec053226e98b72",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            428,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_resource_concept_06_slate_whetstone/lantern_resource_concept_06_slate_whetstone__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bb4c4a4783a615359918686944528df7198a83abea7f94ffe0ec053226e98b72",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            428,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_10_crimson_restorative",
+      "label": "Crimson restorative",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "13ca881ce3a665eb61afe482a349d88e28a12894552c7b54731f51fc42153a24"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "82e3c02fa940b3f7d8ac00ca2c425b395cdbd3c4b5dbd6ee09b6ce07130643c8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            244,
+            240,
+            268,
+            272
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "cdd82f02f3c811b15664a12fd1aeb06a08b18741976ac5c83b1499e432b46b6c",
+          "visible_bbox": [
+            121,
+            119,
+            135,
+            137
+          ],
+          "visible_extent": 18
+        },
+        "detail512": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7134d1505048c822c30f09a880370ea39fd3a39a68b5658f603160601c830884",
+          "visible_bbox": [
+            91,
+            32,
+            420,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "f527e89709bf7af55984be67ae17afe628fa791709756d0fe6737e2863c31779",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            23,
+            8,
+            105,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a3672b88bf78761cd64bdacc0a74d2c610700881e9fd3b8be5e31d35d21d3a36",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            4,
+            52,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "1e665ec0d360b00805e6c21003d86f272ccb301a45e354268a523e7533f979c5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            2,
+            26,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "911c0b36764c7a158818bd0f3ddb2b0f247f33750c2dbce8af1295b420ce0a59",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            424,
+            265,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_concept_item_10_crimson_restorative/lantern_concept_item_10_crimson_restorative__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "911c0b36764c7a158818bd0f3ddb2b0f247f33750c2dbce8af1295b420ce0a59",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            424,
+            265,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_11_marsh_antidote",
+      "label": "Marsh antidote",
+      "category": "consumables",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "89e94e160a3a5d92ab0c4fe9e37aec3b538f98361c4be442a4ac3f4a1c1b232a"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8cc778b45d48808bb075aad3310e1969e03a4908f843d570402e0a9e8c1368b7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            249,
+            244,
+            263,
+            268
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "6b33ebc3a0a5202a6ea75359d5332d4dac91d7b0fb36610cd44270731ab163c4",
+          "visible_bbox": [
+            122,
+            121,
+            134,
+            135
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "523a09519ef8c040c81a4efcc59c5ca8d998007483ca525f2445af23d1b773e5",
+          "visible_bbox": [
+            121,
+            32,
+            391,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8169f1338ceb95fb451d80518be4d2c36d2b0b71dcaaf0f440df72a8ac47c522",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            30,
+            8,
+            97,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "5993b14affcac22c79d978ae46e34d1e563852722b471b7e2fe18621f1833d76",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            15,
+            4,
+            49,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "9585794d7cd5cb9fb2f94a50271c6b29816dd82408bcd8bae13b3272840d5b21",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ea81fb0df2de61eeff364787fc332c86d780c751b5d04e1a094ba6c04676731f",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            430,
+            262,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_concept_item_11_marsh_antidote/lantern_concept_item_11_marsh_antidote__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ea81fb0df2de61eeff364787fc332c86d780c751b5d04e1a094ba6c04676731f",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            251,
+            430,
+            262,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_13_sealed_scroll",
+      "label": "Sealed scroll",
+      "category": "consumables",
+      "reference_extent_cm": 30,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "c92842630f95a3d0935e5a4d003e514d68ded42948913fe761abf653aeb34662"
+        },
+        "inventory512": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1099529e4e61e2d989b144c69798082e8a17761795a7913d784265677a9c2cd7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            226,
+            234,
+            286,
+            277
+          ],
+          "visible_extent": 60
+        },
+        "thumb256": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "cf96f2bb187edde57d2edc047d4f5296da5ef941b5722a41eb64bdd37a92cb5c",
+          "visible_bbox": [
+            112,
+            115,
+            145,
+            139
+          ],
+          "visible_extent": 33
+        },
+        "detail512": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "25c155e21ba907ad20ddb4e1764930066fcf78dbb8c2eac6d1065f816d71dcee",
+          "visible_bbox": [
+            32,
+            96,
+            479,
+            416
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d3ccad79f6d94db59686beb0fc910153018f1f460f4ead332c74cbdb4121f55d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            24,
+            120,
+            104
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "13f4f5896f620bf18263aa81a059bdd345cb6ac4360ecb7079fa9872b4cce389",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            12,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7bc92a55948294366b75800c74bd76106e3bf7e99124c512990cf6bc26f7d126",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "55393d4e02adafbb8e11fabf75406ed45a572465462a78a39493acb96957cd5c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            416,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "consumables/lantern_concept_item_13_sealed_scroll/lantern_concept_item_13_sealed_scroll__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "55393d4e02adafbb8e11fabf75406ed45a572465462a78a39493acb96957cd5c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            416,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

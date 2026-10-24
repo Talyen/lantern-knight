@@ -1,0 +1,42 @@
+{
+  "selected": [
+    {
+      "id": "shelter",
+      "nativeSha256": "a11d5ecb145b7973b4bacf2217be42e2324dda5374af8ed771f6dd8b2ee15c8b",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    }
+  ],
+  "tool": "built-in image_gen",
+  "requestedModel": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "routingExposed": false,
+  "requestedQuality": "highest available, maximum native resolution",
+  "actualDimensions": [
+    1448,
+    1086
+  ],
+  "references": [
+    {
+      "role": "composition",
+      "url": "https://www.nintendolife.com/reviews/switch-eshop/deaths-door"
+    },
+    {
+      "role": "composition",
+      "url": "https://www.conceptartassociation.com/2022-caa-finalists/stranded-sailor-interior-deaths-door"
+    },
+    {
+      "role": "edge density and open fighting space",
+      "url": "https://store.playstation.com/en-gb/product/EP4484-CUSA02057_00-BASTIONBUNDLE000"
+    },
+    {
+      "role": "style",
+      "asset": "library-artwork-environments-complete-scenes-forest-gathering-full-scene-a-forest_gathering_a_variant_ai4x_master_6144x4096",
+      "referenceDerivative": [
+        2040,
+        1360
+      ]
+    }
+  ]
+}

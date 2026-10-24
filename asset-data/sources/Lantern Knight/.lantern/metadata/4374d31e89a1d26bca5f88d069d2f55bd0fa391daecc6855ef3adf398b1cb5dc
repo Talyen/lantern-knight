@@ -1,0 +1,9 @@
+Chapel Candle Snuffer
+
+Distinct authored animation cels generated with built-in imagegen using exact retained scene art as style reference. Native generated sheets were 1774x887. Frames are extracted without artwork upscaling onto 560x520 transparent canvases; runtime frames are 280x260. Ground contact stays aligned.
+
+Play once using metadata.json timings; hold ready state before interaction and completed state afterward. Completion beat and contact point are suggestions for later game integration. No game logic or scene implementation is included.
+
+Source art uses clean ink contours and muted flat tones. Scene previews composite the asset over the unchanged retained master. Previews are examples, not modified scene masters. No hero, collectible reward, water or floor patch is baked into the sprite.
+
+Only current approved cels are included. Previous source sheets with superseded poses are excluded. Actual image model selection is not exposed; the preferred model was requested in the prompt.

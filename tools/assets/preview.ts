@@ -1,6 +1,5 @@
 import { acquirePinnedPack } from './pinned';
 import { onAsyncExit } from '../scope-exit';
-import os from 'node:os';
 import { audioTools, verifyAudioSources } from './audio';
 import { readJson, writeJson } from '../json-file';
 import { discoverLibrary, sourceSnapshot } from './discovery';
@@ -13,7 +12,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
-import { projectRoot, sourceLibrary } from './paths';
+import { projectRoot, sourceLibrary, sourceLibraryRoot } from './paths';
 import { readLock, recipeHash, validateCachedPack } from './pack';
 import {
   preparationSelection,
@@ -216,10 +215,7 @@ export async function preparePreviewAssets(
     audioFresh = true;
   if (audioStep) {
     audioFingerprint = (await audioTools(env)).fingerprint;
-    await verifyAudioSources(
-      env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents/Asset Library'),
-      env,
-    );
+    await verifyAudioSources(sourceLibraryRoot(), env);
     audioFresh = false;
     if (base.stepCache) {
       try {

@@ -1,0 +1,20 @@
+{
+  "observatory/A/native.png": "71cee24b35b41b39c7816b12c3829fcfc2b1edb37d89ef3df602e85a0b4e292a",
+  "observatory/A/exact_prompt.txt": "1ce60a08a5f1b40b2064108238c1986e141ead130859cbb0f24c72bd0090a290",
+  "observatory/A/metadata.json": "fb570d7948d95e972133774395ffc5243a3679c6e2cd423c2f1c122e781945f2",
+  "observatory/A/hero_context_metadata.json": "8c54042eda5c362a33a19617e54f47a7c56065179c08ceabee0406ae1b1acafe",
+  "observatory/B/native.png": "83533a9be07a9cedda856c5cc5057ca88f5b04116cda2b8bd3c2936dc28cc221",
+  "observatory/B/exact_prompt.txt": "b83a1d6c5e1ee3d0a12ef49385c59394cc50b815447af38b1084b737f094adef",
+  "observatory/B/metadata.json": "cc195753551df92d3ef5804449e1c6bb6203451e224691167c647e9160b9db20",
+  "observatory/B/hero_context_metadata.json": "48e68e77e61799569592989e0618b4b58793eb8bd582810c0107bad97d5ef0cd",
+  "observatory/C/native.png": "82e9e2c30c225aea927092895ce3ae05f5dc3ee6f3d6547169754e2b67f47623",
+  "observatory/C/exact_prompt.txt": "2efea92c1b8f4afccbdd0863370eb6c1693164469823eb6ee330287a06ed12df",
+  "observatory/C/metadata.json": "cd853cfdf9291f76eed57d087310f477f01e39d07f7cd83ec95a7017e6ae1575",
+  "observatory/C/hero_context_metadata.json": "956fb11215d01161f6413d4994ee16e15782e5fe3250b28c9c9926867d4344d4",
+  "observatory/hero_placements.json": "01e0b120371d314cf2d4e9fe4cd8d4a8c2e9e468b04d127ebc1560398578e4fb",
+  "observatory/review_summary.json": "a9ec03861c71d2f25b4809971f44609736fc90b848bac82159a3b00cba90d5f2",
+  "observatory/ABC_hero_comparison.png": "10004286a1b17b6070929aeaca374cf4d118a8220142ea1765a954b367a28c5f",
+  "review/build_contexts.py": "fcd25e260050784ce9f722462c2ef076dfd4637b0bd7b4285170e59d23f4aa36",
+  "review/package_theme.py": "ff2db93c466803e43d88bca0029c8d53eeaad2540aa43ec885949fb92aa3ad3e",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

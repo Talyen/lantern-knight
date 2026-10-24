@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-WASD moves, mouse aims, LMB uses the sword, RMB uses the lantern, Shift dodges, E interacts, I opens inventory, Q uses a health potion and Escape pauses. `npm run desktop:dev` adds live Electron development. Pinned prepared assets download automatically into an external cache; ordinary development needs no source artwork.
+WASD moves, mouse aims, LMB uses the sword, RMB uses the lantern, Shift dodges, E interacts, I opens inventory, Q uses a health potion and Escape pauses. `npm run desktop:dev` adds live Electron development. Original sources and the prepared scene/Game catalog are stored in `asset-data/`. Ordinary development assembles owned assets locally; new artwork enters through explicit `assets:import`.
 
 Game opens in the abandoned orchard, with separate paths to the forest clearing and ruined forge courtyard. The forge’s northern street leads to Desecrated Chapel; exploration and loot have no enemy-clearance requirements. To playtest other authored content, open `/editor.html`, choose a saved scene through Scene → Open scene, click Open, then Play. Drafts whose ground is absent from the pin need [local artwork preparation](docs/assets.md#local-preparation-review). `/sandbox.html` opens the independent Dev Preview fixtures.
 

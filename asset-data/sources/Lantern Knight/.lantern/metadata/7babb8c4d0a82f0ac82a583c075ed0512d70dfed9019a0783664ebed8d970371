@@ -1,0 +1,38 @@
+{
+  "name": "forest_gathering_A_v2",
+  "status": "independent_untiled_seam_comparison_complete",
+  "metrics": [
+    {
+      "name": "upper_altar_route_junction",
+      "junction_source_xy": [
+        640,
+        320
+      ],
+      "check_source_box": [
+        592,
+        272,
+        688,
+        368
+      ],
+      "mean_abs_rgb_difference": 0.007050690827546296,
+      "max_abs_rgb_difference": 1.0,
+      "pct_pixels_over_2": 0.0
+    },
+    {
+      "name": "eastern_altar_route_junction",
+      "junction_source_xy": [
+        1120,
+        640
+      ],
+      "check_source_box": [
+        1072,
+        592,
+        1168,
+        688
+      ],
+      "mean_abs_rgb_difference": 0.004844382957175926,
+      "max_abs_rgb_difference": 2.0,
+      "pct_pixels_over_2": 0.0
+    }
+  ]
+}

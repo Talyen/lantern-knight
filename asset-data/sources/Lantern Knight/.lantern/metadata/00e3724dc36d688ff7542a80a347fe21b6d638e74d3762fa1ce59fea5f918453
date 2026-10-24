@@ -1,0 +1,399 @@
+{
+  "pack_id": "lantern_ground_transitions_01",
+  "version": "2.0.0",
+  "status": "Art reviewed; runtime import untested",
+  "counts": {
+    "colour_overlays": 9,
+    "coverage_masks": 4,
+    "new_material_surfaces": 0
+  },
+  "camera_source_projection": "Top-down horizontal XZ; camera not baked into runtime art.",
+  "world_axes": "X right, Y up, image-down +Z.",
+  "canvas_pixels": [
+    1024,
+    1024
+  ],
+  "canvas_world_metres": [
+    4,
+    4
+  ],
+  "source_texels_per_metre": 256,
+  "pivot_pixels": [
+    512,
+    512
+  ],
+  "pivot_world_metres": [
+    2,
+    2
+  ],
+  "overlay_colour_space": "sRGB",
+  "overlay_alpha": "straight/unassociated RGBA",
+  "mask_format": "L mode 8-bit grayscale; interpret linearly as coverage, not sRGB colour",
+  "autotile_system": false,
+  "known_limits": [
+    "No neighbour-selection logic, corners, T-junctions, automatic blending, or full autotile system.",
+    "Only documented X-repeat borders are periodic. Independent local accents are not tileable.",
+    "No height, collision, depth, water simulation, material normals, runtime mip or blending validation."
+  ],
+  "art_provenance": "Seven independent fresh rasterillustration repairs;t06stillpuddle+t07dampspread retained byte-for-byte. Four coverage masks:two regenerated to follow new boundary alpha,two original masks retained.",
+  "assets": [
+    {
+      "id": "t01_earth_stone_border",
+      "name": "Irregular earth\u2013stone border",
+      "family": "earth-to-stone",
+      "png": "png/overlays/t01_earth_stone_border.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        0,
+        492,
+        1024,
+        626
+      ],
+      "repeat_axes": [
+        "X"
+      ],
+      "placement": "New overlay contour and paired coverage mask must be replaced together. Same4m transform,pivot512,512. Coverage is upper(-Z) white,lower(+Z) black. Actual split follows opaque ribbon midpoint,not fixed imagey512.",
+      "paired_mask": {
+        "png": "png/masks/t01_earth_stone_border_mask.png",
+        "svg": "source/masks/t01_earth_stone_border_mask.svg",
+        "meaning": "White keeps the upper (-Z) stone surface; black reveals lower (+Z) earth. Continuous X repeat only.",
+        "same_transform_required": true
+      },
+      "packaging": {
+        "method": "Uniform master scale to full1024-pixel width; vertical placement at original border envelope centre. New strip thickness follows source aspect to preserve horizontal repeat."
+      },
+      "source_master": "source/masters/overlays/t01_earth_stone_border.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "8b2303d0b72fbd074f3b3ef17b15eeb02e87d429803ba7b32967b9a0f9b193ba",
+      "visible_footprint_metres": [
+        4.0,
+        0.5234375
+      ],
+      "mask_generation": "Per-column median of alpha>=180,interpolated missing columns; upper fill. Integer binary coverage,source SVG retained.",
+      "repeat_review": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified",
+      "repeat_preview": "proofs/t01_earth_stone_border_X3.png",
+      "exact_projection_preview": "proofs/t01_earth_stone_border_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t02_moss_invasion",
+      "name": "Moss invasion fringe",
+      "family": "moss",
+      "png": "png/overlays/t02_moss_invasion.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        0,
+        390,
+        1024,
+        532
+      ],
+      "repeat_axes": [
+        "X"
+      ],
+      "placement": "Place along any shallow ground join at image y\u2248512. Designed to overlap t01 at the same transform, but optional. Top-down growth, no vertical foliage.",
+      "packaging": {
+        "method": "Uniform master scale to full1024-pixel width; vertical placement at original border envelope centre. New strip thickness follows source aspect to preserve horizontal repeat."
+      },
+      "source_master": "source/masters/overlays/t02_moss_invasion.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "7896cb4fbbdc66a98c19c6896fac27ec42a51b3eb106260a686e23cf54835722",
+      "visible_footprint_metres": [
+        4.0,
+        0.5546875
+      ],
+      "repeat_review": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified",
+      "repeat_preview": "proofs/t02_moss_invasion_X3.png",
+      "exact_projection_preview": "proofs/t02_moss_invasion_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t03_broken_pavement_edge",
+      "name": "Broken pavement edge",
+      "family": "broken pavement",
+      "png": "png/overlays/t03_broken_pavement_edge.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        0,
+        471,
+        1024,
+        657
+      ],
+      "repeat_axes": [
+        "X"
+      ],
+      "placement": "New overlay contour and paired coverage mask must be replaced together. Same4m transform,pivot512,512. Coverage is upper(-Z) white,lower(+Z) black. Actual split follows opaque ribbon midpoint,not fixed imagey512.",
+      "paired_mask": {
+        "png": "png/masks/t03_broken_pavement_edge_mask.png",
+        "svg": "source/masks/t03_broken_pavement_edge_mask.svg",
+        "meaning": "White retains upper (-Z) pavement. Black removes it to reveal earth or another lower material. No height is implied.",
+        "same_transform_required": true
+      },
+      "packaging": {
+        "method": "Uniform master scale to full1024-pixel width; vertical placement at original border envelope centre. New strip thickness follows source aspect to preserve horizontal repeat."
+      },
+      "source_master": "source/masters/overlays/t03_broken_pavement_edge.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "70dc395ee24f3667e242412ab641d307eb46a25a6e994e314249356e7a6e29a9",
+      "visible_footprint_metres": [
+        4.0,
+        0.7265625
+      ],
+      "mask_generation": "Per-column median of alpha>=180,interpolated missing columns; upper fill. Integer binary coverage,source SVG retained.",
+      "repeat_review": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified",
+      "repeat_preview": "proofs/t03_broken_pavement_edge_X3.png",
+      "exact_projection_preview": "proofs/t03_broken_pavement_edge_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t04_plank_threshold",
+      "name": "Timber floor threshold",
+      "family": "plank threshold",
+      "png": "png/overlays/t04_plank_threshold.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        0,
+        426,
+        1024,
+        594
+      ],
+      "repeat_axes": [
+        "X"
+      ],
+      "placement": "Centred at image y=512, over a straight join. Wood lies above (-Z), stone or earth below (+Z). The sill is a flat graphic overlay, not a raised collision step.",
+      "packaging": {
+        "method": "Uniform master scale to full1024-pixel width; vertical placement at original border envelope centre. New strip thickness follows source aspect to preserve horizontal repeat."
+      },
+      "source_master": "source/masters/overlays/t04_plank_threshold.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "3a331b0669e123bc869fb3d145377c3230c761062096036931a64fff1b7cd98c",
+      "visible_footprint_metres": [
+        2.78125,
+        0.45703125
+      ],
+      "repeat_review": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified",
+      "repeat_preview": "proofs/t04_plank_threshold_X3.png",
+      "exact_projection_preview": "proofs/t04_plank_threshold_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t05_metal_walkway_edging",
+      "name": "Riveted walkway edging",
+      "family": "metal edging",
+      "png": "png/overlays/t05_metal_walkway_edging.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        0,
+        460,
+        1024,
+        565
+      ],
+      "repeat_axes": [
+        "X"
+      ],
+      "placement": "Centred at Z=2 m over a straight boundary. Place iron walkway above (-Z) and ground below (+Z). No vertical flange or collision thickness is implied.",
+      "packaging": {
+        "method": "Uniform master scale to full1024-pixel width; vertical placement at original border envelope centre. New strip thickness follows source aspect to preserve horizontal repeat."
+      },
+      "source_master": "source/masters/overlays/t05_metal_walkway_edging.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "96321a981e0f11ba657057b6b58c3ec200edf80fce9250c5766b09eaaff4fd82",
+      "visible_footprint_metres": [
+        3.41796875,
+        0.3515625
+      ],
+      "repeat_review": "Designed for X repeat; visual3x strip proof supplied; not pixel-perfect periodicity certified",
+      "repeat_preview": "proofs/t05_metal_walkway_edging_X3.png",
+      "exact_projection_preview": "proofs/t05_metal_walkway_edging_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t06_still_puddle",
+      "name": "Still puddle",
+      "family": "puddle / damp",
+      "png": "png/overlays/t06_still_puddle.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        151,
+        319,
+        875,
+        703
+      ],
+      "repeat_axes": [],
+      "placement": "Isolated local puddle inside a 4 m canvas. Place on horizontal ground with canvas-centre pivot. No water depth, reflection simulation or collision is supplied.",
+      "paired_mask": {
+        "png": "png/masks/t06_still_puddle_mask.png",
+        "svg": "source/masks/t06_still_puddle_mask.svg",
+        "meaning": "White marks the wet area; black is dry. This is optional coverage data for a wet-material blend. The colour overlay already contains its own alpha, so do not multiply it by the mask again unless intentionally tuning coverage.",
+        "same_transform_required": true
+      },
+      "packaging": {
+        "method": "Runtime PNG retained byte-for-byte"
+      },
+      "source_master": "source/masters/overlays/t06_still_puddle.png",
+      "revision": "retained quiet original",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "b4222aca054af297539c40e0725eae9edc7984eac05de53bf2722dddf79f4d4a",
+      "visible_footprint_metres": [
+        2.828125,
+        1.5
+      ],
+      "source_svg": "source/svg/t06_still_puddle.svg",
+      "exact_projection_preview": "proofs/t06_still_puddle_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t07_damp_spread",
+      "name": "Damp ground spread",
+      "family": "puddle / damp",
+      "png": "png/overlays/t07_damp_spread.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        157,
+        317,
+        848,
+        700
+      ],
+      "repeat_axes": [],
+      "placement": "Isolated shallow damp stain, centered on its 4 m canvas. Intentionally low contrast; does not add specular noise or glow.",
+      "paired_mask": {
+        "png": "png/masks/t07_damp_spread_mask.png",
+        "svg": "source/masks/t07_damp_spread_mask.svg",
+        "meaning": "White marks damp coverage; black is dry. Use as linear coverage data if desired. Separate from the authored translucent colour overlay.",
+        "same_transform_required": true
+      },
+      "packaging": {
+        "method": "Runtime PNG retained byte-for-byte"
+      },
+      "source_master": "source/masters/overlays/t07_damp_spread.png",
+      "revision": "retained quiet original",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "5559b4de082ca9a48609c37fdee6490114d4479ca6164bf6e2b9dc6a3aeba6a5",
+      "visible_footprint_metres": [
+        2.6875,
+        1.49609375
+      ],
+      "source_svg": "source/svg/t07_damp_spread.svg",
+      "exact_projection_preview": "proofs/t07_damp_spread_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t08_crossing_root",
+      "name": "Path-crossing root",
+      "family": "roots",
+      "png": "png/overlays/t08_crossing_root.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        278,
+        263,
+        738,
+        738
+      ],
+      "repeat_axes": [],
+      "placement": "Isolated diagonal root trace. Long direction runs lower-left to upper-right. Flat overlay only; visible root does not establish a collision obstacle or height.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          51,
+          26,
+          1209,
+          1223
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.3968253968253968,
+        "placement_xy": [
+          278,
+          263
+        ]
+      },
+      "source_master": "source/masters/overlays/t08_crossing_root.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "e8e720175a302623225ab6ff250f6c9d07a017d3bd4ce5be74d5c9fa98d2b545",
+      "visible_footprint_metres": [
+        1.796875,
+        1.85546875
+      ],
+      "exact_projection_preview": "proofs/t08_crossing_root_exact_35.2643897_45.png"
+    },
+    {
+      "id": "t09_forked_roots",
+      "name": "Forked crossing roots",
+      "family": "roots",
+      "png": "png/overlays/t09_forked_roots.png",
+      "canvas_world_metres": [
+        4,
+        4
+      ],
+      "paint_bounds_pixels": [
+        164,
+        115,
+        849,
+        819
+      ],
+      "repeat_axes": [],
+      "placement": "Isolated branching root trace, fully inside the 4 m canvas. Rotate/position as an independent decal, not as a matching connected border.",
+      "packaging": {
+        "method": "Alpha bounding-box trim and uniform Lanczos scale into original placement envelope; no retouch or repaint",
+        "source_alpha_threshold_for_bounds": 1,
+        "source_crop": [
+          45,
+          20,
+          1225,
+          1233
+        ],
+        "source_native_pixels": [
+          1254,
+          1254
+        ],
+        "scale": 0.5803792250618302,
+        "placement_xy": [
+          164,
+          115
+        ]
+      },
+      "source_master": "source/masters/overlays/t09_forked_roots.png",
+      "revision": "02 illustrated rebuild",
+      "semantics": "Raw top-down floor artwork; painted fissures, plates and details do not create height, depth, collision or emission.",
+      "sha256": "103957fa940ff71280e7598ce57110cb632fc36d8b533546e62ff4be8a960a61",
+      "visible_footprint_metres": [
+        2.67578125,
+        2.75
+      ],
+      "exact_projection_preview": "proofs/t09_forked_roots_exact_35.2643897_45.png"
+    }
+  ],
+  "proofs": {
+    "contact": "proofs/Contact_Sheet.png",
+    "before_after": "proofs/Before_After.png",
+    "paired_mask_assembly": "proofs/Paired_Mask_Assembly.png",
+    "x_repeat_statistics": "proofs/X_Repeat_Statistics.json"
+  },
+  "provenance": "Seven independent fresh rasterillustration repairs;t06stillpuddle+t07dampspread retained byte-for-byte. Four coverage masks:two regenerated to follow new boundary alpha,two original masks retained.",
+  "revision_notes": "Topdown horizontal4m canvas,1024RGBA,pivot512,512. Original placements retained within envelopes; paired masks for t01/t03 changed together with outlines."
+}

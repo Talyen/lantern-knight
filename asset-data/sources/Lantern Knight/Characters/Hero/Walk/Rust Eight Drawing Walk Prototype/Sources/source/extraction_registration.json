@@ -1,0 +1,138 @@
+{
+  "purpose": "Diagnostic motion gate; native-resolution whole-figure extraction and translation only. No per-frame scale/morph/warping. Head-axis alignment, small phase vertical offset; final grounded root alignment not claimed.",
+  "source": "source/native_cohesive_sheet_02.png",
+  "canvas": [
+    512,
+    640
+  ],
+  "frames": [
+    {
+      "frame": 1,
+      "source_component_bbox": [
+        25,
+        42,
+        374,
+        529
+      ],
+      "source_label": 2,
+      "translation_px": [
+        43,
+        28
+      ],
+      "scale": 1.0,
+      "phase_offset_px": 0
+    },
+    {
+      "frame": 2,
+      "source_component_bbox": [
+        385,
+        46,
+        713,
+        529
+      ],
+      "source_label": 5,
+      "translation_px": [
+        -318,
+        32
+      ],
+      "scale": 1.0,
+      "phase_offset_px": 8
+    },
+    {
+      "frame": 3,
+      "source_component_bbox": [
+        780,
+        37,
+        991,
+        542
+      ],
+      "source_label": 1,
+      "translation_px": [
+        -657,
+        33
+      ],
+      "scale": 1.0,
+      "phase_offset_px": 0
+    },
+    {
+      "frame": 4,
+      "source_component_bbox": [
+        1097,
+        43,
+        1442,
+        530
+      ],
+      "source_label": 3,
+      "translation_px": [
+        -1029,
+        21
+      ],
+      "scale": 1.0,
+      "phase_offset_px": -6
+    },
+    {
+      "frame": 5,
+      "source_component_bbox": [
+        27,
+        565,
+        389,
+        1040
+      ],
+      "source_label": 11,
+      "translation_px": [
+        42,
+        -495
+      ],
+      "scale": 1.0,
+      "phase_offset_px": 0
+    },
+    {
+      "frame": 6,
+      "source_component_bbox": [
+        381,
+        565,
+        723,
+        1038
+      ],
+      "source_label": 12,
+      "translation_px": [
+        -322,
+        -487
+      ],
+      "scale": 1.0,
+      "phase_offset_px": 8
+    },
+    {
+      "frame": 7,
+      "source_component_bbox": [
+        794,
+        568,
+        1003,
+        1055
+      ],
+      "source_label": 14,
+      "translation_px": [
+        -671,
+        -498
+      ],
+      "scale": 1.0,
+      "phase_offset_px": 0
+    },
+    {
+      "frame": 8,
+      "source_component_bbox": [
+        1068,
+        565,
+        1440,
+        1031
+      ],
+      "source_label": 13,
+      "translation_px": [
+        -1026,
+        -501
+      ],
+      "scale": 1.0,
+      "phase_offset_px": -6
+    }
+  ]
+}

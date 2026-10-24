@@ -1,0 +1,46 @@
+{
+  "date_utc": "2026-10-07",
+  "tool": "built-in image_gen",
+  "requested_prompt_phrase": "Sunburst 2.5",
+  "actual_backend_selection": "Not exposed or verified",
+  "source_inputs": [
+    "source/references/CT04_original_identity.png",
+    "source/references/gameplay_camera_reference.png"
+  ],
+  "fresh_generations_only": true,
+  "generations": [
+    {
+      "name": "drift_veil_breath_v01",
+      "status": "rejected: halo clipped at top; camera unresolved",
+      "source_png": "source/drift_veil_breath_v01_native.png",
+      "prompt": "source/drift_veil_breath_v01.prompt.txt",
+      "native_dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "e1ecbc09b6bac0e6c855b7b24408f7603dbcaeacba1e2539cda9c7aad1556770"
+    },
+    {
+      "name": "drift_veil_breath_v02",
+      "status": "accepted for motion concept only; camera unresolved",
+      "source_png": "source/drift_veil_breath_v02_native.png",
+      "prompt": "source/drift_veil_breath_v02.prompt.txt",
+      "native_dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "0ee76001f5101d658b58f014bb41a41f172d2598470708511e36b411c0ac933f"
+    },
+    {
+      "name": "resonant_spell_v01",
+      "status": "accepted for motion concept only; camera unresolved",
+      "source_png": "source/resonant_spell_v01_native.png",
+      "prompt": "source/resonant_spell_v01.prompt.txt",
+      "native_dimensions": [
+        1448,
+        1086
+      ],
+      "sha256": "3467f19380f7dc00b114310d315bcc75b3ca4693d40b675858c5312dfc03604e"
+    }
+  ]
+}

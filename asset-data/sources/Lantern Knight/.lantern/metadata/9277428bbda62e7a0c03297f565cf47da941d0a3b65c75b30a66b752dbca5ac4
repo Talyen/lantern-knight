@@ -1,0 +1,13 @@
+RUN IMPORT COMPANION — separate from immutable test ZIPs
+
+Available: DR8, UL8, DL7. Each is one40tick/0.6667second cycle at60Hz. UR remains held.
+
+Approximate starting Pixels Per Unit: DR275, UL295, DL320, against sharedready350. These use one body-only cranial-width median perclip, excluding props/coat tails and visibly contaminated samples. They are rough visual estimates (about±15%), not tested engine calibration. Keep the density constant through each cycle. Do not match every crouched pose to the full standingheight. Native image pixels remain unchanged.
+
+Choose ONE representation:
+1. Padded PNG frames:1536x1024, pivot top-left(768,892), bottom-left(768,132), normalized bottom-left(0.5,0.12890625). Translation is already baked.
+2. Atlas slices: use exact atlas_rect for eachframe. Local pivot is DR(218,359), UL/DL(245,390), measured from slice top-left. Convert to bottom-left as(x,height-y), then divide by actual slice width/height. Width/height vary443/444 because the native master grid has odd dimensions. Exact perframe values and bottom-left rects are in run_import_companion.json. Do not add the paddedframe translation again.
+
+Use PPU or an equivalent display-scale adjustment once, not both. Keep actor transform scaling consistent with sharedready. Apply controller world movement once; art is in place. Source stride distance is reference information, not an additional rootmove. Existing guarded warp/stabilization should consume the recorded uncertain anchors once, without another automatic silhouette-centering/padding pass.
+
+For image anchors, subtract common_canvas_translation to get atlas-local coordinates. A2D sprite-local offset is((x-rootX)/PPU, -(y-rootY)/PPU); this is not a reconstructed3D joint. Honor null/lowconfidence anchors and source-contact caveats.

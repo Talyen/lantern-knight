@@ -1,0 +1,57 @@
+# Lantern — The Last Ferry: empty lantern edition
+
+A matched loading animation and title/splash in the clean **Shadow Theatre** cut-paper family, authored for the dark-fantasy ARPG **Lantern**.
+
+An empty ferry floats across an ochre-lit river, passing a broken aqueduct and cemetery. One large iron lantern hangs inward from the ferry's curved prow and becomes the scene's focal point. Its flame changes contour, its frame swings gently and a warm faceted reflection follows its actual position. The restrained hull bob, displacement ribbon, layered reeds, cloud and flat river reflections keep the scene alive. Both humanoid figures, every limb and grip, the full oar and its rowing-contact ripples have been removed from the source. There are no raster artworks, textures, grain, gradients or audio.
+
+## Delivered movies
+
+All final movies are H.264 / YUV 4:2:0, **1920 × 1080, native 60 fps**. Each frame is independently generated from the vector timeline at its real timestamp.
+
+- `Lantern_C_LastFerry_Preview.mp4`: 8 seconds, text-free loading presentation.
+- `Lantern_C_LastFerry_Intro.mp4`: 2-second knife-cut opening.
+- `Lantern_C_LastFerry_Hold.mp4`: 4-second seamless living scene.
+- `Lantern_C_LastFerry_Complete.mp4`: 2-second closing back to charcoal.
+- `Lantern_C_LastFerry_Title.mp4`: 8-second matching title/splash. The exact word **Lantern** assembles from three moving paper pieces per outlined letter. Each piece translates and rotates independently. The word and ornament are fully settled by 3.75 seconds and remain readable for 4.25 seconds while the same empty-ferry scene continues moving.
+
+## Variable loading duration
+
+Play intro once, repeat the 4-second hold as needed, then start completion at a full hold boundary. Intro endpoint, hold start/end, and completion start are the same rendered source pose. Exported videos contain 120 / 240 / 120 frames with no duplicate endpoint. Waiting for a hold boundary can add up to 4 seconds; a runtime current-phase close is not included. This is an animation/source package, not engine integration.
+
+## Editable sources
+
+- `last_ferry_master.svg`: editable loading-scene pose.
+- `last_ferry_title_master.svg`: editable settled title pose.
+- `render.py`: complete scene geometry, layered animation, title piece assembly, SVG generation and movie encoding.
+- `title_glyphs.json`: outlined per-letter vector paths. Rebuilding does not need a font installed.
+- `outline_title.py`: optional glyph regeneration from DejaVu Serif Book, requiring fontTools and the original font.
+- `FONT_LICENSE.txt`: the upstream DejaVu / Bitstream Vera license and provenance.
+- `verify.py`, `verification.json`: exact source boundaries, attachment checks, decoded motion, media format and title-settle checks.
+- `manifest.json`: file sizes and SHA-256 checksums.
+
+All scene art is original hand-authored vector geometry. Title lettering uses **DejaVu Serif Book 2.37**, converted to outlines without modification to the font itself. Source: https://dejavu-fonts.github.io/. The SVGs do not contain live text or external resources. The optional glyph-generation script defaults to `/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf`; a different location may be passed as the first argument.
+
+## Rebuild
+
+Tested on Linux with Python 3.12, Pillow, NumPy, FFmpeg with libx264, libcairo, librsvg-2 and libgobject-2.0. No network, credentials or downloaded art are required. Native libraries on Debian-family systems are supplied by `ffmpeg`, `libcairo2` and `librsvg2-2`.
+
+    python3 -m pip install -r requirements.txt
+    ./rebuild.sh
+
+Or run `python3 render.py --proof --all --title` and `python3 verify.py` separately. For a lightweight half-resolution loading proof, run `python3 render.py --draft`. Run `python3 package.py` to refresh the manifest and source archive after rebuilding.
+
+`svg_at(seconds, segment)` supports `intro`, `hold` and `complete`. `title_svg_at(seconds)` is the separate 8-second title timeline. Edit `C` for the palette; `far_world()`, `ferry()`, `prow_lantern()` and `reed()` contain the principal editable visual layers. `LAMP_X`, `LAMP_Y` and `LAMP_SCALE` set the lantern's suspension position and size. The lamp is scaled around its suspension point and rotates around that same point; the combined lantern/hull transform also locates the reflection. The title paths can be replaced independently in `title_glyphs.json`.
+
+## Changes in this edition
+
+1. Removed both humanoids, their cloaks, faces, feet, arms and hands, the complete rowing oar and all blade-contact ripples from the procedural art.
+2. Enlarged the iron lantern by 38% and moved its suspension inward, extending the prow hook to support it physically.
+3. Widened its warm water reflection and retained phase-correct tracking of the lantern's world position.
+4. Kept only passive hull float and its attached displacement ribbon, with no stroke-driven propulsion.
+5. Applied the same revised scene to loading and title versions, preserving the animated letter assembly.
+
+The original paper palette, ruins, moon, shoreline, hull and typography remain intact. Previous-edition files were preserved separately.
+
+## Intent
+
+A quiet, unoccupied crossing. The hanging light tells the story, with enough motion to feel alive while keeping the river scene calm and the separate title readable.

@@ -1,0 +1,190 @@
+{
+  "one_action_ppu": 220,
+  "shared_ready_ppu": 350,
+  "rulers": [
+    {
+      "raw_cel": 0,
+      "head_center_native_sheet": [
+        232.0,
+        71.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        283.0,
+        376.0
+      ],
+      "heel": [
+        264,
+        384
+      ],
+      "toe": [
+        302,
+        368
+      ],
+      "native_head_sole_distance": 309.23453882126427,
+      "guide_head_sole_distance": 488.7355494348113,
+      "density_ratio": 0.6327236461085602
+    },
+    {
+      "raw_cel": 1,
+      "head_center_native_sheet": [
+        744.0,
+        83.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        828.0,
+        342.0
+      ],
+      "heel": [
+        819,
+        346
+      ],
+      "toe": [
+        837,
+        338
+      ],
+      "native_head_sole_distance": 272.28110474287416,
+      "guide_head_sole_distance": 454.08001905392865,
+      "density_ratio": 0.5996324289057449
+    },
+    {
+      "raw_cel": 2,
+      "head_center_native_sheet": [
+        1248.0,
+        123.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        1356.0,
+        341.0
+      ],
+      "heel": [
+        1343,
+        347
+      ],
+      "toe": [
+        1369,
+        335
+      ],
+      "native_head_sole_distance": 243.28584011405184,
+      "guide_head_sole_distance": 444.0726406245899,
+      "density_ratio": 0.5478514500957982
+    },
+    {
+      "raw_cel": 3,
+      "head_center_native_sheet": [
+        1738.0,
+        88.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        1818.0,
+        351.0
+      ],
+      "heel": [
+        1802,
+        358
+      ],
+      "toe": [
+        1834,
+        344
+      ],
+      "native_head_sole_distance": 274.8981629622141,
+      "guide_head_sole_distance": 438.9471632313115,
+      "density_ratio": 0.6262670908693202
+    },
+    {
+      "raw_cel": 4,
+      "head_center_native_sheet": [
+        242.0,
+        469.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        320.5,
+        730.5
+      ],
+      "heel": [
+        308,
+        736
+      ],
+      "toe": [
+        333,
+        725
+      ],
+      "native_head_sole_distance": 273.0283868025448,
+      "guide_head_sole_distance": 436.16243136834134,
+      "density_ratio": 0.6259786885954214
+    },
+    {
+      "raw_cel": 5,
+      "head_center_native_sheet": [
+        711.0,
+        475.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        805.0,
+        741.5
+      ],
+      "heel": [
+        788,
+        749
+      ],
+      "toe": [
+        822,
+        734
+      ],
+      "native_head_sole_distance": 282.59202041105124,
+      "guide_head_sole_distance": 429.1273381377524,
+      "density_ratio": 0.6585271906408757
+    },
+    {
+      "raw_cel": 6,
+      "head_center_native_sheet": [
+        1260.0,
+        476.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        1315.0,
+        744.0
+      ],
+      "heel": [
+        1296,
+        752
+      ],
+      "toe": [
+        1334,
+        736
+      ],
+      "native_head_sole_distance": 273.5854528296415,
+      "guide_head_sole_distance": 415.3299532482174,
+      "density_ratio": 0.6587183291019132
+    },
+    {
+      "raw_cel": 7,
+      "head_center_native_sheet": [
+        1732.0,
+        463.0
+      ],
+      "right_sole_midpoint_native_sheet": [
+        1778.5,
+        759.5
+      ],
+      "heel": [
+        1761,
+        767
+      ],
+      "toe": [
+        1796,
+        752
+      ],
+      "native_head_sole_distance": 300.12414098169444,
+      "guide_head_sole_distance": 448.5574504960858,
+      "density_ratio": 0.6690874059716758
+    }
+  ],
+  "ready_visible_sole_reference": [
+    381.0,
+    557.0
+  ],
+  "ready_pivot": [
+    301.0,
+    556.0
+  ]
+}

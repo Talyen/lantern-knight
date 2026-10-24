@@ -4,7 +4,7 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 ## Start and iterate
 
-Use Node 24.22.1 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Development acquires pinned artwork on demand and reuses a matching running server before opening an asset workspace. Use `npm run dev -- --eager` to acquire the complete authoring library upfront for offline work or startup comparisons. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
+Use Node 24.22.1 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Development assembles repository-owned artwork on demand and reuses a matching running server before opening an asset workspace. Use `npm run dev -- --eager` to assemble the complete authoring workspace upfront. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
 For Game-only browser work, use `npm run dev -- --runtime`. This selects runtime assets and omits developer navigation. Use the default authoring preview for the editor and Dev Preview.
 
@@ -14,7 +14,7 @@ For Game-only browser work, use `npm run dev -- --runtime`. This selects runtime
 
 Lantern defaults to port 5174, including direct Vite launches. `npm run dev` and `npm run dev:preview` reuse a matching server or try subsequent ports when a stale or incompatible server occupies the default. They print the selected URL and leave existing servers running. Use `-- --port 5175` for a browser worktree, or set `LANTERN_PREVIEW_PORT=5175` for browser and desktop commands. Explicit ports, desktop launches and direct Vite launches remain strict.
 
-Development selects a checkout-local preparation when available, otherwise the immutable pin. `npm run dev -- --pinned` deliberately uses the pin. Assets are shared through an external bounded cache, so new worktrees do not copy artwork or need the source library.
+Development selects a checkout-local preparation when available, otherwise the immutable pin. `npm run dev -- --pinned` deliberately uses the pin. Originals and prepared objects are versioned in `asset-data/`; each checkout can reconstruct its disposable assembly without Documents or asset downloads.
 
 `npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Use `npm run build -- --eager` to acquire the complete verified pin before selecting the same Game files when individual-file delivery is unavailable. Web builds do not compile Electron. Desktop builds stage separate copies under `dist-desktop/` or `dist-desktop-dev/`, preserving existing browser artifacts. `npm run package` composes the matching web and Electron builds for native delivery; `-- --prebuilt-web` reuses a verified web artifact whose source inputs still match before building Electron; use `-- --local` there for an unsigned native prototype with local assets. On macOS, Game release packaging signs and notarizes by default using the saved Keychain setup in [delivery](release.md#signed-mac-packages-for-steam); add `-- --unsigned` for a development Game package without notarization.
 
@@ -24,10 +24,10 @@ Development selects a checkout-local preparation when available, otherwise the i
 
 | Task                                         | Additional setup after `npm ci`                                                                                                      |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Code edits, pure tests, builds and packaging | None; prepared artwork comes from the pin.                                                                                           |
+| Code edits, pure tests, builds and packaging | None; prepared artwork is stored in the repository.                                                                                           |
 | Asset tests                                  | [Python environment with Pillow](verification.md#test-selection).                                                                    |
 | Browser checks                               | [Playwright Chromium](verification.md#test-selection).                                                                               |
-| Source artwork preparation                   | External source library, authoring Python environment and KTX tools under [local preparation](assets.md#local-preparation-review).   |
+| Source artwork preparation                   | Repository-owned sources, authoring Python environment and KTX tools under [local preparation](assets.md#local-preparation-review).   |
 | AI ground selection                          | Separate [Python 3.11 and model setup](developer-tools.md#local-foreground-selection-setup). Manual ground authoring needs no model. |
 
 ## Verify an edit

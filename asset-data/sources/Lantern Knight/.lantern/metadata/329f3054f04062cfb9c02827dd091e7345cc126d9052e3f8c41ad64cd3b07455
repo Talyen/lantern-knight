@@ -1,0 +1,15 @@
+{
+  "method": "built-in image generation; new art referencing canonical original only",
+  "prompt_files": [
+    "hit_prompt.txt",
+    "defeat_prompt.txt"
+  ],
+  "requested_style_phrase": "Sunburst 2.5; not a claim of selected underlying model",
+  "canonical_original_sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+  "native_sha256": {
+    "hit": "5c16ef909768eae434421802f07dd7483223dbb6e2412df6c5c73092a770fcbc",
+    "defeat": "126e1b8863bdf49e080755b6f5ce4443c853671b846968fa6015b1fd035ef2bb"
+  },
+  "source_restore": "Exact approved source archive restored from Library after workspace reset; baseline rebuilt without edits",
+  "canonical_original_library_source": "libfile_0734a9898bb08191bc5d4ab8555dc9c2"
+}

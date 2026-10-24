@@ -1,0 +1,916 @@
+{
+  "title": "Lantern Revision 02 current quality status",
+  "generated_utc": "2026-10-06T18:20:40.052676+00:00",
+  "frozen": true,
+  "scope": "This central collection status records bounded art and source review. It does not imply universal owner-design approval, calibrated painted geometry, uninterrupted real-time playback or engine certification.",
+  "entries": [
+    {
+      "logical_pack_id": "Lantern_Nature_Candidates",
+      "selected_archives": [
+        "Lantern_volume_01_nature_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_01_nature_independent_review.txt",
+      "source_review_sha256": "9888b2413cbf428e41d661fbbde45b72d875bb47fb259856f05ab65f447aa647",
+      "reader_report_file": "QA_Reports/volume_01_nature_independent_review.txt",
+      "reader_report_sha256": "9888b2413cbf428e41d661fbbde45b72d875bb47fb259856f05ab65f447aa647"
+    },
+    {
+      "logical_pack_id": "Lantern_Gothic_Candidates",
+      "selected_archives": [
+        "Lantern_volume_02_gothic_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_02_gothic_independent_review.txt",
+      "source_review_sha256": "31bffd8395b3870f4a3589dbef1fc4c686769c77107dbf11dc7d285a561fc261",
+      "reader_report_file": "QA_Reports/volume_02_gothic_independent_review.txt",
+      "reader_report_sha256": "31bffd8395b3870f4a3589dbef1fc4c686769c77107dbf11dc7d285a561fc261"
+    },
+    {
+      "logical_pack_id": "Lantern_Occult_Industrial_Candidates",
+      "selected_archives": [
+        "Lantern_volume_03_occult_industrial_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_03_occult_industrial_independent_review.txt",
+      "source_review_sha256": "af8f2ed7724a297b6f44d7fd7a35083a57be3df6d310ba27f27c52e08d16b5b3",
+      "reader_report_file": "QA_Reports/volume_03_occult_industrial_independent_review.txt",
+      "reader_report_sha256": "af8f2ed7724a297b6f44d7fd7a35083a57be3df6d310ba27f27c52e08d16b5b3"
+    },
+    {
+      "logical_pack_id": "Lantern_Terrain_Candidates",
+      "selected_archives": [
+        "Lantern_volume_04_terrain_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_04_terrain_independent_review.txt",
+      "source_review_sha256": "0dc3b689be261b02c7c8c22819fb235080631659777b577127b41288da48e77f",
+      "reader_report_file": "QA_Reports/volume_04_terrain_independent_review.txt",
+      "reader_report_sha256": "0dc3b689be261b02c7c8c22819fb235080631659777b577127b41288da48e77f"
+    },
+    {
+      "logical_pack_id": "Lantern_Furnishing_Candidates",
+      "selected_archives": [
+        "Lantern_volume_05_furnishings_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_05_furnishings_independent_review.txt",
+      "source_review_sha256": "2f38669ca8c86eaeb05e2b8fd25ad4f71d2045d19116897d6fc78856e4e12353",
+      "reader_report_file": "QA_Reports/volume_05_furnishings_independent_review.txt",
+      "reader_report_sha256": "2f38669ca8c86eaeb05e2b8fd25ad4f71d2045d19116897d6fc78856e4e12353"
+    },
+    {
+      "logical_pack_id": "Lantern_Town_Candidates",
+      "selected_archives": [
+        "Lantern_volume_06_town_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_06_town_independent_review.txt",
+      "source_review_sha256": "dbc78bb53020f44ea4005d5340b66bf536670dabf17bf0a5b64ba818ea87b138",
+      "reader_report_file": "QA_Reports/volume_06_town_independent_review.txt",
+      "reader_report_sha256": "dbc78bb53020f44ea4005d5340b66bf536670dabf17bf0a5b64ba818ea87b138"
+    },
+    {
+      "logical_pack_id": "Lantern_Cave_Candidates",
+      "selected_archives": [
+        "Lantern_volume_07_cave_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_07_cave_independent_review.txt",
+      "source_review_sha256": "95f575383be24ce453fa250bfb5270421e18844ba82edbd270cbd1f6344f8dac",
+      "reader_report_file": "QA_Reports/volume_07_cave_independent_review.txt",
+      "reader_report_sha256": "95f575383be24ce453fa250bfb5270421e18844ba82edbd270cbd1f6344f8dac"
+    },
+    {
+      "logical_pack_id": "Lantern_Landmark_Candidates",
+      "selected_archives": [
+        "Lantern_volume_08_landmarks_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_08_landmarks_independent_review.txt",
+      "source_review_sha256": "4e8cc6480821a53cb1d87d416e47d2b6abe244c47d362af600233fda6826cb78",
+      "reader_report_file": "QA_Reports/volume_08_landmarks_independent_review.txt",
+      "reader_report_sha256": "4e8cc6480821a53cb1d87d416e47d2b6abe244c47d362af600233fda6826cb78"
+    },
+    {
+      "logical_pack_id": "Lantern_Dock_Candidates",
+      "selected_archives": [
+        "Lantern_volume_09_dock_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_09_dock_independent_review.txt",
+      "source_review_sha256": "2bb5b515782001a12549a8bc974227a984991d717b5d9143be064d4a77414ba0",
+      "reader_report_file": "QA_Reports/volume_09_dock_independent_review.txt",
+      "reader_report_sha256": "2bb5b515782001a12549a8bc974227a984991d717b5d9143be064d4a77414ba0"
+    },
+    {
+      "logical_pack_id": "Lantern_Mine_Candidates",
+      "selected_archives": [
+        "Lantern_volume_10_mine_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_10_mine_independent_review.txt",
+      "source_review_sha256": "e924d037c9445c802e8c76f75bb892537a9a28e58332143f5424b6bae184d7ae",
+      "reader_report_file": "QA_Reports/volume_10_mine_independent_review.txt",
+      "reader_report_sha256": "e924d037c9445c802e8c76f75bb892537a9a28e58332143f5424b6bae184d7ae"
+    },
+    {
+      "logical_pack_id": "Lantern_Enemy_Concepts_01",
+      "selected_archives": [
+        "02_enemies_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_enemies_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_enemies_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Enemy_Concepts_02",
+      "selected_archives": [
+        "02_enemies_02_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_enemies_02_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_enemies_02_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Creature_Concepts_03",
+      "selected_archives": [
+        "02_creatures_03_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_creatures_03_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_creatures_03_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Townsfolk_Concepts_01",
+      "selected_archives": [
+        "02_townsfolk_01_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_townsfolk_01_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_townsfolk_01_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Nonhumanoid_Concepts_04",
+      "selected_archives": [
+        "02_nonhumanoid_04_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_nonhumanoid_04_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_nonhumanoid_04_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Elite_Concepts_05",
+      "selected_archives": [
+        "02_elites_05_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_elites_05_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_elites_05_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Equipment_Loot_Concepts_01",
+      "selected_archives": [
+        "Lantern_Equipment_Loot_01_Revision_02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "equipment_loot_01_independent_review.txt",
+      "source_review_sha256": "31b7f100b99d9e1175acceb0a34baad610334baa16e3c9f511749eecf2a0d788",
+      "reader_report_file": "QA_Reports/equipment_loot_01_independent_review.txt",
+      "reader_report_sha256": "31b7f100b99d9e1175acceb0a34baad610334baa16e3c9f511749eecf2a0d788"
+    },
+    {
+      "logical_pack_id": "Lantern_World_Drop_Gear_02",
+      "selected_archives": [
+        "Lantern_World_Drop_Gear_02_Revision_02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "world_drop_gear_02_independent_review.txt",
+      "source_review_sha256": "fe6918d0de14b3ad95b5498c877a52461ab75e1692d36718c35039c414794941",
+      "reader_report_file": "QA_Reports/world_drop_gear_02_independent_review.txt",
+      "reader_report_sha256": "fe6918d0de14b3ad95b5498c877a52461ab75e1692d36718c35039c414794941"
+    },
+    {
+      "logical_pack_id": "Lantern_Resource_Pickups_03",
+      "selected_archives": [
+        "Lantern_Resource_Pickups_03_Revision_02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "resources_03_independent_review.txt",
+      "source_review_sha256": "d908155c478b19d76a477949ea4f48a2a1cd5999648f1483f1aa9f4d758b376f",
+      "reader_report_file": "QA_Reports/resources_03_independent_review.txt",
+      "reader_report_sha256": "d908155c478b19d76a477949ea4f48a2a1cd5999648f1483f1aa9f4d758b376f"
+    },
+    {
+      "logical_pack_id": "Lantern_Ritual_Study_Props_04",
+      "selected_archives": [
+        "Lantern_Revision02_ritual_study_04_frozen.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "support_ritual_study_04_independent_review.txt",
+      "source_review_sha256": "55d3c6ce00cd405ad221019e0d10aaf1ca621b61e0b974f4b51b751eb2ce3569",
+      "reader_report_file": "QA_Reports/support_ritual_study_04_independent_review.txt",
+      "reader_report_sha256": "55d3c6ce00cd405ad221019e0d10aaf1ca621b61e0b974f4b51b751eb2ce3569"
+    },
+    {
+      "logical_pack_id": "Lantern_Travel_Camp_Props_05",
+      "selected_archives": [
+        "Lantern_Revision02_travel_camp_05_frozen.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "support_travel_camp_05_independent_review.txt",
+      "source_review_sha256": "3674c797e76ae7261bbccd248c559e56ca2ac5336aa6b00901f4f70d0a0d7e72",
+      "reader_report_file": "QA_Reports/support_travel_camp_05_independent_review.txt",
+      "reader_report_sha256": "3674c797e76ae7261bbccd248c559e56ca2ac5336aa6b00901f4f70d0a0d7e72"
+    },
+    {
+      "logical_pack_id": "Lantern_Distant_Backdrop_Concepts_v1",
+      "selected_archives": [
+        "Lantern_Distant_Backdrops_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "compositions_independent_review.txt",
+      "source_review_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a",
+      "reader_report_file": "QA_Reports/compositions_independent_review.txt",
+      "reader_report_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a"
+    },
+    {
+      "logical_pack_id": "Lantern_Garden_Candidates",
+      "selected_archives": [
+        "Lantern_volume_11_garden_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_11_garden_independent_review.txt",
+      "source_review_sha256": "9ee52f2663378a29e167298cf77bf4d2071fe7e1ff7b5f7b6a9711d8f3fa3656",
+      "reader_report_file": "QA_Reports/volume_11_garden_independent_review.txt",
+      "reader_report_sha256": "9ee52f2663378a29e167298cf77bf4d2071fe7e1ff7b5f7b6a9711d8f3fa3656"
+    },
+    {
+      "logical_pack_id": "volume_12_crypt",
+      "selected_archives": [
+        "Lantern_volume_12_crypt_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_12_crypt_independent_review.txt",
+      "source_review_sha256": "737bd1dc6d83d055d2cfe28271c6c6259b0437c8d2034b4742083e3dce2a7440",
+      "reader_report_file": "QA_Reports/volume_12_crypt_independent_review.txt",
+      "reader_report_sha256": "737bd1dc6d83d055d2cfe28271c6c6259b0437c8d2034b4742083e3dce2a7440"
+    },
+    {
+      "logical_pack_id": "volume_13_service_architecture",
+      "selected_archives": [
+        "Lantern_volume_13_service_architecture_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_13_service_architecture_independent_review.txt",
+      "source_review_sha256": "043a10983875e161fc41ce624be25368e7f06cb1e651bc31850c71e1f000f235",
+      "reader_report_file": "QA_Reports/volume_13_service_architecture_independent_review.txt",
+      "reader_report_sha256": "043a10983875e161fc41ce624be25368e7f06cb1e651bc31850c71e1f000f235"
+    },
+    {
+      "logical_pack_id": "volume_14_crossings",
+      "selected_archives": [
+        "Lantern_volume_14_crossings_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_14_crossings_independent_review.txt",
+      "source_review_sha256": "a72095aa0535798d396a71bd94bca30437cc57a68da5a44855e2b1c4e4289de8",
+      "reader_report_file": "QA_Reports/volume_14_crossings_independent_review.txt",
+      "reader_report_sha256": "a72095aa0535798d396a71bd94bca30437cc57a68da5a44855e2b1c4e4289de8"
+    },
+    {
+      "logical_pack_id": "volume_15_tree_forms",
+      "selected_archives": [
+        "Lantern_volume_15_tree_forms_CleanInk_v02a.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_15_tree_forms_independent_review.txt",
+      "source_review_sha256": "7d812eae33f6bf096fa3698d26db6e823f2068d93bdaf781288db28502238f3c",
+      "reader_report_file": "QA_Reports/volume_15_tree_forms_independent_review.txt",
+      "reader_report_sha256": "7d812eae33f6bf096fa3698d26db6e823f2068d93bdaf781288db28502238f3c"
+    },
+    {
+      "logical_pack_id": "volume_16_occult_landmarks",
+      "selected_archives": [
+        "Lantern_volume_16_occult_landmarks_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_16_occult_landmarks_independent_review.txt",
+      "source_review_sha256": "ff80c168accf6a67b5efc8b3eb1e7e3a7cb1f2a8d3d8252452d17ec3051507b1",
+      "reader_report_file": "QA_Reports/volume_16_occult_landmarks_independent_review.txt",
+      "reader_report_sha256": "ff80c168accf6a67b5efc8b3eb1e7e3a7cb1f2a8d3d8252452d17ec3051507b1"
+    },
+    {
+      "logical_pack_id": "Lantern_Enemy_Archetypes_06",
+      "selected_archives": [
+        "02_archetypes_06_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_archetypes_06_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_archetypes_06_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Hostile_Faction_Concepts_07",
+      "selected_archives": [
+        "02_hostile_faction_07_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_hostile_faction_07_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_hostile_faction_07_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Uncanny_Fauna_Concepts_08",
+      "selected_archives": [
+        "02_uncanny_fauna_08_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_uncanny_fauna_08_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_uncanny_fauna_08_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Cave_Ruin_Creatures_09",
+      "selected_archives": [
+        "02_cave_creatures_09_ink_revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "02_cave_creatures_09_character_independent_review.txt",
+      "source_review_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c",
+      "reader_report_file": "QA_Reports/02_cave_creatures_09_character_independent_review.txt",
+      "reader_report_sha256": "9a0e814db8047749f8e12db0569e0abe7d0af107b5e6dffb5c96aaf19c54bb0c"
+    },
+    {
+      "logical_pack_id": "Lantern_Household_Market_Props_06",
+      "selected_archives": [
+        "Lantern_Revision02_household_market_06_frozen.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "support_household_market_06_independent_review.txt",
+      "source_review_sha256": "d2b8abcd4873a3f2de596796e42c92558a6c55888e70a45a7e9216063f812c74",
+      "reader_report_file": "QA_Reports/support_household_market_06_independent_review.txt",
+      "reader_report_sha256": "d2b8abcd4873a3f2de596796e42c92558a6c55888e70a45a7e9216063f812c74"
+    },
+    {
+      "logical_pack_id": "Lantern_Alchemy_Tabletop_Props_07",
+      "selected_archives": [
+        "Lantern_Alchemy_Tabletop_07_Revision_02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "alchemy_tabletop_07_independent_review.txt",
+      "source_review_sha256": "de326cc8f98dce590e7bebe669d2a649e1dbc59ff25f3d285a7089d915c64876",
+      "reader_report_file": "QA_Reports/alchemy_tabletop_07_independent_review.txt",
+      "reader_report_sha256": "de326cc8f98dce590e7bebe669d2a649e1dbc59ff25f3d285a7089d915c64876"
+    },
+    {
+      "logical_pack_id": "Lantern_Guard_Post_Props_08",
+      "selected_archives": [
+        "Lantern_Revision02_guardpost_08_frozen.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "support_guardpost_08_independent_review.txt",
+      "source_review_sha256": "8ce4810c3def7597d49ce17bee2f4844a01b7dfae84e6d3bd8f684c6978afbaf",
+      "reader_report_file": "QA_Reports/support_guardpost_08_independent_review.txt",
+      "reader_report_sha256": "8ce4810c3def7597d49ce17bee2f4844a01b7dfae84e6d3bd8f684c6978afbaf"
+    },
+    {
+      "logical_pack_id": "Lantern_Utility_Pickups_09",
+      "selected_archives": [
+        "Lantern_Utility_Pickups_09_Revision_02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "utility_pickups_09_independent_review.txt",
+      "source_review_sha256": "114fa18dac9cb6c28753cb5216e9a8cecf86ac37f6a397c4b573c628c9750791",
+      "reader_report_file": "QA_Reports/utility_pickups_09_independent_review.txt",
+      "reader_report_sha256": "114fa18dac9cb6c28753cb5216e9a8cecf86ac37f6a397c4b573c628c9750791"
+    },
+    {
+      "logical_pack_id": "Lantern_Small_Building_Exteriors_v1",
+      "selected_archives": [
+        "Lantern_volume_17_small_buildings_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "volume_17_small_buildings_independent_review.txt",
+      "source_review_sha256": "5b6138262bbe957a3cc0698b9c9624b8e90850a0aa3d7dc1696d7cc9c026b1f1",
+      "reader_report_file": "QA_Reports/volume_17_small_buildings_independent_review.txt",
+      "reader_report_sha256": "5b6138262bbe957a3cc0698b9c9624b8e90850a0aa3d7dc1696d7cc9c026b1f1"
+    },
+    {
+      "logical_pack_id": "Lantern_Gameplay_View_Location_Concepts_v1",
+      "selected_archives": [
+        "Lantern_Location_Concepts_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "compositions_independent_review.txt",
+      "source_review_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a",
+      "reader_report_file": "QA_Reports/compositions_independent_review.txt",
+      "reader_report_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a"
+    },
+    {
+      "logical_pack_id": "Lantern_Containers_01",
+      "selected_archives": [
+        "Lantern_Containers01_CleanInk_r02a_COMPLETE.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "dated review text",
+      "source_review_file": "containers_01_independent_review.txt",
+      "source_review_sha256": "af42be9303272383abe72d766f06e356e39ec414c1522ab36f2611861d3f2ae5",
+      "reader_report_file": "QA_Reports/containers_01_independent_review.txt",
+      "reader_report_sha256": "ff8deb7092837411f81896731d4b8ac9f85a7b23a2ea8e41b9f44af295a1c7e4",
+      "embedded_manifest_status_note": "The embedded manifest was captured before the bounded audit and retains art_polished_motion_audit_pending. The later report referenced here is the current collection review status. The selected source-portability repair keeps original artwork and this pre-audit manifest content unchanged."
+    },
+    {
+      "logical_pack_id": "Lantern_Mechanisms_02",
+      "selected_archives": [
+        "Lantern_Mechanisms02_CleanInk_r02a_COMPLETE.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "mechanisms_02_independent_review.txt",
+      "source_review_sha256": "0f6758f2587a3b6ded15de188258f4045f8166483c0785757286612c9ac83c3b",
+      "reader_report_file": "QA_Reports/mechanisms_02_independent_review.txt",
+      "reader_report_sha256": "0f6758f2587a3b6ded15de188258f4045f8166483c0785757286612c9ac83c3b",
+      "embedded_manifest_status_note": "The embedded manifest was captured before the bounded audit and retains art_polished_motion_audit_pending. The later report referenced here is the current collection review status. The selected source-portability repair keeps original artwork and this pre-audit manifest content unchanged."
+    },
+    {
+      "logical_pack_id": "Lantern_Lighting_03",
+      "selected_archives": [
+        "Lantern_Lighting03_CleanInk_r02a_COMPLETE.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "lighting_03_independent_review.txt",
+      "source_review_sha256": "7b45cdb56b6815536e75b48dacc6f4b167bfbbc36fb1e0e2215978167f406900",
+      "reader_report_file": "QA_Reports/lighting_03_independent_review.txt",
+      "reader_report_sha256": "7b45cdb56b6815536e75b48dacc6f4b167bfbbc36fb1e0e2215978167f406900"
+    },
+    {
+      "logical_pack_id": "Lantern_Workshop_Containers_04",
+      "selected_archives": [
+        "Lantern_Workshop04_Clean_Ink_Complete.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "dated review text",
+      "source_review_file": "workshop_04_independent_review.txt",
+      "source_review_sha256": "f87a65ec6d0da6a550551cdf78a91ebfb96660db70f74bec15f3f9124dc0b6a2",
+      "reader_report_file": "QA_Reports/workshop_04_independent_review.txt",
+      "reader_report_sha256": "6add6714c7bda5b88ae104eb6405a00fc793e24c85f949041159141e3295e0c2"
+    },
+    {
+      "logical_pack_id": "Lantern_Hazards_05",
+      "selected_archives": [
+        "Lantern_Hazards05_CleanInk_r02a_COMPLETE.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "dated review text",
+      "source_review_file": "hazards_05_independent_review.txt",
+      "source_review_sha256": "7827f506459fba3c26270125e1c38518f43e6f46c96f9c8858a590c750c1129b",
+      "reader_report_file": "QA_Reports/hazards_05_independent_review.txt",
+      "reader_report_sha256": "29432bc10725aa2a0deac89c8ebb6bd3c2fedc0bff5a708b968784d24b36dc04"
+    },
+    {
+      "logical_pack_id": "Lantern_Ground_Surfaces_v1",
+      "selected_archives": [
+        "Lantern_Ground_Surfaces_Decals_Revision02a.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "surfaces_ground_r02a_independent_review.txt",
+      "source_review_sha256": "502582ed56c6076b5bd53c44f6eb60afc879109491712290b5ebff561766d53a",
+      "reader_report_file": "QA_Reports/surfaces_ground_r02a_independent_review.txt",
+      "reader_report_sha256": "502582ed56c6076b5bd53c44f6eb60afc879109491712290b5ebff561766d53a"
+    },
+    {
+      "logical_pack_id": "Lantern_Ground_Transitions_v1",
+      "selected_archives": [
+        "Lantern_Ground_Transitions_Revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "surfaces_transitions_independent_review.txt",
+      "source_review_sha256": "c745a2be306f92ef42bb62b0072c411dd68730d4ec2e270b17e6db4c5368eb88",
+      "reader_report_file": "QA_Reports/surfaces_transitions_independent_review.txt",
+      "reader_report_sha256": "c745a2be306f92ef42bb62b0072c411dd68730d4ec2e270b17e6db4c5368eb88"
+    },
+    {
+      "logical_pack_id": "Lantern_Dungeon_Floor_Features_v1",
+      "selected_archives": [
+        "Lantern_Floor_Features_Revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "surfaces_floor_features_independent_review.txt",
+      "source_review_sha256": "01641485160b06fc96fc99b9bebb4b35d91c33b3f42d1054bec5fdb85ed76d83",
+      "reader_report_file": "QA_Reports/surfaces_floor_features_independent_review.txt",
+      "reader_report_sha256": "01641485160b06fc96fc99b9bebb4b35d91c33b3f42d1054bec5fdb85ed76d83"
+    },
+    {
+      "logical_pack_id": "Lantern_Wall_Dressing_Faces_v1",
+      "selected_archives": [
+        "Lantern_Wall_Dressing_Revision02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "surfaces_wall_latest_independent_review.txt",
+      "source_review_sha256": "9f420c6371a37490bacf6069a38548024d4c3f92bb2882b1723db7b8a988ad90",
+      "reader_report_file": "QA_Reports/surfaces_wall_latest_independent_review.txt",
+      "reader_report_sha256": "9f420c6371a37490bacf6069a38548024d4c3f92bb2882b1723db7b8a988ad90"
+    },
+    {
+      "logical_pack_id": "combat_pack_v1",
+      "selected_archives": [
+        "Lantern_Motion_Combat_r02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "motion_combat_independent_review.txt",
+      "source_review_sha256": "fc69b7c727a23e078b68545d86181f2296eec82d78efbed3d549b7c9516163f4",
+      "reader_report_file": "QA_Reports/motion_combat_independent_review.txt",
+      "reader_report_sha256": "fc69b7c727a23e078b68545d86181f2296eec82d78efbed3d549b7c9516163f4"
+    },
+    {
+      "logical_pack_id": "ambient_pack_v1",
+      "selected_archives": [
+        "Lantern_Quiet_Ambient_Effects_v1.zip"
+      ],
+      "release_status": "retained_unchanged",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification."
+    },
+    {
+      "logical_pack_id": "occult_pack_v1",
+      "selected_archives": [
+        "Lantern_Illustrated_Occult_Material_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "effects_occult_independent_review.txt",
+      "source_review_sha256": "094a6480729ba3e0627583f7d79878c0c9b93f619bd0fd3595e7962bd0394184",
+      "reader_report_file": "QA_Reports/effects_occult_independent_review.txt",
+      "reader_report_sha256": "094a6480729ba3e0627583f7d79878c0c9b93f619bd0fd3595e7962bd0394184"
+    },
+    {
+      "logical_pack_id": "interaction_pack_v1",
+      "selected_archives": [
+        "Lantern_Interaction_Cues_v1_Assets.zip",
+        "Lantern_Interaction_Cues_v1_Source_and_Review.zip"
+      ],
+      "release_status": "retained_unchanged",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification."
+    },
+    {
+      "logical_pack_id": "environment_motion_v1",
+      "selected_archives": [
+        "Lantern_Motion_Environment_r02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "motion_environment_independent_review.txt",
+      "source_review_sha256": "fa1270083abc4763f17b5085ed1a3fa0121c25b94171ced842aeb47d7bf5fc47",
+      "reader_report_file": "QA_Reports/motion_environment_independent_review.txt",
+      "reader_report_sha256": "fa1270083abc4763f17b5085ed1a3fa0121c25b94171ced842aeb47d7bf5fc47"
+    },
+    {
+      "logical_pack_id": "scenic_mechanisms_v1",
+      "selected_archives": [
+        "Lantern_Illustrated_Scenic_Mechanisms_v02a_part01of03.zip",
+        "Lantern_Illustrated_Scenic_Mechanisms_v02a_part02of03.zip",
+        "Lantern_Illustrated_Scenic_Mechanisms_v02a_part03of03.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "dated review text",
+      "source_review_file": "scenic_r02a_independent_review.txt",
+      "source_review_sha256": "6305834a1d399970fa993db5dc84e259c142e33cd9ab2ca1a638e6effbcdda9d",
+      "reader_report_file": "QA_Reports/scenic_r02a_independent_review.txt",
+      "reader_report_sha256": "4783b0d3ca132da838fd9300cd14afdf615ad87914ffcff98d657515d10cd21e"
+    },
+    {
+      "logical_pack_id": "material_impacts_v1",
+      "selected_archives": [
+        "Lantern_Illustrated_Occult_Material_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "effects_materials_independent_review.txt",
+      "source_review_sha256": "f6cf2cd0265383da59d73832690ff650391e577b04ca0e626b96dbcab4ffdefa",
+      "reader_report_file": "QA_Reports/effects_materials_independent_review.txt",
+      "reader_report_sha256": "f6cf2cd0265383da59d73832690ff650391e577b04ca0e626b96dbcab4ffdefa"
+    },
+    {
+      "logical_pack_id": "weather_atmosphere_v1",
+      "selected_archives": [
+        "Lantern_Motion_Weather_r02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "motion_weather_independent_review.txt",
+      "source_review_sha256": "7c7773cd5254904a258e2ab00048591edcfe3775a20b2ceac417d923c53feb99",
+      "reader_report_file": "QA_Reports/motion_weather_independent_review.txt",
+      "reader_report_sha256": "7c7773cd5254904a258e2ab00048591edcfe3775a20b2ceac417d923c53feb99"
+    },
+    {
+      "logical_pack_id": "flare_treatments_v1",
+      "selected_archives": [
+        "Lantern_Motion_FlareTreatments_r02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "motion_flare_treatments_independent_review.txt",
+      "source_review_sha256": "7af0ddea0d38274a003174fe58cb0b4a36799fba9f5efa1aeec8ebf0fe6efc26",
+      "reader_report_file": "QA_Reports/motion_flare_treatments_independent_review.txt",
+      "reader_report_sha256": "7af0ddea0d38274a003174fe58cb0b4a36799fba9f5efa1aeec8ebf0fe6efc26"
+    },
+    {
+      "logical_pack_id": "Lantern_Clockwork_Beetle_06",
+      "selected_archives": [
+        "Lantern_Clockwork_Beetle_Ink_Revision02_r02b.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "dated review text",
+      "source_review_file": "beetle_r02b_independent_review.txt",
+      "source_review_sha256": "41d9c29f6c08936f2bcf57a1c952e5bd986ea3ffa309f43217464c9a1d178df5",
+      "reader_report_file": "QA_Reports/beetle_r02b_independent_review.txt",
+      "reader_report_sha256": "843c1d95902b79ead0d75d9cf04b0a10c311c6bc5928233ece3de28e6fb79917"
+    },
+    {
+      "logical_pack_id": "Lantern_Shroud_Wisp_v1",
+      "selected_archives": [
+        "Lantern_Shroud_Wisp_Ink_Revision02_r02a.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "shroud_wisp_independent_review.txt",
+      "source_review_sha256": "6803b6fdffa381d9e314fd80d4e3fff7c2e0629a8f18cc4916c73bf9c84630f1",
+      "reader_report_file": "QA_Reports/shroud_wisp_independent_review.txt",
+      "reader_report_sha256": "6803b6fdffa381d9e314fd80d4e3fff7c2e0629a8f18cc4916c73bf9c84630f1"
+    },
+    {
+      "logical_pack_id": "Lantern_Crypt_Entry_Scene_Study_v1",
+      "selected_archives": [
+        "Lantern_Crypt_Entry_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "compositions_independent_review.txt",
+      "source_review_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a",
+      "reader_report_file": "QA_Reports/compositions_independent_review.txt",
+      "reader_report_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a"
+    },
+    {
+      "logical_pack_id": "Lantern_Canal_Workshop_Scene_Study_v1",
+      "selected_archives": [
+        "Lantern_Canal_Workshop_CleanInk_v02.zip"
+      ],
+      "release_status": "complete_selected_release",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "compositions_independent_review.txt",
+      "source_review_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a",
+      "reader_report_file": "QA_Reports/compositions_independent_review.txt",
+      "reader_report_sha256": "f5316612ee44d43f74e7aa036aa7d2f1abde9e0c2780d33570ad3c71a111345a"
+    },
+    {
+      "logical_pack_id": "Lantern_Hero_KnownView_Idle_Study_v01",
+      "selected_archives": [
+        "Lantern_Hero_Idle_v01_Volume_01_Source_Preview.zip",
+        "Lantern_Hero_Idle_v01_Volume_02_Native_Frames.zip",
+        "Lantern_Hero_Idle_v01_Volume_03_HiRes_Proofs.zip"
+      ],
+      "release_status": "retained_unchanged",
+      "qa_scope": "Art/source package selection only; no engine, collision, exact generated camera or frame-rate certification.",
+      "current_review_status": "pass_bounded_review",
+      "review_date": "2026-10-06",
+      "review_date_basis": "recorded review date; individual text is undated",
+      "source_review_file": "canonical_hero_independent_review.txt",
+      "source_review_sha256": "b05ebcf10f4033f8357ed20b553d99694d23fe511e4c622f58d665ff0e10381a",
+      "reader_report_file": "QA_Reports/canonical_hero_independent_review.txt",
+      "reader_report_sha256": "b05ebcf10f4033f8357ed20b553d99694d23fe511e4c622f58d665ff0e10381a"
+    }
+  ]
+}

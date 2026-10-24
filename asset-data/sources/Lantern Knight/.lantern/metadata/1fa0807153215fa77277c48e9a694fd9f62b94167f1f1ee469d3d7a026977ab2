@@ -1,0 +1,31 @@
+LANTERN ENEMY OVERNIGHT INTEGRATION HANDOFF — 2026-10-08
+FINAL VERIFIED INVENTORY SNAPSHOT. Snapshot: 2026-10-08T08:52:41.018749+00:00
+
+VERIFIED SAVED COVERAGE
+18 new actors have DR move/attack baselines. 15 have all four move/attack headings.
+Partial coverage: Root-entangled stone saint move/attack DR+UL (DL/UR missing); Bell-bearing pilgrim DR+DL (UL/UR missing); Skeletal archer four-way move, attack DR+UL (DL/UR attack missing).
+18 of 18 new actors have saved DR hit+defeat packs in this snapshot. Still missing from verified cloud inventory: none.
+All non-DR hit/defeat directions remain unprovided for the new 18. No new animated idle or spawn is claimed.
+5 existing enemies have saved directional extension packs: Halo Veil Cantor, Candlebone Oracle, Waxmask Acolyte, Shroud Crawler, Bellbound Monk.
+Bellbound Monk: verified final saved extension is included; use its recorded revision.
+Existing enemies’ previous other states remain unchanged and are not newly authored or re-audited here.
+
+INSTALL ORDER AND FILES
+1. Start with the actor’s current approved baseline. For the new 18 use baseline runtime ZIP pointers; Shambler is canonical v02 using the same stable IDs. Install the existing enemies’ current baseline before their extensions (Waxmask unified v03; Oracle v02; Cantor compactv03; exact other dependency details in pack JSON).
+2. Add verified directional runtime extensions by stable actor ID + state + heading. Add DR reaction runtime packs separately. Do not overwrite unrelated baseline clips. Oracle preview_v02 is a preview correction using the same artifact IDs; it does not imply a new actor or new authored runtime coverage.
+3. Source ZIPs are portable rebuild/provenance material, not additional runtime content. Extract each runtime pack separately; archive roots differ. Paths inside a pack are relative to that archive’s extraction root. Do not flatten overlapping runtime directories.
+4. actor_coverage.json / .csv list every actor and explicit missing headings. pack_inventory.json lists pack dependencies, exact Library and Drive IDs, verified-folder identity, available hashes and notes. pack_artifacts.csv is the flat download/checksum index; pack_coverage.csv is the pack/state/heading index. runtime_metadata_reference contains exact small JSON copies from already available runtime archives only; absent copies are explicitly empty in pack_inventory.json. Unknown values remain null/blank; no archive hash has been invented. The metadata-only baseline_DR_reference preserves the already verified baseline technical contract. Its original baseline-only scope does not describe later extensions.
+
+RUNTIME CONTRACT
+Per-pack runtime JSON is authoritative for frames, atlas rectangles, frame durations, pivots, canvas, heading/clip PPU, event markers and end behavior. Do not substitute one actor-wide/global PPU when a heading or clip override exists. Numeric values absent from the current inventory are intentionally unknown here; inspect the referenced runtime pack.
+Honor explicit atlas rectangles and 4-pixel gutters where supplied. Do not slice by guessed grids or divide an atlas evenly. Preserve transparent padding, canvas and frame order.
+Keep gameplay/world position on an independent actor root with a child renderer. Registration, lean/bob, per-frame translation and documented scale corrections are already baked into the PNGs. Do not apply them twice or derive root motion from visible frame bounds. Read each pivot’s coordinate convention; top-left and bottom-left engine pivots require appropriate conversion.
+Move loops; attacks are one-shot. Honor all recovery/final holds. Emit each visual attack marker once per playthrough when the timeline crosses it, including skipped render frames; never retrigger merely because the marker cel remains visible. Reset the latch only for a new playthrough. These visual cues are not collision/damage guarantees. Gameplay owns damage windows, targets, projectiles, interruption rules and movement locks.
+Hit reactions recover as specified by each pack. Defeat ends in a held body pose and requires explicit engine cleanup/transition; read the specific pack’s end behavior. No automatic loot, disabling, despawning or combat-state logic is promised.
+Mourning Moth UR move/attack is an exact deterministic horizontal mirror of UL, not an independently authored view; lighting changes side. Other asymmetric actors must not be mirrored to fill gaps. Missing directions remain missing: choose an existing approved heading as an explicit gameplay fallback only if acceptable, or author the absent clip later. Do not relabel a fallback as authored coverage.
+
+ACCEPTANCE / LIMITATIONS
+This is a metadata and cloud-delivery handoff, not a game integration or engine validation. No claim of collision accuracy or in-engine QA is made. Validate import filtering/alpha, atlas slicing, ground/hover pivot, state/heading scale, variable-delta timing, loop seams, transitions, facing selection, exactly-once events and held-body cleanup in the target engine.
+Per-actor generation limitations and known authored compromises remain in baseline_DR_reference and the referenced packs. All stable IDs/names are retained verbatim from the verified inventory.
+The full batch folder is https://drive.google.com/drive/folders/1aN16qvj3xSiG4LpTyfPQGwPiZMTKqPfe
+This ZIP contains metadata only; it duplicates no PNGs or asset archives.

@@ -1,0 +1,20 @@
+{
+  "native/01_turn_15.png": "4f45c6fadb1767dcdb3912f3bd5920111e73b0cd30dc6ad846e88412b10ceca4",
+  "native/06_turn_90.png": "3b30edab5b3316f48b7c4bb7e1268ec68266f0d875054213b424edc1e343a542",
+  "native/03_turn_45.png": "6755ff2a956903ffcfae43352a3de8dc96ae9e56275d4aa7bfec2f9f4ba276da",
+  "native/00_dormant.png": "77bf4eb601b429acbf864a69b2049e4296797ff8eff29ddf2c06c7123f342078",
+  "native/02_turn_30.png": "28b9e1e58897f3a180bac4bc54b5c9b84a99513c91ca3778b79e495478764f0d",
+  "native/07_locked_active.png": "0d627eca127fa94860d43529ef85ceae578f0f4628086186728fa1efe920b380",
+  "native/04_turn_60.png": "f8377fc155ae8d83cfda2511e924870c8ad94877a7273cb120caa240ac1b4d62",
+  "native/05_turn_75.png": "f6b322266e0f88f627b001b896d2518b69a4eb452ed8ea47ebb160c0e97bcb8d",
+  "runtime/01_turn_15.png": "945d374734e82d76b1b3432636d2a569d988f58fe3b8e8efd715813e7e7e3160",
+  "runtime/06_turn_90.png": "20fc35870ab8a606cc648975070d2d8fce13a1491e311d5252a16188912c6da3",
+  "runtime/03_turn_45.png": "b6080e0e9b4ab581d2f75c6b41cbc0c04df0a8342aa271c7b7aaa3df7c1adabd",
+  "runtime/00_dormant.png": "02a6cc8152ad8990550dbe13fa7967da6ba1414234e86b33b197bfa827072d1c",
+  "runtime/02_turn_30.png": "bdbc18ca6288bdf64a90daa2765e917f8580ad9b558aa01bda881f2240f9cdc9",
+  "runtime/07_locked_active.png": "9bf56761f4f93e6c46700b6c71133927695d8a0f4c6ca03a3998df62f954f9bc",
+  "runtime/04_turn_60.png": "18e4ea936df56994e9938da5bd97ea1e4cf3d6f28831b8dcff5552ffde1148a0",
+  "runtime/05_turn_75.png": "62e92f322a3cdb5660a77c958e69c2bb08b32b0a575c6af7f00da969fe039c68",
+  "states/end.png": "0d627eca127fa94860d43529ef85ceae578f0f4628086186728fa1efe920b380",
+  "states/start.png": "77bf4eb601b429acbf864a69b2049e4296797ff8eff29ddf2c06c7123f342078"
+}

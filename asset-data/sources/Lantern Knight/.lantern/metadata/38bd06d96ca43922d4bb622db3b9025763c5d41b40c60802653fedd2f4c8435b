@@ -1,0 +1,15 @@
+{
+  "id": "lantern_resource_concept_03_cured_leather_roll",
+  "name": "Cured leather roll",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/03_cured_leather_roll.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Plastic-looking red leather curl; use flatter dark fold shapes and irregular cut edge.",
+  "pack": "Lantern - Resource Pickups 03",
+  "folder": "resources_03",
+  "destination": "lantern_revision_02/equipment/resources_03/assets/03_cured_leather_roll.png",
+  "prompt": "Create a NEW image from scratch. The supplied canonical C/RUST image is STYLE REFERENCE ONLY: match its clean hand-inked variable contour, broad flat angular shadow masses, restrained earth and slate palette. Do not depict the reference person. Subject: A CURED LEATHER ROLL: thick dull umber hide rolled loosely with one irregular cut flap hanging outward, charcoal-black interior curl, tawny cut edge, restrained broad fold shapes. View: approximate orthographic game camera elevation 35.264 degrees, azimuth 45 degrees, seeing top and two sides. Ground-drop pose on invisible horizontal plane where appropriate. Polished CLEAN INK dark fantasy illustration, assertive tapered black contours, economical broken internal lines, broad connected deep shadow shapes designed across material surfaces. Smooth mostly flat color fills. Material-specific intentional silhouettes and selective meaningful edges. NO grain, NO stipple, NO dense scratches, NO tiny hatch shading, NO glossy specular bevel strips, NO polygon faces, NO photorealism, NO 3D render. Single isolated asset or named assembly only. Composition: centered modest-sized subject entirely inside central 65 percent of square canvas, ample transparent padding on ALL sides. True transparent alpha background, no ground, no cast shadow, no halo, no vignette, no border, no text or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-ae02eb6d-a1c3-42e1-a016-5fdb393b3ad9.png",
+  "review": "Passed large overview and 64px light/dark proxy; native alpha preserved."
+}

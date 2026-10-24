@@ -1,0 +1,110 @@
+{
+  "id": "ZB02",
+  "name": "Gravetoll Hauler",
+  "family": "03 Zombies",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1lU6WlrBD_Mfl5kAjTSURbgAhmLS8bZLo",
+  "source_url": "https://drive.google.com/file/d/1lU6WlrBD_Mfl5kAjTSURbgAhmLS8bZLo/view?usp=drivesdk",
+  "source_archive": "03_zombies_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/03_zombies_selection_pack/03_zombies/assets/ZB02_gravetoll_hauler.png",
+  "source_sha256": "c88791b222dca9dfc84645cb1c6f394b7045b0987b558bd5cea7c4ac805e8e3d",
+  "remove_components_below": 2000,
+  "direction": "UR",
+  "facing": "screen upper-right (rear three-quarter)",
+  "baseline_dependency": {
+    "package": "ZB02_runtime.zip",
+    "sha256": "f1fc0eb5fdaedfd19b95beefa8411e55f6d2e0714fc62074fc715a5606c6fed1",
+    "direction": "DR",
+    "unchanged": true
+  },
+  "holds": {
+    "move": [
+      8,
+      7,
+      7,
+      7,
+      8,
+      11
+    ],
+    "attack": [
+      8,
+      10,
+      5,
+      8,
+      7,
+      12
+    ]
+  },
+  "top_crop_extra": {
+    "move": {
+      "3": 16,
+      "5": 16
+    }
+  },
+  "right_crop_extra": {
+    "attack": {
+      "3": 64
+    }
+  },
+  "clear_left_pixels": {
+    "attack": {
+      "4": 80
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -46,
+        0
+      ],
+      "1": [
+        -5,
+        0
+      ],
+      "2": [
+        0,
+        12
+      ],
+      "3": [
+        -49,
+        25
+      ],
+      "4": [
+        -12,
+        27
+      ],
+      "5": [
+        0,
+        25
+      ]
+    },
+    "attack": {
+      "0": [
+        -57,
+        0
+      ],
+      "1": [
+        10,
+        8
+      ],
+      "2": [
+        25,
+        -4
+      ],
+      "3": [
+        -40,
+        30
+      ],
+      "4": [
+        -5,
+        20
+      ],
+      "5": [
+        25,
+        15
+      ]
+    }
+  },
+  "reference_image_in_archive": "../../original.png"
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "lantern_archetype_concept_01_skeletal_archer",
+    "name": "Skeletal archer",
+    "audit_verdict": "keep",
+    "audit_direction": "Clear bow/skeleton asymmetry; pale rib grouping remains readable at 180 px.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_archetypes_06/assets/01_skeletal_archer.png",
+    "revised_image": "packs/02_archetypes_06/assets/01_skeletal_archer.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_archetypes_06/assets/01_skeletal_archer.png",
+    "sha256": "a5a1c79d1e7fa4856c9972b2541b310bd613ea924d1e4d19dee392dc26814c2b",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      347,
+      109,
+      1044,
+      1151
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  }
+]

@@ -6,7 +6,7 @@ import os from 'node:os';
 import { randomUUID } from 'node:crypto';
 import { gzipSync, gunzipSync } from 'node:zlib';
 import { safeRelative } from './files';
-import { cacheRoot, CACHE_LIMIT, projectRoot } from './paths';
+import { cacheRoot, CACHE_LIMIT, projectRoot, sourceLibraryRoot } from './paths';
 
 type Owner = { pid: number; host: string };
 const owner = (): Owner => ({ pid: process.pid, host: os.hostname() });
@@ -110,13 +110,7 @@ export class AssetCache {
       path.resolve(root) === os.homedir() ||
       path.resolve(root) === projectRoot.replace(/[/\\]$/, '') ||
       path.resolve(root).startsWith(projectRoot) ||
-      path
-        .resolve(root)
-        .startsWith(
-          path.join(
-            process.env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents', 'Asset Library'),
-          ),
-        )
+      path.resolve(root).startsWith(sourceLibraryRoot())
     )
       throw new Error('Asset cache must be separate from project and source storage');
     if (!Number.isSafeInteger(limit) || limit <= 0)

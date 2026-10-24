@@ -1,0 +1,11 @@
+exhausted_idle_DR_v02
+
+Generated test animation artwork; engine integration, collisions, gameplay state changes and root motion are not implemented.
+Redrawn breathing cels, with uniform 480 x 500 source-cell pitch and identical (16,6) transparent inset into 512 x 512 cells. This follows the actual native drawing layout rather than the requested 512 grid that the generator did not honor.
+No resampling, AI upscaling, mirroring, mesh warping, interpolation or per-cel registration. Figure RGBA values inside each uniform source rectangle are unchanged. Discarded outer sheet margins contain no alpha>16 visible artwork.
+Fixed canvas and common pivot do not mathematically lock every boot contour. Small native contour/foot variation remains and should be checked in engine. No pixel-perfect seamless-loop claim.
+Native alpha includes alpha=1 transparent-background residue within cropped cells and peak opacity of 254; transparent padding has zero alpha. Native source bytes were preserved.
+Camera and PPU are visual approximations. PPU 292 is a clip-wide starting estimate based on upright height versus canonical ready at nominal 350 PPU, not a metric camera solve.
+The existing ready/idle and loop endpoints are distinct drawings. Review host transitions before shipping.
+
+Both props remain held. MP4 is an opaque review preview. Use the supplied 60Hz holds, not one unique drawing per render frame.

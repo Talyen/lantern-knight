@@ -1,0 +1,204 @@
+{
+  "scene": "abandoned_orchard",
+  "approved_native_sha256": "5cb83c862f5633f59687e861b8e4f16db86157436c9275f338b03137f228a347",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "master_dimensions": [
+    6144,
+    4096
+  ],
+  "sourcekit_contents": [
+    {
+      "path": "README.txt",
+      "sha256": "ac209ed80b1171b8104844d00f82eb142ae2462c2e18e484f392aa3454a4dfb5",
+      "size_bytes": 1769
+    },
+    {
+      "path": "actual_parameters.json",
+      "sha256": "cff2bf5777621b62833a315771cfb20fb9b923a785394ecfcd3b1bc19f48b3f5",
+      "size_bytes": 1550
+    },
+    {
+      "path": "exact_prompt.txt",
+      "sha256": "40723062b710bae1f112ff3febf4be99f77adbd93a901812c5fdf5663b5a8c2a",
+      "size_bytes": 1343
+    },
+    {
+      "path": "generation_verification.json",
+      "sha256": "47f4b9abf18db15ae79c8295c5f9e6e5bde82ca4059b518ea01b80a77843150e",
+      "size_bytes": 445
+    },
+    {
+      "path": "inference/build_scene_review.py",
+      "sha256": "7cacde13cb4bc60659e3913e2aef109d88b2a17455ba20997f1381686f770c7c",
+      "size_bytes": 4048
+    },
+    {
+      "path": "inference/check_scene_seams.py",
+      "sha256": "979b505dcdd77f8ff2015d61f027d14ca18e4ac11e4bc0418f75b3c453a02cce",
+      "size_bytes": 1805
+    },
+    {
+      "path": "inference/run_isolated.py",
+      "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f",
+      "size_bytes": 3465
+    },
+    {
+      "path": "inference/run_test.py",
+      "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236",
+      "size_bytes": 2347
+    },
+    {
+      "path": "metrics/resume_config.json",
+      "sha256": "199169a21c3e8a2dd6f1ded0cc12c2c1efc00a3c62da0bd3fa4717261ce202eb",
+      "size_bytes": 137
+    },
+    {
+      "path": "metrics/run_metadata.json",
+      "sha256": "673a15c4b85ac92dbfd7b429855ce15ad205c4425bef4feb31c7851e4e0a9c5d",
+      "size_bytes": 16843
+    },
+    {
+      "path": "metrics/seam_metrics.json",
+      "sha256": "8474e86f526dc1ce09fb73bd448e38ada3f09b1c27cc117a11fbf580252b99fd",
+      "size_bytes": 604
+    },
+    {
+      "path": "native_floor.png",
+      "sha256": "5cb83c862f5633f59687e861b8e4f16db86157436c9275f338b03137f228a347",
+      "size_bytes": 3546761
+    },
+    {
+      "path": "output_binding.json",
+      "sha256": "af234c8a735a0f22658feadcbbaa10e1907af2206d77be2d89de1fd4791bb7e8",
+      "size_bytes": 911
+    },
+    {
+      "path": "provenance/Real-ESRGAN-LICENSE.txt",
+      "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2",
+      "size_bytes": 1519
+    },
+    {
+      "path": "provenance/lossless_encoding.json",
+      "sha256": "bd24d07991b0d056e75297e79d07538c03f4731223665951afb3498cba2ff4dd",
+      "size_bytes": 647
+    },
+    {
+      "path": "provenance/ncnn-LICENSE.txt",
+      "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255",
+      "size_bytes": 6427
+    },
+    {
+      "path": "provenance/runtime_provenance.json",
+      "sha256": "f7e4db22b20d55f067785ef7d0bd983f9fecbbaf092f43e2e9f1423e553182df",
+      "size_bytes": 816
+    },
+    {
+      "path": "references/canonical_hero.png",
+      "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+      "size_bytes": 204034
+    },
+    {
+      "path": "review_config.json",
+      "sha256": "6b3bb5fa8b3a9ac1471288395271a9bcb8f439c62176e356e5fdc36e8d016c07",
+      "size_bytes": 1214
+    },
+    {
+      "path": "review_views_metadata.json",
+      "sha256": "030f789b47a99b6a08a89995541d42ba59a816412309a386e03507fd1ba16200",
+      "size_bytes": 1726
+    }
+  ],
+  "deliverables": [
+    {
+      "file": "LANTERN_abandoned_orchard_AI2x_3072x2048.png",
+      "size_bytes": 9710019,
+      "sha256": "9baf781a98d4c2cb3c54dc8677256f9f9a0387ae744c5dc9c943291d580a39f1",
+      "dimensions": [
+        3072,
+        2048
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_AI4x_Master_6144x4096.png",
+      "size_bytes": 32265836,
+      "sha256": "0e2f9f92607ecbad175b0d84d89bafb9bbb25979a3a15bd57ebf0235cb838bac",
+      "dimensions": [
+        6144,
+        4096
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_Hero160_Display3840x2560.png",
+      "size_bytes": 14495934,
+      "sha256": "b0f34ed59254c9afd5bdd57c890f5648e40ec559a8eb6a3c8faf4b221e9f921c",
+      "dimensions": [
+        3840,
+        2560
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_README.txt",
+      "size_bytes": 1769,
+      "sha256": "ac209ed80b1171b8104844d00f82eb142ae2462c2e18e484f392aa3454a4dfb5",
+      "dimensions": null
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_central_orchard_path_Hero160.png",
+      "size_bytes": 2049334,
+      "sha256": "266785e8bdb7893dbfa0f6729f373b83883c58f776dfc046168350ca729dcb8e",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_gameplay_contact_sheet.png",
+      "size_bytes": 970894,
+      "sha256": "94051a7d3a63c35591bdd068dea4a297ae1b83f6cca7a5bfe51779d59cecc176",
+      "dimensions": [
+        1536,
+        399
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_lower_orchard_gate_Hero160.png",
+      "size_bytes": 2099935,
+      "sha256": "232f2375d960c0c04ccb015c041366f0b5c50e540897afa5df1135da95caa396",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_press_house_approach_Hero160.png",
+      "size_bytes": 2320477,
+      "sha256": "3cd5b800ce09c82cefd1ace4043fedee7839e5d2415bdb6c8531056ee0e2e3fb",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_same_crop_Lanczos_vs_AI.png",
+      "size_bytes": 2157238,
+      "sha256": "a1bbf3bdf4887ae8feec08d341398113d1ee97e75adcad36240cbda862df13a0",
+      "dimensions": [
+        2048,
+        740
+      ]
+    },
+    {
+      "file": "LANTERN_abandoned_orchard_whole_map_crop_overview.png",
+      "size_bytes": 2948714,
+      "sha256": "eca00244e7676c576f83f14801ea2b1e59c4b970052afae79e60c229b7ac2a15",
+      "dimensions": [
+        1536,
+        1110
+      ]
+    }
+  ],
+  "created_utc": "2026-10-09T17:25:33.525322+00:00"
+}

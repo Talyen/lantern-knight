@@ -1,0 +1,278 @@
+{
+  "household_chest": {
+    "action": "open",
+    "frame_count": 4,
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold",
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "extraction": [
+      {
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          241,
+          228
+        ]
+      },
+      {
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          239,
+          206
+        ]
+      },
+      {
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          241,
+          206
+        ]
+      },
+      {
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          247,
+          250
+        ]
+      }
+    ]
+  },
+  "market_hamper": {
+    "action": "open",
+    "frame_count": 4,
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold",
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "extraction": [
+      {
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          241,
+          206
+        ]
+      },
+      {
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          240,
+          224
+        ]
+      },
+      {
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          242,
+          206
+        ]
+      },
+      {
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          238,
+          206
+        ]
+      }
+    ]
+  },
+  "household_barrel": {
+    "action": "break",
+    "frame_count": 4,
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold",
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "extraction": [
+      {
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          241,
+          222
+        ]
+      },
+      {
+        "source_crop": [
+          543,
+          0,
+          1061,
+          724
+        ],
+        "translation": [
+          253,
+          206
+        ]
+      },
+      {
+        "source_crop": [
+          1061,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          228,
+          230
+        ]
+      },
+      {
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          256,
+          230
+        ]
+      }
+    ]
+  },
+  "pantry_jar": {
+    "action": "break",
+    "frame_count": 4,
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold",
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "extraction": [
+      {
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          241,
+          224
+        ]
+      },
+      {
+        "source_crop": [
+          543,
+          0,
+          1085,
+          724
+        ],
+        "translation": [
+          241,
+          206
+        ]
+      },
+      {
+        "source_crop": [
+          1085,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          240,
+          256
+        ]
+      },
+      {
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          240,
+          206
+        ]
+      }
+    ]
+  }
+}

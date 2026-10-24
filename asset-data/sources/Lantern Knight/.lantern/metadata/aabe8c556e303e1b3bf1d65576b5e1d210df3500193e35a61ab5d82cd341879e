@@ -1,0 +1,194 @@
+[
+  {
+    "oldID": "layered_flame_tongues__d000",
+    "newID": "layered_flame_tongues__d000",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d045",
+    "newID": "layered_flame_tongues__d045",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d090",
+    "newID": "layered_flame_tongues__d090",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d135",
+    "newID": "layered_flame_tongues__d135",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d180",
+    "newID": "layered_flame_tongues__d180",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d225",
+    "newID": "layered_flame_tongues__d225",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d270",
+    "newID": "layered_flame_tongues__d270",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "layered_flame_tongues__d315",
+    "newID": "layered_flame_tongues__d315",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d000",
+    "newID": "fractured_amber_panes__d000",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d045",
+    "newID": "fractured_amber_panes__d045",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d090",
+    "newID": "fractured_amber_panes__d090",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d135",
+    "newID": "fractured_amber_panes__d135",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d180",
+    "newID": "fractured_amber_panes__d180",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d225",
+    "newID": "fractured_amber_panes__d225",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d270",
+    "newID": "fractured_amber_panes__d270",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "fractured_amber_panes__d315",
+    "newID": "fractured_amber_panes__d315",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d000",
+    "newID": "curling_ember_ribbons__d000",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d045",
+    "newID": "curling_ember_ribbons__d045",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d090",
+    "newID": "curling_ember_ribbons__d090",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d135",
+    "newID": "curling_ember_ribbons__d135",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d180",
+    "newID": "curling_ember_ribbons__d180",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d225",
+    "newID": "curling_ember_ribbons__d225",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d270",
+    "newID": "curling_ember_ribbons__d270",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  },
+  {
+    "oldID": "curling_ember_ribbons__d315",
+    "newID": "curling_ember_ribbons__d315",
+    "status": "repaired",
+    "oldSourceFrames": 18,
+    "newSourceFrames": 24,
+    "timingChange": true
+  }
+]

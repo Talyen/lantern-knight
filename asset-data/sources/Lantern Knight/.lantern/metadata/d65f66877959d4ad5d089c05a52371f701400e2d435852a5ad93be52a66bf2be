@@ -1,0 +1,98 @@
+{
+  "alpha": [
+    {
+      "frame": "search_00.png",
+      "bbox": [
+        20,
+        42,
+        532,
+        532
+      ],
+      "canvas": [
+        552,
+        552
+      ],
+      "clipping": false
+    },
+    {
+      "frame": "search_01.png",
+      "bbox": [
+        20,
+        42,
+        532,
+        532
+      ],
+      "canvas": [
+        552,
+        552
+      ],
+      "clipping": false
+    },
+    {
+      "frame": "search_02.png",
+      "bbox": [
+        20,
+        42,
+        532,
+        532
+      ],
+      "canvas": [
+        552,
+        552
+      ],
+      "clipping": false
+    },
+    {
+      "frame": "search_03.png",
+      "bbox": [
+        20,
+        42,
+        532,
+        532
+      ],
+      "canvas": [
+        552,
+        552
+      ],
+      "clipping": false
+    },
+    {
+      "frame": "search_04.png",
+      "bbox": [
+        20,
+        42,
+        532,
+        532
+      ],
+      "canvas": [
+        552,
+        552
+      ],
+      "clipping": false
+    },
+    {
+      "frame": "search_05.png",
+      "bbox": [
+        20,
+        42,
+        532,
+        532
+      ],
+      "canvas": [
+        552,
+        552
+      ],
+      "clipping": false
+    }
+  ],
+  "everyFrameVisuallyInspected": true,
+  "lightAndDarkInspected": true,
+  "stationaryBody": "Locked via source mask",
+  "noDrawnLoot": true,
+  "finalState": "Open; exact held duplicate",
+  "knownLimitations": [
+    "Small native drawer linework/handle variation",
+    "Artist approximation of requested camera angle",
+    "Six source cels; five unique runtime cels"
+  ]
+}

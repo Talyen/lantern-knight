@@ -1,0 +1,70 @@
+{
+  "scene": "last_watchtower",
+  "method": "Fresh built-in image_gen followed by official Real-ESRGAN x4plus-anime6B NCNN CPU inference;2x and display versions downsampled from AI4x",
+  "native": [
+    1536,
+    1024
+  ],
+  "ai_master": [
+    6144,
+    4096
+  ],
+  "derived_2x": [
+    3072,
+    2048
+  ],
+  "integration_display_dimensions": [
+    2715,
+    1810
+  ],
+  "standard_scene_display_dimensions": [
+    3840,
+    2560
+  ],
+  "relative_display_area": 0.4998931884765625,
+  "display_scale_from_native": 1.767578125,
+  "hero_display_visible_height": 160,
+  "hero_native_equivalent_height": 90.51933701657458,
+  "master_pixels_are_not_world_size": true,
+  "canonical_hero_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "native_sha256": "4e92d52e60e470af59359c5c0c5e5d74005b34db971409a359a31e9979c31451",
+  "master_sha256": "21841e2a804ca74bc8384a722246cdedd43d24f0e9f9710e7001aa9d04472d7c",
+  "final_exact_prompt": "exact_regeneration_prompt.txt",
+  "native_edited": false,
+  "camera_geometry_validated": false,
+  "engine_integration": "None; scenery baked, no navigation/collision/occlusion validation",
+  "seam_qa": [
+    {
+      "name": "architecture",
+      "junction_source_xy": [
+        960,
+        320
+      ],
+      "check_source_box": [
+        912,
+        272,
+        1008,
+        368
+      ],
+      "mean_abs_rgb_difference": 0.017329463252314815,
+      "max_abs_rgb_difference": 3.0,
+      "pct_pixels_over_2": 0.005425347222222222
+    },
+    {
+      "name": "courtyard",
+      "junction_source_xy": [
+        800,
+        640
+      ],
+      "check_source_box": [
+        752,
+        592,
+        848,
+        688
+      ],
+      "mean_abs_rgb_difference": 0.007914225260416666,
+      "max_abs_rgb_difference": 3.0,
+      "pct_pixels_over_2": 0.0013563368055555555
+    }
+  ]
+}

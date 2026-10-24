@@ -1,0 +1,11 @@
+Use case: stylized-concept. Create ONE coherent production sprite sheet for Lantern: exactly EIGHT frames in a perfectly regular FOUR columns by TWO rows grid, transparent RGBA background, no labels or grid lines. Each cell same size and same locked isometric camera, orthographic 35.2643897 degrees elevation, 45 azimuth. Input image is the identity reference: the assembled warm russet wooden shipping crate, diagonal timber braces on two sides, broad nail heads, broad top lid battens and strong chipped corner posts. Match this exact crate closely. Camera, scale and ground contact world root never move. Root at cell center x, 75% y; whole intact box occupies about 48% cell width and 54% height so splinters have ample room.
+In reading order, eight hand drawn animation poses of FULL structural smash:
+1 intact closed crate,
+2 strong jagged structural cracks open across lid and side boards, wood stretches before breaking, silhouette mostly intact,
+3 face boards and diagonal braces snap and lift outward, lid breaks into broad plank pieces, remaining lower corner posts stay rooted,
+4 outward kinetic apex, broad recognizable board pieces flying up and sideways, all walls collapsed, original corner lower stumps and floor remain anchored at original ground position,
+5 the SAME large board pieces fall in downward arcs, recognizable grain and nailheads retained,
+6 ground impact/bounce, broad planks strike beside original footprint,
+7 pieces settle into a low wide debris pile,
+8 final completely destroyed low stable debris pile, persistent on ground, no upright box walls left.
+Give strong readable silhouette changes between frames3-6, very visible clean wood splinter ends, a few long small expressive splinters, no arbitrary triangles, no metal shrapnel or hinges. Mature graphic-novel CLEAN INK art, strong thick-to-thin black contours, warm tan/raw-wood chipped highlights, broad dark umber cel shadows, sparse tapered woodgrain marks and flat color areas. Preserve construction identity and palette from reference. NO smoke/fire/glow, no text, no blurred motion, no photorealism, no checkerboard baked into background, no cast ground shadows. Frame contents must never overlap adjacent cells; ample transparent cell gutters. Native high-resolution sheet, 2048x2048 requested. Sunburst 2.5 is the user's style/workflow label.

@@ -1,0 +1,2 @@
+SCREEN-DOWN SIX-CEL BALANCED RUNTIME TEST
+Original generated native cels1,2,3,4,5,8 retained; six poses form one stride. 40tick loop at60ticks/sec. Holds10/5/5/5/5/10. Exact source ticks0/5/10/15/20/35, intentionally retimed. Not source-exact8phase. Padded768x768, pivot384,640top-left,280PPU approximate. Use either frames or atlas. Native art pixels unscaled and unmorphed. Fewer right-stride poses disclosed. Ordered-cel anatomy/gear/single-stride and timing reviewed. Realtime playback and engine validation not claimed.

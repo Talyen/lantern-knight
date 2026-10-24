@@ -1,0 +1,15 @@
+{
+  "id": "lantern_drop_concept_01_ward_tower_shield",
+  "name": "Ward tower shield",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/01_ward_tower_shield.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Blank bevelled rectangular shield, no authored mark or ink shadow rhythm.",
+  "pack": "Lantern - World Drop Gear 02",
+  "folder": "world_drop_gear_02",
+  "destination": "lantern_revision_02/equipment/world_drop_gear_02/assets/01_ward_tower_shield.png",
+  "prompt": "Create a NEW image from scratch. The supplied canonical C/RUST image is STYLE REFERENCE ONLY: match its clean hand-inked variable contour, broad flat angular shadow masses, restrained earth and slate palette. Do not depict the reference person. Subject: A WARD TOWER SHIELD: tall narrow coffin-like dark timber shield with one chipped shoulder and irregular black iron staples, worn off-center ivory ward stripe, heavy lower edge. View: approximate orthographic game camera elevation 35.264 degrees, azimuth 45 degrees, seeing top and two sides. Ground-drop pose on invisible horizontal plane where appropriate. Polished CLEAN INK dark fantasy illustration, assertive tapered black contours, economical broken internal lines, broad connected deep shadow shapes designed across material surfaces. Smooth mostly flat color fills. Material-specific intentional silhouettes and selective meaningful edges. NO grain, NO stipple, NO dense scratches, NO tiny hatch shading, NO glossy specular bevel strips, NO polygon faces, NO photorealism, NO 3D render. Single isolated asset or named assembly only. Composition: centered modest-sized subject entirely inside central 65 percent of square canvas, ample transparent padding on ALL sides. True transparent alpha background, no ground, no cast shadow, no halo, no vignette, no border, no text or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-6fe9eb3c-9564-47a1-837c-7528f93ec619.png",
+  "review": "Passed large overview and 64px light/dark proxy. Differentiated forged tools, cloth, leather, bone and book binding; native alpha preserved. Generated camera approximate."
+}

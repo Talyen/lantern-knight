@@ -1,0 +1,921 @@
+[
+  {
+    "native_file": "source/b01_recoil_fold_v01_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "9870c9006b415a81caaf3c7ead5ae30951ca17e570f10305b1aa87398f21150c",
+    "prompt_file": "prompts/b01_recoil_fold_v01.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "reference/bridge_endpoints/death_02.png",
+      "reference/bridge_endpoints/death_03.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 3,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.54,
+        "integer_translation_px": [
+          386,
+          402
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          641,
+          970
+        ],
+        "registered_support_px": [
+          732.14,
+          925.8
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/b02_knee_descent_v01_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "d36388d1f3b9feae63425db5b4c284779885d3c6ec51c04cef71e8eae29071c0",
+    "prompt_file": "prompts/b02_knee_descent_v01.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "reference/bridge_endpoints/death_04.png",
+      "reference/bridge_endpoints/death_05.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 7,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.43,
+        "integer_translation_px": [
+          470,
+          530
+        ],
+        "support": "far left forward boot sole; knee still descending",
+        "native_support_px": [
+          1119,
+          900
+        ],
+        "registered_support_px": [
+          951.17,
+          917.0
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/b04_hip_drop_v01_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "db64522f6f29ea7fd33c5c96f2eba0ac8a748959bcfcede9a3ff7d492395da1e",
+    "prompt_file": "prompts/b04_hip_drop_v01.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "reference/bridge_endpoints/death_09.png",
+      "reference/bridge_endpoints/death_10.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 11,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.4,
+        "integer_translation_px": [
+          498,
+          548
+        ],
+        "support": "anatomically checked near RIGHT knee rolls into hip transfer",
+        "native_support_px": [
+          785,
+          905
+        ],
+        "registered_support_px": [
+          812.0,
+          910.0
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/b05_shoulder_landing_v01_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "1ed5500e089aa9ee07da1508eaf40a82d8c3df140b5af2b9d1b3e3a849563958",
+    "prompt_file": "prompts/b05_shoulder_landing_v01.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "reference/bridge_endpoints/death_13.png",
+      "reference/bridge_endpoints/death_14.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 16,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "uniform_source_scale": 0.43,
+        "integer_translation_px": [
+          459,
+          546
+        ],
+        "support": "near hip/coat contact; shoulder landing bridge",
+        "native_support_px": [
+          720,
+          838
+        ],
+        "registered_support_px": [
+          768.6,
+          906.34
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/b06_terminal_settle_v02_native.png",
+    "native_size_px": [
+      1774,
+      887
+    ],
+    "native_sha256": "94569da5729e272018d12b229589aaf72408b36af2d91a84c04671f264cc12d2",
+    "prompt_file": "prompts/b06_terminal_settle_v02.txt",
+    "reference_images_in_prompt_order": [
+      "source/death24_v03_native.png",
+      "reference/R0_ready_native.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 21,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1774,
+          887
+        ],
+        "uniform_source_scale": 0.38,
+        "integer_translation_px": [
+          461,
+          678
+        ],
+        "support": "same D0 hip/coat contact; final residual settle",
+        "native_support_px": [
+          809,
+          601
+        ],
+        "registered_support_px": [
+          768.42,
+          906.38
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/death24_v03_native.png",
+    "native_size_px": [
+      1774,
+      887
+    ],
+    "native_sha256": "70dd01259732ff45d27347bd37199e21bd55980bec25115ae595631fc722cc64",
+    "prompt_file": "prompts/death24_v03.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 22,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1774,
+          887
+        ],
+        "uniform_source_scale": 0.38,
+        "integer_translation_px": [
+          461,
+          678
+        ],
+        "support": "near hip/coat contact; terminal D0",
+        "native_support_px": [
+          809,
+          601
+        ],
+        "registered_support_px": [
+          768.42,
+          906.38
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/death_master_01_native.png",
+    "native_size_px": [
+      1312,
+      1199
+    ],
+    "native_sha256": "6b0795e64a340f7415b3638764733de5de2718a42b2dedc904eaaadde21d2a9d",
+    "prompt_file": "prompts/death_master_01.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "source/death24_v03_native.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 2,
+        "cell": 0,
+        "crop": [
+          66,
+          12,
+          570,
+          625
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          601,
+          424
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          223,
+          610
+        ],
+        "registered_support_px": [
+          732.88,
+          926.32
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 4,
+        "cell": 1,
+        "crop": [
+          680,
+          70,
+          1173,
+          611
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          617,
+          483
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          817,
+          597
+        ],
+        "registered_support_px": [
+          732.08,
+          925.68
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 5,
+        "cell": 2,
+        "crop": [
+          66,
+          658,
+          640,
+          1182
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          584,
+          506
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          243,
+          1158
+        ],
+        "registered_support_px": [
+          732.68,
+          926.0
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 10,
+        "cell": 3,
+        "crop": [
+          673,
+          733,
+          1294,
+          1193
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          588,
+          614
+        ],
+        "support": "anatomically checked grounded near RIGHT knee, both knees down",
+        "native_support_px": [
+          940,
+          1085
+        ],
+        "registered_support_px": [
+          812.28,
+          909.68
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/death_master_02_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "9d99e19054b802cf3e5980a151aa77be1c6661e65bc88f5668df39b65b9fe5de",
+    "prompt_file": "prompts/death_master_02.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "source/death24_v03_native.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 13,
+        "cell": 3,
+        "crop": [
+          796,
+          644,
+          1507,
+          1009
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          486,
+          671
+        ],
+        "support": "near hip/coat contact",
+        "native_support_px": [
+          1132,
+          924
+        ],
+        "registered_support_px": [
+          768.24,
+          906.2
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/death_master_02_v02_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "5523393edade766e712fdca9ebb68570de6689b630b50c5056378e4f366d9379",
+    "prompt_file": "prompts/death_master_02_v02.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "source/death24_v03_native.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 6,
+        "cell": 0,
+        "crop": [
+          37,
+          17,
+          756,
+          535
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          540,
+          589
+        ],
+        "support": "far left forward boot sole; near right knee descending",
+        "native_support_px": [
+          624,
+          486
+        ],
+        "registered_support_px": [
+          950.9,
+          917.3
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 8,
+        "cell": 1,
+        "crop": [
+          779,
+          103,
+          1515,
+          572
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          584,
+          631
+        ],
+        "support": "near right rear knee contact",
+        "native_support_px": [
+          1105,
+          502
+        ],
+        "registered_support_px": [
+          812.2,
+          910.3
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 9,
+        "cell": 2,
+        "crop": [
+          13,
+          575,
+          767,
+          967
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          562,
+          648
+        ],
+        "support": "near right rear knee contact",
+        "native_support_px": [
+          370,
+          950
+        ],
+        "registered_support_px": [
+          811.9,
+          910.5
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 12,
+        "cell": 3,
+        "crop": [
+          776,
+          605,
+          1527,
+          966
+        ],
+        "uniform_source_scale": 0.7,
+        "integer_translation_px": [
+          583,
+          676
+        ],
+        "support": "observed near RIGHT knee contour as hip begins descending",
+        "native_support_px": [
+          1103,
+          939
+        ],
+        "registered_support_px": [
+          811.9,
+          909.8
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/death_master_03_v02_native.png",
+    "native_size_px": [
+      1536,
+      1024
+    ],
+    "native_sha256": "5b7bd345d8c50fa2f8d16dcb2e08c815605b793eb5ced5e126b3642808337487",
+    "prompt_file": "prompts/death_master_03_v02.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "source/death24_v03_native.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 14,
+        "cell": 2,
+        "crop": [
+          2,
+          647,
+          794,
+          1004
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          477,
+          701
+        ],
+        "support": "observed folded hip/coat lower contact; shoulder descending",
+        "native_support_px": [
+          362,
+          901
+        ],
+        "registered_support_px": [
+          768.6,
+          906.74
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 17,
+        "cell": 3,
+        "crop": [
+          774,
+          720,
+          1536,
+          1005
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          474,
+          742
+        ],
+        "support": "observed near hip/coat lower contour; shoulder and cheek settle",
+        "native_support_px": [
+          1138,
+          923
+        ],
+        "registered_support_px": [
+          768.84,
+          906.43
+        ],
+        "multi_ground_contact_fit": null
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/death_master_04_native.png",
+    "native_size_px": [
+      1774,
+      887
+    ],
+    "native_sha256": "54f7f828c15492283e2d691c79248a704ac7d096e427ea0bd4ee5c924457895f",
+    "prompt_file": "prompts/death_master_04.txt",
+    "reference_images_in_prompt_order": [
+      "reference/R0_ready_native.png",
+      "source/death24_v03_native.png",
+      "reference/canonical_detail_face.png",
+      "reference/canonical_detail_lantern.png"
+    ],
+    "selected_drawings": [
+      {
+        "frame": 15,
+        "cell": 0,
+        "crop": [
+          8,
+          7,
+          875,
+          501
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          458,
+          633
+        ],
+        "support": "near hip/coat contact; coat lifted by landing",
+        "native_support_px": [
+          427,
+          376
+        ],
+        "registered_support_px": [
+          768.06,
+          906.06
+        ],
+        "multi_ground_contact_fit": null
+      },
+      {
+        "frame": 18,
+        "cell": 1,
+        "crop": [
+          897,
+          187,
+          1771,
+          513
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          488,
+          746
+        ],
+        "support": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+        "native_support_px": [
+          1433,
+          448
+        ],
+        "registered_support_px": [
+          884.64,
+          939.14
+        ],
+        "multi_ground_contact_fit": {
+          "method": "One whole-drawing integer translation from the average of observed grounded hand-knuckles, cheek and lantern-base landmarks relative to final D0 contacts. Source scale unchanged. No head lock, per-part transform or blending.",
+          "native_landmarks_px": {
+            "hand_knuckles": [
+              1433,
+              448
+            ],
+            "cheek": [
+              1547,
+              353
+            ],
+            "lantern_base": [
+              1682,
+              421
+            ]
+          },
+          "D0_registered_targets_px": {
+            "hand_knuckles": [
+              866.84,
+              946.28
+            ],
+            "cheek": [
+              974.76,
+              860.4
+            ],
+            "lantern_base": [
+              1082.3,
+              921.2
+            ]
+          },
+          "registered_actual_px": {
+            "hand_knuckles": [
+              884.64,
+              939.14
+            ],
+            "cheek": [
+              969.0,
+              868.84
+            ],
+            "lantern_base": [
+              1068.9,
+              919.16
+            ]
+          },
+          "residuals_px": {
+            "hand_knuckles": [
+              17.8,
+              -7.14
+            ],
+            "cheek": [
+              -5.76,
+              8.44
+            ],
+            "lantern_base": [
+              -13.4,
+              -2.04
+            ]
+          },
+          "retired_anchor": "Previously labeled hip point was not a reliable contact; c1/c3 were transparent. Replaced with directly observed foreground hand/cheek/lamp-base contacts after independent QA."
+        }
+      },
+      {
+        "frame": 19,
+        "cell": 2,
+        "crop": [
+          23,
+          538,
+          940,
+          847
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          486,
+          741
+        ],
+        "support": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+        "native_support_px": [
+          576,
+          803
+        ],
+        "registered_support_px": [
+          895.22,
+          937.1
+        ],
+        "multi_ground_contact_fit": {
+          "method": "One whole-drawing integer translation from the average of observed grounded hand-knuckles, cheek and lantern-base landmarks relative to final D0 contacts. Source scale unchanged. No head lock, per-part transform or blending.",
+          "native_landmarks_px": {
+            "hand_knuckles": [
+              576,
+              803
+            ],
+            "cheek": [
+              658,
+              730
+            ],
+            "lantern_base": [
+              817,
+              765
+            ]
+          },
+          "D0_registered_targets_px": {
+            "hand_knuckles": [
+              866.84,
+              946.28
+            ],
+            "cheek": [
+              974.76,
+              860.4
+            ],
+            "lantern_base": [
+              1082.3,
+              921.2
+            ]
+          },
+          "registered_actual_px": {
+            "hand_knuckles": [
+              895.22,
+              937.1
+            ],
+            "cheek": [
+              955.9,
+              883.08
+            ],
+            "lantern_base": [
+              1073.56,
+              908.98
+            ]
+          },
+          "residuals_px": {
+            "hand_knuckles": [
+              28.38,
+              -9.18
+            ],
+            "cheek": [
+              -18.86,
+              22.68
+            ],
+            "lantern_base": [
+              -8.74,
+              -12.22
+            ]
+          },
+          "retired_anchor": "Previously labeled hip point was not a reliable contact; c1/c3 were transparent. Replaced with directly observed foreground hand/cheek/lamp-base contacts after independent QA."
+        }
+      },
+      {
+        "frame": 20,
+        "cell": 3,
+        "crop": [
+          898,
+          553,
+          1774,
+          873
+        ],
+        "uniform_source_scale": 0.74,
+        "integer_translation_px": [
+          479,
+          755
+        ],
+        "support": "grounded right-hand knuckles plus cheek and lantern-base least-squares contact fit",
+        "native_support_px": [
+          1440,
+          810
+        ],
+        "registered_support_px": [
+          880.08,
+          945.18
+        ],
+        "multi_ground_contact_fit": {
+          "method": "One whole-drawing integer translation from the average of observed grounded hand-knuckles, cheek and lantern-base landmarks relative to final D0 contacts. Source scale unchanged. No head lock, per-part transform or blending.",
+          "native_landmarks_px": {
+            "hand_knuckles": [
+              1440,
+              810
+            ],
+            "cheek": [
+              1560,
+              710
+            ],
+            "lantern_base": [
+              1703,
+              766
+            ]
+          },
+          "D0_registered_targets_px": {
+            "hand_knuckles": [
+              866.84,
+              946.28
+            ],
+            "cheek": [
+              974.76,
+              860.4
+            ],
+            "lantern_base": [
+              1082.3,
+              921.2
+            ]
+          },
+          "registered_actual_px": {
+            "hand_knuckles": [
+              880.08,
+              945.18
+            ],
+            "cheek": [
+              968.88,
+              871.18
+            ],
+            "lantern_base": [
+              1074.7,
+              912.62
+            ]
+          },
+          "residuals_px": {
+            "hand_knuckles": [
+              13.24,
+              -1.1
+            ],
+            "cheek": [
+              -5.88,
+              10.78
+            ],
+            "lantern_base": [
+              -7.6,
+              -8.58
+            ]
+          },
+          "retired_anchor": "Previously labeled hip point was not a reliable contact; c1/c3 were transparent. Replaced with directly observed foreground hand/cheek/lamp-base contacts after independent QA."
+        }
+      }
+    ],
+    "generation_method": "built-in image generator; each selected new pose is a fresh full-character illustration",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  }
+]

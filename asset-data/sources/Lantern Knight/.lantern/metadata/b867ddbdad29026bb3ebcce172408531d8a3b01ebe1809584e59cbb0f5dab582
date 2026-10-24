@@ -1,0 +1,84 @@
+[
+  {
+    "id": "lantern_cave_creature_06_hovering_broken_mask",
+    "name": "Hovering broken mask",
+    "audit_verdict": "rebuild",
+    "audit_direction": "Blank faceted gray face with generic eye slits, soft gradient and regular outlines; close-up confirms low-poly-mask appearance.",
+    "status": "REBUILT — fresh ink drawing",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_cave_creatures_09/assets/06_hovering_broken_mask.png",
+    "revised_image": "packs/02_cave_creatures_09/assets/06_hovering_broken_mask.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/characters/source/06_hovering_broken_mask.png",
+    "sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      289,
+      60,
+      963,
+      1164
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated",
+    "padded_import": {
+      "id": "lantern_cave_creature_06_hovering_broken_mask",
+      "native_asset": "packs/02_cave_creatures_09/assets/06_hovering_broken_mask.png",
+      "padded_asset": "import_padded/02_cave_creatures_09/06_hovering_broken_mask.png",
+      "native_canvas": [
+        1254,
+        1254
+      ],
+      "padded_canvas": [
+        1254,
+        1296
+      ],
+      "source_offset_xy": [
+        0,
+        36
+      ],
+      "added_padding_ltrb": [
+        0,
+        36,
+        0,
+        6
+      ],
+      "visible_bounds_alpha_gt_16_native": [
+        289,
+        60,
+        963,
+        1164
+      ],
+      "visible_bounds_alpha_gt_16_padded": [
+        289,
+        96,
+        963,
+        1200
+      ],
+      "provisional_ground_pivot_native_px": [
+        626.0,
+        1164
+      ],
+      "provisional_ground_pivot_padded_px": [
+        626.0,
+        1200
+      ],
+      "ground_pivot_shift_xy": [
+        0,
+        36
+      ],
+      "provisional_ground_pivot_padded_normalized": [
+        0.49920255183413076,
+        0.9259259259259259
+      ],
+      "pivot_caveat": "Bottom-center of visible bounds is a provisional import anchor, not a certified ground/rig pivot; especially review hovering or flying creatures.",
+      "pixel_preservation_verified": true,
+      "operation": "Pure transparent canvas extension; no crop, resampling, recoloring, matte extraction or alpha modification",
+      "sha256": "e3e697af7a5101267aef1e6040c51450a17e3156eb87c09e4169f7fbc31626b3"
+    }
+  }
+]

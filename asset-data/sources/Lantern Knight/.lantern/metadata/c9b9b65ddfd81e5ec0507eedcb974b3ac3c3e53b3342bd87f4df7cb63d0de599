@@ -1,0 +1,113 @@
+{
+  "status": "PASS_PIXEL_AND_PACKAGE_CHECKS",
+  "unique_cels": 6,
+  "cycle_ticks": 40,
+  "holds": [
+    10,
+    5,
+    5,
+    5,
+    5,
+    10
+  ],
+  "source_pixels": "Exact nativeRGBA crops; no resampling,alpha cleanup,mirroring,warp or compositing in selectedruntime.",
+  "checks": [
+    {
+      "cel": 1,
+      "exact_native_RGBA": true,
+      "exact_atlas_RGBA": true,
+      "transparent_canvas_border": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        229,
+        295,
+        606,
+        716
+      ]
+    },
+    {
+      "cel": 2,
+      "exact_native_RGBA": true,
+      "exact_atlas_RGBA": true,
+      "transparent_canvas_border": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        170,
+        287,
+        607,
+        716
+      ]
+    },
+    {
+      "cel": 3,
+      "exact_native_RGBA": true,
+      "exact_atlas_RGBA": true,
+      "transparent_canvas_border": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        164,
+        285,
+        602,
+        716
+      ]
+    },
+    {
+      "cel": 4,
+      "exact_native_RGBA": true,
+      "exact_atlas_RGBA": true,
+      "transparent_canvas_border": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        165,
+        289,
+        592,
+        716
+      ]
+    },
+    {
+      "cel": 5,
+      "exact_native_RGBA": true,
+      "exact_atlas_RGBA": true,
+      "transparent_canvas_border": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        177,
+        272,
+        608,
+        715
+      ]
+    },
+    {
+      "cel": 6,
+      "exact_native_RGBA": true,
+      "exact_atlas_RGBA": true,
+      "transparent_canvas_border": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        164,
+        272,
+        605,
+        715
+      ]
+    }
+  ],
+  "review_scope": "Ordered-cel anatomy,gear,one-stride,timing. Not realtime or engine validation."
+}

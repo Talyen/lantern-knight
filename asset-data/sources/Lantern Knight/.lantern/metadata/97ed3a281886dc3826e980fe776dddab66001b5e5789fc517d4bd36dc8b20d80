@@ -1,0 +1,42 @@
+{
+  "individual_frames_reviewed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "visual_checks": {
+    "two_arms_two_hands": true,
+    "cup_owned_by_same_hand": true,
+    "cup_level_and_undistorted": true,
+    "natural_elbow_flexion": true,
+    "identity_costume_tea_props_preserved": true,
+    "detached_elbow_sliver_removed": true,
+    "right_sleeve_composite_seam_corrected": true,
+    "light_and_dark_backgrounds_reviewed": true,
+    "screen_right_shoulder_notch_corrected": true
+  },
+  "numeric_checks": {
+    "distinct_frames": 6,
+    "lower_body_station_pixel_identical": true,
+    "native_cell_size": [
+      512,
+      512
+    ],
+    "upscaled": false,
+    "loop_ticks": 180,
+    "loop_seconds": 3,
+    "screen_right_anatomical_left_arm_pixel_identical": true
+  },
+  "limitations": [
+    "Art-directed raster camera target, not geometrically calibrated.",
+    "Estimated PPU must be adjusted for game world scale.",
+    "Small drawn detail variation remains in animated regions."
+  ],
+  "anatomy_labels": {
+    "tea_arm": "screen-left / anatomical right",
+    "kettle_arm": "screen-right / anatomical left"
+  }
+}

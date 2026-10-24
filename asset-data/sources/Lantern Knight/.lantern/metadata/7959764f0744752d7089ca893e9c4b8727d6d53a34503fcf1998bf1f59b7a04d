@@ -1,0 +1,7 @@
+{
+  "source_sha256": "414ae10073bd03de1b89a96ade192d0266ae83642c6f1df89bba084b022e0369",
+  "changed_rgb_pixels": 74604,
+  "alpha_identical": true,
+  "method": "Temporary magenta/cobalt pant material recolor only, component/hue mask; no geometry or source-alpha changes. Original preserved.",
+  "status": "bounded wardrobe cleanup candidate"
+}

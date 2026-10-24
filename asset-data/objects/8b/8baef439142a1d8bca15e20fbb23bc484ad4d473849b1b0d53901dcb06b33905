@@ -1,0 +1,7159 @@
+{
+  "recipe": "prepare-ink-v4",
+  "frames": [
+    {
+      "pack": "ink-scenery",
+      "id": "pillar",
+      "source": "volume_02_gothic/assets/arch_square_pillar_01.png",
+      "sourceHash": "45f5b01af3064397a9ae557ffcaf3f460d245d9742b5f0f521ef9d6cb2d2da92",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.5732421875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1243,
+        1893
+      ],
+      "sourceAnchor": [
+        512,
+        1495
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 2.8,
+      "measurementPixels": 1420
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "wall",
+      "source": "volume_02_gothic/assets/arch_gothic_wall_01.png",
+      "sourceHash": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.623046875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1374,
+        2152
+      ],
+      "sourceAnchor": [
+        260,
+        960
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 1.2,
+      "measurementPixels": 560,
+      "sourceConnectionSockets": [
+        [
+          260,
+          960
+        ],
+        [
+          1422,
+          583
+        ]
+      ]
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "corner",
+      "source": "volume_02_gothic/assets/arch_wall_corner_01.png",
+      "sourceHash": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.5540364583333334,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1109,
+        2219
+      ],
+      "sourceAnchor": [
+        770.5,
+        958
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 1.2,
+      "measurementPixels": 630
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "gate",
+      "source": "volume_08_landmarks/assets/landmark_mausoleum_entrance_01.png",
+      "sourceHash": "a3fe658f8f4fcfc3aad58acbf303876a4d40a0427fdff01957adbd8b65da8d0c",
+      "sourceCanvas": [
+        1312,
+        1199
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.9253048780487805,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        928,
+        1682
+      ],
+      "sourceAnchor": [
+        657,
+        1154
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 3.5,
+      "measurementPixels": 1100
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "arch",
+      "source": "volume_02_gothic/assets/arch_pointed_arch_01.png",
+      "sourceHash": "47d9662cfba04e16241342bc5e9fb92a24d1cf913e51f38f3ffea5a47fae422f",
+      "sourceCanvas": [
+        1208,
+        1302
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.6688741721854304,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1129,
+        1902
+      ],
+      "sourceAnchor": [
+        609,
+        1268
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 2.9,
+      "measurementPixels": 1260
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "stairs",
+      "source": "volume_02_gothic/assets/arch_three_stairs_01.png",
+      "sourceHash": "629961d5fcfe049a552f7fc5ddab46d94bb1f2275ffe9f9e40ab6a91c784eca6",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.421875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1209,
+        2332
+      ],
+      "sourceAnchor": [
+        774,
+        990
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.45,
+      "measurementPixels": 310
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "fence",
+      "source": "volume_02_gothic/assets/arch_iron_fence_01.png",
+      "sourceHash": "afa30981d1373cdea78ebe3da36b64e6e0021d9aa31ea9dd5fc9912d3fb065c3",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.498046875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1364,
+        2259
+      ],
+      "sourceAnchor": [
+        346,
+        985
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 1.2,
+      "measurementPixels": 700,
+      "sourceConnectionSockets": [
+        [
+          346,
+          985
+        ],
+        [
+          1210,
+          656
+        ]
+      ]
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "tree",
+      "source": "volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png",
+      "sourceHash": "b714b718998cf6bb5dda4474d8d378883941f06eac2f07ba34427a3a1976e0a2",
+      "sourceCanvas": [
+        1312,
+        1199
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 1.4405487804878048,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        592,
+        1095
+      ],
+      "sourceAnchor": [
+        655.5,
+        1149
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 5.4,
+      "measurementPixels": 1090
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "yew",
+      "source": "volume_15_tree_forms/assets/vegetation_windswept_yew_01.png",
+      "sourceHash": "4e3120b24d7e03172ffa323484168fde2d8c37bbb27f9d154c4a59b6c8771607",
+      "sourceCanvas": [
+        1312,
+        1199
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 1.423018292682927,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        594,
+        1192
+      ],
+      "sourceAnchor": [
+        662,
+        1095
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 4.7,
+      "measurementPixels": 960
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "dead-tree",
+      "source": "volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png",
+      "sourceHash": "b2e4bbee47a55eed9ed3be2fac752198f2a6072202b612dcd63f5790558e6102",
+      "sourceCanvas": [
+        1312,
+        1199
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 1.3003048780487805,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        688,
+        1214
+      ],
+      "sourceAnchor": [
+        652.5,
+        1181
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 5.1,
+      "measurementPixels": 1140
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "foreground",
+      "source": "volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+      "sourceHash": "f47b3bb5398e0fbbfd60f992c541ec57a780c384e567354fef9f275d32cb262c",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.451171875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1188,
+        2356
+      ],
+      "sourceAnchor": [
+        770.5,
+        874
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.9,
+      "measurementPixels": 580
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "fern",
+      "source": "volume_01_nature/assets/env_shadow_fern_01.png",
+      "sourceHash": "59e22ba7da2132c9f3433765b70128419c17c72a52194164d5171ad46a3b1b2b",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.201171875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1382,
+        2568
+      ],
+      "sourceAnchor": [
+        765,
+        906
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.45,
+      "measurementPixels": 650
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "gravestone",
+      "source": "volume_04_terrain/assets/env_leaning_gravestone_01.png",
+      "sourceHash": "e0d92388a21459bfa5e0299e516ea1671a91061567ef5c1994227412ccbcf2e2",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2490234375,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1411,
+        2383
+      ],
+      "sourceAnchor": [
+        501,
+        1474
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.9,
+      "measurementPixels": 1050
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "tomb",
+      "source": "volume_02_gothic/assets/arch_stone_tomb_01.png",
+      "sourceHash": "056a4b200fda0aecbb70faa99e56da674ad841b758ee80bd93270249abf84348",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.5247395833333334,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1125,
+        2237
+      ],
+      "sourceAnchor": [
+        783.5,
+        977
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.65,
+      "measurementPixels": 360
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "rubble",
+      "source": "volume_04_terrain/assets/env_masonry_rubble_01.png",
+      "sourceHash": "f0e12d946c80ade772a09e28808632d88e92d6a262ab7197fbec3fea71928791",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.216796875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1369,
+        2546
+      ],
+      "sourceAnchor": [
+        769,
+        943
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.35,
+      "measurementPixels": 470
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "lantern",
+      "source": "Lantern_Lighting03_CleanInk/png/watch_lantern_lit.png",
+      "sourceHash": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.4361979166666667,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1201,
+        2200
+      ],
+      "sourceAnchor": [
+        768,
+        1262
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.6,
+      "measurementPixels": 400
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "chapel-facade",
+      "source": "volume_08_landmarks/assets/landmark_ruined_chapel_facade_01.png",
+      "sourceHash": "356e4701790a655a17e5d77fa8372770d8ce29b13e62a43d9b9b6d18864d4cef",
+      "sourceCanvas": [
+        1312,
+        1199
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 1.4108231707317074,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        661,
+        1297
+      ],
+      "sourceAnchor": [
+        620,
+        1030
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 5,
+      "measurementPixels": 1030
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "door-closed",
+      "source": "volume_02_gothic/assets/arch_crypt_door_01.png",
+      "sourceHash": "9f9c32cb2179b0d277a6cbd1401b44ad9fd652c175337a48e9feb02caa8db2d0",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.4560546875,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1299,
+        2089
+      ],
+      "sourceAnchor": [
+        520,
+        1450
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 2.25,
+      "measurementPixels": 1435
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "cresset",
+      "source": "Lantern_Lighting03_CleanInk/png/wall_cresset_lit.png",
+      "sourceHash": "ff466e409a449242b73790bd16faab03ba7774deab7b40c9337716bef48a5c73",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.3352864583333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1274,
+        2416
+      ],
+      "sourceAnchor": [
+        780,
+        995
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.45,
+      "measurementPixels": 390
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "votive",
+      "source": "Lantern_Lighting03_CleanInk/png/votive_candelabrum_lit.png",
+      "sourceHash": "51aa99134b047ebfd73ef3c07af623fa611b60f9b667a2b457524fd8ac43d6b5",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.48,
+      "measurementPixels": 530
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "roots",
+      "source": "volume_01_nature/assets/env_exposed_roots_01.png",
+      "sourceHash": "3ce10d69f881006025113a88352b851e0ee8cf1bf82fa7f6aecb655542b7154e",
+      "sourceCanvas": [
+        1448,
+        1086
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2617403314917127,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1347,
+        2497
+      ],
+      "sourceAnchor": [
+        723.5,
+        968
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.18,
+      "measurementPixels": 200
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "bramble",
+      "source": "volume_01_nature/assets/env_bramble_tangle_02.png",
+      "sourceHash": "009b994fb7626ff0e05268cbcdb44ab6a171b5c062833594e684f3fe29e227ef",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.3567708333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1257,
+        2433
+      ],
+      "sourceAnchor": [
+        782,
+        888
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.65,
+      "measurementPixels": 530
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "memorial",
+      "source": "volume_12_crypt/assets/crypt_blank_memorial_plaque_01.png",
+      "sourceHash": "b08a123481730a4845d706a4295a8281baa09a9b85b555ea0380a907bf3566e1",
+      "sourceCanvas": [
+        1312,
+        1199
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2111280487804878,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1392,
+        2500
+      ],
+      "sourceAnchor": [
+        680,
+        1183
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.8,
+      "measurementPixels": 1100
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "offering-table",
+      "source": "volume_12_crypt/assets/crypt_stone_offering_table_01.png",
+      "sourceHash": "2b0a5456a0537fe551d3dfb9376a09929ae1d5fb4eae30b4a3573789ab8bcfc5",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.3430989583333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1271,
+        2450
+      ],
+      "sourceAnchor": [
+        771,
+        874
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.85,
+      "measurementPixels": 720
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "ossuary",
+      "source": "volume_12_crypt/assets/crypt_wall_ossuary_cabinet_01.png",
+      "sourceHash": "7bcbd8d551b34bb47c414a8b9733e6d84454cd644a69c3c0755faa87afea7f12",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.4814453125,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1277,
+        2024
+      ],
+      "sourceAnchor": [
+        538,
+        1508
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 2.35,
+      "measurementPixels": 1420
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "urn-niche",
+      "source": "volume_12_crypt/assets/crypt_urn_niche_stack_01.png",
+      "sourceHash": "d776d6fc503744587c5691eff651696b324fffab1c62d00930fb1aed18f95306",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.3818359375,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1288,
+        2296
+      ],
+      "sourceAnchor": [
+        649.5,
+        1190
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 1.6,
+      "measurementPixels": 1220
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "funeral-cloth",
+      "source": "volume_12_crypt/assets/crypt_funeral_cloth_stand_01.png",
+      "sourceHash": "d4ea565c161ca67a97426424d3faf0b7ac78b39d681fa78a2b05a09882fc0455",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.392578125,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1234,
+        2368
+      ],
+      "sourceAnchor": [
+        770.5,
+        973
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 1,
+      "measurementPixels": 740
+    },
+    {
+      "pack": "ink-scenery",
+      "id": "fallen-log",
+      "source": "volume_01_nature/assets/env_fallen_log_01.png",
+      "sourceHash": "9ba022e0779142704ab2e9a4f75492a696d17d582c6031831e4d01d63172d5a1",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.20703125,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1374,
+        2563
+      ],
+      "sourceAnchor": [
+        782.5,
+        901
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.42,
+      "measurementPixels": 590
+    },
+    {
+      "pack": "ink-soil",
+      "id": "grave-soil",
+      "source": "grave-soil-v1.png",
+      "sourceRoot": "references/art/lanternkeepers-rest-v1",
+      "sourceHash": "3dd0a7d3cafb79b919440c91e78e43a7b39588030fc2c0516a7632865c5ffbec",
+      "sourceCanvas": [
+        966,
+        1628
+      ],
+      "derivativeCanvas": [
+        966,
+        1628
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        483,
+        814
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        483,
+        814
+      ],
+      "density": 700,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-moss",
+      "id": "surface",
+      "source": "grass-v1.png",
+      "sourceRoot": "references/art/lanternkeepers-rest-v1",
+      "sourceHash": "dff7b3e2e697bcb3c966a88145823e474f51e26689706831a97d4df3d8f3775f",
+      "sourceCanvas": [
+        1254,
+        1254
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 0.8165869218500797,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-masonry",
+      "id": "surface",
+      "source": "limestone-face.png",
+      "sourceRoot": "staging/rest",
+      "sourceHash": "b565cad82b9e143862d9315b8abc2fcab0e6edbec63d97ac5d638c1714491689",
+      "sourceCanvas": [
+        1024,
+        512
+      ],
+      "derivativeCanvas": [
+        1024,
+        512
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        256
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        256
+      ],
+      "density": 320,
+      "projection": "top-down",
+      "minimumSourceDensity": 284.5454545454545,
+      "materialReceipt": "staging/rest/receipt.json"
+    },
+    {
+      "pack": "ink-decals",
+      "id": "d01_branching_crack",
+      "source": "Ground_Surfaces_Decals_r02a/png/decals/d01_branching_crack.png",
+      "sourceHash": "2ff692977587ed114ced35f673680161dc76008f1b05651f5d377cb9d99c335e",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-decals",
+      "id": "d03_moss_edge",
+      "source": "Ground_Surfaces_Decals_r02a/png/decals/d03_moss_edge.png",
+      "sourceHash": "d545df18156ffd46ec09d1c05fc90186b928d2e1b339257019eaf2a36627019e",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-decals",
+      "id": "d04_moss_islands",
+      "source": "Ground_Surfaces_Decals_r02a/png/decals/d04_moss_islands.png",
+      "sourceHash": "88bb0828beb4c6e9547bce12dfdbd63b5ae27f0d78a7ff1b574fa5d497a3ae08",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-decals",
+      "id": "d05_leaf_drift",
+      "source": "Ground_Surfaces_Decals_r02a/png/decals/d05_leaf_drift.png",
+      "sourceHash": "5f8151f4bd206e74b47bae8b4c7f77c7b4887ccff69a0cc45ee4987266d76462",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-decals",
+      "id": "d08_dirt_scuffs",
+      "source": "Ground_Surfaces_Decals_r02a/png/decals/d08_dirt_scuffs.png",
+      "sourceHash": "d52e21866d3dad904378a76118e8ad5c83134fb3e569e3dbaa3a03b356f18993",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t01_earth_stone_border",
+      "source": "Ground_Transitions/png/overlays/t01_earth_stone_border.png",
+      "sourceHash": "8b2303d0b72fbd074f3b3ef17b15eeb02e87d429803ba7b32967b9a0f9b193ba",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t02_moss_invasion",
+      "source": "Ground_Transitions/png/overlays/t02_moss_invasion.png",
+      "sourceHash": "7896cb4fbbdc66a98c19c6896fac27ec42a51b3eb106260a686e23cf54835722",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t03_broken_pavement_edge",
+      "source": "Ground_Transitions/png/overlays/t03_broken_pavement_edge.png",
+      "sourceHash": "70dc395ee24f3667e242412ab641d307eb46a25a6e994e314249356e7a6e29a9",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t04_plank_threshold",
+      "source": "Ground_Transitions/png/overlays/t04_plank_threshold.png",
+      "sourceHash": "3a331b0669e123bc869fb3d145377c3230c761062096036931a64fff1b7cd98c",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t07_damp_spread",
+      "source": "Ground_Transitions/png/overlays/t07_damp_spread.png",
+      "sourceHash": "5559b4de082ca9a48609c37fdee6490114d4479ca6164bf6e2b9dc6a3aeba6a5",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t08_crossing_root",
+      "source": "Ground_Transitions/png/overlays/t08_crossing_root.png",
+      "sourceHash": "e8e720175a302623225ab6ff250f6c9d07a017d3bd4ce5be74d5c9fa98d2b545",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-ground-transitions",
+      "id": "t09_forked_roots",
+      "source": "Ground_Transitions/png/overlays/t09_forked_roots.png",
+      "sourceHash": "103957fa940ff71280e7598ce57110cb632fc36d8b533546e62ff4be8a960a61",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-crypt-stone",
+      "id": "surface",
+      "source": "Ground_Surfaces_Decals_r02a/png/materials/02_cracked_cathedral_stone.png",
+      "sourceHash": "6b717a12302936a62403e2ca90144c5203567995a6c71f24c6f28f8c1c376066",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-crypt-damp",
+      "id": "surface",
+      "source": "Ground_Surfaces_Decals_r02a/png/materials/05_damp_cellar_stone.png",
+      "sourceHash": "cfba4edeff7fbc58096cc06946373c311aacdc25517025729fb9b88349d2b2d1",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-crypt-marble",
+      "id": "surface",
+      "source": "Ground_Surfaces_Decals_r02a/png/materials/09_pale_crypt_marble.png",
+      "sourceHash": "5a5307f25dd977e8417c47882b0d3bcd7e6aa86e45082ae39c330cb4f1b6cac0",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-crypt",
+      "id": "bier",
+      "source": "volume_12_crypt/assets/crypt_low_wooden_bier_01.png",
+      "sourceHash": "c0364158bc2898ef222cb8d53e08fa979da4ea1a91b94b6976cc82ab8a74f98f",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.4329427083333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1204,
+        2348
+      ],
+      "sourceAnchor": [
+        767.5,
+        929
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.58,
+      "measurementPixels": 390
+    },
+    {
+      "pack": "ink-crypt",
+      "id": "lid",
+      "source": "volume_12_crypt/assets/crypt_leaning_sarcophagus_lid_01.png",
+      "sourceHash": "b87c8bfe3107e6fad15a77682bb470c0774c35c9a2d82978e7d3722dd2f7e2bc",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.3291015625,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1360,
+        2263
+      ],
+      "sourceAnchor": [
+        535,
+        1481
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 1.3,
+      "measurementPixels": 1150
+    },
+    {
+      "pack": "ink-crypt",
+      "id": "bones",
+      "source": "volume_12_crypt/assets/crypt_restrained_bone_pile_01.png",
+      "sourceHash": "8aa157ea86e7d1710b9513d8b4308e127662ad56a27abfd2c2100c933578dcf5",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.1484375,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1424,
+        2622
+      ],
+      "sourceAnchor": [
+        756.5,
+        860
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.22,
+      "measurementPixels": 430
+    },
+    {
+      "pack": "ink-crypt",
+      "id": "votive-hardware",
+      "source": "Lantern_Lighting03_CleanInk/png/votive_candelabrum_unlit.png",
+      "sourceHash": "a7b15a878222ef8f54ee0f3f6e457d7498077d2ccfecb5e8140fd20f91a1a529",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.48,
+      "measurementPixels": 530
+    },
+    {
+      "pack": "ink-crypt",
+      "id": "cresset-hardware",
+      "source": "Lantern_Lighting03_CleanInk/png/wall_cresset_unlit.png",
+      "sourceHash": "0249bb4a56dee5d590366e0f9f765f3d13f79b21f20d3ff8918b9088b23f6e87",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.3352864583333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1274,
+        2416
+      ],
+      "sourceAnchor": [
+        780,
+        995
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "physicalHeightMetres": 0.45,
+      "measurementPixels": 390
+    },
+    {
+      "pack": "ink-crypt",
+      "id": "doorway",
+      "source": "registered-doorway-composite",
+      "sourceHash": "6cf5ed0768c25e382f5df43501e4d2107dc4a355da9281d5dd0e9ef896b38e5c",
+      "sourceCanvas": [
+        3072,
+        3072
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        1536,
+        2750
+      ],
+      "density": 356,
+      "projection": "painted-cutout",
+      "sourceParts": [
+        {
+          "file": "staging/ink/ink-scenery/door-closed.png",
+          "sha256": "115a331d39f0608ee9c88e32a97ae04699f8b6b3c5fb4f9f37a92339f3faf2c4"
+        },
+        {
+          "file": "staging/ink/ink-scenery/arch.png",
+          "sha256": "41d65deb7ab8672f963ce280a1e9de22bf4ca038838bbaabe0ae7c243c16d93a"
+        }
+      ]
+    },
+    {
+      "pack": "ink-crypt-feature",
+      "id": "puddle",
+      "source": "Floor_Features/png/features/f07_shallow_puddle_bed.png",
+      "sourceHash": "77951e361c2198bad51acaa6fd957eae25c9b1ea945a38c282172462dfdfd2b1",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-crypt-wall",
+      "id": "glass",
+      "source": "Wall_Dressing/png/faces/w01_arched_stained_glass.png",
+      "sourceHash": "263df63ba01769268c151b986f469ced928fa14ae661fbb2adc616b5ab99856f",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        1024
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        1024
+      ],
+      "density": 256,
+      "projection": "front-view"
+    },
+    {
+      "pack": "ink-crypt-wall",
+      "id": "niche",
+      "source": "Wall_Dressing/png/faces/w06_carved_stone_niche_back.png",
+      "sourceHash": "0dac3611ba516272b432b9da829c3ffc006f2e28412fd84bce2d4faa64cedca8",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        1024
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        1024
+      ],
+      "density": 256,
+      "projection": "front-view"
+    },
+    {
+      "pack": "ink-crypt-wall",
+      "id": "mural",
+      "source": "Wall_Dressing/png/faces/w04_faded_mural_fragment.png",
+      "sourceHash": "515b8b05e6cb04906dc88d748213b90861b4df9c109f6cbb69e697b4a66058f2",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        1024
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        1024
+      ],
+      "density": 256,
+      "projection": "front-view"
+    },
+    {
+      "pack": "ink-crypt-wall",
+      "id": "plaster",
+      "source": "Wall_Dressing/png/faces/w07_peeling_plaster_patch.png",
+      "sourceHash": "3b195603699ce7636c69ce6ccd1d81f223089ba61005ad8d1bd09127b746ad1a",
+      "sourceCanvas": [
+        1024,
+        1024
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        1024
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        1024
+      ],
+      "density": 256,
+      "projection": "front-view"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-0",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_000.png",
+      "sourceHash": "5e4357ae0b777d2cdd00b12abdc4bcd7ac71e879a92d1e9c9a1a0468ad6c31ed",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-1",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_001.png",
+      "sourceHash": "a2e91f453ee6b3c2b41e2ed317c60b8927d920117cdf8db46fee953b2027f38a",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-2",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_002.png",
+      "sourceHash": "579fdae198d2adf4d6a7e7be7c60c11de2c46aceab6d4b5d41b41060815e51c4",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-3",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_003.png",
+      "sourceHash": "1f38f1617f99a7577988e440676035a9e35c409b4a20cabdab69315116d534b7",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-4",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_004.png",
+      "sourceHash": "7e1c92fc9cddcfe62dece839a762629bdafa19c20346f00290b452fea7998953",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-5",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_005.png",
+      "sourceHash": "e839254af4f9d54cc74d464b30a9935c2788457a1183477c5bcc1275a03a340c",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-6",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_006.png",
+      "sourceHash": "f72e3adfc596dd3594bfc63a6e389090a545359542ad57e251716a7b30d0cfce",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-7",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_007.png",
+      "sourceHash": "761bf3b770ff545b1a95aa89bd8a91ca472027ee2f4b8c70419bebbbba1e0966",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-8",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_008.png",
+      "sourceHash": "22489605c375058169a7672300d34b2295436204234ad7f2e22f405ff14ff51d",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-9",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_009.png",
+      "sourceHash": "67e922bbff1166dbf68275a152da41f6ae1c7c722a732945f693fcb13e3c5f76",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-10",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_010.png",
+      "sourceHash": "9f9a041344b272337ffeefc272f5d1bb1f0bf54776b75eb67e5d8fcc412c1eac",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-11",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_011.png",
+      "sourceHash": "38977cd74f715917a509b4e19710d44c10055861184adbb043d1f5e466649427",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-12",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_012.png",
+      "sourceHash": "56c5f35039161993c38f2990b503a864bc6ce700baeb9f8482c5b453b90da530",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-13",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_013.png",
+      "sourceHash": "64760714b84b06b5b2bd1f46db487d7bb01daa5e5290b174da60e62c883e66d4",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-14",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_014.png",
+      "sourceHash": "7598cbaf4854a0625b220b9255ddc1eafc3761596b1bfe62d3fc00629ced59be",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-15",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_015.png",
+      "sourceHash": "85c842b12fb1bf82ccc21072a82a9db2d617117b1bf21b673d40244a803fa733",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-16",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_016.png",
+      "sourceHash": "6925e5213c0234674e9a583e8b36a097e221a4b60ab6ba9bec7e88d74d83e340",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-17",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_017.png",
+      "sourceHash": "450a54ba006f21ed440c2002210b7450169343081e538e35aad580bd97e9576f",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-18",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_018.png",
+      "sourceHash": "7d0cdc2b1b25dc023e2447745166ae4685577945873012d2fb9b24641d80ccbf",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-19",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_019.png",
+      "sourceHash": "b3b7954a3486ab99c1be84c095f51019ce631d5ffffb6718495303f53f8c946a",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-20",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_020.png",
+      "sourceHash": "63e6fa13e56f87461341199259ee4f26c8ad1a3aaa6465d99c535c110bdf400b",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-21",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_021.png",
+      "sourceHash": "429baa60c341106772b1ae2dad40081feb8884ff84bd1857ed752d2c2ff69ad5",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-22",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_022.png",
+      "sourceHash": "e7712c4aaa32d0ab59bc0983f22e1b4c704689b3a08a8d4a16a783d8eae0f8bc",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-crypt-flame",
+      "id": "votive-23",
+      "source": "Lantern_Lighting03_CleanInk/animation/votive_candelabrum/emission_023.png",
+      "sourceHash": "647b08485f78dbb73babd3fb8cb6d072b0cd626be0268096ee04f2c60b90f793",
+      "sourceCanvas": [
+        1536,
+        1536
+      ],
+      "derivativeCanvas": [
+        3072,
+        3072
+      ],
+      "uniformScale": 0.2630208333333333,
+      "derivativeAnchor": [
+        1536,
+        2750
+      ],
+      "paddingOffset": [
+        1333,
+        2424
+      ],
+      "sourceAnchor": [
+        770,
+        1240
+      ],
+      "density": 356,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-chapel-altar",
+      "id": "altar",
+      "source": "altar-v1.png",
+      "sourceRoot": "references/art/chapel-sanctuary-v1",
+      "sourceHash": "170f41c14869c02a01280e65c93dc8f11dd5d3f97b99313fd9b8ba3714f7a0b4",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        1536,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        768,
+        790
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        768,
+        790
+      ],
+      "density": 550,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-chapel-window",
+      "id": "window",
+      "source": "window-v1.png",
+      "sourceRoot": "references/art/chapel-sanctuary-v1",
+      "sourceHash": "5384927f14f054edff3963600625394e481a8bfc8a1efabddb72d968ab95f64b",
+      "sourceCanvas": [
+        1024,
+        1536
+      ],
+      "derivativeCanvas": [
+        1024,
+        1536
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        512,
+        1519
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        1519
+      ],
+      "density": 489,
+      "projection": "front-view"
+    },
+    {
+      "pack": "ink-chapel-pew",
+      "id": "pew",
+      "source": "pew-v1.png",
+      "sourceRoot": "references/art/chapel-sanctuary-v1",
+      "sourceHash": "a9e93dd0d0675a7121ebc6c450cdc0461fe8e59ef7ae15dd97fb407ee1abf01e",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        1536,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        735,
+        735
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        735,
+        735
+      ],
+      "density": 660,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-chapel-broken-pew",
+      "id": "broken-pew",
+      "source": "broken-pew-v1.png",
+      "sourceRoot": "references/art/chapel-sanctuary-v1",
+      "sourceHash": "7bb1d24bc55ecfba588fc121a67d4c9801d5559ed5dba338382b7a8d7e12c952",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        1536,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        768,
+        740
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        768,
+        740
+      ],
+      "density": 710,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-chapel-collapse",
+      "id": "collapse",
+      "source": "collapse-v1.png",
+      "sourceRoot": "references/art/chapel-sanctuary-v1",
+      "sourceHash": "ceba8308fb1ba12c6463a439494f4a30b8b1309a1fe183ca0558b37ad099a605",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        1536,
+        1024
+      ],
+      "uniformScale": 1,
+      "derivativeAnchor": [
+        768,
+        765
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        768,
+        765
+      ],
+      "density": 515,
+      "projection": "painted-cutout"
+    },
+    {
+      "pack": "ink-chapel-floor",
+      "id": "surface",
+      "source": "floor-v1.png",
+      "sourceRoot": "references/art/chapel-sanctuary-v1",
+      "sourceHash": "faf69fba9308c73b0c62ad5863754f329e93e0ce7a9b2e11ba9fd2d46faa2663",
+      "sourceCanvas": [
+        1254,
+        1254
+      ],
+      "derivativeCanvas": [
+        1024,
+        1024
+      ],
+      "uniformScale": 0.8165869218500797,
+      "derivativeAnchor": [
+        512,
+        512
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        512,
+        512
+      ],
+      "density": 256,
+      "projection": "top-down"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-0",
+      "source": "interaction_pack_v1/vectors/enemy_ring/000.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-1",
+      "source": "interaction_pack_v1/vectors/enemy_ring/001.svg",
+      "sourceHash": "421e582e1388b38e3e884557aaa823ae94ec54ade658c84d74ccd522eb723752",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-2",
+      "source": "interaction_pack_v1/vectors/enemy_ring/002.svg",
+      "sourceHash": "abbf3d6155ae0c3ce2d599873b6893bf030ee95e887eb97e4ec820adb90af80c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-3",
+      "source": "interaction_pack_v1/vectors/enemy_ring/003.svg",
+      "sourceHash": "5c9aea9b6cf69b3ffd34c4ac503339035896e4077720c73a1239a3d1c4c9f3dd",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-4",
+      "source": "interaction_pack_v1/vectors/enemy_ring/004.svg",
+      "sourceHash": "3e677f416735a3279a4a304457df9ae80b7d4cab7dda80d45bc3d2e4ab0a78d7",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-5",
+      "source": "interaction_pack_v1/vectors/enemy_ring/005.svg",
+      "sourceHash": "811046cf9b4060e75ffb578afb5525ee3d7945d58d9951091045bed5871c8e69",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-6",
+      "source": "interaction_pack_v1/vectors/enemy_ring/006.svg",
+      "sourceHash": "81008df6c20ed4505729e7f38ff8e77843fdd4fa8469516d93096cd49c0a3d24",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-7",
+      "source": "interaction_pack_v1/vectors/enemy_ring/007.svg",
+      "sourceHash": "d0cc663103556001990d0dce51b5ccbfe0fe6f1e85e71ab16a2fc37f11723dee",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-8",
+      "source": "interaction_pack_v1/vectors/enemy_ring/008.svg",
+      "sourceHash": "289bf038aaa4820b5b49aa963270ded9b9fda369a4bbb08aebbab91d6fca422c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-9",
+      "source": "interaction_pack_v1/vectors/enemy_ring/009.svg",
+      "sourceHash": "e3e8a5d18476cd70ea08ac5d7564aedb475aa831e9c3979b8aa57e30570e63da",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-10",
+      "source": "interaction_pack_v1/vectors/enemy_ring/010.svg",
+      "sourceHash": "b2a98c852c6ee6a0b42b45bc838a0a5bc5d7b627065c049043de85fa856023d3",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-11",
+      "source": "interaction_pack_v1/vectors/enemy_ring/011.svg",
+      "sourceHash": "65786ab7d616dae042030ded0108ccb162533b14c88e4a898ef6e711286bfdc4",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-12",
+      "source": "interaction_pack_v1/vectors/enemy_ring/012.svg",
+      "sourceHash": "1e7add930434c8c39fc25083507980390f3b3442444db5424b7b6cbe65fae578",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-13",
+      "source": "interaction_pack_v1/vectors/enemy_ring/013.svg",
+      "sourceHash": "2cd9bbce851826e1079ddbd02ce76a35a964b3aba35aaea33037a0b32ef81b4e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-14",
+      "source": "interaction_pack_v1/vectors/enemy_ring/014.svg",
+      "sourceHash": "0ee081fdce2f8ac9959c6df6c48d9f27fb833d10dc5c27871b4fd25e94c040e2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-15",
+      "source": "interaction_pack_v1/vectors/enemy_ring/015.svg",
+      "sourceHash": "b2e9d93303f3e6d9d061dc38f32bf812a5c0ee4109af072b14f0d12312485108",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-16",
+      "source": "interaction_pack_v1/vectors/enemy_ring/016.svg",
+      "sourceHash": "d5a62dcffbe14bcb480cbd0d11c5f3018b37ca92d3655294b676088dbd78217e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-17",
+      "source": "interaction_pack_v1/vectors/enemy_ring/017.svg",
+      "sourceHash": "5f29be70c490e80abe93c810c613a3ad4759ae5ed571a9b9c03491b7963bee09",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-18",
+      "source": "interaction_pack_v1/vectors/enemy_ring/018.svg",
+      "sourceHash": "c0394db3b2b6b0035c569956118761f999b7446ec4db8662ba49427277226238",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-19",
+      "source": "interaction_pack_v1/vectors/enemy_ring/019.svg",
+      "sourceHash": "dc2d69fa254316dfe3d7258b6ef06bda695613d6433b90f3bf76876798af2cd4",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-20",
+      "source": "interaction_pack_v1/vectors/enemy_ring/020.svg",
+      "sourceHash": "cb84823807b7f8db786c288f54089d388d13ac3e408a34bd2f81490b1543c234",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-21",
+      "source": "interaction_pack_v1/vectors/enemy_ring/021.svg",
+      "sourceHash": "7fc7fedc03ed14e2c01e8b7980e911eb3c326a8d22e9b3c7fd42fa18cd67a54a",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-22",
+      "source": "interaction_pack_v1/vectors/enemy_ring/022.svg",
+      "sourceHash": "f01b730c9a5868e1cfb2d23053afa1ca061e3b5ba4ccb9e9eae3cfaae758cea9",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-23",
+      "source": "interaction_pack_v1/vectors/enemy_ring/023.svg",
+      "sourceHash": "01f269ba66e4e2d80306b87c49f05b33e54f8ff3070571ba472d5bab97e1b341",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-24",
+      "source": "interaction_pack_v1/vectors/enemy_ring/024.svg",
+      "sourceHash": "e5e24f58cb25bb27c32d6142f987891e459ad8b81d8966d5ecf3ddbb1e7bc98b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-25",
+      "source": "interaction_pack_v1/vectors/enemy_ring/025.svg",
+      "sourceHash": "c6e9688b72df105ca9f73f8ea151551621a233bfe51702992800fcb5a7714959",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-26",
+      "source": "interaction_pack_v1/vectors/enemy_ring/026.svg",
+      "sourceHash": "f650b6a3e398cf38cd358ba0c3b462cea803674dd3b8bb21328b4fb18723a8dd",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-27",
+      "source": "interaction_pack_v1/vectors/enemy_ring/027.svg",
+      "sourceHash": "af362157c48983393fbe5a79fc763209e401b4790884ad15d5a1269bf76d7437",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-28",
+      "source": "interaction_pack_v1/vectors/enemy_ring/028.svg",
+      "sourceHash": "d1299db83cfa89bfa92acbcae487198e9e9a5764c5455cf3b711eb776353b3ce",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "enemy-ring-d45-29",
+      "source": "interaction_pack_v1/vectors/enemy_ring/029.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-0",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/000.svg",
+      "sourceHash": "8f53cf937fb2b487635d9f2a130c3a91d15c18364adc3cb477997ff00dcd3ebf",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-1",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/001.svg",
+      "sourceHash": "85dd2db7ea798f1caeb70030a06994240ea114c7c69b992d88ac407647428588",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-2",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/002.svg",
+      "sourceHash": "08ea99fcc13bb8080f628430ad10ccb7ec863b0e459085057f9c7f1b57c408ab",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-3",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/003.svg",
+      "sourceHash": "2c8749978efa1e1211dbaed5899a6414727b2e03ce206a143f135205fa88921f",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-4",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/004.svg",
+      "sourceHash": "3d97dc7fb7a2dd03593c3ebd8431a974b3a303c9b6a1a6b2d5fc5272483a9848",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-5",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/005.svg",
+      "sourceHash": "c15f38efda8b47aa08b046a12eb778aa4c7092fcbd84193726ec4e52ca6fcd9a",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-6",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/006.svg",
+      "sourceHash": "d6ec98485b9d8a2fa8723053bb30eae65d2ec9ff7eac3f70dfd4a3c5d032702d",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-7",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/007.svg",
+      "sourceHash": "c513c4dd640dcea39ed5a8fb616883a6dbdd2bf68a51f1fd12b05c4b23e1bcbd",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-8",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/008.svg",
+      "sourceHash": "402ca61c2243c6392e42d4cc8ce2ef08d568b0944c23b0f51d401287dd3e56c3",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-9",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/009.svg",
+      "sourceHash": "c06902e2e32cce307ccd9ce390ef7c43e68fe49f36b4997d3e219a2d67cb8827",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-10",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/010.svg",
+      "sourceHash": "8008494803d79c78e6144fd2f7e48a9d2f2f7dbd7af5b4bb878745db927af52c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-11",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/011.svg",
+      "sourceHash": "abaf3bd8d383626c680989286807d462cdc299951bef3f8193ed7c99bb6e37f9",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-12",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/012.svg",
+      "sourceHash": "43f1f93d3915771d354efd499498ac2ce1bea014e106531d6ecd2d2e016ce5f1",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-13",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/013.svg",
+      "sourceHash": "1b71f0bf1c438095bbc0935a4eba240549b6ca85c6d6d84adb01039aeaed0b91",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-14",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/014.svg",
+      "sourceHash": "139ba0b5ec6687183a33bca6d2dc1cea24c517eea327a5f0c1604ebb5c5cbae2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-15",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/015.svg",
+      "sourceHash": "f2970502fb5fa2673352c6553ca17c887b4a07ced904ca3b8486a2d544b81f28",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-16",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/016.svg",
+      "sourceHash": "f4681bc88d5ff842e8f9afcb1f00b532b98f79effc28409b69c0c4c8946e71e2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-17",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/017.svg",
+      "sourceHash": "0c924f9d1ab2aa114871fd70ab641a4fba9bc1cfc6e32282bd37dc7b1684af0f",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-18",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/018.svg",
+      "sourceHash": "cb77c0c2e88141a93b0cfabac74a9af02006ce1a1856fb6c734cf9e80fc01bdb",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-19",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/019.svg",
+      "sourceHash": "c71344c4f5d5e6cb5e95d486cd7aaf19fd48f5203f9e760ea9634b101007df17",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-20",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/020.svg",
+      "sourceHash": "804bbd1195d03dac801eacb67d7cc2ddc2fb526e5a0686da7aea132785a861c6",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-21",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/021.svg",
+      "sourceHash": "f0256a6545c2a980300ae5ca816728b0f9f22d129ba2778c8a1a82045aa8d7ec",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-22",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/022.svg",
+      "sourceHash": "6549fbdc54b43b7439336ad7a23eab6b0ff780af719ce8bd323112b2ae660135",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-23",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/023.svg",
+      "sourceHash": "640c722ffeb5f59fc6c7eb338029dff7d5f4b48d31867f3b8d139e3e89acafd5",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-24",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/024.svg",
+      "sourceHash": "2c74b4a009117034669844a98cd9e4720c59414d5ecaf3d2184590c634f19405",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-25",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/025.svg",
+      "sourceHash": "fbfd6c60c5a6cd281ed799cf25d2346d2989b695eba0b6be075137d50c0f7be6",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-26",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/026.svg",
+      "sourceHash": "c7079f97406d01708f9e822bfb15f1f0f02c16ea77c58b1fee3d5dc10b4537e1",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-27",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/027.svg",
+      "sourceHash": "7e29072692d2c536f6ff19bbbc7bfbdf211a2e5dd943030b4e9849014fb43aef",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-28",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/028.svg",
+      "sourceHash": "b06945949ba69a22b6a7cec6622286412064100708dd4dfd476735a4ca4cb456",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-cues",
+      "id": "door-seal-dissolve-d45-29",
+      "source": "interaction_pack_v1/vectors/door_seal_dissolve/029.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-0",
+      "source": "ambient_pack_v1/vectors/lamp_flame/000.svg",
+      "sourceHash": "b1894bfeaedaa8ac1e796871dae9ea25426b3af465267d621f4cd0743144ad20",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-1",
+      "source": "ambient_pack_v1/vectors/lamp_flame/001.svg",
+      "sourceHash": "3eab1cb47d75e47f7a26a8126a18bb8463c15e4dff135ff702c6b3eac9ee9e87",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-2",
+      "source": "ambient_pack_v1/vectors/lamp_flame/002.svg",
+      "sourceHash": "0fa56ddc8d5602518901bae162f7091766efb6786aa99eb9cacd10cf9481c127",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-3",
+      "source": "ambient_pack_v1/vectors/lamp_flame/003.svg",
+      "sourceHash": "4cb325d8b520c176a4c45e95908ddb1afeabd8d8410b07911cb58c17870fa734",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-4",
+      "source": "ambient_pack_v1/vectors/lamp_flame/004.svg",
+      "sourceHash": "f32dfe2b7e558e362143d0a2b284c573c693b1dbe4357ac3af45cd8d34af4c10",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-5",
+      "source": "ambient_pack_v1/vectors/lamp_flame/005.svg",
+      "sourceHash": "25220a3be06cd92ec7d38ec230a4311a23684ae086b7c3afd822ffb9d458813c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-6",
+      "source": "ambient_pack_v1/vectors/lamp_flame/006.svg",
+      "sourceHash": "da766adcc62f457da8149afe7e44736872e0ec55bbb571c7a3f6c989c6f4a26c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-7",
+      "source": "ambient_pack_v1/vectors/lamp_flame/007.svg",
+      "sourceHash": "09ecb1cfa3d6f44436c4c4cc46037857ff64b8c45745a20de5fb394ac22c72fa",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-8",
+      "source": "ambient_pack_v1/vectors/lamp_flame/008.svg",
+      "sourceHash": "0d162d7e02ab45f1d0d16d2c77734f84a9253893da86880909923e7ffba1dac3",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-9",
+      "source": "ambient_pack_v1/vectors/lamp_flame/009.svg",
+      "sourceHash": "bbf0ec2f5b879f705e4006995527314896f0a1bc410655e1c350cf8827ec210c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-10",
+      "source": "ambient_pack_v1/vectors/lamp_flame/010.svg",
+      "sourceHash": "04af3e840f838f0268f2e509193a6072fc0d5261fef72df473de022d73eec536",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-11",
+      "source": "ambient_pack_v1/vectors/lamp_flame/011.svg",
+      "sourceHash": "2743ca099dcd54a5e0b0fb8f62fbca7a4eaf063f97c8f33cd0281b13cbc8deed",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-12",
+      "source": "ambient_pack_v1/vectors/lamp_flame/012.svg",
+      "sourceHash": "d443b8fa523e189b7aaeaa2dbee30dd6e6154d35e1c28c4dc45f6fa86a40a339",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-13",
+      "source": "ambient_pack_v1/vectors/lamp_flame/013.svg",
+      "sourceHash": "c1c2f1ee657df97f733e35b226066d96e930aab55aa0b424b5086530ce722572",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-14",
+      "source": "ambient_pack_v1/vectors/lamp_flame/014.svg",
+      "sourceHash": "dff31fa96e2cdb92aaf5d2b9f7ccc5ef08702b7b1d90f17bd6f39f0f02ba152e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-15",
+      "source": "ambient_pack_v1/vectors/lamp_flame/015.svg",
+      "sourceHash": "d8d585de52541801896a1146f8689bb611cbff284806ac08106b68300ee04fd7",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-16",
+      "source": "ambient_pack_v1/vectors/lamp_flame/016.svg",
+      "sourceHash": "2c919f5d35bc1461a066dd86d781f91c5aa5a683031c4fe838b5de71e96a1339",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-17",
+      "source": "ambient_pack_v1/vectors/lamp_flame/017.svg",
+      "sourceHash": "6a130c923f872d80da80783a3d6fd02742c582662778a826318dea4b300ade48",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-18",
+      "source": "ambient_pack_v1/vectors/lamp_flame/018.svg",
+      "sourceHash": "18d3f8934c8fa359d5db43ea19112fa0fe3ae39bd0e048015724aacddc8d068c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-19",
+      "source": "ambient_pack_v1/vectors/lamp_flame/019.svg",
+      "sourceHash": "21d3ae777c4b8e4ce3700c7f6f3a0629ec129f7950c62421b0669c048b55b06e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-20",
+      "source": "ambient_pack_v1/vectors/lamp_flame/020.svg",
+      "sourceHash": "32155169a26148381b10711341b0d3fe1b759d089622e116211935b587789c7b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-21",
+      "source": "ambient_pack_v1/vectors/lamp_flame/021.svg",
+      "sourceHash": "c7aa0bc0ef9427620289faf37afd6bdbd0c0141bd9c7d43655b14d98772b39d7",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-22",
+      "source": "ambient_pack_v1/vectors/lamp_flame/022.svg",
+      "sourceHash": "256d9c9f8bfa5078f90de766aa22966a78471b09e4335e74f495e3dc7f5e07ff",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "lamp-flame-d45-23",
+      "source": "ambient_pack_v1/vectors/lamp_flame/023.svg",
+      "sourceHash": "8433068cca13a7ad5624c393d67ff37b8578a35d9ca14a5dc756209d574b5029",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-0",
+      "source": "ambient_pack_v1/vectors/rising_motes/000.svg",
+      "sourceHash": "8f32313a9ecf8e150db38207a4ad759a9191c169a412801916ae9dfd2091c6bf",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-1",
+      "source": "ambient_pack_v1/vectors/rising_motes/001.svg",
+      "sourceHash": "f02187b724bf949de25784da4000ed0779db59892a8f9e59f95a3166c1fffc7f",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-2",
+      "source": "ambient_pack_v1/vectors/rising_motes/002.svg",
+      "sourceHash": "2d286af3974fee84f153e10ff5955661023d2db82b2de64f7b420550bdbebf86",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-3",
+      "source": "ambient_pack_v1/vectors/rising_motes/003.svg",
+      "sourceHash": "84d7e3912841d8f8be36849bf95705b1874d4453ed7f6928c424ec51d21a132b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-4",
+      "source": "ambient_pack_v1/vectors/rising_motes/004.svg",
+      "sourceHash": "78aada5afacacd5cdc26b52adc227eba7a4a4b54e62c31f7cc9688bd3cff6b6b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-5",
+      "source": "ambient_pack_v1/vectors/rising_motes/005.svg",
+      "sourceHash": "acb541145faad582f28d06822880c4ce578362602b1c45330c3fe88a83ff3aab",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-6",
+      "source": "ambient_pack_v1/vectors/rising_motes/006.svg",
+      "sourceHash": "551886cf9b28acea61ce1e038a4a48b87ba0da96df5b38ac684369071a5cc9cb",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-7",
+      "source": "ambient_pack_v1/vectors/rising_motes/007.svg",
+      "sourceHash": "09e7e638d9f46cb5ca3548d27e2813e51e50c4045255259409f0290ac966f733",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-8",
+      "source": "ambient_pack_v1/vectors/rising_motes/008.svg",
+      "sourceHash": "7220a9a83e0c12e2fdca35e526294f357a138a549167941fb74d3b5e88b66032",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-9",
+      "source": "ambient_pack_v1/vectors/rising_motes/009.svg",
+      "sourceHash": "bcbf3810a13327945687945c10e4d93e1ae51d00d42ff06b82c1d316730e6e23",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-10",
+      "source": "ambient_pack_v1/vectors/rising_motes/010.svg",
+      "sourceHash": "28d046ec7f1f35a6be622160e75be57e07442dd347893d37bd67453e1045ea34",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-11",
+      "source": "ambient_pack_v1/vectors/rising_motes/011.svg",
+      "sourceHash": "319cbd33ed0760940305625b96edc81ae528e3e10ff55b4365486a1baee9b7ad",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-12",
+      "source": "ambient_pack_v1/vectors/rising_motes/012.svg",
+      "sourceHash": "0b4428d3a33cf6b0780851d37e8ecfca616ea9837903df45ce815a9439a6d654",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-13",
+      "source": "ambient_pack_v1/vectors/rising_motes/013.svg",
+      "sourceHash": "8093014dc4a9efbfaf16e137e7b8d8240f9dacff3469e899c3fdfdebcbfc870c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-14",
+      "source": "ambient_pack_v1/vectors/rising_motes/014.svg",
+      "sourceHash": "43042754c7b7d094b55610d01aca5166e0edec6529eb858c2ad705a3edab2148",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-15",
+      "source": "ambient_pack_v1/vectors/rising_motes/015.svg",
+      "sourceHash": "72a80f984fd180b22f9167ba927f029e42307fb81ee9b153b533a5755f83bece",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-16",
+      "source": "ambient_pack_v1/vectors/rising_motes/016.svg",
+      "sourceHash": "e6bee6a7e8f32f800a73f8f99c8e619b5bb7251d6634496c7ab213ff1475983b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-17",
+      "source": "ambient_pack_v1/vectors/rising_motes/017.svg",
+      "sourceHash": "6894bbd567cf22acb22031be422b7c806fc67b9aaefe457eeff47f48c0b86d97",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-18",
+      "source": "ambient_pack_v1/vectors/rising_motes/018.svg",
+      "sourceHash": "49f75125dde66d84e9ed6f40f0868d8e981f39e85c4429737fa2a381fc64e2ca",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-19",
+      "source": "ambient_pack_v1/vectors/rising_motes/019.svg",
+      "sourceHash": "d24d53abfb3eec93d5da3c5253993b8bd4996f5a37149be1299f73fef081f193",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-20",
+      "source": "ambient_pack_v1/vectors/rising_motes/020.svg",
+      "sourceHash": "843029f44de166c08d880d2d2dd9611cc29b5513128131f1e3b029d84a9c0f0d",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-21",
+      "source": "ambient_pack_v1/vectors/rising_motes/021.svg",
+      "sourceHash": "837d7486178fe7fa773e8af5489cc5030bd03c97388c4a5550d19d62f8fc86f9",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-22",
+      "source": "ambient_pack_v1/vectors/rising_motes/022.svg",
+      "sourceHash": "86572cc0780f2b4f1557dd6ed186fb1c7c8292f935524e786a592bd11ec20d96",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "rising-motes-d45-23",
+      "source": "ambient_pack_v1/vectors/rising_motes/023.svg",
+      "sourceHash": "9e1446a8082aeea64fb10d7c7f9f1033289ed9da98fca03d9a45e0f4949b555b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-0",
+      "source": "ambient_pack_v1/vectors/pond_ripple/000.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-1",
+      "source": "ambient_pack_v1/vectors/pond_ripple/001.svg",
+      "sourceHash": "14c1a4a221b08f058c821f67cb0445c2493f21b6378701200e2eda25c23d9245",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-2",
+      "source": "ambient_pack_v1/vectors/pond_ripple/002.svg",
+      "sourceHash": "556ea8e158537e02e8f992c87eaed9fe7d04c23f822b9064e6fcfcc120e7b8a2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-3",
+      "source": "ambient_pack_v1/vectors/pond_ripple/003.svg",
+      "sourceHash": "36e3d6396c333416aec6fc095e11549b39f11154733507f284d76d49d7ea825e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-4",
+      "source": "ambient_pack_v1/vectors/pond_ripple/004.svg",
+      "sourceHash": "15660b27391cd61c3f80f40b7b709c8307d50fee763f687fb67258744b622ec0",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-5",
+      "source": "ambient_pack_v1/vectors/pond_ripple/005.svg",
+      "sourceHash": "de85afd305bbb1d9b2664517d7336a895a3bbb257cff03aa6d56ee5df0fb7663",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-6",
+      "source": "ambient_pack_v1/vectors/pond_ripple/006.svg",
+      "sourceHash": "0c077222f8e5ee9332a0846fe4a9b7489a6db310925bc6fbe366d7baf0e93ba2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-7",
+      "source": "ambient_pack_v1/vectors/pond_ripple/007.svg",
+      "sourceHash": "2f3fda9e378adfeca32115adb6850cc1b47e3e891b010533794d291bf720c95e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-8",
+      "source": "ambient_pack_v1/vectors/pond_ripple/008.svg",
+      "sourceHash": "f7f759765ae45377e31d280c3406f9644ef5c1e6ee83dd70d1841b867078499b",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-9",
+      "source": "ambient_pack_v1/vectors/pond_ripple/009.svg",
+      "sourceHash": "4ed5505dbe52d4da870054a0f890d889f4d23b18fd2897bd61815b204992b3db",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-10",
+      "source": "ambient_pack_v1/vectors/pond_ripple/010.svg",
+      "sourceHash": "38a75b503a5d466a42ea2813de82d40cfae2ab1037cef7452fa1adb3f3b0c80c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-11",
+      "source": "ambient_pack_v1/vectors/pond_ripple/011.svg",
+      "sourceHash": "df1bc1eb8dd04c49e72ea723a51afacd479a534aead3f6b0e21f4004f2b9b80c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-12",
+      "source": "ambient_pack_v1/vectors/pond_ripple/012.svg",
+      "sourceHash": "4f328b34f4d08170a55e54580f816e46b9f3b2aac1e0d95a631aa4a52871ddb6",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-13",
+      "source": "ambient_pack_v1/vectors/pond_ripple/013.svg",
+      "sourceHash": "2b9cf31eb4fa598cd754b530b43d678dfafe6a630a47091144f621f7d04c95c4",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-14",
+      "source": "ambient_pack_v1/vectors/pond_ripple/014.svg",
+      "sourceHash": "5f38bb0ce321717eddb69ff23f321519dbc0767ee50b1a7f0bf425dbf40a94e2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-15",
+      "source": "ambient_pack_v1/vectors/pond_ripple/015.svg",
+      "sourceHash": "ea51abcdbf0b6938c186c4ff95660ed8fadcf21ef0fd8d0313488ec9566d8152",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-16",
+      "source": "ambient_pack_v1/vectors/pond_ripple/016.svg",
+      "sourceHash": "17f216bfcf52aaf87faa7675ae4f76c007a061a8f6450f970a0c86e1a7ba4b99",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-17",
+      "source": "ambient_pack_v1/vectors/pond_ripple/017.svg",
+      "sourceHash": "4954fe4723cf1af7df7b86852c6afbc9f73cf826f57fe5204078e3f39ae71bf6",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-18",
+      "source": "ambient_pack_v1/vectors/pond_ripple/018.svg",
+      "sourceHash": "712042144ddf4e908ca0e1ae9480baf880e37b24f15ea7aa39d4979b9ad55230",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-19",
+      "source": "ambient_pack_v1/vectors/pond_ripple/019.svg",
+      "sourceHash": "a1e4a21ec1981264fc603e67eca2af328f035932da9c2fa99344dbe759fe8a25",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-20",
+      "source": "ambient_pack_v1/vectors/pond_ripple/020.svg",
+      "sourceHash": "f7b005c74b61fc1524ab92c39f62179583adc068e9d73add938155357cf8765f",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-21",
+      "source": "ambient_pack_v1/vectors/pond_ripple/021.svg",
+      "sourceHash": "83c05f92bb4be9c4c7ab1842cc8ea5d92cb3d939ff1347f84bed02239be2fd26",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-22",
+      "source": "ambient_pack_v1/vectors/pond_ripple/022.svg",
+      "sourceHash": "74cd686f17360e70b6e6ec37c9ba86d3e1a8b60d70830deeca99db3815c22cf2",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "pond-ripple-d45-23",
+      "source": "ambient_pack_v1/vectors/pond_ripple/023.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-0",
+      "source": "ambient_pack_v1/vectors/droplet_splash/000.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-1",
+      "source": "ambient_pack_v1/vectors/droplet_splash/001.svg",
+      "sourceHash": "0b0ae99af1c8079607c6fc4003c536f772cca805c48d56d5fabea6168b0235cd",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-2",
+      "source": "ambient_pack_v1/vectors/droplet_splash/002.svg",
+      "sourceHash": "12ed819e0a7cb089b3cd3d50ff85be063929cb62121a44e7378f615feb675c9e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-3",
+      "source": "ambient_pack_v1/vectors/droplet_splash/003.svg",
+      "sourceHash": "025a890ce477d5db4744adafe1cced98bf127686444894c3dc7b1410817d2f4d",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-4",
+      "source": "ambient_pack_v1/vectors/droplet_splash/004.svg",
+      "sourceHash": "e18ab99b3adc466bf56f29538104873a5905c7d4253987420d3ace91bc34800d",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-5",
+      "source": "ambient_pack_v1/vectors/droplet_splash/005.svg",
+      "sourceHash": "c7e94a9a83af5e90253b65855c6d90635e89d0327e14c5f00e082fe0d4a1f296",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-6",
+      "source": "ambient_pack_v1/vectors/droplet_splash/006.svg",
+      "sourceHash": "97ff12d98d044cb335b4eca1884c312d0d87d505adb21d70720286ae84d9c59f",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-7",
+      "source": "ambient_pack_v1/vectors/droplet_splash/007.svg",
+      "sourceHash": "16264e2b1dba56ba779c0e549267a0183bd09b141d8eb0b904ac5265dd62a598",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-8",
+      "source": "ambient_pack_v1/vectors/droplet_splash/008.svg",
+      "sourceHash": "50222a75ad8e4f697748c57b080da68679286a0d94214a6e9dd7594b429419b0",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-9",
+      "source": "ambient_pack_v1/vectors/droplet_splash/009.svg",
+      "sourceHash": "3bf4225cf4f81265b9a686a50b03155b678a92adb2702e283ebe518e1775f7d6",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-10",
+      "source": "ambient_pack_v1/vectors/droplet_splash/010.svg",
+      "sourceHash": "4b05ac72e912ab7d054b0bf362b9a5b162dc898a7b25bf60e9ee440acb48c76d",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-11",
+      "source": "ambient_pack_v1/vectors/droplet_splash/011.svg",
+      "sourceHash": "22485e487848e0ce1c731b4088832290386e02426c2abd8ca82db4534ec7d379",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-12",
+      "source": "ambient_pack_v1/vectors/droplet_splash/012.svg",
+      "sourceHash": "995c49336b2ce4400d3040827128ee5ae0081cf3a62af0a987428247c00545d4",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-13",
+      "source": "ambient_pack_v1/vectors/droplet_splash/013.svg",
+      "sourceHash": "71cd52e9c3ae82b725541be520709087f57d8828be0de886903273bcac99c540",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-14",
+      "source": "ambient_pack_v1/vectors/droplet_splash/014.svg",
+      "sourceHash": "6c80f2f170feb556f33a3a692b8c7e8a3f01c938ab27842292262a3d8238292d",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-15",
+      "source": "ambient_pack_v1/vectors/droplet_splash/015.svg",
+      "sourceHash": "ed92b70a1143a2202f60fac8c25d9d7e9f83fd8a7f13273feed6505ab302104e",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-16",
+      "source": "ambient_pack_v1/vectors/droplet_splash/016.svg",
+      "sourceHash": "879f999e129f8c02bb799d8d8670cf3a9b3f134925ad232a80ca06976ca6d33a",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-17",
+      "source": "ambient_pack_v1/vectors/droplet_splash/017.svg",
+      "sourceHash": "4775427f287e79edd12567ed17b47631ab05493fd41f77ab8bb58ed0d5eafdec",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-18",
+      "source": "ambient_pack_v1/vectors/droplet_splash/018.svg",
+      "sourceHash": "902d74f016f38feb48419193c58cbb343ce5de76c6447c0f30f71d8406fd738c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-19",
+      "source": "ambient_pack_v1/vectors/droplet_splash/019.svg",
+      "sourceHash": "e686a5f0b606693c50954b5157ec5743e31055e0a2c8409a94ddfec2d712c954",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-20",
+      "source": "ambient_pack_v1/vectors/droplet_splash/020.svg",
+      "sourceHash": "5cbfa9c542467fa396dee971533fa90a283e939f6dff363d2fb84f3332359325",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-21",
+      "source": "ambient_pack_v1/vectors/droplet_splash/021.svg",
+      "sourceHash": "9f001052f2002cdf31ac5df47f8c290596c47282cc9c5351a8a5b6360b509abb",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-22",
+      "source": "ambient_pack_v1/vectors/droplet_splash/022.svg",
+      "sourceHash": "59d5e3358b49a6438209b1894402aeb3b536dfcedec6939dde8ad6f7fef6c90c",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    },
+    {
+      "pack": "ink-crypt-ambient",
+      "id": "droplet-splash-d45-23",
+      "source": "ambient_pack_v1/vectors/droplet_splash/023.svg",
+      "sourceHash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740",
+      "sourceCanvas": [
+        512,
+        448
+      ],
+      "derivativeCanvas": [
+        1536,
+        1344
+      ],
+      "uniformScale": 3,
+      "derivativeAnchor": [
+        768,
+        858
+      ],
+      "paddingOffset": [
+        0,
+        0
+      ],
+      "sourceAnchor": [
+        256,
+        286
+      ],
+      "density": 336,
+      "projection": "projected-world"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "native/07_locked_hold.png": "3bfe1b672db6f255280efc79c9d07c7ce8172c8b93432f9cf8d153a4af409c25",
+  "native/01_lever_lowering.png": "77c5a52cc772faff4660a7d9bf3a13153a2b36cb4913246eb993b04a00ad050c",
+  "native/04_compression.png": "8083892be1799380f7abc639ccee230e5313a205860fb708070121c6b1ed5a3f",
+  "native/02_platen_approaches.png": "d94cc8f39525475ea839de402d7308816b6d803041d6f2ac687044bf168f3d2e",
+  "native/06_pawl_settles.png": "65994aa4333d0b074d06537217d648e5d49ea3dbbd8aaa1630512042fa2f9b11",
+  "native/00_raised_ready.png": "bbbe4ac9a472698dfa082a7d698bbe4548e99bcca292819058531c795421b69a",
+  "native/03_fruit_contact.png": "4d8995ab7b6211b30d90de8666565f5d205e7146b06691ac6f06ead59a97d6a3",
+  "native/05_catch_engages.png": "6cede867d8084f048f59fa37f240fddb3bf373b88657853adb53b256f18f9653",
+  "runtime/07_locked_hold.png": "ab7d675ddb0d2a7e21e0c572a236dcc16f76de73105b1983775776e8bc56039f",
+  "runtime/01_lever_lowering.png": "6eeed79f0ffc5859b0f013a2a0fccdf084c3cf7501007e9a4ee5aadd554d0a60",
+  "runtime/04_compression.png": "3d69ccf768b6182b4c537468723c7f9e3c22cb54360fcad0a969fc866a629aa8",
+  "runtime/02_platen_approaches.png": "aaddc1fc5d78ebcf6344256e205b20e728cfc98e8d30c67f7bd4ef34b927c3f5",
+  "runtime/06_pawl_settles.png": "64331c32819b27df269461ca3e380fb9547c97ec66ecc250de034c206415b1b8",
+  "runtime/00_raised_ready.png": "3c50c3d4a10c9d434823bbcc27800d897165549a997b1846cec1fd788ce06c95",
+  "runtime/03_fruit_contact.png": "ecd7fa024a069c4144ceabe6db1fffa6f7f6e92a32416461e02ef368e3abc212",
+  "runtime/05_catch_engages.png": "a41e4ebbd1d7575a7b88a5cdc6d79e4e5368ba9fa0cdbf60fb5682090f3b2719",
+  "states/end.png": "3bfe1b672db6f255280efc79c9d07c7ce8172c8b93432f9cf8d153a4af409c25",
+  "states/start.png": "bbbe4ac9a472698dfa082a7d698bbe4548e99bcca292819058531c795421b69a"
+}

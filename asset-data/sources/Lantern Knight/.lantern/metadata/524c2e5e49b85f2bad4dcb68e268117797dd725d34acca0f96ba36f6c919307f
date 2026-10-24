@@ -1,0 +1,28 @@
+{
+  "direction": "UR",
+  "holds": {
+    "move": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "attack": [
+      8,
+      10,
+      5,
+      8,
+      7,
+      12
+    ]
+  },
+  "top_extra": {
+    "attack": {
+      "3": 12
+    }
+  },
+  "right_extra": {},
+  "clear_rects": {}
+}

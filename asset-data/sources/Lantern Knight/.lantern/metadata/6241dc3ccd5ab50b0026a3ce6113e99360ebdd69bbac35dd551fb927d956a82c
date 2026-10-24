@@ -1,0 +1,29 @@
+{
+  "id": "lantern_concept_enemy_03_masked_cultist",
+  "name": "Masked cultist",
+  "family": "02_enemies",
+  "collection": "current_ink_revision02",
+  "canonical_status": "RETAINED ORIGINAL; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "1vBI2cSWm_dn-i9r0GESQc_diY6HjnxMZ",
+  "source_url": "https://drive.google.com/file/d/1vBI2cSWm_dn-i9r0GESQc_diY6HjnxMZ/view?usp=drivesdk",
+  "source_archive": "02_enemies_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_enemies_ink_revision02/packs/02_enemies/assets/03_masked_cultist.png",
+  "source_sha256": "eaa675ed1177ba59e3c12cffd0534ad775195818d2035861d7a3cb825f70317d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "slug": "masked_cultist",
+  "notes": "Movement: creeping shuffle cycle in place, with leading foot held forward. Attack: low outward right-hand dagger slash; left-hand closed book remains hugged to torso. Six distinct drawn cels per clip. Registration and alpha correction baked; no skeleton rig.",
+  "overscan_right": {
+    "attack": [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+    ]
+  }
+}

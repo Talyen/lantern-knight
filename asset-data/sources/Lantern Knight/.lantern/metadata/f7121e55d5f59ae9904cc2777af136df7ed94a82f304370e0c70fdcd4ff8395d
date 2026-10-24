@@ -1,0 +1,39 @@
+{
+  "actor": "Mourning Moth",
+  "extension_headings": [
+    "DL",
+    "UL",
+    "UR"
+  ],
+  "DR_dependency": {
+    "runtime_zip": "mourning_moth_runtime.zip",
+    "sha256": "dc7248d39d6017f0829b8e9d2a2fe0cae94f941cc7d1f72433835992b2e25d6c"
+  },
+  "heading_ppu": {
+    "DR": 256,
+    "DL": 256,
+    "UL": 256,
+    "UR": 256
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot": [
+    384,
+    650
+  ],
+  "important": "Honor per-heading PPU to preserve world body scale. No per-frame fitting. Original DR unchanged.",
+  "authorship": {
+    "DR": "existing authored baseline",
+    "DL": "independently drawn",
+    "UL": "independently drawn",
+    "UR": "deterministic horizontal mirror of UL, not independently drawn"
+  },
+  "UR_mirror": {
+    "pivot_convention": "pixel-edge coordinates",
+    "formula": "new_pivot_x = canvas_width - source_pivot_x = 768 - 384 = 384",
+    "lighting": "horizontal light/shadow reversal accepted for symmetric tiny enemy",
+    "source_heading": "UL"
+  }
+}

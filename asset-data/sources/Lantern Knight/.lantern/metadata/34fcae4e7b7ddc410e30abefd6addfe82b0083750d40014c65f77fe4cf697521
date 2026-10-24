@@ -1,0 +1,342 @@
+{
+  "name": "Ivory Rupture",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.5
+  ],
+  "frame_order": "row-major",
+  "atlas_grid": [
+    4,
+    4
+  ],
+  "durations_ms": [
+    20,
+    20,
+    20,
+    80,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    90,
+    100,
+    100,
+    110,
+    110,
+    400
+  ],
+  "visual_duration_ms": 1040,
+  "clear_pause_ms": 400,
+  "newly_drawn_cels": 15,
+  "final_transparent_cel": 15,
+  "registration": {
+    "source_dimensions": [
+      1254,
+      1254
+    ],
+    "grid": [
+      4,
+      4
+    ],
+    "uniform_scale": 1.6331738437001595,
+    "common_offset": [
+      64,
+      64
+    ],
+    "note": "Fixed grid extraction and shared uniform canvas transform. No per-frame recentering, scale animation, opacity animation, optical flow or tweening."
+  },
+  "qa": [
+    {
+      "frame": 0,
+      "source_rect": [
+        0.0,
+        0.0,
+        313.5,
+        313.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 940199,
+      "bbox_gt12": [
+        303,
+        336,
+        388,
+        416
+      ],
+      "sha256": "91177df40bf373c8357d3935e7a93cfaaf811d32aed673b7ec3b5679107ca346"
+    },
+    {
+      "frame": 1,
+      "source_rect": [
+        313.5,
+        0.0,
+        627.0,
+        313.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 3052777,
+      "bbox_gt12": [
+        252,
+        294,
+        405,
+        447
+      ],
+      "sha256": "80b2a96b9b552d57b51f9987192a27c7c0aaace7375235cc2e008aafa43f6691"
+    },
+    {
+      "frame": 2,
+      "source_rect": [
+        627.0,
+        0.0,
+        940.5,
+        313.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 5549572,
+      "bbox_gt12": [
+        199,
+        254,
+        431,
+        495
+      ],
+      "sha256": "075c85aef2bd44f7d9c6655e5518259d2164f95d3471e7a6a86239323c621367"
+    },
+    {
+      "frame": 3,
+      "source_rect": [
+        940.5,
+        0.0,
+        1254.0,
+        313.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 13536234,
+      "bbox_gt12": [
+        106,
+        185,
+        495,
+        560
+      ],
+      "sha256": "c64755a3bc3a392c79d1d2548b531b9605d76a4bf3ad9bd90d87d05d5ed4cea5"
+    },
+    {
+      "frame": 4,
+      "source_rect": [
+        0.0,
+        313.5,
+        313.5,
+        627.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 11249365,
+      "bbox_gt12": [
+        155,
+        169,
+        506,
+        505
+      ],
+      "sha256": "14e21e2c678bcb3f9df18e31411b7fd84cf2900007c74fe3f8feea0015e46291"
+    },
+    {
+      "frame": 5,
+      "source_rect": [
+        313.5,
+        313.5,
+        627.0,
+        627.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 12544255,
+      "bbox_gt12": [
+        129,
+        160,
+        525,
+        522
+      ],
+      "sha256": "3eec512bb637ffd12d15ec8ddde636d462b870c5e86d98d986c990fb58da48d6"
+    },
+    {
+      "frame": 6,
+      "source_rect": [
+        627.0,
+        313.5,
+        940.5,
+        627.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 11015693,
+      "bbox_gt12": [
+        114,
+        152,
+        513,
+        534
+      ],
+      "sha256": "315657422a5484687d39a8f34bd3eeba3b9ace099166428879cbac75e740d2b4"
+    },
+    {
+      "frame": 7,
+      "source_rect": [
+        940.5,
+        313.5,
+        1254.0,
+        627.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 10389802,
+      "bbox_gt12": [
+        87,
+        161,
+        525,
+        537
+      ],
+      "sha256": "c34466344ff02a1656ec062fa9994f27e522ea116783a2fdffaa2829d0f1f26f"
+    },
+    {
+      "frame": 8,
+      "source_rect": [
+        0.0,
+        627.0,
+        313.5,
+        940.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 8097001,
+      "bbox_gt12": [
+        133,
+        153,
+        538,
+        514
+      ],
+      "sha256": "fffabbc872cca379633c9e52568b5706f808f1601d68834b4f52ced9f9004d47"
+    },
+    {
+      "frame": 9,
+      "source_rect": [
+        313.5,
+        627.0,
+        627.0,
+        940.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 4719981,
+      "bbox_gt12": [
+        132,
+        150,
+        530,
+        507
+      ],
+      "sha256": "c53bd4b0a6496843080a1aecfeb1a99c121b7b88ee0b604b95a3d9f5334a248c"
+    },
+    {
+      "frame": 10,
+      "source_rect": [
+        627.0,
+        627.0,
+        940.5,
+        940.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 2777986,
+      "bbox_gt12": [
+        131,
+        171,
+        515,
+        490
+      ],
+      "sha256": "ecfe4f491863a016a5ea50b4f1a44ed549d1050bd603062d3eb4f2457392711a"
+    },
+    {
+      "frame": 11,
+      "source_rect": [
+        940.5,
+        627.0,
+        1254.0,
+        940.5
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 1243766,
+      "bbox_gt12": [
+        129,
+        192,
+        500,
+        476
+      ],
+      "sha256": "ff785cd54c8f7cd46c01f824fef6bad38f1f92a1578aab363fc1590e58811aa1"
+    },
+    {
+      "frame": 12,
+      "source_rect": [
+        0.0,
+        940.5,
+        313.5,
+        1254.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 671562,
+      "bbox_gt12": [
+        199,
+        178,
+        492,
+        437
+      ],
+      "sha256": "265ca2b41b776801c60a0d1e7ffa27d598d57ebf8437127cafb41749df2e9d6a"
+    },
+    {
+      "frame": 13,
+      "source_rect": [
+        313.5,
+        940.5,
+        627.0,
+        1254.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 327780,
+      "bbox_gt12": [
+        240,
+        201,
+        386,
+        374
+      ],
+      "sha256": "a9499cf39faec08459616ec595e8df37dca1945292c6b0e0a29300f49dbf27f9"
+    },
+    {
+      "frame": 14,
+      "source_rect": [
+        627.0,
+        940.5,
+        940.5,
+        1254.0
+      ],
+      "source_edge_max_alpha": 1,
+      "canvas_edge_max_alpha": 0,
+      "alpha_mass": 276206,
+      "bbox_gt12": [
+        217,
+        284,
+        458,
+        395
+      ],
+      "sha256": "c3eb2deff2b31d7a543b4bb20ef3b0fa6d090e251f94d6cddcde560e231a6681"
+    }
+  ],
+  "qa_note": "Source separator residual alpha at most 3/255; no visible cropped shapes. Production canvas borders exactly zero alpha."
+}

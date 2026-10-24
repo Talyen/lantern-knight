@@ -1,0 +1,6 @@
+{
+  "source_sha256": "f052cb0fc316f37ec3d77fd019967cecf0d35c6ec039b70ae89a2d25924b607d",
+  "tile": 160,
+  "overlap": 32,
+  "threads": 2
+}

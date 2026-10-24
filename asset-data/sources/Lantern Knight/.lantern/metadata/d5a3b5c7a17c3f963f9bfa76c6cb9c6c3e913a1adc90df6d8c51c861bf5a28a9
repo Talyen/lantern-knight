@@ -1,0 +1,455 @@
+{
+  "name": "cultist_paper_cut",
+  "role": "enemy",
+  "grid": [
+    4,
+    6
+  ],
+  "canvas": [
+    512,
+    384
+  ],
+  "source_size": [
+    1536,
+    1024
+  ],
+  "source_scale": 1.0,
+  "source_padding": [
+    64.0,
+    106.66666666666667
+  ],
+  "telegraph_ms": 980,
+  "strike_ms": 40,
+  "impact_start_ms": 1020,
+  "contact_ms": 90,
+  "recovery_ms": 420,
+  "clear_hold_ms": 350,
+  "duration_ms": 1880,
+  "frames": [
+    {
+      "cel": 1,
+      "source_box": [
+        0,
+        0,
+        384,
+        171
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 2,
+      "source_box": [
+        384,
+        0,
+        768,
+        171
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 3,
+      "source_box": [
+        768,
+        0,
+        1152,
+        171
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 4,
+      "source_box": [
+        1152,
+        0,
+        1536,
+        171
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 5,
+      "source_box": [
+        0,
+        171,
+        384,
+        341
+      ],
+      "source_boundary_alpha_pixels": 4,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 6,
+      "source_box": [
+        384,
+        171,
+        768,
+        341
+      ],
+      "source_boundary_alpha_pixels": 5,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 7,
+      "source_box": [
+        768,
+        171,
+        1152,
+        341
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 8,
+      "source_box": [
+        1152,
+        171,
+        1536,
+        341
+      ],
+      "source_boundary_alpha_pixels": 4,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 9,
+      "source_box": [
+        0,
+        341,
+        384,
+        512
+      ],
+      "source_boundary_alpha_pixels": 9,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 10,
+      "source_box": [
+        384,
+        341,
+        768,
+        512
+      ],
+      "source_boundary_alpha_pixels": 17,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 11,
+      "source_box": [
+        768,
+        341,
+        1152,
+        512
+      ],
+      "source_boundary_alpha_pixels": 15,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 12,
+      "source_box": [
+        1152,
+        341,
+        1536,
+        512
+      ],
+      "source_boundary_alpha_pixels": 11,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 13,
+      "source_box": [
+        0,
+        512,
+        384,
+        682
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 14,
+      "source_box": [
+        384,
+        512,
+        768,
+        682
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 15,
+      "source_box": [
+        768,
+        512,
+        1152,
+        682
+      ],
+      "source_boundary_alpha_pixels": 29,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 40,
+      "phase": "strike",
+      "damage_event": false
+    },
+    {
+      "cel": 16,
+      "source_box": [
+        1152,
+        512,
+        1536,
+        682
+      ],
+      "source_boundary_alpha_pixels": 25,
+      "paste": [
+        64,
+        107
+      ],
+      "duration_ms": 90,
+      "phase": "impact",
+      "damage_event": true
+    },
+    {
+      "cel": 17,
+      "source_box": [
+        0,
+        682,
+        384,
+        853
+      ],
+      "source_boundary_alpha_pixels": 4,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 18,
+      "source_box": [
+        384,
+        682,
+        768,
+        853
+      ],
+      "source_boundary_alpha_pixels": 9,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 19,
+      "source_box": [
+        768,
+        682,
+        1152,
+        853
+      ],
+      "source_boundary_alpha_pixels": 7,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 20,
+      "source_box": [
+        1152,
+        682,
+        1536,
+        853
+      ],
+      "source_boundary_alpha_pixels": 5,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 21,
+      "source_box": [
+        0,
+        853,
+        384,
+        1024
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 22,
+      "source_box": [
+        384,
+        853,
+        768,
+        1024
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 23,
+      "source_box": [
+        768,
+        853,
+        1152,
+        1024
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 24,
+      "source_box": [
+        1152,
+        853,
+        1536,
+        1024
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        64,
+        106
+      ],
+      "duration_ms": 350,
+      "phase": "clear",
+      "damage_event": false
+    }
+  ],
+  "registration": "Fixed nominal 4x6 source grid; crop offsets compensated, no per-frame recentering.",
+  "assembly": "Only crops, one uniform scale, fixed placement; no synthetic motion, morphing or fade. Final all-zero cel.",
+  "coordinates_note": "Art direction only, not engine collision integration",
+  "preview_cycles": 3,
+  "source_sha256": "00e430a7d2da75d25e22d4b11446e9c1fda41072a82895a46c12ad8dca64dfe3",
+  "art_direction_guide_normalized_source_cell": {
+    "pivot": [
+      0.22,
+      0.6
+    ],
+    "target": [
+      0.75,
+      0.6
+    ],
+    "footprint": "long narrow cone",
+    "enemy_reference": "Masked Cultist, Drive 1warZC2td-6gwP_OCIcurFV233nmPcYwJ"
+  }
+}

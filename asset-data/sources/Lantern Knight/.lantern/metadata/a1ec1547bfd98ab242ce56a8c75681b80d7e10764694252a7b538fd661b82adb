@@ -1,0 +1,3 @@
+Lantern Knight | Abandoned Orchard backpack
+Use native_frames or runtime_frames in order. One-shot; hold open indefinitely. Bottom-center anchor listed in manifest. Original approved v5 closed art is preserved. Opening cels image-generated; only registration/downsampling is mechanical. Empty interior; rewards handled by game. Preview replays solely for review.
+QA: genuine RGBA; no clipped visible silhouettes; fixed bottom anchor; broad readable shapes at 64px scene height; original scene used for placement. Fixed lower body pixels unchanged across frames; generated moving upper region preserves muted palette. No AI upscale.

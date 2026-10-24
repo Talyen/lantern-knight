@@ -1,0 +1,19 @@
+{
+  "generation_tool": "built-in image_gen.imagegen",
+  "generation_calls": 2,
+  "reference_policy": "Only original supplied concepts used as generation references; no generated draft edited generatively.",
+  "prompt_model_phrase": "Sunburst 2.5; prompt token only, model selection not asserted",
+  "native_resolution": [
+    1536,
+    1024
+  ],
+  "source_sha256": {
+    "moth_keeper_original.png": "5ee16a547254056f4e502a551b812e3857d96cde25db86fbe97150d63088d1ca",
+    "moth_keeper_prompt.txt": "5bd80670451c758a8230c56c30687d785b7eb6b2c4a3a72b93a536980cb4b275",
+    "moth_keeper_native.png": "591404febd1bc1199103479b614f8cd4d52c3cd93b935bcac28768fbc882052a",
+    "apothecary_prompt.txt": "ad0ecc133964ff966f1a8c889a676015b7a0954666d6daa5178a606fd52eaf0f",
+    "apothecary_original.png": "73ad261e25edd91dde3f095e195e0990b29723286ac45a199d531a969d79e727",
+    "apothecary_native.png": "06765e343b9fbb51886d031d0d1d2c7544e301216df6c173c7b6c293704884a6"
+  },
+  "postprocessing": "Deterministic native-pixel cropping, integer registration, canonical stationary-region masks, transparent RGB cleanup, padding, atlas and previews."
+}

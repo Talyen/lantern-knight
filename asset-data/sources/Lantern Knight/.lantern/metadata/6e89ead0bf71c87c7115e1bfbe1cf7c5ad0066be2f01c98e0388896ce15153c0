@@ -1,0 +1,8 @@
+{
+  "sprite_and_atlas_files_checked": 124,
+  "transparent_rgb_cleanup_files": 60,
+  "remaining_zero_alpha_rgb_errors": 0,
+  "art_visible_pixels_changed": false,
+  "cleanup": "Clear RGB only where alpha is exactly zero, after each output-tier resize. Raw original masters remain untouched.",
+  "independent_motion_review": "pending"
+}

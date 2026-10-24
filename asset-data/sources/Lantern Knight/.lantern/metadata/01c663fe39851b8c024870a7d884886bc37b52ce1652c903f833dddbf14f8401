@@ -1,0 +1,52 @@
+{
+  "name": "Hollow Procession",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0,
+      "frame_index": 0
+    },
+    {
+      "name": "commit",
+      "time_ms": 840,
+      "frame_index": 7
+    },
+    {
+      "name": "impact",
+      "time_ms": 880,
+      "frame_index": 8,
+      "hit_count": 1
+    },
+    {
+      "name": "clear",
+      "time_ms": 1380,
+      "frame_index": 16
+    }
+  ],
+  "target_guide": {
+    "kind": "lane",
+    "polygon_px": [
+      [
+        99,
+        285
+      ],
+      [
+        439,
+        285
+      ],
+      [
+        439,
+        342
+      ],
+      [
+        99,
+        342
+      ]
+    ],
+    "endpoint_px": [
+      423,
+      313
+    ]
+  },
+  "timebase": "milliseconds"
+}

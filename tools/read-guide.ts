@@ -83,7 +83,16 @@ export async function searchGuides(
         ...new Set(
           execFileSync(
             'git',
-            ['ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', '*.md'],
+            [
+              'ls-files',
+              '--cached',
+              '--others',
+              '--exclude-standard',
+              '-z',
+              '--',
+              '*.md',
+              ':(exclude)asset-data/**',
+            ],
             { cwd: root, encoding: 'utf8', maxBuffer: 8 * 1024 ** 2 },
           ).split('\0'),
         ),

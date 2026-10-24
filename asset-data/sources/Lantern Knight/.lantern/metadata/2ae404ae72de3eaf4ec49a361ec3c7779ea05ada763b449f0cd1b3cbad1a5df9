@@ -1,0 +1,2 @@
+Six newly drawn hit cels plus exact delivered DR rest reused as final hold; six newly drawn defeat cels end in a supported kneeling slump with bell/yoke retained on shoulders. Same640 canvas, pivot360,565,240PPU. Uniform clip downsampling hit .82 and defeat .75, no upscaling or per-frame scale normalization. Complete connected components preserve overscan. Placements baked.
+One-shots; defeat final body holds indefinitely. Hit final cel explicitly reuses delivered baseline rest. No loot, game integration, real-time playback test or damage logic.

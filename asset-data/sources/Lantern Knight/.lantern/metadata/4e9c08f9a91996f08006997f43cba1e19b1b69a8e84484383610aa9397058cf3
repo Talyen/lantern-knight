@@ -1,0 +1,439 @@
+{
+  "asset": "pickup_kneel_DR",
+  "version": "v02",
+  "status": "PROP_SUPPORT_CORRECTED_ART_REVIEW_CANDIDATE",
+  "facing": "down-right",
+  "heading_world": "+X",
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "verification": "visually conditioned, not metrically certified"
+  },
+  "equipment": {
+    "sword_hand": "right",
+    "lantern_hand": "left",
+    "mirrored": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      1572
+    ],
+    "atlas": "pickup_kneel_DR_atlas.png",
+    "grid": [
+      4,
+      3
+    ],
+    "frame_count": 11,
+    "unique_drawings": 9,
+    "fps": 60,
+    "duration_ticks": 99,
+    "duration_seconds": 1.65,
+    "loop": false,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015265
+    ],
+    "suggested_pixels_per_unit": 271.08,
+    "pixels_per_unit_status": "Approximate native-density-adjusted starting value only; verify in engine",
+    "root_motion_track": null
+  },
+  "source": {
+    "generator": "built-in image_gen",
+    "backend_model_verified": false,
+    "selection_manifest": "provenance/source_selection.json",
+    "native_sheet_dimensions": [
+      1774,
+      887
+    ]
+  },
+  "processing": {
+    "native_visible_pixels_preserved": true,
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "part_repositioning": false,
+    "per_frame_rescaling": false,
+    "alpha_cleanup": "Alpha-connected figure ownership for native extraction; zero-alpha RGB sanitized. Visible source RGB/alpha preserved.",
+    "layout": "524 fixed transparent cells; source column/row extraction plus common40px margin; pickup grounded sheet row2 additionally translated down40px as one registered row."
+  },
+  "events_suggested": [
+    {
+      "frame": 3,
+      "event": "lantern_ground_contact"
+    },
+    {
+      "frame": 4,
+      "event": "lantern_release"
+    },
+    {
+      "frame": 5,
+      "event": "pickup_contact"
+    },
+    {
+      "frame": 6,
+      "event": "pickup_stow"
+    },
+    {
+      "frame": 8,
+      "event": "lantern_regrip"
+    },
+    {
+      "frame": 9,
+      "event": "lantern_lift"
+    }
+  ],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/pickup_kneel_DR_01.png",
+      "label": "ready",
+      "hold_ticks_60hz": 10,
+      "lantern_support": "left_hand_grips_handle",
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        169,
+        42,
+        431,
+        498
+      ],
+      "sha256": "334ff0683c631ca3a34155098d781954f1339480cc305aa79ba4b1dbb18ffe95",
+      "source_group": "pickup_transition_DR",
+      "source_cel": 1,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/pickup_kneel_DR_02.png",
+      "label": "lower_lantern",
+      "hold_ticks_60hz": 8,
+      "lantern_support": "left_hand_grips_handle",
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        145,
+        126,
+        470,
+        487
+      ],
+      "sha256": "fe32b2cbdc6c9158757806cb5570f5891ef43d8d32b47e353d4481ad8ea22b3b",
+      "source_group": "pickup_transition_DR",
+      "source_cel": 2,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/pickup_kneel_DR_03.png",
+      "label": "base_grounded_hand_grips",
+      "hold_ticks_60hz": 10,
+      "lantern_support": "ground_base_and_left_grip",
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        126,
+        175,
+        464,
+        484
+      ],
+      "sha256": "fa6a6b77c0a136e371bfce0a09d465d2c582c251a5478a8a75d5196059dd2278",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 1,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/pickup_kneel_DR_04.png",
+      "label": "release_handle",
+      "hold_ticks_60hz": 7,
+      "lantern_support": "ground_base_only",
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        127,
+        175,
+        471,
+        484
+      ],
+      "sha256": "f5044513aa20579c27f9d2c8306cadabd0ace3d2e998204db266c8b4218f80b1",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 2,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/pickup_kneel_DR_05.png",
+      "label": "pickup_contact",
+      "hold_ticks_60hz": 9,
+      "lantern_support": "ground_base_only",
+      "atlas_rect": [
+        0,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        122,
+        226,
+        473,
+        499
+      ],
+      "sha256": "93d4d1fa09f0301299ead2bfb57cf8c8cc4f97e7fb4382675149ba3c92a7167b",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 4,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/pickup_kneel_DR_06.png",
+      "label": "stow_at_belt",
+      "hold_ticks_60hz": 9,
+      "lantern_support": "ground_base_only",
+      "atlas_rect": [
+        524,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        126,
+        160,
+        464,
+        487
+      ],
+      "sha256": "27837340807078505b0be38e3b4c448d9f766315ac337e1e8c9095432288aa51",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 5,
+      "sheet_row_translation_px": [
+        0,
+        40
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/pickup_kneel_DR_07.png",
+      "label": "reach_for_handle",
+      "hold_ticks_60hz": 7,
+      "lantern_support": "ground_base_only",
+      "atlas_rect": [
+        1048,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        127,
+        178,
+        468,
+        487
+      ],
+      "sha256": "f5409655433525f257f192bf0b62ee15239299c92369098364c5170f73fdfe32",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 6,
+      "sheet_row_translation_px": [
+        0,
+        40
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/pickup_kneel_DR_08.png",
+      "label": "regrip_grounded",
+      "hold_ticks_60hz": 10,
+      "lantern_support": "ground_base_and_left_grip",
+      "atlas_rect": [
+        1572,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        126,
+        177,
+        461,
+        487
+      ],
+      "sha256": "e0aa9d951d2b8d15e0a72f33d695d69b4c59dc05db2884ac2137b1183fc13c59",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 7,
+      "sheet_row_translation_px": [
+        0,
+        40
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/pickup_kneel_DR_09.png",
+      "label": "lift_from_ground",
+      "hold_ticks_60hz": 7,
+      "lantern_support": "left_hand_grips_handle",
+      "atlas_rect": [
+        0,
+        1048,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        122,
+        146,
+        466,
+        487
+      ],
+      "sha256": "ca93e76fe9710a4bacb119674ab8c98af025292d55ee781f5b65dbf4c4d21cc1",
+      "source_group": "pickup_grounded_DR",
+      "source_cel": 8,
+      "sheet_row_translation_px": [
+        0,
+        40
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/pickup_kneel_DR_10.png",
+      "label": "rise_with_lantern",
+      "hold_ticks_60hz": 10,
+      "lantern_support": "left_hand_grips_handle",
+      "atlas_rect": [
+        524,
+        1048,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        145,
+        126,
+        470,
+        487
+      ],
+      "sha256": "fe32b2cbdc6c9158757806cb5570f5891ef43d8d32b47e353d4481ad8ea22b3b",
+      "source_group": "pickup_transition_DR",
+      "source_cel": 2,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/pickup_kneel_DR_11.png",
+      "label": "ready_restored",
+      "hold_ticks_60hz": 12,
+      "lantern_support": "left_hand_grips_handle",
+      "atlas_rect": [
+        1048,
+        1048,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        169,
+        42,
+        431,
+        498
+      ],
+      "sha256": "334ff0683c631ca3a34155098d781954f1339480cc305aa79ba4b1dbb18ffe95",
+      "source_group": "pickup_transition_DR",
+      "source_cel": 1,
+      "sheet_row_translation_px": [
+        0,
+        0
+      ]
+    }
+  ],
+  "known_limits": [
+    "Native generated artwork, visually reviewed for lantern support; engine integration is not certified.",
+    "All lantern-carrying poses show LEFT fingers gripping the handle. Sword remains RIGHT.",
+    "No resampling, upscaling, mirroring, mesh warp, optical flow or programmatic art-part replacement.",
+    "Fixed output cells and pivots are metadata; they do not certify engine root motion, IK, collisions, target contact or camera metrics.",
+    "PPU is a clip-wide approximate starting value adjusted for native drawing density; verify relative world size in engine.",
+    "Lantern is grounded during frames3\u20138, hand-free during4\u20137, regripped in8 before lift9.",
+    "The source sheet second row has one uniform +40px layout correction applied to the whole row. No individual part or pose was moved independently.",
+    "Source grounded cel3 was rejected for missing lantern. Selected sequence retains explicit release, pickup, stow, regrip and lift.",
+    "Ready and lowering drawings are reused for the return, giving 11 timeline frames from9 distinct source drawings. Native pose-dependent foot/root variation remains during lower/rise.",
+    "Small residual hand-drawn prop/outline variation remains; no unattended large ground displacement is intended."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "cycle_ticks": 40,
+  "unique_drawings": 6,
+  "retimed": true,
+  "source_sample_ticks": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    35
+  ],
+  "timing": [
+    {
+      "cel": 1,
+      "source_cel": 1,
+      "source_tick": 0,
+      "start_tick": 0,
+      "duration_ticks": 10
+    },
+    {
+      "cel": 2,
+      "source_cel": 2,
+      "source_tick": 5,
+      "start_tick": 10,
+      "duration_ticks": 5
+    },
+    {
+      "cel": 3,
+      "source_cel": 3,
+      "source_tick": 10,
+      "start_tick": 15,
+      "duration_ticks": 5
+    },
+    {
+      "cel": 4,
+      "source_cel": 4,
+      "source_tick": 15,
+      "start_tick": 20,
+      "duration_ticks": 5
+    },
+    {
+      "cel": 5,
+      "source_cel": 5,
+      "source_tick": 20,
+      "start_tick": 25,
+      "duration_ticks": 5
+    },
+    {
+      "cel": 6,
+      "source_cel": 8,
+      "source_tick": 35,
+      "start_tick": 30,
+      "duration_ticks": 10
+    }
+  ]
+}

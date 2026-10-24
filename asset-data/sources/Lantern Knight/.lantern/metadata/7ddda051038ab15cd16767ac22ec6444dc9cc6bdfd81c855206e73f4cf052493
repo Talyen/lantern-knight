@@ -1,0 +1,13 @@
+CONFESSIONAL LURKER / G3
+
+Seven actor clips and one independent signature FX clip. One front-left three-quarter facing.
+
+Runtime canvas: 1024 x 768 RGBA. Ground pivot: (512,660), top-left pixel coordinates. Native body size stays fixed; attacks use padding rather than shrinking. Four-column atlases contain untrimmed equal-sized frames; read JSON frame count and rectangles. Alpha is straight. Bilinear sampling, clamp wrap, suggested 100 pixels per unit.
+
+Idle and move loop. Move is in-place; set locomotion speed in the game. Basic attack and signature each telegraph for exactly 1000ms, then register one impact event. The signature FX starts 500ms after actor clip start; its shock_impact is 500ms into the FX, aligning both impact events at actor time 1000ms. Render FX in front of actor. FX ends clear. Defeat holds the full-size collapsed wreck. Spawn physically assembles the cabinet before it awakens. Other nonlooping actor clips return to the identical shared ready cel.
+
+Actor artwork consists of genuinely generated, changing pose cels. Assembly uses extraction, padding, fixed actor scale, measured cel holds and separate redrawn VFX. No body mesh warp, transform-only motion, crossfading, or optical-flow interpolation. VFX recovery placement moves ribbons outward.
+
+Included: master artwork, per-clip transparent PNG frames, atlases, timing/event JSON, individual previews, labeled reel and contact sheet. Previews have a neutral background; source frames remain transparent.
+
+All supplied timings are visual authoring timings; hitboxes, damage, collision and movement integration remain game-side. Single facing only. No Unity playmode validation is claimed.

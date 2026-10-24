@@ -1,0 +1,142 @@
+{
+  "scene_master_id": "1DQCWM7ATD1uBw20EaghWPnt3qwKc92_E",
+  "source_kit_id": "1K5MtrJp4fz-zEcP16HQmQgHQz_PLqvAL",
+  "props": {
+    "terrace_offering_coffer": {
+      "prompt": "Create ONE Lantern Knight hillside Graveyard Variant interactable sprite animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual reference crop supplies brush-ink technique, limestone cream upper faces and deep cool slate blue-black right-hand shadows, muted earthy umber secondary material. Two thirds quiet smooth flat fills, 3-4 tones, bold uneven black contours, few large angular cuts, no texture noise or hatching. Match reference high oblique orthographic camera with visible top and front/right faces. Four separate authored cels in ONE horizontal row, generous transparent separation and outside margins, same camera/scale and ground pivot. No platform, background, ground patch, text, labels, bones, gore, people or exposed loot. Genuine transparent alpha. Small chamfered rectangular cream limestone offerings coffer with a plain recessed diamond on its front, flat hinged stone lid and no plants. Cels closed, lid25degrees, lid65degrees, fullyopen105degrees persistent. Stable hollow base, empty dark storage cavity.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/terrace_offering_coffer_authored_sheet.png",
+          "file_id": "file_00000000836c81f881f2adff27a30a91",
+          "library_file_id": "libfile_db9d9e1947e48191b7638960b2d7ffcf",
+          "file_name": "terrace_offering_coffer_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 1030132,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-f11c84d7-da5b-4a92-9559-d928b74090a6.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "bellkeepers_toolbox": {
+      "prompt": "Create ONE Lantern Knight hillside Graveyard Variant interactable sprite animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual reference crop supplies brush-ink technique, limestone cream upper faces and deep cool slate blue-black right-hand shadows, muted earthy umber secondary material. Two thirds quiet smooth flat fills, 3-4 tones, bold uneven black contours, few large angular cuts, no texture noise or hatching. Match reference high oblique orthographic camera with visible top and front/right faces. Four separate authored cels in ONE horizontal row, generous transparent separation and outside margins, same camera/scale and ground pivot. No platform, background, ground patch, text, labels, bones, gore, people or exposed loot. Genuine transparent alpha. Small dark umber WOODEN bellkeeper toolbox, low rectangular carpentry box, iron corner plates and a simple narrow flat hinged plank cover. NOT stone. Cels closed, lid25degrees, lid65degrees, fullyopen105degrees persistent. Stable hollow wooden base with empty dark cavity.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/bellkeepers_toolbox_authored_sheet.png",
+          "file_id": "file_00000000dfb88230b11afc1fa7028462",
+          "library_file_id": "libfile_be41d8edfea88191aefdc174c188c2fb",
+          "file_name": "bellkeepers_toolbox_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 925984,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-964ac581-a6ed-41fb-8677-e3203903f0a2.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "sealed_terrace_urn": {
+      "prompt": "Create ONE Lantern Knight hillside Graveyard Variant interactable sprite animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual reference crop supplies brush-ink technique, limestone cream upper faces and deep cool slate blue-black right-hand shadows, muted earthy umber secondary material. Two thirds quiet smooth flat fills, 3-4 tones, bold uneven black contours, few large angular cuts, no texture noise or hatching. Match reference high oblique orthographic camera with visible top and front/right faces. Four separate authored cels in ONE horizontal row, generous transparent separation and outside margins, same camera/scale and ground pivot. No platform, background, ground patch, text, labels, bones, gore, people or exposed loot. Genuine transparent alpha. Small squat sealed ceramic gravegoods urn, cream upper body and muted umber foot, simple lid. Cels intact, impact cracks, actual large separated curved shards and lifted lid with lower base grounded, settled low permanent pile of broken ceramic and lid. Hollow empty storage, no dust masking fracture.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/sealed_terrace_urn_authored_sheet.png",
+          "file_id": "file_000000005cc481f8b583c566984f3cfd",
+          "library_file_id": "libfile_c3c39b8c49f0819182bef6b19e8f8cb1",
+          "file_name": "sealed_terrace_urn_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 728636,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-849ebe60-eeb7-44d6-9220-2e8f6f5db633.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "pilgrim_cache_crate": {
+      "prompt": "Create ONE Lantern Knight hillside Graveyard Variant interactable sprite animation sheet. Highest native quality, preferred gpt-image-2.5-sunburst. Actual reference crop supplies brush-ink technique, limestone cream upper faces and deep cool slate blue-black right-hand shadows, muted earthy umber secondary material. Two thirds quiet smooth flat fills, 3-4 tones, bold uneven black contours, few large angular cuts, no texture noise or hatching. Match reference high oblique orthographic camera with visible top and front/right faces. Four separate authored cels in ONE horizontal row, generous transparent separation and outside margins, same camera/scale and ground pivot. No platform, background, ground patch, text, labels, bones, gore, people or exposed loot. Genuine transparent alpha. Small closed burial supplies cache crate made of muted umber wood slats, flat cover and simple black iron nails. Cels intact, impact split boards, structural break with boards flying outward from hollow base, settled low permanent broken board pile. No dust masking fracture.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/pilgrim_cache_crate_authored_sheet.png",
+          "file_id": "file_0000000023108230b4436bdfcb8396e9",
+          "library_file_id": "libfile_a0dbb9a6b6c481919154e6bc8c484b3a",
+          "file_name": "pilgrim_cache_crate_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 814282,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-4e875ed0-9114-4460-9821-2373a8fd6ca3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "source_sheet_sha256": "ae34275ecdd92bd92c6427f4f39b368240245210f3543473e4e93b5bb3769c3e",
+  "source_sheet_unchanged": true,
+  "actual_source_cels": 8,
+  "all_eight_complete_character_alpha_components_preserved": true,
+  "all_safe_rect_rgba_pixels_and_alpha_exact": true,
+  "frames": {
+    "01_READY": {
+      "sheet_rect_xyxy": [
+        90,
+        20,
+        315,
+        455
+      ],
+      "source_rect_raw_rgba_sha256": "bf6b0edc9468491e44b138c239c22789ab99c9345c818adff13055446aedab3a",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "bf6b0edc9468491e44b138c239c22789ab99c9345c818adff13055446aedab3a",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 43467,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        138,
+        44
+      ],
+      "source_file_unchanged": true
+    },
+    "02_LOAD": {
+      "sheet_rect_xyxy": [
+        505,
+        25,
+        785,
+        420
+      ],
+      "source_rect_raw_rgba_sha256": "37002ea3e4aa1ff630a1f86a8ceedcd66602950276126bd200867f3ec28bd866",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "37002ea3e4aa1ff630a1f86a8ceedcd66602950276126bd200867f3ec28bd866",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 41202,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        124,
+        49
+      ],
+      "source_file_unchanged": true
+    },
+    "03_DRIVE": {
+      "sheet_rect_xyxy": [
+        900,
+        45,
+        1260,
+        425
+      ],
+      "source_rect_raw_rgba_sha256": "d0054a46c22e93f88a0c76badfcc1b88f65c0da7b2cea9f5426418bfeac0caef",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "d0054a46c22e93f88a0c76badfcc1b88f65c0da7b2cea9f5426418bfeac0caef",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 40854,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        90,
+        69
+      ],
+      "source_file_unchanged": true
+    },
+    "04_THRUST": {
+      "sheet_rect_xyxy": [
+        1315,
+        75,
+        1717,
+        425
+      ],
+      "source_rect_raw_rgba_sha256": "64aa28ef168a4239e190dc2aa415731fe7923bb325a917c518b0bd22bde8beef",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "64aa28ef168a4239e190dc2aa415731fe7923bb325a917c518b0bd22bde8beef",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 38826,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        76,
+        99
+      ],
+      "source_file_unchanged": true
+    },
+    "05_BRAKE": {
+      "sheet_rect_xyxy": [
+        90,
+        490,
+        485,
+        855
+      ],
+      "source_rect_raw_rgba_sha256": "5e2d6d37f5ed2cf44e9a27c55e5f8f6ad02c53733ae8019aa35636390421ec97",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "5e2d6d37f5ed2cf44e9a27c55e5f8f6ad02c53733ae8019aa35636390421ec97",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 39982,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        138,
+        56
+      ],
+      "source_file_unchanged": true
+    },
+    "06_RETRACT": {
+      "sheet_rect_xyxy": [
+        510,
+        465,
+        785,
+        875
+      ],
+      "source_rect_raw_rgba_sha256": "980190215b78c1038074c7921f11e8824b6073d85d243b2233e0baced8f1072e",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "980190215b78c1038074c7921f11e8824b6073d85d243b2233e0baced8f1072e",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 41027,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        129,
+        31
+      ],
+      "source_file_unchanged": true
+    },
+    "07_RETURN": {
+      "sheet_rect_xyxy": [
+        945,
+        465,
+        1205,
+        880
+      ],
+      "source_rect_raw_rgba_sha256": "f4d88edf0dcdea08e247e04ae78328d9e8342bfd15fbaf5a5d69cfd2b978e15d",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "f4d88edf0dcdea08e247e04ae78328d9e8342bfd15fbaf5a5d69cfd2b978e15d",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 42323,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        135,
+        31
+      ],
+      "source_file_unchanged": true
+    },
+    "08_READY": {
+      "sheet_rect_xyxy": [
+        1390,
+        465,
+        1625,
+        916
+      ],
+      "source_rect_raw_rgba_sha256": "624acbb13533659264ac49ff4814b3ff23b91f1a396ecbda59e4f5c89fd20bff",
+      "roundtrip_from_fixed_cell_raw_rgba_sha256": "624acbb13533659264ac49ff4814b3ff23b91f1a396ecbda59e4f5c89fd20bff",
+      "all_rectangle_rgba_pixels_exact": true,
+      "changed_alpha_pixels": 0,
+      "clipped_alpha_pixels": 0,
+      "complete_character_alpha_component_pixels": 42375,
+      "fixed_cell_to_sheet_roundtrip_position_xy": [
+        151,
+        31
+      ],
+      "source_file_unchanged": true
+    }
+  },
+  "outside_safe_rectangles": {
+    "nonzero_alpha_pixels": 1770,
+    "maximum_alpha": 1,
+    "pixels_with_alpha_above_1": 0,
+    "interpretation": "Isolated alpha=1 gutter/background noise outside safe extraction rectangles is not assigned to a cel. All eight connected character components, local rectangle edge fringes and blade05 are preserved; the full source sheet remains unchanged."
+  },
+  "proof_scope": "This is source extraction conservation, independent of any playback endpoint substitution."
+}

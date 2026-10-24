@@ -1,0 +1,292 @@
+{
+  "schema": "lantern.illustrated-scenic.revision02a",
+  "title": "Illustrated scenic mechanisms",
+  "counts": {
+    "families": 6,
+    "clips": 6,
+    "component_sprites": 24,
+    "fresh_master_images": 6,
+    "source_frame_files": 780,
+    "unique_rgba_images_summed_per_clip": 722,
+    "source_fps": 30,
+    "preview_fps": 60
+  },
+  "recommended_runtime": "part sprites + analytic source rig; baked loops optional",
+  "camera_classes": "per-clip; do not describe entire pack as exact 3D camera",
+  "clips": [
+    {
+      "id": "astrolabe",
+      "loop": true,
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 120,
+      "duration_seconds": 4.0,
+      "source_canvas": [
+        640,
+        640
+      ],
+      "pivot": [
+        320,
+        531.25
+      ],
+      "render_density_px_per_m": 187.5,
+      "rig_authored_canvas": [
+        1024,
+        1024
+      ],
+      "rig_authored_density_px_per_m": 300,
+      "requested_camera": {
+        "elevation": 35.264389682754654,
+        "azimuth": 45,
+        "projection": "orthographic"
+      },
+      "camera_class": "exact_projected_ring_planes plus approximate illustrated elevated-view pedestal",
+      "motion": {
+        "kind": "linked gimbal rings",
+        "duration_seconds": 4,
+        "middle_Y_degrees": "90 * seconds",
+        "inner_carried_X_degrees": "-90 * seconds",
+        "angular_speed_change": "unchanged; extended cycle to preserve painted-source orientation",
+        "camera_class": "exact_projected_ring_planes plus approximate illustrated elevated-view pedestal"
+      },
+      "source": "unaltered fresh illustration masters; isolated original-alpha parts; editable assembly source",
+      "atlas_padding": {
+        "total": 6,
+        "edge_extrusion": 2,
+        "transparent_gutter": 4,
+        "mipmaps": "off or per-sprite generated"
+      }
+    },
+    {
+      "id": "bubble_chamber",
+      "loop": true,
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 60,
+      "duration_seconds": 2.0,
+      "source_canvas": [
+        640,
+        640
+      ],
+      "pivot": [
+        320,
+        531.25
+      ],
+      "render_density_px_per_m": 187.5,
+      "rig_authored_canvas": [
+        1024,
+        1024
+      ],
+      "rig_authored_density_px_per_m": 300,
+      "requested_camera": {
+        "elevation": 35.264389682754654,
+        "azimuth": 45,
+        "projection": "orthographic"
+      },
+      "camera_class": "approximate_illustrated_elevated_view; static physical fixture",
+      "motion": {
+        "kind": "contained three-bubble rise",
+        "duration_seconds": 2,
+        "bubble_phase": "(seconds/2 + index/3) modulo 1",
+        "camera_class": "approximate_illustrated_elevated_view; static physical fixture",
+        "fixed": "vessel, cap, steady liquid level; only bubbles move"
+      },
+      "source": "unaltered fresh illustration masters; isolated original-alpha parts; editable assembly source",
+      "atlas_padding": {
+        "total": 6,
+        "edge_extrusion": 2,
+        "transparent_gutter": 4,
+        "mipmaps": "off or per-sprite generated"
+      }
+    },
+    {
+      "id": "exposed_gear_pair",
+      "loop": true,
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 240,
+      "duration_seconds": 8.0,
+      "source_canvas": [
+        640,
+        640
+      ],
+      "pivot": [
+        320,
+        531.25
+      ],
+      "render_density_px_per_m": 187.5,
+      "rig_authored_canvas": [
+        1024,
+        1024
+      ],
+      "rig_authored_density_px_per_m": 300,
+      "requested_camera": {
+        "elevation": 35.264389682754654,
+        "azimuth": 45,
+        "projection": "orthographic"
+      },
+      "camera_class": "exact_projected_flat_part_planes; painted thickness is illustrative",
+      "motion": {
+        "kind": "continuous meshed pair",
+        "duration_seconds": 8,
+        "large_angle_degrees": "90 * seconds",
+        "small_angle_degrees": "-135 * seconds",
+        "completed_turns_per_loop": [
+          2,
+          -3
+        ],
+        "tooth_ratio": "12:8 nominal decorative cast outline; rotation ratio exact -3:2",
+        "angular_speed_change": "6x prior 15/-22.5 deg per second; compact complete painted-orientation cycle",
+        "camera_class": "exact_projected_flat_part_planes; painted thickness is illustrative"
+      },
+      "source": "unaltered fresh illustration masters; isolated original-alpha parts; editable assembly source",
+      "atlas_padding": {
+        "total": 6,
+        "edge_extrusion": 2,
+        "transparent_gutter": 4,
+        "mipmaps": "off or per-sprite generated"
+      }
+    },
+    {
+      "id": "pulley_chain_sway",
+      "loop": true,
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 60,
+      "duration_seconds": 2.0,
+      "source_canvas": [
+        640,
+        640
+      ],
+      "pivot": [
+        320,
+        531.25
+      ],
+      "render_density_px_per_m": 187.5,
+      "rig_authored_canvas": [
+        1024,
+        1024
+      ],
+      "rig_authored_density_px_per_m": 300,
+      "requested_camera": {
+        "elevation": 35.264389682754654,
+        "azimuth": 45,
+        "projection": "orthographic"
+      },
+      "camera_class": "approximate_illustrated_elevated_view; rigid 2D whole-assembly swing",
+      "motion": {
+        "kind": "pendular fixture; wheel does not operate",
+        "duration_seconds": 2,
+        "swing_degrees": "4 * sin(2*pi*seconds/2)",
+        "anchor_px_at_1024": [
+          419.64,
+          445.88
+        ],
+        "camera_class": "approximate_illustrated_elevated_view; rigid 2D whole-assembly swing",
+        "fixed": "timber wall mount; moving block, wheel and closed chain share one hinge"
+      },
+      "source": "unaltered fresh illustration masters; isolated original-alpha parts; editable assembly source",
+      "atlas_padding": {
+        "total": 6,
+        "edge_extrusion": 2,
+        "transparent_gutter": 4,
+        "mipmaps": "off or per-sprite generated"
+      }
+    },
+    {
+      "id": "tower_bell",
+      "loop": true,
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 60,
+      "duration_seconds": 2.0,
+      "source_canvas": [
+        640,
+        640
+      ],
+      "pivot": [
+        320,
+        531.25
+      ],
+      "render_density_px_per_m": 187.5,
+      "rig_authored_canvas": [
+        1024,
+        1024
+      ],
+      "rig_authored_density_px_per_m": 300,
+      "requested_camera": {
+        "elevation": 35.264389682754654,
+        "azimuth": 45,
+        "projection": "orthographic"
+      },
+      "camera_class": "approximate_illustrated_elevated_view; rigid 2D bell-layer sway",
+      "motion": {
+        "kind": "pendular bell",
+        "duration_seconds": 2,
+        "swing_degrees": "5.5 * sin(2*pi*seconds/2)",
+        "anchor_px_at_1024": [
+          488,
+          403
+        ],
+        "camera_class": "approximate_illustrated_elevated_view; rigid 2D bell-layer sway",
+        "fixed": "stone corbel and bearing cover; clapper hidden behind body from elevated rest viewpoint",
+        "clapper_relative_swing_degrees": "8 * sin(2*pi*seconds/2 - 0.5)"
+      },
+      "source": "unaltered fresh illustration masters; isolated original-alpha parts; editable assembly source",
+      "atlas_padding": {
+        "total": 6,
+        "edge_extrusion": 2,
+        "transparent_gutter": 4,
+        "mipmaps": "off or per-sprite generated"
+      }
+    },
+    {
+      "id": "waterwheel",
+      "loop": true,
+      "source_fps": 30,
+      "preview_fps": 60,
+      "frame_count": 240,
+      "duration_seconds": 8.0,
+      "source_canvas": [
+        640,
+        640
+      ],
+      "pivot": [
+        320,
+        531.25
+      ],
+      "render_density_px_per_m": 187.5,
+      "rig_authored_canvas": [
+        1024,
+        1024
+      ],
+      "rig_authored_density_px_per_m": 300,
+      "requested_camera": {
+        "elevation": 35.264389682754654,
+        "azimuth": 45,
+        "projection": "orthographic"
+      },
+      "camera_class": "exact_projected_flat_part_planes; illustrated rim/spoke/paddle planes with fixed front and rear supports",
+      "motion": {
+        "kind": "continuous fixed +X axle",
+        "duration_seconds": 8,
+        "angle_degrees": "45 * seconds",
+        "completed_turns_per_loop": 1,
+        "paddles": 8,
+        "paddle_thickness_metres": 0.04,
+        "paddle_edges": "source-textured thin silhouette extrusion; original illustrated faces retained",
+        "angular_speed_change": "2x prior 22.5 deg per second; full painted-orientation cycle",
+        "camera_class": "exact_projected_flat_part_planes; illustrated rim/spoke/paddle planes with fixed front and rear supports"
+      },
+      "source": "unaltered fresh illustration masters; isolated original-alpha parts; editable assembly source",
+      "atlas_padding": {
+        "total": 6,
+        "edge_extrusion": 2,
+        "transparent_gutter": 4,
+        "mipmaps": "off or per-sprite generated"
+      }
+    }
+  ],
+  "version": "r02a",
+  "repair": "Waterwheel 40 mm source-textured paddle thickness and transparent-RGB cleanup; other five clips byte-identical to v02."
+}

@@ -1,0 +1,388 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "landmarks_01",
+  "title": "Lantern Scenic Landmarks - Illustrated Cutout Candidates",
+  "asset_count": 6,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manual ground-anchor estimate, except explicitly wall-mounted items use a mounting anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Large scenic anchors are static independent illustrations, not modular snapping geometry, calibrated architecture, walkable terrain, collision or validated portals; open-alpha negative spaces require dedicated collision and occlusion decisions.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "landmark_ruined_chapel_facade_01",
+      "name": "Ruined chapel facade",
+      "file": "assets/landmark_ruined_chapel_facade_01.png",
+      "prompt_file": "provenance/landmark_ruined_chapel_facade_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 728713,
+      "sha256": "fbcf215d5666d9ef4a51663ab9f8b8d4f885d5dad890e4d15f2792af3885c8ee",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        25,
+        20,
+        1260,
+        1134
+      ],
+      "alpha_at_least_16_bounds_px": [
+        274,
+        57,
+        1101,
+        1133
+      ],
+      "fully_transparent_pixel_fraction": 0.70254,
+      "fully_opaque_pixel_fraction": 0.000252,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.53,
+        0.81
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.2,
+          0.85
+        ],
+        [
+          0.43,
+          0.67
+        ],
+        [
+          0.84,
+          0.78
+        ],
+        [
+          0.48,
+          0.95
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 300,
+      "qa_notes": "Doorway and upper window are actual open-alpha voids. Polygon is overall visual envelope, not a filled collision footprint.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate",
+      "footprint_role": "overall_visual_envelope_not_collision"
+    },
+    {
+      "id": "landmark_collapsed_bell_support_02",
+      "name": "Broken bell trestle",
+      "file": "assets/landmark_collapsed_bell_support_02.png",
+      "prompt_file": "provenance/landmark_collapsed_bell_support_02.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1231082,
+      "sha256": "c314311907b42b86426578cde535c2a646d3fcb5209e507d880423cc75eb53d6",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        21,
+        1500,
+        1008
+      ],
+      "alpha_at_least_16_bounds_px": [
+        365,
+        31,
+        1176,
+        972
+      ],
+      "fully_transparent_pixel_fraction": 0.758642,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.79
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.24,
+          0.69
+        ],
+        [
+          0.36,
+          0.49
+        ],
+        [
+          0.78,
+          0.79
+        ],
+        [
+          0.6,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 220,
+      "qa_notes": "Bell and broken support are one static compound landmark; no ringing, swinging, destruction or structural simulation.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate",
+      "footprint_role": "overall_visual_envelope_not_collision"
+    },
+    {
+      "id": "landmark_cold_furnace_alcove_01",
+      "name": "Cold furnace alcove",
+      "file": "assets/landmark_cold_furnace_alcove_01.png",
+      "prompt_file": "provenance/landmark_cold_furnace_alcove_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 876536,
+      "sha256": "ec41ecc3662456996a85683a08d051546d87cc07d796e3fcd2d4b8f766cbdb1d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        21,
+        1258,
+        1155
+      ],
+      "alpha_at_least_16_bounds_px": [
+        223,
+        63,
+        1133,
+        1122
+      ],
+      "fully_transparent_pixel_fraction": 0.556339,
+      "fully_opaque_pixel_fraction": 0.000459,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.84
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.7
+        ],
+        [
+          0.48,
+          0.5
+        ],
+        [
+          0.85,
+          0.72
+        ],
+        [
+          0.52,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 260,
+      "qa_notes": "Cold painted firebox interior and integral hearth lip; no heat, lighting, fire effect or functional furnace.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate",
+      "footprint_role": "overall_visual_envelope_not_collision"
+    },
+    {
+      "id": "landmark_abandoned_ferry_landing_01",
+      "name": "Abandoned ferry landing",
+      "file": "assets/landmark_abandoned_ferry_landing_01.png",
+      "prompt_file": "provenance/landmark_abandoned_ferry_landing_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1337271,
+      "sha256": "5bfbb4c61f97d0597f9fd552638d72e621481b6a8eca9a6305909e32407db97e",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1402,
+        984
+      ],
+      "alpha_at_least_16_bounds_px": [
+        268,
+        76,
+        1281,
+        912
+      ],
+      "fully_transparent_pixel_fraction": 0.753251,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.54,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.76
+        ],
+        [
+          0.36,
+          0.56
+        ],
+        [
+          0.62,
+          0.43
+        ],
+        [
+          0.84,
+          0.63
+        ],
+        [
+          0.6,
+          0.84
+        ],
+        [
+          0.28,
+          0.89
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 220,
+      "qa_notes": "Deck, piles, rail and gangplank are one card. It is not a walkable bridge mesh, calibrated elevation, water boundary or collision ramp.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate",
+      "footprint_role": "overall_visual_envelope_not_collision"
+    },
+    {
+      "id": "landmark_overgrown_shrine_01",
+      "name": "Overgrown wayside shrine",
+      "file": "assets/landmark_overgrown_shrine_01.png",
+      "prompt_file": "provenance/landmark_overgrown_shrine_01.prompt.txt",
+      "dimensions_px": [
+        1211,
+        1299
+      ],
+      "file_bytes": 763679,
+      "sha256": "392ac72ceec8c5c72b7cc26adbbb0ac21b9e3237fb2204fe3068a2260e9388db",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        21,
+        1183,
+        1263
+      ],
+      "alpha_at_least_16_bounds_px": [
+        238,
+        61,
+        1047,
+        1259
+      ],
+      "fully_transparent_pixel_fraction": 0.676166,
+      "fully_opaque_pixel_fraction": 0.000886,
+      "boundary_nonzero_alpha_pixel_count": 2,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.54,
+        0.85
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.28,
+          0.84
+        ],
+        [
+          0.43,
+          0.69
+        ],
+        [
+          0.81,
+          0.79
+        ],
+        [
+          0.43,
+          0.97
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 300,
+      "qa_notes": "Opening is true alpha; shelf and bowl are painted into the shrine. Overall footprint is an envelope; open regions must not become solid collision.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate",
+      "footprint_role": "overall_visual_envelope_not_collision"
+    },
+    {
+      "id": "landmark_mausoleum_entrance_01",
+      "name": "Mausoleum entrance",
+      "file": "assets/landmark_mausoleum_entrance_01.png",
+      "prompt_file": "provenance/landmark_mausoleum_entrance_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1352078,
+      "sha256": "4bcc2f6e36a54698cdb369864339b065a5684499b287704bb31d3a8594e1730d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        39,
+        1336,
+        970
+      ],
+      "alpha_at_least_16_bounds_px": [
+        362,
+        41,
+        1202,
+        968
+      ],
+      "fully_transparent_pixel_fraction": 0.671707,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.79
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.23,
+          0.8
+        ],
+        [
+          0.47,
+          0.62
+        ],
+        [
+          0.78,
+          0.69
+        ],
+        [
+          0.38,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 220,
+      "qa_notes": "Open doorway alpha verified; threshold steps are only painted geometry. Not a snapping facade or validated traversable opening.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate",
+      "footprint_role": "overall_visual_envelope_not_collision"
+    }
+  ]
+}

@@ -141,6 +141,9 @@ async function main() {
         '--others',
         '--exclude-standard',
         '-z',
+        '--',
+        '.',
+        ':(exclude)asset-data/**',
       ],
       { cwd: root, encoding: 'utf8' },
     ).split('\0');

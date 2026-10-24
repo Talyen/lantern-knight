@@ -1,3 +1,6 @@
+import fs from 'node:fs/promises';
+import { projectRoot } from './paths';
+import { retainedAssetCatalog } from './selection';
 import { runCli } from '../cli';
 import { onAsyncExit } from '../scope-exit';
 import { readJson } from '../json-file';
@@ -9,7 +12,10 @@ import { openWorkspace } from './workspace';
 import { readLock } from './pack';
 import { preparePreviewAssets } from './preview';
 import { prepareAssets } from './prepare';
-import { publishPrepared } from './publication';
+import { saveRepositoryAssets } from './repository';
+import { PackSchema, preparationPin, recipeInputs } from './pack';
+import { preparePublicationCandidate } from './prepare';
+import { prototypeAssets } from './preview';
 import { readAuthoringCatalog } from './authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
 import { checkAssets, checkBuiltAssets } from '../check-assets';
@@ -49,6 +55,10 @@ async function main() {
   if (command === 'publish-files') {
     if (args.length) throw new Error('Use assets:publish-files without options');
     const pin = await readLock();
+    if (pin.schemaVersion === 5) {
+      console.log('Assets are stored in this repository; no delivery publication is needed.');
+      return;
+    }
     if (pin.schemaVersion !== 3 && pin.schemaVersion !== 4)
       throw new Error('Individual delivery requires an accepted file-capable pin');
     await publishIndividualFiles(pin);
@@ -64,18 +74,49 @@ async function main() {
     const cache = new AssetCache();
     await cache.initialize();
     const started = performance.now();
+    const retainedFile = path.join(projectRoot, 'assets/retained.json');
+    const retained = (await readJson(retainedFile)) as { assets: string[] };
+    const ids =
+      command === 'prepare' && values.ids
+        ? positionals.filter((id) => id.startsWith('library-') && id !== 'library-all')
+        : [];
+    const assets = [...new Set([...retained.assets, ...ids])].sort();
+    const scenes = Object.keys(await retainedAssetCatalog({}, undefined, assets)).sort();
+    const retainedText = JSON.stringify({ assets, scenes }, null, 2) + '\n';
+    if (retainedText !== (await fs.readFile(retainedFile, 'utf8')))
+      await fs.writeFile(retainedFile, retainedText);
     const env = await discoverLibrary(cache, process.env);
     console.log(`Source reconciliation: ${((performance.now() - started) / 1000).toFixed(2)}s.`);
     env.LANTERN_IMAGE_GPU = '1';
     env.LANTERN_PREPARE_BUDGET = process.env.LANTERN_PREPARE_BUDGET ?? String(cache.limit);
     if (command === 'prepare' && !values.proof) {
       await preparePreviewAssets(positionals, cache, env);
+      const base = await prototypeAssets(cache);
+      await using releaseBase = onAsyncExit(() => base.held.release());
+      if (!base.files) throw new Error('Missing prepared asset inventory');
+      const prepared = await preparePublicationCandidate(
+        base.held.root,
+        base.lock.recipeSha256,
+        base.files,
+        cache,
+      );
+      await using releasePrepared = onAsyncExit(() => prepared.held.release());
+      await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
+      const inventory = PackSchema.parse(await readJson(path.join(prepared.payload, 'pack.json')));
+      const accepted = preparationPin(prepared.lock, await recipeInputs(), inventory);
+      if (accepted.schemaVersion === 1) throw new Error('Missing preparation provenance');
+      await saveRepositoryAssets(prepared.payload, inventory, accepted.preparation);
     } else {
       const prepared = await prepareAssets(cache, !!values.proof, env);
       await using _cleanup1 = onAsyncExit(() => prepared.held.release());
       if (command === 'publish') {
         await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
-        await publishPrepared(prepared);
+        const inventory = PackSchema.parse(
+          await readJson(path.join(prepared.payload, 'pack.json')),
+        );
+        const accepted = preparationPin(prepared.lock, await recipeInputs(), inventory);
+        if (accepted.schemaVersion === 1) throw new Error('Missing preparation provenance');
+        await saveRepositoryAssets(prepared.payload, inventory, accepted.preparation);
       }
     }
     console.log(

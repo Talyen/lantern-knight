@@ -1,0 +1,9 @@
+{
+  "artwork": "Built-in image_gen tool, original generation then targeted single-lane/single-contact revision",
+  "source": "source_sheet.png",
+  "prompts": [
+    "prompt.txt",
+    "revision_prompt.txt"
+  ],
+  "postprocessing": "Cel extraction, one fixed virtual grid transform, alpha-preserving compositing, blank terminal cel, timing, atlas and preview assembly; no procedural drawings or synthetic motion."
+}

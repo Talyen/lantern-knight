@@ -1,0 +1,5 @@
+06 lantern lighting
+16 genuinely image-generated cels; see timing.json for exact playback and pivots.
+Transparent frames and atlas have a fixed 512px canvas. Do not auto-trim frames individually.
+Straight alpha, sRGB, clamp texture wrap. Smooth cel shading with restrained physical-fantasy palette.
+Source cels are native generated artwork, preserved separately. 512px export is a padded canvas, not a claim of 512px native cel detail. Forward-only playback; no reversed smoke, falling leaves, embers or guiding-wisp motion. Both paired actions share identical approved housing pixels and fixed wick registration.

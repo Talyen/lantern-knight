@@ -1,0 +1,26 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_clustered_wax_altar_01.png",
+    "new": "volume_16_occult_landmarks/assets/occult_clustered_wax_altar_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_hollow_ritual_totem_02.png",
+    "new": "volume_16_occult_landmarks/assets/occult_hollow_ritual_totem_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_root_bound_stone_face_01.png",
+    "new": "volume_16_occult_landmarks/assets/occult_root_bound_stone_face_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_split_rune_monolith_02.png",
+    "new": "volume_16_occult_landmarks/assets/occult_split_rune_monolith_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_thorn_iron_shrine_frame_01.png",
+    "new": "volume_16_occult_landmarks/assets/occult_thorn_iron_shrine_frame_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_16_occult_landmarks/assets/occult_tilted_astronomical_ring_01.png",
+    "new": "volume_16_occult_landmarks/assets/occult_tilted_astronomical_ring_01.png"
+  }
+]

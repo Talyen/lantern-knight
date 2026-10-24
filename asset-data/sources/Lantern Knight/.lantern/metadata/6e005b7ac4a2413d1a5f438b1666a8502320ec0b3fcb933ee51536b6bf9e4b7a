@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "central_ritual_floor",
+      "display_crop_box": [
+        1300,
+        750,
+        2836,
+        1774
+      ],
+      "source_crop_box": [
+        520.0,
+        300.0,
+        1134.4,
+        709.6
+      ],
+      "display_hero_foot": [
+        2165,
+        1418
+      ],
+      "source_hero_foot": [
+        866.0,
+        567.2
+      ]
+    },
+    {
+      "name": "western_gallery_approach",
+      "display_crop_box": [
+        0,
+        300,
+        1536,
+        1324
+      ],
+      "source_crop_box": [
+        0.0,
+        120.0,
+        614.4,
+        529.6
+      ],
+      "display_hero_foot": [
+        792,
+        855
+      ],
+      "source_hero_foot": [
+        316.8,
+        342.0
+      ]
+    },
+    {
+      "name": "raised_dais_approach",
+      "display_crop_box": [
+        1975,
+        75,
+        3511,
+        1099
+      ],
+      "source_crop_box": [
+        790.0,
+        30.0,
+        1404.4,
+        439.6
+      ],
+      "display_hero_foot": [
+        2788,
+        952
+      ],
+      "source_hero_foot": [
+        1115.2,
+        380.8
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

@@ -1,0 +1,17 @@
+{
+  "version": "v02",
+  "source_sheet": "source/DL_seven_clean_sheet_v03.png",
+  "source_companion_v01_sha256": "887407d6f3199d87ae8df854e20cd1f1b8627fe2158e95be696b896afe2e7fb3",
+  "patched_frame_index": 5,
+  "changed_pixel_count": 1334,
+  "atlas_size": [
+    1840,
+    920
+  ],
+  "expected_atlas_sha256": "39cbd685dcc3e51134b0febe945164a81bee1508f662b6e6c82ccec52f79b05d",
+  "runtime_zip": "rust_run_DL_mixamo7_runtime_test_v02.zip",
+  "runtime_zip_sha256": "2e5a54a5782731cf4813870c2cf0b7ae891d13b0e7320f16bf5aeabfddc8e22d",
+  "originals_unchanged": true,
+  "build_entrypoint": "BUILD_CURRENT_RUNTIME_V02.py",
+  "authoring_script_note": "Historical authoring recipe retained for provenance; its original sibling-runtime workspace layout is documented in its paths. Use BUILD_CURRENT_RUNTIME_V02.py as the self-contained, deterministic build entrypoint."
+}

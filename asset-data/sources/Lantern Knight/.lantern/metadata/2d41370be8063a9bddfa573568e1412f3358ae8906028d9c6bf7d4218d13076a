@@ -1,0 +1,70 @@
+{
+  "operations": [
+    "UR: classical harmonic rust-cloth fill only inside6isolated traced/detected wrong right-coat patch masks. Alpha and every pixel outside masks unchanged.",
+    "UL: complete original cel5chosen as terminal because cel6swordtip reaches/clips native source edge. Only two lamp glass interiors in cel5painted dark with existing ink/cage retained. No blade/body/hand pixel changed."
+  ],
+  "no_scaling_mirroring_warping": true,
+  "patch_records": [
+    {
+      "mask_pixels": 1276,
+      "bounded_search_region": [
+        290,
+        295,
+        350,
+        380
+      ]
+    },
+    {
+      "mask_pixels": 919,
+      "bounded_search_region": [
+        790,
+        260,
+        850,
+        340
+      ]
+    },
+    {
+      "mask_pixels": 755,
+      "bounded_search_region": [
+        1280,
+        340,
+        1360,
+        430
+      ]
+    },
+    {
+      "mask_pixels": 543,
+      "bounded_search_region": [
+        300,
+        798,
+        350,
+        842
+      ]
+    },
+    {
+      "mask_pixels": 792,
+      "bounded_search_region": [
+        775,
+        815,
+        850,
+        900
+      ]
+    },
+    {
+      "mask_pixels": 798,
+      "bounded_search_region": [
+        1250,
+        810,
+        1330,
+        890
+      ]
+    }
+  ],
+  "limits": [
+    "Traditional glass repaint is an extinguish-state correction, not a new full-body drawing. UL count remains5.",
+    "No exact floor collision calibration implied."
+  ],
+  "complete_mask_revision": "v02 includes all111inner-pane-edge darkening RGB pixels omitted from the first saved mask. Artwork unchanged.",
+  "glass_rgb_changes_outside_recorded_mask": 0,
+  "glass_alpha_changed_pixels": 0
+}

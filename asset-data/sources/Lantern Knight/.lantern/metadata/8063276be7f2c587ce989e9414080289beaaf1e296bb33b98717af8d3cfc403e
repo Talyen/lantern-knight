@@ -1,0 +1,19 @@
+{
+  "scene": "dry_quarry_retry",
+  "created_utc": "2026-10-09T17:03:51.752072+00:00",
+  "tool": "image_gen__imagegen",
+  "actual_parameters_file": "actual_parameters.json",
+  "source_tool_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-eaa4e9f1-2f56-4805-a5ab-3bfde33c4747.png",
+  "saved_native_output": "LANTERN_dry_quarry_retry_Concept_1536x1024.png",
+  "output_sha256": "01daab80f4c2627b0c208b9a670075c5ed221b4fe0ecf56a8dac02ce14c16fd1",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "reference_role": "canonical hero only, ink-style and scale reference; no environment input",
+  "reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "postprocessing": "None, byte-for-byte copy of native output",
+  "prompt_sha256": "3563fa9be494fa6981bbc0b5f6874fc0dc1cde6b9b3b9c0e8ec2467c9484f555",
+  "backend_model_quality_seed": "not exposed by tool"
+}

@@ -1,0 +1,17 @@
+{
+  "mode": "built-in imagegen",
+  "request": "fresh text generation",
+  "style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "reference_images": [
+    {
+      "path": "/workspace/scratch/1a83d58417d5/scene_retry_samples/style_recovery/references/canonical_hero.png",
+      "role": "character drawing style only"
+    }
+  ],
+  "environment_images_used_as_inputs": [],
+  "requested_native_size": [
+    1536,
+    1024
+  ],
+  "production": false
+}

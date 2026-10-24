@@ -1,0 +1,233 @@
+{
+  "clip": "move",
+  "frame_count": 12,
+  "canvas": [
+    1024,
+    1024
+  ],
+  "pivot_px": [
+    512,
+    850
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.169921875
+  ],
+  "loop": true,
+  "durations_ms": [
+    65,
+    65,
+    40,
+    40,
+    45,
+    50,
+    45,
+    35,
+    60,
+    70,
+    65,
+    60
+  ],
+  "total_ms": 640,
+  "atlas": "atlases/move_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/move/move_00.png",
+      "rect": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        325,
+        354,
+        783,
+        850
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/move/move_01.png",
+      "rect": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        333,
+        436,
+        761,
+        850
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/move/move_02.png",
+      "rect": [
+        2048,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        323,
+        405,
+        782,
+        850
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/move/move_03.png",
+      "rect": [
+        3072,
+        0,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        459,
+        353,
+        984,
+        850
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/move/move_04.png",
+      "rect": [
+        0,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        409,
+        446,
+        902,
+        805
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/move/move_05.png",
+      "rect": [
+        1024,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        266,
+        361,
+        781,
+        775
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/move/move_06.png",
+      "rect": [
+        2048,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        275,
+        300,
+        714,
+        810
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/move/move_07.png",
+      "rect": [
+        3072,
+        1024,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        322,
+        392,
+        786,
+        850
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/move/move_08.png",
+      "rect": [
+        0,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        344,
+        484,
+        762,
+        850
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/move/move_09.png",
+      "rect": [
+        1024,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        319,
+        405,
+        870,
+        850
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/move/move_10.png",
+      "rect": [
+        2048,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        353,
+        343,
+        803,
+        850
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/move/move_11.png",
+      "rect": [
+        3072,
+        2048,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        328,
+        351,
+        761,
+        850
+      ]
+    }
+  ],
+  "events": [],
+  "on_complete": "loop"
+}

@@ -1,0 +1,39 @@
+{
+  "asset": "Structured Graveyard whole-map floor",
+  "tool": "built-in image_gen.imagegen",
+  "intent": "fresh original generation",
+  "attempts": 1,
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "sha256": "2e529dbf9e25724f5d4f0733ab8461c323657dc4f3f637820016aaaadd471627",
+  "source_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-53be76da-9f94-4d40-bbc0-ee2aae1a8af6.png",
+  "requested_model": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst; actual backend not exposed",
+  "stitched": false,
+  "upscaled": false,
+  "resized_old_viewport": false,
+  "target_scale": "40px native visible hero equivalent,160px at4x; native1536x1024 becomes6144x4096",
+  "camera_requested": "orthographic elevation35.264degrees and azimuth45degrees",
+  "camera_validated": false,
+  "locked_style_verbatim_verified": true,
+  "reference_roles": [
+    {
+      "path": "/workspace/shared/lantern_biome_floor_samples_oct09/graveyard_crypt/graveyard_native.png",
+      "role": "Previously viewed palette/material reference only, not composition/scale/texture"
+    },
+    {
+      "path": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+      "role": "Previously viewed original hero clean inkstyle and physical scale reference; excluded from floor"
+    }
+  ],
+  "guide": "Text-only layout, no visual guide or triangle diagram",
+  "visual_review": {
+    "structure": "Clear central diagonal avenue, six ordered rectangular burial sections, three courts, cohesive flush perimeter",
+    "floor_only": "No props, water, raisedrocks, buildings or vertical ledges seen; borders flush",
+    "scale": "Small edge paving suitable; some avenue/court slabs larger, awaiting gameplaycrop review",
+    "style_caveat": "Groundcover remains mottled despite quietsurface request",
+    "status": "Native reviewed; root/reviewer to accept before upscale"
+  }
+}

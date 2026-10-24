@@ -1,0 +1,4 @@
+Village Barricade
+Transparent individually authored native cels; runtime half-size. Mechanical extraction and translation registration only, no synthesized artwork. Play once then hold persistent final state. No forced loops. Native/runtime canvas, timing, contact and reward marker suggestions are in metadata.json.
+Unhook brace; fold paired legs under the three-slat top. Use final collapsed state to remove the temporary gameplay obstruction.
+No game integration. Scene remains unchanged. Source sheets and previews preserved separately; runtime ZIP deliberately lean.

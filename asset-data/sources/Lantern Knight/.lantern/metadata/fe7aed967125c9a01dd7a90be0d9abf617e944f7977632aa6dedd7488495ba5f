@@ -1,0 +1,142 @@
+{
+  "scene_master_id": "1WWBUHOAaRk6DjgNAqE1XIAXaLt1bO-uo",
+  "source_kit_id": "1EgncRKNntLWo1RiIpxiJNpOCAzfGdPc0",
+  "props": {
+    "earthward_stone_cache": {
+      "prompt": "Create ONE Lantern Knight original Graveyard ground-layer interactable source animation. Highest native quality, preferred gpt-image-2.5-sunburst. Reference material only: muted desaturated khaki limestone, deep dark olive groundcover and charcoal-brown earth. NO golden glow. Three flat tones per material, confident tapered black pen/brush contours, clean quiet surfaces with sparse structural chips; no grain or speckles. Orthographic isometric 35.264 elevation 45 azimuth. Four separately authored cels, one horizontal row, clear transparent gutters and margins, same camera scale and stable ground anchor. Genuine transparent background without floor or backdrop. No labels/text, people, bones, gore, exposed loot or rewards. A low squat khaki-grey limestone gravegoods cache coffer, flat hinged lid with a tiny worn circular inset and sparse olive moss at two corners. Four cels closed, lid20degrees, lid60degrees, terminalopen100degrees empty hollow dark interior. Unchanged grounded base throughout.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "replace_library_file",
+          "status": "succeeded",
+          "path": "/earthward_stone_cache_authored_sheet.png",
+          "file_id": "file_00000000f4fc81fd8704553e169eb024",
+          "library_file_id": "libfile_4f4d9f09d8008191b9b809aacfeb7820",
+          "file_name": "earthward_stone_cache_authored_sheet.png",
+          "current_version_number": 1,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "1"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 964845,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-e358c276-9485-4a28-9396-7ab5a04a7bb7.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "gravekeepers_supply_chest": {
+      "prompt": "Create ONE Lantern Knight original Graveyard ground-layer interactable source animation. Highest native quality, preferred gpt-image-2.5-sunburst. Reference material only: muted desaturated khaki limestone, deep dark olive groundcover and charcoal-brown earth. NO golden glow. Three flat tones per material, confident tapered black pen/brush contours, clean quiet surfaces with sparse structural chips; no grain or speckles. Orthographic isometric 35.264 elevation 45 azimuth. Four separately authored cels, one horizontal row, clear transparent gutters and margins, same camera scale and stable ground anchor. Genuine transparent background without floor or backdrop. No labels/text, people, bones, gore, exposed loot or rewards. A compact dark desaturated umber wooden gravekeeper supply chest, heavy plank front and simple flat hinged cover with two black iron bands. Four cels closed, lid20degrees, lid60degrees, terminalopen100degrees empty hollow dark interior. Unchanged grounded base throughout.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "replace_library_file",
+          "status": "succeeded",
+          "path": "/gravekeepers_supply_chest_authored_sheet.png",
+          "file_id": "file_00000000c3108230a0a93660f2f2e20a",
+          "library_file_id": "libfile_c9167da414d48191976ee814ea8c49e5",
+          "file_name": "gravekeepers_supply_chest_authored_sheet.png",
+          "current_version_number": 1,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "1"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 832399,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-e6d184a5-c186-4de6-9fea-ff4ce42de984.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "sealed_earthware_jar": {
+      "prompt": "Create ONE Lantern Knight original Graveyard ground-layer interactable source animation. Highest native quality, preferred gpt-image-2.5-sunburst. Reference material only: muted desaturated khaki limestone, deep dark olive groundcover and charcoal-brown earth. NO golden glow. Three flat tones per material, confident tapered black pen/brush contours, clean quiet surfaces with sparse structural chips; no grain or speckles. Orthographic isometric 35.264 elevation 45 azimuth. Four separately authored cels, one horizontal row, clear transparent gutters and margins, same camera scale and stable ground anchor. Genuine transparent background without floor or backdrop. No labels/text, people, bones, gore, exposed loot or rewards.  ABSOLUTELY NO ground tile, no terrain, no grass, no moss bed, no separate rocks or stump. Object alone floats isolated on pure alpha. Reference is only palette, DO NOT copy ground shapes.A small sealed squat earthenware burial storage jar, muted khaki-grey clay with dark olive collar and rounded fitted lid. Four cels intact, impact spreading cracks and lifting lid, several large curved pieces breaking outward from grounded base, permanent low settled shards and lid pile. Hollow empty storage.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/sealed_earthware_jar_authored_sheet.png",
+          "file_id": "file_00000000a3a88230be4e791bc1934ef2",
+          "library_file_id": "libfile_ee6b5e3af96481919ad79984e0507292",
+          "file_name": "sealed_earthware_jar_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 899836,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-e334405f-222b-4063-83fc-a63be8f555b4.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    "weathered_cache_box": {
+      "prompt": "Create ONE Lantern Knight original Graveyard ground-layer interactable source animation. Highest native quality, preferred gpt-image-2.5-sunburst. Reference material only: muted desaturated khaki limestone, deep dark olive groundcover and charcoal-brown earth. NO golden glow. Three flat tones per material, confident tapered black pen/brush contours, clean quiet surfaces with sparse structural chips; no grain or speckles. Orthographic isometric 35.264 elevation 45 azimuth. Four separately authored cels, one horizontal row, clear transparent gutters and margins, same camera scale and stable ground anchor. Genuine transparent background without floor or backdrop. No labels/text, people, bones, gore, exposed loot or rewards.  ABSOLUTELY NO ground tile, no terrain, no grass, no moss bed, no separate rocks or stump. Object alone floats isolated on pure alpha. Reference is only palette, DO NOT copy ground shapes.A small fully closed dark umber wooden cache box, sparse olive stain, fragile slat sides with crossbrace and fitted flat wood cover. Four cels intact, impact split crossbrace and lid, actual boards splinter apart from lower cavity, permanent low settled pile of boards. Hollow empty storage.",
+      "library": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "operation": "create_library_file",
+          "status": "succeeded",
+          "path": "/weathered_cache_box_authored_sheet.png",
+          "file_id": "file_00000000bf7081fdae856ba8def3243e",
+          "library_file_id": "libfile_a56f30fc703c8191a8048c9d328a53c7",
+          "file_name": "weathered_cache_box_authored_sheet.png",
+          "current_version_number": 0,
+          "restored_from_version_number": null,
+          "xattrs": [
+            {
+              "name": "user.library-file-version",
+              "value": "0"
+            }
+          ],
+          "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+          "mime_type": "image/png",
+          "library_artifact_type": "image_gen",
+          "file_size_bytes": 809539,
+          "external_connectors_accessed": false
+        },
+        "isError": false
+      },
+      "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-7745afe3-a7cb-4ca9-8f42-fd2b6b78e708.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": "FP02",
+  "name": "Ironcap Fungus",
+  "family": "11 Fungi and Plants",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1SXil0nBerGwG689nsGNg4moS46icTZmC",
+  "source_url": "https://drive.google.com/file/d/1SXil0nBerGwG689nsGNg4moS46icTZmC/view?usp=drivesdk",
+  "source_archive": "11_fungi_plants_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/11_fungi_plants_selection_pack/11_fungi_plants/assets/FP02_ironcap_fungus.png",
+  "source_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "ppu": 400,
+  "mirroring": "Not approved: asymmetric cap spot arrangement would flip.",
+  "move_holds": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "attack_holds": [
+    8,
+    11,
+    6,
+    5,
+    8,
+    12
+  ],
+  "move_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      -6
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      -3
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      -2,
+      0
+    ],
+    [
+      -4,
+      -4
+    ],
+    [
+      12,
+      0
+    ],
+    [
+      0,
+      -3
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_event": "Downward cap bash apex",
+  "facing": "UR / northeast / away screen upper-right"
+}

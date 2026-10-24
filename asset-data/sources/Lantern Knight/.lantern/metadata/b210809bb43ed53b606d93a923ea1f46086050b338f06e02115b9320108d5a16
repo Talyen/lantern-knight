@@ -1,0 +1,478 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "terrain_01",
+  "title": "Lantern Terrain & Obstacles - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "These obstacle images supply no collision, walkable terrain, navigation cuts, destructible states or physical behavior; compound props are not split into their depicted components.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "env_angular_boulder_01",
+      "name": "Low angular boulder",
+      "file": "assets/env_angular_boulder_01.png",
+      "prompt_file": "provenance/env_angular_boulder_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1027229,
+      "sha256": "39ff3fbe36f0275c94f352f5c6d7fac1ae886ace7e8722d746975b2e05bc3d9d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        141,
+        1319,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        253,
+        143,
+        1317,
+        903
+      ],
+      "fully_transparent_pixel_fraction": 0.647328,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 5,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.73
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.61
+        ],
+        [
+          0.4,
+          0.42
+        ],
+        [
+          0.85,
+          0.62
+        ],
+        [
+          0.61,
+          0.88
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Single low rock obstacle illustration; physical scale and walkability are unvalidated.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_leaning_gravestone_01",
+      "name": "Leaning grave marker",
+      "file": "assets/env_leaning_gravestone_01.png",
+      "prompt_file": "provenance/env_leaning_gravestone_01.prompt.txt",
+      "dimensions_px": [
+        1305,
+        1205
+      ],
+      "file_bytes": 556215,
+      "sha256": "a2b92e41fcbb70ac1b52a76f2f65cdc129dc8ceaf03b0a4b45513884061fd083",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        118,
+        1277,
+        1108
+      ],
+      "alpha_at_least_16_bounds_px": [
+        430,
+        121,
+        949,
+        1105
+      ],
+      "fully_transparent_pixel_fraction": 0.797209,
+      "fully_opaque_pixel_fraction": 0.000393,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.53,
+        0.81
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.33,
+          0.74
+        ],
+        [
+          0.46,
+          0.68
+        ],
+        [
+          0.7,
+          0.83
+        ],
+        [
+          0.58,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Blank marker with no writing; static leaning slab and integral foot are one prop.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_masonry_rubble_01",
+      "name": "Masonry rubble pile",
+      "file": "assets/env_masonry_rubble_01.png",
+      "prompt_file": "provenance/env_masonry_rubble_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1060838,
+      "sha256": "675d86b92ea1a91a5051bc07a2c01cfa0109612e189cb6299dd23b0f6f30c335",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1344,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        261,
+        163,
+        1278,
+        861
+      ],
+      "fully_transparent_pixel_fraction": 0.743221,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.67
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.17,
+          0.62
+        ],
+        [
+          0.48,
+          0.37
+        ],
+        [
+          0.84,
+          0.62
+        ],
+        [
+          0.61,
+          0.84
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Six overlapping pieces form one compound cutout; individual stone separation and breakage are not supplied.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_low_thorn_hedge_01",
+      "name": "Low thorn hedge",
+      "file": "assets/env_low_thorn_hedge_01.png",
+      "prompt_file": "provenance/env_low_thorn_hedge_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1179907,
+      "sha256": "0bbd10127a6ea29f7b18ea142802e644b2ecb6c64be2a3ba19a9976609c170bc",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        71,
+        31,
+        1436,
+        982
+      ],
+      "alpha_at_least_16_bounds_px": [
+        124,
+        187,
+        1412,
+        817
+      ],
+      "fully_transparent_pixel_fraction": 0.684279,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.65
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.1,
+          0.54
+        ],
+        [
+          0.41,
+          0.34
+        ],
+        [
+          0.92,
+          0.57
+        ],
+        [
+          0.58,
+          0.81
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Single canopy/root silhouette; transparent gaps and foliage occlusion need engine testing.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_fallen_column_01",
+      "name": "Fallen round column",
+      "file": "assets/env_fallen_column_01.png",
+      "prompt_file": "provenance/env_fallen_column_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1109971,
+      "sha256": "79a60f2bd040bfa4b555a2dd4033d3c91e7d57f8a3ccfc6e40067c1f38b6acc1",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        302,
+        115,
+        1378,
+        968
+      ],
+      "alpha_at_least_16_bounds_px": [
+        305,
+        118,
+        1305,
+        906
+      ],
+      "fully_transparent_pixel_fraction": 0.762878,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.67
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.2,
+          0.7
+        ],
+        [
+          0.64,
+          0.34
+        ],
+        [
+          0.85,
+          0.54
+        ],
+        [
+          0.33,
+          0.89
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Shaft and square capital are a single static ruin prop; no rolling or breakable state.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_dry_stone_well_01",
+      "name": "Dry stone well ring",
+      "file": "assets/env_dry_stone_well_01.png",
+      "prompt_file": "provenance/env_dry_stone_well_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1154950,
+      "sha256": "5702eb113cf359996f78534af3a1b27623db2f0b897705249fdb40006059f6f5",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        130,
+        1216,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        340,
+        133,
+        1209,
+        905
+      ],
+      "fully_transparent_pixel_fraction": 0.645131,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 6,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.5,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.23,
+          0.65
+        ],
+        [
+          0.5,
+          0.51
+        ],
+        [
+          0.77,
+          0.69
+        ],
+        [
+          0.51,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "The visible opening is painted dark interior, not a traversable hole or cutout in terrain.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_timber_barricade_01",
+      "name": "Timber barricade",
+      "file": "assets/env_timber_barricade_01.png",
+      "prompt_file": "provenance/env_timber_barricade_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1259438,
+      "sha256": "ba1ec58b4976ececf360dc751fddd1479f09b8c4d260890b1f489b3435cc6ee5",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        21,
+        1436,
+        983
+      ],
+      "alpha_at_least_16_bounds_px": [
+        231,
+        104,
+        1362,
+        905
+      ],
+      "fully_transparent_pixel_fraction": 0.746331,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.72
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.17,
+          0.75
+        ],
+        [
+          0.71,
+          0.44
+        ],
+        [
+          0.88,
+          0.61
+        ],
+        [
+          0.34,
+          0.88
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Rails and trestle supports are one static prop. No destructible state, navigation footprint or alignment sockets.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "env_basalt_outcrop_01",
+      "name": "Basalt outcrop",
+      "file": "assets/env_basalt_outcrop_01.png",
+      "prompt_file": "provenance/env_basalt_outcrop_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 509361,
+      "sha256": "8f5db0e88f0fa093ffce0ab3ea18c864cfc1a98d9abaed145d74ca14b80a7e19",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        89,
+        151,
+        1250,
+        1130
+      ],
+      "alpha_at_least_16_bounds_px": [
+        247,
+        153,
+        1070,
+        1054
+      ],
+      "fully_transparent_pixel_fraction": 0.705509,
+      "fully_opaque_pixel_fraction": 0.000398,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.79
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.19,
+          0.71
+        ],
+        [
+          0.48,
+          0.55
+        ],
+        [
+          0.81,
+          0.74
+        ],
+        [
+          0.52,
+          0.89
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Three prominent fused spires form one rocky compound obstacle; no separate stone pieces.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

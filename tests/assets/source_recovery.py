@@ -24,6 +24,18 @@ def identity(data):
 
 
 class Recovery(unittest.TestCase):
+    def test_default_reader_rejects_external_cached_sources_and_environment_roots(self):
+        owned = SourceResolver(self.root, self.index, cache=self.cache)
+        self.assertEqual(owned.read("file:walk/frames/one.png"), self.payload)
+        moved = self.move(self.loose, self.documents / "outside.png")
+        with patch.dict(os.environ, {"ASSET_LIBRARY_ROOT": str(self.library), "LANTERN_SOURCE_SEARCH_ROOTS": str(self.documents)}):
+            external = self.resolver()
+            self.assertEqual(external.read("file:walk/frames/one.png"), self.payload)
+            confined = SourceResolver(self.root, self.index, cache=self.cache)
+            with self.assertRaises(FileNotFoundError):
+                confined.read("file:walk/frames/one.png")
+        self.assertTrue(moved.exists())
+
     def test_supplements_merge_file_members_without_overriding_identities(self):
         first = {"files": {"walk": {"one.png": identity(b"one")}}}
         second = {"files": {"walk": {"two.png": identity(b"two")}}}
@@ -254,7 +266,7 @@ class Recovery(unittest.TestCase):
         (self.library / "second").unlink()
         with self.assertRaisesRegex(FileNotFoundError, "file:walk/frames/one.png.*searched"):
             resolver.read("file:walk/frames/one.png")
-        (self.library / "restored").write_bytes(self.payload)
+        (self.root / "restored").write_bytes(self.payload)
         self.assertEqual(resolver.read("file:walk/frames/one.png"), self.payload)
 
     def test_wrong_revision_identical_duplicates_and_deleted_sources(self):
@@ -302,10 +314,10 @@ class Recovery(unittest.TestCase):
             patch("os.scandir", side_effect=scandir),
             patch.dict(os.environ, {"LANTERN_SOURCE_SEARCH_ROOTS": str(extra)}),
         ):
-            self.assertEqual(self.resolver().resolve("file:walk/frames/one.png"), moved)
+            self.assertEqual(self.resolver(search_roots=[self.root, self.library, extra]).resolve("file:walk/frames/one.png"), moved)
 
     def test_corrupt_cache_and_concurrent_normal_reader_commands(self):
-        self.move(self.loose, self.library / "moved/source")
+        self.move(self.loose, self.root / "moved/source")
         self.cache.mkdir()
         (self.cache / "source-locations.json").write_text("{interrupted")
         env = {
@@ -389,7 +401,7 @@ class Recovery(unittest.TestCase):
             self.assertIn("data", request(1))
             self.loose.unlink()
             self.assertIn("error", request(2))
-            (self.library / "restored").write_bytes(self.payload)
+            (self.root / "restored").write_bytes(self.payload)
             self.assertIn("data", request(3))
             child.stdin.close()
             child.wait(timeout=10)

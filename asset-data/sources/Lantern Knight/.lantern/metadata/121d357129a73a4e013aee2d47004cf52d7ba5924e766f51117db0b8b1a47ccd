@@ -1,0 +1,16 @@
+{
+  "generation_tool": "built-in image_gen",
+  "fresh_from_original_identity_reference": true,
+  "generative_edit_of_draft": false,
+  "native_resolution": [
+    1536,
+    1024
+  ],
+  "requested_phrase": "Sunburst 2.5",
+  "specific_model_guaranteed": false,
+  "sha256": {
+    "native_sheet.png": "74a9e97eb4fef139ed526835b0fde371c1f7b14e01d915b5a88b718540c4f002",
+    "original.png": "459ba7fb8c1391bca9405f8265fd8c77bca167866221d583142131ee81a91476",
+    "prompt.txt": "ce58d81208dcf062702eb0b9efc4618b71d2438b0b850ada0ba53cb0f3f2d95c"
+  }
+}

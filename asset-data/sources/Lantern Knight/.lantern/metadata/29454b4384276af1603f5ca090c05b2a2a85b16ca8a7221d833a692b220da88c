@@ -1,0 +1,61 @@
+{
+  "name": "Iron Grit Lance | Drilling splinter fan v3",
+  "durations_ms": [
+    20,
+    20,
+    30,
+    70,
+    50,
+    50,
+    50,
+    50,
+    60,
+    60,
+    60,
+    60,
+    70,
+    500
+  ],
+  "phases": [
+    "Gather",
+    "Onset",
+    "Strike",
+    "Peak",
+    "Nose cracks",
+    "Wedges split",
+    "Drill uncoils",
+    "Forward fan",
+    "Plates splinter",
+    "Grit streamers",
+    "Peripheral chips",
+    "Dust trails",
+    "Last iron flecks",
+    "Clear"
+  ],
+  "art_frames": 13,
+  "new_tail_frames": 9,
+  "clear_frames": 1,
+  "onset_ms": 70,
+  "peak_hold_ms": 70,
+  "tail_ms": 510,
+  "registration": "First four existing cels use one constant 0.9 scale and identical placement at [60, 25] on a640px canvas to match the new authored tail material scale. All nine new tail cels are exact418px uniform3x3 crops, placed identically at(111,111). No per-frame recentering, scaling, translation or fade; all tail motion is authored in imagegen cels.",
+  "opening_constant_scale": 0.9,
+  "opening_constant_placement": [
+    60,
+    25
+  ],
+  "tail_grid_cell": [
+    418,
+    418
+  ],
+  "tail_constant_placement": [
+    111,
+    111
+  ],
+  "canvas": [
+    640,
+    640
+  ],
+  "spritesheet_columns": 5,
+  "source_sheet": "tail_authored_sheet.png"
+}

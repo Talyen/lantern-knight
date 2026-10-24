@@ -1,0 +1,1187 @@
+[
+  {
+    "id": "pilgrim_chest_open",
+    "asset": "pilgrim_chest",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_containers.py",
+    "frames": [
+      {
+        "file": "animation/pilgrim_chest/open_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          193,
+          379,
+          831,
+          977
+        ],
+        "sha256": "93ee375511e7803671881ae7de2d22ca64bf72ae006d3bc80afc75f3f3f1b070"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          193,
+          378,
+          831,
+          977
+        ],
+        "sha256": "c9170baa49b8dda57bc1ee5dce0658db0836ead5e98a95c34df5239d3094c14d"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          193,
+          375,
+          831,
+          977
+        ],
+        "sha256": "fe2bfe7ca7b114df8e6fcbc65a643068ceec339384c2db6acd277b1ce21568d8"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          370,
+          831,
+          977
+        ],
+        "sha256": "9a22e2c0ed9ef4735eebf3b69112fe62e6e5200f051cdc22fb43bb4d3ae94f18"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          362,
+          832,
+          977
+        ],
+        "sha256": "42a3a807ee58ad35808e40e6e4e7b99c9541f16b92da252021350250862b0fc2"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          353,
+          832,
+          977
+        ],
+        "sha256": "172c10f0ae4a1c37ea47661f58730d402c8a1656d744a98813c9ae69eb8a9575"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          342,
+          833,
+          977
+        ],
+        "sha256": "403c0e6b65c09a4f528480204dc86f4a4e96fd3118cb1ca54362b19f36c7debb"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          330,
+          834,
+          977
+        ],
+        "sha256": "ec90a7f1a4630e52db85e5a7f807ead29165057c403fe57ee1001031a96126ec"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          316,
+          837,
+          977
+        ],
+        "sha256": "9e64830d675f03861dbee426471dfc50cbbe6ee803e0edba1f6a73ffea8f2cee"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          301,
+          840,
+          977
+        ],
+        "sha256": "33acada9b1a1c12f31f916517de18201b9d0688572283bc5670a494d67c5c6df"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          285,
+          844,
+          977
+        ],
+        "sha256": "55f86d85dd7b28772cd568413c0117d422a3e5e63d94424bf9fab031f6af8935"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          270,
+          849,
+          977
+        ],
+        "sha256": "6aa27402f93fa2b15140610d13b3cded6c78a555eacb31401b6ed6f5afec0c64"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          254,
+          853,
+          977
+        ],
+        "sha256": "4263fdab3ea0f3d23097ca4aee585c73e1ad04e8edae4f5c91347cdd63a2d955"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          238,
+          858,
+          977
+        ],
+        "sha256": "9d4d359dd866db63c45ef20e34788d9da993ca847ada3c806652e8cfee7ccedb"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          222,
+          862,
+          977
+        ],
+        "sha256": "0324f0561f9199c938c041b477e915f67516b44886acb8d25424fb63d33fdae8"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          199,
+          867,
+          977
+        ],
+        "sha256": "3c15388d379a12d2bffdc262a83d2a42426780c524de891a822a5dc5067af3ca"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          180,
+          872,
+          977
+        ],
+        "sha256": "8b23d181ccd17223ddda64dda8aac12cadd948954d3825948a3add66b404ccdc"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          163,
+          878,
+          977
+        ],
+        "sha256": "e43eff95b6181d7ca45d07fcc36addb1394127437a317ce6fcf168df4f89c579"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          150,
+          884,
+          977
+        ],
+        "sha256": "504435769792147fc215fab7861a3a0f6d1d10c1af2f569fc62711c9ef43d187"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          140,
+          891,
+          977
+        ],
+        "sha256": "ba1c7dcea851f5a5a863bf665a3cbd3d2ed68f265e4a25de391d9469d92d018c"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          133,
+          897,
+          977
+        ],
+        "sha256": "b71520683aea639ba139961fd38db2c43250ec59a7c6120d13c6303dff9d5843"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          128,
+          902,
+          977
+        ],
+        "sha256": "1b93d487a610ce290f535aa63633b72b96a37a64a5718d14c33252003dc9373c"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          125,
+          905,
+          977
+        ],
+        "sha256": "25ed8b75f6f78b98e69ce97ea2e2424a152e8e8d3263dd6004ae0ffefd120f1d"
+      },
+      {
+        "file": "animation/pilgrim_chest/open_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          194,
+          124,
+          906,
+          977
+        ],
+        "sha256": "5a6a5e6d3cc9c7fadfe16cb083458454d683448e797a817cf34824940ab9160f"
+      }
+    ]
+  },
+  {
+    "id": "shrine_reliquary_open",
+    "asset": "shrine_reliquary",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_containers.py",
+    "frames": [
+      {
+        "file": "animation/shrine_reliquary/open_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          198,
+          377,
+          826,
+          974
+        ],
+        "sha256": "884da9c6080b3a8417d403935b7a1a09e4f63ecc640f5b18fee98b3017d7055e"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          198,
+          375,
+          826,
+          974
+        ],
+        "sha256": "ed6459a5a864836bfe0c2b0f089f7d63d27e842752d7b05eedb6452d524e08b4"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          198,
+          370,
+          826,
+          974
+        ],
+        "sha256": "d79ee56acc6384400353c8ab7032656b0c576feab5d63e1475c8bc0ad32c3763"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          198,
+          362,
+          827,
+          974
+        ],
+        "sha256": "6f1e6c6df78a5cbc3c912f3c9c7e4b53fe8583fa79ebb25b7b39bed7cb237d8c"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          352,
+          827,
+          974
+        ],
+        "sha256": "83b4c5986a0267b290d1b98f78e78ef9ab09139ba62bbabf26317f256d621311"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          339,
+          828,
+          974
+        ],
+        "sha256": "ff4899b5f9baa214d9210e323472dbdcc508e8ffaa8b69a804bd76d29385ad7b"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          326,
+          828,
+          974
+        ],
+        "sha256": "91d2c0ead5ddc7c4f98333b89a09ebeab7108a47800679f102703a4c4345cea6"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          313,
+          829,
+          974
+        ],
+        "sha256": "bc06596d59445ee60b0e5427fe6b7e23d4e0b35d23f6d1aeee3d99ea955081b7"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          298,
+          837,
+          974
+        ],
+        "sha256": "34f72ef3a32576d29197cb223fd910d61c71abf162abf2f8b842708ea8b0d46a"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          285,
+          831,
+          974
+        ],
+        "sha256": "ec415b47e4fd8942ca0d185a07e2091c3f6d38c7cf13252c7e96b92fed1e97d9"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          272,
+          857,
+          974
+        ],
+        "sha256": "bab1ef7439bb8c8248187b07372439677abe9ab0008fcab23f90ea5a7de2fefb"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          261,
+          868,
+          974
+        ],
+        "sha256": "91cf33c81717eee29c19248900d1c3b75d35a98dc562699b737b88410bb932a6"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          252,
+          842,
+          974
+        ],
+        "sha256": "576c92ea651ead70f035c914a52ab34da6c6b4688d5ae7a740bbc8dd494737bc"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          246,
+          858,
+          974
+        ],
+        "sha256": "953e7ec38f0e0bc06815608683b51caaacd3135e8580ee64a7b0cc7f5a85f7b0"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          241,
+          890,
+          974
+        ],
+        "sha256": "b8693f1eecbc8b13d8441c94c948fe204b8c1d81bd46672a01ba29472a019693"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          239,
+          887,
+          974
+        ],
+        "sha256": "49b742a023104bc07d2a9d98856baedb976481e759c628a2026aff6b1f55c736"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          227,
+          909,
+          974
+        ],
+        "sha256": "440f9d9bde7b8ead5a8790c85ebf06cd2a1df7c9902cd2c453ccc8c71a892d0d"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          211,
+          912,
+          974
+        ],
+        "sha256": "551c0e7818ef3c7b63f38e58783c01ad388ca0f1ae2101f6a69f2be999e6c0f5"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          199,
+          922,
+          974
+        ],
+        "sha256": "5584737f0fce3dd9abbdccbf7bd1f513e4826b5c1fcae1f2f0c9531de4210a60"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          189,
+          930,
+          974
+        ],
+        "sha256": "29dd30505982c7d1492cbdb2de5f5300805ba91b6bf409143ccd21ac3c7ffefe"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          182,
+          936,
+          974
+        ],
+        "sha256": "87cbaf38a1fc4efaaa476357124e49b12d7eb41ac2ca66d4f969581fe61bcb9e"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          178,
+          942,
+          974
+        ],
+        "sha256": "7f33bcedc2a2936a4af5fc4f3a7304b12e7e774888dbf9548a695e1bbe0f8536"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          175,
+          946,
+          974
+        ],
+        "sha256": "b6093b3817df8e9dfb1f374987287185aaeb01a884f87f31005deee4cce2bd58"
+      },
+      {
+        "file": "animation/shrine_reliquary/open_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          199,
+          174,
+          948,
+          974
+        ],
+        "sha256": "06b58ca1b392edb2198bd3397d0ab39f90cf1fcda17dc66fc64a4f5a48b9a5af"
+      }
+    ]
+  },
+  {
+    "id": "iron_lockbox_open",
+    "asset": "iron_lockbox",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_containers.py",
+    "frames": [
+      {
+        "file": "animation/iron_lockbox/open_000.png",
+        "normalized_progress": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          282,
+          486,
+          742,
+          926
+        ],
+        "sha256": "9a2a9ac89be7add1ce8460b133522ed9df50c1d454fcc331e0bc9456f4263a5c"
+      },
+      {
+        "file": "animation/iron_lockbox/open_001.png",
+        "normalized_progress": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          282,
+          486,
+          742,
+          926
+        ],
+        "sha256": "7ededbc3bcb254e8d464fd11faf5797556d2adc0152ae1f212bf2e1adb926eb4"
+      },
+      {
+        "file": "animation/iron_lockbox/open_002.png",
+        "normalized_progress": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          282,
+          486,
+          742,
+          926
+        ],
+        "sha256": "14f4663e6863c215e920698ebfd7101aeefdd73bf0b0a1b87ef897e43721f814"
+      },
+      {
+        "file": "animation/iron_lockbox/open_003.png",
+        "normalized_progress": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          282,
+          485,
+          743,
+          926
+        ],
+        "sha256": "5efe6c9156ea75cf9fcb305ebc6869b00142a39a67e9c09022061d61085bec0e"
+      },
+      {
+        "file": "animation/iron_lockbox/open_004.png",
+        "normalized_progress": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          482,
+          743,
+          926
+        ],
+        "sha256": "438bf5708186c6231b634af92c42e2da4adf3dc2f8c9630674fe9b43f810c485"
+      },
+      {
+        "file": "animation/iron_lockbox/open_005.png",
+        "normalized_progress": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          480,
+          744,
+          926
+        ],
+        "sha256": "dbde757c97941bd9c76b6c8de5874d6bd9cc68c4c9da73cf1b41e6a7cc13ad55"
+      },
+      {
+        "file": "animation/iron_lockbox/open_006.png",
+        "normalized_progress": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          476,
+          744,
+          926
+        ],
+        "sha256": "ab4f2c6e30d0069a69040298ca3928592a0748e2b45b2fc7765d21145dbab7df"
+      },
+      {
+        "file": "animation/iron_lockbox/open_007.png",
+        "normalized_progress": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          473,
+          745,
+          926
+        ],
+        "sha256": "77bd7bd662d6da359eeaaba795d79c586b594087c8d7591c2e97a91cd3e30615"
+      },
+      {
+        "file": "animation/iron_lockbox/open_008.png",
+        "normalized_progress": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          469,
+          746,
+          926
+        ],
+        "sha256": "2ac7a9132ba19369897324ab5820701db8f431e937d27ac6c526ae7078d35c15"
+      },
+      {
+        "file": "animation/iron_lockbox/open_009.png",
+        "normalized_progress": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          451,
+          746,
+          926
+        ],
+        "sha256": "2544443e24e717412af64cfddb96bed8b62a23219a899dee35e4bdfb26870a43"
+      },
+      {
+        "file": "animation/iron_lockbox/open_010.png",
+        "normalized_progress": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          430,
+          747,
+          926
+        ],
+        "sha256": "95713ee96c22b8a037508181f18ffe25bd2cb1863b6ea44fb92e89ccde2dbb2a"
+      },
+      {
+        "file": "animation/iron_lockbox/open_011.png",
+        "normalized_progress": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          407,
+          748,
+          926
+        ],
+        "sha256": "aa3386d1cf2bfa0411b7062ab66d154b4a294757d8791e3b62061fa9eef267c0"
+      },
+      {
+        "file": "animation/iron_lockbox/open_012.png",
+        "normalized_progress": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          384,
+          748,
+          926
+        ],
+        "sha256": "48f394177ae993ea44053f69c955ba30aebd6b199cbed8be29c5dc467f88b001"
+      },
+      {
+        "file": "animation/iron_lockbox/open_013.png",
+        "normalized_progress": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          362,
+          749,
+          926
+        ],
+        "sha256": "e36bdb7b0d9eb55d40cd4c58dbe1ecd3d10942aca0908276e8c6be7e5378f858"
+      },
+      {
+        "file": "animation/iron_lockbox/open_014.png",
+        "normalized_progress": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          342,
+          749,
+          926
+        ],
+        "sha256": "8f6281d830b07501e6e08586953f6e17c17aef12accd475fb3b1ddfe29e68a5f"
+      },
+      {
+        "file": "animation/iron_lockbox/open_015.png",
+        "normalized_progress": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          325,
+          750,
+          926
+        ],
+        "sha256": "a217d6bddc0640474404bc5bbe373c1df0bad10ea5f8f7fc922f17a5d60d0f0d"
+      },
+      {
+        "file": "animation/iron_lockbox/open_016.png",
+        "normalized_progress": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          310,
+          750,
+          926
+        ],
+        "sha256": "d58ba97c65bd6f2118f273b32cfa825457ec74edcd1809c1aaf67f162fb578c5"
+      },
+      {
+        "file": "animation/iron_lockbox/open_017.png",
+        "normalized_progress": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          297,
+          750,
+          926
+        ],
+        "sha256": "56f4665095a0618f6fc86424597342171805cd0091c3f8ceec4979190fc90608"
+      },
+      {
+        "file": "animation/iron_lockbox/open_018.png",
+        "normalized_progress": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          287,
+          750,
+          926
+        ],
+        "sha256": "6c88c690d23186c0b2b60165458704ae079f8387fd6c86d821518428e271f315"
+      },
+      {
+        "file": "animation/iron_lockbox/open_019.png",
+        "normalized_progress": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          279,
+          750,
+          926
+        ],
+        "sha256": "34b7e0ce1492162b65f2d4d8b7ad3f3330aca71e6926cc539d82597ee85eb049"
+      },
+      {
+        "file": "animation/iron_lockbox/open_020.png",
+        "normalized_progress": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          274,
+          750,
+          926
+        ],
+        "sha256": "bb2b5ffaf11375e6826b151c2be83a5f7d69595d68d1a4a94e0ba77aa511beea"
+      },
+      {
+        "file": "animation/iron_lockbox/open_021.png",
+        "normalized_progress": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          270,
+          757,
+          926
+        ],
+        "sha256": "72f62e3d0cd64a692b6f0884757850576c04c065859ffa2f1cb0f8e27dcbd304"
+      },
+      {
+        "file": "animation/iron_lockbox/open_022.png",
+        "normalized_progress": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          268,
+          761,
+          926
+        ],
+        "sha256": "90227fe224d85ea67d21e9f7678adbb2ceb0724bf704a5674933c23e3e180af3"
+      },
+      {
+        "file": "animation/iron_lockbox/open_023.png",
+        "normalized_progress": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          512.0,
+          802.0
+        ],
+        "bounds": [
+          283,
+          267,
+          763,
+          926
+        ],
+        "sha256": "334ed6dde963d90312e965ba50e4f970c0f8c0886a4a73f1a2289cf4ce8e330d"
+      }
+    ]
+  }
+]

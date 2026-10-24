@@ -1,0 +1,58 @@
+{
+  "preview": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "8.000000",
+    "nb_read_frames": "480",
+    "bytes": 4178807,
+    "sha256": "6f44c0e9e893bba0dee318768cf4ec288d4a7d10744b5fab6e55e417add40251",
+    "unique_decoded_frames_320x180": 478
+  },
+  "intro": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "1.500000",
+    "nb_read_frames": "90",
+    "bytes": 1985596,
+    "sha256": "aa0b741b33bf9aa287f3537daf135213419034e7c60c7f5f328cefbcdac5c247",
+    "unique_decoded_frames_320x180": 88
+  },
+  "hold": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "4.000000",
+    "nb_read_frames": "240",
+    "bytes": 1958286,
+    "sha256": "5c3e6a9165f201ab70eba97adc2b05bf198182b08188fbe5186341d4e196ec8b",
+    "unique_decoded_frames_320x180": 240,
+    "mean_adjacent_delta_8bit": 0.08385772258043289,
+    "median_adjacent_delta_8bit": 0.0905497670173645,
+    "max_adjacent_delta_8bit": 0.12208911776542664,
+    "last_to_first_delta_8bit": 0.3684201240539551
+  },
+  "complete": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "60/1",
+    "avg_frame_rate": "60/1",
+    "duration": "2.500000",
+    "nb_read_frames": "150",
+    "bytes": 1649361,
+    "sha256": "67c910edaf1b219c6042d9c6dc540e91ed65c0425099a7cc83c5e6a0df4f34b3",
+    "unique_decoded_frames_320x180": 150
+  }
+}

@@ -1,0 +1,35 @@
+# Lantern — Ink & Moths
+
+A paired loading and title-screen concept for a dark-fantasy ARPG. Fine ivory and antique-gold brushwork describes a tall lantern. Three articulated moths follow quiet orbits around its changing flame. The title spells **Lantern** in original hand-drawn calligraphy: each stroke grows along its own path, led by a small flame. A long ink flourish and one perched moth complete the title.
+
+## Deliverables
+
+- `Lantern_InkMoths_Loading.mp4`: 8 seconds, 1920×1080, native 60 fps, H.264 / yuv420p, silent.
+- `Lantern_InkMoths_Title.mp4`: 10 seconds, same native specification.
+- `Lantern_InkMoths_Loading_Intro.mp4`: 0–2 seconds.
+- `Lantern_InkMoths_Loading_Hold.mp4`: 2–6 seconds, one seamless four-second hold loop.
+- `Lantern_InkMoths_Loading_Complete.mp4`: 6–8 seconds.
+- Three editable all-vector SVG masters, three full-size PNG posters, and a contact sheet.
+- `render.py`, `verify.py`, `package.py`, `rebuild.sh`, manifest and validation report.
+
+The loading animation contains no text. The title contains only the word Lantern, including capital L and lowercase antern. Previews are opaque on a deliberately flat dark background. No grain, photographic plates, raster art assets, or font files are used.
+
+## Timing
+
+Loading: the outline draws in during 0–2 s. From 2–6 s, the flame shape, body bob and independent moth flight/wingbeats are periodic. During 6–8 s, the moths resolve around the lantern and two botanical brush sprigs draw in. The exact source image at 2.0 s equals 6.0 s before completion develops.
+
+Title: the small lantern draws in during 0–2 s. From 2 s, seven bespoke letterforms are drawn stroke by stroke, rather than cross-fading the whole logo. The underline and perched moth finish at 7.8 s. The complete lettering and its ornaments remain fixed for the final 2.2 s, while the lantern flame and orbiting moths remain gently alive.
+
+## Edit and rebuild
+
+Requires Python 3.9+, pycairo, FFmpeg with libx264, and ffprobe. Verification also uses Pillow and NumPy. On Debian/Ubuntu, the packages are `python3-cairo python3-pil python3-numpy ffmpeg`. Rendering itself uses only Python's standard library and pycairo. No network or external media is required.
+
+Run `PYTHON=/usr/bin/python3 ./rebuild.sh` on a system with these dependencies. Alternatively, `python3 render.py` rebuilds just the two full previews and masters. `python3 render.py --proof` builds half-size motion proofs. `python3 render.py --stills` rebuilds only SVG and PNG masters.
+
+The source's `LETTERS` array contains the customized calligraphic paths and stroke widths. `CONTOURS` holds the lantern's brush outlines. `moth()` defines the two articulated wings. Colors are the named constants at the top. Animation is deterministic, sampled freshly at every 1/60 s. SVG masters contain outlined paths, so the artwork is editable in vector editors without any fonts. The animated source is the Python renderer; the SVGs are static key states.
+
+## Provenance and validation
+
+All letterforms, moth silhouettes, lantern contours and motion paths were drawn specifically for this concept. No installed or third-party font is used. All geometry is in the source. There are no licensed font dependencies to recover or substitute.
+
+`verify.py` fully decodes all five movies; checks dimensions, frame rate, frame counts, silent tracks and individual sizes; compares the exact loading loop endpoints; compares the complete wordmark at 8 and 9.98 s; and checks SVGs contain no text nodes or embedded images. `package.py` records SHA-256 hashes and CRC-tests the delivery ZIP. Files and the ZIP remain below 12 MB each.

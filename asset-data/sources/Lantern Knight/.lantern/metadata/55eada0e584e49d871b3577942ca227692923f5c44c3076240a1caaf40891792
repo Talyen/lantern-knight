@@ -1,0 +1,84 @@
+{
+  "name": "Moth oracle",
+  "reference": {
+    "id": "lantern_creature_concept_03_moth_oracle",
+    "sha256": "2d558003603bc1f3791e951bd5d021177e07a62ae7308937581c6483d4411fa6"
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation, not 3D calibrated"
+  },
+  "facing": "screen lower-right three-quarter",
+  "mirroring": "not validated; use authored facing",
+  "world_position": "engine-owned; all drawing offsets baked; do not reapply",
+  "clips": {
+    "move": {
+      "loop": true,
+      "holds_60hz": [
+        8,
+        7,
+        7,
+        7,
+        7,
+        8
+      ],
+      "frames": [
+        "move_00.png",
+        "move_01.png",
+        "move_02.png",
+        "move_03.png",
+        "move_04.png",
+        "move_05.png"
+      ],
+      "attack_event_frame_zero_based": null,
+      "event_is_visual_reference_only": true,
+      "end": "loop"
+    },
+    "attack": {
+      "loop": false,
+      "holds_60hz": [
+        8,
+        9,
+        12,
+        6,
+        9,
+        14
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_event_frame_zero_based": 3,
+      "event_is_visual_reference_only": true,
+      "end": "hold final then return movement"
+    }
+  },
+  "png_sha256": {
+    "move_00.png": "140be5fcc05400c9b13d9e5f0944bdb0c93f381e0cb53e0adc1028c4042c88dd",
+    "move_01.png": "b11749de437aacebc24dba4ed3c035e017dce96daf220d293ddc583a7059abe2",
+    "move_02.png": "4a6cceb651e635c424ac88a3010ec335fdeaaedb6f205e52445e06b2d810337a",
+    "move_03.png": "a829dccd7cc3e268be0206c0223742ba35784ddb2306c4289e3a2ed13eea89a0",
+    "move_04.png": "a651770756e6c2a6f14ebbd8496c4ef46b7332b3639f6c0fe62050a62d0748b7",
+    "move_05.png": "d8bc894a94cca2e565858d92e92f99c956622f4a4bc7d334f4cf3c0b65a4134b",
+    "attack_00.png": "99ae7db689c151f1d5322d5bbddccc4195a2c5d018c19a75ac6a00452b7a57ec",
+    "attack_01.png": "233e56237e127b05c1c30840652d3dfe2dd39eca4753c0c2a0013e7e58808cc3",
+    "attack_02.png": "7c602a1157fbc1ea23247a05cea4af761e4fbca8bf0f2ceaa0d6ad926f8a926a",
+    "attack_03.png": "5ffc28164b9e302f38b1467d3b0b5eaccfeb16dff86bb2c2208f2d3d3cf35624",
+    "attack_04.png": "018dd39290486797102fbeb1de52895cd0c8e3b0ee416a8f798f243dab5adbbe",
+    "attack_05.png": "564e1f6dfcd099a09ae49128c0a9decec7dccfd52c07079940dadd1714f4e93e"
+  }
+}

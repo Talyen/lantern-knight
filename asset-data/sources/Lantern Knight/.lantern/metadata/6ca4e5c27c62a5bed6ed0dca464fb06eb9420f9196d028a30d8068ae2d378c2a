@@ -1,0 +1,99 @@
+{
+  "media": {
+    "intro": {
+      "metadata": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "2.000000",
+        "nb_frames": "120"
+      },
+      "bytes": 178894,
+      "decoded_frames": 120,
+      "unique_decoded_frames": 120,
+      "adjacent_MAD_mean": 0.11725434000760798,
+      "adjacent_MAD_max": 0.2882510288065844
+    },
+    "hold": {
+      "metadata": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "4.000000",
+        "nb_frames": "240"
+      },
+      "bytes": 293766,
+      "decoded_frames": 240,
+      "unique_decoded_frames": 240,
+      "adjacent_MAD_mean": 0.04193487740413589,
+      "adjacent_MAD_max": 0.08966820987654321
+    },
+    "complete": {
+      "metadata": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "2.000000",
+        "nb_frames": "120"
+      },
+      "bytes": 156178,
+      "decoded_frames": 120,
+      "unique_decoded_frames": 100,
+      "adjacent_MAD_mean": 0.0833132327004876,
+      "adjacent_MAD_max": 0.20455504115226336
+    },
+    "preview": {
+      "metadata": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "60/1",
+        "duration": "8.000000",
+        "nb_frames": "480"
+      },
+      "bytes": 622760,
+      "decoded_frames": 480,
+      "unique_decoded_frames": 460,
+      "adjacent_MAD_mean": 0.07128282945436737,
+      "adjacent_MAD_max": 0.2882510288065844
+    }
+  },
+  "analytic_boundaries": {
+    "intro_to_hold": {
+      "max_channel_difference": 0.0,
+      "mean_difference": 0.0
+    },
+    "hold_loop": {
+      "max_channel_difference": 0.0,
+      "mean_difference": 0.0
+    },
+    "hold_to_complete": {
+      "max_channel_difference": 0.0,
+      "mean_difference": 0.0
+    }
+  },
+  "decoded_seams": {
+    "intro_to_hold": {
+      "last_to_first_MAD": 0.1561574074074074
+    },
+    "hold_loop": {
+      "last_to_first_MAD": 0.15162294238683127
+    },
+    "hold_to_complete": {
+      "last_to_first_MAD": 0.1555221193415638
+    }
+  },
+  "temporal_sampling": "Native 60 fps, not frame-rate converted.",
+  "intentional_static_tail": "Completion ends with a near-black pause; repeated final frames are intentional."
+}

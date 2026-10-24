@@ -1,0 +1,24 @@
+Lantern Initiation Chamber: A/B/C native viewport sample source kit
+
+Includes three unchanged native 1536x1024 scenes, exact generation prompts,
+provenance metadata, exact hero placement metadata, the A/B/C comparison PNG,
+review summary, original transparent hero reference, and portable rebuild code.
+
+To keep this kit compact, the three redundant hero160_context.png files are
+recreated by the included script rather than duplicated in the archive.
+
+Rebuild: install Pillow, then run python review/build_contexts.py initiation_chamber
+This writes A/hero160_context.png, B/hero160_context.png,
+C/hero160_context.png and the A/B/C comparison sheet beneath the theme folder.
+All inputs are relative to the script. The bundled original hero is alpha-cropped
+at alpha > 30, resized to 160 pixels high with Lanczos, then composited with a
+small grounding shadow at the coordinates in hero_placements.json.
+
+SHA256_MANIFEST.json verifies archive contents. REBUILT_OUTPUT_SHA256.json
+records expected rebuilt PNG hashes in the review environment. Pillow/font
+version differences can affect comparison typography. The script uses DejaVu
+Sans when available and falls back to a Pillow default font.
+
+This is a presentation-only cultist viewport review. Native scenery was
+not repainted, expanded or upscaled. Tall scenery is baked into the image.
+No camera calibration, in-engine collision or occlusion validation is claimed.

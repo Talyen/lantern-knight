@@ -14,6 +14,12 @@ const exceptions: Readonly<Record<string, number>> = {
   'references/canon/image(3).png': 1024 * 1024,
 };
 function repositoryFinding(file: string, bytes: number) {
+  if (
+    /^asset-data\/(?:objects\/[a-f0-9]{2}\/[a-f0-9]{64}|inventories\/[a-f0-9]{64}\.json\.gz|sources\/.+)$/.test(
+      file,
+    )
+  )
+    return;
   if (forbidden.test(file))
     return 'generated, historical or bulk asset data must remain outside Git';
   const limit =
@@ -28,7 +34,7 @@ async function checkRepository() {
   const names = execFileSync(
       'git',
       ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
-      { encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 },
+      { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 },
     )
       .split('\0')
       .filter(Boolean),

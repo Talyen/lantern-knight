@@ -1,0 +1,49 @@
+{
+  "pack": "07 Bats and Flying Vermin",
+  "created_utc": "2026-10-07",
+  "generation": "Built-in image_gen, one fresh generation per chosen asset; not an AI edit cascade. User-requested model wording included in prompts; actual backend selection is not exposed.",
+  "camera_intent": {
+    "elevation": 35.264389682754654,
+    "world_azimuth": 45,
+    "facing": "world +X / screen down-right 30 degrees"
+  },
+  "camera_validation": "Visual concept audit only. Prompted angle is not calibrated proof; final rig and game-scale test still required.",
+  "variants": [
+    {
+      "id": "BT03",
+      "slug": "mourning_moth",
+      "name": "Mourning Moth",
+      "description": "A dark-fantasy giant funerary MOTH flying with wings open in a shallow V: a simple short charcoal tapered body, small round head with two tiny amber eyes and exactly two short thick symmetrical antennae. TWO large visible wing masses, one on each side, each a simple rounded triangular fan combining forewing and hindwing into one clean silhouette. Wing pattern is completely bilateral: warm-ivory outer crescent, one dark charcoal oval centered on each muted umber wing, no tiny spots or scales. All insect legs are tucked fully under body and NOT visible. No extra limbs, detached particles or ornamental tails. Broad soft diamond silhouette, confident smooth ink contours, three flat colors. Elevated view clearly sees wing upper surfaces; head faces screen down-right.",
+      "motion_hint": "Soft flutter / dust pulse",
+      "move": "One gentle mirrored wing flutter with slight body bob.",
+      "attack": "Wings close then open for one centered dust pulse.",
+      "death": "Wings fold over the short body and descend.",
+      "qa": "Two simplified broad wing masses and two antennae pass; legs are intentionally hidden. Bilateral large oval wing pattern is mirror-friendly; flutter needs construction guides to retain pattern registration.",
+      "native_file": "source/BT03_mourning_moth_native.png",
+      "asset_file": "assets/BT03_mourning_moth.png",
+      "native_dimensions": [
+        1246,
+        1262
+      ],
+      "asset_dimensions": [
+        1332,
+        1131
+      ],
+      "native_sha256": "9ef52799a51ff98583123e0ad9c8d43143515dc0b18f6dda3861cdc5f108227b",
+      "asset_sha256": "e71d196ee30ef3ae2e95efc8aaee2f4a1111a9d1f783abf080769737b67137b5",
+      "alpha_only_cleanup": {
+        "low_alpha_to_zero": "<=16",
+        "high_alpha_to_255": ">=250",
+        "pixels_changed": 487931,
+        "rgb_changed": false,
+        "tight_crop_box": [
+          30,
+          41,
+          1234,
+          1044
+        ],
+        "transparent_padding_each_side": 64
+      }
+    }
+  ]
+}

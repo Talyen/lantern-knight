@@ -1,0 +1,4 @@
+QA handoff revision, 7 October 2026
+Changed: bellbound_monk, candlebone_oracle, waxmask_acolyte, halo_veil_cantor_camera_guided_v02, enemy_defeat_states_01
+Read catalog.json qa_revision before importing. Exact corrected manifests are embedded under corrected_metadata.
+Unaffected catalog entries are preserved. This remains TEST material awaiting gameplay review.

@@ -1,0 +1,42 @@
+FULL SCENIC CHAPEL_C SOURCE AND PROVENANCE KIT
+
+Untouched source: native_floor.png, 1536x1024 RGB. Exact generation prompt, available style block and generation metadata are included. Requested generation-model names are prompt intent, not verified backend identifiers. The approved condensed style is recorded in the exact prompt; supplied approved viewport references are included under references. Source metadata preserves the requested generation scale; review_views_metadata.json records the adopted 64px-source hero scale after visual review. Generation geometry/camera is not mathematically validated.
+
+The separate AI output is 6144x4096 from genuine 4x Real-ESRGAN anime 6B inference. The 3072x2048 option is that result reduced with Pillow Lanczos, not a native 2x model. Upscaling does not restore unavailable ground-truth detail.
+One continuous source is processed as 70 computational batches: 160px cores, 32px context, 16px additional reflected processing border; discard context without blending. Each batch uses a fresh process, and the full canvas is assembled afterward. This is not artistic stitching. 2 threads requested after model loading; NCNN Winograd convolutions retain the load-time 4-thread setting. OMP_NUM_THREADS=2 was also set.
+Completed wall time: 188.879 seconds. Peak child RSS: 3316108 KiB. Seam metrics are in metrics/seam_metrics.json; checks compare actual output pixels with independent untiled inference, not unavailable high-resolution ground truth.
+Hero contexts use the original approved RGBA hero, resized conventionally to 160px visible height. Recommended art scale is a 64px hero equivalent in the source, or 256px in the raw AI4x asset. For these familiar 160px-hero views, the raw AI scene is reduced by 0.625 to 3840x2560 (2.5x native); each display crop is 1536x1024, corresponding to 614.4x409.6 source pixels. This is a display/world-scale recommendation, not a claim of exact 4x ground extent. Hero/shadow overlays exist only in review images, never in the floor. Display crop boxes and foot placements are recorded in review_config.json; exact source-equivalent crop boxes, display scale and conversion are in review_views_metadata.json. No engine test was performed.
+
+BAKED SCENERY CAVEATS
+Scenery throughout the scene is intentionally baked into the flat image. The image alone does not provide collision, walkability, depth sorting or occlusion masks. A character cannot automatically pass behind a pillar, tree or tomb merely because it is painted here. Gameplay would require separate collision geometry and front-occlusion layers/masks or separated props. Hero contexts are composited scale illustrations, not engine integration, pathfinding or camera validation.
+
+RUNTIME AND LICENSES
+Linux x86_64, Python 3.12.14, NCNN 1.0.20250916 CPU, NumPy 2.3.5, Pillow 12.3.0. No paid API, Photoshop or external image upload. No GPU required. NCNN and Real-ESRGAN BSD-3-Clause notices are included. Model/source hashes are in provenance/source_model.json.
+https://github.com/xinntao/Real-ESRGAN/blob/master/docs/anime_model.md
+https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE
+https://github.com/Tencent/ncnn
+https://pypi.org/project/ncnn/1.0.20250916/
+Official model archive: https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+Only models/realesrgan-x4plus-anime.bin and .param are used from this archive.
+
+EXACT WORKSPACE COMMANDS
+cd /workspace/shared/lantern_free_upscale_tests_oct09
+python run_isolated.py /workspace/shared/lantern_selected_full_scenes_oct09/chapel_C/native_floor.png /workspace/shared/lantern_selected_full_scenes_oct09/chapel_C/ai_upscale
+python /workspace/shared/lantern_selected_full_scenes_oct09/check_scene_seams.py /workspace/shared/lantern_selected_full_scenes_oct09/chapel_C
+python /workspace/shared/lantern_selected_full_scenes_oct09/build_scene_review.py /workspace/shared/lantern_selected_full_scenes_oct09/chapel_C
+The runtime was already installed with:
+python -m pip install --target /workspace/shared/lantern_free_upscale_tests_oct09/runtime --no-deps ncnn==1.0.20250916
+NumPy and Pillow were already installed. The official archive was downloaded and its two anime model files extracted to /workspace/shared/lantern_free_upscale_tests_oct09/models. OpenCV/model-zoo helpers are not needed by this wrapper.
+
+PORTABLE GUIDANCE (NOT RETESTED FROM THIS EXTRACTED KIT)
+Use a compatible Linux/Python environment with NumPy and Pillow. From the extracted kit root:
+python -m pip install --target inference/runtime --no-deps ncnn==1.0.20250916
+curl -fL -o official_models_bundle.zip https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+unzip official_models_bundle.zip 'models/realesrgan-x4plus-anime.*' -d inference
+python inference/run_isolated.py "$PWD/native_floor.png" "$PWD/ai_upscale"
+LANTERN_AI_RUNTIME="$PWD/inference" python inference/check_scene_seams.py "$PWD"
+To reproduce hero review images, set review_config.json's hero_source to the absolute path of references/hero_original.png, then:
+python inference/build_scene_review.py "$PWD"
+The scripts accept the scene folder/source paths, but other operating systems, Python versions and architectures were not tested. Several GB of process memory are required. Matching completed tiles can be resumed; source/config hash prevents accidental cross-source reuse.
+
+Large outputs, comparison images, runtime/model binaries and intermediate tiles are excluded from this kit. They are delivered separately. metrics/separate_output_manifest.json hashes those separately delivered outputs; kit_manifest.json hashes included files. Sources are never overwritten by the inference scripts.

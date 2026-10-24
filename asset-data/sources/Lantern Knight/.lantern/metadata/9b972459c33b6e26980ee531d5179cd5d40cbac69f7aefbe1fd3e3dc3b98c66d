@@ -1,0 +1,2 @@
+Movement: one burdened hitching shuffle, grouped forward-boot extension then settle; not an alternating walk. Attack: braced shoulder bow tolls attached bell. Move clip uniformly downscaled to 83 percent to match attack scale; no frame-wise normalization.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

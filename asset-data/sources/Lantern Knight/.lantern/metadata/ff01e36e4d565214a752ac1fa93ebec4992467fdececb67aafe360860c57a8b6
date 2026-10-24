@@ -1,0 +1,8 @@
+UL RUN TEST — world−X, fixed gameplay camera.8native drawings / one40tick0.6667s stride at60Hz.
+
+Play run_00..run_07 for5ticks each, then return directly to00. Canvas1536x1024 transparent; root768,892 top-left. Pixels remain native1x with common padding only. Atlas rectangles and uncertain observed anchors are in manifest.json. No mirroring.
+
+This is a usable animation test, not engine validation. Far sword/hand are naturally occluded; uncertain anchors are null. Source toe-height contact flags do not certify drawn soles. Match game world speed separately; source motion travelled2.755m/stride.
+
+
+QA v02 2026-10-07: Remove only disconnected 405-pixel visible source fragment below actor. Original changed frame, original manifest, and exact edit mask in qa_provenance. Timing, pivot, PPU and all other frames unchanged. Atlas and previews regenerated. Engine and realtime playback remain unverified.

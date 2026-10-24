@@ -1,0 +1,15 @@
+{
+  "LanternKnight_idle_screenLeft_native_v01.json": "36538f1a23a2b1fdca460144de1201e047213f5e2ec8e9b4774f618658e66c69",
+  "LanternKnight_idle_screenLeft_native_v01_preview.mp4": "9131625f0163ae972bc0ee11cae7f5726995aadbfd31ff48637afdd4124b113b",
+  "README.txt": "e119891ea47afdc4c80cafca39d31f1bf39ec5f3933ce5da0952b2bd3a70e209",
+  "LanternKnight_idle_screenLeft_native_v01_atlas.png": "0e4814fd1f6d2c6a5a3c686195a385da71d4a2b3b4c51db2135146c436ac19fa",
+  "frames/idle_L_02.png": "7198f1efd9d05ba9538b83a1e24f142b85a521f7aec7db74c818c180b36a75a7",
+  "frames/idle_L_05.png": "15bdc9855b8965d459174fce68c1c70f6aad605627b9db87f6cd564471e2e67f",
+  "frames/idle_L_01.png": "cf7c00f66364e0ac6fb053839556a608e14e9cb3ff5777a93b0a8030711a9d06",
+  "frames/idle_L_03.png": "0c248a7e8ef5f6026d82e161839658b32176a218fa15e2a6c0f50db60db1b348",
+  "frames/idle_L_00.png": "c2b3b5849256df464ee84fb2c1cb222ef5095619c43700ea5133486220eaaa58",
+  "frames/idle_L_04.png": "854e27037813ae4bc818faa450839b2ecfd8e16038b335c7251ed50bda618bf0",
+  "source/native_idle_sheet.png": "ff16ec6e8dda01b7b226c9f306958f63149eceba0fa52dcaa3f81143635ad795",
+  "source/initial_prompt.txt": "80cfa9e4c161625b991df95c99be34a82d1a7f4843017cfe1e66a8342dfeccc1",
+  "source/final_correction_prompt.txt": "ae98071a47f0eb45558664c809afc8030dd2e059b54a43ad70aa243360d3df05"
+}

@@ -1,0 +1,115 @@
+{
+  "all_passed": true,
+  "headers_visually_checked": true,
+  "label_note": "All normal/half/FX/game videos state genuine drawing count, one-action duration and3repeats with pauses; half-speed states0.5x. Travel preview also states3repeats/reset pauses.",
+  "videos": [
+    {
+      "file": "dash_normal_review.mp4",
+      "width": 1152,
+      "height": 768,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "3.850000",
+      "nb_frames": "231",
+      "expected_frames": 231,
+      "passed": true,
+      "sha256": "8d6d0077e03b2583e5364f5c934aecbc987927676f8fe05ed5972e3fa3e96387"
+    },
+    {
+      "file": "dash_half_speed_review.mp4",
+      "width": 1152,
+      "height": 768,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "7.700000",
+      "nb_frames": "462",
+      "expected_frames": 462,
+      "passed": true,
+      "sha256": "74303c0d11c47b4029b9b3f00f3214c45a882369da7bee6d4f342bbf25185027"
+    },
+    {
+      "file": "dash_body_full.mp4",
+      "width": 1152,
+      "height": 768,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "3.850000",
+      "nb_frames": "231",
+      "expected_frames": 231,
+      "passed": true,
+      "sha256": "984f01703e7be92a283cda31075bed0d4db5f1a226a712d8f2be1fe9cbea1512"
+    },
+    {
+      "file": "dash_body_game_sizes.mp4",
+      "width": 960,
+      "height": 450,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "3.850000",
+      "nb_frames": "231",
+      "expected_frames": 231,
+      "passed": true,
+      "sha256": "e42addf57d02f1635bc86139422f09713ce51695a4ffc48caa116bf010dd83e0"
+    },
+    {
+      "file": "lantern_flare_normal_review.mp4",
+      "width": 1152,
+      "height": 768,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "6.100000",
+      "nb_frames": "366",
+      "expected_frames": 366,
+      "passed": true,
+      "sha256": "c8dde6cf4a3dbeffd9057c2d0251fbdf1037e15c022121a1a2458c5d39b7be97"
+    },
+    {
+      "file": "lantern_flare_half_speed_review.mp4",
+      "width": 1152,
+      "height": 768,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "12.200000",
+      "nb_frames": "732",
+      "expected_frames": 732,
+      "passed": true,
+      "sha256": "99bea64b476474f397f1a76a4377bbd7dd0c9fd862b54694930597bf4142beb7"
+    },
+    {
+      "file": "lantern_flare_with_fx_full.mp4",
+      "width": 1152,
+      "height": 768,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "6.100000",
+      "nb_frames": "366",
+      "expected_frames": 366,
+      "passed": true,
+      "sha256": "57f20eaa3191361da9ea0488436dcbfb56e53254ea2d13b4235ac8595d0e05dc"
+    },
+    {
+      "file": "lantern_flare_with_fx_game_sizes.mp4",
+      "width": 960,
+      "height": 450,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "6.100000",
+      "nb_frames": "366",
+      "expected_frames": 366,
+      "passed": true,
+      "sha256": "7374e1338440326039630f7c02fc8b59e1e1f99a7c4bd84fb7ed031c6d64f48e"
+    },
+    {
+      "file": "dash_inplace_vs_external_travel.mp4",
+      "width": 1920,
+      "height": 1024,
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "4.950000",
+      "nb_frames": "297",
+      "expected_frames": 297,
+      "passed": true,
+      "sha256": "2295091ae792160362a1fe9ae4e301201eccb18fad128f4692e475a8cffe64aa"
+    }
+  ]
+}

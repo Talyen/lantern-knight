@@ -1,0 +1,44 @@
+{
+  "status": "NATIVE_RUNTIME_TEST_AFTER_HUMAN_FIRST_STILL_REVIEW",
+  "selected_full_body_drawings": 57,
+  "hit_drawings": 32,
+  "death_drawings": 25,
+  "hit_counts": {
+    "DR": 8,
+    "DL": 8,
+    "UL": 8,
+    "UR": 8
+  },
+  "death_counts": {
+    "DR": 6,
+    "DL": 8,
+    "UL": 5,
+    "UR": 6
+  },
+  "review_scope": {
+    "human_anatomy": "All selected drawings inspected as ordinary human poses before technical checks. No gross limb/neck/joint defect found in selected art.",
+    "identity": "Right sword/short black wrap; left lantern/long brown bracer. UR kneel wrong lower-right coat patches removed with bounded traditional cloth masks.",
+    "ordered_stills": "Every selected cel and ordered extraction board inspected. Abrupt apex-to-catch transition uses short holds.",
+    "encoded_preview": "60Hz frame count, order, exposure holds and terminal retention are verified by decoding/probing.",
+    "real_time_playback": "Not visually certified in this environment. Runtime motion/contact/transition approval remains open.",
+    "alpha": "All57selected native PNG borders transparent. Separate source-edge audit finds5faint antialiased hair-fringe pixels at hitDLcel4top edge(maximumalpha15/255); this tiny source crop is disclosed, not repaired. Selected limb/prop silhouettes are complete."
+  },
+  "death_design": "DR/DL use full backward collapse; UL/UR use intentional bowed kneel/extinguish variants for a game-owned reset/fade. They are not four exact rotations of a single collapse.",
+  "exclusions": [
+    "DRdeath cel2blade/boot tangent and clippedcel8excluded; completecel7terminal retained.",
+    "ULkneel clippedcel6excluded; completecel5glass traditionally darkened, keeping5unique full-body poses.",
+    "UL/UR full-supine attempts held out for torso orientation, wrong-side patch and awkward lantern-arm route."
+  ],
+  "native_policy": "No mirroring, AI bitmap edit, upscaling, per-frame resizing, body warping, tweening or synthetic in-betweens. Original source sheets retained. Fixed regular-grid crops with uniformpadding and connected-figure gutter ownership.",
+  "scale_registration": "One approximate PPU and common pivot per heading/action. Actual support markers are manual native-image observations with stated confidence. Native authored movement is retained; no per-frame recentering.",
+  "camera": "Construction matrices fixed at35.264389682754654degree elevation,45degree azimuth,Y-up/XZfloor,13mgameplay vertical span. Generated art projection is visually approximate.",
+  "guide_orientation": "For non-DR full-action guides, one\u221245degree actor-only yaw normalization applied to all source joints and trajectory before target heading. Initial shoulder/hip numerical evidence is included; exact rest-forward quaternion unavailable.",
+  "model": "Requested prompt phraseSunburst2.5(gpt-image-2.5-sunburst). Built-in generator used. Backend selection independently unverified.",
+  "limits": [
+    "Blade width/length and cloth redraw variation remain.",
+    "Generated art does not certify physical ground/blade collision or exact metric prop length.",
+    "Shared-ready joins are approximate; UL hit far-sword carry differs visibly from staticready.",
+    "Actual real-time temporal approval and engine integration still required.",
+    "HitDLcel4retains a tiny faint5pixel source-edge hairfringe crop; padding does not restore it."
+  ]
+}

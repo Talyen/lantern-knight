@@ -1,0 +1,22 @@
+[
+  {
+    "id": "01_ruined_lantern_warden_courtyard",
+    "native_bytes_match_generator": true,
+    "status": "redrawn"
+  },
+  {
+    "id": "02_drowned_chapel_crypt",
+    "native_bytes_match_generator": true,
+    "status": "retained original"
+  },
+  {
+    "id": "03_abandoned_clockmaker_hall",
+    "native_bytes_match_generator": true,
+    "status": "redrawn"
+  },
+  {
+    "id": "04_blackwood_path_clearing",
+    "native_bytes_match_generator": true,
+    "status": "redrawn"
+  }
+]

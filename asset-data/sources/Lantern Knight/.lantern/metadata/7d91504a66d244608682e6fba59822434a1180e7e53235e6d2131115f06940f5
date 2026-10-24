@@ -1,0 +1,469 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "cave_01",
+  "title": "Lantern Cave & Organic - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manual ground-anchor estimate, except explicitly wall-mounted items use a mounting anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Cave formations and growths are static illustrative objects; no biological, geological, anatomical, simulation or traversability accuracy is claimed. Hanging roots use a mounting anchor and null ground footprint.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "cave_limestone_stalagmite_01",
+      "name": "Limestone stalagmite",
+      "file": "assets/cave_limestone_stalagmite_01.png",
+      "prompt_file": "provenance/cave_limestone_stalagmite_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 475663,
+      "sha256": "d1e114919c89d0da9b75b88b854bb6b59696c37b32d979c59bf530ca1a01a78d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        89,
+        21,
+        1256,
+        1100
+      ],
+      "alpha_at_least_16_bounds_px": [
+        362,
+        146,
+        1005,
+        1097
+      ],
+      "fully_transparent_pixel_fraction": 0.788956,
+      "fully_opaque_pixel_fraction": 0.00018,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.85
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.28,
+          0.8
+        ],
+        [
+          0.52,
+          0.66
+        ],
+        [
+          0.78,
+          0.8
+        ],
+        [
+          0.58,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Static stylized mineral formation; geological form and world height are illustrative.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "cave_fungal_fans_01",
+      "name": "Cave fungal fans",
+      "file": "assets/cave_fungal_fans_01.png",
+      "prompt_file": "provenance/cave_fungal_fans_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1339225,
+      "sha256": "4e76a58a1d0166f09dc3f8c2c95b3780bdd040060a877a85a6eec12d261d01b2",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1520,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        137,
+        138,
+        1403,
+        870
+      ],
+      "fully_transparent_pixel_fraction": 0.645417,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 71,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.5,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.1,
+          0.65
+        ],
+        [
+          0.47,
+          0.47
+        ],
+        [
+          0.89,
+          0.72
+        ],
+        [
+          0.56,
+          0.86
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Alternate fungal-family form, independently drawn; shares the broad shelf-fungus family with Nature volume, not a palette-edited duplicate.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "cave_smoky_crystal_01",
+      "name": "Smoky mineral cluster",
+      "file": "assets/cave_smoky_crystal_01.png",
+      "prompt_file": "provenance/cave_smoky_crystal_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 689570,
+      "sha256": "372b4b4a4bce4bc5ecc488ffa7cec7eeb9087cec936be74f25a83a8f14466e3b",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        58,
+        1178,
+        1199
+      ],
+      "alpha_at_least_16_bounds_px": [
+        213,
+        83,
+        1135,
+        1128
+      ],
+      "fully_transparent_pixel_fraction": 0.619766,
+      "fully_opaque_pixel_fraction": 0.00026,
+      "boundary_nonzero_alpha_pixel_count": 3,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.85
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.24,
+          0.78
+        ],
+        [
+          0.5,
+          0.65
+        ],
+        [
+          0.79,
+          0.83
+        ],
+        [
+          0.57,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Five opaque painted prisms and shared rock base form one prop; no optical refraction, emission or magic effect.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "cave_hanging_roots_02",
+      "name": "Hanging root curtain",
+      "file": "assets/cave_hanging_roots_02.png",
+      "prompt_file": "provenance/cave_hanging_roots_02.prompt.txt",
+      "dimensions_px": [
+        1428,
+        1102
+      ],
+      "file_bytes": 494571,
+      "sha256": "db58439ca19f73efa4ff26486a262b81726972a7b6d0d71270b9890c0ee2184d",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        57,
+        96,
+        1342,
+        1076
+      ],
+      "alpha_at_least_16_bounds_px": [
+        246,
+        98,
+        1260,
+        1019
+      ],
+      "fully_transparent_pixel_fraction": 0.790949,
+      "fully_opaque_pixel_fraction": 0.000484,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.5,
+        0.18
+      ],
+      "footprint_polygon_normalized": null,
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 176,
+      "qa_notes": "CEILING/WALL MOUNT: pivot estimates top crown attachment, not ground. No ground footprint applies; no wall, ceiling or animated sway.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ceiling_or_wall_mount"
+    },
+    {
+      "id": "cave_silk_cocoon_nest_01",
+      "name": "Silk cocoon nest",
+      "file": "assets/cave_silk_cocoon_nest_01.png",
+      "prompt_file": "provenance/cave_silk_cocoon_nest_01.prompt.txt",
+      "dimensions_px": [
+        1402,
+        1122
+      ],
+      "file_bytes": 992681,
+      "sha256": "07caa2d2cc40bf0dfc5460fadce85464ebc74334c04501c39888cee74dc22f64",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        71,
+        21,
+        1291,
+        1122
+      ],
+      "alpha_at_least_16_bounds_px": [
+        205,
+        95,
+        1237,
+        998
+      ],
+      "fully_transparent_pixel_fraction": 0.651206,
+      "fully_opaque_pixel_fraction": 0.000568,
+      "boundary_nonzero_alpha_pixel_count": 10,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.75
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.15,
+          0.63
+        ],
+        [
+          0.47,
+          0.49
+        ],
+        [
+          0.89,
+          0.66
+        ],
+        [
+          0.54,
+          0.88
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 176,
+      "qa_notes": "Four prominent wrapped cocoon forms in one static nest. No creature, hatching, animation or biological accuracy is claimed.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "cave_fossil_rib_arc_01",
+      "name": "Fossil rib arc",
+      "file": "assets/cave_fossil_rib_arc_01.png",
+      "prompt_file": "provenance/cave_fossil_rib_arc_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1400643,
+      "sha256": "4b3298fe0a067d11d031728c30b942f70f6accd49586749ebd9cb64788c19ee8",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1436,
+        959
+      ],
+      "alpha_at_least_16_bounds_px": [
+        285,
+        95,
+        1251,
+        954
+      ],
+      "fully_transparent_pixel_fraction": 0.776019,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.73
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.59
+        ],
+        [
+          0.25,
+          0.52
+        ],
+        [
+          0.81,
+          0.86
+        ],
+        [
+          0.77,
+          0.93
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Stylized nonhuman mineralized rib section, one static prop; no skeletal-anatomy or geological accuracy claim.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "cave_hollow_tube_colony_01",
+      "name": "Hollow tube colony",
+      "file": "assets/cave_hollow_tube_colony_01.png",
+      "prompt_file": "provenance/cave_hollow_tube_colony_01.prompt.txt",
+      "dimensions_px": [
+        1374,
+        1145
+      ],
+      "file_bytes": 768015,
+      "sha256": "d532198a2ca938bf1a376c26fbb69dfddbe5bb38ba1632ba69f5f5c816d3d78f",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        49,
+        112,
+        1346,
+        1145
+      ],
+      "alpha_at_least_16_bounds_px": [
+        194,
+        114,
+        1204,
+        1043
+      ],
+      "fully_transparent_pixel_fraction": 0.638914,
+      "fully_opaque_pixel_fraction": 0.000838,
+      "boundary_nonzero_alpha_pixel_count": 19,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.52,
+        0.82
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.28,
+          0.77
+        ],
+        [
+          0.48,
+          0.63
+        ],
+        [
+          0.76,
+          0.78
+        ],
+        [
+          0.55,
+          0.92
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 190,
+      "qa_notes": "Static imagined cave growth. Tube cavities are painted dark; no creatures, fluid, collision holes or emission.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    },
+    {
+      "id": "cave_dry_mineral_basin_01",
+      "name": "Dry mineral basin",
+      "file": "assets/cave_dry_mineral_basin_01.png",
+      "prompt_file": "provenance/cave_dry_mineral_basin_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1262475,
+      "sha256": "3144f1d54c15439d6f6266c672c459bd8f6e7927c58a8062a66643b306fc7652",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        155,
+        96,
+        1436,
+        930
+      ],
+      "alpha_at_least_16_bounds_px": [
+        157,
+        98,
+        1432,
+        928
+      ],
+      "fully_transparent_pixel_fraction": 0.5718,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.68
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.1,
+          0.61
+        ],
+        [
+          0.54,
+          0.36
+        ],
+        [
+          0.92,
+          0.63
+        ],
+        [
+          0.62,
+          0.91
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Depression is painted dry stone, not a terrain hole, water surface or walkable mesh.",
+      "view_accuracy": "approximate; not a camera-validated bake",
+      "anchor_type": "ground_visual_estimate"
+    }
+  ]
+}

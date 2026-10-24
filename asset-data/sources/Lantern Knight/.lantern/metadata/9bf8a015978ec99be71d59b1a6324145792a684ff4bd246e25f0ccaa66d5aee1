@@ -1,0 +1,569 @@
+{
+  "clip_id": "Lantern_Hero_pickup_kneel_UL_v01_cropfix01",
+  "family": "pickup_kneel",
+  "facing": "UL",
+  "producer": "animate_directional_pickup_actions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+  "equipment_contract": "Sword anatomical right; lantern left, grounded timeline3\u20138, released4\u20137, regrip8,lift9. No mirroring.",
+  "timing_source": "interaction_audit_20261017/pickup_kneel_DR_runtime/pickup_kneel_DR_timing_60hz.json",
+  "source_timing": [
+    10,
+    8,
+    10,
+    7,
+    9,
+    9,
+    7,
+    10,
+    7,
+    10,
+    12
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "41006804302a204add94c380b05d53b77c450c6f92e1bc6c1d8a480d2b75966e",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "a8ae770c431790b8871d2a4be2311d643749136ec8a7ebabfb6d03c7fc0c7ec3",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        0,
+        0,
+        458,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        85,
+        108
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          214,
+          402
+        ],
+        "observation_display_xy": [
+          140,
+          263
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern held left; sword right",
+      "start_tick": 0,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        85,
+        118,
+        450,
+        451
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "6e3491570daf66b40925822f34208a36f9af8421f9cf30756e8a4edca5276e76",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "4a1f781c1241979692e4a0def17639ec1f1ea20603b03903916377040926b03e",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        458,
+        0,
+        916,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        118,
+        131
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          173,
+          374
+        ],
+        "observation_display_xy": [
+          413,
+          245
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern held left; sword right",
+      "start_tick": 10,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        118,
+        173,
+        483,
+        476
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "dbee149ebe986e2774f60c4ae6d3e138c4a3b9e92ded15db28204ddf209b10f2",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "cec85e75ba112766ad120504a166ed2822f0632bbc9b4268f3a7916ea9e70b8a",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        916,
+        0,
+        1374,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        131,
+        110
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          156,
+          400
+        ],
+        "observation_display_xy": [
+          702,
+          262
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern grounded gripped",
+      "start_tick": 18,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        136,
+        125,
+        483,
+        466
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "b41bc79f671b7a481ab96ba5e5fd0b277eb1f59cc8b2562fb1f07b29ed7fd090",
+      "native_size_px": [
+        458,
+        330
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "9d34d444385281c594b6c55c0daabcb280be3fa14518bffac43479abfa95fc9b",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        0,
+        445,
+        458,
+        775
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        87,
+        194
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          211,
+          295
+        ],
+        "observation_display_xy": [
+          138,
+          485
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern grounded released",
+      "start_tick": 28,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        116,
+        198,
+        453,
+        456
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "e05bbe9cdca1ecc47855b49071c0e6e90afac7533684ffb43b3376e2c25a4fc1",
+      "native_size_px": [
+        426,
+        330
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "a7da715b7cc65e2b4f340b063785cb93e680afa4e769f48175c2d23e01f51a24",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        490,
+        445,
+        916,
+        775
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        140,
+        204
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          145,
+          282
+        ],
+        "observation_display_xy": [
+          416,
+          476
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern grounded released",
+      "start_tick": 35,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        140,
+        217,
+        481,
+        467
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "ac5d09fed49be875464408710cc902e6c332bed0d21ac0400154990ebbe3ec53",
+      "native_size_px": [
+        458,
+        330
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "f543acee9988c180fe27226c4c8094081c348c205f6def506e0fd8691354f3db",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        916,
+        445,
+        1374,
+        775
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        121,
+        197
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          169,
+          291
+        ],
+        "observation_display_xy": [
+          711,
+          482
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern grounded released",
+      "start_tick": 44,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        121,
+        197,
+        466,
+        461
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "f85b9987b3cb2b6d7f7585e7a42103b3adf06a1eaaee6f455e72ac48657fc7a3",
+      "native_size_px": [
+        458,
+        370
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "d263d0e5a20a794fb8053385c19c8ff95060138ae2c4a28c4db1cc12fce0c9d7",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        0,
+        775,
+        458,
+        1145
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        91,
+        199
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          206,
+          289
+        ],
+        "observation_display_xy": [
+          135,
+          697
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern grounded released",
+      "start_tick": 53,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        116,
+        204,
+        457,
+        495
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "67d225e146567c8ebe83bacbe1af5fde24415586597a98a0849abc3cc882a08d",
+      "native_size_px": [
+        426,
+        370
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "b76bcce27adae837739f8429b0e28a8668f2d219215d2ecd05a6edf74e411888",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        490,
+        775,
+        916,
+        1145
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        142,
+        192
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          142,
+          297
+        ],
+        "observation_display_xy": [
+          414,
+          702
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern grounded gripped",
+      "start_tick": 60,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        142,
+        203,
+        483,
+        467
+      ]
+    },
+    {
+      "index": 8,
+      "native_file": "source/native/08.png",
+      "native_sha256": "66be1824bcd86e00a9d12798c244ed363d3b93877aad7a41b46b84a7a01c2840",
+      "native_size_px": [
+        458,
+        370
+      ],
+      "runtime_file": "runtime/frames/08.png",
+      "runtime_sha256": "075b875dbafdb8f4314e37ad7d30377821655f6070f1ac9c92aa2b1238a5504d",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        916,
+        775,
+        1374,
+        1145
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        130,
+        189
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          157,
+          301
+        ],
+        "observation_display_xy": [
+          703,
+          705
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern held left; sword right",
+      "start_tick": 70,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        130,
+        189,
+        488,
+        468
+      ]
+    },
+    {
+      "index": 9,
+      "native_file": "source/native/01.png",
+      "native_sha256": "6e3491570daf66b40925822f34208a36f9af8421f9cf30756e8a4edca5276e76",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/09.png",
+      "runtime_sha256": "4a1f781c1241979692e4a0def17639ec1f1ea20603b03903916377040926b03e",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        458,
+        0,
+        916,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        118,
+        131
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          173,
+          374
+        ],
+        "observation_display_xy": [
+          413,
+          245
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern held left; sword right",
+      "start_tick": 77,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        118,
+        173,
+        483,
+        476
+      ]
+    },
+    {
+      "index": 10,
+      "native_file": "source/native/00.png",
+      "native_sha256": "41006804302a204add94c380b05d53b77c450c6f92e1bc6c1d8a480d2b75966e",
+      "native_size_px": [
+        458,
+        445
+      ],
+      "runtime_file": "runtime/frames/10.png",
+      "runtime_sha256": "a8ae770c431790b8871d2a4be2311d643749136ec8a7ebabfb6d03c7fc0c7ec3",
+      "source_sha256": "77e9200c5d035f226fee522fbb8edeaf07586f8484d7820e4b03cfb447c50d2b",
+      "crop_xyxy": [
+        0,
+        0,
+        458,
+        445
+      ],
+      "uniform_scale": 0.8,
+      "translation_xy": [
+        85,
+        108
+      ],
+      "observed_anchors": {
+        "manually_observed_forward_support_boot_xy": [
+          214,
+          402
+        ],
+        "observation_display_xy": [
+          140,
+          263
+        ],
+        "observation_display_size": [
+          900,
+          750
+        ]
+      },
+      "registration_note": "One clip-wide scale0.8. Manually observed forward support boot anchors whole-cel translation; all head/pelvis crouch, lean and reach remain. Source-native grounded lantern drift retained, never independently pinned. Nonuniform source row divisions preserve all silhouettes. Explicit reviewer-identified adjacent-cell sword remnant excluded by tighter rectangular crop; original intended subject pixels retained.",
+      "equipment_state": "Lantern held left; sword right",
+      "start_tick": 87,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        85,
+        118,
+        450,
+        451
+      ]
+    }
+  ],
+  "native_drawn_cels": 9,
+  "timeline_frame_count": 11,
+  "duration_ticks": 99,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "dc1cd0431c88f54f4cd3fa6f621e985842188d22c1ae5c89160c2e8df0445bdc"
+  }
+}

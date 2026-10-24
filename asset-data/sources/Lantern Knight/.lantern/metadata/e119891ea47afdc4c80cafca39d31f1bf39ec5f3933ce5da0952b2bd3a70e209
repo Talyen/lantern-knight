@@ -1,0 +1,11 @@
+LanternKnight: screenLeft quiet idle
+
+Six unique hand-drawn cels, chronological 00–05. Hold each for 20 ticks at 60 Hz: one 120-tick / two-second loop. MP4 shows four cycles at 60 fps; it repeats held cels and does not invent inbetweens.
+
+Import RGBA frames or the 3×2 atlas at native resolution. Canvas 768×768. Shared clip pivot is (384,640) from top-left or normalized bottom-left (0.5,0.1666667). Approximate PPU: 301.906. Preserve actor scale and use this PPU once. Never mirror: anatomical RIGHT sword / LEFT lantern. Existing run and diagonal idle files are not replaced.
+
+Operations: one regular source extraction grid and one integer padding translation for this entire clip. No per-frame fitting or resampling, no warp, no upscale. Original alpha is retained.
+
+ART REVIEW: correct cardinal heading and C/Rust handed identity are visually checked; complete silhouettes, true alpha and 6 distinct frame hashes verified. Small redraw/foot/prop variations remain. PPU, camera projection, root alignment and transitions are approximate, and require testing in the actual engine before production acceptance.
+
+See the JSON for the exact 60 Hz sequence, atlas rects, source crop grid and checksums. source/ includes the selected native image and generation prompts.

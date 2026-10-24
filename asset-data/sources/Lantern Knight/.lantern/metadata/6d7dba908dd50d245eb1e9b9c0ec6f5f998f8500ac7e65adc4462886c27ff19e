@@ -1,0 +1,151 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "enemy_id": "G6",
+  "enemy_name": "Ribcage Harpist",
+  "clip": "get_hit",
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "pivot_top_left_px": [
+    512,
+    912
+  ],
+  "pivot_unity_normalized": [
+    0.5,
+    0.109375
+  ],
+  "facing": "left",
+  "body_height_reference_px": 800,
+  "scale_per_source_pixel": 1.0554089709762533,
+  "atlas": "Ribcage_Harpist_get_hit_atlas.png",
+  "atlas_grid": [
+    4,
+    1
+  ],
+  "frame_count": 4,
+  "duration_ms": 560,
+  "loop": false,
+  "hold_last": false,
+  "interpolation": "stepped unique drawn cels; no crossfade",
+  "root_motion": "none",
+  "events": [],
+  "frames": [
+    {
+      "index": 0,
+      "file": "get_hit_000.png",
+      "duration_ms": 80,
+      "start_ms": 0,
+      "phase": "flinch",
+      "source_bbox_px": [
+        51,
+        6,
+        520,
+        762
+      ],
+      "source_anchor_px": [
+        260.975,
+        762
+      ],
+      "bounds_px": [
+        291,
+        114,
+        785,
+        911
+      ],
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 1,
+      "file": "get_hit_001.png",
+      "duration_ms": 140,
+      "start_ms": 80,
+      "phase": "maximum recoil",
+      "source_bbox_px": [
+        575,
+        5,
+        1010,
+        763
+      ],
+      "source_anchor_px": [
+        761.975,
+        763
+      ],
+      "bounds_px": [
+        315,
+        112,
+        774,
+        913
+      ],
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 2,
+      "file": "get_hit_002.png",
+      "duration_ms": 160,
+      "start_ms": 220,
+      "phase": "brace",
+      "source_bbox_px": [
+        20,
+        770,
+        542,
+        1501
+      ],
+      "source_anchor_px": [
+        285.975,
+        1501
+      ],
+      "bounds_px": [
+        231,
+        141,
+        782,
+        912
+      ],
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 3,
+      "file": "get_hit_003.png",
+      "duration_ms": 180,
+      "start_ms": 380,
+      "phase": "recover",
+      "source_bbox_px": [
+        612,
+        772,
+        1013,
+        1504
+      ],
+      "source_anchor_px": [
+        776.975,
+        1504
+      ],
+      "bounds_px": [
+        338,
+        139,
+        762,
+        912
+      ],
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        1024
+      ]
+    }
+  ]
+}

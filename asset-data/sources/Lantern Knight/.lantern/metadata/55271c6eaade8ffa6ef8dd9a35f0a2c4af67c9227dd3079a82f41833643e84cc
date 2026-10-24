@@ -1,0 +1,14 @@
+{
+  "method": "built-in image generation, fresh original-referenced drawings only",
+  "canonical_original_sha256": "02146b8881a520f3de89fde37f58e81c2822ca96cd7e9296c4831a19b8006d5e",
+  "prompt_files": [
+    "hit_prompt.txt",
+    "defeat_prompt.txt"
+  ],
+  "requested_style_phrase": "Sunburst 2.5; not underlying model selection claim",
+  "native_sha256": {
+    "hit": "8a2a2925d3274ce496c6711724145eb24e94ac093080b628ce66ac00f3dbb6f9",
+    "defeat": "9109ebb3dbabf8bf7410f1e336d78aab288648a8a721e6b9e5650a79b74a3e56"
+  },
+  "source_archive_library_id": "libfile_129986526cfc819191d56e8eead65e32"
+}

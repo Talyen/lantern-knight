@@ -1,0 +1,90 @@
+{
+  "revision": "CAMERA-GUIDED v03 IMPORT CALIBRATION",
+  "art_revision": "v02 images preserved byte-identical",
+  "compact_design_preserved": true,
+  "clips": {
+    "drift_veil_breath": {
+      "native_canvas_px": [
+        640,
+        640
+      ],
+      "native_pivot_top_left_px": [
+        320,
+        608
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.05
+      ],
+      "proposed_reference_ppu": 256,
+      "pixels_per_unit_at_proposed_base": 256.0,
+      "relative_visual_scale_from_ppu": 1,
+      "visual_child_local_scale": [
+        1,
+        1,
+        1
+      ],
+      "visual_child_local_offset_units": [
+        0.0,
+        0.0,
+        0
+      ],
+      "offset_reference_px_screen_xy": [
+        0,
+        0
+      ],
+      "offset_axes": {
+        "plane": "camera-facing sprite-local plane",
+        "x": "screen right",
+        "y": "screen up",
+        "z": "zero depth displacement",
+        "mapping": "World-size units on sprite plane, NOT world XZ or actor-root translation. Map to renderer screen-right/screen-up basis if renderer local axes differ."
+      },
+      "preserve_existing_actor_world_size": "Let B be approved current hover/base PPU. Keep hover at B. This clip PPU=B/1. Offset=(0/B,0/B,0) on declared camera-facing sprite-local axes.256 is proposed only.",
+      "apply_once": "Importer PPU supplies the entire relative scale; visual child scale stays1. Offset applied once to entire clip. No per-frame fitting. Do not scale/translate actor root, colliders or world movement."
+    },
+    "resonant_spell": {
+      "native_canvas_px": [
+        640,
+        640
+      ],
+      "native_pivot_top_left_px": [
+        320,
+        608
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.05
+      ],
+      "proposed_reference_ppu": 256,
+      "pixels_per_unit_at_proposed_base": 294.2528735632184,
+      "relative_visual_scale_from_ppu": 0.87,
+      "visual_child_local_scale": [
+        1,
+        1,
+        1
+      ],
+      "visual_child_local_offset_units": [
+        -0.0703125,
+        0.1328125,
+        0
+      ],
+      "offset_reference_px_screen_xy": [
+        -18,
+        -34
+      ],
+      "offset_axes": {
+        "plane": "camera-facing sprite-local plane",
+        "x": "screen right",
+        "y": "screen up",
+        "z": "zero depth displacement",
+        "mapping": "World-size units on sprite plane, NOT world XZ or actor-root translation. Map to renderer screen-right/screen-up basis if renderer local axes differ."
+      },
+      "preserve_existing_actor_world_size": "Let B be approved current hover/base PPU. Keep hover at B. This clip PPU=B/0.87. Offset=(-18/B,34/B,0) on declared camera-facing sprite-local axes.256 is proposed only.",
+      "apply_once": "Importer PPU supplies the entire relative scale; visual child scale stays1. Offset applied once to entire clip. No per-frame fitting. Do not scale/translate actor root, colliders or world movement."
+    }
+  },
+  "basis": "Manual native rigid halo/mask and crown-to-tail landmarks support approximately0.85\u20130.91 spell reduction.0.87 with fixed crown/halo offset removes clear clip growth. Hand/orb locations differ with pose; no frame silhouette matching.",
+  "residual": "Small eye/fold design differences, roughly9% orb-size residual, modest return bob and different ready-hand placement remain. No seamless-transition or numerical camera/engine-validation claim.",
+  "existing_hover_registration": "The v02 hover lower-row+24Y correction is already baked. Never apply it again."
+}

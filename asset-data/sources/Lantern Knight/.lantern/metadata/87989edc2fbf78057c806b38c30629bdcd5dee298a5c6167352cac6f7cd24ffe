@@ -1,0 +1,34 @@
+[
+  {
+    "name": "upper_ring_boundary",
+    "junction_source_xy": [
+      480,
+      320
+    ],
+    "check_source_box": [
+      432,
+      272,
+      528,
+      368
+    ],
+    "mean_abs_rgb_difference": 0.004828559027777778,
+    "max_abs_rgb_difference": 1.0,
+    "pct_pixels_over_2": 0.0
+  },
+  {
+    "name": "lower_cave_edge",
+    "junction_source_xy": [
+      960,
+      640
+    ],
+    "check_source_box": [
+      912,
+      592,
+      1008,
+      688
+    ],
+    "mean_abs_rgb_difference": 0.004252115885416667,
+    "max_abs_rgb_difference": 1.0,
+    "pct_pixels_over_2": 0.0
+  }
+]

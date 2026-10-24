@@ -1,0 +1,9 @@
+Clockwork Beetle: burrowing_ram
+Additive ability only. Existing attacks and get-hit art unchanged.
+Native generated sheet1024x1536,16 actor +8 effect cels. Source cel crops and explicit ordinary resample factor are in runtime JSON. Actor export canvas384x384, pivot[192, 260].
+Render row-major; use per-frame milliseconds and one gameplay hit at1050ms. Effect starts1050ms; it never independently schedules damage. Coordinate offsets are top-left +x right,+y down.
+Reel compares reference appearance to the new synchronized ability, not a captured baseline attack. One direction supplied. Inspect in engine before gameplay integration.
+
+Polish revision physical-polish-v1:
+Repaired clipped left silhouette and displaced shell in actor cel 10 with one reference-guided redraw.
+Current authoritative FX canvas [384, 384], pivot [192, 280], offset [-180, -25], start 1050ms. Read revised runtime JSON. No engine integration changes.

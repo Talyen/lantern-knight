@@ -1,45 +1,25 @@
 # Source recovery
 
-Lantern treats source paths as hints and source hashes as identities. External imports and the asset source reader recover moved or renamed originals automatically when they need them. There is no relink step or background service. Prepared assets do not need the external source library to remain mounted.
+Lantern Knight owns its source inputs in `asset-data/sources/`. Source paths are hints and SHA-256 hashes identify exact bytes. Readers may recover renamed or moved originals inside the owned source root; they never search Documents, the former Asset Library, or environment-configured external roots.
 
 ## Identity and lookup
 
-`assets/sources.json` pins archive SHA-256 and byte size, plus the logical path, SHA-256 and byte size of each loose source and collection sidecar. Moving files, renaming archives (even their extensions), splitting packs among folders, or reorganizing loose files preserves those identities. Archive member names remain the authored logical paths; changing archive contents or source bytes is a new revision, not a relocation.
+`assets/sources.json` and its supplements record archive and loose-file hashes, byte sizes and logical paths. Lookup tries the expected owned path, then a previously verified location inside the owned root, then searches that root. An external cached location is rejected even when its bytes match. Missing inputs fail with the logical identity and searched root; existing accepted prepared assets remain usable.
 
-Lookup tries the expected path, then a previously verified cached location, then recursively searches the Asset Library. If necessary, it searches Documents. This includes finding the entire library after it is renamed or moved elsewhere within Documents. Size filters avoid hashing unrelated files. One recovery scan discovers locations for all registered identities it encounters. Identical copies are interchangeable; sorted traversal chooses a stable candidate. Files with a familiar name but different bytes are rejected.
-
-Full-library preparation has a stricter boundary: reconcile sources only inside the active Lantern Knight source root. A source absent from that library must not reappear through an identical copy elsewhere in Documents or a cached location outside the root. Source-reader calls outside strict preparation retain the broader hash-recovery lookup described above. [Assets](assets.md) owns preparation and library coverage.
-
-Local location metadata is written atomically under Lantern's cache (`~/Library/Caches/LanternKnight` on macOS). OS file locks coordinate simultaneous processes and release on interruption. A shared source-reader worker reuses discovery and archive verification during a tooling operation; filesystem identity, size, modification time and change time invalidate that verification when a file changes. Cached locations are revalidated on use. A missing-then-restored source can recover on the next request.
-
-Search does not follow symlinks or descend into Lantern's checkout/cache, hidden directories, `node_modules`, build outputs or release outputs. An inaccessible directory does not prevent searching other locations. A missing-source error names the logical source, expected hash and searched roots. Recovery never moves or edits originals, rewrites provenance, changes canonical artwork, or accepts a different revision.
+Moving or renaming an original preserves its content identity. Replacing bytes is a new revision and requires an explicit recipe/import decision. Archive member names remain authored logical paths. Source resolution never edits originals or accepts a different revision. It rejects symlinks and verifies selected source bytes. Local disposable location metadata does not establish ownership.
 
 ## Configuration
 
-`ASSET_LIBRARY_ROOT` selects the parent Asset Library folder, normally `~/Documents/Asset Library`, rather than the project's source folder; tools append the source index's `libraryDirectory`, currently `Lantern Knight`. `LANTERN_CACHE_ROOT` selects the external cache. Sources outside Documents can be found using `LANTERN_SOURCE_SEARCH_ROOTS`, a list of additional search roots separated by the platform path separator (`:` on macOS/Linux, `;` on Windows). These are configuration options for other machines; normal reorganization within this Mac's Documents folder requires no configuration.
-
-Recovery fixtures run with `npm run test:assets`, using temporary files to cover relocation, wrong revisions, cache invalidation, interruptions and concurrent recovery. No test rearranges the source library.
+Project inputs have a fixed checkout-relative root: `asset-data/sources/`. `ASSET_LIBRARY_ROOT`, `LANTERN_SOUND_LIBRARY` and `LANTERN_SOURCE_SEARCH_ROOTS` cannot redirect them. `LANTERN_CACHE_ROOT` selects disposable preparation storage only. New inputs enter through the explicit import command in [Assets](assets.md#choose-a-workflow).
 
 ## Importer metadata
 
-Full-library discovery maintains `.lantern/identities.json` inside the external Lantern Knight source root. Preserve this hidden directory when copying or backing up the library: the importer uses it to retain logical asset IDs, and therefore scene references, across replacements and moves. This metadata must survive cache cleanup and asset preparation. Original artwork and archive bytes remain unchanged.
+Preserve `.lantern/identities.json` and `.lantern/metadata/` inside the owned Lantern Knight source folder. These retain logical asset IDs across moves and replacements, original metadata bytes, archive member tables and provenance. They are durable Git inputs, not disposable cache data.
 
-The registry also retains the last successful source snapshot: file identities, filesystem signatures and archive member tables. Original JSON and text members are stored by SHA-256 under `.lantern/metadata/`, with their archive/member provenance retained in the member table. These are durable source metadata, separate from the disposable cache. Preserve this directory with the library and keep it downloaded for offline authoring.
-
-Preparation and source readers prefer hash-identical loose artwork in the active library, then retained metadata, then the original ZIP. Every selected copy is checked against the recorded member hash; corrupt copies fall back to the verified original or fail clearly. Native dimensions and original metadata permit unchanged packs to be interpreted without opening a ZIP. A first import, missing metadata, unavailable artwork or an explicit archive health check still requires the original archive. Keep ZIPs for recovery and provenance. Reconciliation still determines active membership: retained records do not restore deleted archives or override changed source bytes.
-
-Logical asset IDs can survive an artwork replacement, but the new bytes have a new content identity. Ground interaction remains bound to the reviewed painting hash, frame and dimensions; a stable asset ID does not establish alignment. Follow [saved ground profile restoration](developer-tools.md#saved-ground-profiles) when reassigning or reviewing changed artwork.
+Preparation prefers hash-identical loose artwork inside the owned root, then retained metadata, then verified original ZIP members. Original archives remain available for reprocessing and recovery. Reconciliation considers only owned source membership; retained metadata cannot restore a deleted archive. Ground interaction remains bound to the reviewed painting hash, frame and dimensions; follow [saved ground profile restoration](developer-tools.md#saved-ground-profiles) when artwork changes.
 
 ## Source health and consolidation
 
-Run an explicit source health check:
+`python3 -B tools/assets/library.py check` verifies the owned source identities. `--fresh` uses temporary location metadata. The optional consolidation command operates only on owned originals; review its dry-run manifest before explicitly applying it. Ordinary builds and CI consume prepared objects without source scans.
 
-```sh
-python3 -B tools/assets/library.py check
-```
-
-This verifies all pinned archive/loose-file identities and warms verified locations. Use `--fresh` for a temporary location cache. Normal builds and CI consume prepared assets without scanning the library.
-
-Optional `pathHint` values locate originals within the library without changing logical IDs. Several loose-file identities can share one identical retained file. `archiveGroups` isolates selected hero packages that reuse member names; callers continue using `readLibrarySource(member, group)`. Archive bytes remain immutable even when the external filename changes.
-
-The library groups characters, environments, props, items, effects and title/loading media by subject. Sources remain beside their assets; shared packages stay together. Original logical receipts remain readable through explicit path hints and the hash resolver.
+`npm run test:assets -- tests/assets/source-recovery.test.ts` runs temporary fixtures for content identity, moves, wrong revisions, confinement, interruption and concurrent readers. No fixture rearranges real source artwork. Historical recovery fixtures can supply explicit temporary search roots; production callers remain confined to owned inputs.

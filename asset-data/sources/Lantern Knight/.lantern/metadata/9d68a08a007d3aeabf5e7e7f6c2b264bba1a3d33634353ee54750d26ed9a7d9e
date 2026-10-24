@@ -1,0 +1,12 @@
+Hoarfrost Rupture | Snapburst v3
+
+Brittle snapburst: ice plates fan outward, fracture, fall and skitter to far landing points.
+
+13 distinct authored art cels: 4 approved opening poses + 9 newly generated outward-dissipation poses. One fully transparent reset cel.
+Onset 70ms; peak hold 70ms; moving tail 550ms; clear pause 500ms.
+
+First four approved opening cels use one constant 0.7 scale and identical placement [96, 83] on 640px canvas to match authored tail material scale. Nine new tail cels use exact 418px 3x3 source grid and identical placement [111,111]. No per-frame recentering, resizing, translation or fade. All tail motion is authored geometry.
+
+QA: inspected every new tail cel and the registered sequence; decoded APNG matches PNG alpha and visible RGB for all 14 frames; final frame alpha(0,0); every output canvas edge alpha 0. Source cell borders checked separately from padded output.
+
+Limitations: illustration key poses, not simulated particle continuity or engine-tested assets. Source border padding is narrower than requested. Tail cel 6 has 3 faint edge antialias pixels (max36/255); no opaque geometry is clipped.

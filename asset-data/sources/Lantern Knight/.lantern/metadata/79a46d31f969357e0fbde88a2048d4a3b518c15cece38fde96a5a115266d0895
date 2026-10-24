@@ -1,0 +1,206 @@
+[
+  {
+    "asset_id": "vegetation_broad_hollow_oak_01",
+    "pack": "volume_15_tree_forms",
+    "path": "assets/vegetation_broad_hollow_oak_01.png",
+    "original_path": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_broad_hollow_oak_01.png",
+    "sha256": "b714b718998cf6bb5dda4474d8d378883941f06eac2f07ba34427a3a1976e0a2",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/vegetation_broad_hollow_oak_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      19,
+      1304,
+      1168
+    ],
+    "alpha_bounds_ge128": [
+      11,
+      23,
+      1300,
+      1164
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95335,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-11320ea2-88ca-4ddd-9355-1359e8317a33.png"
+  },
+  {
+    "asset_id": "vegetation_lightning_split_dead_trunk_01",
+    "pack": "volume_15_tree_forms",
+    "path": "assets/vegetation_lightning_split_dead_trunk_01.png",
+    "original_path": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_lightning_split_dead_trunk_01.png",
+    "sha256": "b2e4bbee47a55eed9ed3be2fac752198f2a6072202b612dcd63f5790558e6102",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/vegetation_lightning_split_dead_trunk_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      89,
+      1,
+      1258,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      160,
+      9,
+      1145,
+      1196
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.94474,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-d0be83eb-e2d3-4e49-abf2-20b70c9608b7.png"
+  },
+  {
+    "asset_id": "vegetation_low_dense_juniper_01",
+    "pack": "volume_15_tree_forms",
+    "path": "assets/vegetation_low_dense_juniper_01.png",
+    "original_path": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_low_dense_juniper_01.png",
+    "sha256": "f47b3bb5398e0fbbfd60f992c541ec57a780c384e567354fef9f275d32cb262c",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/vegetation_low_dense_juniper_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      19,
+      1507,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      37,
+      133,
+      1504,
+      889
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.93525,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-d86e438c-08ad-4a7a-9a22-9fcdaf24fa6f.png"
+  },
+  {
+    "asset_id": "vegetation_pale_birch_cluster_01",
+    "pack": "volume_15_tree_forms",
+    "path": "assets/vegetation_pale_birch_cluster_01.png",
+    "original_path": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_pale_birch_cluster_01.png",
+    "sha256": "8af140da6dc66466076e6abff650c2651f7f4c5b4b64c186d8dace3b9858f257",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/vegetation_pale_birch_cluster_01.prompt.txt",
+    "size": [
+      1226,
+      1283
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      9,
+      1210,
+      1267
+    ],
+    "alpha_bounds_ge128": [
+      73,
+      27,
+      1183,
+      1254
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.88756,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-c05ad9a1-057d-4ee7-b6e3-46863415f338.png"
+  },
+  {
+    "asset_id": "vegetation_tall_split_pine_01",
+    "pack": "volume_15_tree_forms",
+    "path": "assets/vegetation_tall_split_pine_01.png",
+    "original_path": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png",
+    "sha256": "4f8bcbc8efc7bb9b03017693b42689575abf0f6ee039dc929926d0a5c1d5b4d1",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/vegetation_tall_split_pine_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      45,
+      21,
+      1010,
+      1536
+    ],
+    "alpha_bounds_ge128": [
+      144,
+      26,
+      951,
+      1497
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.88091,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-645cc8bb-6475-4d4f-80c5-117460ff84ac.png"
+  },
+  {
+    "asset_id": "vegetation_windswept_yew_01",
+    "pack": "volume_15_tree_forms",
+    "path": "assets/vegetation_windswept_yew_01.png",
+    "original_path": "lantern_environment_candidates/volume_15_tree_forms/assets/vegetation_windswept_yew_01.png",
+    "sha256": "4e3120b24d7e03172ffa323484168fde2d8c37bbb27f9d154c4a59b6c8771607",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/vegetation_windswept_yew_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      10,
+      1288,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      58,
+      85,
+      1266,
+      1110
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.92199,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-c4e16f1a-e282-431a-b265-3d2ba4bc2e07.png"
+  }
+]

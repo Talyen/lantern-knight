@@ -1,0 +1,43 @@
+# Lantern — generic healing, shield, curse VFX
+
+47 unique native cels, 8 actions, grayscale/tintable transparent PNGs. Built-in image_gen generated all art. No upscaling, interpolation, invented in-between cels, or anatomy. “Sunburst2.5” is a visual-direction phrase in the preserved prompts; model selection is not claimed.
+
+## Clips (60 Hz timeline)
+- heal_activate: 6 cels, 30 ticks (0.5 s), then regeneration_loop if the status remains active.
+- regeneration_loop: 6 cels, 48 ticks (0.8 s), loop.
+- shield_form: 6 cels, 30 ticks, then shield_hold.
+- shield_hold: 6 cels, 48 ticks, loop.
+- shield_break: 6 cels, 28 ticks, remove renderer afterward.
+- curse_apply: 6 cels, 30 ticks, then curse_hold.
+- curse_hold: 6 cels, 48 ticks, loop.
+- curse_release: 5 cels, 28 ticks, remove renderer afterward. Reuse for expiration and cleansing, with a different tint if desired.
+
+## Registration, rendering and character independence
+All runtime canvases are 384×384. This is transparent padding, not resolution enlargement: source pixels stay 1:1. Original sheets are heal 2172×724 and shield/curse 1774×887. Source native pixels are cropped and translated. RGB is made neutral grayscale; generated alpha is preserved. No alpha thresholding or repainting is performed.
+
+Heal and curse are already projected ground ornaments. Use camera-facing sprites positioned at the actor's floor/contact point, with pivot (192,192) measured from the PNG top-left. Do not project these ellipses a second time onto a horizontal quad. The requested orthographic reference is 35.264° elevation / 45° azimuth; these hand-drawn curves approximate that perspective rather than providing mathematical projection guarantees.
+
+Shield is an upright camera-facing overlay, with pivot (192,336) at its base. It contains no ground ring. Render the shield above the actor, while healing/curse rings render below the actor. All have open centers and no baked bodies, faces, limbs, hero scale, or enemy anatomy. Ground flourishes are decorative ink ornaments rather than anatomical markers.
+
+Default 256 pixels/unit. Fit ground effects to the actor footprint using one uniform scale (desired footprint pixel width / 280), and fit the shield using actor displayed height / 265. Apply that same scale to every frame of the selected clip. Small enemies, large enemies, and heroes may each supply their own scale and tint. Do not stretch each individual frame to its alpha bounds.
+
+Suggested multiplication tints: healing #9CE8B1, shield #B6D8FF, curse #CBA4EB, cleanse #EAE3C5. Masters are neutral and usable untinted. Standard straight-alpha blending is recommended; additive blend will weaken the gray edges. Bilinear filtering, clamp addressing, and no texture compression are conservative starting settings. Leave atlas gutters implicit in the padded cells; do not tight-pack unless preserving the pivot/trim offsets. Atlases are 2304×384 (curse release: 1920×384); separate PNGs are supplied for platforms preferring smaller textures.
+
+## Deliverables
+- runtime/: 47 transparent PNGs and eight strip atlases.
+- manifest.json: native canvas, frame rects, durations, pivots, scale, layers, one-shot/loop and transitions.
+- source/: untouched original generated sheets.
+- *_prompt.txt: exact prompts used.
+- build_pack.py: deterministic crop/registration/grayscale/atlas/contact-sheet/video rebuild.
+- qa.json: source crops, native placement, alpha bounds, pixel hashes and canvas-edge alpha checks.
+- contact_sheet.png: native-size eight-action visual index on a dark backing.
+- status_preview.mp4: 60 FPS, native-scale four-second simultaneous action timing preview. One-shots repeat only for review.
+
+Rebuild with Python 3, Pillow, NumPy and ffmpeg: python build_pack.py. With the bundled source sheets present, this does not invoke generation or require credentials. The generation itself is nondeterministic and cannot be reproduced byte-for-byte from prompts.
+
+## QA and limitations
+Every extracted cel was inspected against a neutral dark background, including its adjacent-cell boundaries. No visible cutoff or foreign-frame fragments were found. Alpha>=12 bounds stay within all canvases; maximum outer-canvas alpha is 1/255, preserved from the native source. All 47 output cel hashes are distinct. The contact sheet verifies visible cels; source transparency may display oddly in viewers that ignore alpha.
+
+This is a hand-drawn five-to-six-cel animation pack, with modest organic contour variation. It is not morph-interpolated or an engine integration. Ground ellipse ratios and loop silhouettes are artistically approximate. Tune size, tint, sorting and timing in the actual game camera before release.
+
+Revision 2: curse release skips source column 5 (one-based) to avoid a ring reforming during expiration. It now plays five original drawings in source order 1,2,3,4,6 over 28 ticks. Source art is untouched. Curse release and shield break must disable their renderers immediately after their timeline; do not hold their last remnant cel.

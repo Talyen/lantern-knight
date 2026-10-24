@@ -1,0 +1,81 @@
+{
+  "name": "Candle-procession Wraith UL",
+  "reference": {
+    "id": "lantern_elite_concept_05_candle_procession_wraith",
+    "sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a"
+  },
+  "holds": {
+    "move": [
+      9,
+      8,
+      8,
+      9,
+      8,
+      8
+    ],
+    "attack": [
+      8,
+      9,
+      12,
+      6,
+      9,
+      14
+    ]
+  },
+  "offsets": {
+    "move": [
+      [
+        40,
+        0
+      ],
+      [
+        42,
+        0
+      ],
+      [
+        40,
+        0
+      ],
+      [
+        40,
+        0
+      ],
+      [
+        42,
+        0
+      ],
+      [
+        40,
+        0
+      ]
+    ],
+    "attack": [
+      [
+        30,
+        0
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        10,
+        0
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        20,
+        0
+      ]
+    ]
+  },
+  "facing": "UL rear three-quarter",
+  "ppu": 256
+}

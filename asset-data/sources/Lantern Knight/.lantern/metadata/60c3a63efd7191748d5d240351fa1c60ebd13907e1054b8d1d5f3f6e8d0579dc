@@ -1,0 +1,72 @@
+{
+  "title": "Keeper's Glade A | Oak Cottage",
+  "hero_source": "references/hero_original.png",
+  "views": [
+    {
+      "name": "cottage_and_hearth",
+      "display_box": [
+        1250,
+        225,
+        2786,
+        1249
+      ],
+      "display_foot": [
+        2250,
+        1125
+      ],
+      "placement_note": "Visually selected clear ground; presentation-only placement with no engine navigation or collision validation."
+    },
+    {
+      "name": "raised_western_terrace",
+      "display_box": [
+        0,
+        100,
+        1536,
+        1124
+      ],
+      "display_foot": [
+        625,
+        562
+      ],
+      "placement_note": "Visually selected clear ground; presentation-only placement with no engine navigation or collision validation."
+    },
+    {
+      "name": "eastern_expansion_clearing",
+      "display_box": [
+        2188,
+        1088,
+        3724,
+        2112
+      ],
+      "display_foot": [
+        3050,
+        1675
+      ],
+      "placement_note": "Visually selected clear ground; presentation-only placement with no engine navigation or collision validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "central_hearth_junction",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "eastern_expansion_junction",
+      "source_xy": [
+        1280,
+        640
+      ]
+    }
+  ],
+  "approved_reference_images": [
+    "references/selected_viewport_sample.png"
+  ],
+  "scene_notes": [
+    "The upper-left terrace is intentionally raised and reached by visible steps; this is an art layout, not validated elevation or navigation geometry.",
+    "Original fullscene exact generation prompt and metadata are preserved in exact_prompt.txt and metadata.json.",
+    "Baked scenery and reference hero previews only; no separated upgrade assets, collision, navigation, foreground occlusion or engine integration."
+  ]
+}

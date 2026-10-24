@@ -1,0 +1,393 @@
+{
+  "name": "Withering Gale | Leaf spiral v3",
+  "physical_character": "Light flutter: brittle leaves spiral tangentially outward, tumble and thin into a broad empty-center perimeter.",
+  "authored_tail_cels": 9,
+  "total_encoded_frames": 14,
+  "all_13_art_frames_distinct": true,
+  "apng_decodes_match_source_rgba_on_nontransparent_pixels": true,
+  "encoded_durations_ms": [
+    20.0,
+    20.0,
+    30.0,
+    80.0,
+    50.0,
+    50.0,
+    60.0,
+    60.0,
+    60.0,
+    70.0,
+    70.0,
+    80.0,
+    80.0,
+    500.0
+  ],
+  "clear_frame_alpha_extrema": [
+    0,
+    0
+  ],
+  "zero_output_edge_alpha": true,
+  "source_layout": [
+    3,
+    3
+  ],
+  "source_cell_size": [
+    418,
+    418
+  ],
+  "source_cell_boundaries": [
+    {
+      "tail_cel": 1,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        50,
+        91,
+        386,
+        341
+      ],
+      "alpha_mass": 7958413
+    },
+    {
+      "tail_cel": 2,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        37,
+        85,
+        386,
+        350
+      ],
+      "alpha_mass": 7240154
+    },
+    {
+      "tail_cel": 3,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        23,
+        78,
+        391,
+        369
+      ],
+      "alpha_mass": 6620354
+    },
+    {
+      "tail_cel": 4,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        26,
+        53,
+        400,
+        344
+      ],
+      "alpha_mass": 5007287
+    },
+    {
+      "tail_cel": 5,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        24,
+        59,
+        389,
+        346
+      ],
+      "alpha_mass": 4056472
+    },
+    {
+      "tail_cel": 6,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        22,
+        66,
+        392,
+        348
+      ],
+      "alpha_mass": 2041471
+    },
+    {
+      "tail_cel": 7,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        36,
+        55,
+        400,
+        344
+      ],
+      "alpha_mass": 1165157
+    },
+    {
+      "tail_cel": 8,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        49,
+        64,
+        383,
+        344
+      ],
+      "alpha_mass": 662870
+    },
+    {
+      "tail_cel": 9,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        33,
+        66,
+        375,
+        344
+      ],
+      "alpha_mass": 221937
+    }
+  ],
+  "fixed_tail_placement": [
+    111,
+    111
+  ],
+  "per_tail_frame_transforms": false,
+  "original_opening_transform": {
+    "scale": 0.7,
+    "placement": [
+      101,
+      89
+    ]
+  },
+  "reference_anchor_for_metrics": [
+    320,
+    330
+  ],
+  "frame_metrics": [
+    {
+      "frame": 0,
+      "phase": "Gather",
+      "alpha_mass_gt12": 536041,
+      "centroid": [
+        317.1,
+        351.1
+      ],
+      "mean_distance_from_reference_anchor": 39.5,
+      "bbox_gt12": [
+        234,
+        315,
+        416,
+        381
+      ],
+      "horizontal_span_gt12": 182
+    },
+    {
+      "frame": 1,
+      "phase": "Onset",
+      "alpha_mass_gt12": 2745022,
+      "centroid": [
+        307.0,
+        352.5
+      ],
+      "mean_distance_from_reference_anchor": 66.3,
+      "bbox_gt12": [
+        212,
+        250,
+        432,
+        428
+      ],
+      "horizontal_span_gt12": 220
+    },
+    {
+      "frame": 2,
+      "phase": "Strike",
+      "alpha_mass_gt12": 4499088,
+      "centroid": [
+        316.2,
+        338.2
+      ],
+      "mean_distance_from_reference_anchor": 71.7,
+      "bbox_gt12": [
+        208,
+        231,
+        423,
+        442
+      ],
+      "horizontal_span_gt12": 215
+    },
+    {
+      "frame": 3,
+      "phase": "Peak",
+      "alpha_mass_gt12": 7534686,
+      "centroid": [
+        323.2,
+        334.6
+      ],
+      "mean_distance_from_reference_anchor": 88.9,
+      "bbox_gt12": [
+        182,
+        218,
+        458,
+        441
+      ],
+      "horizontal_span_gt12": 276
+    },
+    {
+      "frame": 4,
+      "phase": "Loop twists",
+      "alpha_mass_gt12": 7859806,
+      "centroid": [
+        325.2,
+        333.5
+      ],
+      "mean_distance_from_reference_anchor": 93.2,
+      "bbox_gt12": [
+        161,
+        202,
+        497,
+        452
+      ],
+      "horizontal_span_gt12": 336
+    },
+    {
+      "frame": 5,
+      "phase": "Spiral expands",
+      "alpha_mass_gt12": 7109289,
+      "centroid": [
+        308.8,
+        334.5
+      ],
+      "mean_distance_from_reference_anchor": 99.9,
+      "bbox_gt12": [
+        148,
+        196,
+        497,
+        461
+      ],
+      "horizontal_span_gt12": 349
+    },
+    {
+      "frame": 6,
+      "phase": "Packets separate",
+      "alpha_mass_gt12": 6471308,
+      "centroid": [
+        303.8,
+        342.6
+      ],
+      "mean_distance_from_reference_anchor": 113.7,
+      "bbox_gt12": [
+        134,
+        189,
+        502,
+        480
+      ],
+      "horizontal_span_gt12": 368
+    },
+    {
+      "frame": 7,
+      "phase": "Leaves orbit",
+      "alpha_mass_gt12": 4865109,
+      "centroid": [
+        313.5,
+        310.0
+      ],
+      "mean_distance_from_reference_anchor": 122.4,
+      "bbox_gt12": [
+        137,
+        164,
+        511,
+        455
+      ],
+      "horizontal_span_gt12": 374
+    },
+    {
+      "frame": 8,
+      "phase": "Outward tumble",
+      "alpha_mass_gt12": 3922055,
+      "centroid": [
+        305.5,
+        314.9
+      ],
+      "mean_distance_from_reference_anchor": 129.5,
+      "bbox_gt12": [
+        135,
+        170,
+        500,
+        457
+      ],
+      "horizontal_span_gt12": 365
+    },
+    {
+      "frame": 9,
+      "phase": "Scraps flutter",
+      "alpha_mass_gt12": 1913360,
+      "centroid": [
+        314.9,
+        319.6
+      ],
+      "mean_distance_from_reference_anchor": 138.6,
+      "bbox_gt12": [
+        133,
+        177,
+        503,
+        459
+      ],
+      "horizontal_span_gt12": 370
+    },
+    {
+      "frame": 10,
+      "phase": "Outer leaves",
+      "alpha_mass_gt12": 1099162,
+      "centroid": [
+        330.9,
+        311.7
+      ],
+      "mean_distance_from_reference_anchor": 138.5,
+      "bbox_gt12": [
+        147,
+        166,
+        511,
+        455
+      ],
+      "horizontal_span_gt12": 364
+    },
+    {
+      "frame": 11,
+      "phase": "Last scraps",
+      "alpha_mass_gt12": 624980,
+      "centroid": [
+        286.2,
+        291.9
+      ],
+      "mean_distance_from_reference_anchor": 132.7,
+      "bbox_gt12": [
+        160,
+        175,
+        494,
+        455
+      ],
+      "horizontal_span_gt12": 334
+    },
+    {
+      "frame": 12,
+      "phase": "Perimeter specks",
+      "alpha_mass_gt12": 199747,
+      "centroid": [
+        285.7,
+        312.7
+      ],
+      "mean_distance_from_reference_anchor": 143.6,
+      "bbox_gt12": [
+        144,
+        177,
+        486,
+        455
+      ],
+      "horizontal_span_gt12": 342
+    }
+  ],
+  "mp4_duration_seconds": 4.92,
+  "inspection": "All 9 tail cels inspected on a neutral composite; all 13 registered art frames inspected in temporal contact order. APNG decoded and compared with source PNGs. Final clear and output-edge alpha verified.",
+  "limitations": [
+    "Authored key-cel illustration rather than a physical simulation; small contour/fragment identity changes remain.",
+    "Source material remains at fixed cell/world placement. Opening is rescaled once by a constant to match tail material scale, not animated resizing.",
+    "Imagegen did not enforce full35px requested cell padding, but no substantial geometry was cut at cell boundaries."
+  ]
+}

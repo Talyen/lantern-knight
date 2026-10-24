@@ -1,0 +1,43 @@
+# Bellbound Monk: recovered directional extension
+
+Adds DL, UL and UR movement + bell-toll attack to the unchanged DR baseline. New native original-reference generation on 2026-10-08; prior lost-sheet approval and hashes do not apply.
+
+## Coverage and source selection
+
+35 runtime cels and six atlases (41 PNG files). DL and UL have six unique movement and six unique attack cels. UR has five unique movement cels and six attack cels. UR movement source cel 1 contains an extra shoe and is explicitly excluded, never delivered as a runtime drawing. Selected source cels are 5,6,2,3,4, with a disclosed 48-tick cycle. The native source sheet remains unchanged as provenance. No fake sixth drawing or duplicate frame is claimed.
+
+The other native sheets have passed a fresh visual anatomy, equipment, rear-heading and crop review. A naturally cloth-occluded far shoe during DL impact is preserved. Final runtime QA and independent package review are recorded separately.
+
+## Import contract
+
+- Native square canvas 768x768; pivot from top left (384,600). Unity normalized pivot (0.5,0.21875).
+- All new headings use 256 pixels per world unit, both movement and attack. World object root and renderer offset are fixed; no additional per-frame runtime displacement.
+- If your existing DR movement uses B pixels per unit, multiply all declared PPUs by B/256.
+- DR movement is unchanged at PPU256. DR attack remains PPU209.8360655737705, with a constant renderer-local screen-right offset of 11/256 world units, applied exactly once. Original DR runtime/source are separate dependencies linked and SHA256-pinned in dependencies.json.
+- New movement holds at60Hz: DL/UL [8,7,10,7,6,10], total48ticks, loop. UR [6,10,7,14,11], total48ticks, loop, native source order [5,6,2,3,4].
+- All new attacks: [8,21,3,6,17,17], total72ticks, non-looping. Bell toll on zero-index frame2 at tick29; shockwave apex on frame3 at tick32. Final ready cel holds17ticks, then transition to movement/idle. Do not implicitly loop attacks.
+- Atlas layout has4px transparent gutters on all sides of each768px cell. Rectangles are top-left-origin pixel coordinates. UR movement atlas has a transparent unused sixth slot; metadata has only five rects.
+- RGBA, sRGB, straight alpha; clamp sampling; no mipmaps recommended. Runtime pixels are never upscaled, mirrored, rotated or individually resized.
+
+## Fixed-root registration and inherited residual
+
+Fresh source shoe-contact measurements live in contacts.json and anchors.json. Translation alone places movement contact midpoints at the fixed root minus the intended native hop heights [0,20,40,20,0,10]. Cloth and body acting are left intact. New attack foot planes have a CONSTANT21px downward offset (0.08203125world units) from the pivot, matching DR ready's17.5/209.836=0.083398world units within0.001367world units plus contact measurement uncertainty. No phase-dependent shift is copied.
+
+The unchanged DR cast has an inherited61native-pixel /0.291world-unit impact contact-plane shift relative to ready. It remains visible in the comparison preview and is deliberately NOT imposed on new headings. DR attack ready also stands taller than its crouched movement, so a perfectly equal silhouette handoff across its phases is not guaranteed. New per-heading PPU was chosen from movement/rest world-size comparison, not by warping each attack drawing.
+
+## Build and verify
+
+Python3 with packages in requirements.txt:
+1. python build.py
+2. python validate.py
+3. python preview.py (requires ffmpeg on PATH; preview-only downscale)
+
+Source package is portable: all paths relative to its root. expected_png_hashes.json pins all41 rebuilt runtime PNGs. build.py regenerates every selected native cel, ownership mask, atlas, light/dark contact and runtime metadata. validate.py verifies41/41 hashes, atlas pixel-exact rects, transparent gutters, crop margins and contact registration to within rounding error. preview.py regenerates standalone four-way contacts and MP4 using included unchanged DR reference cels. Baseline-reference file hashes are in review/validation.json.
+
+## Native provenance and scope
+
+Six current native1536x1024 sheets, exact prompts, original identity reference and heading-only guides are included. Generated using built-in image generation; 'Sunburst2.5' is prompt text, not a claim that a named model was selected. Rear attacks were regenerated from original identity + simple heading guide after bent-prop and wrong-heading drafts were rejected. No generated draft was used as a reference or generatively edited.
+
+Extraction uses alpha>128 connected components, explicitly reviewed effect ownership,2px mask dilation, alpha<=16 removal and alpha>=245 promotion to opaque. RGB values are preserved. Native ring segments crossing grid boundaries are assigned to their actual attack phase, not blindly cropped. Ownership masks and overrides are included.
+
+Runtime/source packages stay separate. No engine or live-playback verification is claimed. Preview MP4 is a deterministic60Hz presentation of the import contract, not engine footage.

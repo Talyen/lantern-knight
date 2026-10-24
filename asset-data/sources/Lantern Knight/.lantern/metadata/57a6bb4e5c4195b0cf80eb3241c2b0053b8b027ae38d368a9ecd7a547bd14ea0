@@ -1,0 +1,18 @@
+{
+  "README.txt": "45ef43fc83fb5e5bc76dda7d717078a66954df017b45a86f4c29d18e963d8aa7",
+  "atlas.png": "39cbd685dcc3e51134b0febe945164a81bee1508f662b6e6c82ccec52f79b05d",
+  "frames/run_00.png": "b0d266211bb7d8895f48949028324a7499ed923197749614a16b5d769694fd90",
+  "frames/run_01.png": "9bbf7ea862fddcbbef10b4eaccf29f58a594e46415f51e844df45abd1851e0c7",
+  "frames/run_02.png": "81077cb73f8e075b26a200df2857ccbcbd3af2cf1bd28eb87c5466cca578bc80",
+  "frames/run_03.png": "872992319230959a9e52831a71b161cb862e5bb4ef4df42720687e50f409544a",
+  "frames/run_04.png": "9d9624ecb32bac5354da03400e35d6215fae371d5f3e2158818990b500840d8d",
+  "frames/run_05.png": "11ac312e3413cfcb8afa2817df39c87b9aefa34d56890e01379c3c78fa393ed9",
+  "frames/run_06.png": "7aeb0be4c40d35831c010a9277cac079e7387b59d93c10dab8ce2ac10db8b599",
+  "manifest.json": "b53631c0a4afc97a157f8ca049aeb797d1e9011814a9a0c953c3720ed23b3a7a",
+  "qa_provenance/DL_boot_detail_mask.png": "076f5977dc2ba9947fb3a32d9c74f047b56a064b742d5ecb72c31532ae9860af",
+  "qa_provenance/original_manifest.json": "3f6d13b073877560cf58555a7f9900a58c9e635470c9a23aac86d8b190787931",
+  "qa_provenance/original_run_05.png": "2342e9073745d6147e266b4e8936cd1a08d3917075ce289771f5df398e6f5d9e",
+  "run_DL7_half_2cycles.mp4": "31413ee63fcf7cc8316fd26e3d2b5ed1c2082a8b8c9848df29c58321d555d79f",
+  "run_DL7_normal_4cycles.mp4": "d0ce3bb8cf7edba314f4e789b2e6bebcac0de8749387d283acf83fbee239776b",
+  "validation.json": "d1ccc816840d4de7b23e4a0941fcca7f0a155645c8ad00380739f4206a90c4bb"
+}

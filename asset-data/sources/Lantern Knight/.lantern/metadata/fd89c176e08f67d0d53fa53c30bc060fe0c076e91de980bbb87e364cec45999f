@@ -1,0 +1,49 @@
+{
+  "verified_frame_count": 32,
+  "all_runtime_frames_byte_identical": true,
+  "source_sheet_sha256_verified": 4,
+  "native_cell_px": [
+    524,
+    524
+  ],
+  "pivot_px_top_left": [
+    262,
+    460
+  ],
+  "ppu": {
+    "DR": 257.407,
+    "DL": 262.035,
+    "UL": 238.953,
+    "UR": 265.432
+  },
+  "timing": {
+    "interact_inspect": 57,
+    "channel_enter": 37,
+    "channel_success_pulse": 36,
+    "channel_success_no_pulse": 30,
+    "channel_cancel": 30
+  },
+  "inspection_excludes_pulse": true,
+  "cancel_excludes_pulse": true,
+  "success_pulse_once": true,
+  "hold_is_static": true,
+  "new_generation": false,
+  "engine_verified": false,
+  "preview_duration_seconds": 12.566666666666666,
+  "preview_common_pixels_per_world_unit": 210,
+  "contact_sheet_common_pixels_per_world_unit": 110,
+  "join_sheet_common_pixels_per_world_unit": 134.4,
+  "visual_limits": [
+    "Inspection/acknowledgement gesture, not hand contact or object manipulation.",
+    "Channel hold is a static frame, not an animated loop.",
+    "Original body/foot drift retained; no root motion track or per-frame registration correction.",
+    "Cast ready endpoints differ from each other and shared ready art; joins are not seamless.",
+    "Frame 05 has baked lantern lighting; no separate pulse texture or material included."
+  ],
+  "original_atlases_byte_identical": true,
+  "original_manifests_byte_identical": true,
+  "preview_frame_count": 754,
+  "preview_fps": "60/1",
+  "preview_integer_hold_encoding": "RGB frames repeated exactly per 60Hz tick; no concat timebase quantization",
+  "visual_review": "All32 pose contact sheet, shared-ready/01/03/04/06/08 join sheet and pulse preview composite inspected. No clipping/side mirroring introduced; inherited DR body/foot shift and differing shared-ready drawings disclosed."
+}

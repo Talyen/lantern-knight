@@ -1,0 +1,90 @@
+{
+  "id": "GB01",
+  "name": "Mossfang Scavenger",
+  "family": "02 Goblins",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1CcJuhLLlzLevt7AIEaGTVOdjk2IjV4Zu",
+  "source_url": "https://drive.google.com/file/d/1CcJuhLLlzLevt7AIEaGTVOdjk2IjV4Zu/view?usp=drivesdk",
+  "source_archive": "02_goblins_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_goblins_selection_pack/02_goblins/assets/GB01_mossfang_scavenger.png",
+  "source_sha256": "eaf760498f75a30452d96fa1d79f377b9555080b699ed9e50418e0e967eb31f9",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "ppu": 300,
+  "mirroring": "Not approved: clothing detail is asymmetric; no mirrored clip supplied.",
+  "move_holds": [
+    7,
+    6,
+    6,
+    6,
+    6,
+    7
+  ],
+  "attack_holds": [
+    8,
+    10,
+    5,
+    5,
+    7,
+    12
+  ],
+  "move_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      -5,
+      -10
+    ],
+    [
+      -2,
+      -6
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      -8,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "attack_event": "Two-handed claw thrust maximum extension",
+  "move_description": "One lead-foot scuttle-hop grouped as rest, compression, gathered passing, extension, extension follow-through, landing. Native drawing source order 0,1,4,2,5,3.",
+  "facing": "UL / northwest / away screen upper-left",
+  "baseline_dependency": "Existing DR baseline mossfang_scavenger_runtime.zip required for fourth heading; unchanged."
+}

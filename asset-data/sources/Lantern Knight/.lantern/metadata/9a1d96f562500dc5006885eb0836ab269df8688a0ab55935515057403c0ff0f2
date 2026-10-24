@@ -1,0 +1,542 @@
+{
+  "source_sword_fbx_sha256": "a83986346ada2e5777770e9b362f3f3e84e0766791090be2f838cb913fcb70ce",
+  "source_torch_fbx_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+  "contact_alignment": "Piecewise time map right33\u2192left14 over21Torch ticks to Swordright34\u2192left13 over21ticks; left14\u2192right33 over19Torch ticks to Swordleft13\u2192right34 over21ticks. Source joints linearly sampled at fractional times; no image interpolation.",
+  "actor_forward_world": [
+    0,
+    0,
+    1
+  ],
+  "camera_unchanged": true,
+  "mirror": false,
+  "frames": [
+    {
+      "torch_tick": 0,
+      "sword_source_fractional_tick": 41,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.16828434419585392,
+          -0.18589318750309758,
+          1.2794263362884521
+        ],
+        [
+          0.09207880002213642,
+          -0.3239195143978577,
+          1.0499566793441772
+        ],
+        [
+          0.3277069653267972,
+          -0.3768179213802796,
+          0.9018579125404358
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.16828434419585392,
+          -0.18589318750309758,
+          1.2794263362884521
+        ],
+        [
+          0.09744662571179198,
+          -0.324428709040091,
+          1.0485480084847347
+        ],
+        [
+          0.35703807259177095,
+          -0.37165472641322245,
+          0.9454262238573379
+        ]
+      ],
+      "bone_lengths": [
+        0.2784149337535521,
+        0.2832880485917249
+      ],
+      "max_length_error": 5.551115123125783e-17,
+      "torso_basis_map": [
+        [
+          0.9565585817259188,
+          0.28666615284194513,
+          -0.05308668892761754
+        ],
+        [
+          -0.27265024119754466,
+          0.9441027139848839,
+          0.18528872448505188
+        ],
+        [
+          0.10323529290615575,
+          -0.16276542096273175,
+          0.9812491488084997
+        ]
+      ],
+      "right_hand_height": 0.9454262238573379,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 5,
+      "sword_source_fractional_tick": 4,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.19435632228851318,
+          -0.19087491871323436,
+          1.327741265296936
+        ],
+        [
+          0.2179776430130005,
+          -0.34634217561688274,
+          1.0979872941970825
+        ],
+        [
+          0.474975049495697,
+          -0.2457706028362736,
+          1.0340356826782227
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.19435632228851318,
+          -0.19087491871323436,
+          1.327741265296936
+        ],
+        [
+          0.19429693830709777,
+          -0.362063166234606,
+          1.1081746412800542
+        ],
+        [
+          0.45660223706482156,
+          -0.397144551531361,
+          1.0070937654649983
+        ]
+      ],
+      "bone_lengths": [
+        0.2784150175512564,
+        0.2832880456465766
+      ],
+      "max_length_error": 0.0,
+      "torso_basis_map": [
+        [
+          0.9407136440456585,
+          0.3246786781948199,
+          -0.09819162811565377
+        ],
+        [
+          -0.30866997656592027,
+          0.9394145849176359,
+          0.14907408631556243
+        ],
+        [
+          0.14064382486669094,
+          -0.10992721942126144,
+          0.9839386774373581
+        ]
+      ],
+      "right_hand_height": 1.0070937654649983,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 10,
+      "sword_source_fractional_tick": 9,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.17120498418807983,
+          -0.1758602922782302,
+          1.3173363208770752
+        ],
+        [
+          0.1423414945602417,
+          -0.3354846900328994,
+          1.0910581350326538
+        ],
+        [
+          0.3950389623641968,
+          -0.24714258965104818,
+          0.998366117477417
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.17120498418807983,
+          -0.1758602922782302,
+          1.3173363208770752
+        ],
+        [
+          0.1836393177393411,
+          -0.36772351726155267,
+          1.115969101525924
+        ],
+        [
+          0.43429424383158927,
+          -0.4104891884430396,
+          0.9910877480460916
+        ]
+      ],
+      "bone_lengths": [
+        0.27841491838814897,
+        0.2832880990314777
+      ],
+      "max_length_error": 5.551115123125783e-17,
+      "torso_basis_map": [
+        [
+          0.9280130349394187,
+          0.3531367081816478,
+          -0.11868560282173783
+        ],
+        [
+          -0.33768289769442644,
+          0.9319010953097512,
+          0.13240320677831624
+        ],
+        [
+          0.15735967586146427,
+          -0.08279380348260244,
+          0.9840645906228205
+        ]
+      ],
+      "right_hand_height": 0.9910877480460916,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 15,
+      "sword_source_fractional_tick": 14.105263157894736,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.15410006046295166,
+          -0.17330101691186428,
+          1.2527570724487305
+        ],
+        [
+          0.009992718696594238,
+          -0.2911430802196264,
+          1.0457276105880737
+        ],
+        [
+          0.23970067501068115,
+          -0.2793538775295019,
+          0.8803571462631226
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.15410006046295166,
+          -0.17330101691186428,
+          1.2527570724487305
+        ],
+        [
+          0.1637525609701913,
+          -0.33699064201388806,
+          1.0277517129973917
+        ],
+        [
+          0.42502011475868134,
+          -0.35646792851860465,
+          0.9199926223697098
+        ]
+      ],
+      "bone_lengths": [
+        0.27841493478962204,
+        0.2832880529869081
+      ],
+      "max_length_error": 1.1102230246251565e-16,
+      "torso_basis_map": [
+        [
+          0.9683502308311376,
+          0.1904091397757946,
+          -0.1613759273842442
+        ],
+        [
+          -0.19375703675654787,
+          0.9810361794673268,
+          -0.005121062728809556
+        ],
+        [
+          0.1573405261101049,
+          0.036226703769354426,
+          0.9868797215352045
+        ]
+      ],
+      "right_hand_height": 0.9199926223697098,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 20,
+      "sword_source_fractional_tick": 19.63157894736842,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.12663185596466064,
+          -0.18230439350008965,
+          1.2773336172103882
+        ],
+        [
+          -0.09007561206817627,
+          -0.21910889074206352,
+          1.1064590215682983
+        ],
+        [
+          0.07091057300567627,
+          -0.3661371134221554,
+          0.9255768656730652
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.12663185596466064,
+          -0.18230439350008965,
+          1.2773336172103882
+        ],
+        [
+          0.12423676206890287,
+          -0.31352669954701795,
+          1.0317938137665432
+        ],
+        [
+          0.37849858661322766,
+          -0.3349615549405624,
+          0.9087341699995647
+        ]
+      ],
+      "bone_lengths": [
+        0.27841484363137897,
+        0.283288200196208
+      ],
+      "max_length_error": 5.551115123125783e-17,
+      "torso_basis_map": [
+        [
+          0.9814512747567797,
+          0.07186078218057555,
+          -0.17773413645861097
+        ],
+        [
+          -0.09849898528499626,
+          0.9843818902633855,
+          -0.14591176792606445
+        ],
+        [
+          0.16447293143894046,
+          0.16071192272472964,
+          0.9732010751730612
+        ]
+      ],
+      "right_hand_height": 0.9087341699995647,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 25,
+      "sword_source_fractional_tick": 25.157894736842103,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.09484457969665527,
+          -0.15962700359523296,
+          1.3643052577972412
+        ],
+        [
+          -0.1479663848876953,
+          -0.16278107278048992,
+          1.228115200996399
+        ],
+        [
+          -0.08625876903533936,
+          -0.3659716974943876,
+          1.0406107902526855
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.09484457969665527,
+          -0.15962700359523296,
+          1.3643052577972412
+        ],
+        [
+          0.05967028812172688,
+          -0.28276836647311177,
+          1.117093166250316
+        ],
+        [
+          0.2900568947401619,
+          -0.34008628306244293,
+          0.9625330426645281
+        ]
+      ],
+      "bone_lengths": [
+        0.2784148779182334,
+        0.2832881287208363
+      ],
+      "max_length_error": 5.551115123125783e-17,
+      "torso_basis_map": [
+        [
+          0.9873285858441575,
+          0.008413155909542325,
+          -0.15846602911229227
+        ],
+        [
+          -0.026324385037348325,
+          0.9934412691850618,
+          -0.11127206043018628
+        ],
+        [
+          0.15649054389125738,
+          0.1140336068341931,
+          0.981074434579254
+        ]
+      ],
+      "right_hand_height": 0.9625330426645281,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 30,
+      "sword_source_fractional_tick": 30.68421052631579,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.09022855758666992,
+          -0.15628378558903933,
+          1.3706121444702148
+        ],
+        [
+          -0.15099787712097168,
+          -0.18333101738244295,
+          1.2342554330825806
+        ],
+        [
+          -0.12134063243865967,
+          -0.3779463218525052,
+          1.0305461883544922
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.09022855758666992,
+          -0.15628378558903933,
+          1.3706121444702148
+        ],
+        [
+          0.035518827583016145,
+          -0.2863300032958625,
+          1.130591884923289
+        ],
+        [
+          0.2661921987471234,
+          -0.32254502868306567,
+          0.9701849241771917
+        ]
+      ],
+      "bone_lengths": [
+        0.2784149749742222,
+        0.2832880606093553
+      ],
+      "max_length_error": 5.551115123125783e-17,
+      "torso_basis_map": [
+        [
+          0.9898351474479847,
+          -0.016088165936201344,
+          -0.14130658793359885
+        ],
+        [
+          0.002343851364077758,
+          0.9952915139848282,
+          -0.0968984445209098
+        ],
+        [
+          0.14220016609487382,
+          0.09558228448095384,
+          0.9852122307685751
+        ]
+      ],
+      "right_hand_height": 0.9701849241771917,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    },
+    {
+      "torch_tick": 35,
+      "sword_source_fractional_tick": 36,
+      "source_right_contact": 34,
+      "source_left_contact": 13,
+      "torch_right_contact": 33,
+      "torch_left_contact": 14,
+      "old_right_arm": [
+        [
+          0.10952520370483398,
+          -0.16395487450063229,
+          1.303960919380188
+        ],
+        [
+          -0.08898735046386719,
+          -0.2652649935334921,
+          1.1370960474014282
+        ],
+        [
+          0.008699417114257812,
+          -0.43652371130883694,
+          0.9336757659912109
+        ]
+      ],
+      "new_right_arm": [
+        [
+          0.10952520370483398,
+          -0.16395487450063229,
+          1.303960919380188
+        ],
+        [
+          0.05495501014259068,
+          -0.29330231334324497,
+          1.063531732464461
+        ],
+        [
+          0.2984681030746627,
+          -0.3305853585283141,
+          0.9236624650204869
+        ]
+      ],
+      "bone_lengths": [
+        0.27841490599736507,
+        0.28328795220222447
+      ],
+      "max_length_error": 5.551115123125783e-17,
+      "torso_basis_map": [
+        [
+          0.9856489517193696,
+          0.14972130607837617,
+          -0.07797226738202015
+        ],
+        [
+          -0.14570493491062414,
+          0.9878032306997074,
+          0.05490764392970838
+        ],
+        [
+          0.08524210178778313,
+          -0.04275871753696647,
+          0.9954423520010565
+        ]
+      ],
+      "right_hand_height": 0.9236624650204869,
+      "scope": "Only right upper/lower arm direction borrowed from Sword And Shield Run in contact-aligned phase, mapped between torso bases and normalized to Torch arm lengths. All torch body/legs/head/left arm source positions retained."
+    }
+  ]
+}

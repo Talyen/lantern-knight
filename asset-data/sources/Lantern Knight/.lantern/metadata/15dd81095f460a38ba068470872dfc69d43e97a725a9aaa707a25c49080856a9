@@ -1,0 +1,125 @@
+{
+  "id": "reed_hamper",
+  "fps_timebase": 60,
+  "one_shot": true,
+  "loop": false,
+  "initial_frame": 0,
+  "held_looted_frame": 5,
+  "duration_ticks": 52,
+  "frames": [
+    {
+      "index": 0,
+      "file": "reed_hamper_00.png",
+      "ticks": 12,
+      "start_tick": 0,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        890
+      ],
+      "sha256": "5188cbcdb3224c21ca3dc0f21f1392b3a2f5a0e5c57c8e9f5503dd45b580c64d"
+    },
+    {
+      "index": 1,
+      "file": "reed_hamper_01.png",
+      "ticks": 6,
+      "start_tick": 12,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        890
+      ],
+      "sha256": "ca95b579c43abeed3184990b10cf77511e7357a8cafbc3925b646d42f51eb3a0"
+    },
+    {
+      "index": 2,
+      "file": "reed_hamper_02.png",
+      "ticks": 6,
+      "start_tick": 18,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        890
+      ],
+      "sha256": "a23781fa916d1bf8c4b30da36f0a6f97b620cfa979450aee67fcd71d019d82fe"
+    },
+    {
+      "index": 3,
+      "file": "reed_hamper_03.png",
+      "ticks": 7,
+      "start_tick": 24,
+      "atlas_rect": [
+        0,
+        890,
+        768,
+        890
+      ],
+      "sha256": "5e5db69a949ea0e141fa406f0f286c52f8dab2062f824d744895b86c5950fd62"
+    },
+    {
+      "index": 4,
+      "file": "reed_hamper_04.png",
+      "ticks": 6,
+      "start_tick": 31,
+      "atlas_rect": [
+        768,
+        890,
+        768,
+        890
+      ],
+      "sha256": "1b10a206b433e12115a6574fd389ccfe86352e92c5d658c7f857dfb66745f8ca"
+    },
+    {
+      "index": 5,
+      "file": "reed_hamper_05.png",
+      "ticks": 15,
+      "start_tick": 37,
+      "atlas_rect": [
+        1536,
+        890,
+        768,
+        890
+      ],
+      "sha256": "f445ec5ccfafcaf5ac8f1cbfd9cafdaf3144927227a328121d5798d666e091a4"
+    }
+  ],
+  "canvas_px": [
+    768,
+    890
+  ],
+  "pivot_px": [
+    390,
+    859
+  ],
+  "pivot_convention": "top-left coordinates, ground support",
+  "approximate_height_m": 0.75,
+  "events": [
+    {
+      "name": "spawn_loot",
+      "tick": 37,
+      "frame": 5,
+      "payload": "External gameplay spawn only; no baked loot."
+    }
+  ],
+  "states": {
+    "untouched": 0,
+    "searching": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "looted": 5
+  },
+  "method": "Original unanimated painted body/top/underside components; six deterministic cels with orthographic projected back-rim hinge, no new texture generation.",
+  "camera": {
+    "elevation_deg": 35.2643897,
+    "azimuth_deg": 45,
+    "caveat": "Painted volume is visually constrained, not calibrated geometry."
+  },
+  "alpha": "straight RGBA native alpha; no upscale",
+  "runtime_integration": false
+}

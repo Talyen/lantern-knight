@@ -1,0 +1,398 @@
+{
+  "character": "Briar Midwife",
+  "clip": "snarefx",
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_px": [
+    350,
+    660
+  ],
+  "pivot_normalized": [
+    0.4557291666666667,
+    0.859375
+  ],
+  "coordinate_system": "top-left, +x right, +y down",
+  "facing": "three-quarter screen-right",
+  "root_motion": "in-place; consumer supplies movement",
+  "loop": false,
+  "duration_ms": 1090,
+  "frames": [
+    {
+      "file": "frames/snarefx_000.png",
+      "duration_ms": 45,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p1.png",
+        "source_cel": 1,
+        "source_bbox": [
+          16,
+          415,
+          472,
+          649
+        ],
+        "source_anchor": [
+          244.0,
+          649
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_001.png",
+      "duration_ms": 45,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p1.png",
+        "source_cel": 2,
+        "source_bbox": [
+          515,
+          404,
+          1014,
+          666
+        ],
+        "source_anchor": [
+          764.5,
+          666
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_002.png",
+      "duration_ms": 45,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p1.png",
+        "source_cel": 3,
+        "source_bbox": [
+          12,
+          1062,
+          508,
+          1366
+        ],
+        "source_anchor": [
+          260.0,
+          1366
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_003.png",
+      "duration_ms": 45,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p1.png",
+        "source_cel": 4,
+        "source_bbox": [
+          523,
+          1060,
+          1013,
+          1372
+        ],
+        "source_anchor": [
+          768.0,
+          1372
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_004.png",
+      "duration_ms": 45,
+      "atlas_rect": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p2.png",
+        "source_cel": 1,
+        "source_bbox": [
+          17,
+          158,
+          510,
+          723
+        ],
+        "source_anchor": [
+          263.5,
+          723
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_005.png",
+      "duration_ms": 55,
+      "atlas_rect": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p2.png",
+        "source_cel": 2,
+        "source_bbox": [
+          530,
+          155,
+          1012,
+          725
+        ],
+        "source_anchor": [
+          771.0,
+          725
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_006.png",
+      "duration_ms": 90,
+      "atlas_rect": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p2.png",
+        "source_cel": 3,
+        "source_bbox": [
+          13,
+          919,
+          508,
+          1426
+        ],
+        "source_anchor": [
+          260.5,
+          1426
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_007.png",
+      "duration_ms": 240,
+      "atlas_rect": [
+        2304,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p2.png",
+        "source_cel": 4,
+        "source_bbox": [
+          530,
+          997,
+          1013,
+          1426
+        ],
+        "source_anchor": [
+          771.5,
+          1426
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_008.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        0,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p3.png",
+        "source_cel": 1,
+        "source_bbox": [
+          22,
+          90,
+          507,
+          739
+        ],
+        "source_anchor": [
+          264.5,
+          739
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_009.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        768,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p3.png",
+        "source_cel": 2,
+        "source_bbox": [
+          528,
+          97,
+          1009,
+          754
+        ],
+        "source_anchor": [
+          768.5,
+          754
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_010.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        1536,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p3.png",
+        "source_cel": 3,
+        "source_bbox": [
+          13,
+          861,
+          512,
+          1451
+        ],
+        "source_anchor": [
+          262.5,
+          1451
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_011.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        2304,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/snarefx_p3.png",
+        "source_cel": 4,
+        "source_bbox": [
+          551,
+          1154,
+          1000,
+          1469
+        ],
+        "source_anchor": [
+          775.5,
+          1469
+        ],
+        "source_to_runtime_scale": 0.58
+      }
+    },
+    {
+      "file": "frames/snarefx_012.png",
+      "duration_ms": 80,
+      "atlas_rect": [
+        0,
+        2304,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "empty_endpoint"
+      }
+    }
+  ],
+  "atlas": "snarefx_atlas.png",
+  "source_info": "Built-in imagegen; 4 evolving drawn cels per native 1024x1536 source page; downsample only; no scale/fade-only animation; alpha kept and edge specks removed",
+  "events": [
+    {
+      "time_ms": 280,
+      "frame_index": 6,
+      "event": "cage_closed_visual_only",
+      "note": "Damage/bind owned by special, do not apply a second gameplay hit"
+    }
+  ]
+}

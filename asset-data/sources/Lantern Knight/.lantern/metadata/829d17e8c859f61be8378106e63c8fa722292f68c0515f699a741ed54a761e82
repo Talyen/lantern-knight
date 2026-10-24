@@ -1,0 +1,38 @@
+{
+  "locomotion": {
+    "encoded_fps": "60/1",
+    "decoded_frames": 192,
+    "ordered_hold_sequence_matches_all_decoded_frames": true,
+    "no_interpolated_frames": true,
+    "drawing_ticks": [
+      8,
+      7,
+      10,
+      7,
+      6,
+      10
+    ],
+    "cycle_frames": 48,
+    "max_nearest_source_mean_squared_error": 11.232012195121952,
+    "inspection": "All cels and adjacent ordered transitions reviewed at common source origin; consistent count and no clipping or neighbor leakage."
+  },
+  "cast": {
+    "encoded_fps": "60/1",
+    "decoded_frames": 216,
+    "ordered_hold_sequence_matches_all_decoded_frames": true,
+    "no_interpolated_frames": true,
+    "drawing_ticks": [
+      8,
+      9,
+      12,
+      3,
+      6,
+      5,
+      12,
+      17
+    ],
+    "cycle_frames": 72,
+    "max_nearest_source_mean_squared_error": 10.724203929539295,
+    "inspection": "All cels and adjacent ordered transitions reviewed at common source origin; consistent count and no clipping or neighbor leakage."
+  }
+}

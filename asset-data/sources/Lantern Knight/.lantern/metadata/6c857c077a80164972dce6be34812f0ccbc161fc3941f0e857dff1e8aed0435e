@@ -1,0 +1,12 @@
+LANTERN — recovered short ink recipe calibration
+9 October 2026
+
+Two fresh compositions generated with the built-in image generation tool. Canonical hero is the sole reference image. The original environment images were inspected for context but were not provided as generation inputs. The earlier short three-tone ink sentence, scene-specific sparse-mark sentence, and no-texture sentence were preserved verbatim. A concise scene/layout description and distant isometric 64-pixel human-equivalent framing accompany them. No upscaling or other postprocessing was performed. The tool exposes no model selector, seed, quality, or size parameter; 1536×1024 was requested in the prompt and verified in the native files.
+
+These are calibration candidates, not accepted production assets.
+
+VISUAL REVIEW
+Chapel C: clear stone faces, confident outlines, burgundy hangings, altar, and connected navigable nave/side aisles. A group of pews remains more numerous than a few. Exterior dark voids remain at corners, so continuous-ground full-bleed intent is not fully achieved. Requested 64-pixel human scale is a prompt target, not geometrically proven.
+Woodland C: broad central clearing, wide connected routes, strong pine and rock silhouettes, full rectangular ground coverage. Open ground is substantially broader than corridor-based layouts. Some flat mottled earth patches and small repeated boundary vegetation marks remain; the no-mottling/quiet-surface target is not fully achieved.
+
+Each scene folder contains the exact submitted prompt, actual tool parameters, output binding/hashes, the canonical reference, and untouched native output.

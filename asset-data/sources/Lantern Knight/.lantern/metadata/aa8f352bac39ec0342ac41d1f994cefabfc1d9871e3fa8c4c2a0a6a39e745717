@@ -1,0 +1,1678 @@
+[
+  {
+    "id": "weathered_satchel_open",
+    "asset": "weathered_satchel",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "frames": [
+      {
+        "file": "animation/weathered_satchel/open_000.png",
+        "source": "animation/weathered_satchel/open_000.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "00b3757b9924f8a39155a81b6a95c3cf2b921511b5bbc6918334335560455d2b"
+      },
+      {
+        "file": "animation/weathered_satchel/open_001.png",
+        "source": "animation/weathered_satchel/open_001.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.005506698446617901,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "28d4cf04f723f98b14082de874d5df7880512489ed634010b60923d59cd611cd"
+      },
+      {
+        "file": "animation/weathered_satchel/open_002.png",
+        "source": "animation/weathered_satchel/open_002.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.021369277554039615,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "753828e474ced1a5c1c41a6f72f2908b15204de58c31056c0bee0723d3986084"
+      },
+      {
+        "file": "animation/weathered_satchel/open_003.png",
+        "source": "animation/weathered_satchel/open_003.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.04660146297361716,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "aed4d9b92505d67c66c7548e93947aba612560b1de5e5c338e9570b77d473a1f"
+      },
+      {
+        "file": "animation/weathered_satchel/open_004.png",
+        "source": "animation/weathered_satchel/open_004.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.08021698035670255,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d7a502519f2c5a533cdaf53f51ce068950656c78375bc77afa5e853e36528555"
+      },
+      {
+        "file": "animation/weathered_satchel/open_005.png",
+        "source": "animation/weathered_satchel/open_005.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.12122955535464781,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "c8e422b1bbe90787c21efd828c1c0dd52bdd452d3e1df57bab8debef90d72dec"
+      },
+      {
+        "file": "animation/weathered_satchel/open_006.png",
+        "source": "animation/weathered_satchel/open_006.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.16865291361880494,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "efbd2b620ac73ab947dadd97038e2992c3272880df2d1fb7e4d54e4184bdb121"
+      },
+      {
+        "file": "animation/weathered_satchel/open_007.png",
+        "source": "animation/weathered_satchel/open_007.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.22150078080052604,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "808c819634674ddbae3949a0fd1650d5b7c644efac90eb5e4cb760a13e3ef77e"
+      },
+      {
+        "file": "animation/weathered_satchel/open_008.png",
+        "source": "animation/weathered_satchel/open_008.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.27878688255116296,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d8fbbb00732268206d4d4932d58e1d9ab0c003aefe86b234a913e5d7c406fdae"
+      },
+      {
+        "file": "animation/weathered_satchel/open_009.png",
+        "source": "animation/weathered_satchel/open_009.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.33952494452206794,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "fe04c62704dee45c2509421855c60afdfbc799fd0dede83fdbf8e5d84e855f73"
+      },
+      {
+        "file": "animation/weathered_satchel/open_010.png",
+        "source": "animation/weathered_satchel/open_010.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.4027286923645928,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "79fd53761dc3ea056f75b9b9786e4f6eabdb5f6618489d77b322de6d6ba5fafe"
+      },
+      {
+        "file": "animation/weathered_satchel/open_011.png",
+        "source": "animation/weathered_satchel/open_011.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.46741185173008964,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "1b9dd3a6c652361ea89bea662c359182099f135987cec589fb4b8a39db46027f"
+      },
+      {
+        "file": "animation/weathered_satchel/open_012.png",
+        "source": "animation/weathered_satchel/open_012.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5325881482699104,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "847c32559ca568c43a692cf5c0bfd5419d1bb198eec49da5703a0d7674a0271a"
+      },
+      {
+        "file": "animation/weathered_satchel/open_013.png",
+        "source": "animation/weathered_satchel/open_013.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5972713076354071,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "3f76879e5aae7fa94f039fbb5a2752f04e82468b9962172c761bc19986f43f9b"
+      },
+      {
+        "file": "animation/weathered_satchel/open_014.png",
+        "source": "animation/weathered_satchel/open_014.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.6604750554779322,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "cdaa140b051a9cd48c933a8eb3a00af31f62207ade803e2c6cd24c80b5fada40"
+      },
+      {
+        "file": "animation/weathered_satchel/open_015.png",
+        "source": "animation/weathered_satchel/open_015.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.721213117448837,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "28eb13012760589554f23d82feecdd15a9f0640d7e0226493378eb51050202df"
+      },
+      {
+        "file": "animation/weathered_satchel/open_016.png",
+        "source": "animation/weathered_satchel/open_016.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.778499219199474,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "55836b2ab9b5cf97a110fea56b29882564bd7a179c76042ad0d02a170662ab5f"
+      },
+      {
+        "file": "animation/weathered_satchel/open_017.png",
+        "source": "animation/weathered_satchel/open_017.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8313470863811949,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "fd027a357377d5a658a3e1dc6ace896a6561ad523cb7a82ee72a308fb4f71994"
+      },
+      {
+        "file": "animation/weathered_satchel/open_018.png",
+        "source": "animation/weathered_satchel/open_018.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8787704446453523,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d5af27b4beccf4f58e723ee2a123171a2d674315902472e0187c175bbec23a29"
+      },
+      {
+        "file": "animation/weathered_satchel/open_019.png",
+        "source": "animation/weathered_satchel/open_019.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9197830196432973,
+        "bounds": [
+          503,
+          743,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "89ec25cb04844c845d1113cb77a071a79b2f335e23a117d51d4527883f444a14"
+      },
+      {
+        "file": "animation/weathered_satchel/open_020.png",
+        "source": "animation/weathered_satchel/open_020.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9533985370263829,
+        "bounds": [
+          503,
+          737,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "6bf20dac36535bafeb48e5618d9ee084514e7f9ad5447dea09d040ee23d11b2f"
+      },
+      {
+        "file": "animation/weathered_satchel/open_021.png",
+        "source": "animation/weathered_satchel/open_021.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9786307224459603,
+        "bounds": [
+          503,
+          733,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "416311b58a25b08d944713e3fc1c217b46f244866567dd2f79295aa9ae2f01f0"
+      },
+      {
+        "file": "animation/weathered_satchel/open_022.png",
+        "source": "animation/weathered_satchel/open_022.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9944933015533821,
+        "bounds": [
+          503,
+          730,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "a616669e89bb217f1b83de165d0153f3c32576c8794ada4dbc8aeb9e602d6700"
+      },
+      {
+        "file": "animation/weathered_satchel/open_023.png",
+        "source": "animation/weathered_satchel/open_023.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 1,
+        "bounds": [
+          503,
+          729,
+          1033,
+          1373
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "49c10da4c1c5fb74b7b940ae7b797b5b2cf8c267b0dcb29ad82927ba6247eff9"
+      }
+    ],
+    "reverse": "Use frames in reverse for closing; gameplay controls presentation duration."
+  },
+  {
+    "id": "burial_coffin_open",
+    "asset": "burial_coffin",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "frames": [
+      {
+        "file": "animation/burial_coffin/open_000.png",
+        "source": "animation/burial_coffin/open_000.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0,
+        "bounds": [
+          364,
+          828,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "90d177480346a17bb75652bc865d6d0334980888eaa5bc8b704357d38e230a2f"
+      },
+      {
+        "file": "animation/burial_coffin/open_001.png",
+        "source": "animation/burial_coffin/open_001.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.005506698446617901,
+        "bounds": [
+          364,
+          828,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "6e7661c9b891046ed56f18e836e14c4aaf5ad34634305f82ce8753eee936013f"
+      },
+      {
+        "file": "animation/burial_coffin/open_002.png",
+        "source": "animation/burial_coffin/open_002.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.021369277554039615,
+        "bounds": [
+          364,
+          825,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "7e892b381a6bdb948b13ccb4cb958531dc20e10280904f861b97a324e2f01fbf"
+      },
+      {
+        "file": "animation/burial_coffin/open_003.png",
+        "source": "animation/burial_coffin/open_003.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.04660146297361716,
+        "bounds": [
+          364,
+          822,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d298750c93e8c36d986ec0f99b375377c6a6eca0dbed111054eb539e2a071bb3"
+      },
+      {
+        "file": "animation/burial_coffin/open_004.png",
+        "source": "animation/burial_coffin/open_004.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.08021698035670255,
+        "bounds": [
+          364,
+          817,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "dac971a6e3c56283d79f905292a5ee6426b10b6622923b7b87ed5e1a80a8547e"
+      },
+      {
+        "file": "animation/burial_coffin/open_005.png",
+        "source": "animation/burial_coffin/open_005.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.12122955535464781,
+        "bounds": [
+          364,
+          812,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "bb617014a971c2e632473a73d51bfcef4f230ca22acfb11de1532e8a274724c3"
+      },
+      {
+        "file": "animation/burial_coffin/open_006.png",
+        "source": "animation/burial_coffin/open_006.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.16865291361880494,
+        "bounds": [
+          364,
+          805,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "7097819a5e182e3d632007a34404ec62a85d005581f8f9b619b9fb584cbee12d"
+      },
+      {
+        "file": "animation/burial_coffin/open_007.png",
+        "source": "animation/burial_coffin/open_007.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.22150078080052604,
+        "bounds": [
+          364,
+          798,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "2c609b33a2e3431217a1d38f8fa91b725f2aa07e6b0d6a7411966037ea534b88"
+      },
+      {
+        "file": "animation/burial_coffin/open_008.png",
+        "source": "animation/burial_coffin/open_008.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.27878688255116296,
+        "bounds": [
+          364,
+          790,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "7c1b8a2204b25e01b6c2d4cd6cd6dc55ccf716c1e400e5161ddf66a0fc9fa100"
+      },
+      {
+        "file": "animation/burial_coffin/open_009.png",
+        "source": "animation/burial_coffin/open_009.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.33952494452206794,
+        "bounds": [
+          364,
+          767,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "2e683d033bf62b3e683f881dec72e0ee5daa4348cbfc2836cc5a16c4cd4d9c8e"
+      },
+      {
+        "file": "animation/burial_coffin/open_010.png",
+        "source": "animation/burial_coffin/open_010.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.4027286923645928,
+        "bounds": [
+          364,
+          743,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "89401e89400e118fc09a8f22098d0cbf735eae2ed2dfba76c94278b5595e9698"
+      },
+      {
+        "file": "animation/burial_coffin/open_011.png",
+        "source": "animation/burial_coffin/open_011.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.46741185173008964,
+        "bounds": [
+          364,
+          719,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "6fbcf963ffc24a221dbf6f4d006ebfa64ece6e307b095262b2f58b83331867e2"
+      },
+      {
+        "file": "animation/burial_coffin/open_012.png",
+        "source": "animation/burial_coffin/open_012.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5325881482699104,
+        "bounds": [
+          364,
+          697,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "08bfcdbbabd7dec9e96688bc96d6a3bf9446a5b1c3d3430135e9828732984a57"
+      },
+      {
+        "file": "animation/burial_coffin/open_013.png",
+        "source": "animation/burial_coffin/open_013.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5972713076354071,
+        "bounds": [
+          364,
+          676,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "0ea7627bd34260f66b184044c6f4274aa4c0555f7cf656d98df39f12f5538267"
+      },
+      {
+        "file": "animation/burial_coffin/open_014.png",
+        "source": "animation/burial_coffin/open_014.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.6604750554779322,
+        "bounds": [
+          364,
+          658,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "b5d7ad2cdc2708d046c958dcd2962a69c76bd8933e044b2847d5bd68c50bd09f"
+      },
+      {
+        "file": "animation/burial_coffin/open_015.png",
+        "source": "animation/burial_coffin/open_015.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.721213117448837,
+        "bounds": [
+          364,
+          642,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "4009065e6b740dc80a30f3124ae0412e848313dd7d1fd9792c22143d7b7f82e9"
+      },
+      {
+        "file": "animation/burial_coffin/open_016.png",
+        "source": "animation/burial_coffin/open_016.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.778499219199474,
+        "bounds": [
+          364,
+          629,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "553847368383e4d8a3f7783b6934f3eafbcd503953ab92025afce2699fe4a2fb"
+      },
+      {
+        "file": "animation/burial_coffin/open_017.png",
+        "source": "animation/burial_coffin/open_017.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8313470863811949,
+        "bounds": [
+          364,
+          619,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "045c5c7902d3ab93cd47ddc67d090450786bdf7ea5e9cb53564b401bde7eac64"
+      },
+      {
+        "file": "animation/burial_coffin/open_018.png",
+        "source": "animation/burial_coffin/open_018.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8787704446453523,
+        "bounds": [
+          364,
+          611,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "6facba6b24c865d6595396fcc61dbac5c8769c7387dc87eef804f3869bfb8604"
+      },
+      {
+        "file": "animation/burial_coffin/open_019.png",
+        "source": "animation/burial_coffin/open_019.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9197830196432973,
+        "bounds": [
+          364,
+          605,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "89ee046c7dcc3a569247bf10ddcf84e928bff5581faf133cbd5ae53ab9eea74c"
+      },
+      {
+        "file": "animation/burial_coffin/open_020.png",
+        "source": "animation/burial_coffin/open_020.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9533985370263829,
+        "bounds": [
+          364,
+          599,
+          1172,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "3700585ee473bfd866db2a2b06037c7b117189ffa2f44456d715b063bdbae5aa"
+      },
+      {
+        "file": "animation/burial_coffin/open_021.png",
+        "source": "animation/burial_coffin/open_021.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9786307224459603,
+        "bounds": [
+          364,
+          596,
+          1175,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "038d73a9bab1d08c0f5199f9bfb086eb47c7d7c36b6d364548c7d907e88dab50"
+      },
+      {
+        "file": "animation/burial_coffin/open_022.png",
+        "source": "animation/burial_coffin/open_022.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9944933015533821,
+        "bounds": [
+          364,
+          594,
+          1178,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "95c2638ed2a439d8362774a5bca51e03ae36beb6462bddec12664a7baee160bd"
+      },
+      {
+        "file": "animation/burial_coffin/open_023.png",
+        "source": "animation/burial_coffin/open_023.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 1,
+        "bounds": [
+          364,
+          593,
+          1179,
+          1453
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "0720a8cc173f76fa3ca7e4bb21a95999305b08998307ca02473fd49a19d235a7"
+      }
+    ],
+    "reverse": "Use frames in reverse for closing; gameplay controls presentation duration."
+  },
+  {
+    "id": "bowed_apothecary_cabinet_open",
+    "asset": "bowed_apothecary_cabinet",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "frames": [
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_000.png",
+        "source": "animation/bowed_apothecary_cabinet/open_000.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "1f2537f2c0e228a9ad64a038d6d5726e4f92a45a239a9d91fc9151c381c0d2ca"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_001.png",
+        "source": "animation/bowed_apothecary_cabinet/open_001.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.005506698446617901,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "6dc2beb5d566d85070c87889f323b4f490b2330d368f09c0b9239433eca12ad7"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_002.png",
+        "source": "animation/bowed_apothecary_cabinet/open_002.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.021369277554039615,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "64fb22f5f9ce28556fef3b91b9afca7e3ea28b319a36d8434a35931b92e5f820"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_003.png",
+        "source": "animation/bowed_apothecary_cabinet/open_003.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.04660146297361716,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d8bf4f02da2b98e00141ad3ae61d239b9072bd07edc981332b8b0afa1698462e"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_004.png",
+        "source": "animation/bowed_apothecary_cabinet/open_004.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.08021698035670255,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "1b7fb761afb746a8e43a0f75a6edfaba5690f9632c44e568bf3fcc08488da48d"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_005.png",
+        "source": "animation/bowed_apothecary_cabinet/open_005.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.12122955535464781,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "6f0203b9c2fb26a3166ff41d453ac8bede3d117971170046af692a037aeab347"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_006.png",
+        "source": "animation/bowed_apothecary_cabinet/open_006.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.16865291361880494,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d8a61833511f69f9ff3a41f553bcd42588847addce3c7494b654ed4d76cf132d"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_007.png",
+        "source": "animation/bowed_apothecary_cabinet/open_007.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.22150078080052604,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "bcf59ab82f496fd6c67e9e197fbf9afefe8182f34802e0cabbaaf891b515ce8e"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_008.png",
+        "source": "animation/bowed_apothecary_cabinet/open_008.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.27878688255116296,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "8d1271b8b0b779c9037cfb2adec2e5436b9ad297527656dbaff197ed502b9164"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_009.png",
+        "source": "animation/bowed_apothecary_cabinet/open_009.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.33952494452206794,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "92dde2f36e058726512966d2715f258eb8fa548186cbbdce6e0aa3b776671fdf"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_010.png",
+        "source": "animation/bowed_apothecary_cabinet/open_010.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.4027286923645928,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "f1105babfe595dae219c06d134011bffea4561ac82dc67417998bac5d3d37527"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_011.png",
+        "source": "animation/bowed_apothecary_cabinet/open_011.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.46741185173008964,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "1712750a7e05347e366c86a2a4042734ae8a38c3099c3391345bff81a6e7d21f"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_012.png",
+        "source": "animation/bowed_apothecary_cabinet/open_012.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5325881482699104,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "af3d7435a7fc9fc6b84af0354615281df9a138e54a2ec1a3d75e080bc8677374"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_013.png",
+        "source": "animation/bowed_apothecary_cabinet/open_013.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5972713076354071,
+        "bounds": [
+          478,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "e0b5f180d3b01a5979d2922cccc6fb7a9233449df5c3839ae108b2511cf3c202"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_014.png",
+        "source": "animation/bowed_apothecary_cabinet/open_014.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.6604750554779322,
+        "bounds": [
+          456,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "f590e417f29d5fb2082c22451e4068f450202accadd2bed67dfdc5ba113a9095"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_015.png",
+        "source": "animation/bowed_apothecary_cabinet/open_015.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.721213117448837,
+        "bounds": [
+          431,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "ea5c2694046af9ace7d906663649ec45890465230c53bfc835b02f9a5230ba05"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_016.png",
+        "source": "animation/bowed_apothecary_cabinet/open_016.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.778499219199474,
+        "bounds": [
+          409,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "4d370ab91633b7003402c28372b5f18d17e734ecc1ff0400b17be8724c5f3b27"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_017.png",
+        "source": "animation/bowed_apothecary_cabinet/open_017.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8313470863811949,
+        "bounds": [
+          390,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "32cacc80adf15286bbc987f072bff117969d8aa0c417509a2a3ff1cb941951d9"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_018.png",
+        "source": "animation/bowed_apothecary_cabinet/open_018.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8787704446453523,
+        "bounds": [
+          372,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "69985fc07e729874a8a41ba07933acadd107310ea2d0d02660f224f4b47f0ba6"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_019.png",
+        "source": "animation/bowed_apothecary_cabinet/open_019.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9197830196432973,
+        "bounds": [
+          358,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "da58cad60f477c535afab0bd64d69aa2bdc18af4d0b404013e9b478c0eabf1df"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_020.png",
+        "source": "animation/bowed_apothecary_cabinet/open_020.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9533985370263829,
+        "bounds": [
+          347,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "b3f9ea0f554d520d891deedbd14ba80074f799d467a1166fc2675f67d01d3adb"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_021.png",
+        "source": "animation/bowed_apothecary_cabinet/open_021.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9786307224459603,
+        "bounds": [
+          339,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "07b01a05fd4ad9b4748fe089d068327074ee95e676090356c031e95396d87d47"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_022.png",
+        "source": "animation/bowed_apothecary_cabinet/open_022.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9944933015533821,
+        "bounds": [
+          334,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d5dcabc9197039030b276b0df622f4323e18de3f9f2d39b5a3f7732355419b44"
+      },
+      {
+        "file": "animation/bowed_apothecary_cabinet/open_023.png",
+        "source": "animation/bowed_apothecary_cabinet/open_023.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 1,
+        "bounds": [
+          333,
+          493,
+          1058,
+          1387
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "e05562fa999d7007a4354a8639543f0185995d26e97beebf2142517e7f60110e"
+      }
+    ],
+    "reverse": "Use frames in reverse for closing; gameplay controls presentation duration."
+  },
+  {
+    "id": "curved_spice_drawer_open",
+    "asset": "curved_spice_drawer",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "frames": [
+      {
+        "file": "animation/curved_spice_drawer/open_000.png",
+        "source": "animation/curved_spice_drawer/open_000.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "4ce13ac64f13230c030406955799a710c77999ffe8821fea5ce9d2dc1fd855b1"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_001.png",
+        "source": "animation/curved_spice_drawer/open_001.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.005506698446617901,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "b7676bd3e64cf151763c759b83a130ad6d91fc8732d65bd7f583903a445b0756"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_002.png",
+        "source": "animation/curved_spice_drawer/open_002.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.021369277554039615,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "86e19761a354f8c3b1dc5a4cc8168d269065eafce69376952fdc9677044f75cd"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_003.png",
+        "source": "animation/curved_spice_drawer/open_003.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.04660146297361716,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d6365bce1f7bad276209ba810a88e5b7362b2b3baae4bef510dcc818cd459348"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_004.png",
+        "source": "animation/curved_spice_drawer/open_004.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.08021698035670255,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "2ac52b9a8b02223a47925f6b03cd4f79d7d0d9cefe4841b7059db54525362f26"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_005.png",
+        "source": "animation/curved_spice_drawer/open_005.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.12122955535464781,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "3c795f7dacc5d4bf249c27dd0d08ca3b01967688737e3deda552263b71394ccc"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_006.png",
+        "source": "animation/curved_spice_drawer/open_006.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.16865291361880494,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "09eb4c16b0a8a410173b19d0e61f3318e2eec0292fbad4d3ec8bbec770598063"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_007.png",
+        "source": "animation/curved_spice_drawer/open_007.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.22150078080052604,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "382a737de6f69b34b4c845949d74f164c8dc6576265a08ee3da905ee786930d7"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_008.png",
+        "source": "animation/curved_spice_drawer/open_008.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.27878688255116296,
+        "bounds": [
+          443,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "4ab4b06119f5466a493f8b5161b715170469ffe6671c0deb22df2bcc21c30f57"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_009.png",
+        "source": "animation/curved_spice_drawer/open_009.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.33952494452206794,
+        "bounds": [
+          437,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "9199fc9aacb776eddf22c47f3190fdcc38e31ce7d79069932460ae644dc4035e"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_010.png",
+        "source": "animation/curved_spice_drawer/open_010.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.4027286923645928,
+        "bounds": [
+          429,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "849c24ac5cb75e454faae7716113b43d8950532479cbb602c27984302f038820"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_011.png",
+        "source": "animation/curved_spice_drawer/open_011.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.46741185173008964,
+        "bounds": [
+          420,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "273e92549de6cdcabcaba65b722034781a6bc3376f12cacdd1046917365d8fb4"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_012.png",
+        "source": "animation/curved_spice_drawer/open_012.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5325881482699104,
+        "bounds": [
+          411,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "0374ae6839cdf185e774e3efae907aa7e8c1b3088dd280737dfb2a90eb635cac"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_013.png",
+        "source": "animation/curved_spice_drawer/open_013.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.5972713076354071,
+        "bounds": [
+          402,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "86c1c3e5bb23aed2beff229119d3ad6d52eb209b1e4e4255768f7549d382356d"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_014.png",
+        "source": "animation/curved_spice_drawer/open_014.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.6604750554779322,
+        "bounds": [
+          394,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "26faebab78e0eef1d6a0b725b5d7f1a25eead188fc011d4731421d6638135d84"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_015.png",
+        "source": "animation/curved_spice_drawer/open_015.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.721213117448837,
+        "bounds": [
+          385,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "03a48a011468716e299142b836a92ebff1e1e102c3b389eb1fe8c82cb68a5edd"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_016.png",
+        "source": "animation/curved_spice_drawer/open_016.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.778499219199474,
+        "bounds": [
+          377,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "51e5758822bc1037a5ccaa25edb2c58c331f2b33cd3193be97d220788547dc50"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_017.png",
+        "source": "animation/curved_spice_drawer/open_017.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8313470863811949,
+        "bounds": [
+          370,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "cf6a35e874e3504e7076d46f4a339d22f3533ba351e73cd5764c7d82f176e5dd"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_018.png",
+        "source": "animation/curved_spice_drawer/open_018.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.8787704446453523,
+        "bounds": [
+          364,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "eabd7fad891a9eeb593d219d4cc845149b60d5537e56bd5f8c5b2f988e77444e"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_019.png",
+        "source": "animation/curved_spice_drawer/open_019.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9197830196432973,
+        "bounds": [
+          358,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "cd2817e60d6e34734f89883665db7a5afd2c2f89bb1e269430ddf62546eea216"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_020.png",
+        "source": "animation/curved_spice_drawer/open_020.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9533985370263829,
+        "bounds": [
+          353,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "842ff68864b272772e5e057ad1855525b8435ca29ce159ed11a4167c8175219e"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_021.png",
+        "source": "animation/curved_spice_drawer/open_021.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9786307224459603,
+        "bounds": [
+          350,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "84525c78f16b1eeb8ebfa0e27ebc0457106be445760539efebe344c7dd6b1eaf"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_022.png",
+        "source": "animation/curved_spice_drawer/open_022.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 0.9944933015533821,
+        "bounds": [
+          348,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "d28941d2471a8be6cda000a91c1732e6c0f31a7890abf99b0349b97c0af264c3"
+      },
+      {
+        "file": "animation/curved_spice_drawer/open_023.png",
+        "source": "animation/curved_spice_drawer/open_023.svg",
+        "duration_ms": 41.666666666666664,
+        "normalized_progress": 1,
+        "bounds": [
+          347,
+          812,
+          1093,
+          1407
+        ],
+        "root": [
+          768,
+          1220
+        ],
+        "sha256": "5d3a0e2973d76ff5779597a9fcc2cd10e16dabf8bdaa756a8363d0edfd904b0c"
+      }
+    ],
+    "reverse": "Use frames in reverse for closing; gameplay controls presentation duration."
+  }
+]

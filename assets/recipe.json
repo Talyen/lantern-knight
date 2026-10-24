@@ -141,7 +141,9 @@
         "assets/library-artwork/sources-6.json",
         "assets/library-artwork/ui-artwork.json",
         "assets/library-artwork/ui-sources.json",
-        "assets/hero-cursor-sources.json"
+        "assets/hero-cursor-sources.json",
+        "assets/retained.json",
+        "tools/assets/selection.ts"
       ],
       "dependsOn": []
     },

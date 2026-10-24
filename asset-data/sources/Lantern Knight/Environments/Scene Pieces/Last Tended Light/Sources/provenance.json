@@ -1,0 +1,66 @@
+{
+  "tool": "built-in image_gen",
+  "requestedModel": "gpt-image-2.5 sunburst",
+  "modelRoutingExposed": false,
+  "sizeControlExposed": false,
+  "requestedResolution": "maximum supported native",
+  "canonicalStyle": "references/canon/clean-ink-style.prompt.txt",
+  "selected": [
+    {
+      "id": "marker",
+      "file": "marker-v1.png",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "nativeSha256": "3b686ed46b294a8caa412bbd16397842edaf575893a340ddc2deb663afbc9416"
+    },
+    {
+      "id": "fragments",
+      "file": "fragments-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "nativeSha256": "99f7b990bbc117d6cc074693ab83dbc02f8fa97aa9d4d2c1d6a4e3fd98364a1f"
+    },
+    {
+      "id": "roots",
+      "file": "roots-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "nativeSha256": "52c3ccd59a87cc3ddefd0255a909849e034dd34f502d6ce884e49640bc975ba9"
+    },
+    {
+      "id": "understory",
+      "file": "understory-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "nativeSha256": "13f23ed5da7ed865dc5c6cd33400cca04f4bce63a31b3cf4451c7433cf7ed66a"
+    },
+    {
+      "id": "woodland-near",
+      "file": "woodland-near-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "nativeSha256": "aeedd558c254d6ea9c1f99fbbb11e198226182cd190fcf636f93d74f5ba76822"
+    },
+    {
+      "id": "woodland-far",
+      "file": "woodland-far-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "nativeSha256": "213c77dd2303f0f7dc6c8cc29aa45084106c09c7ffdfc15626c713f39ee73a43"
+    }
+  ],
+  "originalsPreserved": true,
+  "alphaPreparation": "Reject generated low-alpha halo below .72 and restore solid core by .92; native RGB remains unchanged."
+}

@@ -1,0 +1,33 @@
+{
+  "theme": "forest_gathering",
+  "variant": "A",
+  "title": "Cold pine gathering",
+  "generation_method": "built-in image_gen fresh generation using original hero as style reference",
+  "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-4801d652-5635-4456-9383-3e4362119fe5.png",
+  "native_path": "/workspace/shared/lantern_cultist_samples_oct09/forest_gathering/A/native.png",
+  "prompt_path": "/workspace/shared/lantern_cultist_samples_oct09/forest_gathering/A/exact_prompt.txt",
+  "reference_path": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45
+  },
+  "camera_precision": "Prompt requested; exact numerical projection cannot be certified from generated image.",
+  "hypothetical_hero_height_px": 160,
+  "hero_baked_in": false,
+  "npcs_or_enemies_baked_in": false,
+  "water_present": false,
+  "native_unmodified": true,
+  "upscaled": false,
+  "edits_used": false,
+  "generation_attempts": 2,
+  "selected_attempt": 2,
+  "sha256": "db385d67c1cfacd779af034c204bec77df8dabe85bfab3bddf22ef3319ac0a3e",
+  "qa_notes": "Cool pine palette; especially broad clean combat routes and central stone grouping. Sparse residual tonal variation on bare earth.",
+  "retry_reason": "Initial generation had busier ground and foliage; one fresh generation simplified ground and grouped foliage."
+}

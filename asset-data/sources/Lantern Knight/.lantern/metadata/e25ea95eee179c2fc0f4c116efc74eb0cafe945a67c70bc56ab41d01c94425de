@@ -1,0 +1,9 @@
+Cracked Standing Mirror | Lantern Knight breakable
+
+15 generated animation cels, one committed break with impact/recoil, fracture, fall and settled endpoint. Runtime duration 2.210 seconds including initial, damaged and final holds. Play once, keep the last frame. No engine changes.
+
+Import frames at 768 x 640 RGBA, fixed pivot (384,480) measured from top-left; equivalent normalized bottom-left pivot (0.5,0.25). Disable automatic trim/rotation. Atlas is 4 columns x 4 rows, final slot empty. runtime.json is authoritative for timing and rectangle coordinates.
+
+States: intact = cel 1; damaged = cel 4; broken = cel 15. State PNGs are pixel-identical to those runtime cels. Preview GIF loops for convenient review only; production clip does not loop. MP4 is 60 fps with timing rounded by at most one frame.
+
+Source pages were drawn with built-in image generation, eight native cels per page; one source seam cel was omitted after review. Sources retain generation prompts and the visual style reference. Native source cels are approximately 444 px across; padded export is not a claim of additional native detail. Plaster bust continuation underwent an image-tool layout repair; export registration restores consistent base scale. All changes are image asset preparation, no engine modifications.

@@ -1,0 +1,15 @@
+{
+  "all_pngs_byte_identical": true,
+  "files": {
+    "urn_shatter_atlas.png": true,
+    "urn_debris.png": true,
+    "frames/urn_shatter_02.png": true,
+    "frames/urn_shatter_04.png": true,
+    "frames/urn_shatter_05.png": true,
+    "frames/urn_shatter_07.png": true,
+    "frames/urn_shatter_06.png": true,
+    "frames/urn_shatter_03.png": true,
+    "frames/urn_shatter_00.png": true,
+    "frames/urn_shatter_01.png": true
+  }
+}
