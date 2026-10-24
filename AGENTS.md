@@ -8,6 +8,8 @@ Start with the relevant [owner](docs/architecture.md#owners) or [guide](README.m
 
 # Visual interfaces
 
+Avoid taglines, avoid helper text, avoid secondary labels - if a screen needs them to make sense, fix the layout instead.
+
 For UI and layout work, apply [frontend design](.agents/skills/frontend-design/SKILL.md), inspect the [visual reference set](references/visual/README.md), and follow [product copy](docs/product-copy.md). Substantial visual changes require rendered before/after review under [verification](docs/verification.md#visual-acceptance); tests alone do not establish aesthetic quality. Keep user-approved references distinct from agent candidates.
 
 # Artwork and assets

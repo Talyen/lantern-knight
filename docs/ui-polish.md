@@ -1,5 +1,7 @@
 # Player interface polish
 
+Avoid taglines, avoid helper text, avoid secondary labels - if a screen needs them to make sense, fix the layout instead.
+
 ## Design study
 
 The first implementation milestone compares three inventory layouts before selecting a production shell: **A — The workbench** (centered), **B — The field pack** (right drawer), and **C — The open road** (split panels). All use the same existing artwork, sample contents, fixed 12 × 16 pack, and stable selected-item details. The mockups are a review artifact, not a shipping interface or gameplay implementation.

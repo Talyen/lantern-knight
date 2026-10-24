@@ -20,6 +20,7 @@ Preserve Clean INK art direction. For artwork or texture generation, editing, re
 
 ## Design principles
 
+- Avoid taglines, avoid helper text, avoid secondary labels - if a screen needs them to make sense, fix the layout instead.
 - Use typography to express hierarchy and character through intentional size, weight, spacing, and line length. Reuse the project's fonts unless a change is requested or justified by the brief. Keep body text readable; avoid decorative labels and arbitrary emphasis that add no information.
 - Let layout explain relationships and priorities. Borders, grouping, numbering, and labels should communicate something useful. Number content only when it represents a sequence. Avoid turning every element into an identical card.
 - Choose color and contrast for the screen's purpose and established palette. Gradients, accent colors, all-caps labels, and familiar visual styles are options, not compulsory defaults or prohibited treatments.

@@ -2,6 +2,8 @@
 
 Applies to Game, Dev Preview, the scene editor and design studies. Intentional lore and character voice remain intact. [Game design](game-design.md#opening-guidance) owns contextual gameplay guidance; [visual references](../references/visual/README.md) show the design targets.
 
+Avoid taglines, avoid helper text, avoid secondary labels - if a screen needs them to make sense, fix the layout instead.
+
 Every visible sentence must help someone identify something, decide, act or recover. Remove text with no concrete job. Before adding help, try a clearer action name, grouping or layout. Do not make users read a paragraph to understand an ordinary control.
 
 - Omit introductory panel descriptions, subtitles repeating headings, decorative category labels and idle reassurance.
