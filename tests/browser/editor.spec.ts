@@ -645,13 +645,15 @@ test('editor asset and ground filters preserve selections through edits and undo
 }) => {
   await openEditor(page, '/editor.html');
   await page.locator('#artwork-tab').click();
-  await page.locator('#search').fill('library-ct01');
+  const backpack =
+    'library-animation-037d84d322adba8e-ffa5b716b5a5-a-closed-travel-backpack-native';
+  await page.locator('#search').fill(backpack);
   await expect(page.locator('#assets .asset')).toHaveCount(1);
   await page.locator('#art-filters > summary').click();
   await page.locator('#asset-scope').selectOption('used');
   await expect(page.locator('#assets .asset')).toHaveCount(0);
   await page.locator('#asset-scope').selectOption('all');
-  await page.locator('#search').fill('library-pilgrim_chest');
+  await page.locator('#search').fill(backpack);
   await expect(page.locator('#assets .asset')).toHaveCount(1);
   await page.locator('#assets .asset').click();
   await page.locator('#viewport').click({ position: { x: 300, y: 280 } });

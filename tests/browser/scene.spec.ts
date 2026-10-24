@@ -218,18 +218,21 @@ test('workspace reset requires confirmation and clears preview experiments', asy
 test('shared asset browser includes library enemies, separates poses and filters references', async ({
   page,
 }) => {
+  const backpack =
+    'library-animation-037d84d322adba8e-ffa5b716b5a5-a-closed-travel-backpack-native';
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Animation', exact: true }).click();
-  await expect(page.locator('#asset option[value="library-ct01"]')).toHaveCount(1, {
+  await expect(page.locator('#asset option[value="library-sk01"]')).toHaveCount(1, {
     timeout: 30_000,
   });
   await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(0);
-  await page.locator('#asset').selectOption('library-ct01');
+  // Preview artwork outside the fixture so switching away proves lab disposal.
+  await page.locator('#asset').selectOption(backpack);
   // Decode/upload can outlast the default 5 s assertion window on CI software rendering.
   await expectPageValue(page, () => window.foundation.presentation.labAsset, {
     timeout: 30_000,
-  }).toBe('library-ct01');
+  }).toBe(backpack);
   expect(
     await page.evaluate(() => {
       const p = window.foundation.presentation;
@@ -245,8 +248,12 @@ test('shared asset browser includes library enemies, separates poses and filters
   );
   await page.getByText('Asset filters', { exact: true }).click();
   await page.locator('#asset-scope').selectOption('used');
-  await expect(page.locator('#asset option[value="library-ct01"]')).toHaveCount(0);
+  await expect(page.locator('#asset option[value="library-sk01"]')).toHaveCount(1);
+  await page.locator('#asset-search').fill(backpack);
+  await expect(page.locator('#asset option')).toHaveCount(0);
   await page.locator('#asset-scope').selectOption('all');
+  await expect(page.locator('#asset option')).toHaveCount(1);
+  await page.locator('#asset-search').fill('');
   await page.locator('#asset-animated').uncheck();
   await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(1);
   await page.locator('#asset').selectOption('ink-stage-earth');
@@ -254,13 +261,13 @@ test('shared asset browser includes library enemies, separates poses and filters
     timeout: 30_000,
   }).toBe('ink-stage-earth');
   await expect(page.locator('#clip optgroup[label="Still poses"] option')).toHaveCount(1);
-  expect(await page.evaluate(() => window.foundation.presentation.packs.has('library-ct01'))).toBe(
+  expect(await page.evaluate((id) => window.foundation.presentation.packs.has(id), backpack)).toBe(
     false,
   );
-  await page.locator('#asset-search').fill('library-loot_pickup');
+  await page.locator('#asset-search').fill('library-neutral_contact_snap');
   await expect(page.locator('#asset option')).toHaveCount(1);
-  await page.locator('#asset').selectOption('library-loot_pickup');
+  await page.locator('#asset').selectOption('library-neutral_contact_snap');
   await expectPageValue(page, () => window.foundation.presentation.labAsset, {
     timeout: 30_000,
-  }).toBe('library-loot_pickup');
+  }).toBe('library-neutral_contact_snap');
 });
