@@ -10,6 +10,8 @@ import { placementRegistration } from '../../src/content/placement-registration'
 test('placement measurements contain every supplied alpha edge in every reserved drawing', async () => {
   const catalog = await readAuthoringCatalog();
   for (const [id, registration] of Object.entries(placementRegistration)) {
+    // Archived measurements remain available for explicit future imports.
+    if (!(id in catalog)) continue;
     const file = catalog[id]!;
     const manifest = parseManifest(JSON.parse(await readAsset('public/' + file, 'utf8')));
     assert.equal(

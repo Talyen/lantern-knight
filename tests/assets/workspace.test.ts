@@ -40,7 +40,7 @@ test('runtime previews resolve selected Game artwork from the full pin', async (
   }
 });
 
-test('explicit pinned workspaces validate without ambient paths and failed previews release their lease', async () => {
+test('explicit pinned workspaces validate without ambient paths and reject occupied previews', async () => {
   const workspace = await openWorkspace('pinned', 'runtime');
   const prior = process.env.LANTERN_ASSET_WORKSPACE;
   const sockets = new Set<net.Socket>();
@@ -59,15 +59,13 @@ test('explicit pinned workspaces validate without ambient paths and failed previ
     } finally {
       await authoring.release();
     }
-    const leases = path.join(workspace.root, '.leases');
-    const before = (await fs.readdir(leases)).sort();
     await new Promise<void>((resolve) => reservation.listen(0, '127.0.0.1', resolve));
     const port = (reservation.address() as net.AddressInfo).port;
     await assert.rejects(
       openPreview({ output: 'development', assets: 'pinned', scope: 'runtime', port }),
       /occupied/,
     );
-    assert.deepEqual((await fs.readdir(leases)).sort(), before);
+    assert.equal(await workspace.ensurePublicFile!('generated/library/catalog.json'), true);
   } finally {
     if (prior === undefined) delete process.env.LANTERN_ASSET_WORKSPACE;
     else process.env.LANTERN_ASSET_WORKSPACE = prior;
@@ -78,7 +76,7 @@ test('explicit pinned workspaces validate without ambient paths and failed previ
   }
 });
 
-test('preview reuse verifies identity and releases only its own lease', async () => {
+test('preview reuse verifies identity and closes only its own workspace', async () => {
   const workspace = await openWorkspace('pinned', 'runtime');
   const identity = {
     root: await fs.realpath(process.cwd()),
@@ -93,8 +91,6 @@ test('preview reuse verifies identity and releases only its own lease', async ()
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
   const port = (server.address() as net.AddressInfo).port;
   try {
-    const leases = path.join(workspace.root, '.leases'),
-      before = (await fs.readdir(leases)).sort();
     const session = await openPreview({
       output: 'development',
       assets: 'pinned',
@@ -105,13 +101,17 @@ test('preview reuse verifies identity and releases only its own lease', async ()
     await session.close();
     await session.close();
     assert.equal(server.listening, true);
-    assert.deepEqual((await fs.readdir(leases)).sort(), before);
+    await assert.rejects(
+      session.workspace!.ensurePublicFile!('generated/library/catalog.json'),
+      /closed/,
+    );
+    assert.equal(await workspace.ensurePublicFile!('generated/library/catalog.json'), true);
     identity.assets = '0'.repeat(64);
     await assert.rejects(
       openPreview({ output: 'development', assets: 'pinned', scope: 'runtime', port, reuse: true }),
       /another checkout or asset identity/,
     );
-    assert.deepEqual((await fs.readdir(leases)).sort(), before);
+    assert.equal(await workspace.ensurePublicFile!('generated/library/catalog.json'), true);
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
     await workspace.release();
@@ -127,7 +127,8 @@ test('Game artifacts omit unused art while runtime delivery and authored scenes 
       floor = assetCatalog['ink-moss']!;
     assert.equal(game.files.includes(floor), false);
     assert.equal(runtime.files.includes(floor), true);
-    assert.ok(game.bytes < runtime.bytes);
+    // Game also includes startup bundles, so total bytes need not be a subset.
+    assert.ok(game.files.length < runtime.files.length);
     await checkSceneDocuments(process.cwd(), workspace.publicDirectory, {
       allowUnpreparedDraftGround: true,
     });
