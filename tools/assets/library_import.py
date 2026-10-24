@@ -1771,6 +1771,14 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None, retai
                 # or intentionally excluded. Unregistered packages need review.
                 reason = "unregistered-needs-classification"
             importer.dispositions.append({"path": relative, "status": reason})
+        if inventory and retained_assets is not None:
+            # Packages retain every original, while prepared image coverage and
+            # editor artwork links describe only the selected catalog.
+            for image in inventory["images"]:
+                image["assets"] = [a for a in image["assets"] if a in retained_assets]
+            inventory["images"] = [image for image in inventory["images"] if image["assets"]]
+            for record in inventory["files"]:
+                record["assets"] = [a for a in record["assets"] if a in retained_assets]
         return {
             "schemaVersion": 1,
             "assets": [asset for asset in importer.assets.values() if retained_assets is None or asset["id"] in retained_assets],

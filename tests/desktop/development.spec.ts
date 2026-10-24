@@ -25,9 +25,10 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
   const port = (reservation.address() as net.AddressInfo).port;
   await new Promise<void>((resolve) => reservation.close(() => resolve()));
   try {
-    for (const directory of ['src', 'electron', 'tools', 'authoring', 'assets'])
+    for (const directory of ['src', 'electron', 'tools', 'authoring', 'assets', 'asset-data'])
       await fs.cp(path.join(projectRoot, directory), path.join(root, directory), {
         recursive: true,
+        mode: constants.COPYFILE_FICLONE,
       });
     for (const file of [
       'package.json',

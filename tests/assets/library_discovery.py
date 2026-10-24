@@ -21,6 +21,31 @@ from source_members import metadata_file
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_retained_catalog_projects_image_coverage_without_discarding_originals(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary).resolve()
+            for name, color in [("used", "red"), ("unused", "blue")]:
+                Image.new("RGBA", (8, 8), color).save(root / (name + ".png"))
+            original = {"libraryDirectory": "Test", "archives": {}, "files": {}, "prefixes": {}}
+            index, inventory = discover(root, original)
+            complete = build(root, [], index, inventory=inventory, index_path=root / "index.json")
+            selected = next(
+                image["assets"][0] for image in inventory["images"] if image["path"] == "used.png"
+            )
+            self.assertEqual(len(complete["assets"]), 2)
+            index, inventory = discover(root, original)
+            result = build(
+                root, [], index, inventory=inventory, index_path=root / "index.json",
+                retained_assets={selected},
+            )
+            self.assertEqual([asset["id"] for asset in result["assets"]], [selected])
+            self.assertEqual(len(result["inventory"]["images"]), 1)
+            self.assertEqual(result["inventory"]["images"][0]["assets"], [selected])
+            records = {record["path"]: record for record in result["inventory"]["files"]}
+            self.assertEqual(records["used.png"]["assets"], [selected])
+            self.assertEqual(records["unused.png"]["assets"], [])
+            self.assertTrue((root / "unused.png").is_file())
+
     def test_metadata_companions_bind_only_identical_successfully_imported_contracts(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary).resolve()
