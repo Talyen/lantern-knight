@@ -1,0 +1,18 @@
+LANTERN KNIGHT / PORTABLE SOURCE REBUILD
+
+This package contains the current native source artwork for all 12 new items, the shared generated glint source, item sizing data and a complete rebuild script. All required inputs are inside this folder. No generation prompt files are required.
+
+1. Extract the ZIP while preserving its folder structure.
+2. Install Python 3, Pillow, NumPy, SciPy and ffmpeg if not already available.
+3. Open a terminal in the extracted LanternKnight_Items_O folder and run:
+   python build_expansion.py
+
+The script creates items/<item_id>/icons with five icon renditions. Six animated items also produce runtime folders containing all individual pose, drop, idle and shimmer PNGs, packed atlases and complete animation metadata. The delivery folder receives inspection and actual-scale boards, a GIF and an MP4.
+
+Artwork is reused from the supplied sources. No network connection, image-generation service or credentials are needed for the rebuild. Source images remain untouched. Runtime processing extracts complete alpha components, registers cels, downsamples proportionally and composites the supplied neutral glint.
+
+Use one shared inventory multiplier. The 512px inventory canvas uses 2 pixels per reference centimeter; 256px thumbnails are exact half-scale. Detail images are inspection-only. The six ground-drop sprites have a documented separate world-scale multiplier of 1.5 pixels per reference centimeter.
+
+Each drop is a 0.8-second one-shot at 30 fps, followed by a 2-second idle loop. The idle item stays fixed; only a small glint changes. The final drop, rest, first idle and last idle images are identical.
+
+The loose Drive animation folders contain packed atlases, a rest image and atlas-based metadata. Their JSON does not require missing loose frame files. Use this rebuild package to obtain every individual frame. No Unity integration or engine runtime testing has been performed.

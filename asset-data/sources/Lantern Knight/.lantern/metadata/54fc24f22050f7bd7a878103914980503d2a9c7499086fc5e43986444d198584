@@ -1,0 +1,393 @@
+{
+  "clip_id": "Lantern_Hero_selfheal_loop_R_v01",
+  "family": "selfheal_loop",
+  "facing": "R",
+  "producer": "animate_healing_interaction_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+  "equipment_contract": "Sword right, lantern left continuously held. No healing mechanics implied.",
+  "timing_source": "Original DR selfheal timing",
+  "source_timing": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "timebase_hz": 60,
+  "loop": true,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "c283e59125c09b19061f07fb5587e9863c43ab707cdaddcafc40269caf432749",
+      "native_size_px": [
+        627,
+        564
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "1c02d18cd89c36e8a0927e18f3d25fb982e2df15b3dd1f829326608359ed24da",
+      "source_sha256": "9588c7df4851c8bd41392db27663c177df6835ed654c4b7e9f84940603b4aec5",
+      "crop_xyxy": [
+        627,
+        690,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        26,
+        154
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          498,
+          492
+        ],
+        "observation_xy": [
+          159,
+          177
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 0,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        26,
+        154,
+        357,
+        470
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "6b48fb7c4c3d4fe129e60d3c3c251619c862834a4b6267e591cdd37744b9a88a",
+      "native_size_px": [
+        443,
+        444
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "bf991c839c096908e6afd3feca37f4923221fda399cc111d559b29107254814f",
+      "source_sha256": "93fa37792fc82627950d3a702b40f3cbd4fecf7aa3305dc6336b23f4a03b3209",
+      "crop_xyxy": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        79,
+        175
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          343,
+          386
+        ],
+        "observation_xy": [
+          355,
+          194
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 15,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        79,
+        188,
+        370,
+        468
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "035d5b9bf3f9fdb8a25baace3d50ae076d02b9d17e631bed0f612ca9f0199a63",
+      "native_size_px": [
+        443,
+        444
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "7a8baf8fb8e91da902391c4bf427ceb789a46f68453de62710f76059770c8e87",
+      "source_sha256": "93fa37792fc82627950d3a702b40f3cbd4fecf7aa3305dc6336b23f4a03b3209",
+      "crop_xyxy": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        65,
+        174
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          363,
+          388
+        ],
+        "observation_xy": [
+          564,
+          195
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 30,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        67,
+        189,
+        356,
+        466
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "9b17ed7457c6bb2ea53b960e192f33ffeb28f323cc78d3902c81e6e516c5b74e",
+      "native_size_px": [
+        444,
+        444
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "deb5d0d9803aeeb57e231ccb6a301fd8bbac09bf043245965b96971616cf64f9",
+      "source_sha256": "93fa37792fc82627950d3a702b40f3cbd4fecf7aa3305dc6336b23f4a03b3209",
+      "crop_xyxy": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        63,
+        174
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          366,
+          388
+        ],
+        "observation_xy": [
+          765,
+          195
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 45,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        71,
+        189,
+        342,
+        467
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "421dc9afeb5516db083a77030922d46a0733944727d15b0898647796942c5091",
+      "native_size_px": [
+        444,
+        443
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "1c8bdb66035e378bb35de93856f718b0116f7f5e071e003a0ae42db0db0072dc",
+      "source_sha256": "93fa37792fc82627950d3a702b40f3cbd4fecf7aa3305dc6336b23f4a03b3209",
+      "crop_xyxy": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        66,
+        176
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          362,
+          385
+        ],
+        "observation_xy": [
+          963,
+          194
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 60,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        93,
+        181,
+        335,
+        468
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "e2853d56ab63c59b3c87aa085dbbcf91346b43aec6ede8ce1caeefbac6cdd56d",
+      "native_size_px": [
+        443,
+        443
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "4048941e1b05984561d57ac2f541006dc4d6abf209522f78a1bcf1375a626104",
+      "source_sha256": "93fa37792fc82627950d3a702b40f3cbd4fecf7aa3305dc6336b23f4a03b3209",
+      "crop_xyxy": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        80,
+        176
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          341,
+          385
+        ],
+        "observation_xy": [
+          1154,
+          194
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 75,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        93,
+        184,
+        362,
+        468
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "8ab91949325ff139595d5e66e0d40024d21e6df991576283168d7df453ba622e",
+      "native_size_px": [
+        443,
+        443
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "8082b8f1c283ca12e14bf9c3b242da677231c3e2b9287c9f163b7384afb81e8f",
+      "source_sha256": "93fa37792fc82627950d3a702b40f3cbd4fecf7aa3305dc6336b23f4a03b3209",
+      "crop_xyxy": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "uniform_scale": 0.66,
+      "translation_xy": [
+        71,
+        176
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          354,
+          385
+        ],
+        "observation_xy": [
+          1360,
+          194
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 90,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        85,
+        183,
+        340,
+        468
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/00.png",
+      "native_sha256": "c283e59125c09b19061f07fb5587e9863c43ab707cdaddcafc40269caf432749",
+      "native_size_px": [
+        627,
+        564
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "1c02d18cd89c36e8a0927e18f3d25fb982e2df15b3dd1f829326608359ed24da",
+      "source_sha256": "9588c7df4851c8bd41392db27663c177df6835ed654c4b7e9f84940603b4aec5",
+      "crop_xyxy": [
+        627,
+        690,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.56,
+      "translation_xy": [
+        26,
+        154
+      ],
+      "observed_anchors": {
+        "manual_forward_support_boot_xy": [
+          498,
+          492
+        ],
+        "observation_xy": [
+          1559,
+          177
+        ]
+      },
+      "registration_note": "Manual forward planted boot with shared exact boundary transforms. Entry/exit0.56, loop0.66 uniform sheet density comparison using head/upper-arm widths; preserves all intentional kneel depth and rise. Exit row545 excludes neighbor crown and restores lower pose head.",
+      "equipment_state": "Sword anatomical right, box lantern left continuously held.",
+      "start_tick": 105,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        26,
+        154,
+        357,
+        470
+      ]
+    }
+  ],
+  "native_drawn_cels": 7,
+  "timeline_frame_count": 8,
+  "duration_ticks": 120,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "2710f70154b738bfe61099112f854127dccd3c2c750268436f650f87725fb602"
+  }
+}

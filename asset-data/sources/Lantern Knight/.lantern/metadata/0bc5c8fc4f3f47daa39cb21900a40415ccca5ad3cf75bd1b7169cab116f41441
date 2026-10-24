@@ -1,0 +1,274 @@
+[
+  {
+    "asset_id": "arch_crypt_door_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_crypt_door_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_crypt_door_01.png",
+    "sha256": "9f9c32cb2179b0d277a6cbd1401b44ad9fd652c175337a48e9feb02caa8db2d0",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_crypt_door_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      34,
+      1010,
+      1512
+    ],
+    "alpha_bounds_ge128": [
+      175,
+      38,
+      865,
+      1507
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98105,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-991cba48-073d-45ef-ad8d-1bc0a4b15b52.png"
+  },
+  {
+    "asset_id": "arch_gothic_wall_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_gothic_wall_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_gothic_wall_01.png",
+    "sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_gothic_wall_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      102,
+      1475,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      82,
+      105,
+      1472,
+      965
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98323,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-b5dee0ad-f8f4-4a26-a21f-0f8360abba45.png"
+  },
+  {
+    "asset_id": "arch_iron_fence_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_iron_fence_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_iron_fence_01.png",
+    "sha256": "afa30981d1373cdea78ebe3da36b64e6e0021d9aa31ea9dd5fc9912d3fb065c3",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_iron_fence_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      14,
+      1486,
+      1010
+    ],
+    "alpha_bounds_ge128": [
+      261,
+      17,
+      1304,
+      1007
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.86716,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-53e6c2df-de68-4676-8c4f-f717cf610256.png"
+  },
+  {
+    "asset_id": "arch_pointed_arch_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_pointed_arch_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_pointed_arch_01.png",
+    "sha256": "47d9662cfba04e16241342bc5e9fb92a24d1cf913e51f38f3ffea5a47fae422f",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_pointed_arch_01.prompt.txt",
+    "size": [
+      1208,
+      1302
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      21,
+      1130,
+      1302
+    ],
+    "alpha_bounds_ge128": [
+      182,
+      29,
+      1037,
+      1269
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.95334,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-e9ef3cd8-ed0c-49c9-9eee-79b3aad20ae0.png"
+  },
+  {
+    "asset_id": "arch_square_pillar_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_square_pillar_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_square_pillar_01.png",
+    "sha256": "45f5b01af3064397a9ae557ffcaf3f460d245d9742b5f0f521ef9d6cb2d2da92",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_square_pillar_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      17,
+      938,
+      1513
+    ],
+    "alpha_bounds_ge128": [
+      240,
+      20,
+      784,
+      1510
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97124,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-61c2357c-5d86-45e8-aae2-4349f8f7f2b9.png"
+  },
+  {
+    "asset_id": "arch_stone_tomb_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_stone_tomb_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_stone_tomb_01.png",
+    "sha256": "056a4b200fda0aecbb70faa99e56da674ad841b758ee80bd93270249abf84348",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_stone_tomb_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      121,
+      35,
+      1439,
+      995
+    ],
+    "alpha_bounds_ge128": [
+      134,
+      64,
+      1433,
+      992
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98255,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-25390f27-16df-4966-b6cc-190bc792e9e5.png"
+  },
+  {
+    "asset_id": "arch_three_stairs_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_three_stairs_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_three_stairs_01.png",
+    "sha256": "629961d5fcfe049a552f7fc5ddab46d94bb1f2275ffe9f9e40ab6a91c784eca6",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_three_stairs_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      33,
+      1418,
+      994
+    ],
+    "alpha_bounds_ge128": [
+      223,
+      39,
+      1326,
+      991
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98314,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-497e009c-46a7-45d3-8cb7-88b8b83c0817.png"
+  },
+  {
+    "asset_id": "arch_wall_corner_01",
+    "pack": "volume_02_gothic",
+    "path": "assets/arch_wall_corner_01.png",
+    "original_path": "lantern_environment_candidates/volume_02_gothic/assets/arch_wall_corner_01.png",
+    "sha256": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/arch_wall_corner_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      46,
+      21,
+      1498,
+      991
+    ],
+    "alpha_bounds_ge128": [
+      49,
+      105,
+      1492,
+      973
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97864,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction approved by root; native alpha and light/dark + 180px checks inspected.",
+    "generation_source_id": "exec-cc3632f5-3e8a-42f6-af31-4dcb60622791.png"
+  }
+]

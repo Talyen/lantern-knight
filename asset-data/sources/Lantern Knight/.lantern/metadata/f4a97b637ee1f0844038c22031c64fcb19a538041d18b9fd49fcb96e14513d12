@@ -1,0 +1,191 @@
+{
+  "name": "05-gravekeeper-vigil-fire",
+  "version": 2,
+  "runtime_size": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    256,
+    466
+  ],
+  "fps_clock": 60,
+  "loop_ticks": 144,
+  "duration_seconds": 2.4,
+  "playback": "forward hold_60hz no blending",
+  "atlas_padding": 8,
+  "frames": [
+    {
+      "frame": 0,
+      "rect": [
+        8,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 1,
+      "rect": [
+        536,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 2,
+      "rect": [
+        1064,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 3,
+      "rect": [
+        1592,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 4,
+      "rect": [
+        8,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 5,
+      "rect": [
+        536,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 6,
+      "rect": [
+        1064,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 7,
+      "rect": [
+        1592,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 8,
+      "rect": [
+        8,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 9,
+      "rect": [
+        536,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 10,
+      "rect": [
+        1064,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 11,
+      "rect": [
+        1592,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 12,
+      "rect": [
+        8,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 13,
+      "rect": [
+        536,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 14,
+      "rect": [
+        1064,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    },
+    {
+      "frame": 15,
+      "rect": [
+        1592,
+        1592,
+        512,
+        512
+      ],
+      "hold_60hz": 9
+    }
+  ],
+  "representative_frame": 0,
+  "layer_order": [
+    "unlit.png",
+    "illumination_layers",
+    "rear_flame_layers (selective crossing-fuel occlusion already applied)",
+    "front_flame_layers (rim occlusion already applied)"
+  ],
+  "illumination": "Spatial warm RGB differences derived from new generated illumination reference, masked to original geometry and ink. Three region weights synchronized to measured illustrated flame-region energy.",
+  "blend": "normal straight-alpha, exact exported-layer recomposition",
+  "depth_revision": "Distinct original tongue regions split between rear and front, not duplicated; original rim preserved, selective individual fuel pieces occlude rear only.",
+  "seam_revision": "04/05 close original endpoint poses retained;06 four newly illustrated transition cels inserted and detached embers removed to avoid boundary respawn; localized lighting bridges continuously.",
+  "flame_layers_note": "Combined FX convenience export; authoritative exact normal-alpha path is unlit+illumination+rear+front, in that order."
+}

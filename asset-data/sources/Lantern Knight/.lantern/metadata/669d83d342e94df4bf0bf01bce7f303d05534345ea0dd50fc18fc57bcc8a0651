@@ -1,0 +1,51 @@
+{
+  "asset": "desecrated_chapel",
+  "variant": "C",
+  "label": "Crimson desecrated sanctuary",
+  "method": "built-in image_gen; fresh generation with original hero as art-style reference only",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-3b80799f-3049-4e91-a2b7-a8a5382ab0b5.png",
+  "reference_images": [
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "prompt_path": "/workspace/shared/lantern_next_scene_samples_oct09/chapel/C/exact_prompt.txt",
+  "intended_hero_height_pixels": 160,
+  "requested_projection": {
+    "type": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_validated": false
+  },
+  "hero_scale_validated_in_engine": false,
+  "hero_baked_in": false,
+  "scenery_throughout": "allowed; preserve open combat floor and readable routes",
+  "water_observed": false,
+  "sha256": "e64095f3d3480da79daaa2702004c16a475f44763ae2b4b7c64aa022af52d504",
+  "upscaled": false,
+  "edited": false,
+  "fresh_generation_attempt": 1,
+  "status": "native viewport sample ready for review; not full map or engine-ready layered asset",
+  "visual_review": {
+    "label": "Crimson desecrated sanctuary",
+    "strengths": [
+      "Dark charcoal masses, torn crimson hangings and ragged carpet create strongest ominous identity",
+      "Open aisle and offset pews provide readable routes",
+      "Broad quiet floor treatment and clean ink; no hero or water"
+    ],
+    "caveats": [
+      "Candles use soft amber gradients beyond literal three-flat-tone rendering",
+      "Floor is dark and could reduce contrast for dark enemy sprites",
+      "Altar is asymmetrically placed within frame but sanctuary still has strong axial composition"
+    ],
+    "suggested_hero_feet": [
+      727,
+      647
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+Pillow
+numpy
+scipy
+# ffmpeg executable required for preview

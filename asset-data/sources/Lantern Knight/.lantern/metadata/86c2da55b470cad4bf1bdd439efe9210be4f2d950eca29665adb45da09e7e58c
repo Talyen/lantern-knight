@@ -1,0 +1,138 @@
+{
+  "asset": "Clockwork Beetle / Clean Ink Revision 02",
+  "status": "Illustrated source and 2D cutout animation studies, all previous action roles retained. Not a calibrated drop-in 3D replacement.",
+  "camera_target": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "gameplay_vertical_span_m": 13,
+    "display_px": [
+      2560,
+      1440
+    ],
+    "accuracy": "target only; generated drawings have approximate perspective and approximate relative headings"
+  },
+  "views": [
+    "front three-quarter",
+    "right-facing oblique side study",
+    "rear-oblique study"
+  ],
+  "clips": [
+    {
+      "name": "idle",
+      "view": "front",
+      "source_frames": 48,
+      "source_fps": 30,
+      "duration_seconds": 1.6,
+      "loop": true,
+      "preview_fps": 60,
+      "animation_metadata": "animation/idle.json",
+      "atlas": "atlases/idle_384.png"
+    },
+    {
+      "name": "scuttle_front",
+      "view": "front",
+      "source_frames": 24,
+      "source_fps": 30,
+      "duration_seconds": 0.8,
+      "loop": true,
+      "preview_fps": 60,
+      "animation_metadata": "animation/scuttle_front.json",
+      "atlas": "atlases/scuttle_front_384.png"
+    },
+    {
+      "name": "mandible_attack",
+      "view": "front",
+      "source_frames": 30,
+      "source_fps": 30,
+      "duration_seconds": 1.0,
+      "loop": false,
+      "preview_fps": 60,
+      "animation_metadata": "animation/mandible_attack.json",
+      "atlas": "atlases/mandible_attack_384.png"
+    },
+    {
+      "name": "recoil",
+      "view": "front",
+      "source_frames": 24,
+      "source_fps": 30,
+      "duration_seconds": 0.8,
+      "loop": false,
+      "preview_fps": 60,
+      "animation_metadata": "animation/recoil.json",
+      "atlas": "atlases/recoil_384.png"
+    },
+    {
+      "name": "scuttle_side",
+      "view": "side",
+      "source_frames": 24,
+      "source_fps": 30,
+      "duration_seconds": 0.8,
+      "loop": true,
+      "preview_fps": 60,
+      "animation_metadata": "animation/scuttle_side.json",
+      "atlas": "atlases/scuttle_side_384.png"
+    },
+    {
+      "name": "scuttle_rear",
+      "view": "rear",
+      "source_frames": 24,
+      "source_fps": 30,
+      "duration_seconds": 0.8,
+      "loop": true,
+      "preview_fps": 60,
+      "animation_metadata": "animation/scuttle_rear.json",
+      "atlas": "atlases/scuttle_rear_384.png"
+    }
+  ],
+  "total_authored_frame_records": 174,
+  "source_frame_note": "Idle retraces a symmetric breathing arc; 26 distinct pixel images over 48 authored frame records. One-shot final frame deliberately returns to rest.",
+  "master_canvas": [
+    768,
+    768
+  ],
+  "ground_anchor_px": [
+    384,
+    520
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.3229166666666667
+  ],
+  "practical_review_width_px": 195,
+  "illustration_registration": "stable within each view; view-to-view shape volume and scale are approximate",
+  "alpha": "straight RGBA; RGB cleared wherever alpha is zero; no baked shadow",
+  "atlas_gutters_px": 4,
+  "rig": "Six 2D fixed-link chains per view. Source masks and joint overlap parts. Root stays fixed; planted-foot clips have zero contact displacement.",
+  "canonical_C_RUST_modified": false,
+  "canonical_reference_sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c",
+  "old_calibrated_source": "technical_reference",
+  "supersedes_visuals": [
+    "lantern_overnight/06_clockwork_beetle",
+    "lantern_overnight/07_clockwork_beetle_motion"
+  ],
+  "limitations": [
+    "New view drawings are not proved exact 0/135/225-degree model rotations.",
+    "No arbitrary orientation, lighting response, mesh collision, engine integration or runtime certification.",
+    "Scuttle is in-place and needs matched entity travel; suggested screen-space speed is in clip metadata.",
+    "Six-legged rig includes naturally hidden far legs; not every foot is visible in every view."
+  ],
+  "release_revision": "r02b",
+  "release_patch": "Repair jaw contour ownership, foreground shell occlusion, complete armor-plate ownership, rigid socket/shaft underlaps, and isolated source-segment scraps. All six clips and derived outputs rebuilt; original generated masters untouched.",
+  "source_dependencies": [
+    "Python 3",
+    "Pillow",
+    "NumPy",
+    "SciPy"
+  ],
+  "independent_review": {
+    "status": "pass_bounded_art_and_registration_repair_review",
+    "report": "qa/independent_review.txt",
+    "frames_reviewed_chronologically": 174,
+    "limitations": [
+      "No uninterrupted real-time playback certification",
+      "No engine FPS, collision or import certification",
+      "Illustrated viewpoints remain approximate"
+    ]
+  }
+}

@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "cave_dry_mineral_basin_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_dry_mineral_basin_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_dry_mineral_basin_01.png",
+    "sha256": "3144f1d54c15439d6f6266c672c459bd8f6e7927c58a8062a66643b306fc7652",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/cave_dry_mineral_basin_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      155,
+      96,
+      1436,
+      930
+    ],
+    "alpha_bounds_ge128": [
+      158,
+      99,
+      1432,
+      927
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98394,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "cave_fossil_rib_arc_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_fossil_rib_arc_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_fossil_rib_arc_01.png",
+    "sha256": "4b3298fe0a067d11d031728c30b942f70f6accd49586749ebd9cb64788c19ee8",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/cave_fossil_rib_arc_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      32,
+      1436,
+      959
+    ],
+    "alpha_bounds_ge128": [
+      286,
+      95,
+      1251,
+      953
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.93132,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "cave_fungal_fans_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_fungal_fans_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_fungal_fans_01.png",
+    "sha256": "4e76a58a1d0166f09dc3f8c2c95b3780bdd040060a877a85a6eec12d261d01b2",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/cave_fungal_fans_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      32,
+      1520,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      137,
+      139,
+      1402,
+      870
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.9725,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "cave_hanging_roots_02",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_hanging_roots_02.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_hanging_roots_02.png",
+    "sha256": "db58439ca19f73efa4ff26486a262b81726972a7b6d0d71270b9890c0ee2184d",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/cave_hanging_roots_02.prompt.txt",
+    "size": [
+      1428,
+      1102
+    ],
+    "alpha_bounds_nonzero": [
+      57,
+      96,
+      1342,
+      1076
+    ],
+    "alpha_bounds_ge128": [
+      247,
+      99,
+      1260,
+      1018
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.91107,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "cave_hollow_tube_colony_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_hollow_tube_colony_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_hollow_tube_colony_01.png",
+    "sha256": "d532198a2ca938bf1a376c26fbb69dfddbe5bb38ba1632ba69f5f5c816d3d78f",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/cave_hollow_tube_colony_01.prompt.txt",
+    "size": [
+      1374,
+      1145
+    ],
+    "alpha_bounds_nonzero": [
+      49,
+      112,
+      1346,
+      1145
+    ],
+    "alpha_bounds_ge128": [
+      194,
+      115,
+      1203,
+      1042
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97572,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "cave_limestone_stalagmite_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_limestone_stalagmite_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_limestone_stalagmite_01.png",
+    "sha256": "2e51ab301e31c6dd2b923238ffec4932c55ec7067e8eab529784f94f20319e4a",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/cave_limestone_stalagmite_01.prompt.txt",
+    "size": [
+      1145,
+      1374
+    ],
+    "alpha_bounds_nonzero": [
+      49,
+      37,
+      1050,
+      1322
+    ],
+    "alpha_bounds_ge128": [
+      131,
+      83,
+      1014,
+      1316
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.9805,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-724791b0-ebb5-4ba4-b9be-95cc63adc817.png"
+  },
+  {
+    "asset_id": "cave_silk_cocoon_nest_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_silk_cocoon_nest_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_silk_cocoon_nest_01.png",
+    "sha256": "07caa2d2cc40bf0dfc5460fadce85464ebc74334c04501c39888cee74dc22f64",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/cave_silk_cocoon_nest_01.prompt.txt",
+    "size": [
+      1402,
+      1122
+    ],
+    "alpha_bounds_nonzero": [
+      71,
+      21,
+      1291,
+      1122
+    ],
+    "alpha_bounds_ge128": [
+      205,
+      96,
+      1237,
+      997
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98132,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "cave_smoky_crystal_01",
+    "pack": "volume_07_cave",
+    "path": "assets/cave_smoky_crystal_01.png",
+    "original_path": "lantern_environment_candidates/volume_07_cave/assets/cave_smoky_crystal_01.png",
+    "sha256": "635eb6e774d28d7402826f220d6e03c7c00e4ff10643319ef63b07f196a15f49",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/cave_smoky_crystal_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      97,
+      117,
+      1248,
+      1175
+    ],
+    "alpha_bounds_ge128": [
+      172,
+      121,
+      1165,
+      1107
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.9794,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-5b2cb5bc-6d29-4823-b30c-b20a89e0b943.png"
+  }
+]

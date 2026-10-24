@@ -1,0 +1,92 @@
+{
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "raw_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "raw_model_scale": 4,
+  "display_scene_dimensions": [
+    3840,
+    2560
+  ],
+  "display_scale_from_source": 2.5,
+  "display_reduction_from_raw_ai": 0.625,
+  "hero_visible_height_in_context": 160,
+  "hero_source_equivalent_height": 64,
+  "hero_equivalent_height_on_raw_ai": 256,
+  "views": [
+    {
+      "name": "mausoleum_approach",
+      "display_crop_box": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "source_crop_box": [
+        0.0,
+        0.0,
+        614.4,
+        409.6
+      ],
+      "display_hero_foot": [
+        1000,
+        800
+      ],
+      "source_hero_foot": [
+        400.0,
+        320.0
+      ]
+    },
+    {
+      "name": "central_crossroads",
+      "display_crop_box": [
+        1150,
+        700,
+        2686,
+        1724
+      ],
+      "source_crop_box": [
+        460.0,
+        280.0,
+        1074.4,
+        689.6
+      ],
+      "display_hero_foot": [
+        1975,
+        1300
+      ],
+      "source_hero_foot": [
+        790.0,
+        520.0
+      ]
+    },
+    {
+      "name": "lower_courtyard",
+      "display_crop_box": [
+        300,
+        1425,
+        1836,
+        2449
+      ],
+      "source_crop_box": [
+        120.0,
+        570.0,
+        734.4,
+        979.6
+      ],
+      "display_hero_foot": [
+        1188,
+        1800
+      ],
+      "source_hero_foot": [
+        475.2,
+        720.0
+      ]
+    }
+  ],
+  "note": "Scenic scale previews only. Single original scene. Hero composited conventionally, not regenerated. Scenery is baked; collision/occlusion layers are not supplied. No engine or exact camera/world-extent validation."
+}

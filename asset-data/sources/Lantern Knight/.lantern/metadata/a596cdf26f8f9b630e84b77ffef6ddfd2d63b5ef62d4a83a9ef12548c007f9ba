@@ -1,0 +1,56 @@
+{
+  "neutral_contact_snap": {
+    "allFramesRGBA": true,
+    "sourceAlphaRange": [
+      0,
+      254
+    ],
+    "zeroHiddenRGB": true,
+    "finiteEndsTransparent": true,
+    "frameHashes": [
+      "8152dd314c61d33585f5cf48f361e4e1f2a49e2a5c23facb7af87c111f734b5a",
+      "00de306ff285b06cda46e3bdc3d566464750672d4821d80463f29f5050398e40",
+      "7f3f3e60217a90009014b674af4047fe5bde427f6333e03068abd94f6d1c45a6",
+      "03404e82616affb6f3a525e70ce25c234fdfe99700933ecc0942df7dd6ac2280",
+      "59229af061c0e0ac5f495c83ea4293883746949905313e7f04d00b6020902a1e",
+      "9075469602cff6838ad942766daedee5d86e77424a64e9b0e2ad88fc2330937a",
+      "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    ],
+    "allSixDrawingsUnique": true,
+    "minimumCanvasMarginPx": 102,
+    "atlasEveryCellExact": true,
+    "ffprobe": {
+      "width": 1024,
+      "height": 576,
+      "r_frame_rate": "60/1",
+      "nb_frames": "148"
+    }
+  },
+  "blocked_contact_shear": {
+    "allFramesRGBA": true,
+    "sourceAlphaRange": [
+      0,
+      254
+    ],
+    "zeroHiddenRGB": true,
+    "finiteEndsTransparent": true,
+    "frameHashes": [
+      "24f38dee70033b9d16bd453eaeac0b8fbff40cc354291519dbd1ed1da6594e74",
+      "3da59d99022271225661932965b830ead11a0af6faaa43cab514daa76831f80d",
+      "6c24647063445fd80215131a0d41203bb5445d7afa6c35cfba52c26ac0a03645",
+      "d64b6ebae09528fd0cd2de20615e53f90d4d1acf5dc342e4cccc4eaad2834517",
+      "2db4e231e97f20489d20444c4acac3115394681ad7bfda5fe42e08cb937332d8",
+      "deae0138d8179328d6b0f266dbe34d8bd777ca23cbc169925fa6ac2c659a7405",
+      "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    ],
+    "allSixDrawingsUnique": true,
+    "minimumCanvasMarginPx": 80,
+    "atlasEveryCellExact": true,
+    "ffprobe": {
+      "width": 1024,
+      "height": 576,
+      "r_frame_rate": "60/1",
+      "nb_frames": "160"
+    }
+  }
+}

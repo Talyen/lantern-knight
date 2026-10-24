@@ -1,0 +1,51 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_native.png",
+    "name": "rootwood_B_variant01_native.png",
+    "size": 2200301,
+    "sha256": "c01c8c865ae53f284140cceba1f71a0af4151ef641674ea05c778a3d61848c4a",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_AI4x_master_6144x4096.png",
+    "name": "rootwood_B_variant01_AI4x_master_6144x4096.png",
+    "size": 15299126,
+    "sha256": "b7625bca50e049292956963d9ba0b370365d5fd32a54b5910110e8132ea3ebe7",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_2x_3072x2048.png",
+    "name": "rootwood_B_variant01_2x_3072x2048.png",
+    "size": 4743397,
+    "sha256": "340e17632f5f97c0766b055c29ae5b7103bfc726ea4b8af6b4948f7bbcf0e327",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_overview.png",
+    "name": "rootwood_B_variant01_overview.png",
+    "size": 1565305,
+    "sha256": "3e84735f48eeb890ca73e6fa4607094a5dd1b5e9cb89d1c78c9f8022da0016c7",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_entry_hero160.png",
+    "name": "rootwood_B_variant01_entry_hero160.png",
+    "size": 1229053,
+    "sha256": "e57bb8b89a72e2c72aed9eff7431255ca7c63c5db3bc83fafa3fd691dde34577",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_middle_hero160.png",
+    "name": "rootwood_B_variant01_middle_hero160.png",
+    "size": 679183,
+    "sha256": "c10821b64cb4530e15d11a30863abb864c6fc0b74feb5de342105177c6b14f6b",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/rootwood_B_variant01/rootwood_B_variant01_far_hero160.png",
+    "name": "rootwood_B_variant01_far_hero160.png",
+    "size": 1092416,
+    "sha256": "ce1b4834c32bc59e5853ec7b6416973f73fb2014cc438b95876a2afba91d6996",
+    "library_artifact_type": "image"
+  }
+]

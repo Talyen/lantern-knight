@@ -1,0 +1,1677 @@
+{
+  "category": "Ritual_Relics",
+  "items": [
+    {
+      "id": "ash_choir_censer",
+      "label": "Ash-Choir Censer",
+      "category": "foci",
+      "reference_extent_cm": 34,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "dc83d955c503748e7caae02de142ddbec801732e7b9edeac919eb3ee6c97b449",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            234,
+            222,
+            277,
+            290
+          ],
+          "visible_extent": 68,
+          "source_resampling_factor": 0.05733558178752108,
+          "sha256": "cf553fdb1cd7f2643b9898e127f4037a25c9308bc29f88be5209ecb858c905ae",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            116,
+            111,
+            141,
+            146
+          ],
+          "visible_extent": 35,
+          "source_resampling_factor": 0.02866779089376054,
+          "sha256": "5a57f4394dd8c556327bfde53fedd655d30971bc616f8819417ac2fa7090cc27",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            113,
+            32,
+            399,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3777403035413153,
+          "sha256": "ebc272e7601c44efc7c421d2612912fc27a3162a84c1d538139ae13ed3155aa8",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            28,
+            8,
+            99,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09443507588532883,
+          "sha256": "00889504d7c5ac8a04c7d069ab15b24e3bda49e65c01d2248c3ba25b751163cb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            14,
+            4,
+            50,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.047217537942664416,
+          "sha256": "12aeccf13e9aa86d100bb67e939accdf57a6fca3c19e8b9b765ae9d65649a42c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            25,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.023608768971332208,
+          "sha256": "4f4e37a6e7ed0ed1e4a61da9a52dbeb8bd4f75465734fa6c430c11fff8204cbf",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            397,
+            273,
+            448
+          ],
+          "visible_extent": 51,
+          "source_resampling_factor": 0.04300168634064081,
+          "sha256": "0ed6df6f5bfb7696a8a0f9b0e93f30b444e162cb6b98368abba37213cc973842",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/ash_choir_censer/ash_choir_censer__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            397,
+            273,
+            448
+          ],
+          "visible_extent": 51,
+          "source_resampling_factor": 0.04300168634064081,
+          "sha256": "0ed6df6f5bfb7696a8a0f9b0e93f30b444e162cb6b98368abba37213cc973842",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 51,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "veiled_ember_orb",
+      "label": "Veiled Ember Orb",
+      "category": "foci",
+      "reference_extent_cm": 24,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__full_native.png",
+          "dimensions": [
+            1199,
+            1312
+          ],
+          "sha256": "e268f163e2fc1b981e7655072c1c253e2d28d536191a90c59dc2eee9cb76889f",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            239,
+            232,
+            272,
+            280
+          ],
+          "visible_extent": 48,
+          "source_resampling_factor": 0.0415944540727903,
+          "sha256": "7141d9dc38c5e34cfeee9d67f80143567e46d05ca8010ee1dbeee29273df3c10",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            117,
+            115,
+            138,
+            140
+          ],
+          "visible_extent": 25,
+          "source_resampling_factor": 0.02079722703639515,
+          "sha256": "d385d3743f0e5cbfcbd1756aacdedbf16987fae73e6a7ca3667572648797aff2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            102,
+            32,
+            409,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3882149046793761,
+          "sha256": "93e210966dfbb16209c92b9bd76aaa871e1b6f5522f5c6a800fb6c5af2157094",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            25,
+            8,
+            102,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09705372616984402,
+          "sha256": "d658314014563f8a34177d1d0466990ac13e5db283e9311bf8ba327fd0de12f4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            13,
+            4,
+            51,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04852686308492201,
+          "sha256": "b016fbcb4f67c9e4050f1b2bbd7752ab925fdc7035342b4c46787c2a05b4422f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            6,
+            2,
+            25,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.024263431542461005,
+          "sha256": "cf8d0723fd66e34c41d64b5ed4597f390915dfc4f66baa6a25300f98dace518e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            412,
+            269,
+            448
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.03119584055459272,
+          "sha256": "edd86cf6af96659e84ef863e5f2eb628eae166f4d72abf7409f6ac45108a03d5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/veiled_ember_orb/veiled_ember_orb__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            412,
+            269,
+            448
+          ],
+          "visible_extent": 36,
+          "source_resampling_factor": 0.03119584055459272,
+          "sha256": "edd86cf6af96659e84ef863e5f2eb628eae166f4d72abf7409f6ac45108a03d5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 36,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "widowglass_mirror",
+      "label": "Widowglass Mirror",
+      "category": "foci",
+      "reference_extent_cm": 27,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__full_native.png",
+          "dimensions": [
+            1268,
+            1241
+          ],
+          "sha256": "2122a09d6bc5e76fe1ea6556c0ca7a86c7c5ee5accf639385d0b528db65ebeb8",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            236,
+            229,
+            275,
+            283
+          ],
+          "visible_extent": 54,
+          "source_resampling_factor": 0.046632124352331605,
+          "sha256": "7ac9cef23f63d7f22b5edbd0ec113cb3e0623517092efb7e6325380d0e360b6f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            116,
+            113,
+            140,
+            144
+          ],
+          "visible_extent": 31,
+          "source_resampling_factor": 0.023316062176165803,
+          "sha256": "cf67b2a539bb3d7dfdf2e79bd1ed14e45c8baad616903735d4b1e875981a38f5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            95,
+            33,
+            416,
+            480
+          ],
+          "visible_extent": 447,
+          "source_resampling_factor": 0.38687392055267705,
+          "sha256": "8be09710fda67f4f45fa5bfd5a72150b4d0ee8c72e546842b889154719a27e55",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            24,
+            8,
+            104,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.09671848013816926,
+          "sha256": "4315f20572d050cb6595a6abf7ce90603e0dbcbe7629ff4cb5c9be6647080673",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            12,
+            4,
+            52,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04835924006908463,
+          "sha256": "609b987620df7be125e2ca47263e98bf45a7ae9f218b5954c1c465ecf8f10eb4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            6,
+            2,
+            26,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.024179620034542316,
+          "sha256": "e71377f3339f90c80f3448acda5226d27057220d26ba6545fbae1b4f031c18ed",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            242,
+            408,
+            271,
+            448
+          ],
+          "visible_extent": 40,
+          "source_resampling_factor": 0.03454231433506045,
+          "sha256": "2c146e5175166c32f4b716cedd3afc1b75f47b19ca25e4ecf81e4bf31a3d349f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/widowglass_mirror/widowglass_mirror__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            242,
+            408,
+            271,
+            448
+          ],
+          "visible_extent": 40,
+          "source_resampling_factor": 0.03454231433506045,
+          "sha256": "2c146e5175166c32f4b716cedd3afc1b75f47b19ca25e4ecf81e4bf31a3d349f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 40,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "last_vigil_handbell",
+      "label": "Last-Vigil Handbell",
+      "category": "foci",
+      "reference_extent_cm": 25,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "3e5dec41055f1c82e5fa0150aeab3d3068e5a3284fc90f6f67caa7252d53a353",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            231,
+            271,
+            281
+          ],
+          "visible_extent": 50,
+          "source_resampling_factor": 0.037678975131876416,
+          "sha256": "62fa2f97946f299defa0dfc330bb0ff8d154e7833632bd2d45ee7e56e5a0f656",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            113,
+            138,
+            143
+          ],
+          "visible_extent": 30,
+          "source_resampling_factor": 0.018839487565938208,
+          "sha256": "fefcab21126623f9aa63a3170e3dbaf94ff32ca662136a3cc05b5d70f8b7afd9",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            118,
+            32,
+            394,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.33760361718161264,
+          "sha256": "7d882fe647085759e4861c1c12b66fe491f00c67116cfa92cfb8c1c34c350ea1",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            29,
+            8,
+            98,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.08440090429540316,
+          "sha256": "99ebdf7c3971278644e4ec4db3389d9fe3eb75029bff1987994b442cfe7b27b2",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            14,
+            4,
+            49,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.04220045214770158,
+          "sha256": "270bdfbf23f407c6027eb448bc01aaac15735f021b9bdc415255498d413e86ca",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.02110022607385079,
+          "sha256": "869dc4f5ddc13492cc60fbcd5658592e33a48052529650b55e15862e5a63ebf7",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            245,
+            410,
+            268,
+            448
+          ],
+          "visible_extent": 38,
+          "source_resampling_factor": 0.028636021100226075,
+          "sha256": "6a6866b70eef0e920ea4e340912069853e254da908cb59bce918f645b98aad68",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/last_vigil_handbell/last_vigil_handbell__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            245,
+            410,
+            268,
+            448
+          ],
+          "visible_extent": 38,
+          "source_resampling_factor": 0.028636021100226075,
+          "sha256": "6a6866b70eef0e920ea4e340912069853e254da908cb59bce918f645b98aad68",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 38,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "rootbound_effigy",
+      "label": "Rootbound Effigy",
+      "category": "foci",
+      "reference_extent_cm": 29,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "c90ced4992882f0887f069dbdc3c04f0eb9f4bf7c7840b9b251b9d127e60d274",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            239,
+            227,
+            272,
+            285
+          ],
+          "visible_extent": 58,
+          "source_resampling_factor": 0.04084507042253521,
+          "sha256": "5fe222ef68597cddf7f1dcc05fc1624649fbeb97360dca57ac367d7baf440de3",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            111,
+            136,
+            145
+          ],
+          "visible_extent": 34,
+          "source_resampling_factor": 0.020422535211267606,
+          "sha256": "1f802491e4f444444d81792c9c1f93c9a39e0a43bd0eaff881c2fc65410240b0",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            130,
+            32,
+            381,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3154929577464789,
+          "sha256": "973eb39796fdbc3140f1c0a3fdf0e662a742e80d4bcf8e31d997321f67133e63",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            32,
+            8,
+            95,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.07887323943661972,
+          "sha256": "ecfd592e58839f1d9f20caec28c1027a649ad2ad46108d40cb626694f5e8b80a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            16,
+            4,
+            47,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.03943661971830986,
+          "sha256": "db38703c55d5cf33d64e545c56ffe15fe786ae9f96df45228a035776ad7a275a",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            8,
+            2,
+            24,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.01971830985915493,
+          "sha256": "2d4422e526d93468b2ccc297ba48c2bc8b99387f8f3ad1655dda532de00623cc",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            404,
+            269,
+            448
+          ],
+          "visible_extent": 44,
+          "source_resampling_factor": 0.030985915492957747,
+          "sha256": "f90a9399799284aec09413a7445d20924be5f83d902532df3c750ad9c1435c6e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/rootbound_effigy/rootbound_effigy__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            404,
+            269,
+            448
+          ],
+          "visible_extent": 44,
+          "source_resampling_factor": 0.030985915492957747,
+          "sha256": "f90a9399799284aec09413a7445d20924be5f83d902532df3c750ad9c1435c6e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 44,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "hollow_marrow_horn",
+      "label": "Hollow-Marrow Horn",
+      "category": "foci",
+      "reference_extent_cm": 38,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "f92785a6c3441327fd07a1e94ff5a9fc4e5a0333fb0affbcb948e2857c3be6be",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            218,
+            232,
+            294,
+            279
+          ],
+          "visible_extent": 76,
+          "source_resampling_factor": 0.05110961667787491,
+          "sha256": "ded4bdc569cc6078d7a16eacf3787420742a7487b55c98d7060913014b1e91aa",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            108,
+            115,
+            148,
+            142
+          ],
+          "visible_extent": 40,
+          "source_resampling_factor": 0.025554808338937456,
+          "sha256": "f943ce85545a6874560de36ab3df350f51e29155e02bc44c592913e45bda2dd0",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            32,
+            117,
+            480,
+            394
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3012777404169469,
+          "sha256": "9baad88269a6e4539df247fc4604a30b5eaf18ac814a79f175fcf5c823b5d636",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            8,
+            29,
+            120,
+            98
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.07531943510423672,
+          "sha256": "2d4154730196f887f20edc3a0156b2c1b00fa9a9dcc17a59529a4a2e7bf9c56f",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            49
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.03765971755211836,
+          "sha256": "2208649f693deabed7c65dfa01c55486ab2795c2c726dba3efe2c8c924eb1a95",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.01882985877605918,
+          "sha256": "951f918770e1ef7b4a2554e2d6d2f43905025a8fc80d6b8031a20576db00694c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            228,
+            413,
+            285,
+            448
+          ],
+          "visible_extent": 57,
+          "source_resampling_factor": 0.03833221250840619,
+          "sha256": "e11d42d947eba031c7608fc3452273a88dfb0c2304a135d6c7cbf2642fc17170",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/hollow_marrow_horn/hollow_marrow_horn__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            228,
+            413,
+            285,
+            448
+          ],
+          "visible_extent": 57,
+          "source_resampling_factor": 0.03833221250840619,
+          "sha256": "e11d42d947eba031c7608fc3452273a88dfb0c2304a135d6c7cbf2642fc17170",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 57,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "sableglass_sandglass",
+      "label": "Sableglass Sandglass",
+      "category": "foci",
+      "reference_extent_cm": 26,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__full_native.png",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "sha256": "a0897ed83b8164047d90649d38eb31deabe444f148fcc204b545a225b10f0379",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            242,
+            230,
+            269,
+            282
+          ],
+          "visible_extent": 52,
+          "source_resampling_factor": 0.03674911660777385,
+          "sha256": "8511f950d193da9023bebace7e8b9bc8d1b954bf5735ae165d0cfb032a30a403",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            120,
+            114,
+            137,
+            142
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.018374558303886925,
+          "sha256": "525dc913ee83740caeda55c9386c3950579fe8704a75127d35a73e4cef4ee71b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            138,
+            32,
+            374,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3166077738515901,
+          "sha256": "6d410542b50af1a2838732552016e5d47a5eea0b65a1ce894e2511e129e5625d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            34,
+            8,
+            93,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.07915194346289753,
+          "sha256": "b38f0becb2a34b8810cd5c266a9138984875051a8b5152d63f0f364abc9ffae4",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            17,
+            4,
+            46,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.039575971731448764,
+          "sha256": "94f63ea6cbba933b887cfe7645d92afb4734b7148511b9d7a0b449cfda1c87e5",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            8,
+            2,
+            23,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.019787985865724382,
+          "sha256": "333e8f68d2478ad46f0bd4bf67638ce836ac0775b0e940e1a1366aeb46bf0bc6",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            409,
+            267,
+            448
+          ],
+          "visible_extent": 39,
+          "source_resampling_factor": 0.02756183745583039,
+          "sha256": "71e9144ea106cb61448d997e668bee936c3e1623635d9b64aca3b370cbbaa796",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/sableglass_sandglass/sableglass_sandglass__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            246,
+            409,
+            267,
+            448
+          ],
+          "visible_extent": 39,
+          "source_resampling_factor": 0.02756183745583039,
+          "sha256": "71e9144ea106cb61448d997e668bee936c3e1623635d9b64aca3b370cbbaa796",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 39,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    },
+    {
+      "id": "communion_cup",
+      "label": "Communion Cup",
+      "category": "foci",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "foci/communion_cup/communion_cup__full_native.png",
+          "dimensions": [
+            1219,
+            1290
+          ],
+          "sha256": "1fc42dfb71465ea33f982a2f0dae393f51e3127135daa56c931b97eba7cc951a",
+          "operation": "source_byte_copy",
+          "status": "verified_copy",
+          "upscaled": false
+        },
+        "inventory512": {
+          "path": "foci/communion_cup/communion_cup__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            240,
+            234,
+            272,
+            278
+          ],
+          "visible_extent": 44,
+          "source_resampling_factor": 0.0352,
+          "sha256": "f545da3712e104836accce240b531969e28b6de994de61f72596ef8e7af6f08b",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "thumb256": {
+          "path": "foci/communion_cup/communion_cup__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "visible_bbox": [
+            119,
+            115,
+            137,
+            141
+          ],
+          "visible_extent": 26,
+          "source_resampling_factor": 0.0176,
+          "sha256": "5585ae0d2d8712998691a4757004bcf45fe18659df13bb910e28d781df6e11fc",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "derivation": "exact half inventory composition"
+        },
+        "detail512": {
+          "path": "foci/communion_cup/communion_cup__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            93,
+            32,
+            418,
+            480
+          ],
+          "visible_extent": 448,
+          "source_resampling_factor": 0.3584,
+          "sha256": "76dc56a30c86223cf29168dfadbf541b8357e6d5c68df9d25267de5705bf2e5e",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "inspection_only"
+        },
+        "ui128": {
+          "path": "foci/communion_cup/communion_cup__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "visible_bbox": [
+            23,
+            8,
+            104,
+            120
+          ],
+          "visible_extent": 112,
+          "source_resampling_factor": 0.0896,
+          "sha256": "44cb73b26f716d07ff7958434ad142183166f8423a26afbdff5aaec50f13de2c",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui64": {
+          "path": "foci/communion_cup/communion_cup__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "visible_bbox": [
+            11,
+            4,
+            52,
+            60
+          ],
+          "visible_extent": 56,
+          "source_resampling_factor": 0.0448,
+          "sha256": "90b8e7387de55dee313b9badb4385761b4f30a39b50f7a3e885c105b138f13eb",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ui32": {
+          "path": "foci/communion_cup/communion_cup__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "visible_bbox": [
+            6,
+            2,
+            26,
+            30
+          ],
+          "visible_extent": 28,
+          "source_resampling_factor": 0.0224,
+          "sha256": "9d4e2abccc8e86dc16b3cef1124f86d9d981c7df5cd16ba66d2c135eb322320d",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "purpose": "normalized_readable_ui",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ]
+        },
+        "ground_static_512": {
+          "path": "foci/communion_cup/communion_cup__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            415,
+            268,
+            448
+          ],
+          "visible_extent": 33,
+          "source_resampling_factor": 0.0264,
+          "sha256": "8865496a00021e98b3582673a09107e2d42aef0e08531175332ecb1cd14b3481",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "static_pickup_icon",
+          "pose_claim": "Existing artwork anchored at base; not a newly rendered resting pose",
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "source_provenance": "Original artwork generated with built-in image_gen; category inspiration only; not copied from game IP."
+        },
+        "ground_scaled_512": {
+          "path": "foci/communion_cup/communion_cup__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "visible_bbox": [
+            244,
+            415,
+            268,
+            448
+          ],
+          "visible_extent": 33,
+          "source_resampling_factor": 0.0264,
+          "sha256": "8865496a00021e98b3582673a09107e2d42aef0e08531175332ecb1cd14b3481",
+          "upscaled": false,
+          "qa_status": "mechanical_pass_visual_review_pending",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "ground_representation": "normalized_static_pickup_icon",
+          "intended_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "pose_claim": "Native item artwork as stationary pickup; not animation-matched"
+        }
+      }
+    }
+  ]
+}

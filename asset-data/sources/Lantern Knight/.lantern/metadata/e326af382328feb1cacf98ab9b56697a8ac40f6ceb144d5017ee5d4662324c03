@@ -1,0 +1,46 @@
+{
+  "counting": "Counts are genuine complete drawings per clip; repeated60Hz holds and repeated playthroughs do not add artwork.",
+  "labels": [
+    {
+      "file": "dash_body_full.mp4",
+      "caption": "Dash | 22 complete drawings | one action 0.65 s | 3 repeats + pauses | 1x playback",
+      "half_speed_explicit": false
+    },
+    {
+      "file": "dash_body_game_sizes.mp4",
+      "caption": "Dash | 22 complete drawings | one action 0.65 s | 3 repeats + pauses | 1x playback",
+      "half_speed_explicit": false
+    },
+    {
+      "file": "dash_half_speed_review.mp4",
+      "caption": "Dash | 22 complete drawings | one action 0.65 s | 3 repeats + pauses | 0.5x playback",
+      "half_speed_explicit": true
+    },
+    {
+      "file": "dash_normal_review.mp4",
+      "caption": "Dash | 22 complete drawings | one action 0.65 s | 3 repeats + pauses | 1x playback",
+      "half_speed_explicit": false
+    },
+    {
+      "file": "lantern_flare_half_speed_review.mp4",
+      "caption": "Flare | 25 complete body drawings | one action 1.40 s | 3 repeats + pauses | 0.5x playback",
+      "half_speed_explicit": true
+    },
+    {
+      "file": "lantern_flare_normal_review.mp4",
+      "caption": "Flare | 25 complete body drawings | one action 1.40 s | 3 repeats + pauses | 1x playback",
+      "half_speed_explicit": false
+    },
+    {
+      "file": "lantern_flare_with_fx_full.mp4",
+      "caption": "Flare | 25 complete body drawings | one action 1.40 s | 3 repeats + pauses | 1x playback",
+      "half_speed_explicit": false
+    },
+    {
+      "file": "lantern_flare_with_fx_game_sizes.mp4",
+      "caption": "Flare | 25 complete body drawings | one action 1.40 s | 3 repeats + pauses | 1x playback",
+      "half_speed_explicit": false
+    }
+  ],
+  "travel_comparison": "Already explicitly labels3 action repeats with reset pauses,22 drawings and0.65s per action."
+}

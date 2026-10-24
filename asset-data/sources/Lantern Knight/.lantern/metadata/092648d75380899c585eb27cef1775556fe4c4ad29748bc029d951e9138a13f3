@@ -1,0 +1,302 @@
+{
+  "asset": "selfheal_loop_DR",
+  "version": "v01",
+  "status": "ART_REVIEW_INTEGRATION_CANDIDATE",
+  "facing": "down-right",
+  "heading_world": "+X",
+  "camera_intent": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "verification": "visually conditioned, not metrically certified"
+  },
+  "equipment": {
+    "sword_hand": "right",
+    "lantern_hand": "left",
+    "mirrored": false
+  },
+  "runtime": {
+    "cell_size": [
+      524,
+      524
+    ],
+    "atlas_size": [
+      2096,
+      1048
+    ],
+    "atlas": "selfheal_loop_DR_atlas.png",
+    "grid": [
+      4,
+      2
+    ],
+    "frame_count": 8,
+    "unique_drawings": 8,
+    "fps": 60,
+    "duration_ticks": 120,
+    "duration_seconds": 2.0,
+    "loop": true,
+    "pivot_px_top_left": [
+      262,
+      460
+    ],
+    "pivot_unity_bottom_left": [
+      0.5,
+      0.12213740458015265
+    ],
+    "suggested_pixels_per_unit": 257.407,
+    "pixels_per_unit_status": "Inherited cast-family starting value only; cross-clip body density requires in-engine review",
+    "root_motion_track": null
+  },
+  "source": {
+    "file": "selfheal_loop_DR_native_sheet.png",
+    "native_sheet_size": [
+      1774,
+      887
+    ],
+    "generator": "built-in image_gen",
+    "backend_model_verified": false
+  },
+  "processing": {
+    "native_visible_pixels_preserved": true,
+    "resampling": false,
+    "upscaling": false,
+    "mirroring": false,
+    "mesh_warp": false,
+    "per_frame_rescaling": false,
+    "alpha_cleanup": "Figure ownership from alpha>=16 connected component with small allowance; zero-alpha RGB sanitized. Retained visible native RGB and alpha unchanged.",
+    "layout": "524 fixed cells from native 4x2 grid plus transparent padding. Rigid integer translations only, listed per cel.",
+    "registration": "Native cell positions; common -8px loop guide inset compensation and common exit(-9,+8) pose match only"
+  },
+  "events_suggested": [],
+  "frames": [
+    {
+      "index": 1,
+      "file": "frames/selfheal_loop_DR_01.png",
+      "label": "rest_neutral",
+      "hold_ticks_60hz": 15,
+      "source_cel": 1,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        0,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        149,
+        405,
+        473
+      ],
+      "sha256": "1cfd05647e0877f0dcd792f3e887031623dcb38a3d836928be4656aae40b3f26"
+    },
+    {
+      "index": 2,
+      "file": "frames/selfheal_loop_DR_02.png",
+      "label": "inhale",
+      "hold_ticks_60hz": 15,
+      "source_cel": 2,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        524,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        34,
+        147,
+        405,
+        473
+      ],
+      "sha256": "2115dfb048bbf2b3da0f01d8bc353ddfc74d58d2b6ddbd04403928efaa361dfb"
+    },
+    {
+      "index": 3,
+      "file": "frames/selfheal_loop_DR_03.png",
+      "label": "crest",
+      "hold_ticks_60hz": 15,
+      "source_cel": 3,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        1048,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        144,
+        405,
+        473
+      ],
+      "sha256": "40337868f16b6f352c12daad60be5f50acedec90c85f559a9fd0e1d7a4ae7d00"
+    },
+    {
+      "index": 4,
+      "file": "frames/selfheal_loop_DR_04.png",
+      "label": "settle",
+      "hold_ticks_60hz": 15,
+      "source_cel": 4,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        1572,
+        0,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        148,
+        405,
+        473
+      ],
+      "sha256": "315488afbb48198ddaeb340d52e2e34b7bd38f6d85c7a422f8a3d57319d1dea1"
+    },
+    {
+      "index": 5,
+      "file": "frames/selfheal_loop_DR_05.png",
+      "label": "exhale",
+      "hold_ticks_60hz": 15,
+      "source_cel": 5,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        0,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        149,
+        405,
+        472
+      ],
+      "sha256": "bc627d91b5668dc692ee18455490a9b834e4896c2dbc360207b13c242dc8ef4c"
+    },
+    {
+      "index": 6,
+      "file": "frames/selfheal_loop_DR_06.png",
+      "label": "low_breath",
+      "hold_ticks_60hz": 15,
+      "source_cel": 6,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        524,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        149,
+        405,
+        472
+      ],
+      "sha256": "e8e74fb2a98584bbbbf81a9996c3eaafb6e7101536e5b4e062341c735d3b4266"
+    },
+    {
+      "index": 7,
+      "file": "frames/selfheal_loop_DR_07.png",
+      "label": "recover",
+      "hold_ticks_60hz": 15,
+      "source_cel": 7,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        1048,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        144,
+        405,
+        472
+      ],
+      "sha256": "9c3fce433257a5901c5463814be68c4c88e34b7bbd7c18f97e6eedb5fdd61838"
+    },
+    {
+      "index": 8,
+      "file": "frames/selfheal_loop_DR_08.png",
+      "label": "near_neutral",
+      "hold_ticks_60hz": 15,
+      "source_cel": 8,
+      "rigid_offset_px": [
+        0,
+        0
+      ],
+      "atlas_rect": [
+        1572,
+        524,
+        524,
+        524
+      ],
+      "pivot_px_top_left": [
+        262,
+        460
+      ],
+      "alpha_bbox": [
+        35,
+        149,
+        405,
+        472
+      ],
+      "sha256": "5b5b8a6d4f12dc69f4009773202657e69249d27d526c975c4ca94f82769d8f58"
+    }
+  ],
+  "known_limits": [
+    "Original generated 2D artwork is an art-review/integration-test candidate, not engine-approved animation.",
+    "No camera metric, physical blade length, collisions, IK, gameplay events, healing mechanics, or controller wiring certified.",
+    "Native distinct cels with integer holds at 60 Hz. No optical flow, mesh warp, synthetic in-betweens, mirroring, or image upscaling.",
+    "First/last drawings are not pixel-identical to shared ready. Runtime transition/root/scale review remains required."
+  ]
+}

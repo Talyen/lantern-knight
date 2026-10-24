@@ -1,0 +1,69 @@
+{
+  "asset": "Orchard Lever Press",
+  "authored_cels": 8,
+  "native_canvas": [
+    512,
+    576
+  ],
+  "runtime_canvas": [
+    256,
+    288
+  ],
+  "states": [
+    "raised_ready",
+    "lever_lowering",
+    "platen_approaches",
+    "fruit_contact",
+    "compression",
+    "catch_engages",
+    "pawl_settles",
+    "locked_hold"
+  ],
+  "timing_ms": [
+    700,
+    130,
+    130,
+    130,
+    130,
+    130,
+    160,
+    1200
+  ],
+  "start_hold": "states/start.png",
+  "persistent_final_hold": "states/end.png",
+  "one_shot": true,
+  "completion_frame": 7,
+  "ground_anchor_native": [
+    256,
+    552
+  ],
+  "contact_anchor_native": [
+    400,
+    300
+  ],
+  "reward_anchor_native": [
+    250,
+    430
+  ],
+  "suggested_gameplay": "One-use orchard resource production. Grant the reward separately once the arm locks; no liquid or bottled output is depicted.",
+  "implementation": "Suggested hooks only, no gameplay integration",
+  "source_native_size": [
+    1536,
+    1024
+  ],
+  "processing": "Mechanical extraction of authored cels, alpha-isolation, translation-only alignment, runtime downsampling and preview encoding. No code-created art or interpolated poses.",
+  "model_note": "Built-in imagegen; highest native quality/resolution requested. Preferred model naming was prompt intent, selection not exposed or verified.",
+  "qa": "Root approved",
+  "ground_anchor_runtime": [
+    128.0,
+    276.0
+  ],
+  "contact_anchor_runtime": [
+    200.0,
+    150.0
+  ],
+  "reward_anchor_runtime": [
+    125.0,
+    215.0
+  ]
+}

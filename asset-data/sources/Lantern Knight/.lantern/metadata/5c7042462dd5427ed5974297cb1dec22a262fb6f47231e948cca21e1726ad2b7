@@ -1,0 +1,296 @@
+{
+  "clip_id": "rust_run_L_lowcarry8_native_v01",
+  "status": "ACCEPTED_NATIVE_VISUAL_TEST_NOT_ENGINE_VALIDATED",
+  "unique_drawings": 8,
+  "loop": true,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_top_left": [
+    384,
+    640
+  ],
+  "pivot_bottom_left": [
+    384,
+    128
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.16666666666666666
+  ],
+  "authored_cell_root": [
+    222,
+    392
+  ],
+  "root_basis": "Approximate single clip-wide ground registration. Exact storage coordinates, not validated drawn physical contacts.",
+  "registration": "Equal-grid native extraction. One fixed integer translation for all eight cells; no raster scaling, mirroring, morphing, or per-frame bounding-box fit.",
+  "heading": {
+    "screen": "L",
+    "world_forward": [
+      -0.7071067811865476,
+      0,
+      0.7071067811865476
+    ],
+    "camera_elevation_degrees": 35.264389682754654,
+    "camera_azimuth_degrees": 45,
+    "mirror": false
+  },
+  "approximate_pixels_per_unit": 285,
+  "density_method": {
+    "ruler": "Maximum alpha>32 head row span crown+8 through crown+37",
+    "new_head_widths_px": [
+      75,
+      76,
+      76,
+      76,
+      75,
+      76,
+      76,
+      76
+    ],
+    "median": 76,
+    "ready_UR_reference_head": 94,
+    "ready_reference_ppu": 350,
+    "prior_UR_head": 63,
+    "prior_UR_ppu": 235,
+    "chosen_ppu": 285,
+    "uncertainty": "Approximately +/-20%; different camera heading, hair silhouette. One clip-wide density, no engine calibration."
+  },
+  "native_source_size": [
+    1774,
+    887
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "source_tick": 0,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "right_support",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_00.png",
+      "source_sheet_rect": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "sha256": "a6b19f210ac69d9229c82f073da6c7dacd7ad49a0aba359d837ca48643510771"
+    },
+    {
+      "index": 1,
+      "source_tick": 5,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "right_support",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_01.png",
+      "source_sheet_rect": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "sha256": "9b88297f52f4063b5449bea7566c79ab6616f79c8c8d86e47560d243b0a0daaf"
+    },
+    {
+      "index": 2,
+      "source_tick": 10,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "flight",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_02.png",
+      "source_sheet_rect": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "sha256": "45a4b47ab64d0b41e9d57ef55bb04b778350a129a92641796018677cbfa49e20"
+    },
+    {
+      "index": 3,
+      "source_tick": 15,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "left_support",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_03.png",
+      "source_sheet_rect": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        2304,
+        0,
+        768,
+        768
+      ],
+      "sha256": "de73b0be9fa55c61e7313ce84b6bda927aa8e984faf33e0345b005f9c0e607df"
+    },
+    {
+      "index": 4,
+      "source_tick": 20,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "left_support",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_04.png",
+      "source_sheet_rect": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "sha256": "0cb181b351f08523ccbf8f81d57b7f901b9a9fa258ad6b712a6ffd9171764d0a"
+    },
+    {
+      "index": 5,
+      "source_tick": 25,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "flight",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_05.png",
+      "source_sheet_rect": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "sha256": "3326bbda6dadc12325a3a7cf3fd063fe07dac5e3166d532725840a8d3ca5ca7f"
+    },
+    {
+      "index": 6,
+      "source_tick": 30,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "flight",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_06.png",
+      "source_sheet_rect": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "sha256": "6838b6b9ac10ff0fa1cc72da8b14df08e8636376ef0f646c89333311f111abbb"
+    },
+    {
+      "index": 7,
+      "source_tick": 35,
+      "hold_ticks_60hz": 5,
+      "source_guide_phase": "right_support",
+      "phase_is_source_proxy_not_art_contact_proof": true,
+      "file": "frames/run_L_07.png",
+      "source_sheet_rect": [
+        1330,
+        444,
+        1774,
+        887
+      ],
+      "native_1x_translation": [
+        162,
+        248
+      ],
+      "alpha_max_on_source_cell_border": 1,
+      "observed_art_anchors": null,
+      "atlas_rect_top_left": [
+        2304,
+        768,
+        768,
+        768
+      ],
+      "sha256": "7b156f2efb57524c7eefb6a5c5ba19bb32c10443a620fc82bed311838756c413"
+    }
+  ],
+  "limitations": [
+    "Source guide camera and joints are exact but artwork is visually conditioned, not measured retargeting.",
+    "Ground pivot and PPU are approximate until engine comparison.",
+    "Source guide support phases do not independently prove painted sole contacts.",
+    "Source body bob remains as painted with no per-cel repositioning.",
+    "Hidden far wrist/sword attachment in second-half poses is occluded, not independently verifiable.",
+    "Leg attribution is visually plausible with moderate confidence where coat hides hips.",
+    "Source bob is not metrically matched: painted head height is nearly constant per row.",
+    "Eight-cel transition from hidden rear sword arm to forward visible grip is somewhat abrupt; accepted native test, no interpolation or invented inbetweens."
+  ],
+  "cleanup": "External contradictory blade slivers in cels5,6,8 removed by narrowly scoped deterministic alpha masks. RGB unchanged; alpha outside mask unchanged."
+}

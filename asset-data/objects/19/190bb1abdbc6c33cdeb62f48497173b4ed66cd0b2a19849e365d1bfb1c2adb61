@@ -1,0 +1,18 @@
+{
+  "recipe": "blackwood-materials-v3",
+  "inputs": {
+    "references/art/blackwood-churchyard-v2/quiet-earth.png": "a30b1fe87b8c249d6a972ffcd7dc534cbf2bf2400cb932c9ae8ac7ead415866d",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/decals/d03_moss_edge.png": "d545df18156ffd46ec09d1c05fc90186b928d2e1b339257019eaf2a36627019e",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/decals/d04_moss_islands.png": "88bb0828beb4c6e9547bce12dfdbd63b5ae27f0d78a7ff1b574fa5d497a3ae08",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/decals/d05_leaf_drift.png": "5f8151f4bd206e74b47bae8b4c7f77c7b4887ccff69a0cc45ee4987266d76462",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/decals/d06_scattered_leaves.png": "38acf672f20ab416941a7f0abf1c5fca598addb20081dd0343d8244406e1fdce",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/decals/d08_dirt_scuffs.png": "d52e21866d3dad904378a76118e8ad5c83134fb3e569e3dbaa3a03b356f18993",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/materials/01_old_flagstone.png": "edef4cd4dbeec4b54f09c3d63b7bab9194427cd0327e374c5bf1da6b0642f571",
+    "references/art/ink-collection-01/Ground_Surfaces_Decals_r02a/png/materials/03_worn_cobble.png": "6c0b1202a3a8cdeaf9c59c5d6585d4e4f1ef33cbcd40bc07556a61ae7042af21",
+    "references/art/ink-collection-01/Ground_Transitions/png/overlays/t06_still_puddle.png": "b4222aca054af297539c40e0725eae9edc7984eac05de53bf2722dddf79f4d4a",
+    "references/art/ink-collection-01/Ground_Transitions/png/overlays/t07_damp_spread.png": "5559b4de082ca9a48609c37fdee6490114d4479ca6164bf6e2b9dc6a3aeba6a5",
+    "references/art/ink-collection-01/Ground_Transitions/png/overlays/t08_crossing_root.png": "e8e720175a302623225ab6ff250f6c9d07a017d3bd4ce5be74d5c9fa98d2b545"
+  },
+  "originalSourcesPreserved": true,
+  "runtimeSamplerSize": 1024
+}

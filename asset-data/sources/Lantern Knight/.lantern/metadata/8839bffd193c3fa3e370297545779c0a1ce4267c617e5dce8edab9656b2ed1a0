@@ -1,0 +1,63 @@
+{
+  "name": "Hoarfrost Rupture | Snapburst v3",
+  "durations_ms": [
+    20,
+    20,
+    30,
+    70,
+    40,
+    40,
+    50,
+    50,
+    60,
+    70,
+    80,
+    80,
+    80,
+    500
+  ],
+  "phases": [
+    "Gather",
+    "Onset",
+    "Strike",
+    "Peak",
+    "Snap fracture",
+    "Plates detach",
+    "Ballistic fan",
+    "Outward fall",
+    "Chip scatter",
+    "Ground skitter",
+    "Outer chips",
+    "Powder trails",
+    "Last frost grains",
+    "Clear"
+  ],
+  "art_frames": 13,
+  "new_tail_frames": 9,
+  "clear_frames": 1,
+  "onset_ms": 70,
+  "peak_hold_ms": 70,
+  "tail_ms": 550,
+  "physical_character": "Brittle snapburst: ice plates fan outward, fracture, fall and skitter to far landing points.",
+  "registration": "First four approved opening cels use one constant 0.7 scale and identical placement [96, 83] on 640px canvas to match authored tail material scale. Nine new tail cels use exact 418px 3x3 source grid and identical placement [111,111]. No per-frame recentering, resizing, translation or fade. All tail motion is authored geometry.",
+  "opening_transform": {
+    "scale": 0.7,
+    "placement": [
+      96,
+      83
+    ]
+  },
+  "tail_transform": {
+    "source_cell": [
+      418,
+      418
+    ],
+    "placement": [
+      111,
+      111
+    ],
+    "scale": 1
+  },
+  "spritesheet_columns": 5,
+  "source_sheet": "tail_authored_sheet.png"
+}

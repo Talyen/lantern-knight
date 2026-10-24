@@ -1,0 +1,15 @@
+{
+  "id": "lantern_drop_concept_08_watch_helm",
+  "name": "Watch helm",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_world_drops_02/assets/08_watch_helm.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Rounded chrome-like dome and uniform steel ribs; flatten light into two or three deliberate planes.",
+  "pack": "Lantern - World Drop Gear 02",
+  "folder": "world_drop_gear_02",
+  "destination": "lantern_revision_02/equipment/world_drop_gear_02/assets/08_watch_helm.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: A WATCH HELM: dented dark iron open-faced helmet, low pronounced brow, plain cheek guard on one side and visible black interior, modest gray steel top light. No segmented bevel ribs. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-3d1b8519-4c3d-4b0a-aac8-d14f5e496b72.png",
+  "review": "Passed large overview and 64px light/dark proxy. Differentiated forged tools, cloth, leather, bone and book binding; native alpha preserved. Generated camera approximate."
+}

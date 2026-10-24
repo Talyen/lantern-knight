@@ -1,0 +1,232 @@
+{
+  "clip": "slam_fx",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": false,
+  "durations_ms": [
+    180,
+    180,
+    180,
+    220,
+    240,
+    60,
+    100,
+    120,
+    120,
+    120,
+    140,
+    140
+  ],
+  "total_ms": 1800,
+  "atlas": "atlases/slam_fx_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/slam_fx/slam_fx_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        154,
+        432,
+        615,
+        570
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/slam_fx/slam_fx_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        167,
+        461,
+        602,
+        570
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/slam_fx/slam_fx_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        129,
+        395,
+        639,
+        570
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/slam_fx/slam_fx_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        122,
+        381,
+        646,
+        570
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/slam_fx/slam_fx_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        128,
+        332,
+        641,
+        570
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/slam_fx/slam_fx_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        117,
+        257,
+        651,
+        570
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/slam_fx/slam_fx_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        117,
+        310,
+        651,
+        570
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/slam_fx/slam_fx_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        124,
+        283,
+        644,
+        570
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/slam_fx/slam_fx_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        123,
+        341,
+        646,
+        570
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/slam_fx/slam_fx_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        132,
+        317,
+        637,
+        570
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/slam_fx/slam_fx_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        128,
+        357,
+        640,
+        570
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/slam_fx/slam_fx_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        135,
+        426,
+        634,
+        570
+      ]
+    }
+  ],
+  "events": []
+}

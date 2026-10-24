@@ -1,0 +1,142 @@
+[
+  {
+    "asset_id": "01_crooked_lamplighter_cottage_v2",
+    "pack": "volume_17_small_buildings",
+    "path": "assets/01_crooked_lamplighter_cottage_v2.png",
+    "original_path": "lantern_overnight/06_small_building_exteriors/masters/01_crooked_lamplighter_cottage_v2.png",
+    "sha256": "4cc2b9c166beada5eb7258ec9b2cccab09990ef19cb204ba657882fe20fbf988",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/01_crooked_lamplighter_cottage_v2.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      84,
+      17,
+      1306,
+      1159
+    ],
+    "alpha_bounds_ge128": [
+      87,
+      20,
+      1277,
+      1153
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97805,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-4a8bebd6-e304-485c-8154-82f921dad160.png"
+  },
+  {
+    "asset_id": "02_compact_smithy_v1",
+    "pack": "volume_17_small_buildings",
+    "path": "assets/02_compact_smithy_v1.png",
+    "original_path": "lantern_overnight/06_small_building_exteriors/masters/02_compact_smithy_v1.png",
+    "sha256": "a005392bd9c764f8ffb0bf098c7f21fac5e72da77a833095e8078dc598244972",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/02_compact_smithy_v1.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      0,
+      1312,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      12,
+      6,
+      1302,
+      1178
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97835,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-1294a330-3714-4799-9c38-f5517d0f0b8a.png"
+  },
+  {
+    "asset_id": "03_apothecary_shop_v1",
+    "pack": "volume_17_small_buildings",
+    "path": "assets/03_apothecary_shop_v1.png",
+    "original_path": "lantern_overnight/06_small_building_exteriors/masters/03_apothecary_shop_v1.png",
+    "sha256": "54ec3641b1a66f0dde855918dff5cb1d14c70d93dbd258c4737f38f0016297a0",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/03_apothecary_shop_v1.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      19,
+      1264,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      100,
+      69,
+      1234,
+      1113
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98003,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-732866f2-c282-4d99-9d27-16baffa77eee.png"
+  },
+  {
+    "asset_id": "04_narrow_chapel_v1",
+    "pack": "volume_17_small_buildings",
+    "path": "assets/04_narrow_chapel_v1.png",
+    "original_path": "lantern_overnight/06_small_building_exteriors/masters/04_narrow_chapel_v1.png",
+    "sha256": "087f2edbdffe8dfec533470d5f3fdd3d698d831297f71e93b67e93d9ae5eefb8",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/04_narrow_chapel_v1.prompt.txt",
+    "size": [
+      1310,
+      1200
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      9,
+      1262,
+      1200
+    ],
+    "alpha_bounds_ge128": [
+      133,
+      12,
+      1188,
+      1177
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.97886,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-795130bc-9b64-4cfb-9ab3-112e8d4f809e.png"
+  }
+]

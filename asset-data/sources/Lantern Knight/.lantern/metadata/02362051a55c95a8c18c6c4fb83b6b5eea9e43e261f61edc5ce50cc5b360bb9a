@@ -1,0 +1,410 @@
+{
+  "title": "Sweep runtime sampling and registration exceptions",
+  "meaning": "Import provenance, not camera/anatomy certification. Per-drawing PPU and pivot in animation.json are authoritative runtime values.",
+  "positive_X": {
+    "runtime_resampling": true,
+    "original_high_resolution_native_sources_retained": true,
+    "per_drawing_uniform_registration": [
+      {
+        "id": 0,
+        "label": "ready",
+        "runtime_file": "clips/world_positive_X/runtime/frames/00_ready.png",
+        "native_source_file": "clips/world_positive_X/native/00_ready.png",
+        "source_size": [
+          1199,
+          1312
+        ],
+        "source_sha256": "529b541b2f20d820ee81a6826afb3d6cd83ae6b6612790c50df1f9c3171d117d",
+        "nominal_uniform_scale": 0.4820843970445167,
+        "resized_size": [
+          578,
+          632
+        ],
+        "integer_paste_xy": [
+          356,
+          292
+        ],
+        "unrounded_translation": [
+          356.0497245608168,
+          292.1020310498553
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 1,
+        "label": "load_settle",
+        "runtime_file": "clips/world_positive_X/runtime/frames/01_load_settle.png",
+        "native_source_file": "clips/world_positive_X/native/01_load_settle.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "f70044b2e1b94db7b7ab07a6b1057905184e9d29fa454d5f08a706d7415992a5",
+        "nominal_uniform_scale": 0.5575584254202379,
+        "resized_size": [
+          787,
+          621
+        ],
+        "integer_paste_xy": [
+          224,
+          283
+        ],
+        "unrounded_translation": [
+          223.8348004328127,
+          283.04243842371386
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 2,
+        "label": "turn_chamber",
+        "runtime_file": "clips/world_positive_X/runtime/frames/02_turn_chamber.png",
+        "native_source_file": "clips/world_positive_X/native/02_turn_chamber.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "1398a4adb506653076dc2f96519efa57c1eba8c5b0db21f457b8f657b21ab883",
+        "nominal_uniform_scale": 0.616128205245556,
+        "resized_size": [
+          869,
+          686
+        ],
+        "integer_paste_xy": [
+          170,
+          239
+        ],
+        "unrounded_translation": [
+          169.64706951570338,
+          238.81349715915195
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 3,
+        "label": "windup",
+        "runtime_file": "clips/world_positive_X/runtime/frames/03_windup.png",
+        "native_source_file": "clips/world_positive_X/native/03_windup.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "71e74069a5b8d6a1c115894c8a981966aa2737f55ff8934e9c37f51da8857be4",
+        "nominal_uniform_scale": 0.7458266459456258,
+        "resized_size": [
+          1052,
+          831
+        ],
+        "integer_paste_xy": [
+          99,
+          138
+        ],
+        "unrounded_translation": [
+          98.82074757509031,
+          138.16649698745675
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 4,
+        "label": "release",
+        "runtime_file": "clips/world_positive_X/runtime/frames/04_release.png",
+        "native_source_file": "clips/world_positive_X/native/04_release.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "dd500236b6993b373c41c551947895c3bf47b8f250387a0794cd69baf85df9aa",
+        "nominal_uniform_scale": 0.6135204656815373,
+        "resized_size": [
+          866,
+          683
+        ],
+        "integer_paste_xy": [
+          233,
+          263
+        ],
+        "unrounded_translation": [
+          233.0919550414343,
+          262.9119723929707
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 5,
+        "label": "crossing_cut",
+        "runtime_file": "clips/world_positive_X/runtime/frames/05_crossing_cut.png",
+        "native_source_file": "clips/world_positive_X/native/05_crossing_cut.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "55421c4ffd228f25a9efeb9cbd425fe9f0d9a9cb1e1ecde0a182a4bd954abb80",
+        "nominal_uniform_scale": 0.6282227801414388,
+        "resized_size": [
+          886,
+          700
+        ],
+        "integer_paste_xy": [
+          218,
+          278
+        ],
+        "unrounded_translation": [
+          217.77593872315015,
+          278.2099770780293
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 6,
+        "label": "cut_exit",
+        "runtime_file": "clips/world_positive_X/runtime/frames/06_cut_exit.png",
+        "native_source_file": "clips/world_positive_X/native/06_cut_exit.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "51cf6e709110ef97362244f0e3df047767779a61dad9eea61b5770b25518a03f",
+        "nominal_uniform_scale": 0.5234481133696924,
+        "resized_size": [
+          739,
+          583
+        ],
+        "integer_paste_xy": [
+          287,
+          338
+        ],
+        "unrounded_translation": [
+          286.72723691996265,
+          338.22664100299914
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 7,
+        "label": "followthrough",
+        "runtime_file": "clips/world_positive_X/runtime/frames/07_followthrough.png",
+        "native_source_file": "clips/world_positive_X/native/07_followthrough.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "ce555649bb57069a9aef3b5e8354c6d25eb2846d0d4b9ac4889cd1c9d3323b1a",
+        "nominal_uniform_scale": 0.5154606913303518,
+        "resized_size": [
+          727,
+          574
+        ],
+        "integer_paste_xy": [
+          205,
+          361
+        ],
+        "unrounded_translation": [
+          205.17521472533485,
+          360.9704529921829
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      },
+      {
+        "id": 8,
+        "label": "recover",
+        "runtime_file": "clips/world_positive_X/runtime/frames/08_recover.png",
+        "native_source_file": "clips/world_positive_X/native/08_recover.png",
+        "source_size": [
+          1411,
+          1114
+        ],
+        "source_sha256": "891dc653f001f60925a154053f3ca390b8d7e72d8172c71b75583894a71e1ab6",
+        "nominal_uniform_scale": 0.5152456790838086,
+        "resized_size": [
+          727,
+          574
+        ],
+        "integer_paste_xy": [
+          243,
+          332
+        ],
+        "unrounded_translation": [
+          243.07533042149436,
+          332.3539427808587
+        ],
+        "resampler": "Pillow LANCZOS",
+        "runtime_canvas": [
+          1280,
+          1000
+        ],
+        "runtime_ppu": 350,
+        "pivot_top_left": [
+          635,
+          800
+        ]
+      }
+    ],
+    "authoritative_source_manifest": "lantern_hero_core_animations_01/sweep_compact9_v02/delivery/native_test/animation.json"
+  },
+  "other_headings": [
+    {
+      "world": "world_positive_Z",
+      "runtime_resampling": false,
+      "ready": {
+        "ppu": 350,
+        "canvas": [
+          632,
+          688
+        ],
+        "pivot_top_left": [
+          301.0,
+          556.0
+        ]
+      },
+      "action": {
+        "ppu": 243,
+        "canvas": [
+          768,
+          640
+        ],
+        "pivot_top_left": [
+          384.0,
+          500.0
+        ],
+        "integer_translations_baked_in": true
+      },
+      "authoritative_import_metadata": "clips/world_positive_Z/animation.json"
+    },
+    {
+      "world": "world_negative_X",
+      "runtime_resampling": false,
+      "ready": {
+        "ppu": 350,
+        "canvas": [
+          632,
+          688
+        ],
+        "pivot_top_left": [
+          301.0,
+          556.0
+        ]
+      },
+      "action": {
+        "ppu": 258,
+        "canvas": [
+          768,
+          768
+        ],
+        "pivot_top_left": [
+          384.0,
+          650.0
+        ],
+        "integer_translations_baked_in": true
+      },
+      "authoritative_import_metadata": "clips/world_negative_X/animation.json"
+    },
+    {
+      "world": "world_negative_Z",
+      "runtime_resampling": false,
+      "ready": {
+        "ppu": 350,
+        "canvas": [
+          632,
+          688
+        ],
+        "pivot_top_left": [
+          301.0,
+          556.0
+        ]
+      },
+      "action": {
+        "ppu": 220,
+        "canvas": [
+          768,
+          640
+        ],
+        "pivot_top_left": [
+          384.0,
+          500.0
+        ],
+        "integer_translations_baked_in": true
+      },
+      "authoritative_import_metadata": "clips/world_negative_Z/animation.json"
+    }
+  ],
+  "limitations": [
+    "Shared ready and action textures can have different PPU and canvas/pivot.",
+    "No one-PPU-across-animation claim; no all-sweep-runtime-native1x claim.",
+    "No anatomy warps or mirroring.",
+    "Source pose/camera registration is visually approximate.",
+    "Original full archive and chat-safe archive bytes remain unchanged by this sidecar."
+  ]
+}

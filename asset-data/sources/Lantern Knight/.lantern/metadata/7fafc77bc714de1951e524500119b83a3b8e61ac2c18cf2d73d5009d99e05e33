@@ -1,0 +1,3 @@
+Lantern Knight | Crypt | a small wooden chest
+Six real image-generated opening cels, fixed bottom-center anchor. Play once and hold final open state; no loot included. Native alpha and runtime sprites are equivalent mechanically downsampled art. Source scene crop controlled style; original unchanged master is used for gameplay placement and MP4.
+QA: RGBA transparency, fully visible silhouettes, fixed ground anchor, readable opening at gameplay scale, stable material palette. No AI upscale or synthetic motion.

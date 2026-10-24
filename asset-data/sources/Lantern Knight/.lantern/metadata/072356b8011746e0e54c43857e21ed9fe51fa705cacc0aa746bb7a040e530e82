@@ -1,0 +1,525 @@
+{
+  "version": "2.0-clean-ink-candidate",
+  "content_status": "art_polished_motion_audit_pending",
+  "canvas": [
+    1024,
+    1024
+  ],
+  "ground_pivot_px": [
+    512.0,
+    802.0
+  ],
+  "source_density_px_per_m": 440.0,
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "assets": [
+    {
+      "id": "pilgrim_chest",
+      "states": {
+        "closed": {
+          "png": "png/pilgrim_chest_closed.png",
+          "alpha_bounds_px": [
+            193,
+            379,
+            831,
+            977
+          ],
+          "sha256": "93ee375511e7803671881ae7de2d22ca64bf72ae006d3bc80afc75f3f3f1b070",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/pilgrim_chest_open.png",
+          "alpha_bounds_px": [
+            194,
+            124,
+            906,
+            977
+          ],
+          "sha256": "5a6a5e6d3cc9c7fadfe16cb083458454d683448e797a817cf34824940ab9160f",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/pilgrim_chest_broken.png",
+          "alpha_bounds_px": [
+            194,
+            222,
+            862,
+            977
+          ],
+          "sha256": "2bec1cd856e344a21c31554aa55f1be526bea26fb6baa19334af340e574e9ae5",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/pilgrim_chest.png"
+    },
+    {
+      "id": "cooper_barrel",
+      "states": {
+        "closed": {
+          "png": "png/cooper_barrel_closed.png",
+          "alpha_bounds_px": [
+            353,
+            389,
+            673,
+            831
+          ],
+          "sha256": "8d325834a09a23ce2786b48b7cbdf299e1d96349a6effca72d4e7a9ce393e6c3",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/cooper_barrel_open.png",
+          "alpha_bounds_px": [
+            353,
+            398,
+            925,
+            937
+          ],
+          "sha256": "8968483a363515c53b4561077fa9af7f23d6c312f8a6f3792583cb634c65c082",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/cooper_barrel_broken.png",
+          "alpha_bounds_px": [
+            185,
+            398,
+            925,
+            937
+          ],
+          "sha256": "c2d66f396cdad61d487597fd551b23dfb5900db2b3e2f5ff74c9c0f19f9597c6",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/cooper_barrel.png"
+    },
+    {
+      "id": "reliquary_urn",
+      "states": {
+        "closed": {
+          "png": "png/reliquary_urn_closed.png",
+          "alpha_bounds_px": [
+            348,
+            347,
+            687,
+            833
+          ],
+          "sha256": "3122fd6356139e80adc776d9a299fbbd20a9b4d85cc07459bbeddbf8539ed7e5",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/reliquary_urn_open.png",
+          "alpha_bounds_px": [
+            348,
+            405,
+            730,
+            966
+          ],
+          "sha256": "fda7e6969bd769d326f6b7f81c8bf3c4ef2729bd262baddd9b58ffb8e0bdb9d8",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/reliquary_urn_broken.png",
+          "alpha_bounds_px": [
+            236,
+            405,
+            730,
+            966
+          ],
+          "sha256": "d11fbd5a3e1696fe5ccce3c54db16e5ae75b606b1c4ac2f5d01a88801780a954",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/reliquary_urn.png"
+    },
+    {
+      "id": "shrine_reliquary",
+      "states": {
+        "closed": {
+          "png": "png/shrine_reliquary_closed.png",
+          "alpha_bounds_px": [
+            198,
+            377,
+            826,
+            974
+          ],
+          "sha256": "884da9c6080b3a8417d403935b7a1a09e4f63ecc640f5b18fee98b3017d7055e",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/shrine_reliquary_open.png",
+          "alpha_bounds_px": [
+            199,
+            174,
+            948,
+            974
+          ],
+          "sha256": "06b58ca1b392edb2198bd3397d0ab39f90cf1fcda17dc66fc64a4f5a48b9a5af",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/shrine_reliquary_broken.png",
+          "alpha_bounds_px": [
+            199,
+            241,
+            895,
+            974
+          ],
+          "sha256": "685c0f23a8a0e410ef59d9cb94598c1cbe38c35b652a1c2ef05d05ca9da36d1c",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/shrine_reliquary.png"
+    },
+    {
+      "id": "masons_tool_chest",
+      "states": {
+        "closed": {
+          "png": "png/masons_tool_chest_closed.png",
+          "alpha_bounds_px": [
+            174,
+            444,
+            850,
+            988
+          ],
+          "sha256": "e8d420c0ba0ececcbfc488a484f807ae835fe9a81b666405703750dd8e020de3",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/masons_tool_chest_open.png",
+          "alpha_bounds_px": [
+            175,
+            208,
+            871,
+            988
+          ],
+          "sha256": "cee6cd72d0c860c728289bf0d79c9bfc832c1deddd84a53ef163a0ab8865560d",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/masons_tool_chest_broken.png",
+          "alpha_bounds_px": [
+            175,
+            292,
+            857,
+            988
+          ],
+          "sha256": "246ca0068c22e7affd32d237c68df521a9e00e2c1cb72d340997a52db764221f",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/masons_tool_chest.png"
+    },
+    {
+      "id": "shipping_crate",
+      "states": {
+        "closed": {
+          "png": "png/shipping_crate_closed.png",
+          "alpha_bounds_px": [
+            238,
+            331,
+            786,
+            951
+          ],
+          "sha256": "0b3b3556e89c76669b23304606a00022e5365a7554022a3a1515a6db7ce933b1",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/shipping_crate_open.png",
+          "alpha_bounds_px": [
+            239,
+            16,
+            812,
+            951
+          ],
+          "sha256": "611037a69d6bd94dfd00736234d9847c5c6dd01e4dcd46cfb9b5e29508e384e9",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/shipping_crate_broken.png",
+          "alpha_bounds_px": [
+            139,
+            130,
+            793,
+            951
+          ],
+          "sha256": "03ab6f8c7f982919bb171d7440f72afffead43cf0067d385fac22f6c53ac409d",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/shipping_crate.png"
+    },
+    {
+      "id": "provision_hopper",
+      "states": {
+        "closed": {
+          "png": "png/provision_hopper_closed.png",
+          "alpha_bounds_px": [
+            268,
+            311,
+            756,
+            903
+          ],
+          "sha256": "1e29ba75feb0ddab0e3c95c9dd1d3110aa1572c5511d490ea85d2340bcafe775",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/provision_hopper_open.png",
+          "alpha_bounds_px": [
+            269,
+            67,
+            779,
+            903
+          ],
+          "sha256": "d21109df4db7444ade9e39e637d71a55371abb1106a37a8a2f156b28c6e1a094",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/provision_hopper_broken.png",
+          "alpha_bounds_px": [
+            195,
+            157,
+            763,
+            903
+          ],
+          "sha256": "92f6ee21129f8d5e0bd3b2edebbf53ba1e905b0fd4231095c7b4a4ee3a2eb09a",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/provision_hopper.png"
+    },
+    {
+      "id": "iron_lockbox",
+      "states": {
+        "closed": {
+          "png": "png/iron_lockbox_closed.png",
+          "alpha_bounds_px": [
+            282,
+            486,
+            742,
+            926
+          ],
+          "sha256": "9a2a9ac89be7add1ce8460b133522ed9df50c1d454fcc331e0bc9456f4263a5c",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "open": {
+          "png": "png/iron_lockbox_open.png",
+          "alpha_bounds_px": [
+            283,
+            267,
+            763,
+            926
+          ],
+          "sha256": "334ed6dde963d90312e965ba50e4f970c0f8c0886a4a73f1a2289cf4ce8e330d",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        },
+        "broken": {
+          "png": "png/iron_lockbox_broken.png",
+          "alpha_bounds_px": [
+            283,
+            343,
+            749,
+            926
+          ],
+          "sha256": "4ba87aa2159a94bba6e432fa9f493af30d68a373d82c02f5b0fb43453f0735c5",
+          "canvas_px": [
+            1024,
+            1024
+          ],
+          "ground_pivot_px": [
+            512.0,
+            802.0
+          ]
+        }
+      },
+      "source_master": "source/masters/iron_lockbox.png"
+    }
+  ],
+  "caveats": [
+    "Generated body volumes are fixed-view illustrations. The illustrated body walls and rim are mapped onto controlled world-space face meshes; painted interior recess details remain artistic, not fully calibrated 3D surface data.",
+    "Source-baked lighting is not runtime-relightable.",
+    "Colliders and engine bounds require review."
+  ],
+  "revision": "clean_ink_r02_20261006",
+  "migration": {
+    "replaces_pack": "lantern_overnight/01_containers",
+    "asset_ids": "unchanged",
+    "state_names": [
+      "closed",
+      "open",
+      "broken"
+    ],
+    "clip_ids": "unchanged",
+    "source_roles": "Old SVG sources superseded by new illustration masters, material undersides, clipping meshes and Python rig source",
+    "canvas_and_root": "unchanged: 1024x1024, [512,802]",
+    "colliders": "not migrated; review required"
+  },
+  "camera_provenance": {
+    "projection": "exact world-to-screen orthographic matrix",
+    "body_construction": "UV-mapped wall and top meshes retain source illustration while preserving world verticals",
+    "curved_vessels": "fixed-view artistically isometric painted volumes",
+    "caveat": "Painted interior recesses and curved source volumes are not fully calibrated relightable3D data"
+  }
+}

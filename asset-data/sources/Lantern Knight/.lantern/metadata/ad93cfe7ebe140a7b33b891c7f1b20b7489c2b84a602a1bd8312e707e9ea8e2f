@@ -1,0 +1,49 @@
+{
+  "name": "Masked cultist",
+  "identity_id": "lantern_concept_enemy_03_masked_cultist",
+  "reference_sha256": "eaa675ed1177ba59e3c12cffd0534ad775195818d2035861d7a3cb825f70317d",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    374,
+    555
+  ],
+  "estimated_pixels_per_unit": 240,
+  "camera": {
+    "target_elevation_degrees": 35.2643897,
+    "target_azimuth_degrees": 45,
+    "calibration": "2D artist target; not measured 3D geometry"
+  },
+  "facing": "single southeast-facing three-quarter view",
+  "mirroring": "not permitted; asymmetric equipment requires authored opposite facings",
+  "root_motion": "in place; world actor transform controlled separately; no runtime sprite offsets; registration baked into PNGs",
+  "clips": {
+    "idle": {
+      "loop": true,
+      "tick_rate": 60,
+      "holds_ticks": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "frames": [
+        "idle_00.png",
+        "idle_01.png",
+        "idle_02.png",
+        "idle_03.png",
+        "idle_04.png",
+        "idle_05.png"
+      ],
+      "atlas": "idle_atlas.png",
+      "atlas_columns": 3,
+      "atlas_rows": 2,
+      "attack_visual_event_frame": null,
+      "end_behavior": "repeat authored forward cycle; no pingpong, crossfade or root motion"
+    }
+  }
+}

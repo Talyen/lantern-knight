@@ -1,0 +1,7 @@
+Lantern moths native ambient animation
+
+Import runtime/animation.json for exact 60 Hz holds, pivot, and scale suggestion. Native cel pixels were never enlarged. Review preview/contact.jpg and preview/loop_60hz.mp4. Runtime alpha is straight RGBA; the MP4 is a composited preview, not the game asset.
+
+One reusable moth species, six drawn wing-opening cels. Instantiate multiple moths with varied playback phases. Optional engine orbit is separate from baked flutter; no pathfinding or direction variants.
+
+Camera is an art-directed 35.264 degree overhead target, not a measurable 3D camera. Sunburst 2.5 is the requested art direction phrase, not a verified generator model.

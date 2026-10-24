@@ -1,0 +1,32 @@
+[
+  {
+    "biome": "woodland",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/woodland_meadow/woodland_hero_context.png",
+    "sha256": "26371a9045e8ed50e784cd2efd266768a8465987c944cc0eeedfa1e95a1916ad"
+  },
+  {
+    "biome": "meadow",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/woodland_meadow/meadow_hero_context.png",
+    "sha256": "87646ca7a4699c73df65dd8d691f53ae9249aba893b37902766cca7e59db6e6a"
+  },
+  {
+    "biome": "marsh",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/marsh_highland/marsh_hero_context.png",
+    "sha256": "16129a6dbcc21c15bcc3a3066d15cc3203c4032c7e5abb97fafcfe2ab9f793ff"
+  },
+  {
+    "biome": "rockyhighland",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/marsh_highland/rockyhighland_hero_context.png",
+    "sha256": "4b6ddb62fdcd370bb04d71266c4afb63d25745c0d1128d29b94b357f5a92c195"
+  },
+  {
+    "biome": "snow",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/snow_badlands/snow_hero_context.png",
+    "sha256": "851a6e1d33ba74234adb0856b814a38eee18d26f506dfd3ac40c881636e140c2"
+  },
+  {
+    "biome": "aridbadlands",
+    "source": "/workspace/shared/lantern_biome_floor_samples_oct09/snow_badlands/aridbadlands_hero_context.png",
+    "sha256": "6af947c3c6246f5256dbffea05656a7e2b349bafbde23719a6ac43cd27929bee"
+  }
+]

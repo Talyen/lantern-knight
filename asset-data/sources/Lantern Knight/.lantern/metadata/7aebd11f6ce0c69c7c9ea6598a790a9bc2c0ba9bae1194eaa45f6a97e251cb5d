@@ -1,0 +1,1060 @@
+{
+  "version": "2.0-clean-ink-candidate",
+  "content_status": "root_art_gate_passed_layer_and_loop_QA_passed",
+  "canvas": [
+    1536,
+    1536
+  ],
+  "ground_pivot_px": [
+    768.0,
+    1220.0
+  ],
+  "source_density_px_per_m": 440.0,
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "assets": [
+    {
+      "id": "watch_lantern",
+      "states": {
+        "unlit": {
+          "png": "png/watch_lantern_unlit.png",
+          "alpha_bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "sha256": "b28cc6c136727bc6b5d4b55d26e294d62c76ed582e72ad032d5c592c589e5ea5",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/watch_lantern_lit.png",
+          "alpha_bounds_px": [
+            640,
+            854,
+            903,
+            1280
+          ],
+          "sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/watch_lantern_broken.png",
+          "alpha_bounds_px": [
+            558,
+            854,
+            903,
+            1280
+          ],
+          "sha256": "099493db4e6712f7917b57d62065d6de0704d1e75483c01e4d91c7415fd584ba",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/watch_lantern.png",
+      "registration": {
+        "anchor": [
+          610,
+          1110
+        ],
+        "root": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.00075,
+        "fires": [
+          [
+            [
+              528,
+              786
+            ],
+            "wick",
+            0.075,
+            0.145,
+            0
+          ]
+        ],
+        "panes": [
+          [
+            [
+              350,
+              539
+            ],
+            [
+              553,
+              658
+            ],
+            [
+              558,
+              1049
+            ],
+            [
+              353,
+              933
+            ]
+          ],
+          [
+            [
+              650,
+              689
+            ],
+            [
+              847,
+              576
+            ],
+            [
+              846,
+              936
+            ],
+            [
+              655,
+              1049
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "crook_street_lamp",
+      "states": {
+        "unlit": {
+          "png": "png/crook_street_lamp_unlit.png",
+          "alpha_bounds_px": [
+            617,
+            466,
+            1014,
+            1288
+          ],
+          "sha256": "0b0b1a5315154f157c11eeb36d5df6286a04f34e87cc89aa4b8c0e347caa4b74",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/crook_street_lamp_lit.png",
+          "alpha_bounds_px": [
+            617,
+            466,
+            1014,
+            1288
+          ],
+          "sha256": "97dff4646c5ada08747a2b20361b75311059384b446b072ed989a3679c98bedb",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/crook_street_lamp_broken.png",
+          "alpha_bounds_px": [
+            617,
+            466,
+            1014,
+            1323
+          ],
+          "sha256": "3b1d2c4d67a7c3eb96607f61173117eb37f9d05b4c2f6a1be7397ebf4a6c2eff",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/crook_street_lamp.png",
+      "registration": {
+        "anchor": [
+          475,
+          1390
+        ],
+        "root": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.00125,
+        "fires": [
+          [
+            [
+              743,
+              500
+            ],
+            "wick",
+            0.06,
+            0.1,
+            0.1
+          ]
+        ],
+        "panes": [
+          [
+            [
+              636,
+              411
+            ],
+            [
+              712,
+              451
+            ],
+            [
+              715,
+              581
+            ],
+            [
+              644,
+              542
+            ]
+          ],
+          [
+            [
+              735,
+              452
+            ],
+            [
+              810,
+              410
+            ],
+            [
+              804,
+              538
+            ],
+            [
+              737,
+              580
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "tripod_brazier",
+      "states": {
+        "unlit": {
+          "png": "png/tripod_brazier_unlit.png",
+          "alpha_bounds_px": [
+            477,
+            785,
+            1064,
+            1311
+          ],
+          "sha256": "66a3477676b351adc52ac4ecea73f6d6f10a85bc11c29a4b940b7a3fb980d81f",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/tripod_brazier_lit.png",
+          "alpha_bounds_px": [
+            477,
+            728,
+            1064,
+            1311
+          ],
+          "sha256": "63a003d983d8dcba8c7a39c1e5ceb85645a360bcb84c052a8b2612b3c8b46ff6",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/tripod_brazier_broken.png",
+          "alpha_bounds_px": [
+            473,
+            785,
+            1064,
+            1311
+          ],
+          "sha256": "772a643424ec5da43382dda1339d53fa72f54278c5f9743007924fabac7a56d0",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/tripod_brazier.png",
+      "registration": {
+        "anchor": [
+          650,
+          975
+        ],
+        "root": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.00105,
+        "fires": [
+          [
+            [
+              650,
+              440
+            ],
+            "bowl",
+            0.57,
+            0.55,
+            0.13
+          ]
+        ],
+        "occluder": [
+          [
+            [
+              0,
+              505
+            ],
+            [
+              350,
+              518
+            ],
+            [
+              690,
+              548
+            ],
+            [
+              1113,
+              458
+            ],
+            [
+              1312,
+              478
+            ],
+            [
+              1312,
+              1199
+            ],
+            [
+              0,
+              1199
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "wall_cresset",
+      "states": {
+        "unlit": {
+          "png": "png/wall_cresset_unlit.png",
+          "alpha_bounds_px": [
+            467,
+            646,
+            860,
+            1006
+          ],
+          "sha256": "0249bb4a56dee5d590366e0f9f765f3d13f79b21f20d3ff8918b9088b23f6e87",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/wall_cresset_lit.png",
+          "alpha_bounds_px": [
+            467,
+            602,
+            860,
+            1006
+          ],
+          "sha256": "ff466e409a449242b73790bd16faab03ba7774deab7b40c9337716bef48a5c73",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/wall_cresset_broken.png",
+          "alpha_bounds_px": [
+            500,
+            646,
+            860,
+            1250
+          ],
+          "sha256": "dff49214bfa73bd6ca4d480e3991b0e51684ac7f169c46286c5c9b8f9e92e9bc",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/wall_cresset.png",
+      "registration": {
+        "anchor": [
+          1180,
+          560
+        ],
+        "root": [
+          0,
+          1.035,
+          -0.18
+        ],
+        "scale": 0.0007,
+        "fires": [
+          [
+            [
+              550,
+              453
+            ],
+            "bowl",
+            0.47,
+            0.43,
+            0.27
+          ]
+        ],
+        "occluder": [
+          [
+            [
+              0,
+              527
+            ],
+            [
+              456,
+              598
+            ],
+            [
+              807,
+              551
+            ],
+            [
+              1039,
+              382
+            ],
+            [
+              1312,
+              383
+            ],
+            [
+              1312,
+              1199
+            ],
+            [
+              0,
+              1199
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "votive_candelabrum",
+      "states": {
+        "unlit": {
+          "png": "png/votive_candelabrum_unlit.png",
+          "alpha_bounds_px": [
+            531,
+            733,
+            1021,
+            1256
+          ],
+          "sha256": "a7b15a878222ef8f54ee0f3f6e457d7498077d2ccfecb5e8140fd20f91a1a529",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/votive_candelabrum_lit.png",
+          "alpha_bounds_px": [
+            531,
+            680,
+            1021,
+            1256
+          ],
+          "sha256": "51aa99134b047ebfd73ef3c07af623fa611b60f9b667a2b457524fd8ac43d6b5",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/votive_candelabrum_broken.png",
+          "alpha_bounds_px": [
+            570,
+            733,
+            1021,
+            1269
+          ],
+          "sha256": "40d94c714e6bc9a5d3fb32e36cafef5c95857b1524111ea5074a1194d961dca8",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/votive_candelabrum.png",
+      "registration": {
+        "anchor": [
+          610,
+          1180
+        ],
+        "root": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.00095,
+        "fires": [
+          [
+            [
+              212,
+              466
+            ],
+            "wick",
+            0.06,
+            0.17,
+            0.1
+          ],
+          [
+            [
+              607,
+              79
+            ],
+            "wick",
+            0.068,
+            0.19,
+            0.4
+          ],
+          [
+            [
+              1049,
+              241
+            ],
+            "wick",
+            0.057,
+            0.16,
+            0.7
+          ]
+        ]
+      }
+    },
+    {
+      "id": "tomb_beacon",
+      "states": {
+        "unlit": {
+          "png": "png/tomb_beacon_unlit.png",
+          "alpha_bounds_px": [
+            582,
+            676,
+            950,
+            1268
+          ],
+          "sha256": "5347d1d301038b73c459609d710f3a1027eb9c1b020e8a4a0008310c48b92ca5",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/tomb_beacon_lit.png",
+          "alpha_bounds_px": [
+            582,
+            603,
+            950,
+            1268
+          ],
+          "sha256": "e7301109a7894889bb9359f35c6b5150bc1e081e15273b93074c89bce095f984",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/tomb_beacon_broken.png",
+          "alpha_bounds_px": [
+            556,
+            676,
+            950,
+            1271
+          ],
+          "sha256": "71d7f9d87a5b2a1e7f9d8309f9fc0637835e6acdecad8a466feaaad3c5ded99f",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/tomb_beacon.png",
+      "registration": {
+        "anchor": [
+          520,
+          1400
+        ],
+        "root": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.0009,
+        "fires": [
+          [
+            [
+              516,
+              331
+            ],
+            "bowl",
+            0.5,
+            0.43,
+            0.05
+          ]
+        ],
+        "occluder": [
+          [
+            [
+              0,
+              435
+            ],
+            [
+              329,
+              426
+            ],
+            [
+              534,
+              451
+            ],
+            [
+              715,
+              405
+            ],
+            [
+              834,
+              284
+            ],
+            [
+              1024,
+              280
+            ],
+            [
+              1024,
+              1536
+            ],
+            [
+              0,
+              1536
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "hanging_cage_lamp",
+      "states": {
+        "unlit": {
+          "png": "png/hanging_cage_lamp_unlit.png",
+          "alpha_bounds_px": [
+            551,
+            436,
+            880,
+            1167
+          ],
+          "sha256": "d78e3bedf8f0e77a444154e54ec10124cde3fc0c9266d3e30858a62ae628eb98",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/hanging_cage_lamp_lit.png",
+          "alpha_bounds_px": [
+            551,
+            436,
+            880,
+            1167
+          ],
+          "sha256": "6656f441c2631bb72ae0f5b41f783ee74d0f2642eba1ee0c37d9c37d8a74003c",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/hanging_cage_lamp_broken.png",
+          "alpha_bounds_px": [
+            551,
+            436,
+            880,
+            1240
+          ],
+          "sha256": "3e0bd67d4507b0a9d1233b44ce9404e3011e08921b0cbdff54e77c1895031bcd",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/hanging_cage_lamp.png",
+      "registration": {
+        "anchor": [
+          513,
+          35
+        ],
+        "root": [
+          0,
+          2.135,
+          0
+        ],
+        "scale": 0.0011,
+        "fires": [
+          [
+            [
+              514,
+              1126
+            ],
+            "wick",
+            0.11,
+            0.215,
+            0.25
+          ]
+        ],
+        "panes": [
+          [
+            [
+              459,
+              908
+            ],
+            [
+              552,
+              908
+            ],
+            [
+              588,
+              1268
+            ],
+            [
+              428,
+              1271
+            ]
+          ],
+          [
+            [
+              390,
+              993
+            ],
+            [
+              420,
+              921
+            ],
+            [
+              371,
+              1220
+            ],
+            [
+              401,
+              1296
+            ],
+            [
+              368,
+              1263
+            ],
+            [
+              331,
+              1166
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "alchemist_stove",
+      "states": {
+        "unlit": {
+          "png": "png/alchemist_stove_unlit.png",
+          "alpha_bounds_px": [
+            532,
+            787,
+            999,
+            1283
+          ],
+          "sha256": "a7b23401934d5a2cd2e6b2f154b36a2b8afc2cd268885e6911ac6ef0058ba44d",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "lit": {
+          "png": "png/alchemist_stove_lit.png",
+          "alpha_bounds_px": [
+            532,
+            787,
+            999,
+            1283
+          ],
+          "sha256": "b180e1913af5494a28853ef46e017a629848b3e0e0a69e41cfe666bb6c0bb07d",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        },
+        "broken": {
+          "png": "png/alchemist_stove_broken.png",
+          "alpha_bounds_px": [
+            532,
+            833,
+            988,
+            1399
+          ],
+          "sha256": "8dfd8586669e27c20b6dc9b1469285926b7d806f11ad4f573fe2ea770b45b735",
+          "canvas_px": [
+            1536,
+            1536
+          ],
+          "ground_pivot_px": [
+            768.0,
+            1220.0
+          ]
+        }
+      },
+      "source_master": "source/masters/alchemist_stove.png",
+      "registration": {
+        "anchor": [
+          597,
+          1110
+        ],
+        "root": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.0009,
+        "fires": [
+          [
+            [
+              395,
+              973
+            ],
+            "stove",
+            0.21,
+            0.24,
+            0.34
+          ]
+        ],
+        "panes": [
+          [
+            [
+              300,
+              790
+            ],
+            [
+              299,
+              766
+            ],
+            [
+              309,
+              749
+            ],
+            [
+              327,
+              746
+            ],
+            [
+              345,
+              761
+            ],
+            [
+              345,
+              958
+            ],
+            [
+              329,
+              970
+            ],
+            [
+              309,
+              962
+            ]
+          ],
+          [
+            [
+              374,
+              778
+            ],
+            [
+              378,
+              763
+            ],
+            [
+              396,
+              756
+            ],
+            [
+              414,
+              771
+            ],
+            [
+              417,
+              969
+            ],
+            [
+              403,
+              985
+            ],
+            [
+              377,
+              976
+            ]
+          ],
+          [
+            [
+              446,
+              810
+            ],
+            [
+              450,
+              793
+            ],
+            [
+              468,
+              787
+            ],
+            [
+              485,
+              802
+            ],
+            [
+              487,
+              988
+            ],
+            [
+              470,
+              1004
+            ],
+            [
+              448,
+              994
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "light_rendering": "lit PNG has clean flame color and restrained static pane warmth; separate emission RGBA supplied, not claimed as physically based dynamic lighting",
+  "caveats": [
+    "Fixture masters are fixed-view isometric illustrations, not fully calibrated 3D meshes. Camera basis controls anchors and flame surfaces.",
+    "No hardware is independently regenerated or deformed during flame animation."
+  ],
+  "revision": "clean_ink_r02_20261006",
+  "migration": {
+    "old_pack": "lantern_overnight/03_lighting",
+    "asset_ids": "unchanged",
+    "states": "unchanged",
+    "clips": "original four IDs,24frames,12fps,2seconds",
+    "canvas_root": "unchanged",
+    "source_roles": "SVG replaced by untouched image masters, source layers, geometry masks and Python flame rig"
+  },
+  "mount_sockets": {
+    "wall_cresset": [
+      0,
+      1.035,
+      -0.18
+    ],
+    "hanging_cage_lamp": [
+      0,
+      2.135,
+      0
+    ]
+  },
+  "light_layers": {
+    "composition": "unlit + static pane warmth + emission == combined lit, pixel verified",
+    "physical_lumens": "not specified; runtime lighting is integration work"
+  }
+}

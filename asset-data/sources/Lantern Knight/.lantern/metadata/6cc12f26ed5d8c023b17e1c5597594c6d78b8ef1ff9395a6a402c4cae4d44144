@@ -1,0 +1,13 @@
+LANTERN HIT REACTION — COMPLETE ILLUSTRATED SOURCES
+
+Approved delivered clip:16 unique complete drawings,30 ticks at60Hz,0.50s. ExactR0 is reused at entry and on return. The final two new drawings visibly gather and preplant the far left foot into R0.
+
+These are original native AI illustration masters and the prompts used to generate them. Multi-drawing masters also retain unselected candidates, which are NOT additional runtime frames. The separate runtime package is authoritative for selected finished PNGs. No death artwork is included here.
+
+Source inventory records the selected full drawing cell, native crop rectangle, one source-wide normalization, whole-drawing integer offset and physical support landmarks. No per-frame bounds fitting, part deformation, CGI, tweening, optical flow or blending. Whole-figure extraction partitions separated illustration regions and preserves assigned RGBA; native masters retain all original alpha and hidden RGB.
+
+Import canvas1536x1024, root(768,892) from top-left. Keep the accepted pixels-per-world-unit. Wider transparent padding must not shrink the actor. Camera is an approximate illustrated view, not a calibrated3D claim.
+
+The near anatomical right hand carries the sword and black wrist wrap. Far left carries the rectangular lantern and long brown bracer; left-only patches may be occluded. Both props remain held. Near-right rear boot is the primary support registration; far-left foot opens and gathers through the authored action. This is not a certified two-foot-lock or arbitrary-interruption clip. Engine integration was not tested or changed.
+
+Sunburst2.5 (gpt-image-2.5-sunburst) was requested in every generation prompt; actual backend model was not exposed or verified.

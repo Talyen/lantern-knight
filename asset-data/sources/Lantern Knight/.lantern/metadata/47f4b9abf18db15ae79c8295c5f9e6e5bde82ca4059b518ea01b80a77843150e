@@ -1,0 +1,8 @@
+{
+  "native_sha256_matches_approved_output_binding": true,
+  "prompt_sha256_matches_original_binding": true,
+  "exact_prompt_file_differs_from_actual_parameter_only_by_added_terminal_newline": true,
+  "actual_prompt_utf8_sha256": "e6a1233d814c2d8fbc059d86cd39f3c338e81b4e90f0cfcae511694599fc7517",
+  "canonical_reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "actual_parameters_are_authoritative": true
+}

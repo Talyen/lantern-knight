@@ -1,0 +1,40 @@
+{
+  "id": "lantern_concept_enemy_08_clockwork_penitent",
+  "name": "Clockwork penitent",
+  "family": "02_enemies",
+  "collection": "current_ink_revision02",
+  "canonical_status": "REBUILT \u2014 fresh ink drawing; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "1vBI2cSWm_dn-i9r0GESQc_diY6HjnxMZ",
+  "source_url": "https://drive.google.com/file/d/1vBI2cSWm_dn-i9r0GESQc_diY6HjnxMZ/view?usp=drivesdk",
+  "source_archive": "02_enemies_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_enemies_ink_revision02/packs/02_enemies/assets/08_clockwork_penitent.png",
+  "source_sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "slug": "clockwork_penitent",
+  "canvas_size": 768,
+  "pivot": [
+    400,
+    697
+  ],
+  "ppu": 320,
+  "notes": "Movement: one mechanical hitching-step shuffle cycle, not alternating march. Raised-knee cels grouped before landing cels. Attack: vertical staff ground-strike. Move clip uniformly reduced to 92 percent to match attack-rest body scale, no per-frame scaling. Ground registration baked.",
+  "offsets": {},
+  "order": {
+    "move": [
+      0,
+      1,
+      3,
+      2,
+      4,
+      5
+    ]
+  },
+  "clip_scale": {
+    "move": 0.92
+  },
+  "ground_y": 697
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "original_source_path": "cultist_deliveries_oct09/forest_gathering/forest_gathering_A_native.png",
+    "packaged_reference_path": "references/selected_viewport_sample.png",
+    "sha256": "db385d67c1cfacd779af034c204bec77df8dabe85bfab3bddf22ef3319ac0a3e"
+  },
+  {
+    "original_source_path": "recovered_scene_runtime_oct09/review_support/hero_original.png",
+    "packaged_reference_path": "references/hero_original.png",
+    "sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+  }
+]

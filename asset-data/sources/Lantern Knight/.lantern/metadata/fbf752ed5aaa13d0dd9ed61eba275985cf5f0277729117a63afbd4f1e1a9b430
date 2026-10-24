@@ -1,0 +1,47 @@
+{
+  "created_date_utc": "2026-10-09",
+  "assets": [
+    {
+      "variant": "A",
+      "file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/graveyard/graveyard_A_native.png",
+      "native_dimensions": [
+        1536,
+        1024
+      ],
+      "generation_tool": "built-in image_gen.imagegen",
+      "generation_calls": 1,
+      "source_generation_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-74f6f5cb-5207-4bb8-835e-096d8322e8e6.png",
+      "reference_paths": [
+        "/workspace/scratch/1a83d58417d5/floor_method_delivery_oct09/fresh/graveyard_viewport_hero160_context.png",
+        "/workspace/scratch/1a83d58417d5/whole_graveyard_delivery_oct09/native_floor.png"
+      ],
+      "references_role": "Style, camera, and ground texture only; fresh compositions",
+      "exact_prompt_file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/graveyard/graveyard_A_exact_prompt.txt",
+      "sha256": "97882e947d12fa0d358f60753de5da989b7211e39cc1ad0e90ec198ef961cf4e",
+      "postprocessing": "None; byte-identical source copy",
+      "hero_present": false,
+      "visual_review": "Passed: dry grounded oblique gameplay viewport, no text/UI/characters; uncluttered major props, broad open ground. A terraces and steps; B old yew and broken boundary wall."
+    },
+    {
+      "variant": "B",
+      "file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/graveyard/graveyard_B_native.png",
+      "native_dimensions": [
+        1536,
+        1024
+      ],
+      "generation_tool": "built-in image_gen.imagegen",
+      "generation_calls": 1,
+      "source_generation_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-50052ef3-af5e-4a4e-ae4b-d0f1f94d4eb3.png",
+      "reference_paths": [
+        "/workspace/scratch/1a83d58417d5/floor_method_delivery_oct09/fresh/graveyard_viewport_hero160_context.png",
+        "/workspace/scratch/1a83d58417d5/whole_graveyard_delivery_oct09/native_floor.png"
+      ],
+      "references_role": "Style, camera, and ground texture only; fresh compositions",
+      "exact_prompt_file": "/workspace/scratch/1a83d58417d5/wilderness_variants_oct09/graveyard/graveyard_B_exact_prompt.txt",
+      "sha256": "547e5124dfc79ce38bc0d0411922766878871a2e5a59f2723c65a21d4957b1bb",
+      "postprocessing": "None; byte-identical source copy",
+      "hero_present": false,
+      "visual_review": "Passed: dry grounded oblique gameplay viewport, no text/UI/characters; uncluttered major props, broad open ground. A terraces and steps; B old yew and broken boundary wall."
+    }
+  ]
+}

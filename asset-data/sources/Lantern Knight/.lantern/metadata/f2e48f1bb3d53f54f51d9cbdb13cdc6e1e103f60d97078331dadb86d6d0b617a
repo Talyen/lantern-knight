@@ -1,0 +1,488 @@
+[
+  {
+    "native_file": "source/hit02_v01_native.png",
+    "native_size_px": [
+      1122,
+      1402
+    ],
+    "native_sha256": "0e6e07e61a3864cc95bd99a47ba7f677a1643dd282e8423e8ffcd03b0e75e9cd",
+    "prompt_file": "prompts/hit02_v01.txt",
+    "selected_drawings": [
+      {
+        "frame": 2,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          513,
+          361
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          511,
+          1314
+        ],
+        "registered_support_px": [
+          732.773,
+          926.131
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit04_v02_native.png",
+    "native_size_px": [
+      1122,
+      1402
+    ],
+    "native_sha256": "09e91bada7f53bfe8c9cd921c7fd6b290683f6e7b997b48101f4ebb6f73c84dd",
+    "prompt_file": "prompts/hit04_v02.txt",
+    "selected_drawings": [
+      {
+        "frame": 4,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          526,
+          366
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          481,
+          1302
+        ],
+        "registered_support_px": [
+          732.871,
+          925.97
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit10_v01_native.png",
+    "native_size_px": [
+      1122,
+      1402
+    ],
+    "native_sha256": "51f48bbf7de2306cc5c6f959bb254e5fac8896f498b755bd68b227902ceb2e3f",
+    "prompt_file": "prompts/hit10_v01.txt",
+    "selected_drawings": [
+      {
+        "frame": 11,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          513,
+          355
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          510,
+          1328
+        ],
+        "registered_support_px": [
+          732.343,
+          926.153
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit15_gather_v01_native.png",
+    "native_size_px": [
+      1122,
+      1402
+    ],
+    "native_sha256": "a829ad3db47e54569593edfeebd025e030cb54aa97ebbf1fe28274401bbfce01",
+    "prompt_file": "prompts/hit15_gather_v01.txt",
+    "selected_drawings": [
+      {
+        "frame": 15,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          511,
+          381
+        ],
+        "support": "near right rear sole; far-left foot visibly gathering with heel lifted",
+        "native_support_px": [
+          516,
+          1268
+        ],
+        "registered_support_px": [
+          732.924,
+          926.347
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit16_preplant_v01_native.png",
+    "native_size_px": [
+      1122,
+      1402
+    ],
+    "native_sha256": "eb0b80e44e2680de5cab6e4891f6192eb46f2bb35d012499b82c80763a0ab366",
+    "prompt_file": "prompts/hit16_preplant_v01.txt",
+    "selected_drawings": [
+      {
+        "frame": 16,
+        "cell": 0,
+        "crop": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          511,
+          367
+        ],
+        "support": "near right rear sole; far-left toe preplants at R0 footprint",
+        "native_support_px": [
+          515,
+          1300
+        ],
+        "registered_support_px": [
+          732.494,
+          926.11
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit_master_01_native.png",
+    "native_size_px": [
+      1254,
+      1254
+    ],
+    "native_sha256": "bacb190820b3d9dec73344ee2ee812425c89898cd545c97a30ed0899a5d06385",
+    "prompt_file": "prompts/hit_master_01.txt",
+    "selected_drawings": [
+      {
+        "frame": 3,
+        "cell": 1,
+        "crop": [
+          679,
+          3,
+          1239,
+          622
+        ],
+        "uniform_source_scale": 0.86,
+        "integer_translation_px": [
+          556,
+          405
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          884,
+          609
+        ],
+        "registered_support_px": [
+          732.3,
+          926.16
+        ]
+      },
+      {
+        "frame": 5,
+        "cell": 3,
+        "crop": [
+          657,
+          624,
+          1246,
+          1238
+        ],
+        "uniform_source_scale": 0.86,
+        "integer_translation_px": [
+          546,
+          409
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          874,
+          1225
+        ],
+        "registered_support_px": [
+          732.62,
+          925.86
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit_master_02_v02_native.png",
+    "native_size_px": [
+      1254,
+      1254
+    ],
+    "native_sha256": "ac3bbdaac5f6a30c7c022ab3c0c4ec613dc174f546bb0673ad3602694a8d18ba",
+    "prompt_file": "prompts/hit_master_02_v02.txt",
+    "selected_drawings": [
+      {
+        "frame": 6,
+        "cell": 0,
+        "crop": [
+          82,
+          29,
+          583,
+          615
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          568,
+          445
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          278,
+          602
+        ],
+        "registered_support_px": [
+          732.64,
+          926.32
+        ]
+      },
+      {
+        "frame": 7,
+        "cell": 1,
+        "crop": [
+          650,
+          103,
+          1171,
+          608
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          545,
+          513
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          873,
+          595
+        ],
+        "registered_support_px": [
+          732.32,
+          926.28
+        ]
+      },
+      {
+        "frame": 8,
+        "cell": 2,
+        "crop": [
+          36,
+          737,
+          611,
+          1217
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          509,
+          535
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          302,
+          1203
+        ],
+        "registered_support_px": [
+          732.44,
+          926.44
+        ]
+      },
+      {
+        "frame": 9,
+        "cell": 3,
+        "crop": [
+          637,
+          622,
+          1241,
+          1231
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          556,
+          426
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          847,
+          1217
+        ],
+        "registered_support_px": [
+          732.4,
+          925.8
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit_master_03_native.png",
+    "native_size_px": [
+      1254,
+      1254
+    ],
+    "native_sha256": "d481e70b3ffe6c2de918716531c93fecc675a45899b3c5a8ed2bcabc49ba1150",
+    "prompt_file": "prompts/hit_master_03.txt",
+    "selected_drawings": [
+      {
+        "frame": 10,
+        "cell": 1,
+        "crop": [
+          654,
+          11,
+          1153,
+          603
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          564,
+          457
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          862,
+          590
+        ],
+        "registered_support_px": [
+          732.48,
+          925.99
+        ]
+      },
+      {
+        "frame": 12,
+        "cell": 2,
+        "crop": [
+          110,
+          601,
+          569,
+          1242
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          592,
+          418
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          284,
+          1228
+        ],
+        "registered_support_px": [
+          732.94,
+          925.87
+        ]
+      },
+      {
+        "frame": 13,
+        "cell": 3,
+        "crop": [
+          705,
+          599,
+          1098,
+          1241
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          575,
+          417
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          899,
+          1227
+        ],
+        "registered_support_px": [
+          732.14,
+          925.68
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  },
+  {
+    "native_file": "source/hit_master_04_native.png",
+    "native_size_px": [
+      1254,
+      1254
+    ],
+    "native_sha256": "ee5ba42092b584662ac43200d19a0310da56e058f8cccb8316b7a30176f70781",
+    "prompt_file": "prompts/hit_master_04.txt",
+    "selected_drawings": [
+      {
+        "frame": 14,
+        "cell": 0,
+        "crop": [
+          95,
+          13,
+          499,
+          636
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          554,
+          413
+        ],
+        "support": "near right rear boot sole",
+        "native_support_px": [
+          308,
+          624
+        ],
+        "registered_support_px": [
+          732.92,
+          926.24
+        ]
+      }
+    ],
+    "generation_method": "built-in image generator; fresh whole-character illustrations",
+    "model_prompt_request": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+    "actual_backend_verified": false
+  }
+]

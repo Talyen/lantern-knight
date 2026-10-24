@@ -1,0 +1,10 @@
+LANTERN DASH + FLARE — PREVIEWS
+
+Recommended first look: dash_body_full.mp4 and lantern_flare_with_fx_full.mp4.
+Dash has22 complete timed drawings and lasts0.65s once. Flare has25 complete body drawings and lasts1.40s once, plus4 separately drawn effect images. Videos intentionally repeat each one-shot3times with neutral pauses. Half-speed files explicitly state0.5x and take twice as long to play each action. All files present held drawings at60Hz; none interpolate new character poses.
+
+The game-size files use fixed R0 standing-reference heights of163px and122px. Actors are uniformly scaled from one fixed source reference, never autofitted per pose.
+
+The in-place versus external-travel file is a review aid, not baked root motion or game code. Its example displacement stops at the first left-heel receipt; damage, collision, invulnerability and actual travel distance remain game-owned.
+
+Contact sheets and the separate-body/light-layer peak proof are still views for inspection. Full transparent runtime PNGs/atlases and native source masters/prompts are in separate companion ZIPs.

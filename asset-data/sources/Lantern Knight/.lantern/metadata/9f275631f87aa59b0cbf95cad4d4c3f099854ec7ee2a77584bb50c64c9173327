@@ -1,0 +1,2187 @@
+{
+  "id": "hit_reaction",
+  "name": "Hit reaction",
+  "timed_drawing_slots": 16,
+  "duration_ticks_60hz": 30,
+  "duration_seconds": 0.5,
+  "frames": [
+    {
+      "frame": 1,
+      "phase": "ready seed R0",
+      "support_plan": "both N0 F0",
+      "pose": "Exact R0 for clean preview entry; a game may enter at frame 2 for immediate response.",
+      "start_tick_60hz": 0,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.0,
+      "file": "frames/hit_reaction_001.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 1,
+        "file": "frames/hit_reaction/hit_reaction_01.png",
+        "shared_state_id": "R0",
+        "source_file": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/shared_states/R0_delivery_1536.png",
+        "scale": "immutable exported R0, no resampling",
+        "translation_px": [
+          0,
+          0
+        ]
+      },
+      "shared_state_id": "R0",
+      "index": 1,
+      "source_file": "frames/hit_reaction/hit_reaction_01.png",
+      "sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d",
+      "rgba_sha256": "bcb7dc12b37fc4e658b2f8821705fe42648a591b600f1978ab9bdaa1b7f06e2c",
+      "visible_rgba_sha256": "2053991bb69eac0b398685ca504236a3cf10792d125803bca9267a8ab4fe3522",
+      "onset_60hz": 0,
+      "frameHold": 1,
+      "onset_seconds": 0.0,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 602,
+        "y": 420,
+        "w": 290,
+        "h": 509
+      },
+      "source_trim_rect": {
+        "x": 602,
+        "y": 420,
+        "w": 290,
+        "h": 509
+      },
+      "trimmed_root_pivot_px_top_left": [
+        166,
+        472
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 8,
+        "y": 8,
+        "w": 290,
+        "h": 509
+      },
+      "atlasRect": {
+        "x": 8,
+        "y": 8,
+        "w": 290,
+        "h": 509
+      }
+    },
+    {
+      "frame": 2,
+      "phase": "hit snap",
+      "support_plan": "both N0 F0",
+      "pose": "Head and chest recoil sharply back while the hips stay planted; sword and lantern grips remain closed.",
+      "start_tick_60hz": 1,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.016667,
+      "file": "frames/hit_reaction_002.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 2,
+        "file": "frames/hit_reaction/hit_reaction_02.png",
+        "source_file": "source/hit02_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h02",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          513,
+          361
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          511,
+          1314
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.773,
+          926.131
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          600,
+          389,
+          899,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          552,
+          388,
+          900,
+          934
+        ],
+        "sha256": "c8e4bc49921bf87a1338804c555d76575df9259d7ec48ed2afc68c58ab4a091e"
+      },
+      "index": 2,
+      "source_file": "frames/hit_reaction/hit_reaction_02.png",
+      "sha256": "c8e4bc49921bf87a1338804c555d76575df9259d7ec48ed2afc68c58ab4a091e",
+      "rgba_sha256": "366637b02c36a72d848e316aed5acf2a35304bb3d122ec32416f3ee49b11bd59",
+      "visible_rgba_sha256": "81c3774a073c58773555a89ca042790620a55a1ccc9d839b11164b5680579533",
+      "onset_60hz": 1,
+      "frameHold": 1,
+      "onset_seconds": 0.016666666666666666,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 552,
+        "y": 388,
+        "w": 348,
+        "h": 546
+      },
+      "source_trim_rect": {
+        "x": 552,
+        "y": 388,
+        "w": 348,
+        "h": 546
+      },
+      "trimmed_root_pivot_px_top_left": [
+        216,
+        504
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 314,
+        "y": 8,
+        "w": 348,
+        "h": 546
+      },
+      "atlasRect": {
+        "x": 314,
+        "y": 8,
+        "w": 348,
+        "h": 546
+      }
+    },
+    {
+      "frame": 3,
+      "phase": "recoil extension",
+      "support_plan": "far F0 near forefoot N0",
+      "pose": "Spine arcs, near shoulder turns away from the impact, and coat fronts separate with a clear jagged silhouette.",
+      "start_tick_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.033333,
+      "file": "frames/hit_reaction_003.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 3,
+        "file": "frames/hit_reaction/hit_reaction_03.png",
+        "source_file": "source/hit_master_01_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h1",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          679,
+          3,
+          1239,
+          622
+        ],
+        "uniform_source_scale": 0.86,
+        "integer_translation_px": [
+          556,
+          405
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          884,
+          609
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.3,
+          926.16
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          563,
+          412,
+          1031,
+          931
+        ],
+        "nonzero_alpha_bbox": [
+          561,
+          410,
+          1033,
+          934
+        ],
+        "sha256": "4f5ed4b3a9df3b2eb4a7671fd6ffae8977e44d2f5f9cbdf8ffe800c2e8443e08"
+      },
+      "index": 3,
+      "source_file": "frames/hit_reaction/hit_reaction_03.png",
+      "sha256": "4f5ed4b3a9df3b2eb4a7671fd6ffae8977e44d2f5f9cbdf8ffe800c2e8443e08",
+      "rgba_sha256": "5be2091bfe8e53c3e64916d86da6a2aa5f6910a2b021972f300910653264b91a",
+      "visible_rgba_sha256": "99cec169affe382318fd943b3a10a1d768ccef46025a5d8a00d4ef3c00bdd884",
+      "onset_60hz": 2,
+      "frameHold": 2,
+      "onset_seconds": 0.03333333333333333,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 561,
+        "y": 410,
+        "w": 472,
+        "h": 524
+      },
+      "source_trim_rect": {
+        "x": 561,
+        "y": 410,
+        "w": 472,
+        "h": 524
+      },
+      "trimmed_root_pivot_px_top_left": [
+        207,
+        482
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 678,
+        "y": 8,
+        "w": 472,
+        "h": 524
+      },
+      "atlasRect": {
+        "x": 678,
+        "y": 8,
+        "w": 472,
+        "h": 524
+      }
+    },
+    {
+      "frame": 4,
+      "phase": "recoil accent",
+      "support_plan": "far F0 near forefoot N0",
+      "pose": "Maximum back-lean and compressed far knee; lantern is thrown outward only within the securely held arm arc.",
+      "start_tick_60hz": 4,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.066667,
+      "file": "frames/hit_reaction_004.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 4,
+        "file": "frames/hit_reaction/hit_reaction_04.png",
+        "source_file": "source/hit04_v02_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "hkey",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          526,
+          366
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          481,
+          1302
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.871,
+          925.97
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          555,
+          411,
+          1007,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          554,
+          410,
+          1009,
+          934
+        ],
+        "sha256": "01b536b521e1b4605722b18ad41308660171ed41e1786f0157de5675854c69da"
+      },
+      "index": 4,
+      "source_file": "frames/hit_reaction/hit_reaction_04.png",
+      "sha256": "01b536b521e1b4605722b18ad41308660171ed41e1786f0157de5675854c69da",
+      "rgba_sha256": "1da413306d0d6c564cc504ddc3cb38f8803e4c11e5bfd2f87eb03ca552f170c8",
+      "visible_rgba_sha256": "2505a9b5ff38398b7b8007073c7e8c1c7db0cce0ed0975b60d4d2768e87e6faf",
+      "onset_60hz": 4,
+      "frameHold": 3,
+      "onset_seconds": 0.06666666666666667,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 554,
+        "y": 410,
+        "w": 455,
+        "h": 524
+      },
+      "source_trim_rect": {
+        "x": 554,
+        "y": 410,
+        "w": 455,
+        "h": 524
+      },
+      "trimmed_root_pivot_px_top_left": [
+        214,
+        482
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1166,
+        "y": 8,
+        "w": 455,
+        "h": 524
+      },
+      "atlasRect": {
+        "x": 1166,
+        "y": 8,
+        "w": 455,
+        "h": 524
+      }
+    },
+    {
+      "frame": 5,
+      "phase": "overshoot",
+      "support_plan": "far F0 near forefoot N0",
+      "pose": "Head begins returning while sword and coat continue their delayed recoil.",
+      "start_tick_60hz": 7,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.116667,
+      "file": "frames/hit_reaction_005.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 5,
+        "file": "frames/hit_reaction/hit_reaction_05.png",
+        "source_file": "source/hit_master_01_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h1",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          657,
+          624,
+          1246,
+          1238
+        ],
+        "uniform_source_scale": 0.86,
+        "integer_translation_px": [
+          546,
+          409
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          874,
+          1225
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.62,
+          925.86
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          553,
+          416,
+          1046,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          549,
+          413,
+          1048,
+          937
+        ],
+        "sha256": "58c38fa1f509a044423a9da126853245894895b6e2b7629801757bdf04845003"
+      },
+      "index": 5,
+      "source_file": "frames/hit_reaction/hit_reaction_05.png",
+      "sha256": "58c38fa1f509a044423a9da126853245894895b6e2b7629801757bdf04845003",
+      "rgba_sha256": "5b72aa68110cf0b1173d02d34d28864a2c42d696ef3d53ba58cebbed04ee275e",
+      "visible_rgba_sha256": "8040b4d422b82ad3d313435e325e4299af226a5f74a9089ff48f392e705951a0",
+      "onset_60hz": 7,
+      "frameHold": 2,
+      "onset_seconds": 0.11666666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 549,
+        "y": 413,
+        "w": 499,
+        "h": 524
+      },
+      "source_trim_rect": {
+        "x": 549,
+        "y": 413,
+        "w": 499,
+        "h": 524
+      },
+      "trimmed_root_pivot_px_top_left": [
+        219,
+        479
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1637,
+        "y": 8,
+        "w": 499,
+        "h": 524
+      },
+      "atlasRect": {
+        "x": 1637,
+        "y": 8,
+        "w": 499,
+        "h": 524
+      }
+    },
+    {
+      "frame": 6,
+      "phase": "guard fold",
+      "support_plan": "both N0 F0",
+      "pose": "Torso folds forward from the recoil; right sword elbow tucks near the ribs without crossing the blade through the body.",
+      "start_tick_60hz": 9,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.15,
+      "file": "frames/hit_reaction_006.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 6,
+        "file": "frames/hit_reaction/hit_reaction_06.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          82,
+          29,
+          583,
+          615
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          568,
+          445
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          278,
+          602
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.64,
+          926.32
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          575,
+          452,
+          983,
+          931
+        ],
+        "nonzero_alpha_bbox": [
+          573,
+          449,
+          989,
+          933
+        ],
+        "sha256": "e2f7f6bb0fe13add19e693d789c6c9bd13d52d3d19300bb2ab4c556ec20c95ee"
+      },
+      "index": 6,
+      "source_file": "frames/hit_reaction/hit_reaction_06.png",
+      "sha256": "e2f7f6bb0fe13add19e693d789c6c9bd13d52d3d19300bb2ab4c556ec20c95ee",
+      "rgba_sha256": "43140d61bc03f66d06107ccd7a06ba292deba3ab17903aa90bf8b554c3316c41",
+      "visible_rgba_sha256": "9c193bbbf711fa6a2250eb55bddc28398e6eed73b14f9fd4285ec37c115499d9",
+      "onset_60hz": 9,
+      "frameHold": 2,
+      "onset_seconds": 0.15,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 573,
+        "y": 449,
+        "w": 416,
+        "h": 484
+      },
+      "source_trim_rect": {
+        "x": 573,
+        "y": 449,
+        "w": 416,
+        "h": 484
+      },
+      "trimmed_root_pivot_px_top_left": [
+        195,
+        443
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2152,
+        "y": 8,
+        "w": 416,
+        "h": 484
+      },
+      "atlasRect": {
+        "x": 2152,
+        "y": 8,
+        "w": 416,
+        "h": 484
+      }
+    },
+    {
+      "frame": 7,
+      "phase": "low catch",
+      "support_plan": "both N0 F0",
+      "pose": "Both knees bend into a low catching stance; far lantern is pulled protectively close.",
+      "start_tick_60hz": 11,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.183333,
+      "file": "frames/hit_reaction_007.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 7,
+        "file": "frames/hit_reaction/hit_reaction_07.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          650,
+          103,
+          1171,
+          608
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          545,
+          513
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          873,
+          595
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.32,
+          926.28
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          551,
+          520,
+          976,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          549,
+          513,
+          983,
+          933
+        ],
+        "sha256": "c128a7e5f976303fe814de945554426824633f847d613335c07a1c3f32eeeeb2"
+      },
+      "index": 7,
+      "source_file": "frames/hit_reaction/hit_reaction_07.png",
+      "sha256": "c128a7e5f976303fe814de945554426824633f847d613335c07a1c3f32eeeeb2",
+      "rgba_sha256": "1c6baf5c0f629a0dcea81f75d7398a63ee35886de83fb5c38f6fe75b767cc4f2",
+      "visible_rgba_sha256": "b467b03149df38774b9979d4e9f0f8254925259158243d5cec433e1efe5caf9e",
+      "onset_60hz": 11,
+      "frameHold": 2,
+      "onset_seconds": 0.18333333333333332,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 549,
+        "y": 513,
+        "w": 434,
+        "h": 420
+      },
+      "source_trim_rect": {
+        "x": 549,
+        "y": 513,
+        "w": 434,
+        "h": 420
+      },
+      "trimmed_root_pivot_px_top_left": [
+        219,
+        379
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2584,
+        "y": 8,
+        "w": 434,
+        "h": 420
+      },
+      "atlasRect": {
+        "x": 2584,
+        "y": 8,
+        "w": 434,
+        "h": 420
+      }
+    },
+    {
+      "frame": 8,
+      "phase": "load recovery",
+      "support_plan": "both N0 F0",
+      "pose": "Lowest recovery pose, with a determined forward head and a broad shoulder line.",
+      "start_tick_60hz": 13,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.216667,
+      "file": "frames/hit_reaction_008.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 8,
+        "file": "frames/hit_reaction/hit_reaction_08.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          36,
+          737,
+          611,
+          1217
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          509,
+          535
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          302,
+          1203
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.44,
+          926.44
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          515,
+          542,
+          985,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          513,
+          540,
+          992,
+          938
+        ],
+        "sha256": "3b9b66450b61275fac088130bf91d2dbbc2f26fcf433c42aa409d2e2a5c03d29"
+      },
+      "index": 8,
+      "source_file": "frames/hit_reaction/hit_reaction_08.png",
+      "sha256": "3b9b66450b61275fac088130bf91d2dbbc2f26fcf433c42aa409d2e2a5c03d29",
+      "rgba_sha256": "467c4a984a9754dc8563f62c942cdef8e4f3372159603cd37a4075aee8fadb92",
+      "visible_rgba_sha256": "dc8532eb5d0e9236b8232a69c7639fe976362895dfa947ec141f173db77f74fb",
+      "onset_60hz": 13,
+      "frameHold": 2,
+      "onset_seconds": 0.21666666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 513,
+        "y": 540,
+        "w": 479,
+        "h": 398
+      },
+      "source_trim_rect": {
+        "x": 513,
+        "y": 540,
+        "w": 479,
+        "h": 398
+      },
+      "trimmed_root_pivot_px_top_left": [
+        255,
+        352
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 3034,
+        "y": 8,
+        "w": 479,
+        "h": 398
+      },
+      "atlasRect": {
+        "x": 3034,
+        "y": 8,
+        "w": 479,
+        "h": 398
+      }
+    },
+    {
+      "frame": 9,
+      "phase": "rise onset",
+      "support_plan": "both N0 F0",
+      "pose": "Push through the boots and raise chest; blade returns outside the near leg.",
+      "start_tick_60hz": 15,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.25,
+      "file": "frames/hit_reaction_009.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 9,
+        "file": "frames/hit_reaction/hit_reaction_09.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          637,
+          622,
+          1241,
+          1231
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          556,
+          426
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          847,
+          1217
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.4,
+          925.8
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          562,
+          432,
+          1057,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          561,
+          430,
+          1060,
+          933
+        ],
+        "sha256": "28a6f88624b15e591eecd954f712e1563b6a18410034a3f8d7b97cdb8d70b18b"
+      },
+      "index": 9,
+      "source_file": "frames/hit_reaction/hit_reaction_09.png",
+      "sha256": "28a6f88624b15e591eecd954f712e1563b6a18410034a3f8d7b97cdb8d70b18b",
+      "rgba_sha256": "c2039ca22a180bbe95bab3d2278816f293f0897bd28dbdbe73fa4adf809699e1",
+      "visible_rgba_sha256": "d76cf881b4003fb93e8af5fb5ff0bc1287302138ec9a775d51b1a3faf12a0e4e",
+      "onset_60hz": 15,
+      "frameHold": 2,
+      "onset_seconds": 0.25,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 561,
+        "y": 430,
+        "w": 499,
+        "h": 503
+      },
+      "source_trim_rect": {
+        "x": 561,
+        "y": 430,
+        "w": 499,
+        "h": 503
+      },
+      "trimmed_root_pivot_px_top_left": [
+        207,
+        462
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 3529,
+        "y": 8,
+        "w": 499,
+        "h": 503
+      },
+      "atlasRect": {
+        "x": 3529,
+        "y": 8,
+        "w": 499,
+        "h": 503
+      }
+    },
+    {
+      "frame": 10,
+      "phase": "rise",
+      "support_plan": "both N0 F0",
+      "pose": "Shoulders open; lantern swings back toward its ready distance.",
+      "start_tick_60hz": 17,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.283333,
+      "file": "frames/hit_reaction_010.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 10,
+        "file": "frames/hit_reaction/hit_reaction_10.png",
+        "source_file": "source/hit_master_03_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h3",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          654,
+          11,
+          1153,
+          603
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          564,
+          457
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          862,
+          590
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.48,
+          925.99
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          570,
+          463,
+          962,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          564,
+          462,
+          967,
+          932
+        ],
+        "sha256": "78a5b3730753791e749855ed8cc764d1597b70b244e3edbb304f719f36dee0bb"
+      },
+      "index": 10,
+      "source_file": "frames/hit_reaction/hit_reaction_10.png",
+      "sha256": "78a5b3730753791e749855ed8cc764d1597b70b244e3edbb304f719f36dee0bb",
+      "rgba_sha256": "4cd92dff4bf5a6573f210454458b892cd7c4e4f62c582a830fc527930eea802a",
+      "visible_rgba_sha256": "8737f0e8bff1db2deac7256d0c9de361da3c08091373383428d758c26425a20e",
+      "onset_60hz": 17,
+      "frameHold": 2,
+      "onset_seconds": 0.2833333333333333,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 564,
+        "y": 462,
+        "w": 403,
+        "h": 470
+      },
+      "source_trim_rect": {
+        "x": 564,
+        "y": 462,
+        "w": 403,
+        "h": 470
+      },
+      "trimmed_root_pivot_px_top_left": [
+        204,
+        430
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 8,
+        "y": 570,
+        "w": 403,
+        "h": 470
+      },
+      "atlasRect": {
+        "x": 8,
+        "y": 570,
+        "w": 403,
+        "h": 470
+      }
+    },
+    {
+      "frame": 11,
+      "phase": "guard restoration",
+      "support_plan": "both N0 F0",
+      "pose": "Recover the ready torso angle while coat tails still finish their recoil.",
+      "start_tick_60hz": 19,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.316667,
+      "file": "frames/hit_reaction_011.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 11,
+        "file": "frames/hit_reaction/hit_reaction_11.png",
+        "source_file": "source/hit10_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h10",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          513,
+          355
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          510,
+          1328
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.343,
+          926.153
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          573,
+          377,
+          932,
+          931
+        ],
+        "nonzero_alpha_bbox": [
+          552,
+          376,
+          933,
+          932
+        ],
+        "sha256": "ee7c185f867ce5d7cd6c98e707c4345d9c92cfbd288c562dd7ea280e18a1a2b8"
+      },
+      "index": 11,
+      "source_file": "frames/hit_reaction/hit_reaction_11.png",
+      "sha256": "ee7c185f867ce5d7cd6c98e707c4345d9c92cfbd288c562dd7ea280e18a1a2b8",
+      "rgba_sha256": "ac49a97b791846f5306a3e467bd272f3fa2f74cfbaa13596fd4f613d4ccbddd9",
+      "visible_rgba_sha256": "e7214f6322a233a3525c141b711b03dd1e61a20518f54117d25175946316b5dd",
+      "onset_60hz": 19,
+      "frameHold": 2,
+      "onset_seconds": 0.31666666666666665,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 552,
+        "y": 376,
+        "w": 381,
+        "h": 556
+      },
+      "source_trim_rect": {
+        "x": 552,
+        "y": 376,
+        "w": 381,
+        "h": 556
+      },
+      "trimmed_root_pivot_px_top_left": [
+        216,
+        516
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 427,
+        "y": 570,
+        "w": 381,
+        "h": 556
+      },
+      "atlasRect": {
+        "x": 427,
+        "y": 570,
+        "w": 381,
+        "h": 556
+      }
+    },
+    {
+      "frame": 12,
+      "phase": "prop recovery",
+      "support_plan": "both N0 F0",
+      "pose": "Right wrist settles the blade; far left elbow lengthens toward rest.",
+      "start_tick_60hz": 21,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.35,
+      "file": "frames/hit_reaction_012.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 12,
+        "file": "frames/hit_reaction/hit_reaction_12.png",
+        "source_file": "source/hit_master_03_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h3",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          110,
+          601,
+          569,
+          1242
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          592,
+          418
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          284,
+          1228
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.94,
+          925.87
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          599,
+          424,
+          958,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          593,
+          424,
+          960,
+          937
+        ],
+        "sha256": "645e9c28493fcc01159da16eb8c78691b401a7b4933925ada8c5dbab63aab495"
+      },
+      "index": 12,
+      "source_file": "frames/hit_reaction/hit_reaction_12.png",
+      "sha256": "645e9c28493fcc01159da16eb8c78691b401a7b4933925ada8c5dbab63aab495",
+      "rgba_sha256": "4a11bec12132f5a63443e3ebdb74b4392a4832f91861ba76b4625ae768fc6be3",
+      "visible_rgba_sha256": "b8f6486d52327c56fcea65c7919bbac3b00ff04416c13a756188f61ad3743134",
+      "onset_60hz": 21,
+      "frameHold": 2,
+      "onset_seconds": 0.35,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 593,
+        "y": 424,
+        "w": 367,
+        "h": 513
+      },
+      "source_trim_rect": {
+        "x": 593,
+        "y": 424,
+        "w": 367,
+        "h": 513
+      },
+      "trimmed_root_pivot_px_top_left": [
+        175,
+        468
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 824,
+        "y": 570,
+        "w": 367,
+        "h": 513
+      },
+      "atlasRect": {
+        "x": 824,
+        "y": 570,
+        "w": 367,
+        "h": 513
+      }
+    },
+    {
+      "frame": 13,
+      "phase": "body settle",
+      "support_plan": "both N0 F0",
+      "pose": "Head and sternum reach nearly the R0 position.",
+      "start_tick_60hz": 23,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.383333,
+      "file": "frames/hit_reaction_013.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 13,
+        "file": "frames/hit_reaction/hit_reaction_13.png",
+        "source_file": "source/hit_master_03_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h3",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          705,
+          599,
+          1098,
+          1241
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          575,
+          417
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          899,
+          1227
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.14,
+          925.68
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          581,
+          424,
+          887,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          578,
+          422,
+          893,
+          933
+        ],
+        "sha256": "541de820659b36f18683057e60094cb976590f510bf99297460038c96482ab7e"
+      },
+      "index": 13,
+      "source_file": "frames/hit_reaction/hit_reaction_13.png",
+      "sha256": "541de820659b36f18683057e60094cb976590f510bf99297460038c96482ab7e",
+      "rgba_sha256": "89fb56578df94b0b24d30fb6a57b9b32ba33beb53c399f4d1fea8fefab20d080",
+      "visible_rgba_sha256": "6ce92cf596516917c0389d712cdb86081ca531325bed042dba183d277a39b51f",
+      "onset_60hz": 23,
+      "frameHold": 2,
+      "onset_seconds": 0.38333333333333336,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 578,
+        "y": 422,
+        "w": 315,
+        "h": 511
+      },
+      "source_trim_rect": {
+        "x": 578,
+        "y": 422,
+        "w": 315,
+        "h": 511
+      },
+      "trimmed_root_pivot_px_top_left": [
+        190,
+        470
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1207,
+        "y": 570,
+        "w": 315,
+        "h": 511
+      },
+      "atlasRect": {
+        "x": 1207,
+        "y": 570,
+        "w": 315,
+        "h": 511
+      }
+    },
+    {
+      "frame": 14,
+      "phase": "cloth settle",
+      "support_plan": "both N0 F0",
+      "pose": "Coat folds settle while keeping patch locations and hem shapes consistent.",
+      "start_tick_60hz": 25,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.416667,
+      "file": "frames/hit_reaction_014.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 14,
+        "file": "frames/hit_reaction/hit_reaction_14.png",
+        "source_file": "source/hit_master_04_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h4",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          95,
+          13,
+          499,
+          636
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          554,
+          413
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          308,
+          624
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.92,
+          926.24
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          560,
+          420,
+          886,
+          929
+        ],
+        "nonzero_alpha_bbox": [
+          558,
+          418,
+          890,
+          931
+        ],
+        "sha256": "05ef44f23f082ca81ccf8749e46a8e556d34a0e579fdec194439380cb0d080e5"
+      },
+      "index": 14,
+      "source_file": "frames/hit_reaction/hit_reaction_14.png",
+      "sha256": "05ef44f23f082ca81ccf8749e46a8e556d34a0e579fdec194439380cb0d080e5",
+      "rgba_sha256": "7e35274a1d9655c7c064e8309abd8f39085d870ca1971abcef40d3d0d4539ed1",
+      "visible_rgba_sha256": "8e6543f05e9e99fe0b486fe1be81b7864306b08e652b1102d95a83a98afe7f3e",
+      "onset_60hz": 25,
+      "frameHold": 2,
+      "onset_seconds": 0.4166666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 558,
+        "y": 418,
+        "w": 332,
+        "h": 513
+      },
+      "source_trim_rect": {
+        "x": 558,
+        "y": 418,
+        "w": 332,
+        "h": 513
+      },
+      "trimmed_root_pivot_px_top_left": [
+        210,
+        474
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1538,
+        "y": 570,
+        "w": 332,
+        "h": 513
+      },
+      "atlasRect": {
+        "x": 1538,
+        "y": 570,
+        "w": 332,
+        "h": 513
+      }
+    },
+    {
+      "frame": 15,
+      "phase": "ready approach",
+      "support_plan": "both N0 F0",
+      "pose": "Nearly R0, with a tiny remaining lantern return motion.",
+      "start_tick_60hz": 27,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.45,
+      "file": "frames/hit_reaction_015.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 15,
+        "file": "frames/hit_reaction/hit_reaction_15.png",
+        "source_file": "source/hit15_gather_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h15",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          511,
+          381
+        ],
+        "native_support_feature": "near right rear sole; far-left foot visibly gathering with heel lifted",
+        "native_support_px": [
+          516,
+          1268
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.924,
+          926.347
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          601,
+          419,
+          859,
+          928
+        ],
+        "nonzero_alpha_bbox": [
+          600,
+          408,
+          861,
+          960
+        ],
+        "sha256": "08dfe1cf33ea2a66f7b1ea6d2a0b536cb1ffde78baabaf0d171dc31799222531"
+      },
+      "index": 15,
+      "source_file": "frames/hit_reaction/hit_reaction_15.png",
+      "sha256": "08dfe1cf33ea2a66f7b1ea6d2a0b536cb1ffde78baabaf0d171dc31799222531",
+      "rgba_sha256": "9a956a3e8cf42ab2155842cdfce3d29e48e5411684a25aa6f50f5c1e08917cf8",
+      "visible_rgba_sha256": "fed96a956c658a40184cef57a903c8f5ea742d8e9ee1978ce885562ac8b85943",
+      "onset_60hz": 27,
+      "frameHold": 2,
+      "onset_seconds": 0.45,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 600,
+        "y": 408,
+        "w": 261,
+        "h": 552
+      },
+      "source_trim_rect": {
+        "x": 600,
+        "y": 408,
+        "w": 261,
+        "h": 552
+      },
+      "trimmed_root_pivot_px_top_left": [
+        168,
+        484
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1886,
+        "y": 570,
+        "w": 261,
+        "h": 552
+      },
+      "atlasRect": {
+        "x": 1886,
+        "y": 570,
+        "w": 261,
+        "h": 552
+      }
+    },
+    {
+      "frame": 16,
+      "phase": "ready bridge",
+      "support_plan": "both N0 F0",
+      "pose": "Distinct pre-R0 drawing; no automatic knockback is baked into the sprite root.",
+      "start_tick_60hz": 29,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.483333,
+      "file": "frames/hit_reaction_016.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 16,
+        "file": "frames/hit_reaction/hit_reaction_16.png",
+        "source_file": "source/hit16_preplant_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h16",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          511,
+          367
+        ],
+        "native_support_feature": "near right rear sole; far-left toe preplants at R0 footprint",
+        "native_support_px": [
+          515,
+          1300
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.494,
+          926.11
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          602,
+          419,
+          859,
+          927
+        ],
+        "nonzero_alpha_bbox": [
+          601,
+          418,
+          885,
+          954
+        ],
+        "sha256": "06602d5b94c766af136e1c179da89fe67ee3a964922bb2770185f1286cf1a6fb"
+      },
+      "index": 16,
+      "source_file": "frames/hit_reaction/hit_reaction_16.png",
+      "sha256": "06602d5b94c766af136e1c179da89fe67ee3a964922bb2770185f1286cf1a6fb",
+      "rgba_sha256": "0d41267de1f3a2db2f9d1acfe216225414c0e6b94e5845b3315d72244f1553b8",
+      "visible_rgba_sha256": "2e9c684a6a79ba0b63499c659e9e5081017dad3a92f0dcc9308b3c9adf1ca065",
+      "onset_60hz": 29,
+      "frameHold": 1,
+      "onset_seconds": 0.48333333333333334,
+      "hold_seconds": 0.016666666666666666,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 601,
+        "y": 418,
+        "w": 284,
+        "h": 536
+      },
+      "source_trim_rect": {
+        "x": 601,
+        "y": 418,
+        "w": 284,
+        "h": 536
+      },
+      "trimmed_root_pivot_px_top_left": [
+        167,
+        474
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 2163,
+        "y": 570,
+        "w": 284,
+        "h": 536
+      },
+      "atlasRect": {
+        "x": 2163,
+        "y": 570,
+        "w": 284,
+        "h": 536
+      }
+    }
+  ],
+  "loop": false,
+  "entry": "R0, or frame 2 for immediate reaction",
+  "exit": "Idle R0",
+  "intent": "A sharp, broad full-body recoil followed by a compact catch and determined recovery.",
+  "events": [
+    {
+      "name": "recoil_accent",
+      "frames": [
+        4
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.066667
+      ]
+    }
+  ],
+  "contact_rule": "Near-right rear boot is the explicit registration support. Far-left stance opens/repositions in the authored recoil/catch. Do not claim certified two-foot locking or calibrated ground geometry.",
+  "clip_id": "hit_reaction",
+  "status": "ARTWORK_APPROVED_PACKAGED",
+  "artwork_approved": true,
+  "action_role": "hit",
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 1,
+  "unique_complete_drawings": 16,
+  "shared_states": {
+    "R0": {
+      "sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d"
+    }
+  },
+  "actual_backend_verified": false,
+  "requested_image_model_text": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "original_alpha_preserved": "Original source masters retained. Source ownership partitions only separate whole figures; no body deformation or new alpha painting. One affine uniform-source normalization and integer whole-drawing translation per output.",
+  "source_manifest": "source/source_inventory.json",
+  "canonical_scale_reference": "Ready height507 visible pixels on immutable R0; retain accepted pixels-per-world-unit. Canvas padding is not actor rescaling.",
+  "camera_note": "Accepted slightly down-right illustrated near-profile view; camera angle/elevation are not calibrated3D measurements.",
+  "gameplay_note": "Visual event suggestions only. No game/engine/repository settings, root-motion control, hitboxes, knockback, damage or invulnerability changed.",
+  "exit_state_file": "frames/hit_reaction_001.png",
+  "exit_state_id": "R0",
+  "exit_state_frame_index": 1,
+  "art_review": {
+    "frames": 16,
+    "unique_pngs": 16,
+    "ticks": 30,
+    "R0_exact": true,
+    "return_correction": "Frames15/16 are fresh R0-derived full drawings with visible left-foot gather and near-R0 preplant; fixed right support.",
+    "art_gate": "PASS strong recoil/catch/recovery, coherent identity and held anatomical props, corrected final return. Intentional body/cloth overshoot retained; no claim of arbitrary-interruption coverage."
+  },
+  "delivery_notes": "16 complete drawings; exactR0 entry and external return;30ticks at60Hz. Final far-left foot gather/preplant is newly illustrated. No arbitrary-interruption or engine-integration certification.",
+  "schema": "lantern.fixed-canvas-animation/1.0",
+  "delivery_eligible": true,
+  "root_pivot_px": [
+    768,
+    892
+  ],
+  "root_pivot_px_bottom_left": [
+    768,
+    132
+  ],
+  "root_pivot_normalized_top_left": [
+    0.5,
+    0.87109375
+  ],
+  "root_pivot_normalized_bottom_left": [
+    0.5,
+    0.12890625
+  ],
+  "pixels_per_world_unit": "inherit accepted walk unchanged; numeric runtime value not supplied",
+  "import_note": "1536x1024 is transparent padding around the unchanged-scale actor. Preserve the accepted walk pixels-per-world-unit. Do not fit this canvas to the old quad height. Relative to 512x640, the raw quad canvas is 3x wider and 1.6x taller at identical pixel scale; padding is (+512,+320), root (768,892). Reconstruct trim offsets; never center the crop or scale an individual frame.",
+  "temporal_interpolation": "none; whole drawings held for integer ticks",
+  "frame_blending": false,
+  "frame_count": 16,
+  "unique_drawings": 16,
+  "source_unique_drawings": 16,
+  "holds_60hz": [
+    1,
+    1,
+    2,
+    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1
+  ],
+  "onsets_60hz": [
+    0,
+    1,
+    2,
+    4,
+    7,
+    9,
+    11,
+    13,
+    15,
+    17,
+    19,
+    21,
+    23,
+    25,
+    27,
+    29
+  ],
+  "action_duration_ticks_60hz": 30,
+  "action_duration_seconds": 0.5,
+  "cycle_duration_ticks_60hz": null,
+  "cycle_duration_seconds": null,
+  "preview_timed_duration_seconds": 0.5,
+  "duration_note": "Finite one-pass timing only. Preview repeats and any game-owned indefinite terminal hold are separate.",
+  "full_frames_authoritative": true,
+  "shared_state_rgba_sha256": {
+    "R0": "bcb7dc12b37fc4e658b2f8821705fe42648a591b600f1978ab9bdaa1b7f06e2c"
+  },
+  "atlas": {
+    "enabled": true,
+    "pages": [
+      {
+        "index": 0,
+        "file": "atlas/page_00.png",
+        "size_px": [
+          4036,
+          1134
+        ],
+        "sha256": "90f86c6c67ac3fecb00523a9e69f4d3c3b444d6b41c66f3e08b4ae40eae28dd5"
+      }
+    ],
+    "max_page_px": [
+      4096,
+      4096
+    ],
+    "gutter_px": 8,
+    "gutter_each_side_px": 8,
+    "rotation": false,
+    "trim": "exact bbox of every nonzero alpha pixel; zero threshold",
+    "alpha": "straight; transparent gutters; no extrusion or pixel editing",
+    "sampling_note": "Use existing importer sampling; disable mipmaps unless padding-aware mip generation is verified."
+  }
+}

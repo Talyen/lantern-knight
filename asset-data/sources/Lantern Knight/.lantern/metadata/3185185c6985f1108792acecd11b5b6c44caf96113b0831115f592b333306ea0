@@ -1,0 +1,43 @@
+Reliquary's Rebuke / Lantern Knight oversized combat effect
+
+ROLE AND TIMING
+ENEMY / wide cone
+7 long formation/telegraph cels; brief commitment on frame 07;
+ONE impact on zero-based frame 08 at 1020 ms; actual drawn outward breakup on frames 09–15;
+transparent clear on frame 16. Duration 1700 ms. Do not loop the runtime attack.
+Timing is an art prototype, not balanced or tested in an engine.
+
+RUNTIME CONTENT
+frames/00.png through 16.png: equal 1024 x 768 straight-RGBA canvases.
+atlas.png: 4 columns x 5 rows, 4096 x 3840; index 16 is clear, remaining slots unused.
+animation.json: timing, atlas rectangles, pivot, approximate footprint and provenance.
+events.json: single impact event and collision guide.
+animation.apng: continuously looping visual review only.
+preview.mp4: two authored-speed cycles, labeled, with an extra 350 ms clear pause between cycles.
+contact_sheet.jpg: reduced review thumbnails; footprint_guide.jpg: approximate overlay on telegraph.
+qa.json: pixel-preservation, bounds, clear-frame, unique-cel and timing checks.
+
+IMPORT AND DAMAGE
+Use alpha blending, not additive blending. Keep all frames at equal pixels-per-unit and the supplied fixed pivot.
+Use Clamp, disable mipmaps unless the engine setup deliberately handles atlas gutters, and avoid sprite auto-trim/re-center.
+Pivot: [214, 430] pixels from top left; normalized [0.208984, 0.559896].
+Apply damage exactly once, when entering impact frame 08. Do not damage during telegraph or fading debris.
+The full indicated footprint is damaged at the impact event.
+Approximate footprint is derived from the registered source telegraph. Proposed world dimensions: range_m=13, angle_deg=95.
+World footprint and collision must be verified in-engine. These values are authoring guides, not engine-tested settings.
+
+REGISTRATION AND SOURCE INTEGRITY
+16 genuinely distinct generated drawings; no tweening, synthetic redraws, scaling, warping or alpha modification.
+The small iron-and-wax origin hub anchors the anticipation and impact. Once it shatters, all recovery cels retain the corresponding impact-source row coordinate anchors. Loose plates are not re-centered. Offset vertical seams preserve the original crossing wax fragments without scaling or edits.
+Each native crop, nominal origin and integer translation is recorded in animation.json.
+Where source art crosses a nominal 2x2 divider, the cut moves into the actual empty gap without changing the drawing.
+Alpha >=16 was used only for inspection; all faint alpha is preserved. Transparent padding provides real outer gutters.
+Raw sources remain separately archived; their hashes are in animation.json. No prompts or internal instructions are included.
+
+DIRECTIONAL REUSE
+Horizontal mirror is supported if sprite, pivot and footprint are all mirrored together.
+Keep the ground projection upright. Do not vertically flip or arbitrarily rotate the flat image in screen space;
+use ground-plane projection or separately authored direction variants instead.
+
+REVIEW
+Technical validation is recorded in qa.json. The art remains a generated prototype and has not been integrated into the game.

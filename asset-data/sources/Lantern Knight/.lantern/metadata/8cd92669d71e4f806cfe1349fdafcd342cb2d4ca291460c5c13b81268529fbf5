@@ -1,0 +1,141 @@
+{
+  "canvas_source": [
+    1024,
+    1536
+  ],
+  "parts": [
+    {
+      "id": "right_trailing_tip",
+      "pivot": [
+        869,
+        791
+      ],
+      "angle": 2.4,
+      "lag": -1.1,
+      "points": [
+        [
+          770,
+          750
+        ],
+        [
+          873,
+          702
+        ],
+        [
+          1024,
+          850
+        ],
+        [
+          1024,
+          1350
+        ],
+        [
+          833,
+          1350
+        ],
+        [
+          827,
+          927
+        ],
+        [
+          800,
+          892
+        ],
+        [
+          777,
+          826
+        ]
+      ]
+    },
+    {
+      "id": "left_torn_tail",
+      "pivot": [
+        322,
+        809
+      ],
+      "angle": -2.5,
+      "lag": -0.7,
+      "points": [
+        [
+          242,
+          764
+        ],
+        [
+          329,
+          745
+        ],
+        [
+          403,
+          780
+        ],
+        [
+          405,
+          924
+        ],
+        [
+          391,
+          993
+        ],
+        [
+          427,
+          1130
+        ],
+        [
+          246,
+          1150
+        ]
+      ]
+    },
+    {
+      "id": "central_torn_tail",
+      "pivot": [
+        512,
+        1036
+      ],
+      "angle": 2.05,
+      "lag": -0.25,
+      "points": [
+        [
+          450,
+          1010
+        ],
+        [
+          549,
+          978
+        ],
+        [
+          596,
+          995
+        ],
+        [
+          625,
+          1083
+        ],
+        [
+          662,
+          1280
+        ],
+        [
+          658,
+          1536
+        ],
+        [
+          448,
+          1536
+        ],
+        [
+          427,
+          1130
+        ]
+      ]
+    }
+  ],
+  "source_fps": 30,
+  "frames": 60,
+  "fixed_root_px": [
+    384,
+    710
+  ],
+  "cutout_type": "rigid-part ink cutout; no whole-image bending",
+  "source_view": "front three-quarter illustrated approximation; no exact camera claim"
+}

@@ -1,0 +1,124 @@
+{
+  "concept": "Lantern \u2014 The Last Ferry: empty lantern edition",
+  "version": 3,
+  "canvas": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "segments_seconds": {
+    "intro": 2,
+    "hold": 4,
+    "complete": 2,
+    "loading_preview": 8,
+    "title": 8
+  },
+  "authorship": "Original editable SVG cut-paper scene; outlined DejaVu Serif Book title with license included",
+  "dependencies": {
+    "python": "3.12.14",
+    "python_packages": [
+      "Pillow",
+      "numpy"
+    ],
+    "native": [
+      "FFmpeg with libx264",
+      "libcairo",
+      "librsvg-2",
+      "libgobject-2.0"
+    ]
+  },
+  "files": {
+    "README.md": {
+      "bytes": 5331,
+      "sha256": "d0404498f7ce40de901c0f89ffdba4996db94214b9078d54b4359ff990bd7762"
+    },
+    "render.py": {
+      "bytes": 17547,
+      "sha256": "d3460b78200eec2c48abc5490f7edaa37e4d448e5a6c29fa792d521f31934098"
+    },
+    "verify.py": {
+      "bytes": 6654,
+      "sha256": "796f9e6675b0ef6dbea238087e80860575c6cdbcb33e95ee7c380a5ed9c7602c"
+    },
+    "package.py": {
+      "bytes": 1676,
+      "sha256": "a205f315b4185019dac735c4d10552965f910a8fc10f36950c58a269ad220739"
+    },
+    "requirements.txt": {
+      "bytes": 23,
+      "sha256": "1dc9b146a4c1fc822b0938f5af742882ac1dc358ae16896b7acc1c7051418a37"
+    },
+    "rebuild.sh": {
+      "bytes": 105,
+      "sha256": "0168041f4f486b0a629a3653ef92d557aedb7e7463b5e5270dfba643654b65e8"
+    },
+    "last_ferry_master.svg": {
+      "bytes": 14482,
+      "sha256": "e96148738631be06f31e3ccee7418e3f57a76e52d6bd3fd55239dee65ba33529"
+    },
+    "last_ferry_title_master.svg": {
+      "bytes": 26226,
+      "sha256": "8c3279f7c242d2e2c1379f60e480b3172c851b7d44cec0654a8635bce6a64ec2"
+    },
+    "title_glyphs.json": {
+      "bytes": 2510,
+      "sha256": "5d8f849505369a8ff7d7e900d7422a5f2f5790d40e9caaa7b8ebb0e49e2fa4a8"
+    },
+    "outline_title.py": {
+      "bytes": 925,
+      "sha256": "560ab65985a9383335ca69c16bc20ee697ae28f490280750ae60d4b26b52ee48"
+    },
+    "FONT_LICENSE.txt": {
+      "bytes": 3859,
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9"
+    },
+    "verification.json": {
+      "bytes": 2918,
+      "sha256": "530984ccfdf1464bc0bc5ec3edc3f1ec79ba4b8b52a444c07ba8be8d0afe6c67"
+    },
+    "contact_sheet.jpg": {
+      "bytes": 223602,
+      "sha256": "0151858fa57586cf8f395aaff447d68aa2c00374be3985504b9592a07e9a2662"
+    },
+    "decoded_motion_contact.jpg": {
+      "bytes": 251235,
+      "sha256": "65be6abde81b35b168e968327acf0fb74106be63fea9760bf62f7a9c5fbbcf08"
+    },
+    "title_motion_contact.jpg": {
+      "bytes": 169156,
+      "sha256": "dacac0bdeda920ef95682246b0d93c35ba1169ad4b8d29dab629aeba83ed589e"
+    },
+    "proof_01.png": {
+      "bytes": 156527,
+      "sha256": "11df2a2e256059e5558e251b5722598ed41a14b952311098331fed9c495431a2"
+    },
+    "title_proof.png": {
+      "bytes": 144128,
+      "sha256": "4191292f52b1b0f6b6be54cb75ba9dca072285007d746c7f6bf4cdf45b6deaa5"
+    },
+    "CHANGELOG.md": {
+      "bytes": 670,
+      "sha256": "493ef70ecbf4c1ef1f49db2882f6036f0e46ea9f94a221f4457e51eab44e1c26"
+    },
+    "Lantern_C_LastFerry_Preview.mp4": {
+      "bytes": 625992,
+      "sha256": "89b802adf8fb71b006fdd4a7071ac45e27b941f60f52a4ea6b131d2ae6b4f3c7"
+    },
+    "Lantern_C_LastFerry_Intro.mp4": {
+      "bytes": 159938,
+      "sha256": "6ff1a9624b4cb75ceab4877362b49fd2719f16575853a9de99d7a63cee09ea8d"
+    },
+    "Lantern_C_LastFerry_Hold.mp4": {
+      "bytes": 326690,
+      "sha256": "49741a9337ad81a55f6615615330905a00ac87c3bb02c02796ca87ec76ebbc2b"
+    },
+    "Lantern_C_LastFerry_Complete.mp4": {
+      "bytes": 162446,
+      "sha256": "6ea78335fa7ffd7fd50bf7398b5867d0ad5cb68e7e0941fbb2292b056c8bcf0b"
+    },
+    "Lantern_C_LastFerry_Title.mp4": {
+      "bytes": 629948,
+      "sha256": "d514c094344c2785936f7d8d0320113fc83e6bc3187b44a155f23ed7ab9c41e3"
+    }
+  }
+}

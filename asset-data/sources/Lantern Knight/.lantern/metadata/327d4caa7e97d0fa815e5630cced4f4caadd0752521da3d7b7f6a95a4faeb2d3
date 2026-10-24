@@ -1,0 +1,15 @@
+Observed mappings from all 18 archive animation.json files
+
+1. lantern.sprite.v1 (5 actors): Ossuary Thrall, Sepulcher Warden, Ashen Shambler, Gravetoll Hauler, Skeletal archer.
+frames[] strings; holds_ticks[] at tick_rate=60; attack_visual_event_frame; end_behavior; pivot_pixels; estimated_pixels_per_unit. Root_motion says registration is baked. Each archive has an actor-specific leading directory. Pivot origin is not explicitly named in this schema, but the production author confirmed all five use top-left x-right/y-down coordinates [320,520] on 640 canvas as an estimated ground-root renderer anchor. Event index is treated zero-based, consistent with authored attack_03 apex/release and the Archer QA note.
+
+2. Wild unversioned layout (4): Mossfang Scavenger, Mosswell Slime, Ironcap Fungus, Root-entangled stone saint.
+frames[] objects with file and hold_ticks_60hz; visual_event.frame_index; end; pivot_pixels_top_left; estimated_pixels_per_unit. source_box and baked_translation are provenance ONLY, already applied to runtime pixels. Missing move end field normalizes to loop because loop=true. No runtime offsets are needed.
+
+3. Floating unversioned layout (5): Veil Wisp, Mourning Moth, Moth oracle, Candle-procession wraith, Hovering broken mask.
+frames[] strings; holds_60hz[]; attack_event_frame_zero_based; end; pivot_pixels_top_left; estimated_pixels_per_unit. world_position explicitly says offsets baked. Per-frame PNG hashes live within animation.json. Absence of an idle declaration in this JSON does not imply animated idle; actual idle_still archive presence is checked separately.
+
+4. Occult unversioned layout (4): Masked cultist, Clockwork penitent, Bell-bearing pilgrim, Censer keeper.
+cels[] strings; holds_60hz[]; attack_event.cel_index; end_behavior; pivot_pixels; estimated_pixels_per_unit. atlas and atlas_grid are explicit. Root_motion says registration baked. Pivot origin is not explicitly named. Clockwork Penitent, Bell-bearing Pilgrim and Censer Keeper are verified top-left through config pivot.y == ground_y, py = ground_y - (cel.getbbox()[3]-1), then PIL alpha_composite at (px,py). Their rest alpha bounds end at ground_y+1. Masked Cultist top-left [374,555] is confirmed by its production author. Frame index is treated zero-based per authored cel ordering.
+
+Normalization is an additional integration record, not a rewrite of original files. Each clip includes source_field_mapping and an exact archive-relative frame list. The full source animation.json copies allow inspection of fields not normalized. Atlas grid is measured from actual PNG dimensions divided by canvas dimensions; no uniform layout is assumed. Numeric estimated PPU is preserved unchanged, including differences between actors. Future revisions can override scale per heading/clip.

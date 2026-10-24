@@ -1,0 +1,15 @@
+Briar Midwife — full-art + animation kit
+
+Approved D3 identity: ivory faceplate and horizontal slit, flared woven-willow collar, interlaced torso and slender legs, two broad hooked thorn hands, teal draped cloth. Native 1024×1536 full-art master with genuine alpha; no engine changes.
+
+Runtime: all frames RGBA 768×768. Pivot (350,660) px from top-left, normalized (0.4557291667,0.859375). +x right, +y down. Three-quarter facing screen-right. Root motion is in-place. Use JSON per-frame durations, not a guessed global frame rate. The 3072×3072 atlases have 4×4 cells; use each JSON atlas rectangle. Do not auto-trim frames or recenter each silhouette.
+
+Eight clips: idle, move, strike, special, hit, defeat, spawn, snarefx. Character clips have 12 evolving generated cels plus canonical or loop endpoints when needed (defeat:12; others:13). Effects have 12 evolving cels plus an empty endpoint. Animation is pose-drawn, not scale/fade-only. Sources have four cels per native 1024×1536 page; runtime uses downsampling and registration only. Source provenance and actual scale are supplied per frame. Endpoint cels are explicitly marked.
+
+Attack timing: strike and special each have 1040ms readable anticipation, a 55ms committed impact cel, follow-through and recovery. Each has one event at 1040ms (frame index6). Consume the event once per play; do not apply repeated hits during a hold. Target center is +280px horizontally from actor pivot; ground footprint ellipse radii95×45. Strike collision volume can extend from ground up to490px; the forward hand travels through this target column. Radius/height are integration guidance, not engine code.
+
+Special: start separate snarefx at760ms, offset(+280,0) from actor pivot. Its cage closes at effect280ms, exactly1040ms on the cast timeline. The effect event is visual-only: special owns the single gameplay bind. Keep the same world-space target position for the complete effect, even after the actor moves. Consumer chooses gameplay bind duration.
+
+Loop endpoints duplicate first contact/ready for safe transitions; if your animator automatically repeats the first cel at wrap, omit the terminal endpoint hold to avoid a double dwell. Defeat ends on a held fallen pose. Spawn and hit return to canonical ready. Preview ground lines, pivot dots, labels and target rings are diagnostic overlays only, never part of the RGBA assets.
+
+One ZIP per clip includes frames, atlas, JSON, the three selected native source pages, source prompts, contact sheet and MP4. No redundant whole-collection ZIP. The original approved concept and revised unused sources are retained locally for traceability but are not redundant uploads. Built-in imagegen was used for every art drawing.

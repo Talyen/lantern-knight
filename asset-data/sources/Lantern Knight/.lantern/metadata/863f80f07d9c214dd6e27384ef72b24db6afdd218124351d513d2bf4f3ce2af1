@@ -1,0 +1,393 @@
+{
+  "name": "Shale Ward | Heavy collapse v3",
+  "physical_character": "Heavy protective barrier: slabs flex, hinge away, fall into an outward split rubble arc and settle with restrained dust.",
+  "authored_tail_cels": 9,
+  "total_encoded_frames": 14,
+  "all_13_art_frames_distinct": true,
+  "apng_decodes_match_source_rgba_on_nontransparent_pixels": true,
+  "encoded_durations_ms": [
+    30.0,
+    40.0,
+    50.0,
+    150.0,
+    70.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    60.0,
+    70.0,
+    70.0,
+    70.0,
+    500.0
+  ],
+  "clear_frame_alpha_extrema": [
+    0,
+    0
+  ],
+  "zero_output_edge_alpha": true,
+  "source_layout": [
+    3,
+    3
+  ],
+  "source_cell_size": [
+    418,
+    418
+  ],
+  "source_cell_boundaries": [
+    {
+      "tail_cel": 1,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        28,
+        148,
+        385,
+        383
+      ],
+      "alpha_mass": 8931292
+    },
+    {
+      "tail_cel": 2,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        20,
+        160,
+        392,
+        387
+      ],
+      "alpha_mass": 9210708
+    },
+    {
+      "tail_cel": 3,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        20,
+        161,
+        397,
+        404
+      ],
+      "alpha_mass": 8515160
+    },
+    {
+      "tail_cel": 4,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        16,
+        185,
+        398,
+        376
+      ],
+      "alpha_mass": 7468452
+    },
+    {
+      "tail_cel": 5,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        13,
+        213,
+        405,
+        369
+      ],
+      "alpha_mass": 5398756
+    },
+    {
+      "tail_cel": 6,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        14,
+        208,
+        399,
+        374
+      ],
+      "alpha_mass": 4381215
+    },
+    {
+      "tail_cel": 7,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        21,
+        219,
+        397,
+        344
+      ],
+      "alpha_mass": 2358846
+    },
+    {
+      "tail_cel": 8,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        25,
+        226,
+        391,
+        331
+      ],
+      "alpha_mass": 1712628
+    },
+    {
+      "tail_cel": 9,
+      "source_cell_edge_max_alpha": 1,
+      "edge_pixels_alpha_gt12": 0,
+      "bbox_gt12": [
+        22,
+        226,
+        396,
+        343
+      ],
+      "alpha_mass": 1234218
+    }
+  ],
+  "fixed_tail_placement": [
+    111,
+    111
+  ],
+  "per_tail_frame_transforms": false,
+  "original_opening_transform": {
+    "scale": 0.7,
+    "placement": [
+      96,
+      96
+    ]
+  },
+  "reference_anchor_for_metrics": [
+    320,
+    436
+  ],
+  "frame_metrics": [
+    {
+      "frame": 0,
+      "phase": "Gather",
+      "alpha_mass_gt12": 2238558,
+      "centroid": [
+        309.9,
+        435.8
+      ],
+      "mean_distance_from_reference_anchor": 64.4,
+      "bbox_gt12": [
+        192,
+        379,
+        448,
+        479
+      ],
+      "horizontal_span_gt12": 256
+    },
+    {
+      "frame": 1,
+      "phase": "Onset",
+      "alpha_mass_gt12": 4387049,
+      "centroid": [
+        319.3,
+        401.1
+      ],
+      "mean_distance_from_reference_anchor": 82.7,
+      "bbox_gt12": [
+        181,
+        321,
+        455,
+        468
+      ],
+      "horizontal_span_gt12": 274
+    },
+    {
+      "frame": 2,
+      "phase": "Strike",
+      "alpha_mass_gt12": 7040350,
+      "centroid": [
+        314.2,
+        379.0
+      ],
+      "mean_distance_from_reference_anchor": 99.7,
+      "bbox_gt12": [
+        176,
+        276,
+        455,
+        477
+      ],
+      "horizontal_span_gt12": 279
+    },
+    {
+      "frame": 3,
+      "phase": "Peak",
+      "alpha_mass_gt12": 7988619,
+      "centroid": [
+        310.1,
+        358.6
+      ],
+      "mean_distance_from_reference_anchor": 119.5,
+      "bbox_gt12": [
+        165,
+        256,
+        465,
+        478
+      ],
+      "horizontal_span_gt12": 300
+    },
+    {
+      "frame": 4,
+      "phase": "Joints flex",
+      "alpha_mass_gt12": 8891402,
+      "centroid": [
+        315.9,
+        383.3
+      ],
+      "mean_distance_from_reference_anchor": 111.7,
+      "bbox_gt12": [
+        139,
+        259,
+        496,
+        494
+      ],
+      "horizontal_span_gt12": 357
+    },
+    {
+      "frame": 5,
+      "phase": "Slabs hinge",
+      "alpha_mass_gt12": 9158724,
+      "centroid": [
+        315.6,
+        383.5
+      ],
+      "mean_distance_from_reference_anchor": 117.7,
+      "bbox_gt12": [
+        131,
+        271,
+        503,
+        498
+      ],
+      "horizontal_span_gt12": 372
+    },
+    {
+      "frame": 6,
+      "phase": "Plates detach",
+      "alpha_mass_gt12": 8453017,
+      "centroid": [
+        319.1,
+        394.5
+      ],
+      "mean_distance_from_reference_anchor": 121.0,
+      "bbox_gt12": [
+        131,
+        272,
+        508,
+        515
+      ],
+      "horizontal_span_gt12": 377
+    },
+    {
+      "frame": 7,
+      "phase": "Heavy fall",
+      "alpha_mass_gt12": 7410731,
+      "centroid": [
+        312.4,
+        394.0
+      ],
+      "mean_distance_from_reference_anchor": 124.2,
+      "bbox_gt12": [
+        127,
+        296,
+        509,
+        487
+      ],
+      "horizontal_span_gt12": 382
+    },
+    {
+      "frame": 8,
+      "phase": "Outer impact",
+      "alpha_mass_gt12": 5334016,
+      "centroid": [
+        325.0,
+        412.6
+      ],
+      "mean_distance_from_reference_anchor": 126.3,
+      "bbox_gt12": [
+        124,
+        324,
+        516,
+        480
+      ],
+      "horizontal_span_gt12": 392
+    },
+    {
+      "frame": 9,
+      "phase": "Rubble bounces",
+      "alpha_mass_gt12": 4318086,
+      "centroid": [
+        320.3,
+        417.8
+      ],
+      "mean_distance_from_reference_anchor": 124.5,
+      "bbox_gt12": [
+        125,
+        319,
+        510,
+        485
+      ],
+      "horizontal_span_gt12": 385
+    },
+    {
+      "frame": 10,
+      "phase": "Splinters settle",
+      "alpha_mass_gt12": 2300452,
+      "centroid": [
+        314.0,
+        397.1
+      ],
+      "mean_distance_from_reference_anchor": 129.1,
+      "bbox_gt12": [
+        132,
+        330,
+        508,
+        455
+      ],
+      "horizontal_span_gt12": 376
+    },
+    {
+      "frame": 11,
+      "phase": "Low dust",
+      "alpha_mass_gt12": 1658986,
+      "centroid": [
+        305.7,
+        399.3
+      ],
+      "mean_distance_from_reference_anchor": 127.7,
+      "bbox_gt12": [
+        136,
+        337,
+        502,
+        442
+      ],
+      "horizontal_span_gt12": 366
+    },
+    {
+      "frame": 12,
+      "phase": "Perimeter residue",
+      "alpha_mass_gt12": 1170441,
+      "centroid": [
+        328.4,
+        398.1
+      ],
+      "mean_distance_from_reference_anchor": 137.9,
+      "bbox_gt12": [
+        133,
+        337,
+        507,
+        454
+      ],
+      "horizontal_span_gt12": 374
+    }
+  ],
+  "mp4_duration_seconds": 5.4,
+  "inspection": "All 9 tail cels inspected on a neutral composite; all 13 registered art frames inspected in temporal contact order. APNG decoded and compared with source PNGs. Final clear and output-edge alpha verified.",
+  "limitations": [
+    "Authored key-cel illustration rather than a physical simulation; small contour/fragment identity changes remain.",
+    "Source material remains at fixed cell/world placement. Opening is rescaled once by a constant to match tail material scale, not animated resizing.",
+    "Imagegen did not enforce full35px requested cell padding, but no substantial geometry was cut at cell boundaries."
+  ]
+}

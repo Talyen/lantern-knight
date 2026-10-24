@@ -1,0 +1,40 @@
+{
+  "asset": "Sepulcher Warden",
+  "kind": "three-heading extension completing four-direction movement and attack",
+  "new_clips": {
+    "DL": [
+      "move",
+      "attack"
+    ],
+    "UL": [
+      "move",
+      "attack"
+    ],
+    "UR": [
+      "move",
+      "attack"
+    ]
+  },
+  "required_baseline": {
+    "direction": "DR",
+    "package": "SK02_runtime.zip",
+    "sha256": "330452401ebdb79a55badbf9c9dd62b7a4f985d0c45e56e142163dd2924114ef",
+    "unchanged": true
+  },
+  "missing_clips": [],
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels": [
+    320,
+    520
+  ],
+  "pixel_origin": "top-left; x right, y down",
+  "estimated_pixels_per_unit": 256,
+  "move_ticks": 48,
+  "tick_rate": 60,
+  "scale_note": "Same pixel scale target; no per-frame or per-heading resizing. Hand-drawn pose and perspective differences remain. Estimated PPU is not calibrated 3D measurement.",
+  "mirroring": "None. Each heading is newly drawn; both hands retain the same central hammer.",
+  "attack_event_note": "All attack apex markers are zero-based frame3; visual references only, not damage guarantees."
+}

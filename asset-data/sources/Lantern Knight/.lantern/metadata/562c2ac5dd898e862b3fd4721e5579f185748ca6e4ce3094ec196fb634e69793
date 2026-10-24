@@ -1,0 +1,153 @@
+{
+  "frames": [
+    {
+      "clip": "ignite",
+      "frame": 0,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 1,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 2,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 3,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 4,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 5,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 6,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 7,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 8,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "ignite",
+      "frame": 9,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 0,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 1,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 2,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 3,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 4,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 5,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 6,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 7,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 8,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    },
+    {
+      "clip": "extinguish",
+      "frame": 9,
+      "fixture_unchanged_outside_panes": true,
+      "source_silhouette_unchanged": true,
+      "alpha_unchanged_outside_panes": true
+    }
+  ],
+  "all_fixture_checks_pass": true,
+  "ignite_terminal_equals_original_lit": true,
+  "extinguish_initial_equals_original_lit": true,
+  "extinguish_terminal_equals_original_unlit": true,
+  "independent_source_drawings": 16,
+  "upscaled_source_drawings": false,
+  "engine_validation": false,
+  "raw_generated_alpha_preserved_except_disconnected_speckle_cleanup": true,
+  "glass_alpha_note": "Pane alpha intentionally varies with illumination/effect compositing, as in original lit source. Fixture silhouette and pixels outside pane mask remain unchanged."
+}

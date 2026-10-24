@@ -1,0 +1,82 @@
+{
+  "id": "SK01",
+  "name": "Ossuary Thrall",
+  "source_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+  "ppu": 256,
+  "baseline_dependency": {
+    "direction": "DR",
+    "package": "SK01_runtime.zip",
+    "sha256": "b4dcabf5c688fc9c84b3ad4ae6dba2884cda7d72e781f8ebc047410d3860ff9a",
+    "library_file_id": "libfile_e01c7fdd28ac819191c33014ada95083",
+    "unchanged": true
+  },
+  "clips": {
+    "hit": {
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds": [
+        4,
+        4,
+        7,
+        6,
+        6,
+        9
+      ],
+      "event": 1,
+      "end": "return compatible ready after recovery",
+      "offsets": {}
+    },
+    "defeat": {
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "holds": [
+        6,
+        8,
+        10,
+        10,
+        12,
+        60
+      ],
+      "event": 5,
+      "end": "hold final corpse indefinitely; no automatic recovery or despawn",
+      "offsets": {
+        "0": [
+          0,
+          -10
+        ],
+        "1": [
+          0,
+          -10
+        ],
+        "2": [
+          0,
+          -10
+        ],
+        "3": [
+          0,
+          50
+        ],
+        "4": [
+          0,
+          50
+        ],
+        "5": [
+          0,
+          50
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+tick,time_seconds,drawing,phase
+0,0.0,1,Reach / long shroud
+1,0.016666667,1,Reach / long shroud
+2,0.033333333,1,Reach / long shroud
+3,0.05,1,Reach / long shroud
+4,0.066666667,1,Reach / long shroud
+5,0.083333333,1,Reach / long shroud
+6,0.1,1,Reach / long shroud
+7,0.116666667,1,Reach / long shroud
+8,0.133333333,1,Reach / long shroud
+9,0.15,1,Reach / long shroud
+10,0.166666667,2,Hand pull / bunch
+11,0.183333333,2,Hand pull / bunch
+12,0.2,2,Hand pull / bunch
+13,0.216666667,2,Hand pull / bunch
+14,0.233333333,2,Hand pull / bunch
+15,0.25,2,Hand pull / bunch
+16,0.266666667,2,Hand pull / bunch
+17,0.283333333,3,Low settle / reach
+18,0.3,3,Low settle / reach
+19,0.316666667,3,Low settle / reach
+20,0.333333333,3,Low settle / reach
+21,0.35,3,Low settle / reach
+22,0.366666667,4,Second long reach
+23,0.383333333,4,Second long reach
+24,0.4,4,Second long reach
+25,0.416666667,4,Second long reach
+26,0.433333333,4,Second long reach
+27,0.45,4,Second long reach
+28,0.466666667,4,Second long reach
+29,0.483333333,4,Second long reach
+30,0.5,4,Second long reach
+31,0.516666667,4,Second long reach
+32,0.533333333,5,Contract / hand recovery
+33,0.55,5,Contract / hand recovery
+34,0.566666667,5,Contract / hand recovery
+35,0.583333333,5,Contract / hand recovery
+36,0.6,5,Contract / hand recovery
+37,0.616666667,5,Contract / hand recovery
+38,0.633333333,5,Contract / hand recovery
+39,0.65,6,Settle toward loop
+40,0.666666667,6,Settle toward loop
+41,0.683333333,6,Settle toward loop
+42,0.7,6,Settle toward loop
+43,0.716666667,6,Settle toward loop

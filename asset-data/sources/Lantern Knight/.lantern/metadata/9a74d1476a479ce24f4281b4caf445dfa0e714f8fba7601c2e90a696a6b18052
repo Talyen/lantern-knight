@@ -1,0 +1,27 @@
+# Lantern: six biome floor selection studies
+
+1. Woodland: root-edged earthen fork and off-center clearing.
+2. Meadow: warmer bending clay route and open meadow junction.
+3. Marsh: teal pools, dry causeway and island floor.
+4. Rocky Highland: exposed slate and ochre turf.
+5. Snow: cream snow, connected dirt routes and bare-ground clearing.
+6. Arid Badlands: open junction with raised shale shelves. This is a terrain-relief concept, not a strictly flat floor.
+
+These are options for choosing favorites before any large-scene expansion. They are not approved production art. All six floors are untouched native 1536×1024 PNGs, with no upscaling. No 8K output, engine/projection validation, or seamless-tiling proof is included or claimed.
+
+## Contents and reproduction
+- floors/: the six selected native floors only.
+- prompts/: exact submitted selected prompts. Woodland/meadow use fresh retry 2; rejected first attempts are excluded.
+- LOCKED_STYLE_VERBATIM.txt: exact locked style block, verified in all six prompts.
+- references/: original approved hero and v04 hero/floor style-scale reference supplied to generation.
+- metadata/: original per-biome metadata, source hashes and context hashes.
+- reproduce_contexts.py: portable, relative-path Pillow compositing. Run `python reproduce_contexts.py` from any working directory (Python 3 and Pillow required). Output goes to reproduced_contexts/, or pass `--output PATH`.
+
+The hero is not regenerated: crop original alpha at >30, resize with Lanczos to 68×160 pixels (160px visible-height convention), add the original small blurred ellipse shadow, and alpha-composite at the recorded placement. Context images were delivered separately and omitted here to keep this source archive compact. Original metadata/prompts are preserved verbatim, including historical absolute source paths. Portable mapping: floor basenames are in floors/, exact prompts in prompts/, and referenced PNG basenames in references/. The script uses only these bundled relative paths.
+
+## Known imperfections and provenance
+All six retain some painterly mottling, gradients, noisy edges or oversized turf/stone details compared with the strict flat-tone style. Woodland/meadow retries reduce but do not eliminate these issues; rocky highland is busier. Badlands has baked elevated shale relief. These studies are not evidence of perfect style-lock compliance.
+
+Camera 35.264° elevation / 45° azimuth is requested art direction, not verified geometry. Sunburst/model text is retained in the exact style/prompt; the built-in generation tool exposed no actual-model identifier, so actual model is unverified. The original hero and v04 image were style/scale conditioning references; native floors are new compositions. No diagram/triangle guide is included or used.
+
+SHA256SUMS.txt verifies every included payload file. Source provenance preserves the copied source hashes. ZIP CRC is verified during packaging. Image pixels are unchanged; only the separate comparison sheet is scaled for viewing.

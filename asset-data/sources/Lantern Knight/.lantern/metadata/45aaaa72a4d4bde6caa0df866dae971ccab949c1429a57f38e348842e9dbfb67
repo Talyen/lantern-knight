@@ -1,0 +1,232 @@
+{
+  "clip": "defeat",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": false,
+  "durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    110,
+    110,
+    120,
+    130,
+    140,
+    300
+  ],
+  "total_ms": 1510,
+  "atlas": "atlases/defeat_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/defeat/defeat_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/defeat/defeat_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        50,
+        207,
+        618,
+        550
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/defeat/defeat_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        77,
+        207,
+        617,
+        550
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/defeat/defeat_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        57,
+        220,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/defeat/defeat_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        99,
+        229,
+        628,
+        550
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/defeat/defeat_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        58,
+        246,
+        637,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/defeat/defeat_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        94,
+        218,
+        598,
+        550
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/defeat/defeat_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        118,
+        237,
+        606,
+        550
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/defeat/defeat_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        61,
+        219,
+        612,
+        550
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/defeat/defeat_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        98,
+        258,
+        601,
+        550
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/defeat/defeat_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        95,
+        335,
+        606,
+        550
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/defeat/defeat_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        103,
+        340,
+        599,
+        550
+      ]
+    }
+  ],
+  "events": []
+}

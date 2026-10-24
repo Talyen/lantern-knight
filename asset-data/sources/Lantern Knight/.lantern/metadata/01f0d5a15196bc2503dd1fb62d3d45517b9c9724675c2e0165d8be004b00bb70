@@ -1,0 +1,46 @@
+{
+  "actor": "Hovering broken mask",
+  "extension_headings": [
+    "DL",
+    "UL",
+    "UR"
+  ],
+  "DR_dependency": {
+    "runtime_zip": "hovering_broken_mask_runtime.zip",
+    "sha256": "6b94db6b6801465a14f1050aa92ccf82e454715fe835b45bea6ec673442d7214"
+  },
+  "heading_ppu": {
+    "DR": 256,
+    "DL": 274,
+    "UL": 270,
+    "UR": 264
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot": [
+    384,
+    650
+  ],
+  "important": "Honor per-heading PPU to preserve world body scale. No per-frame fitting. Original DR unchanged.",
+  "coverage": {
+    "DR": "existing canonical baseline dependency",
+    "DL": "independently authored movement6 and attack6",
+    "UL": "independently authored movement6 and attack6; inferred concave rear interior",
+    "UR": "independently authored movement6 and attack6; inferred concave rear interior"
+  },
+  "mirroring": "Forbidden: asymmetric crown and cheek fracture. All new headings independently authored.",
+  "atlas": {
+    "new_headings_cell": [
+      776,
+      776
+    ],
+    "new_headings_frame": [
+      768,
+      768
+    ],
+    "gutter_each_side": 4
+  },
+  "provenance_caveat": "Exact inherited DL move/attack and UL move invocation text unavailable; source clearly labels reconstructed brief. Exact native sheets and original hashes preserved."
+}

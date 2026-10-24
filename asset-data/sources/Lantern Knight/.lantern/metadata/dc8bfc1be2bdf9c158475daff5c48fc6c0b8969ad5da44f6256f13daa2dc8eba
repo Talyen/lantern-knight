@@ -1,0 +1,74 @@
+{
+  "method": "Built-in imagegen; model identifier not exposed by tool",
+  "native_output": [
+    1536,
+    1024
+  ],
+  "status": "Eight samples for user review, no production upscale",
+  "style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "exact_style_block_all_eight": true,
+  "environment_reference_parameters_used": false,
+  "hero_native_scale_request_pixels": 64,
+  "actual_physical_scale": "Illustrative; not geometrically verified. Chapel pews, Crypt slabs and Cloister statues can read overscale.",
+  "visual_qa": "User rejected excess grain/fine detail in all eight samples except Keeper's Glade B. Samples remain preserved for provenance; no new generation or production upscale in this maintenance pass.",
+  "review_previews": "160px visible canonical hero on1536x1024 crops at3840x2560 whole-scene display scale. Non-AI display resampling only; no production upscaled masters. Overlay positions are visual scale references, not collision-tested game placement. The canonical hero composited into a scale preview does not imply it was an input to that scene generation.",
+  "prompts": [
+    "chapel_cloister_crypt/crypt_exact_prompt.txt",
+    "chapel_cloister_crypt/cloister_B_exact_prompt.txt",
+    "chapel_cloister_crypt/chapel_C_exact_prompt.txt",
+    "observatories/B/exact_prompt.txt",
+    "observatories/C/exact_prompt.txt",
+    "glades_woodland/keepers_glade_A/exact_prompt.txt",
+    "glades_woodland/keepers_glade_B/exact_prompt.txt",
+    "glades_woodland/woodland_C/exact_prompt.txt"
+  ],
+  "generation_inputs_by_scene": {
+    "Observatory_B": {
+      "mode": "text-only",
+      "image_inputs": [],
+      "evidence": "Saved actual generation request contains prompt and transparent_background only; no reference image argument."
+    },
+    "Observatory_C": {
+      "mode": "text-only",
+      "image_inputs": [],
+      "evidence": "Saved actual generation request contains prompt and transparent_background only; no reference image argument."
+    },
+    "Keepers_Glade_A": {
+      "mode": "text plus canonical hero style reference",
+      "image_inputs": [
+        "references/canonical_hero.png"
+      ]
+    },
+    "Keepers_Glade_B": {
+      "mode": "text plus canonical hero style reference",
+      "image_inputs": [
+        "references/canonical_hero.png"
+      ]
+    },
+    "Woodland_C": {
+      "mode": "text plus canonical hero style reference",
+      "image_inputs": [
+        "references/canonical_hero.png"
+      ]
+    },
+    "Chapel_C": {
+      "mode": "text plus canonical hero style reference",
+      "image_inputs": [
+        "references/canonical_hero.png"
+      ]
+    },
+    "Cloister_B": {
+      "mode": "text plus canonical hero style reference",
+      "image_inputs": [
+        "references/canonical_hero.png"
+      ]
+    },
+    "Crypt": {
+      "mode": "text plus canonical hero style reference",
+      "image_inputs": [
+        "references/canonical_hero.png"
+      ]
+    }
+  },
+  "provenance_correction": "2026-10-09: corrected blanket canonical-hero generation-input claim. Observatory B/C were text-only; remaining six used canonical hero. All original scene images were inspected, never used as generation image inputs."
+}

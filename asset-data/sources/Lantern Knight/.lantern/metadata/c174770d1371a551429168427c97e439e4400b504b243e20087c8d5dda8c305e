@@ -1,0 +1,688 @@
+{
+  "pack": "Lantern generic status VFX",
+  "version": 2,
+  "generation": "Built-in image_gen; Sunburst2.5 is prompt wording, not verified model selection.",
+  "tick_hz": 60,
+  "native_pixels": true,
+  "resampling": "None. Native source pixels cropped, grayscale-converted, translated and padded.",
+  "canvas": [
+    384,
+    384
+  ],
+  "alpha": "Straight/unassociated RGBA; normal alpha blend. Original generated alpha retained.",
+  "perspective": {
+    "ground_reference_elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "note": "Ground effects already screen-projected; use upright camera-facing sprite at feet, do not foreshorten again. Hand-drawn perspective is approximate."
+  },
+  "clips": {
+    "heal_activate": {
+      "mode": "oneshot",
+      "layer": "ground_below_actor",
+      "pivot_px_top_left": [
+        192,
+        192
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.5
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/heal_activate/00.png",
+          "ticks": 4,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/heal_activate/01.png",
+          "ticks": 4,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/heal_activate/02.png",
+          "ticks": 5,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/heal_activate/03.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/heal_activate/04.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/heal_activate/05.png",
+          "ticks": 5,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/heal_activate_atlas.png",
+      "duration_ticks": 30,
+      "completion": "regeneration_loop"
+    },
+    "regeneration_loop": {
+      "mode": "loop",
+      "layer": "ground_below_actor",
+      "pivot_px_top_left": [
+        192,
+        192
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.5
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/regeneration_loop/00.png",
+          "ticks": 8,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/regeneration_loop/01.png",
+          "ticks": 8,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/regeneration_loop/02.png",
+          "ticks": 8,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/regeneration_loop/03.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/regeneration_loop/04.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/regeneration_loop/05.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/regeneration_loop_atlas.png",
+      "duration_ticks": 48
+    },
+    "shield_form": {
+      "mode": "oneshot",
+      "layer": "upright_above_actor",
+      "pivot_px_top_left": [
+        192,
+        336
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.125
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/shield_form/00.png",
+          "ticks": 4,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_form/01.png",
+          "ticks": 4,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_form/02.png",
+          "ticks": 5,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_form/03.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_form/04.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_form/05.png",
+          "ticks": 5,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/shield_form_atlas.png",
+      "duration_ticks": 30,
+      "completion": "shield_hold"
+    },
+    "shield_hold": {
+      "mode": "loop",
+      "layer": "upright_above_actor",
+      "pivot_px_top_left": [
+        192,
+        336
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.125
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/shield_hold/00.png",
+          "ticks": 8,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_hold/01.png",
+          "ticks": 8,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_hold/02.png",
+          "ticks": 8,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_hold/03.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_hold/04.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_hold/05.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/shield_hold_atlas.png",
+      "duration_ticks": 48
+    },
+    "shield_break": {
+      "mode": "oneshot",
+      "layer": "upright_above_actor",
+      "pivot_px_top_left": [
+        192,
+        336
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.125
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/shield_break/00.png",
+          "ticks": 4,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_break/01.png",
+          "ticks": 4,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_break/02.png",
+          "ticks": 4,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_break/03.png",
+          "ticks": 5,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_break/04.png",
+          "ticks": 5,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/shield_break/05.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/shield_break_atlas.png",
+      "duration_ticks": 28,
+      "completion": "remove renderer after final cel",
+      "end_behavior": {
+        "renderer_enabled": false,
+        "hold_final_frame": false,
+        "after_tick": 28
+      }
+    },
+    "curse_apply": {
+      "mode": "oneshot",
+      "layer": "ground_below_actor",
+      "pivot_px_top_left": [
+        192,
+        192
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.5
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/curse_apply/00.png",
+          "ticks": 4,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_apply/01.png",
+          "ticks": 4,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_apply/02.png",
+          "ticks": 5,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_apply/03.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_apply/04.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_apply/05.png",
+          "ticks": 5,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/curse_apply_atlas.png",
+      "duration_ticks": 30,
+      "completion": "curse_hold"
+    },
+    "curse_hold": {
+      "mode": "loop",
+      "layer": "ground_below_actor",
+      "pivot_px_top_left": [
+        192,
+        192
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.5
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/curse_hold/00.png",
+          "ticks": 8,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_hold/01.png",
+          "ticks": 8,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_hold/02.png",
+          "ticks": 8,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_hold/03.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_hold/04.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_hold/05.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1920,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/curse_hold_atlas.png",
+      "duration_ticks": 48
+    },
+    "curse_release": {
+      "mode": "oneshot",
+      "layer": "ground_below_actor",
+      "pivot_px_top_left": [
+        192,
+        192
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.5
+      ],
+      "recommended_pixels_per_unit": 256,
+      "default_scale": [
+        1,
+        1
+      ],
+      "runtime_fit": "Set common uniform scale to actor footprint width / 280px. Shield uses actor display height / 265px. Never change scale per cel.",
+      "frames": [
+        {
+          "png": "runtime/curse_release/00.png",
+          "ticks": 4,
+          "atlas_rect": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_release/01.png",
+          "ticks": 4,
+          "atlas_rect": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_release/02.png",
+          "ticks": 6,
+          "atlas_rect": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_release/03.png",
+          "ticks": 6,
+          "atlas_rect": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "png": "runtime/curse_release/04.png",
+          "ticks": 8,
+          "atlas_rect": [
+            1536,
+            0,
+            384,
+            384
+          ]
+        }
+      ],
+      "atlas": "runtime/curse_release_atlas.png",
+      "duration_ticks": 28,
+      "completion": "remove renderer after final cel",
+      "end_behavior": {
+        "renderer_enabled": false,
+        "hold_final_frame": false,
+        "after_tick": 28
+      },
+      "source_column_order": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ]
+    }
+  }
+}

@@ -1,0 +1,376 @@
+{
+  "enemy_id": "ZB04",
+  "enemy_name": "Shroud Crawler",
+  "loop": false,
+  "playback": "one_shot_then_hold_last_frame",
+  "unique_drawings": 6,
+  "tick_rate": 60,
+  "terminal_drawing": 6,
+  "terminal_start_tick": 53,
+  "time_to_terminal_seconds": 0.8833333333333333,
+  "terminal_hold": "indefinite",
+  "clip_end": null,
+  "preview_terminal_hold_ticks": 180,
+  "preview_repeats": 1,
+  "lifecycle_change": "Animated closed cocoon deflates into an inert bundled husk; face disappears into its hood and exactly two attached arms remain. The lower body stays shrouded.",
+  "source": "source/crawler_defeat_v02_native.png",
+  "source_size_px": [
+    1536,
+    1024
+  ],
+  "source_sha256": "b24a4f2288d6e02b36943f45e9b47b41d9dae8795e598d8863b4a9b693f412f4",
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_top_left_px": [
+    384,
+    628
+  ],
+  "atlas": "atlases/crawler_defeat_DR_atlas.png",
+  "atlas_grid": [
+    3,
+    2
+  ],
+  "event_suggestions_only": [
+    {
+      "tick": 0,
+      "suggestion": "Accept defeat and disable movement/attack requests."
+    },
+    {
+      "tick": 7,
+      "suggestion": "Hands lose purchase; optional cloth-sliding sound."
+    },
+    {
+      "tick": 17,
+      "suggestion": "Eye glow extinguished in art."
+    },
+    {
+      "tick": 53,
+      "suggestion": "Enter terminal husk state and hold drawing 6 indefinitely."
+    }
+  ],
+  "frame_holds_ticks_before_terminal": [
+    7,
+    10,
+    9,
+    11,
+    16
+  ],
+  "frames": [
+    {
+      "drawing": 1,
+      "file": "frames/crawler_defeat/crawler_defeat_DR_01.png",
+      "phase": "Struck / hands brace",
+      "start_tick_60hz": 0,
+      "hold_ticks_60hz": 7,
+      "hold_indefinitely": false,
+      "source_cell_origin_px": [
+        0,
+        0
+      ],
+      "integer_translation_source_to_frame_xy": [
+        128,
+        128
+      ],
+      "source_component_bounds_xyxy": [
+        74,
+        65,
+        553,
+        495
+      ],
+      "alpha_bounds_xyxy": [
+        202,
+        193,
+        681,
+        623
+      ],
+      "minimum_transparent_margin_px": 87,
+      "fixed_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "retained_pixel_count": 88418,
+      "native_visible_rgb_equal": true,
+      "sha256": "a8521ceeb9bad025c0729a3d63459ae8f40c174d1a49e4d34e1200e7a89c4220"
+    },
+    {
+      "drawing": 2,
+      "file": "frames/crawler_defeat/crawler_defeat_DR_02.png",
+      "phase": "Cocoon buckles / grip slips",
+      "start_tick_60hz": 7,
+      "hold_ticks_60hz": 10,
+      "hold_indefinitely": false,
+      "source_cell_origin_px": [
+        512,
+        0
+      ],
+      "integer_translation_source_to_frame_xy": [
+        -384,
+        128
+      ],
+      "source_component_bounds_xyxy": [
+        602,
+        98,
+        991,
+        483
+      ],
+      "alpha_bounds_xyxy": [
+        218,
+        226,
+        607,
+        611
+      ],
+      "minimum_transparent_margin_px": 157,
+      "fixed_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "retained_pixel_count": 78612,
+      "native_visible_rgb_equal": true,
+      "sha256": "334b871d2e577508b0b40ce73578e0c317595a06fc43ac42e3356b9c57f45f98"
+    },
+    {
+      "drawing": 3,
+      "file": "frames/crawler_defeat/crawler_defeat_DR_03.png",
+      "phase": "Forearms collapse / eyes out",
+      "start_tick_60hz": 17,
+      "hold_ticks_60hz": 9,
+      "hold_indefinitely": false,
+      "source_cell_origin_px": [
+        1024,
+        0
+      ],
+      "integer_translation_source_to_frame_xy": [
+        -896,
+        128
+      ],
+      "source_component_bounds_xyxy": [
+        1068,
+        143,
+        1525,
+        496
+      ],
+      "alpha_bounds_xyxy": [
+        172,
+        271,
+        629,
+        624
+      ],
+      "minimum_transparent_margin_px": 139,
+      "fixed_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "retained_pixel_count": 81780,
+      "native_visible_rgb_equal": true,
+      "sha256": "da76f6c9fadd6d1f238d9bb6b0bd2aa11bc127f016df2f781478df31eb288555"
+    },
+    {
+      "drawing": 4,
+      "file": "frames/crawler_defeat/crawler_defeat_DR_04.png",
+      "phase": "Shroud deflates / face hidden",
+      "start_tick_60hz": 26,
+      "hold_ticks_60hz": 11,
+      "hold_indefinitely": false,
+      "source_cell_origin_px": [
+        0,
+        512
+      ],
+      "integer_translation_source_to_frame_xy": [
+        128,
+        -384
+      ],
+      "source_component_bounds_xyxy": [
+        53,
+        633,
+        551,
+        973
+      ],
+      "alpha_bounds_xyxy": [
+        181,
+        249,
+        679,
+        589
+      ],
+      "minimum_transparent_margin_px": 89,
+      "fixed_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "retained_pixel_count": 75702,
+      "native_visible_rgb_equal": true,
+      "sha256": "d3223100e66117881cf8eb287e135f3c4ea301b5b3abcd25eeaf38c5256fbc5c"
+    },
+    {
+      "drawing": 5,
+      "file": "frames/crawler_defeat/crawler_defeat_DR_05.png",
+      "phase": "Low husk / last settling",
+      "start_tick_60hz": 37,
+      "hold_ticks_60hz": 16,
+      "hold_indefinitely": false,
+      "source_cell_origin_px": [
+        512,
+        512
+      ],
+      "integer_translation_source_to_frame_xy": [
+        -384,
+        -384
+      ],
+      "source_component_bounds_xyxy": [
+        567,
+        670,
+        1016,
+        972
+      ],
+      "alpha_bounds_xyxy": [
+        183,
+        286,
+        632,
+        588
+      ],
+      "minimum_transparent_margin_px": 136,
+      "fixed_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "retained_pixel_count": 67226,
+      "native_visible_rgb_equal": true,
+      "sha256": "2d2604c9d985d346d60d0b71629a3d49cac6af4820961487579ad0b85c575853"
+    },
+    {
+      "drawing": 6,
+      "file": "frames/crawler_defeat/crawler_defeat_DR_06.png",
+      "phase": "Still closed husk / terminal",
+      "start_tick_60hz": 53,
+      "hold_ticks_60hz": null,
+      "hold_indefinitely": true,
+      "source_cell_origin_px": [
+        1024,
+        512
+      ],
+      "integer_translation_source_to_frame_xy": [
+        -896,
+        -384
+      ],
+      "source_component_bounds_xyxy": [
+        1056,
+        670,
+        1514,
+        978
+      ],
+      "alpha_bounds_xyxy": [
+        160,
+        286,
+        618,
+        594
+      ],
+      "minimum_transparent_margin_px": 150,
+      "fixed_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "retained_pixel_count": 69334,
+      "native_visible_rgb_equal": true,
+      "sha256": "38bd4a738acb3828e33a46289009fb247ed529798fe75023cb8b5cd8f68d55bd"
+    }
+  ],
+  "tick_to_drawing_1based_before_terminal": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+  ],
+  "import_settings": {
+    "revision": "2026-10-07_import_v02",
+    "native_canvas_px": [
+      768,
+      768
+    ],
+    "native_pivot_top_left_px": [
+      384,
+      628
+    ],
+    "pivot_normalized_bottom_left": [
+      0.5,
+      0.18229166666666666
+    ],
+    "reference_move_ppu": 256,
+    "pixels_per_unit": 256,
+    "visual_child_local_scale": [
+      1,
+      1,
+      1
+    ],
+    "visual_child_local_offset_units": [
+      -0.4140625,
+      -0.55078125,
+      0
+    ],
+    "equivalent_reference_pixel_scale": 1,
+    "equivalent_offset_reference_px": [
+      -106,
+      141
+    ],
+    "apply_once": "Keep native pivot and PNGs unchanged. Apply this child-local position once to all6 defeat cels. No additional registration, scaling or fitted pivots.",
+    "residual": "Face/torso handoff improved; hands and body posture still differ. Ground/collision/gameplay not validated.",
+    "offset_axes": {
+      "plane": "camera-facing sprite-local plane",
+      "x": "screen right",
+      "y": "screen up",
+      "z": "zero, no depth displacement",
+      "mapping": "Offsets are renderer-local world-size units on the camera-facing sprite plane, NOT world XZ and NOT actor-root translation. If renderer local axes differ, map these X/Y values to its screen-right/screen-up basis before applying to the visual child."
+    },
+    "base_ppu_status": "256 is a proposed reference convention, not authority to change existing actor world size.",
+    "preserve_existing_world_size": "Let B be current approved move/base PPU. Keep move at B. Set clip PPU=B/equivalent_reference_pixel_scale. Set visual child offset=(offset_reference_px.x/B,-offset_reference_px.y/B,0) on declared sprite-local axes. Do not rescale actor root/collider."
+  }
+}

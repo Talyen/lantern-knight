@@ -1,0 +1,20 @@
+APPLE ORCHARD — SCENE-MATCHED INTERACTABLES v01
+
+Four props, four authored cels each:
+crate: lootable harvest crate, closed to open.
+basket: lootable woven basket, closed to open.
+barrel: breakable closed cider barrel, intact to settled debris.
+slat: breakable open harvest crate, intact to settled debris.
+
+All interiors empty and dark; no baked loot. Approved crate/barrel pilot identities used as image references. New basket and slat crate matched to actual orchard crops.
+
+native/: untouched generated source sheets, 768x768 aligned native cels, exact prompts.
+runtime/: 256x256 RGBA individual cels, numbered 00 to 03. Redundant atlases omitted from delivery.
+timing.json: suggested key timing, pivot, extraction coordinates. Final frame holds indefinitely; no animation looping in gameplay. Preview loops only to show the action twice.
+previews/: all-cel sheet, unchanged-scene placement endpoints, 8-second H.264 showcase.
+
+These are short four-key drawn animations, not high-frame-rate simulations. Frames were authored with built-in image generation. Processing only extracts, translates to a shared anchor, scales uniformly per set, and composites for preview; it does not deform artwork or invent motion by rotating sprites. Slight hand-drawn contour variation remains. Source background remains unchanged except preview scale/crop and prop overlays. No ground patch, separate shadow, collision, occlusion, audio or engine integration supplied.
+
+Reference scene: approved abandoned_orchard_ai4x_master_6144x4096.png, Drive ID 1hpffNbkJLPkyRZPyYfSvUfGohN_A7qcs; source kit 1vZYIephztqquXTrlqC42eu-gJtJfIG10. Exact generation input came from actual crate and press-shed pixel crops. Built-in tool supplied 2172x724 native sheets; no model/quality selector exposed. User requested model preference was included in prompt only.
+
+Runtime native pivot bottom-center at [384,700]; runtime equivalent [128,233.3333]. Object bases stay planted. Match placement widths to existing orchard crates rather than scaling native art to full canvas width.

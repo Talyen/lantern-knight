@@ -1,0 +1,110 @@
+{
+  "id": "lantern_concept_enemy_08_clockwork_penitent",
+  "name": "Clockwork penitent",
+  "family": "02_enemies",
+  "collection": "current_ink_revision02",
+  "canonical_status": "REBUILT \u2014 fresh ink drawing; selected current revision, not earlier superseded drawing",
+  "source_drive_id": "1vBI2cSWm_dn-i9r0GESQc_diY6HjnxMZ",
+  "source_url": "https://drive.google.com/file/d/1vBI2cSWm_dn-i9r0GESQc_diY6HjnxMZ/view?usp=drivesdk",
+  "source_archive": "02_enemies_ink_revision02.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/02_enemies_ink_revision02/packs/02_enemies/assets/08_clockwork_penitent.png",
+  "source_sha256": "4586514c70971483d99e50551ef11ca9dff2808c9ec21c6fb2389072c274426d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "single still, not rigged or animation validated; absent from current animation handoff.",
+  "visual_review": "Inspected labeled contact sheet; distinct from all 48 selection variants.",
+  "include_in_enemy_approval": true,
+  "scope_note": "Distinct current enemy/creature candidate.",
+  "slug": "clockwork_penitent_UR_extension",
+  "canvas_size": 768,
+  "pivot": [
+    400,
+    697
+  ],
+  "ppu": 256,
+  "notes": "New authored UR rear-right. Inferred rearpanels with rightcog near/right, leftstaff far/left, mask hidden. Same768canvas/pivot400,697 with256estimatedPPU vsDR320 to matchworldheight at native resolution. Move uniformly.87; no upscaling/mirroring. Raisedstaff cel2 deterministic rigidweapon correction restoresshaftlength using native source pole/tip. DR untouched.",
+  "offsets": {
+    "move": [
+      [
+        -39,
+        0
+      ],
+      [
+        -1,
+        0
+      ],
+      [
+        43,
+        0
+      ],
+      [
+        -26,
+        0
+      ],
+      [
+        8,
+        0
+      ],
+      [
+        36,
+        0
+      ]
+    ],
+    "attack": [
+      [
+        -59,
+        0
+      ],
+      [
+        -23,
+        0
+      ],
+      [
+        36,
+        0
+      ],
+      [
+        -66,
+        0
+      ],
+      [
+        -16,
+        0
+      ],
+      [
+        18,
+        0
+      ]
+    ]
+  },
+  "order": {},
+  "clip_scale": {
+    "move": 0.87
+  },
+  "ground_y": 697,
+  "facing": "UR away toward upper-right rear three-quarter",
+  "estimated_pixels_per_unit": 256,
+  "overscan_top": {},
+  "overscan_bottom": {
+    "attack": [
+      0,
+      30,
+      40,
+      0,
+      0,
+      0
+    ]
+  },
+  "alpha_floor": {
+    "move": 225
+  },
+  "overscan_right": {
+    "attack": [
+      0,
+      0,
+      0,
+      10,
+      0,
+      0
+    ]
+  }
+}

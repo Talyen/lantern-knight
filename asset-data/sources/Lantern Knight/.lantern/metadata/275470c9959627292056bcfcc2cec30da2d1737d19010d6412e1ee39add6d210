@@ -1,0 +1,164 @@
+[
+  {
+    "id": "lantern_fauna_concept_01_lean_marsh_hound",
+    "name": "Lean marsh hound",
+    "audit_verdict": "keep",
+    "audit_direction": "Gaunt anatomy and lowered neck produce unsettling silhouette; bone-shadow pattern coherent.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/01_lean_marsh_hound.png",
+    "revised_image": "packs/02_uncanny_fauna_08/assets/01_lean_marsh_hound.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/01_lean_marsh_hound.png",
+    "sha256": "2a1c3878cc13c68d91835e94d09c20c541175732090b811ad4a4ea4fdc0ddbe2",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      28,
+      116,
+      1230,
+      1135
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_fauna_concept_02_carrion_raven",
+    "name": "Carrion raven",
+    "audit_verdict": "keep",
+    "audit_direction": "Ruffled raven silhouette and beak read; dark feet need dark-terrain test.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/02_carrion_raven.png",
+    "revised_image": "packs/02_uncanny_fauna_08/assets/02_carrion_raven.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/02_carrion_raven.png",
+    "sha256": "c72980b4b4d9219186c4c1917c74261d24961bd47aeec58e3f500af469214424",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      44,
+      159,
+      1210,
+      1109
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_fauna_concept_03_antlerless_cave_doe",
+    "name": "Antlerless cave doe",
+    "audit_verdict": "keep",
+    "audit_direction": "Simple doe is an appropriate quieter contrast; avoid inventing occult decoration for every animal.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/03_antlerless_cave_doe.png",
+    "revised_image": "packs/02_uncanny_fauna_08/assets/03_antlerless_cave_doe.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/03_antlerless_cave_doe.png",
+    "sha256": "9de300da0ae8410e23a6ffb9ea7dc6135350e74da1886f0155062888be2753d6",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      211,
+      84,
+      1113,
+      1178
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_fauna_concept_04_armored_toad",
+    "name": "Armored toad",
+    "audit_verdict": "selective repair",
+    "audit_direction": "Lumpy toad form is good but shell shading is faceted and face cute; harder shadow under brow and organic plate contours.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/04_armored_toad.png",
+    "revised_image": "packs/02_uncanny_fauna_08/assets/04_armored_toad.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/04_armored_toad.png",
+    "sha256": "837f9c1ec270c4cd482dece68312635fe0540645756907642ed6ea2596ccbec1",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      26,
+      117,
+      1233,
+      1152
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_fauna_concept_05_bog_lizard",
+    "name": "Long-limbed bog lizard",
+    "audit_verdict": "keep",
+    "audit_direction": "Long tail/limbs and bright stripe define species; tiny toes and tail need scale check.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/05_bog_lizard.png",
+    "revised_image": "packs/02_uncanny_fauna_08/assets/05_bog_lizard.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/05_bog_lizard.png",
+    "sha256": "9eaeb76f6a4c0011d45b427473447b88afa4df8cb02f8ff02c8ec6851f1a5d82",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      34,
+      31,
+      1222,
+      1210
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_fauna_concept_06_small_root_mimic",
+    "name": "Small root mimic",
+    "audit_verdict": "keep",
+    "audit_direction": "Asymmetric hollow stump and root limbs read clearly; light leaf shape is useful identifier.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/06_small_root_mimic.png",
+    "revised_image": "packs/02_uncanny_fauna_08/assets/06_small_root_mimic.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_uncanny_fauna_08/assets/06_small_root_mimic.png",
+    "sha256": "6a569c0132f217dcd6502e001e1e5c5198e8db8dfcad3ec953c6b0a4ca936a20",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      176,
+      51,
+      1138,
+      1157
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  }
+]

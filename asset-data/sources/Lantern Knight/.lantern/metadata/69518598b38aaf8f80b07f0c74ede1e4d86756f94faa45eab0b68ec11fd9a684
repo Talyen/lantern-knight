@@ -1,0 +1,777 @@
+{
+  "clip_id": "rust_run_world_negative_X_UL_mixamo8_test_v01",
+  "status": "PLAYABLE_TEST_WITH_DISCLOSED_LIMITATIONS",
+  "action_role": "run",
+  "loop": true,
+  "unique_drawings": 8,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "canvas": [
+    1536,
+    1024
+  ],
+  "root_top_left": [
+    768,
+    892
+  ],
+  "root_bottom_left": [
+    768,
+    132
+  ],
+  "authored_cell_root": [
+    245,
+    390
+  ],
+  "registration": "Native1x pixels, fixed equal-cell extraction and one common transparent-padding translation. No per-frame rescale or silhouette centering. Cellroot approximate authored pivot, not exact enginegroundcalibration.",
+  "heading": {
+    "world_forward": [
+      -1,
+      0,
+      0
+    ],
+    "screen": "UL",
+    "world_up": "Y",
+    "camera_elevation_degrees": 35.264389682754654,
+    "camera_world_azimuth_degrees": 45,
+    "mirror": false
+  },
+  "motion_source": {
+    "name": "Standing Torch Run Forward",
+    "source_fbx_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+    "ticks": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35
+    ],
+    "duplicate_endpoint40_excluded": true,
+    "horizontal_root_removed": true,
+    "vertical_bob_retained_in_reference": true,
+    "source_distance_m": 2.7551526452298276,
+    "source_speed_m_s": 4.132728967844741,
+    "engine_validated": false
+  },
+  "identity_reference": "directional_ready_idle_v01/delivery/ready_world_negative_X_UL_native.png",
+  "source_sheet_sha256": "a760ee69171f2b13f6bf177ebb324b936e04e5ceb398a376e4c1fda36604a887",
+  "limits": [
+    "Far-right sword arm and weapon are substantially occluded by coat in this rear view; unobservable anchors are null.",
+    "Original clean drawn sword projection retained; no destructive length-normalization edits.",
+    "Foot/root calibration is approximate; source contacts are joint proxies.",
+    "Eight held drawings only; no manufactured inbetweens or duplicate endpoint."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/run_00.png",
+      "sha256": "97ba2787258c32fbdce2037e30d19b7ffb6623d0d0d499fec8924f3fee2fcaca",
+      "source_tick": 0,
+      "start_tick": 0,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.0,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            760,
+            701
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            606,
+            612
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": null,
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            815,
+            899
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            753,
+            838
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        8,
+        8,
+        444,
+        444
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/run_01.png",
+      "sha256": "3f246147a5dcf46382bf08f114b319b025f0c91bc4b4f42e883d04f71d4640e8",
+      "source_tick": 5,
+      "start_tick": 5,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.125,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            759,
+            695
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            610,
+            612
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": null,
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            869,
+            903
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            711,
+            833
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        468,
+        8,
+        443,
+        444
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/run_02.png",
+      "sha256": "6dd68353853399a2f071ae633c4906bc240ff600265573d8561e3f97fbe2c061",
+      "source_tick": 10,
+      "start_tick": 10,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.25,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            762,
+            696
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            617,
+            615
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": null,
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            886,
+            892
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            696,
+            819
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        928,
+        8,
+        443,
+        444
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/run_03.png",
+      "sha256": "141e8cf4814fad43a5eb4408c4101b621e0481095302c524f7757e793f98da79",
+      "source_tick": 15,
+      "start_tick": 15,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.375,
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            774,
+            705
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            629,
+            621
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": null,
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            906,
+            869
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            727,
+            857
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        1388,
+        8,
+        444,
+        444
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/run_04.png",
+      "sha256": "7277d9798a002da6d195e167ee67fd3d145f91513a5bc0ee2bb298c6a71b5955",
+      "source_tick": 20,
+      "start_tick": 20,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.5,
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            775,
+            704
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            633,
+            600
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": [
+            836,
+            660
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            767,
+            847
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            821,
+            900
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        8,
+        468,
+        444,
+        443
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/run_05.png",
+      "sha256": "1b9c7243caebe9293765bdd31cfbc91822a3d1362d4aa6f41c5211155eca6a8b",
+      "source_tick": 25,
+      "start_tick": 25,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.625,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            776,
+            699
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            639,
+            613
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": [
+            859,
+            655
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            759,
+            807
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            868,
+            895
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        468,
+        468,
+        443,
+        443
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/run_06.png",
+      "sha256": "1ff9c0dfcfbaa654911a6fc24e172c37697de8012a3786384f6f12a6c73384d1",
+      "source_tick": 30,
+      "start_tick": 30,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.75,
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            777,
+            704
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            630,
+            619
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": [
+            858,
+            664
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            757,
+            829
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            863,
+            901
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        928,
+        468,
+        443,
+        443
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/run_07.png",
+      "sha256": "ef19fb890c40f0a089a3aabe60b5d839d1b4af2bb600705625f27ef5a22b6f3b",
+      "source_tick": 35,
+      "start_tick": 35,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.875,
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_evidence": "Source joint toe-height proxy at sampletick, not exact drawnsole or enginecontact proof.",
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            775,
+            706
+          ],
+          "confidence": "low",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_hand": {
+          "xy": [
+            631,
+            618
+          ],
+          "confidence": "medium",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_hand": {
+          "xy": [
+            857,
+            658
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "right_foot": {
+          "xy": [
+            840,
+            837
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "left_foot": {
+          "xy": [
+            821,
+            883
+          ],
+          "confidence": "low",
+          "occluded": false,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_hilt": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        },
+        "sword_tip": {
+          "xy": null,
+          "confidence": "unobservable",
+          "occluded": true,
+          "basis": "Manual image proxy, not copied guidejoint. Null when not reliably observable."
+        }
+      },
+      "source_sheet_rect": [
+        1330,
+        444,
+        1774,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        523,
+        502
+      ],
+      "atlas_rect": [
+        1388,
+        468,
+        444,
+        443
+      ]
+    }
+  ]
+}

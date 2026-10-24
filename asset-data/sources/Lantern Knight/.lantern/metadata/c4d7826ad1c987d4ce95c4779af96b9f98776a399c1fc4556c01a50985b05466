@@ -1,0 +1,51 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_native.png",
+    "name": "observatory_A_variant01_native.png",
+    "size": 2479935,
+    "sha256": "6871ce94fc9408d80b5b0b70fd4bd8b70d36228166a7ed6781d4d62c8be21077",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_AI4x_master_6144x4096.png",
+    "name": "observatory_A_variant01_AI4x_master_6144x4096.png",
+    "size": 18938692,
+    "sha256": "c71e9eb0f0ab210c237e362357641b664d5263064640ad11d328d3e9d3b842c8",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_2x_3072x2048.png",
+    "name": "observatory_A_variant01_2x_3072x2048.png",
+    "size": 5927896,
+    "sha256": "346d629db9f8de2fd1dfa990582265056eeab5d47288a79cc4712337603e6555",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_overview.png",
+    "name": "observatory_A_variant01_overview.png",
+    "size": 1902229,
+    "sha256": "5b21d68c5cccb3ebe9c4335b9435ae49fd4b46f7a5ab07a6ee5278abad6978d2",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_central_terrace_crossing_hero160.png",
+    "name": "observatory_A_variant01_central_terrace_crossing_hero160.png",
+    "size": 1498812,
+    "sha256": "5808ff91ec010f42872f9b0955a5a24e01e6d81e2d98d6a32effa39eebe72247",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_upper_telescope_court_hero160.png",
+    "name": "observatory_A_variant01_upper_telescope_court_hero160.png",
+    "size": 1467998,
+    "sha256": "aee6479acd012403c16e910d593f80749293288855cc64de71ae04078b5d34af",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/observatory_A_variant01/observatory_A_variant01_lower_armillary_court_hero160.png",
+    "name": "observatory_A_variant01_lower_armillary_court_hero160.png",
+    "size": 1736555,
+    "sha256": "2b912013dad34d2c15adc9b7b5354b8968ceecdaefebeb10029094043fbf4801",
+    "library_artifact_type": "image"
+  }
+]

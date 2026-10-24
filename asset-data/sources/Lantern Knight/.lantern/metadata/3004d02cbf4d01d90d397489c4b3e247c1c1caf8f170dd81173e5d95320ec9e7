@@ -1,0 +1,88 @@
+[
+  {
+    "file": "walk_100s.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1024,
+        "height": 768,
+        "r_frame_rate": "60/1",
+        "duration": "5.000000",
+        "nb_frames": "300"
+      }
+    ]
+  },
+  {
+    "file": "walk_080s.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1024,
+        "height": 768,
+        "r_frame_rate": "60/1",
+        "duration": "4.000000",
+        "nb_frames": "240"
+      }
+    ]
+  },
+  {
+    "file": "walk_100s_ground_guide.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1024,
+        "height": 768,
+        "r_frame_rate": "60/1",
+        "duration": "5.000000",
+        "nb_frames": "300"
+      }
+    ]
+  },
+  {
+    "file": "walk_080s_ground_guide.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1024,
+        "height": 768,
+        "r_frame_rate": "60/1",
+        "duration": "4.000000",
+        "nb_frames": "240"
+      }
+    ]
+  },
+  {
+    "file": "walk_100s.gif",
+    "frames": 8,
+    "delays_ms": [
+      150,
+      130,
+      120,
+      100,
+      150,
+      130,
+      120,
+      100
+    ],
+    "duration_ms": 1000
+  },
+  {
+    "file": "walk_080s.gif",
+    "frames": 8,
+    "delays_ms": [
+      120,
+      100,
+      100,
+      80,
+      120,
+      100,
+      100,
+      80
+    ],
+    "duration_ms": 800
+  }
+]

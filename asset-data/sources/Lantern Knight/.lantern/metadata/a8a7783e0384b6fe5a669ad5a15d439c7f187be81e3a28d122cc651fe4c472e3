@@ -1,0 +1,383 @@
+{
+  "title": "Mothlight Recall",
+  "slug": "mothlight_recall",
+  "category": "utility",
+  "canvas": [
+    384,
+    384
+  ],
+  "source_grid": [
+    6,
+    4
+  ],
+  "registration": "Fixed nominal256px source grid with64px padding; no per-frame recentring, transformation or opacity fade. Only crop boundaries adjust to avoid adjacent cel contamination.",
+  "crops": [
+    [
+      0,
+      0,
+      256,
+      256
+    ],
+    [
+      256,
+      0,
+      512,
+      256
+    ],
+    [
+      512,
+      0,
+      768,
+      256
+    ],
+    [
+      768,
+      0,
+      1024,
+      256
+    ],
+    [
+      1024,
+      0,
+      1280,
+      256
+    ],
+    [
+      1280,
+      0,
+      1536,
+      256
+    ],
+    [
+      0,
+      256,
+      256,
+      512
+    ],
+    [
+      256,
+      256,
+      512,
+      512
+    ],
+    [
+      512,
+      256,
+      768,
+      512
+    ],
+    [
+      768,
+      256,
+      1024,
+      512
+    ],
+    [
+      1024,
+      256,
+      1280,
+      512
+    ],
+    [
+      1280,
+      256,
+      1536,
+      512
+    ],
+    [
+      0,
+      512,
+      256,
+      768
+    ],
+    [
+      256,
+      512,
+      512,
+      768
+    ],
+    [
+      512,
+      512,
+      768,
+      768
+    ],
+    [
+      768,
+      512,
+      1024,
+      768
+    ],
+    [
+      1024,
+      512,
+      1280,
+      768
+    ],
+    [
+      1280,
+      512,
+      1536,
+      768
+    ],
+    [
+      0,
+      768,
+      256,
+      1024
+    ],
+    [
+      256,
+      768,
+      512,
+      1024
+    ],
+    [
+      512,
+      768,
+      768,
+      1024
+    ],
+    [
+      768,
+      768,
+      1024,
+      1024
+    ],
+    [
+      1024,
+      768,
+      1280,
+      1024
+    ],
+    [
+      1280,
+      768,
+      1536,
+      1024
+    ]
+  ],
+  "source_scale": 1,
+  "pivot_pixels": [
+    192,
+    193
+  ],
+  "target_guide_note": "Experimental visual guide. Confirm gameplay collision footprint separately; aftermath particles cosmetic.",
+  "action_description": "Restorative utility: three broad pale ivory moth-shaped wisps emerge around the edge of a small oval, circle inward along one readable spiral, fold together at center in a gentle warm ochre pulse, then unfold into soft gray cream ribbons drifting upward and outward. Moths are ephemeral smoke silhouettes, not detailed insects; no bright glow, no attack.",
+  "contact_source_index": 10,
+  "formation_ms": 180,
+  "entries": [
+    {
+      "source_index": 0,
+      "duration_ms": 45,
+      "start_ms": 0,
+      "end_ms": 45,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 2,
+      "duration_ms": 45,
+      "start_ms": 45,
+      "end_ms": 90,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 5,
+      "duration_ms": 45,
+      "start_ms": 90,
+      "end_ms": 135,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 8,
+      "duration_ms": 45,
+      "start_ms": 135,
+      "end_ms": 180,
+      "phase": "FORMATION",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 9,
+      "duration_ms": 70,
+      "start_ms": 180,
+      "end_ms": 250,
+      "phase": "STRIKE",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 10,
+      "duration_ms": 100,
+      "start_ms": 250,
+      "end_ms": 350,
+      "phase": "CONTACT",
+      "damage_event": false,
+      "utility_event": true
+    },
+    {
+      "source_index": 11,
+      "duration_ms": 65,
+      "start_ms": 350,
+      "end_ms": 415,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 12,
+      "duration_ms": 65,
+      "start_ms": 415,
+      "end_ms": 480,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 13,
+      "duration_ms": 65,
+      "start_ms": 480,
+      "end_ms": 545,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 14,
+      "duration_ms": 65,
+      "start_ms": 545,
+      "end_ms": 610,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 15,
+      "duration_ms": 65,
+      "start_ms": 610,
+      "end_ms": 675,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 16,
+      "duration_ms": 65,
+      "start_ms": 675,
+      "end_ms": 740,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 17,
+      "duration_ms": 65,
+      "start_ms": 740,
+      "end_ms": 805,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 18,
+      "duration_ms": 65,
+      "start_ms": 805,
+      "end_ms": 870,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 19,
+      "duration_ms": 65,
+      "start_ms": 870,
+      "end_ms": 935,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 20,
+      "duration_ms": 65,
+      "start_ms": 935,
+      "end_ms": 1000,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 21,
+      "duration_ms": 65,
+      "start_ms": 1000,
+      "end_ms": 1065,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 22,
+      "duration_ms": 65,
+      "start_ms": 1065,
+      "end_ms": 1130,
+      "phase": "RECOVERY",
+      "damage_event": false,
+      "utility_event": false
+    },
+    {
+      "source_index": 23,
+      "duration_ms": 350,
+      "start_ms": 1130,
+      "end_ms": 1480,
+      "phase": "CLEAR",
+      "damage_event": false,
+      "utility_event": false
+    }
+  ],
+  "cycle_ms": 1480,
+  "loop": false,
+  "clear_final_frame": true,
+  "source_art": "Image-generated evolving cels; original alpha preserved. Final cel forced all-zero.",
+  "target_pixels": [
+    192,
+    193
+  ],
+  "intended_footprint_pixels": [
+    [
+      150,
+      162
+    ],
+    [
+      192,
+      145
+    ],
+    [
+      235,
+      162
+    ],
+    [
+      246,
+      205
+    ],
+    [
+      218,
+      234
+    ],
+    [
+      169,
+      234
+    ],
+    [
+      140,
+      205
+    ]
+  ],
+  "footprint_shape": "non-damaging restorative center",
+  "coordinate_space": "384x384 output canvas",
+  "interpretation": "Experimental intended damage/utility footprint; cosmetic debris may extend outside. Verify actual collision in engine. No engine files changed."
+}

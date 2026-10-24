@@ -1,0 +1,26 @@
+[
+  {
+    "asset": "watch_lantern",
+    "phase_0_equals_phase_1": true,
+    "no_duplicate_endpoint_exported": true,
+    "frames": 24
+  },
+  {
+    "asset": "tripod_brazier",
+    "phase_0_equals_phase_1": true,
+    "no_duplicate_endpoint_exported": true,
+    "frames": 24
+  },
+  {
+    "asset": "votive_candelabrum",
+    "phase_0_equals_phase_1": true,
+    "no_duplicate_endpoint_exported": true,
+    "frames": 24
+  },
+  {
+    "asset": "hanging_cage_lamp",
+    "phase_0_equals_phase_1": true,
+    "no_duplicate_endpoint_exported": true,
+    "frames": 24
+  }
+]

@@ -1,0 +1,208 @@
+{
+  "source_frames": 24,
+  "source_sample_rate_hz": 12,
+  "clip_duration_s": 2,
+  "preview_fps": 60,
+  "tested_fixed_regions_source_pixels": {
+    "face_identity": [
+      193,
+      42,
+      283,
+      140
+    ],
+    "both_feet": [
+      75,
+      846,
+      466,
+      1104
+    ],
+    "sword_hand": [
+      56,
+      524,
+      94,
+      568
+    ],
+    "lantern_hand": [
+      393,
+      499,
+      436,
+      539
+    ]
+  },
+  "max_RGBA_error_in_fixed_regions": {
+    "0": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "1": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "2": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "3": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "4": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "5": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "6": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "7": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "8": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "9": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "10": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "11": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "12": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "13": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "14": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "15": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "16": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "17": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "18": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "19": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "20": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "21": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "22": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    },
+    "23": {
+      "face_identity": 0,
+      "both_feet": 0,
+      "sword_hand": 0,
+      "lantern_hand": 0
+    }
+  },
+  "new_transparent_pixels_inside_8px_eroded_rest": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0,
+    "16": 0,
+    "17": 0,
+    "18": 0,
+    "19": 0,
+    "20": 0,
+    "21": 0,
+    "22": 0,
+    "23": 0
+  },
+  "retained_source_matte_fringe": "Known limitation, visible on very dark backgrounds.",
+  "fixed_regions_all_exact": true,
+  "no_new_interior_holes": true,
+  "canonical_file_sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c"
+}

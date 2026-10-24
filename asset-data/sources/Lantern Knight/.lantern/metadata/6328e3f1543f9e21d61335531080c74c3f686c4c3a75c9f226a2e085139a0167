@@ -1,0 +1,10 @@
+{
+  "all_original_media_byte_identical": true,
+  "file_count": 4,
+  "sha256": {
+    "bellbound_monk/source/cast_native.png": "dfc363e05bfcac09d9aecbed0a9642407bacc015ca8a61cc593f0b139bbc335f",
+    "bellbound_monk/source/locomotion_native.png": "5af2487048258c8bcc41ace10f715a188d3ade8bd06042173c598b6288822c23",
+    "bellbound_monk/source/references/camera_guide.png": "4050e8a96923b83fe646b17d306745d44c9f5f502c08f95c4c5be32da25aad91",
+    "bellbound_monk/source/references/CT02_identity.png": "6dd1e22dad3800d2b488ebd75a5cb6f0c7aa1f19b91e3859c67f4e1f8da076d7"
+  }
+}

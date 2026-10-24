@@ -1,0 +1,99 @@
+{
+  "id": "SK01",
+  "name": "Ossuary Thrall",
+  "family": "01 Skeletons",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9",
+  "source_url": "https://drive.google.com/file/d/1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9/view?usp=drivesdk",
+  "source_archive": "01_skeletons_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/01_skeletons_selection_pack/01_skeletons/assets/SK01_ossuary_thrall.png",
+  "source_sha256": "287ff3aa129008d6281ed583a135a1a4d063bc22f65308b311ad0eb7d9a684d7",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "remove_components_below": 2000,
+  "direction": "UL",
+  "facing": "screen upper-left (rear three-quarter)",
+  "baseline_dependency": {
+    "package": "SK01_runtime.zip",
+    "sha256": "b4dcabf5c688fc9c84b3ad4ae6dba2884cda7d72e781f8ebc047410d3860ff9a",
+    "direction": "DR",
+    "unchanged": true
+  },
+  "top_crop_extra": {
+    "move": {
+      "4": 16
+    }
+  },
+  "left_crop_extra": {
+    "attack": {
+      "2": 16
+    }
+  },
+  "right_crop_extra": {
+    "attack": {
+      "3": 40
+    }
+  },
+  "clear_left_pixels": {
+    "attack": {
+      "4": 48
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -33,
+        0
+      ],
+      "1": [
+        -8,
+        40
+      ],
+      "2": [
+        7,
+        25
+      ],
+      "3": [
+        -23,
+        0
+      ],
+      "4": [
+        -9,
+        10
+      ],
+      "5": [
+        11,
+        10
+      ]
+    },
+    "attack": {
+      "0": [
+        -60,
+        -10
+      ],
+      "1": [
+        -43,
+        10
+      ],
+      "2": [
+        -38,
+        0
+      ],
+      "3": [
+        -125,
+        10
+      ],
+      "4": [
+        -43,
+        24
+      ],
+      "5": [
+        -29,
+        0
+      ]
+    }
+  }
+}

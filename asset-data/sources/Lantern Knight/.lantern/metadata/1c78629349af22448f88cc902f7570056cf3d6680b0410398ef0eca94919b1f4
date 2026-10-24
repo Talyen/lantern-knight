@@ -1,0 +1,8 @@
+{
+  "alpha": "RGBA, transparent margins, low-alpha stray pixels cleared",
+  "clipping": true,
+  "anchor": "bottom center fixed, no positional bob",
+  "distinct_cels": 6,
+  "scene_fit": "review original scene placement and all cels",
+  "animation": "closed to empty open, persistent final"
+}

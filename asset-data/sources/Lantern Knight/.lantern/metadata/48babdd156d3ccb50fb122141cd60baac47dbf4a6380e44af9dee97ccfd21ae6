@@ -1,0 +1,9 @@
+Mosswell Slime: mossglue_spit
+Additive ability only. Existing attacks and get-hit art unchanged.
+Native generated sheet1024x1536,16 actor +8 effect cels. Source cel crops and explicit ordinary resample factor are in runtime JSON. Actor export canvas640x640, pivot[320, 540].
+Render row-major; use per-frame milliseconds and one gameplay hit at1160ms. Effect starts1000ms; it never independently schedules damage. Coordinate offsets are top-left +x right,+y down.
+Reel compares reference appearance to the new synchronized ability, not a captured baseline attack. One direction supplied. Inspect in engine before gameplay integration.
+
+Polish revision physical-polish-v1:
+Delayed separate projectile until baked-in launch cel ends; baked flight-to-ground trajectory into a fixed 768px effect canvas. Target contact remains 1160 ms.
+Current authoritative FX canvas [768, 768], pivot [384, 560], offset [330, 0], start 1050ms. Read revised runtime JSON. No engine integration changes.

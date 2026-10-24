@@ -1,0 +1,46 @@
+{
+  "ready_pixel_identical": {
+    "hit": true,
+    "spawn": true,
+    "defeat": true
+  },
+  "ready_png_sha256": "4735784cb1762b9d2dc9787b5e61f633988b29f0b6c3a93597cd896ca35ef8b0",
+  "clips": {
+    "hit": {
+      "unique_pixel_hashes": 6,
+      "edge_alpha_max": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "shared_canvas": true
+    },
+    "spawn": {
+      "unique_pixel_hashes": 6,
+      "edge_alpha_max": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "shared_canvas": true
+    },
+    "defeat": {
+      "unique_pixel_hashes": 6,
+      "edge_alpha_max": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "shared_canvas": true
+    }
+  }
+}

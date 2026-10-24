@@ -1,0 +1,393 @@
+{
+  "clip_id": "Lantern_Hero_lantern_use_L_v02",
+  "family": "lantern_use",
+  "facing": "L",
+  "producer": "animate_use_channel_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+  "equipment_contract": "Sword anatomical right; lantern left continuously gripped. Completion pulse only success cel, no hold-loop pulse.",
+  "timing_source": "Native DR source timing preserved by producer selection manifest.",
+  "source_timing": [
+    12,
+    7,
+    8,
+    10,
+    6,
+    8,
+    8,
+    14
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "042e0113453258679b7fefc21656313042fdb32b19993992578f9e571d60a34e",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "2af725de4be24cc42f017145f68989cb14f7ee478bfe719c8e09e496391622bd",
+      "source_sha256": "d6130b0190d94175b3f83e46a1b91cb3d7cde0e82a6d5ecb4e882eaa9808d3ce",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        36,
+        75
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          366,
+          592
+        ],
+        "inspection_montage_xy": [
+          146,
+          236
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 0,
+      "hold_ticks": 12,
+      "runtime_alpha_bbox": [
+        50,
+        83,
+        407,
+        448
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "8c3e52008814d6989700d02fe9c6ddf48fb67d66ac2ff173d5d0df4f7877b094",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "48cae9ac7fc4589ff16ef59da23efeaa3f6e9b9fe943328f138567343f3ca16e",
+      "source_sha256": "d6130b0190d94175b3f83e46a1b91cb3d7cde0e82a6d5ecb4e882eaa9808d3ce",
+      "crop_xyxy": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        89,
+        74
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          278,
+          594
+        ],
+        "inspection_montage_xy": [
+          361,
+          237
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 12,
+      "hold_ticks": 7,
+      "runtime_alpha_bbox": [
+        94,
+        87,
+        461,
+        449
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "4b760e8c017dbdf8fafc747fc8f68af2ae06d215ac9e8c54dd1aa03d2b1bc886",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "52c8955bdd0d046ce12c59b8d03e97e257998bba32bcf11e5c7792a80acc50bb",
+      "source_sha256": "d6130b0190d94175b3f83e46a1b91cb3d7cde0e82a6d5ecb4e882eaa9808d3ce",
+      "crop_xyxy": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        35,
+        83
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          369,
+          579
+        ],
+        "inspection_montage_xy": [
+          147,
+          481
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 19,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        35,
+        88,
+        411,
+        448
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "b28d64f8b823740dd312515cff48e0d26f1e51e442e4809ef1d7d0b09466a64f",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "a0158b55af4c3318ac19c43d5e64208d7271791331a4f1ae0478f5543185de92",
+      "source_sha256": "d6130b0190d94175b3f83e46a1b91cb3d7cde0e82a6d5ecb4e882eaa9808d3ce",
+      "crop_xyxy": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        72,
+        84
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          306,
+          577
+        ],
+        "inspection_montage_xy": [
+          372,
+          480
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 27,
+      "hold_ticks": 10,
+      "runtime_alpha_bbox": [
+        76,
+        92,
+        447,
+        449
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "9f29bfe06613a3f5d446240ac12bc468ea9383399ccfdfa6b82fd0ace290a3b4",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "0e1f76b04a256b2875a256385052ff25e9fbb67cd794c1a4ec9adad017e4cd07",
+      "source_sha256": "b1e50a5c29edc13ecdf1e7b37f9f407f2db5e9bde9bf7e01ac10ac311df315f7",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        14,
+        75
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          404,
+          592
+        ],
+        "inspection_montage_xy": [
+          661,
+          236
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 37,
+      "hold_ticks": 6,
+      "runtime_alpha_bbox": [
+        66,
+        83,
+        386,
+        450
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "a2dfc50948995d2a46fe4a07e4f253209cd1886743dade104b2a3282e263caae",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "359adc26003656571c187f07fb0fd5e165b7c2f3d52f29c6c73a94652d99ea11",
+      "source_sha256": "b1e50a5c29edc13ecdf1e7b37f9f407f2db5e9bde9bf7e01ac10ac311df315f7",
+      "crop_xyxy": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        86,
+        75
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          283,
+          592
+        ],
+        "inspection_montage_xy": [
+          863,
+          236
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 43,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        108,
+        86,
+        449,
+        451
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "510ea8af332df253eb728ad6d9d5e71f227b044bc5a7e9d2a750613caddbd1a4",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "e53da173742662031fb40de8955236b12f84579ffe7fc00465b8566e51bb1ded",
+      "source_sha256": "b1e50a5c29edc13ecdf1e7b37f9f407f2db5e9bde9bf7e01ac10ac311df315f7",
+      "crop_xyxy": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        12,
+        81
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          406,
+          582
+        ],
+        "inspection_montage_xy": [
+          662,
+          482
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 51,
+      "hold_ticks": 8,
+      "runtime_alpha_bbox": [
+        28,
+        82,
+        386,
+        448
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "91a78044cfaa283c98d7b2e01170600d8cf89b0195df88423c3a0f6692fe0680",
+      "native_size_px": [
+        627,
+        627
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "fd647617c7a3a9730d585873d9ce3451e41327ccde634ff0cdd2796aeb637e92",
+      "source_sha256": "b1e50a5c29edc13ecdf1e7b37f9f407f2db5e9bde9bf7e01ac10ac311df315f7",
+      "crop_xyxy": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        78,
+        81
+      ],
+      "observed_anchors": {
+        "manually_observed_planted_boot_midpoint_xy": [
+          296,
+          582
+        ],
+        "inspection_montage_xy": [
+          868,
+          482
+        ]
+      },
+      "registration_note": "One clip-wide scale0.6; manually observed planted boot midpoint used for whole-cel registration. Torso and arm action untouched. No mirrored hands or head-height normalization. Current producer selection only.",
+      "equipment_state": "Lantern continuously held anatomical left; sword right.",
+      "start_tick": 59,
+      "hold_ticks": 14,
+      "runtime_alpha_bbox": [
+        87,
+        81,
+        423,
+        449
+      ]
+    }
+  ],
+  "native_drawn_cels": 8,
+  "timeline_frame_count": 8,
+  "duration_ticks": 73,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "4f98dcfbc254a656fccd92894748d34b17c0f37de01defd9fad016dedcd6512b"
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+  "source_size": [
+    1774,
+    887
+  ],
+  "cell_size": [
+    524,
+    524
+  ],
+  "records": [
+    {
+      "index": 1,
+      "native_crop_origin": [
+        -40,
+        -40
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        149,
+        6,
+        365,
+        435
+      ],
+      "bbox": [
+        189,
+        46,
+        405,
+        475
+      ]
+    },
+    {
+      "index": 2,
+      "native_crop_origin": [
+        404,
+        -40
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        592,
+        6,
+        844,
+        435
+      ],
+      "bbox": [
+        188,
+        46,
+        440,
+        475
+      ]
+    },
+    {
+      "index": 3,
+      "native_crop_origin": [
+        847,
+        -40
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        1034,
+        6,
+        1323,
+        436
+      ],
+      "bbox": [
+        187,
+        46,
+        476,
+        476
+      ]
+    },
+    {
+      "index": 4,
+      "native_crop_origin": [
+        1290,
+        -40
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        1479,
+        6,
+        1762,
+        435
+      ],
+      "bbox": [
+        189,
+        46,
+        472,
+        475
+      ]
+    },
+    {
+      "index": 5,
+      "native_crop_origin": [
+        -40,
+        404
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        147,
+        449,
+        432,
+        878
+      ],
+      "bbox": [
+        187,
+        45,
+        472,
+        474
+      ]
+    },
+    {
+      "index": 6,
+      "native_crop_origin": [
+        404,
+        404
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        591,
+        449,
+        852,
+        877
+      ],
+      "bbox": [
+        187,
+        45,
+        448,
+        473
+      ]
+    },
+    {
+      "index": 7,
+      "native_crop_origin": [
+        847,
+        404
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        1036,
+        449,
+        1258,
+        877
+      ],
+      "bbox": [
+        189,
+        45,
+        411,
+        473
+      ]
+    },
+    {
+      "index": 8,
+      "native_crop_origin": [
+        1290,
+        404
+      ],
+      "sheet_row_translation_px": [
+        0,
+        0
+      ],
+      "source": "/workspace/scratch/1a83d58417d5/hero_expansion/lantern_correction_v02/sources/standing_reach_DR_native_sheet.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "native_source_bbox": [
+        1479,
+        449,
+        1698,
+        878
+      ],
+      "bbox": [
+        189,
+        45,
+        408,
+        474
+      ]
+    }
+  ],
+  "resampling": false,
+  "scaling": false,
+  "part_repositioning": false
+}

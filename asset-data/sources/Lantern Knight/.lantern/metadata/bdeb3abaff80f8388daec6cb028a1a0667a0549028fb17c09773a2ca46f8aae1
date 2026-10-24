@@ -1,0 +1,17 @@
+# Visual and technical QA
+
+Reviewed every runtime cel on light cream and dark blue-gray backgrounds, plus 144px gameplay-size contact samples.
+
+- Cel 1: sleeping rest. Curled anatomy, pale muzzle, whiskers and folded tan sack retained.
+- Cel 2: mild local breath change. Face and planted body remain fixed.
+- Cel 3: short raised-ear twitch. Same single ear anatomy, no doubled silhouette.
+- Cel 4: ear settles; soft local shoulder and tail-tip change.
+- Cel 5: quiet release, unchanged sack footprint and closed eyes.
+- Cel 6: near-rest return. Transition into cel 1 stays local; no whole-sprite slide or scale pop.
+- All six alpha margins are empty. Disconnected neighboring-sprite flecks found during review were removed before final export.
+- Sack and all pixels outside the feathered acting regions have exactly zero frame-to-frame RGBA difference.
+- Six distinct image hashes. Native source dimensions 1536×1024; no image upscale. Canvas padding is not a resolution increase to the artwork.
+- Ear twitch reads at small size. Breathing/tail motion remains restrained, primarily visible in the native-size preview; native internal fur shading varies slightly inside the acting patches.
+- No grain, CGI finish, added limbs, directional poses or behavior logic.
+
+Preview verified as H.264/yuv420p, 60 fps, 10 seconds. Rebuild run and final output hashes compared for determinism.

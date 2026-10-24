@@ -1,0 +1,381 @@
+{
+  "name": "lunge_lowcarry8_v01",
+  "status": "NATIVE_FIXED_CELL_IN_GAME_TEST",
+  "source_cels_preserved": 8,
+  "unique_source_cels_in_MP4_preview": 7,
+  "frames": {
+    "01_READY": {
+      "png": "frames/01_READY.png",
+      "sha256": "1c79134212db7595c928a665ba4d595c8d06bf85f4b72f4c25b5a32909d5c154",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        0,
+        0
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        48,
+        24
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": true,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "02_LOAD": {
+      "png": "frames/02_LOAD.png",
+      "sha256": "c767df718abb782a907a9d266de510ca7bea8b24c442250a8bffcb7c214f6f06",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        429,
+        0
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -381,
+        24
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": false,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "03_DRIVE": {
+      "png": "frames/03_DRIVE.png",
+      "sha256": "0ca3cfa69a0ce06ff6c43add93804bda6100bb8b2cb0b72d56488e4be1bfbc04",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        858,
+        0
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -810,
+        24
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": true,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "04_THRUST": {
+      "png": "frames/04_THRUST.png",
+      "sha256": "6af0f1c873f69834734c615d55a455b5ee92dd465c9317ba3aeea4559e1203ae",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        1287,
+        0
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -1239,
+        24
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": true,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "05_BRAKE": {
+      "png": "frames/05_BRAKE.png",
+      "sha256": "eef1cbfd3a193ee8b745b5b9c974d792398fee57c596b41a8423e7c2f6cab648",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        0,
+        458
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        48,
+        -434
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": true,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "06_RETRACT": {
+      "png": "frames/06_RETRACT.png",
+      "sha256": "32e389b461c60230aa5ef4f7afc15d5adb41dcc13c171453571ad505694be390",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        429,
+        458
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -381,
+        -434
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": true,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "07_RETURN": {
+      "png": "frames/07_RETURN.png",
+      "sha256": "326ff5fe54817bd221f8778f49e51d40763a7203d90179d4c8bd3fd756584c20",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        858,
+        458
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -810,
+        -434
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": false,
+        "left": true
+      },
+      "observed_physical_contact": null
+    },
+    "08_READY": {
+      "png": "frames/08_READY.png",
+      "sha256": "c4af94b19736aff8f59372017bfad32019de919a9a62965a2523efafa1171003",
+      "dimensions": [
+        560,
+        510
+      ],
+      "source_grid_origin_xy": [
+        1287,
+        458
+      ],
+      "common_padding_xy": [
+        48,
+        24
+      ],
+      "sheet_to_canvas_translation_xy": [
+        -1239,
+        -434
+      ],
+      "scale": 1.0,
+      "per_frame_fit": false,
+      "guide_contacts_reference_only": {
+        "right": true,
+        "left": true
+      },
+      "observed_physical_contact": null
+    }
+  },
+  "fps": 60,
+  "total_ticks": 54,
+  "duration_seconds": 0.9,
+  "canvas": [
+    560,
+    510
+  ],
+  "common_cell_origin_on_canvas": [
+    48,
+    24
+  ],
+  "grid_origins_x": [
+    0,
+    429,
+    858,
+    1287
+  ],
+  "grid_origins_y": [
+    0,
+    458
+  ],
+  "art_scale": 1.0,
+  "scale_or_rotation_or_per_frame_fit_applied": false,
+  "pixels_per_world_unit": null,
+  "physical_root_pivot": null,
+  "layout_note": "Fixed native sheet-cell layout. Common padding is a layout origin, not a physical foot pivot or calibrated world root. No PPU is invented.",
+  "default_playback": "closed_loop",
+  "closed_loop_timeline": [
+    {
+      "phase": "01_READY",
+      "art_frame": "01_READY",
+      "start_tick": 0,
+      "hold_ticks": 6,
+      "end_tick_exclusive": 6
+    },
+    {
+      "phase": "02_LOAD",
+      "art_frame": "02_LOAD",
+      "start_tick": 6,
+      "hold_ticks": 8,
+      "end_tick_exclusive": 14
+    },
+    {
+      "phase": "03_DRIVE",
+      "art_frame": "03_DRIVE",
+      "start_tick": 14,
+      "hold_ticks": 4,
+      "end_tick_exclusive": 18
+    },
+    {
+      "phase": "04_THRUST",
+      "art_frame": "04_THRUST",
+      "start_tick": 18,
+      "hold_ticks": 4,
+      "end_tick_exclusive": 22
+    },
+    {
+      "phase": "05_BRAKE",
+      "art_frame": "05_BRAKE",
+      "start_tick": 22,
+      "hold_ticks": 5,
+      "end_tick_exclusive": 27
+    },
+    {
+      "phase": "06_RETRACT",
+      "art_frame": "06_RETRACT",
+      "start_tick": 27,
+      "hold_ticks": 6,
+      "end_tick_exclusive": 33
+    },
+    {
+      "phase": "07_RETURN",
+      "art_frame": "07_RETURN",
+      "start_tick": 33,
+      "hold_ticks": 9,
+      "end_tick_exclusive": 42
+    },
+    {
+      "phase": "08_READY",
+      "art_frame": "01_READY",
+      "start_tick": 42,
+      "hold_ticks": 12,
+      "end_tick_exclusive": 54
+    }
+  ],
+  "actual_eight_source_action_timeline": [
+    {
+      "phase": "01_READY",
+      "art_frame": "01_READY",
+      "start_tick": 0,
+      "hold_ticks": 6,
+      "end_tick_exclusive": 6
+    },
+    {
+      "phase": "02_LOAD",
+      "art_frame": "02_LOAD",
+      "start_tick": 6,
+      "hold_ticks": 8,
+      "end_tick_exclusive": 14
+    },
+    {
+      "phase": "03_DRIVE",
+      "art_frame": "03_DRIVE",
+      "start_tick": 14,
+      "hold_ticks": 4,
+      "end_tick_exclusive": 18
+    },
+    {
+      "phase": "04_THRUST",
+      "art_frame": "04_THRUST",
+      "start_tick": 18,
+      "hold_ticks": 4,
+      "end_tick_exclusive": 22
+    },
+    {
+      "phase": "05_BRAKE",
+      "art_frame": "05_BRAKE",
+      "start_tick": 22,
+      "hold_ticks": 5,
+      "end_tick_exclusive": 27
+    },
+    {
+      "phase": "06_RETRACT",
+      "art_frame": "06_RETRACT",
+      "start_tick": 27,
+      "hold_ticks": 6,
+      "end_tick_exclusive": 33
+    },
+    {
+      "phase": "07_RETURN",
+      "art_frame": "07_RETURN",
+      "start_tick": 33,
+      "hold_ticks": 9,
+      "end_tick_exclusive": 42
+    },
+    {
+      "phase": "08_READY",
+      "art_frame": "08_READY",
+      "start_tick": 42,
+      "hold_ticks": 12,
+      "end_tick_exclusive": 54
+    }
+  ],
+  "interpolation": "none; real cels held at listed 60Hz tick boundaries",
+  "loop_closure": {
+    "actual_source01_sha256": "1c79134212db7595c928a665ba4d595c8d06bf85f4b72f4c25b5a32909d5c154",
+    "actual_source08_sha256": "c4af94b19736aff8f59372017bfad32019de919a9a62965a2523efafa1171003",
+    "actual_source01_and08_are_distinct": true,
+    "actual_source08_preserved_as_file": "frames/08_READY.png",
+    "loop_final_phase": "08_READY",
+    "loop_final_phase_art_file": "frames/01_READY.png",
+    "loop_first_and_final_art_identical": true,
+    "closed_loop_unique_art_files_used": 7,
+    "closed_loop_phase_exposures": 8,
+    "all_eight_source_action_available": true,
+    "proof_scope": "Playback closure substitution only. It does not replace, overwrite or redefine source cel08."
+  }
+}

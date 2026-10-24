@@ -1,0 +1,22 @@
+LANTERN DASH + FLARE — ASSEMBLED REVIEW NOTES
+
+Visual sequence, identity, hardware, alpha, chronological contact paths, and registered light-overlay review passed. Exporter timing, hashes, atlas bounds/gutters, exact alpha trim reconstruction, and shared-state checks passed. These checks do not certify engine import or calibrated 3D foot physics.
+
+Current drawing counts and timing
+Dash: 22 timed full-character drawings, 39 ticks at 60 Hz (0.65 seconds).
+Lantern flare: 25 timed full-character drawings, 84 ticks at 60 Hz (1.40 seconds).
+Together: 47 body slots containing 44 distinct complete body drawings. R0, a late recovery gather, and the final ready settle are reused exactly across the two clips. Holds do not count as new artwork.
+Optional lantern light release: four separately generated effect drawings, registered into the same 25-slot timing as the flare body. Empty effect slots and repeated effect holds are not new artwork.
+
+Artwork and registration
+Every distinct body pose is a fresh complete AI illustration. No CGI, cutout-puppet deformation, optical flow, body warps, synthetic in-between images or frame blending were used. Source sheets use one declared construction scale each. Extraction separates complete source figures across their transparent gaps while retaining the original assigned RGBA pixels; no body parts are moved separately.
+All final canvases are 1536 by 1024, with root (768,892) from the top left. This is transparent padding around the accepted physical actor scale. Keep the accepted walk pixels-per-unit; do not shrink the actor to fit the larger quad.
+The sword remains in the anatomical right hand with short black wrist wraps. The lantern remains in the anatomical left hand with the long brown bracer. In the inspected dash, the left leg reaches and receives the landing while the right trails. Final metadata follows the inspected drawings rather than relying on prompt intent.
+
+Gameplay boundaries
+Dash world travel, damage, collision, cooldowns and invulnerability remain game-owned and are not implemented. The external-travel preview is only a suggested visual aid, using 1.8 standing-body heights. Its travel now ends at the first left-heel receipt so that the following planted brake does not slide through the world.
+The accepted view remains approximately 10 degrees down-right. Historical camera targets of 35.264-degree elevation, 45-degree azimuth and 13 meters are not measured calibration. Contact and hand/prop points are manually observed 2D illustration guides, not certified 3D positions or hitboxes.
+
+Verification
+All current frame PNGs are RGBA and share the declared canvas/root. Integer timing sums, source and frame hashes, exact shared-state reuse, and significant-alpha canvas bounds pass. Normal and half-speed held-frame previews, fixed 163px/122px reference-size previews, a separate-body/effect peak proof, and an external-travel comparison are included.
+Model preference Sunburst2.5 (gpt-image-2.5-sunburst) was included in prompts. The tool did not expose a verified backend model identity.

@@ -1,0 +1,22 @@
+{
+  "number": 27,
+  "scene": "Rootwood/Full Scene B / Variant",
+  "location": "Rootwood",
+  "master_id": "1AAXkJpQQ44_c70u9pL5pIFBKDG4QXpwe",
+  "master_url": "https://drive.google.com/file/d/1AAXkJpQQ44_c70u9pL5pIFBKDG4QXpwe/view?usp=drivesdk",
+  "master_filename": "rootwood_b_variant_ai4x_master_6144x4096.png",
+  "source_kit_id": "1ntBnj4Eyb23Prd6BU6UIeA60ujUCv25T",
+  "source_kit_url": "https://drive.google.com/file/d/1ntBnj4Eyb23Prd6BU6UIeA60ujUCv25T/view?usp=drivesdk",
+  "source_kit_filename": "rootwood_b_variant_source_provenance_kit.zip",
+  "lootables": [
+    "rootwood cache chest",
+    "covered woven woodland hamper"
+  ],
+  "breakables": [
+    "rotted hollow stump",
+    "clay gathering jar"
+  ],
+  "production_status": "QUEUED",
+  "approval_status": "SUPPORTED: exact ID in six retained overnight variants index",
+  "production_gate": "Inspect exact master, actual pixel crops and matched source prompt before generation. Proposed themes adjustable to references; same-family variants separately tracked."
+}

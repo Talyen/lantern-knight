@@ -1,0 +1,171 @@
+{
+  "recipe": "flat-stage-native-v1",
+  "originalsPreserved": true,
+  "frames": [
+    {
+      "pack": "ink-stage-chapel-exterior",
+      "id": "shell",
+      "source": "references/art/flat-stage-v1/exterior.png",
+      "sourceHash": "57c6e6e377d1758b75cfbbe91376422c3db8a13ac1501196425e3093f39c43c6",
+      "sourceCanvas": [
+        1420,
+        1108
+      ],
+      "derivativeCanvas": [
+        1420,
+        1108
+      ],
+      "uniformScale": 1,
+      "density": 245.5,
+      "minimumSourceDensity": 245.5,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      },
+      "sourceAnchor": [
+        1180,
+        985
+      ],
+      "derivativeAnchor": [
+        1180,
+        985
+      ]
+    },
+    {
+      "pack": "ink-stage-chapel-interior",
+      "id": "shell",
+      "source": "references/art/flat-stage-v1/interior.png",
+      "sourceHash": "1281a6cda2bd9652e71b17ffa82bbd2fb41ba5a565ccc7fb72809a877fe4c8c3",
+      "sourceCanvas": [
+        1536,
+        1024
+      ],
+      "derivativeCanvas": [
+        1536,
+        1024
+      ],
+      "uniformScale": 1,
+      "density": 256,
+      "minimumSourceDensity": 256,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      },
+      "sourceAnchor": [
+        768,
+        635
+      ],
+      "derivativeAnchor": [
+        768,
+        635
+      ]
+    },
+    {
+      "pack": "ink-stage-earth",
+      "id": "surface",
+      "source": "references/art/flat-stage-v1/earth.png",
+      "sourceHash": "d74585b2e70799a4b53bd6980cc74f245fd327d25f163ac7c7ea632c3c50449b",
+      "sourceCanvas": [
+        1254,
+        1254
+      ],
+      "derivativeCanvas": [
+        1254,
+        1254
+      ],
+      "uniformScale": 1,
+      "density": 313.5,
+      "minimumSourceDensity": 313.5,
+      "alphaRemap": null,
+      "sourceAnchor": [
+        627,
+        627
+      ],
+      "derivativeAnchor": [
+        627,
+        627
+      ]
+    },
+    {
+      "pack": "ink-stage-road",
+      "id": "panel",
+      "source": "references/art/flat-stage-v1/road.png",
+      "sourceHash": "f972043a8076d38671298bb2abb5e324521939ccf7ac949b5239c6017c552e70",
+      "sourceCanvas": [
+        1254,
+        1254
+      ],
+      "derivativeCanvas": [
+        1254,
+        1254
+      ],
+      "uniformScale": 1,
+      "density": 313.5,
+      "minimumSourceDensity": 313.5,
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      },
+      "sourceAnchor": [
+        627,
+        627
+      ],
+      "derivativeAnchor": [
+        627,
+        627
+      ]
+    },
+    {
+      "pack": "ink-stage-stone",
+      "id": "surface",
+      "source": "references/art/flat-stage-v1/stone.png",
+      "sourceHash": "74029484b33a35ce83c3232f6cbf798dc0b2db3276f8d9d0315a6052d63752e0",
+      "sourceCanvas": [
+        1254,
+        1254
+      ],
+      "derivativeCanvas": [
+        1254,
+        1254
+      ],
+      "uniformScale": 1,
+      "density": 313.5,
+      "minimumSourceDensity": 313.5,
+      "alphaRemap": null,
+      "sourceAnchor": [
+        627,
+        627
+      ],
+      "derivativeAnchor": [
+        627,
+        627
+      ]
+    },
+    {
+      "pack": "ink-stage-gatherers-shelter",
+      "id": "shelter",
+      "source": "references/art/clearing-rest-v1/shelter.png",
+      "sourceHash": "a11d5ecb145b7973b4bacf2217be42e2324dda5374af8ed771f6dd8b2ee15c8b",
+      "sourceCanvas": [
+        1448,
+        1086
+      ],
+      "derivativeCanvas": [
+        1448,
+        1086
+      ],
+      "uniformScale": 1,
+      "density": 350,
+      "minimumSourceDensity": 350,
+      "alphaRemap": null,
+      "sourceAnchor": [
+        760,
+        820
+      ],
+      "derivativeAnchor": [
+        760,
+        820
+      ]
+    }
+  ]
+}

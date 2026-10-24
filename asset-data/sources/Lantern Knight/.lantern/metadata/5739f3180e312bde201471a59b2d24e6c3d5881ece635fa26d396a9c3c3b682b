@@ -1,0 +1,59 @@
+{
+  "asset": "Shroud Wisp / revision 02",
+  "status": "Illustrated art study; front-view layered hover. Not a calibrated 3D replacement.",
+  "camera_target": {
+    "elevation": 35.264389682754654,
+    "azimuth": 45,
+    "vertical_span_m": 13,
+    "reference_display_px": [
+      2560,
+      1440
+    ],
+    "perspective_accuracy": "approximate illustrated views"
+  },
+  "scale": {
+    "assumed_projected_height_m": 1.5,
+    "practical_height_px_at_1440p": 166.15,
+    "frame_canvas": [
+      768,
+      768
+    ],
+    "fixed_ground_anchor_px": [
+      384,
+      710
+    ],
+    "pivot_normalized_bottom_left": [
+      0.5,
+      0.07552083333333333
+    ]
+  },
+  "animation": {
+    "clip": "hover",
+    "source_fps": 30,
+    "frames": 60,
+    "seconds": 2,
+    "preview_hz": 60,
+    "preview_method": "each source frame held for two display ticks",
+    "loop_endpoint_60_exported": false,
+    "root_translation": false,
+    "body_bob_source_canvas_px": 4,
+    "rig": "stable hood/face/crossed shawl and three delayed distal cloth layers"
+  },
+  "views": [
+    "front illustrated rest and hover",
+    "right-facing side source study",
+    "rear source study"
+  ],
+  "limitations": [
+    "Additional rest views are separately authored illustrations, not matched calibrated model projections.",
+    "Only original-view hover is animated; side and rear remain rest studies, preserving original package scope.",
+    "No engine runtime, lighting, or collision integration."
+  ],
+  "canonical_hero_modified": false,
+  "supersedes_art": [
+    "lantern_overnight/12_shroud_wisp"
+  ],
+  "old_calibrated_source_retained": "../../../lantern_overnight/12_shroud_wisp/source/Shroud_Wisp_Hover_Source.blend",
+  "release_revision": "r02a",
+  "release_patch": "Derived zero-alpha RGB cleared after output downsampling. Original masters, alpha values and visible RGBA are unchanged."
+}

@@ -1,0 +1,282 @@
+[
+  {
+    "asset_id": "env_angular_boulder_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_angular_boulder_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_angular_boulder_01.png",
+    "sha256": "a79aefcf4a9ae9b03ffead9a492c04a70bc9d7ed05838be7441d2fc85847bf02",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_angular_boulder_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      11,
+      1436,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      122,
+      111,
+      1426,
+      911
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98192,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-f75bebd3-0ff6-4f95-820b-21e6905f5fc8.png"
+  },
+  {
+    "asset_id": "env_basalt_outcrop_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_basalt_outcrop_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_basalt_outcrop_01.png",
+    "sha256": "3d8d9199a61b838d651c7945e8bc3d7c2e3ca17b649a9fe57588f335a32d0ff8",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_basalt_outcrop_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      25,
+      56,
+      1256,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      153,
+      111,
+      1164,
+      1080
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98204,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-1c939394-0620-4091-bc60-ef234aa30a9b.png"
+  },
+  {
+    "asset_id": "env_dry_stone_well_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_dry_stone_well_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_dry_stone_well_01.png",
+    "sha256": "458c73d44330a5aec7a0563866e783a91e4b20feaea201da03afda0a7757c58b",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_dry_stone_well_01.prompt.txt",
+    "size": [
+      1374,
+      1145
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      88,
+      1320,
+      1129
+    ],
+    "alpha_bounds_ge128": [
+      136,
+      100,
+      1245,
+      1062
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.98723,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-97b36935-8ae1-4814-8016-ab49cb5fd0aa.png"
+  },
+  {
+    "asset_id": "env_fallen_column_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_fallen_column_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_fallen_column_01.png",
+    "sha256": "a6269d81730c471f2fcc3c743aa3a83b20c8c0ad0f7d0ce6849c6a059f3b7fa4",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_fallen_column_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      68,
+      29,
+      1492,
+      1002
+    ],
+    "alpha_bounds_ge128": [
+      73,
+      32,
+      1490,
+      996
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97924,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-1ef69513-bb47-4c52-b4cb-51b52a682cc3.png"
+  },
+  {
+    "asset_id": "env_leaning_gravestone_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_leaning_gravestone_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_leaning_gravestone_01.png",
+    "sha256": "e0d92388a21459bfa5e0299e516ea1671a91061567ef5c1994227412ccbcf2e2",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_leaning_gravestone_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      65,
+      61,
+      941,
+      1504
+    ],
+    "alpha_bounds_ge128": [
+      155,
+      63,
+      847,
+      1489
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.97989,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-1ce1d0c4-62dc-4fd1-aad0-d335e701b59f.png"
+  },
+  {
+    "asset_id": "env_low_thorn_hedge_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_low_thorn_hedge_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_low_thorn_hedge_01.png",
+    "sha256": "0bbd10127a6ea29f7b18ea142802e644b2ecb6c64be2a3ba19a9976609c170bc",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_low_thorn_hedge_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      71,
+      31,
+      1436,
+      982
+    ],
+    "alpha_bounds_ge128": [
+      125,
+      188,
+      1412,
+      816
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.94755,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_masonry_rubble_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_masonry_rubble_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_masonry_rubble_01.png",
+    "sha256": "f0e12d946c80ade772a09e28808632d88e92d6a262ab7197fbec3fea71928791",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_masonry_rubble_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      32,
+      1436,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      164,
+      47,
+      1374,
+      958
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.98253,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-68351170-d421-45f6-beee-8c4a3b87cf05.png"
+  },
+  {
+    "asset_id": "env_timber_barricade_01",
+    "pack": "volume_04_terrain",
+    "path": "assets/env_timber_barricade_01.png",
+    "original_path": "lantern_environment_candidates/volume_04_terrain/assets/env_timber_barricade_01.png",
+    "sha256": "a5aca4f0cc4cb2c6087b1402cc5f7174391f14dc18dc9c4b6f48a7fcc25f1a1d",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_timber_barricade_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      37,
+      1510,
+      1000
+    ],
+    "alpha_bounds_ge128": [
+      69,
+      42,
+      1484,
+      983
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.95605,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-1cf7b344-f646-4903-bab6-454d5d568231.png"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "logic_test": "pass with DOM/canvas stubs",
+  "embedded_native_drawings": 9,
+  "timeline_cels": 11,
+  "shared_ready_reused_exactly": true,
+  "replay_pause_scrub_terminal_hold": true,
+  "multiple_texture_PPU": true,
+  "browser_visual_playback_verified": false
+}

@@ -1,0 +1,9 @@
+LANTERN Restored Detail Samples
+
+Eight newly generated 1536x1024 native samples for review before production. Exact saved generation prompts and canonical hero reference included. Observatory B/C used text-only generation. Glades A/B, Woodland C, Chapel C, Cloister B and Crypt used the canonical hero as a style-reference input. The hero appears in every review overlay, independently of generation inputs. Original environments were visually inspected to recover theme/detail, never fed into generation.
+
+Hero160 review images are enlarged display crops, not new native art or production AI upscales. Scene display target 3840x2560, human160px; illustrative scale should be reviewed.
+
+Caveats: some fine cracks/foliage remain; several architectural objects read grander than intended. No claim of selected backend model, engine integration or geometric validation.
+
+Provenance correction: per-scene input modes above replace the former blanket hero-input claim. Chapel/Cloister/Crypt prompt bindings are explicitly reconstructed from their actual visible tool invocations and saved prompt files, not provider-exported request logs.

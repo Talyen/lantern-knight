@@ -1,0 +1,86 @@
+{
+  "per_clip": {
+    "bellbound_defeat": {
+      "source_alpha_range": [
+        0,
+        254
+      ],
+      "source_visible_component_count": 6,
+      "small_components_before_ownership": [],
+      "source_alpha_above16_pixel_count": 597682,
+      "exported_visible_pixel_count": 597682,
+      "all_source_alpha_above16_retained": true,
+      "all_owned_pixels_retained": true,
+      "all_surviving_rgb_equal_source": true,
+      "native_png_dimensions": [
+        768,
+        768
+      ],
+      "minimum_runtime_margin_px": 73,
+      "no_per_frame_fitting": true,
+      "no_scale_or_warp": true,
+      "single_fresh_retry_used": true
+    },
+    "crawler_defeat": {
+      "source_alpha_range": [
+        0,
+        254
+      ],
+      "source_visible_component_count": 6,
+      "small_components_before_ownership": [
+        {
+          "pixels": 1,
+          "bounds_xyxy": [
+            322,
+            469,
+            323,
+            470
+          ]
+        },
+        {
+          "pixels": 1,
+          "bounds_xyxy": [
+            323,
+            471,
+            324,
+            472
+          ]
+        },
+        {
+          "pixels": 1,
+          "bounds_xyxy": [
+            766,
+            475,
+            767,
+            476
+          ]
+        },
+        {
+          "pixels": 1,
+          "bounds_xyxy": [
+            343,
+            943,
+            344,
+            944
+          ]
+        }
+      ],
+      "source_alpha_above16_pixel_count": 461072,
+      "exported_visible_pixel_count": 461072,
+      "all_source_alpha_above16_retained": true,
+      "all_owned_pixels_retained": true,
+      "all_surviving_rgb_equal_source": true,
+      "native_png_dimensions": [
+        768,
+        768
+      ],
+      "minimum_runtime_margin_px": 87,
+      "no_per_frame_fitting": true,
+      "no_scale_or_warp": true,
+      "single_fresh_retry_used": true
+    }
+  },
+  "all_runtime_images_same_canvas_and_pivot": true,
+  "runtime_art_resampled": false,
+  "events_implemented": false
+}

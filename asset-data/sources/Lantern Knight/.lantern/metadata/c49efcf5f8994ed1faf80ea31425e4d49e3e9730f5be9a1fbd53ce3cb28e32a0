@@ -1,0 +1,7 @@
+[
+  {
+    "asset": "ceiling_pendulum_blade",
+    "phase0_equals_phase1": true,
+    "no_duplicate_endpoint": true
+  }
+]

@@ -1,0 +1,138 @@
+{
+  "coffer": {
+    "prompt": "Create a game animation source sheet for ONE small stone offering coffer for Lantern Knight Crypt. Reference images are MATERIAL/STYLE and CAMERA references only, never reproduce their floor or background. Highest native quality; preferred gpt-image-2.5-sunburst if available. Transparent background. Four equally spaced cells in one horizontal row, generous blank separation. 4 genuinely drawn distinct animation poses left to right: closed fitted hinged lid; lid lifted 25 degrees; lid opening 65 degrees; terminal lid fully open 105 degrees showing dark EMPTY hollow storage. Exact same stable coffer base, perspective, scale and ground pivot across all four. Compact rectangular warm bone-limestone coffer, cool charcoal inset lid and a tiny plain recessed seal. Confident tapered black ink contours, quiet smooth flat three-tone cel shading, restrained warm amber edges matching actual crypt reference. Orthographic isometric 35.264 degree elevation, 45 degree azimuth. No hatching, grain, texture noise, photographic rendering, glow, text, labels, grids, floor, pedestal, characters, bones, gore, exposed rewards or coins. All four cels fully visible and isolated with genuine alpha.",
+    "library": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "operation": "create_library_file",
+        "status": "succeeded",
+        "path": "/stone_offering_coffer_authored_sheet.png",
+        "file_id": "file_0000000044e082308dcf24ca41958275",
+        "library_file_id": "libfile_9d0077d4455481919127ae4d051137a4",
+        "file_name": "stone_offering_coffer_authored_sheet.png",
+        "current_version_number": 0,
+        "restored_from_version_number": null,
+        "xattrs": [
+          {
+            "name": "user.library-file-version",
+            "value": "0"
+          }
+        ],
+        "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+        "mime_type": "image/png",
+        "library_artifact_type": "image_gen",
+        "file_size_bytes": 971447,
+        "external_connectors_accessed": false
+      },
+      "isError": false
+    },
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-fea38d9d-4914-41f5-a917-772c89ebde62.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  "chest": {
+    "prompt": "Create a game animation source sheet for ONE low funerary storage chest for Lantern Knight Crypt. Reference images are MATERIAL/STYLE and CAMERA references only, never reproduce their floor or background. Highest native quality; preferred gpt-image-2.5-sunburst if available. Transparent background. Four equally spaced cells in one horizontal row, generous blank separation. 4 genuinely drawn distinct animation poses left to right: closed fitted hinged lid; lid lifted 25 degrees; lid opening 65 degrees; terminal lid fully open 105 degrees showing dark EMPTY hollow storage. Exact same stable coffer base, perspective, scale and ground pivot across all four. Compact low elongated dark smoke-brown wooden chest, broad clean boards, charcoal iron corner straps, a plain rectangular lid, very restrained amber edge light. Clearly storage furniture, not a coffin. Confident tapered black ink contours, quiet smooth flat three-tone cel shading, restrained warm amber edges matching actual crypt reference. Orthographic isometric 35.264 degree elevation, 45 degree azimuth. No hatching, grain, texture noise, photographic rendering, glow, text, labels, grids, floor, pedestal, characters, bones, gore, exposed rewards or coins. All four cels fully visible and isolated with genuine alpha.",
+    "library": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "operation": "create_library_file",
+        "status": "succeeded",
+        "path": "/funerary_storage_chest_authored_sheet.png",
+        "file_id": "file_0000000027308230b05b8b25a451c806",
+        "library_file_id": "libfile_41ff527654988191b63b84d6a769da10",
+        "file_name": "funerary_storage_chest_authored_sheet.png",
+        "current_version_number": 0,
+        "restored_from_version_number": null,
+        "xattrs": [
+          {
+            "name": "user.library-file-version",
+            "value": "0"
+          }
+        ],
+        "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+        "mime_type": "image/png",
+        "library_artifact_type": "image_gen",
+        "file_size_bytes": 880753,
+        "external_connectors_accessed": false
+      },
+      "isError": false
+    },
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-20075c8b-1786-4205-aeca-adc2df0c4fbd.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  "urn": {
+    "prompt": "Use case stylized-concept. Create ONE Lantern Knight Crypt breakable SEALED funerary storage urn animation source sheet, highest native quality, preferred gpt-image-2.5-sunburst if available. Reference is actual approved crypt material and camera: quiet smooth three-tone warm bone-brown ceramic, charcoal shadows, restrained amber edges, confident tapered black ink outlines, clean flat cel shading. Orthographic isometric elevation 35.264 degrees azimuth 45 degrees. Four equally spaced cells in a single horizontal row with generous transparent gutters; same base pivot, camera and scale. Cel1 intact squat ceramic urn with fitted sealed small lid and hollow storage body. Cel2 impact angular cracks spread across body, lid lifts slightly, body remains grounded. Cel3 actual fracture into several large airborne ceramic pieces around lower body, hollow dark empty interior. Cel4 permanent settled low rubble pile, large identifiable curved broken pot shards and detached lid at ground, no airborne debris. Four genuinely authored different states. No motion streaks, dust or effects to hide structural pose change. No exposed loot, bones, ashes, gore, people, text, grids, floor, ground patch, photographic texture, stippling, hatching or noise. Genuine transparent background. Maintain generous outer margins and never clip pieces.",
+    "library": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "operation": "create_library_file",
+        "status": "succeeded",
+        "path": "/sealed_funerary_urn_authored_sheet.png",
+        "file_id": "file_000000006abc81fd98180a2b54450f7f",
+        "library_file_id": "libfile_96baa1eb086c819184e758f6f7154b15",
+        "file_name": "sealed_funerary_urn_authored_sheet.png",
+        "current_version_number": 0,
+        "restored_from_version_number": null,
+        "xattrs": [
+          {
+            "name": "user.library-file-version",
+            "value": "0"
+          }
+        ],
+        "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+        "mime_type": "image/png",
+        "library_artifact_type": "image_gen",
+        "file_size_bytes": 849905,
+        "external_connectors_accessed": false
+      },
+      "isError": false
+    },
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-504d3891-ac23-4be9-8bb3-17c18f6b4dc9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  "crate": {
+    "prompt": "Use case stylized-concept. Create ONE Lantern Knight Crypt breakable closed brittle wooden candle-supply crate animation source sheet, highest native quality, preferred gpt-image-2.5-sunburst if available. Reference is actual approved crypt material and camera: quiet smooth three-tone muted smoke-brown wood, charcoal shadows, restrained amber edges, confident tapered black ink outlines, clean flat cel shading. Orthographic isometric elevation 35.264 degrees azimuth 45 degrees. Four equally spaced cells in a single horizontal row with generous transparent gutters; same base pivot, camera and scale. Cel1 intact low box crate with fitted wooden cover, simple cross-brace and hidden storage cavity. Cel2 impact central boards split and buckle while lower crate base remains grounded. Cel3 actual fracture with broken boards and cover falling outward and empty dark storage interior. Cel4 permanent settled low pile of detached wooden boards and splintered base, no airborne debris. Four genuinely authored different states. No motion streaks, dust or effects to hide structural pose change. No exposed loot, bones, ashes, gore, people, text, grids, floor, ground patch, photographic texture, stippling, hatching or noise. Genuine transparent background. Maintain generous outer margins and never clip pieces.",
+    "library": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "operation": "create_library_file",
+        "status": "succeeded",
+        "path": "/candle_supply_crate_authored_sheet.png",
+        "file_id": "file_000000003b2481f89689d2fd11f055d6",
+        "library_file_id": "libfile_0682e0b7ae448191832e8aeb4fdeb3e4",
+        "file_name": "candle_supply_crate_authored_sheet.png",
+        "current_version_number": 0,
+        "restored_from_version_number": null,
+        "xattrs": [
+          {
+            "name": "user.library-file-version",
+            "value": "0"
+          }
+        ],
+        "directory_id": "libdir_71ac89e4f0208191a559614e6c85ddac",
+        "mime_type": "image/png",
+        "library_artifact_type": "image_gen",
+        "file_size_bytes": 965677,
+        "external_connectors_accessed": false
+      },
+      "isError": false
+    },
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-6d439d9f-950d-4d1b-b284-993905182f52.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  }
+}

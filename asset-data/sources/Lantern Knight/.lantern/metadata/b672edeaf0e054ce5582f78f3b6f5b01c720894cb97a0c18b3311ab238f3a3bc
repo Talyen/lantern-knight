@@ -1,0 +1,32 @@
+[
+  {
+    "file": "source/reference_before/png/hinged_bridge_panel_lowered.png",
+    "role": "historical_before_comparison_only",
+    "sha256": "786d532818cbbe62243f886117c2c62731243b86d23dd37ccd8cfed53605e5b6"
+  },
+  {
+    "file": "source/reference_before/png/retracting_spike_trap_engaged.png",
+    "role": "historical_before_comparison_only",
+    "sha256": "d5ccf57f315826f1f93387e8db71ebf394d3f836791d76de0d278dbabfb910ec"
+  },
+  {
+    "file": "source/reference_before/png/bronze_iris_gate_closed.png",
+    "role": "historical_before_comparison_only",
+    "sha256": "9bd0a0b5ab6776967353aea045bf9056e93adcf69576f4af004c5ec42f07ad1c"
+  },
+  {
+    "file": "source/reference_before/png/pressure_steam_vent_active.png",
+    "role": "historical_before_comparison_only",
+    "sha256": "92c7ce8dc80542188c4c6e814611b74db87f95c0fc7ba5347ec79dd0ddde3134"
+  },
+  {
+    "file": "source/reference_before/png/ceiling_pendulum_blade_active.png",
+    "role": "historical_before_comparison_only",
+    "sha256": "58d0dab78aed4aec9df50e25e51a23189fd62aa64a78c3e037a5881377afcb03"
+  },
+  {
+    "file": "source/reference_before/png/guided_stone_crusher_raised.png",
+    "role": "historical_before_comparison_only",
+    "sha256": "52cdf00b0d039607b25c03a44fab7cc83617e83de1434d128110178240be954e"
+  }
+]

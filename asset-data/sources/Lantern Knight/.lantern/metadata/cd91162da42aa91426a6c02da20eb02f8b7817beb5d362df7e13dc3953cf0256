@@ -1,0 +1,37 @@
+actor,id,state,heading,zip_relative_directory,holds_60hz,duration_ticks,event_frame_zero_based,canvas,pivot,estimated_ppu
+Ossuary Thrall,SK01,move,DR,SK01/runtime,"8,8,8,8,8,8",48,,"[640, 640]","[320, 520]",256
+Ossuary Thrall,SK01,attack,DR,SK01/runtime,"8,10,5,8,7,12",50,3,"[640, 640]","[320, 520]",256
+Sepulcher Warden,SK02,move,DR,SK02/runtime,"8,8,8,8,8,8",48,,"[640, 640]","[320, 520]",256
+Sepulcher Warden,SK02,attack,DR,SK02/runtime,"8,10,5,8,7,12",50,3,"[640, 640]","[320, 520]",256
+Ashen Shambler,ZB01,move,DR,ZB01_v02/runtime,"8,8,8,8,8,8",48,,"[640, 640]","[320, 520]",256
+Ashen Shambler,ZB01,attack,DR,ZB01_v02/runtime,"8,10,5,8,7,12",50,3,"[640, 640]","[320, 520]",256
+Gravetoll Hauler,ZB02,move,DR,ZB02/runtime,"8,7,7,7,8,11",48,,"[640, 640]","[320, 520]",256
+Gravetoll Hauler,ZB02,attack,DR,ZB02/runtime,"8,10,5,8,7,12",50,3,"[640, 640]","[320, 520]",256
+Mossfang Scavenger,GB01,move,DR,runtime,"7,6,6,6,6,7",38,,"[640, 640]","[320, 540]",300
+Mossfang Scavenger,GB01,attack,DR,runtime,"8,10,5,5,7,12",47,3,"[640, 640]","[320, 540]",300
+Mosswell Slime,SL01,move,DR,runtime,"8,7,8,7,7,8",45,,"[640, 640]","[320, 540]",320
+Mosswell Slime,SL01,attack,DR,runtime,"8,10,5,6,8,12",49,3,"[640, 640]","[320, 540]",320
+Veil Wisp,SP01,move,DR,runtime,"9,8,8,8,8,9",50,,"[768, 768]","[384, 650]",256
+Veil Wisp,SP01,attack,DR,runtime,"8,9,12,5,9,14",57,3,"[768, 768]","[384, 650]",256
+Mourning Moth,BT03,move,DR,runtime,"6,5,4,5,5,6",31,,"[768, 768]","[384, 650]",256
+Mourning Moth,BT03,attack,DR,runtime,"8,10,12,5,8,14",57,3,"[768, 768]","[384, 650]",256
+Ironcap Fungus,FP02,move,DR,runtime,"8,8,8,8,8,8",48,,"[640, 640]","[320, 540]",400
+Ironcap Fungus,FP02,attack,DR,runtime,"8,11,6,5,8,12",50,3,"[640, 640]","[320, 540]",400
+Masked cultist,lantern_concept_enemy_03_masked_cultist,move,DR,runtime,"7,7,7,7,7,7",42,,"[640, 640]","[374, 555]",240
+Masked cultist,lantern_concept_enemy_03_masked_cultist,attack,DR,runtime,"7,8,10,5,8,10",48,3,"[640, 640]","[374, 555]",240
+Clockwork penitent,lantern_concept_enemy_08_clockwork_penitent,move,DR,runtime,"7,7,7,7,7,7",42,,"[768, 768]","[400, 697]",320
+Clockwork penitent,lantern_concept_enemy_08_clockwork_penitent,attack,DR,runtime,"7,8,10,5,8,10",48,3,"[768, 768]","[400, 697]",320
+Moth oracle,lantern_creature_concept_03_moth_oracle,move,DR,runtime,"8,7,7,7,7,8",44,,"[768, 768]","[384, 650]",256
+Moth oracle,lantern_creature_concept_03_moth_oracle,attack,DR,runtime,"8,9,12,6,9,14",58,3,"[768, 768]","[384, 650]",256
+Bell-bearing pilgrim,lantern_elite_concept_01_bellbearing_pilgrim,move,DR,runtime,"7,7,7,7,7,7",42,,"[640, 640]","[360, 565]",240
+Bell-bearing pilgrim,lantern_elite_concept_01_bellbearing_pilgrim,attack,DR,runtime,"7,8,10,5,8,10",48,3,"[640, 640]","[360, 565]",240
+Candle-procession wraith,lantern_elite_concept_05_candle_procession_wraith,move,DR,runtime,"9,8,8,9,8,8",50,,"[768, 768]","[384, 650]",256
+Candle-procession wraith,lantern_elite_concept_05_candle_procession_wraith,attack,DR,runtime,"8,9,12,6,9,14",58,3,"[768, 768]","[384, 650]",256
+Root-entangled stone saint,lantern_elite_concept_06_rootbound_stone_saint,move,DR,runtime,"10,9,10,9,9,10",57,,"[640, 640]","[320, 540]",220
+Root-entangled stone saint,lantern_elite_concept_06_rootbound_stone_saint,attack,DR,runtime,"9,11,9,7,10,14",60,3,"[640, 640]","[320, 540]",220
+Skeletal archer,lantern_archetype_concept_01_skeletal_archer,move,DR,ARCHER/runtime,"8,8,8,8,8,8",48,,"[640, 640]","[320, 520]",256
+Skeletal archer,lantern_archetype_concept_01_skeletal_archer,attack,DR,ARCHER/runtime,"8,10,5,8,7,12",50,3,"[640, 640]","[320, 520]",256
+Censer keeper,lantern_hostile_faction_concept_04_censer_keeper,move,DR,runtime,"7,7,7,7,7,7",42,,"[832, 832]","[426, 740]",280
+Censer keeper,lantern_hostile_faction_concept_04_censer_keeper,attack,DR,runtime,"7,8,10,5,8,10",48,3,"[832, 832]","[426, 740]",280
+Hovering broken mask,lantern_cave_creature_06_hovering_broken_mask,move,DR,runtime,"10,9,10,10,9,10",58,,"[768, 768]","[384, 650]",256
+Hovering broken mask,lantern_cave_creature_06_hovering_broken_mask,attack,DR,runtime,"8,10,12,5,8,14",57,3,"[768, 768]","[384, 650]",256

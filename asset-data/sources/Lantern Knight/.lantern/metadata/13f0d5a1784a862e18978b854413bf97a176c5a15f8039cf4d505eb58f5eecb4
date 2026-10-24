@@ -1,0 +1,81 @@
+{
+  "format": "RGBA8",
+  "mipmaps": false,
+  "atlasBytes": 42212400,
+  "atlasCount": 9,
+  "note": "Raw base-level allocation, not file size or measured runtime performance",
+  "clips": [
+    {
+      "id": "enemy_cone",
+      "atlasSizePx": [
+        1242,
+        630
+      ],
+      "bytes": 3129840
+    },
+    {
+      "id": "enemy_line",
+      "atlasSizePx": [
+        1452,
+        735
+      ],
+      "bytes": 4268880
+    },
+    {
+      "id": "enemy_arc",
+      "atlasSizePx": [
+        1734,
+        820
+      ],
+      "bytes": 5687520
+    },
+    {
+      "id": "enemy_ring",
+      "atlasSizePx": [
+        2046,
+        1020
+      ],
+      "bytes": 8347680
+    },
+    {
+      "id": "loot_appearance",
+      "atlasSizePx": [
+        1038,
+        720
+      ],
+      "bytes": 2989440
+    },
+    {
+      "id": "loot_pickup",
+      "atlasSizePx": [
+        1062,
+        755
+      ],
+      "bytes": 3207240
+    },
+    {
+      "id": "shrine_activation",
+      "atlasSizePx": [
+        714,
+        975
+      ],
+      "bytes": 2784600
+    },
+    {
+      "id": "door_seal_dissolve",
+      "atlasSizePx": [
+        978,
+        1050
+      ],
+      "bytes": 4107600
+    },
+    {
+      "id": "checkpoint_return",
+      "atlasSizePx": [
+        1602,
+        1200
+      ],
+      "bytes": 7689600
+    }
+  ]
+}

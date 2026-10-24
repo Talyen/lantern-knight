@@ -1,0 +1,294 @@
+{
+  "name": "Ironcap Fungus",
+  "identity_id": "FP02",
+  "original_sha256": "6bfa2b31ca5b0868b97171218dcd1e53dedb80dcbd06e543028232208117dac0",
+  "canvas": [
+    640,
+    640
+  ],
+  "atlas_layout": {
+    "size": [
+      1944,
+      1296
+    ],
+    "cell_size": 640,
+    "transparent_gutter_per_side": 4,
+    "stride": 648,
+    "sampling": "Use frame atlas_rect and clamped sprite UVs; no texture repeat. Native cels unchanged."
+  },
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 400,
+  "facing": "UR / northeast / away screen upper-right",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Drawn visual approximation, not calibrated 3D geometry"
+  },
+  "mirroring": "Not approved: asymmetric cap spot arrangement would flip.",
+  "offsets": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+  "clips": {
+    "move": {
+      "loop": true,
+      "source_uniform_scale": 1,
+      "frames": [
+        {
+          "file": "move_00.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            34,
+            50,
+            503,
+            499
+          ],
+          "baked_translation": [
+            86,
+            91
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_01.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            552,
+            72,
+            1020,
+            476
+          ],
+          "baked_translation": [
+            86,
+            136
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_02.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            1067,
+            40,
+            1518,
+            496
+          ],
+          "baked_translation": [
+            95,
+            78
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_03.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            44,
+            536,
+            531,
+            977
+          ],
+          "baked_translation": [
+            77,
+            99
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_04.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            565,
+            538,
+            1016,
+            971
+          ],
+          "baked_translation": [
+            95,
+            104
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "move_05.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            1067,
+            532,
+            1524,
+            978
+          ],
+          "baked_translation": [
+            92,
+            94
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "source_uniform_scale": 1,
+      "end": "hold last recovery cel until state transition",
+      "visual_event": {
+        "frame_index": 3,
+        "meaning": "Downward cap bash apex",
+        "not_gameplay_damage_guarantee": true
+      },
+      "frames": [
+        {
+          "file": "attack_00.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            34,
+            50,
+            504,
+            499
+          ],
+          "baked_translation": [
+            85,
+            91
+          ],
+          "atlas_rect": [
+            4,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_01.png",
+          "hold_ticks_60hz": 11,
+          "source_box": [
+            562,
+            142,
+            1023,
+            492
+          ],
+          "baked_translation": [
+            88,
+            190
+          ],
+          "atlas_rect": [
+            652,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_02.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            1091,
+            73,
+            1526,
+            499
+          ],
+          "baked_translation": [
+            99,
+            110
+          ],
+          "atlas_rect": [
+            1300,
+            4,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_03.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            31,
+            591,
+            528,
+            977
+          ],
+          "baked_translation": [
+            84,
+            154
+          ],
+          "atlas_rect": [
+            4,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_04.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            581,
+            578,
+            1023,
+            976
+          ],
+          "baked_translation": [
+            99,
+            139
+          ],
+          "atlas_rect": [
+            652,
+            652,
+            640,
+            640
+          ]
+        },
+        {
+          "file": "attack_05.png",
+          "hold_ticks_60hz": 12,
+          "source_box": [
+            1067,
+            552,
+            1523,
+            983
+          ],
+          "baked_translation": [
+            92,
+            109
+          ],
+          "atlas_rect": [
+            1300,
+            652,
+            640,
+            640
+          ]
+        }
+      ]
+    }
+  },
+  "idle": "First move cel only, not animated idle",
+  "qa_limits": "All cels visually inspected on light/dark; native timing preview encoded. No engine test or real-time playback claim."
+}

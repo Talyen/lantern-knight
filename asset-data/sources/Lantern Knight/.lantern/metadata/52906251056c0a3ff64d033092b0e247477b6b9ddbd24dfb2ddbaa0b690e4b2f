@@ -1,0 +1,15 @@
+{
+  "canvas": [
+    1536,
+    1536
+  ],
+  "root": [
+    768.0,
+    1220.0
+  ],
+  "density": 440.0,
+  "camera_elevation": 35.2643897,
+  "camera_azimuth": 45,
+  "assembly": "Source landmarks, source crop coordinates, deformation and physical pivots are explicitly editable in build_workshop.py. All crops and fracture polygons in clipping_meshes.json are derived; master pixels/alpha remain intact.",
+  "baked_perspective": true
+}

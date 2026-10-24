@@ -1,0 +1,124 @@
+{
+  "scene_number": 9,
+  "scene": "Graveyard / Variant",
+  "prop": "a closed travel backpack",
+  "source_master_url": "https://drive.google.com/file/d/1DQCWM7ATD1uBw20EaghWPnt3qwKc92_E/view?usp=drivesdk",
+  "animation": {
+    "name": "open",
+    "loop": false,
+    "frame_durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "hold_final": true,
+    "final_state": "open_empty",
+    "trigger": "interaction"
+  },
+  "frame_count": 6,
+  "runtime_frame_size": [
+    47,
+    45
+  ],
+  "runtime_anchor_bottom_contact": [
+    25,
+    43
+  ],
+  "native_frame_size": [
+    410,
+    388
+  ],
+  "native_anchor_bottom_contact": [
+    220,
+    376
+  ],
+  "runtime_scale_from_native": 0.11506849315068493,
+  "source_cells": [
+    512,
+    512
+  ],
+  "source_bounds": [
+    [
+      111,
+      94,
+      476,
+      447
+    ],
+    [
+      80,
+      94,
+      444,
+      447
+    ],
+    [
+      71,
+      93,
+      434,
+      447
+    ],
+    [
+      99,
+      64,
+      482,
+      428
+    ],
+    [
+      73,
+      67,
+      450,
+      428
+    ],
+    [
+      58,
+      67,
+      444,
+      428
+    ]
+  ],
+  "source_contact_anchors": [
+    [
+      310,
+      447
+    ],
+    [
+      278,
+      447
+    ],
+    [
+      268,
+      447
+    ],
+    [
+      304,
+      428
+    ],
+    [
+      272,
+      428
+    ],
+    [
+      266,
+      428
+    ]
+  ],
+  "preview_scene_size": [
+    1200,
+    800
+  ],
+  "preview_anchor": [
+    875,
+    620
+  ],
+  "native_note": "Imagegen-produced cels, translated to shared ground contact; no AI upscaling. Runtime is a mechanical downsample.",
+  "qa": {
+    "alpha": true,
+    "frame_clipping": false,
+    "fixed_ground_contact": true,
+    "distinct_hand_drawn_cels": true,
+    "empty_interior": true,
+    "scene_fit": "Reviewed at gameplay distance on original master; all previews are mechanical composites."
+  }
+}

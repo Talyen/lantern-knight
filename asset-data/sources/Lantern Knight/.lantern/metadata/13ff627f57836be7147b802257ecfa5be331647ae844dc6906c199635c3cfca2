@@ -1,0 +1,23 @@
+{
+  "method": "Built-in image generation, one identity-referenced sheet per enemy; deterministic cel extraction/atlas packing and ordinary resampling only.",
+  "generation_prompt_summary": {
+    "layout": "4 columns x6 rows; first4rows16 full-body actor cels, last2rows8 isolated matching effect cels; transparent RGBA; no labels.",
+    "reference_identity": "Ironcap Fungus",
+    "ability": "choked spore puff",
+    "timing": "Frames1\u20138 evolving anticipation;9\u201310 committed release;11\u201316 recoil and recovery. Exactly one strong hit; no multi-hit.",
+    "art": "Muted physical dark fantasy, confident ink/cel shapes, source palette/proportions, restrained light.",
+    "constraints": "Real changing anatomical poses and effect silhouettes, not transformed/faded stills. Preserve all limbs and full character.",
+    "requested_sheet_px": [
+      1536,
+      2304
+    ],
+    "actual_generated_sheet_px": [
+      1024,
+      1536
+    ]
+  },
+  "source_reference_drive_id": "1-cTGVgtJA5To-yz34bFZYMoXHEtwiIDT",
+  "generator_source": "/workspace/shared/enemy_variety/physical/choked_spore_puff/source_generated_sheet.png",
+  "preservation": "Existing attacks and get-hit assets untouched. One new ability only.",
+  "canvas_exception": "Thrall uses additional transparent rightward action room with baseline offset[64,64]; other actor canvases use baseline dimensions."
+}

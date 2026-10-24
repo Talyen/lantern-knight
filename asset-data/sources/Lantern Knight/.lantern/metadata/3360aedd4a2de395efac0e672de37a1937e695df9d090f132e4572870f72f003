@@ -1,0 +1,9 @@
+OIL-WICK SURGE: OUTWARD DECAY TEST V3
+
+This is the requested single-variant test, using the existing fast onset plus twelve newly drawn chronological tail cels. Oil-Wick only; the other Flare variants remain unchanged pending review.
+
+Release at 110 ms, peak holds 70 ms, then 12 distinct tail frames at 50 ms each. The active effect lasts 780 ms and the preview has a 500 ms empty pause. 17 visible cels + 1 fully transparent clear frame.
+
+Flame breaks into embers and smoke, spreads and moves right/up, thinning to separated wisps. All tail cells use one common spatial extraction/scale/placement, with no per-frame re-centering, emitter reattachment, shrinking transforms or opacity tween. Visible-mass center shifts approximately 166 pixels right and 67 pixels up over the tail. Small per-cel variations remain because the art is hand-drawn.
+
+768x640 transparent frames, APNG, RGBA atlas, MP4/GIF previews, actual prompt/reference binding, raw tail sheet, and exact timings included. APNG preserves all 18 frames and the final clear frame; all canvas borders are transparent. This is a visual animation study, not an engine-integrated final asset. No gameplay changes or Drive uploads.

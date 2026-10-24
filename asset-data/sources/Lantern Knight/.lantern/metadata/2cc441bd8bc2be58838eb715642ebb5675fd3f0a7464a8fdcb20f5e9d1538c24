@@ -1,0 +1,413 @@
+{
+  "name": "low_powder_keg",
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    480
+  ],
+  "pivot_normalized_top_left": [
+    0.5,
+    0.75
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.25
+  ],
+  "loop": false,
+  "clip": "break",
+  "duration_ms": 1985,
+  "frame_count": 12,
+  "states": {
+    "intact": 0,
+    "damaged": 2,
+    "broken": 11
+  },
+  "atlas": "break_atlas.png",
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/break_00.png",
+      "duration_ms": 400,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          0,
+          512,
+          442
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          68
+        ],
+        "source_ground_anchor": [
+          256.0,
+          412.0
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "file": "frames/break_01.png",
+      "duration_ms": 60,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          512,
+          0,
+          1024,
+          442
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          68
+        ],
+        "source_ground_anchor": [
+          256.0,
+          412.0
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/break_02.png",
+      "duration_ms": 180,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1024,
+          0,
+          1536,
+          442
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          68
+        ],
+        "source_ground_anchor": [
+          256.0,
+          412.0
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/break_03.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          0,
+          442,
+          512,
+          1024
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          6
+        ],
+        "source_ground_anchor": [
+          256.0,
+          474.0
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/break_04.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          512,
+          442,
+          1024,
+          1024
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          6
+        ],
+        "source_ground_anchor": [
+          256.0,
+          474.0
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/break_05.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 1,
+        "box": [
+          1024,
+          442,
+          1536,
+          1024
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          6
+        ],
+        "source_ground_anchor": [
+          256.0,
+          474.0
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "file": "frames/break_06.png",
+      "duration_ms": 70,
+      "atlas_rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          0,
+          0,
+          512,
+          465
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          54
+        ],
+        "source_ground_anchor": [
+          256.0,
+          426.0
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "file": "frames/break_07.png",
+      "duration_ms": 75,
+      "atlas_rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          512,
+          0,
+          1024,
+          465
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          52
+        ],
+        "source_ground_anchor": [
+          256.0,
+          428.0
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "file": "frames/break_08.png",
+      "duration_ms": 85,
+      "atlas_rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1024,
+          0,
+          1536,
+          465
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          53
+        ],
+        "source_ground_anchor": [
+          256.0,
+          427.0
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "file": "frames/break_09.png",
+      "duration_ms": 95,
+      "atlas_rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          0,
+          465,
+          509,
+          1024
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          43
+        ],
+        "source_ground_anchor": [
+          256.0,
+          437.0
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "file": "frames/break_10.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          509,
+          465,
+          1024,
+          1024
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          125,
+          43
+        ],
+        "source_ground_anchor": [
+          259.0,
+          437.0
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "file": "frames/break_11.png",
+      "duration_ms": 700,
+      "atlas_rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "source": {
+        "page": 2,
+        "box": [
+          1024,
+          465,
+          1536,
+          1024
+        ]
+      },
+      "registration": {
+        "scale": 1,
+        "translation": [
+          128,
+          43
+        ],
+        "source_ground_anchor": [
+          256.0,
+          437.0
+        ]
+      }
+    }
+  ],
+  "import": {
+    "alpha": "straight RGBA",
+    "color_space": "sRGB",
+    "trim": false,
+    "rotation": false,
+    "filter": "bilinear",
+    "use_fixed_pivot": true,
+    "stop_on_final_frame": true
+  },
+  "contents": "Empty/dark cavity only; loot spawning belongs to the game."
+}

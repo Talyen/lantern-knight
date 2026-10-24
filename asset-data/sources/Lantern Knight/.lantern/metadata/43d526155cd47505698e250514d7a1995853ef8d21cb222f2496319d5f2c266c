@@ -1,0 +1,16 @@
+{
+  "poleTopRegionPx": [
+    220,
+    281,
+    292,
+    293
+  ],
+  "identicalEveryFrame": true,
+  "meshMaximumHemDisplacementSourcePx": 6,
+  "rootPivotPx": [
+    256,
+    286
+  ],
+  "method": "Fresh master bound to inverse periodic cloth mesh, stationary rod region; no framewise regenerated art.",
+  "caveat": "Illustrative2D deformation, not real3D overlap reconstruction or exact perspective cloth simulation."
+}

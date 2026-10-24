@@ -1,0 +1,140 @@
+{
+  "status": "passed",
+  "generated_unique_runtime_cels": 15,
+  "state_endpoint_pixel_equality": true,
+  "all_rgba_frames_same_canvas": true,
+  "frame_bounds_clear_of_canvas_edges": true,
+  "atlas_frame_pixel_equality": true,
+  "fixed_pivot_px": [
+    384,
+    480
+  ],
+  "preview_decoded_frame_order": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "preview_frame_duration_error_ms": [
+    0.0,
+    1.67,
+    -3.33,
+    -3.33,
+    6.67,
+    6.67,
+    -15.0,
+    13.33,
+    -3.33,
+    -3.33,
+    3.33,
+    -6.67,
+    6.67,
+    3.33,
+    0.0
+  ],
+  "visual_review": "All source cels, registered contact sheets and decoded playback sequences inspected. Source sheet seam cel removed; bust overscan repaired; static base landmark registration corrected. Broad material pieces descend to retained settled rubble; no environment or animal present.",
+  "alpha": "Original generated alpha retained; sub-8/255 numerical background residuals cleared during export.",
+  "bounds": [
+    [
+      282,
+      97,
+      512,
+      482
+    ],
+    [
+      279,
+      111,
+      497,
+      482
+    ],
+    [
+      267,
+      109,
+      486,
+      482
+    ],
+    [
+      277,
+      96,
+      505,
+      482
+    ],
+    [
+      267,
+      112,
+      496,
+      483
+    ],
+    [
+      268,
+      112,
+      528,
+      483
+    ],
+    [
+      204,
+      151,
+      563,
+      483
+    ],
+    [
+      209,
+      163,
+      582,
+      483
+    ],
+    [
+      279,
+      158,
+      656,
+      483
+    ],
+    [
+      299,
+      162,
+      684,
+      483
+    ],
+    [
+      282,
+      201,
+      643,
+      485
+    ],
+    [
+      293,
+      236,
+      697,
+      484
+    ],
+    [
+      293,
+      270,
+      706,
+      483
+    ],
+    [
+      293,
+      283,
+      707,
+      484
+    ],
+    [
+      292,
+      282,
+      702,
+      484
+    ]
+  ]
+}

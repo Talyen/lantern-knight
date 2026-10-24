@@ -1,0 +1,308 @@
+{
+  "name": "Sweep negative_Z / up-right",
+  "world_forward": [
+    0,
+    0,
+    -1
+  ],
+  "actor_heading_degrees": 270,
+  "unique_drawings": 9,
+  "duration_ms": 940,
+  "status": "Human-first poses and bounded recovery reviewed; native movement test with approximate joins",
+  "drawings": [
+    {
+      "id": 0,
+      "label": "Shared ready",
+      "file": "ready_native.png",
+      "size": [
+        632,
+        688
+      ],
+      "pixels_per_unit": 350,
+      "pivot_top_left": [
+        301.0,
+        556.0
+      ],
+      "runtime_sha256": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4",
+      "native_source": "ready_native.png",
+      "native_source_sha256": "17f63311599525f4a35616364bc97d9db8024ed525b92b05a8fabde9e4a0bcb4",
+      "pivot_normalized_bottom_left": [
+        0.4762658227848101,
+        0.19186046511627908
+      ]
+    },
+    {
+      "id": 1,
+      "label": "Action source 0",
+      "file": "action_frames/raw_00.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_00_native.png",
+      "native_source_sha256": "445f46bd13a944d9a242325919d3c284f2ddbf5457e124e9f782aa10d49424a6",
+      "runtime_sha256": "d7ff69e1e61224d9c7aebfe28997249831f454c047c4aa8fee6010cb65d6eba5",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        182,
+        109
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Action source 1",
+      "file": "action_frames/raw_01.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_01_native.png",
+      "native_source_sha256": "0980376c02ee7583db556986d7fb08abc67426a2727799396d97155b2d47657f",
+      "runtime_sha256": "ea348d8fab52d5306a052a2fb083af69098b1bce1e2cd4b2b1dc068a2e296f17",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        67,
+        171
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Action source 2",
+      "file": "action_frames/raw_02.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_02_native.png",
+      "native_source_sha256": "7ec4aa978d073cff775ce487dbea532e099232836589313e0eca020fc98924bc",
+      "runtime_sha256": "0f8524499a66d28ef74f88eb5df975c271d57d8e1560e8d745b8b19524cd69ed",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        87,
+        140
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Action source 3",
+      "file": "action_frames/raw_03.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_03_native.png",
+      "native_source_sha256": "3f7c63460ed22d43a7a0af1f8fe8812281d33bd63ed859b342528a91d5152560",
+      "runtime_sha256": "f789feb8ed80361bf1ff14a52080c276765655c134d1d6b593a8f77c12d09fb1",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        120,
+        108
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Action source 4",
+      "file": "action_frames/raw_04.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_04_native.png",
+      "native_source_sha256": "7919c06a7295418e7ebf89c22e80e76b66e967d3264ff4b10eb530f50077e446",
+      "runtime_sha256": "952a84db62dda4749289166d66eec643fe271abb16bfc12ec7d45050cea72e7a",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        176,
+        135
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Action source 5",
+      "file": "action_frames/raw_05.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_05_native.png",
+      "native_source_sha256": "5cba48256e3a8bdc9adb7168320089d745cdde2b8989c55fce9e30774fb7bd8f",
+      "runtime_sha256": "61e28750b06a73bdb4b108cd16ff85e9294ccd9e6d938840659f546858ae403b",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        120,
+        118
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 7,
+      "label": "Action source 6",
+      "file": "action_frames/raw_06.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_06_native.png",
+      "native_source_sha256": "0edba87abce747e9d80496db7c804ef03243d4b95010188cd4ae0253650961ad",
+      "runtime_sha256": "682da306449493326e65848f1dc1e9bf84e91553b4eef1afa7313113d657b7af",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        120,
+        145
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    },
+    {
+      "id": 8,
+      "label": "Action source 7",
+      "file": "action_frames/raw_07.png",
+      "size": [
+        768,
+        640
+      ],
+      "pixels_per_unit": 220,
+      "pivot_top_left": [
+        384.0,
+        500.0
+      ],
+      "native_source": "native_cels/cel_07_native.png",
+      "native_source_sha256": "426c69c66b1a0207c422e381af81077e8ff28eb2bb95ed86502963e382f77ccc",
+      "runtime_sha256": "8326f1c26716b03633a31475cc41545265c7b737446e19acfe2b86c072f7b97f",
+      "native_pixels_resampled": false,
+      "placement_integer_xy": [
+        118,
+        136
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.21875
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "drawing": 0,
+      "duration_ms": 110,
+      "beat": "Ready"
+    },
+    {
+      "drawing": 1,
+      "duration_ms": 80,
+      "beat": "Load"
+    },
+    {
+      "drawing": 2,
+      "duration_ms": 60,
+      "beat": "Turn"
+    },
+    {
+      "drawing": 3,
+      "duration_ms": 75,
+      "beat": "Chamber"
+    },
+    {
+      "drawing": 4,
+      "duration_ms": 45,
+      "beat": "Crossing"
+    },
+    {
+      "drawing": 6,
+      "duration_ms": 45,
+      "beat": "Sweep"
+    },
+    {
+      "drawing": 5,
+      "duration_ms": 55,
+      "beat": "Cut exit"
+    },
+    {
+      "drawing": 7,
+      "duration_ms": 100,
+      "beat": "Follow-through"
+    },
+    {
+      "drawing": 8,
+      "duration_ms": 130,
+      "beat": "Return"
+    },
+    {
+      "drawing": 0,
+      "duration_ms": 240,
+      "beat": "Ready return"
+    }
+  ],
+  "sampling_density": 220,
+  "sampling_density_method": "Median of eight native head-center\u2192right-sole distances divided by corresponding guide distances, then\u00d7350PPU. Sword, lantern, tail extents excluded.",
+  "sampling_density_confidence": "Approximate visual world scale; no metric camera certification or per-cel normalization.",
+  "notes": [
+    "Raw1 sword grip is occluded in front of the head; visible arm direction is plausible but hidden wrist is not fully certified. Brief exposure.",
+    "Raworder0,1,2,3,5,4,6,7 restores clockwise descending sweep direction; raw model ordering would reverse blade motion.",
+    "Wide stance returns toward common ready; native foot/pelvis placement is approximate.",
+    "Shared ready and action texture use different sampling density without altering native pixels.",
+    "Small native foot/shape/prop variation remains.",
+    "No body warps, mirroring or per-cel resize.",
+    "Shared ready nominal350PPU; one global action-sheet sampling density preserves native pixels while approximating matching world size.",
+    "One clip-wide offset aligns the visible ready foot reference; per-cel integer translations follow guide ground footprints. Foot locking is not guaranteed."
+  ]
+}

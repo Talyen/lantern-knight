@@ -1,0 +1,558 @@
+{
+  "coordinate_space": "cell top-left pixels; equal4x2 extracted cells; no normalized/guide coordinates substituted",
+  "uncertainty_px": "hands/hilt/tip approximately3\u20135px; pelvis and foot proxy approximately8\u201315px; occluded points may be less reliable",
+  "frames": [
+    {
+      "index": 0,
+      "source_tick": 0,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            214,
+            186
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            154,
+            235
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            340,
+            119
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            166,
+            252
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            248,
+            424
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            140,
+            355
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            218,
+            270
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    },
+    {
+      "index": 1,
+      "source_tick": 5,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            222,
+            181
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            214,
+            214
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            360,
+            117
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            235,
+            237
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            358,
+            417
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            94,
+            310
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            302,
+            390
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "source_tick": 10,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            238,
+            173
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            222,
+            213
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            387,
+            106
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            243,
+            235
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            369,
+            417
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            111,
+            248
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            315,
+            386
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "source_tick": 15,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            249,
+            186
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            217,
+            222
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            389,
+            117
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            238,
+            246
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            338,
+            418
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            139,
+            246
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            299,
+            369
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    },
+    {
+      "index": 4,
+      "source_tick": 20,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            207,
+            187
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            129,
+            200
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            340,
+            108
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            149,
+            222
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            226,
+            388
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            146,
+            301
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "left_foot": {
+          "xy": [
+            171,
+            335
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        }
+      }
+    },
+    {
+      "index": 5,
+      "source_tick": 25,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            213,
+            176
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            138,
+            167
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            377,
+            105
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            153,
+            190
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            237,
+            366
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            278,
+            374
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            142,
+            280
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    },
+    {
+      "index": 6,
+      "source_tick": 30,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            226,
+            181
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            150,
+            165
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            392,
+            111
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            163,
+            184
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            239,
+            366
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            305,
+            382
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            128,
+            234
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    },
+    {
+      "index": 7,
+      "source_tick": 35,
+      "anchors": {
+        "pelvis": {
+          "xy": [
+            238,
+            188
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            162,
+            189
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            394,
+            99
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            181,
+            212
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            250,
+            385
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            280,
+            378
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            184,
+            224
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      }
+    }
+  ]
+}

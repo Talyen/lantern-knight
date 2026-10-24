@@ -1,0 +1,15 @@
+{
+  "id": "lantern_concept_item_15_ember_signet_ring",
+  "name": "Ember signet ring",
+  "image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_equipment/assets/15_ember_signet_ring.png",
+  "decision": "rebuild",
+  "finding_and_direction": "Highly polished gold and ruby look mobile-loot premium; restrict speculars and redesign angular signet.",
+  "pack": "Lantern - Equipment and Loot Concepts 01",
+  "folder": "equipment_loot_01",
+  "destination": "lantern_revision_02/equipment/equipment_loot_01/assets/15_ember_signet_ring.png",
+  "prompt": "NEW drawing, not an edit. Create one isolated dark fantasy game item in CLEAN HAND-INKED illustration style. Subject: An EMBER SIGNET RING: heavy asymmetrical dark brass band, broad angular signet bearing a simple ember-notch engraving filled oxblood red. No jeweled sparkle or gold shine. STYLE CRITICAL: use only SIX solid FLAT color fills, with bold tapered near-black outlines and a few broad connected shadow silhouettes. Black shadow design describes overlap and material. Smooth untextured fills, absolutely NO mottling, NO grain, NO grunge, NO scratches, NO hatching, NO soft rendered shading, NO gradients, NO polygon bevel faces. Sparse large meaningful internal strokes only. Match reference image's economical clean ink aesthetic, not its person. Restrained slate/earth/ivory palette, selective subject colors. Avoid generic glossy RPG loot art. View is approximate orthographic 35.264 degree elevation, 45 degree azimuth, seeing top and sides. Place object in a natural ground-drop pose. Center entire object inside central 65% of square canvas, generous padding all sides. Real transparent alpha background. No ground or cast shadow. No halo, text, frame or labels.",
+  "camera_status": "generated approximation; not exact calibrated camera",
+  "status": "approved_after_visual_review",
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-b69f8930-a874-424d-acb8-59fe93ad9603.png",
+  "review": "Passed large overview and 64px light/dark proxy. Bow string joins both tips; crossbow fresh unloaded variant has one continuous correctly anchored string. Native alpha preserved."
+}

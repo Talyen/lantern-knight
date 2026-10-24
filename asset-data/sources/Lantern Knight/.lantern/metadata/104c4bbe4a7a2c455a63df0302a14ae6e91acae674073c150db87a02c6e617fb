@@ -1,0 +1,70 @@
+{
+  "clean_directory_rebuild": true,
+  "all_runtime_files_byte_identical": true,
+  "checks": [
+    {
+      "file": "runtime/reed_hamper/reed_hamper_05.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/atlas.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/reed_hamper_02.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/reed_hamper_03.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/reed_hamper_04.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/animation.json",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/reed_hamper_00.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/reed_hamper/reed_hamper_01.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/crypt_ossuary_00.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/crypt_ossuary_05.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/atlas.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/crypt_ossuary_02.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/crypt_ossuary_04.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/crypt_ossuary_03.png",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/animation.json",
+      "identical": true
+    },
+    {
+      "file": "runtime/crypt_ossuary/crypt_ossuary_01.png",
+      "identical": true
+    }
+  ]
+}

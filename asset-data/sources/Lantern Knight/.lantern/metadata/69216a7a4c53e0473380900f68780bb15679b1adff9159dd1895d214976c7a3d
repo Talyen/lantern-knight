@@ -1,0 +1,40 @@
+{
+  "actor": "Root-entangled stone saint",
+  "coverage": "PARTIAL: new UL only, existing DR dependency",
+  "new_headings": [
+    "UL"
+  ],
+  "deferred_headings": [
+    "DL",
+    "UR"
+  ],
+  "baseline_DR_dependency": "root_entangled_stone_saint_runtime.zip, unchanged640canvas/pivot320,540/PPU220",
+  "new_canvas": [
+    768,
+    768
+  ],
+  "new_pivot_pixels_top_left": [
+    384,
+    604
+  ],
+  "estimated_PPU": 220,
+  "padding": "64px added on every side relative to baseline. World anchor unchanged; no rescale or crop.",
+  "mirroring": "No mirrored artwork",
+  "deferred_reason": "New headings did not preserve anatomical sides, halo or root topology. Failed drafts excluded.",
+  "source_hashes": {
+    "move_00.png": "555e6dca1dba542c92694f198530299925d8468e8da7970611c0049819f9d6e9",
+    "move_01.png": "82c79478aa5387abf09a357b7904cee49d216b7a50143392aa6f490c206b55d4",
+    "move_02.png": "a0b955c4446ddae0283a8df55ca2ba3797a099c269425cb381b7a3f6a55936ec",
+    "move_03.png": "bdb5ed0d6d6b000115a66bcc16a43f38ac28050ed524459983be46d70bf80966",
+    "move_04.png": "965be567e66c989dd07523d9bcec84c589772b4d20fb4d17f8e9cf1c49e67cb1",
+    "move_05.png": "70374e6f8b7377b63be65d4cd261903bb0fd105b7ece36bd920ad1ab37eb5e98",
+    "move_atlas.png": "e119a55b23b3a6db44d1d6ce4d3c4459186f54b8b598e5c89939084d683b81a5",
+    "attack_00.png": "51e5023d5590c602c50aea94d8e3cc0d6d16ce9dd0337901ccc4c54f58ce4162",
+    "attack_01.png": "4b83e83525a45eef57e19bd88033f87676276430a7ebe0bd32afde29cf144be1",
+    "attack_02.png": "4cf22453719fb95749fefd536120d259a0f155d6d6334edf9d9e964bbd0e1038",
+    "attack_03.png": "f6ae308ce03f6148d17e8462f60fed8349fa058c33fe7528908140e639920254",
+    "attack_04.png": "75a62f00000b9b9f717b7c3652883f84168bcc0a1009b4b406fc4cdc9b0292e2",
+    "attack_05.png": "c4cdb16d691617bc4bc7dc19939b7eea2fa5bfbceaf06f79248b546287b9bb27",
+    "attack_atlas.png": "4f84c1e2dcffb14d77651c019780b1cab1294634446b8225ee6169e6a80d4475"
+  }
+}

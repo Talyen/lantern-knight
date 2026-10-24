@@ -1,0 +1,17 @@
+{
+  "version": "v02",
+  "source_sheet": "source/UL_readyref_clean_v01.png",
+  "source_companion_v01_sha256": "c61ed4e40e33e08008d4df0ab496d0c72a6dfbd6a05ce91e88f3c7a2f7f3341f",
+  "patched_frame_index": 3,
+  "changed_pixel_count": 405,
+  "atlas_size": [
+    1840,
+    920
+  ],
+  "expected_atlas_sha256": "15400f4184c1cdf35defdcf28843c6dd844887717314e8ae49ca8d51806a3d86",
+  "runtime_zip": "rust_run_UL_mixamo8_runtime_test_v02.zip",
+  "runtime_zip_sha256": "431cabf4c4fc7bc0a4ff59d58e0f932e20153fc44aaf849da220febba18aac6b",
+  "originals_unchanged": true,
+  "build_entrypoint": "BUILD_CURRENT_RUNTIME_V02.py",
+  "authoring_script_note": "Historical authoring recipe retained for provenance; its original sibling-runtime workspace layout is documented in its paths. Use BUILD_CURRENT_RUNTIME_V02.py as the self-contained, deterministic build entrypoint."
+}

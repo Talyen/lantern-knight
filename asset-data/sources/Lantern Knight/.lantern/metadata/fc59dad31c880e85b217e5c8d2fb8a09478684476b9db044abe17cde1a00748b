@@ -1,0 +1,26 @@
+{
+  "asset": "channel_hold_DR",
+  "fps": 60,
+  "loop": true,
+  "hold_ticks": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "duration_ticks": 120,
+  "frames": [
+    "frames/channel_hold_DR_01.png",
+    "frames/channel_hold_DR_02.png",
+    "frames/channel_hold_DR_03.png",
+    "frames/channel_hold_DR_04.png",
+    "frames/channel_hold_DR_05.png",
+    "frames/channel_hold_DR_06.png",
+    "frames/channel_hold_DR_07.png",
+    "frames/channel_hold_DR_08.png"
+  ]
+}

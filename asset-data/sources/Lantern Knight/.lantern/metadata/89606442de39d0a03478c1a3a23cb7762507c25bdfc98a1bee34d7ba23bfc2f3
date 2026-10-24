@@ -1,0 +1,146 @@
+{
+  "ai_upscale/full_preview1536.png": {
+    "bytes": 2099595,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "536bd44d7cb958858d048abf4cf170c3c65965922a94c3c5fa445aa69b0160cc"
+  },
+  "ai_upscale/full_upscaled4x.png": {
+    "bytes": 21001335,
+    "size": [
+      6144,
+      4096
+    ],
+    "sha256": "bc3c33c45f05dd32e2dbe90df0e3207e56b3bbc27778f04dbad3a38498010e8a"
+  },
+  "ai_upscale/full_upscaled2x.png": {
+    "bytes": 6577049,
+    "size": [
+      3072,
+      2048
+    ],
+    "sha256": "02c4e36aa71aae3a41908b523adeefd454b4ad37cb42698533bd54a6a944272a"
+  },
+  "review_views/upper_initiation_floor_hero_context.png": {
+    "bytes": 1770072,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "a6f852f2e0af40875dae68e6a0846badf83a561ac938400201b29e1698592c46"
+  },
+  "review_views/gameplay_contact_sheet.png": {
+    "bytes": 834678,
+    "size": [
+      1536,
+      399
+    ],
+    "sha256": "4584ed2937e5b02d2517d99e2c9a240708f8ca22615ee0f7a7968aef8854c6e6"
+  },
+  "review_views/eastern_passage_AI_display2p5x_ground.png": {
+    "bytes": 1864194,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "728877be39d2f9e13b1536980333f46d7b704f169ec276e7e72a2a49588eb5ba"
+  },
+  "review_views/lower_ritual_ring_AI_display2p5x_ground.png": {
+    "bytes": 1588323,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "cc699c46ba149a8c3dc3e6338b5ba411f390bc3fad7e7410b5fc5497a771f1d3"
+  },
+  "review_views/same_crop_Lanczos_vs_AI.png": {
+    "bytes": 1907741,
+    "size": [
+      2048,
+      740
+    ],
+    "sha256": "ab2b8a43086b493be20af24372714677e694b028ccd93849b8da9364732a2fb1"
+  },
+  "review_views/upper_initiation_floor_AI_display2p5x_ground.png": {
+    "bytes": 1761276,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "427b7e4ff7f7cc4334666afe29675c5619d68112c695479fcfc0ffecb0f92d1e"
+  },
+  "review_views/eastern_passage_hero_context.png": {
+    "bytes": 1873376,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "bcdf79258ecf490cc6dcc969f44877562f854b8c2e7e3397fd064464d8b1fce3"
+  },
+  "review_views/whole_map_crop_overview.png": {
+    "bytes": 2105475,
+    "size": [
+      1536,
+      1110
+    ],
+    "sha256": "79f84ad37ee79dd46f8b92fb712f475022820632c525e6de33f37f441b6d097a"
+  },
+  "review_views/lower_ritual_ring_hero_context.png": {
+    "bytes": 1600818,
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0910f0976802f025b5132114c682e374a1969c79587a0e2c5cffb61db66e72a5"
+  },
+  "ai_upscale/checks/lower_cave_edge_comparison.png": {
+    "bytes": 129901,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "6d7b310c13258646c9ed57aa0aafc92bf42ad8e29754276e35f66d3572b5d9cf"
+  },
+  "ai_upscale/checks/upper_ring_boundary_native.png": {
+    "bytes": 59090,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "b2104c5fe6555f8a9dedf27308040f14f9dab4f9c331f900ca54fd4a90c8fb80"
+  },
+  "ai_upscale/checks/lower_cave_edge_native.png": {
+    "bytes": 58457,
+    "size": [
+      192,
+      192
+    ],
+    "sha256": "bacf2cf7f4113441d32d14b87d499e2e80de409466d66fd49dfebaf892ccc1a6"
+  },
+  "ai_upscale/checks/lower_cave_edge_untiled4x.png": {
+    "bytes": 473096,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "c7f4e16e98df7d49636ac5c43ff7b683b4fc04302f8d3ae27204ec3b3ef37246"
+  },
+  "ai_upscale/checks/upper_ring_boundary_comparison.png": {
+    "bytes": 137395,
+    "size": [
+      792,
+      432
+    ],
+    "sha256": "2b9781ddedb9010aae96f0f6fbd4f8886e66ccc9283464af684767af5b70ad55"
+  },
+  "ai_upscale/checks/upper_ring_boundary_untiled4x.png": {
+    "bytes": 496483,
+    "size": [
+      768,
+      768
+    ],
+    "sha256": "21722b6a99f17ffa087282ee5dde259e7a66cce3db486c872c89e683614e96f7"
+  }
+}

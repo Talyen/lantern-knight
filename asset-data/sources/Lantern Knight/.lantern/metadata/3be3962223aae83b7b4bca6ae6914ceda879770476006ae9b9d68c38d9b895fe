@@ -1,0 +1,27 @@
+{
+  "scene": "keepers_glade_B",
+  "status": "sample_only_not_production",
+  "raw_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-bb29a75e-7f7e-43fe-9031-fc6df8ee7c1c.png",
+  "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/keepers_glade_B/native.png",
+  "native_size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_sha256": "347b7eecd8a2eaffb1fe5cad97a436f1a8eb610b0b72f75cc84e7b0187a5ada1",
+  "native_processing": "byte-identical copy only; no resize, edit or upscale",
+  "prompt_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/keepers_glade_B/exact_prompt.txt",
+  "prompt_sha256": "0a5dcd10fe16b8c61798737a710ae3a77020bd746c31d257794e5dbe91c1f1af",
+  "approved_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "style_prefix_verified_byte_exact": true,
+  "image_generation_tool": "built-in image_gen",
+  "actual_backend_model": "not disclosed by built-in tool",
+  "reference": "canonical hero only; style role",
+  "environment_inputs": [],
+  "qa": {
+    "identity": "Ochre keeper tent with two small linen shelters and nearby hearth",
+    "terrain": "Central oak-root island, raised western terrace, forked loop routes, eastern and foreground clearings",
+    "scale": "Tent/furnishing scale coherent with roughly 64-pixel native adult; no giant furniture",
+    "caveat": "Some fine ground/leaf marks remain. Overall restores original detail richness without supplies clutter."
+  }
+}

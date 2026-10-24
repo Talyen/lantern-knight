@@ -1,0 +1,506 @@
+{
+  "actor": "Candlebone Oracle SK03",
+  "baseline": "Approved identity-corrected v02 hover_01, 459px silhouette, 400x620 canvas, root 204,554",
+  "camera": {
+    "elevation_target": 35.2643897,
+    "azimuth_target": 45,
+    "facing": "DR",
+    "numeric_projection_verified": false
+  },
+  "processing": "Native RGBA retained, alpha <=16 removed. No resize, warp, per-frame fit or interpolation. Fixed source-layout registration per clip.",
+  "import": "Set each frame sprite PPU to v02 PPU times ppu_relative_v02. Ready files preserve original bytes and PPU=1. Atlas uses 600x700 cells, pivot (0.5,1-600/700), per-sprite PPU overrides required. Prefer standalone frame imports.",
+  "clips": {
+    "hit": {
+      "loop": false,
+      "completion": "return_to_existing_v02_ready",
+      "duration_ticks_60hz": 42,
+      "unique_drawing_count": 5,
+      "generated_ppu_relative_v02": 1.056644880174292,
+      "source_layout_anchor": [
+        310,
+        510
+      ],
+      "source_row_origins": [
+        0,
+        512
+      ],
+      "frames": [
+        {
+          "file": "frames/hit/hit_01.png",
+          "phase": "Shared ready",
+          "hold_ticks_60hz": 8,
+          "source_drawing": "exact v02 ready",
+          "ppu_relative_v02": 1.0,
+          "canvas": [
+            400,
+            620
+          ],
+          "root_pixels": [
+            204,
+            554
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1"
+        },
+        {
+          "file": "frames/hit/hit_02.png",
+          "phase": "Orb pulled protectively",
+          "hold_ticks_60hz": 4,
+          "source_drawing": 2,
+          "ppu_relative_v02": 1.056644880174292,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            154,
+            135,
+            403,
+            580
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "169a774f7a0aaeb281e140f6c4ab05f954ee749841b2ef56d3e0b0976ac64be6"
+        },
+        {
+          "file": "frames/hit/hit_03.png",
+          "phase": "Peak recoil",
+          "hold_ticks_60hz": 7,
+          "source_drawing": 3,
+          "ppu_relative_v02": 1.056644880174292,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            128,
+            156,
+            411,
+            584
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "7c01f8ca9c4ca554cae389287699379198eeec446e91a2590cbfc4272838510d"
+        },
+        {
+          "file": "frames/hit/hit_04.png",
+          "phase": "Rebound",
+          "hold_ticks_60hz": 6,
+          "source_drawing": 4,
+          "ppu_relative_v02": 1.056644880174292,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            204,
+            100,
+            421,
+            580
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "d2c341b87a2466e045dd4934b8b0ddd01d3280353e1c557a507ffb96649d59b0"
+        },
+        {
+          "file": "frames/hit/hit_05.png",
+          "phase": "Release guard",
+          "hold_ticks_60hz": 7,
+          "source_drawing": 5,
+          "ppu_relative_v02": 1.056644880174292,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            195,
+            94,
+            410,
+            585
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "d1bb21692bdfb0b7b60788fda3b2a5cafb14e0a082c7cfb26d4afbda56b7f605"
+        },
+        {
+          "file": "frames/hit/hit_06.png",
+          "phase": "Shared ready",
+          "hold_ticks_60hz": 10,
+          "source_drawing": "exact v02 ready",
+          "ppu_relative_v02": 1.0,
+          "canvas": [
+            400,
+            620
+          ],
+          "root_pixels": [
+            204,
+            554
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1"
+        }
+      ],
+      "atlas": "atlases/hit.png",
+      "atlas_grid": [
+        3,
+        2
+      ],
+      "atlas_cell": [
+        600,
+        700
+      ]
+    },
+    "spawn": {
+      "loop": false,
+      "completion": "return_to_existing_v02_ready",
+      "duration_ticks_60hz": 58,
+      "unique_drawing_count": 6,
+      "generated_ppu_relative_v02": 1.0849673202614378,
+      "source_layout_anchor": [
+        304,
+        485
+      ],
+      "source_row_origins": [
+        0,
+        512
+      ],
+      "frames": [
+        {
+          "file": "frames/spawn/spawn_01.png",
+          "phase": "Dry remnant",
+          "hold_ticks_60hz": 9,
+          "source_drawing": 1,
+          "ppu_relative_v02": 1.0849673202614378,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            144,
+            390,
+            442,
+            584
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "f83a2b58c6f28c858291000fec1ee24e25e2c92f452ba6027d5212ddfc02fb6d"
+        },
+        {
+          "file": "frames/spawn/spawn_02.png",
+          "phase": "Assembling robe",
+          "hold_ticks_60hz": 9,
+          "source_drawing": 2,
+          "ppu_relative_v02": 1.0849673202614378,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            121,
+            154,
+            446,
+            578
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "d769a206394e6a067b75e7c7b464d8046fdb0069f3161aa44d7773615ab18f26"
+        },
+        {
+          "file": "frames/spawn/spawn_03.png",
+          "phase": "Skull and arms form",
+          "hold_ticks_60hz": 8,
+          "source_drawing": 3,
+          "ppu_relative_v02": 1.0849673202614378,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            142,
+            138,
+            435,
+            587
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "209b214296b5710749e2c560b51ce7b2ae9c80c9e1f267aaa5f27bd0641386d2"
+        },
+        {
+          "file": "frames/spawn/spawn_04.png",
+          "phase": "Low hover",
+          "hold_ticks_60hz": 8,
+          "source_drawing": 4,
+          "ppu_relative_v02": 1.0849673202614378,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            128,
+            141,
+            438,
+            571
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "e5bf2fe71c58ed9debc5edb3006e84935a15cb8c5dbe267884f1e01961babe6e"
+        },
+        {
+          "file": "frames/spawn/spawn_05.png",
+          "phase": "Rise",
+          "hold_ticks_60hz": 10,
+          "source_drawing": 5,
+          "ppu_relative_v02": 1.0849673202614378,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            169,
+            86,
+            413,
+            583
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "c8264b247d448ea25c7dd11a9908f8e1c9135dfc722a167f5b0519d718a4896d"
+        },
+        {
+          "file": "frames/spawn/spawn_06.png",
+          "phase": "Shared ready",
+          "hold_ticks_60hz": 14,
+          "source_drawing": "exact v02 ready",
+          "ppu_relative_v02": 1.0,
+          "canvas": [
+            400,
+            620
+          ],
+          "root_pixels": [
+            204,
+            554
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1"
+        }
+      ],
+      "atlas": "atlases/spawn.png",
+      "atlas_grid": [
+        3,
+        2
+      ],
+      "atlas_cell": [
+        600,
+        700
+      ]
+    },
+    "defeat": {
+      "loop": false,
+      "completion": "hold_final_frame_indefinitely",
+      "duration_ticks_60hz": 79,
+      "unique_drawing_count": 6,
+      "generated_ppu_relative_v02": 1.1525054466230937,
+      "source_layout_anchor": [
+        285,
+        580
+      ],
+      "source_row_origins": [
+        0,
+        424
+      ],
+      "frames": [
+        {
+          "file": "frames/defeat/defeat_01.png",
+          "phase": "Shared ready",
+          "hold_ticks_60hz": 8,
+          "source_drawing": "exact v02 ready",
+          "ppu_relative_v02": 1.0,
+          "canvas": [
+            400,
+            620
+          ],
+          "root_pixels": [
+            204,
+            554
+          ],
+          "alpha_bbox": [
+            110,
+            83,
+            300,
+            542
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1"
+        },
+        {
+          "file": "frames/defeat/defeat_02.png",
+          "phase": "Orb falls inert",
+          "hold_ticks_60hz": 9,
+          "source_drawing": 2,
+          "ppu_relative_v02": 1.1525054466230937,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            182,
+            86,
+            397,
+            593
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "8a840fd9b6b6b6a2229b767520081d5f3f977ce53b3d97ecacef74174164509f"
+        },
+        {
+          "file": "frames/defeat/defeat_03.png",
+          "phase": "Lose lift",
+          "hold_ticks_60hz": 10,
+          "source_drawing": 3,
+          "ppu_relative_v02": 1.1525054466230937,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            157,
+            203,
+            422,
+            593
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "47e5a441224a50d7cf1e290c8844f3de6bc625552e849c37629ce529f29b6060"
+        },
+        {
+          "file": "frames/defeat/defeat_04.png",
+          "phase": "Empty cloth collapses",
+          "hold_ticks_60hz": 10,
+          "source_drawing": 4,
+          "ppu_relative_v02": 1.1525054466230937,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            120,
+            276,
+            494,
+            593
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "c73345c5b68eef6eb70f4a16e3cefa5cd50ad4d8ffada7b251077ca2825131cb"
+        },
+        {
+          "file": "frames/defeat/defeat_05.png",
+          "phase": "Remnant lands",
+          "hold_ticks_60hz": 12,
+          "source_drawing": 5,
+          "ppu_relative_v02": 1.1525054466230937,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            137,
+            366,
+            502,
+            586
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "1dfb2275fa620e1ce4be2a52d3cf6240672a6624f06212ea1ad1265d5581bb0c"
+        },
+        {
+          "file": "frames/defeat/defeat_06.png",
+          "phase": "Quiet remnant",
+          "hold_ticks_60hz": 30,
+          "source_drawing": 6,
+          "ppu_relative_v02": 1.1525054466230937,
+          "canvas": [
+            600,
+            700
+          ],
+          "root_pixels": [
+            300,
+            600
+          ],
+          "alpha_bbox": [
+            138,
+            395,
+            491,
+            573
+          ],
+          "opaque_edge_pixels": 0,
+          "sha256": "7bca20dc54cdc537929290ad8a445e048db52907cf834221b863a6f71709bbfb"
+        }
+      ],
+      "atlas": "atlases/defeat.png",
+      "atlas_grid": [
+        3,
+        2
+      ],
+      "atlas_cell": [
+        600,
+        700
+      ]
+    }
+  }
+}

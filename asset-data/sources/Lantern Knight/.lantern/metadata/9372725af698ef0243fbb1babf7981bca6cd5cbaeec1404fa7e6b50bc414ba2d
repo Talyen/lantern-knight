@@ -1,0 +1,61 @@
+{
+  "biome": "graveyard",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "native_upscaled": false,
+  "generation": "built-in image_gen.imagegen, fresh generation conditioned on two reference images; no previous floor edited",
+  "generation_attempts": 1,
+  "model_requested": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model": "Not exposed by built-in tool; unverified",
+  "exact_prompt": "graveyard_prompt_exact.txt",
+  "exact_prompt_sha256": "3cb86c4db519ca593b5f30a2e1b83d1dfbc68eaf45596e960d09c5895b2bad18",
+  "requested_camera_elevation_degrees": 35.264,
+  "requested_camera_azimuth_degrees": 45,
+  "camera_engine_validated": false,
+  "references": [
+    {
+      "path": "references/hero_original.png",
+      "role": "Image 1: approved hero style and human-scale reference, not an edit target; also exact original compositing input"
+    },
+    {
+      "path": "references/direction_v04.png",
+      "role": "Image 2: approved ground direction/camera/detail reference, not an edit target"
+    }
+  ],
+  "hero_source": "references/hero_original.png",
+  "hero_crop_alpha_threshold": 30,
+  "hero_source_crop": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_visible_height_px": 160,
+  "hero_resized_dimensions": [
+    68,
+    160
+  ],
+  "hero_center_x": 855,
+  "hero_bottom_y": 518,
+  "contact_shadow": {
+    "ellipse": [
+      834,
+      506,
+      877,
+      518
+    ],
+    "rgba": [
+      12,
+      14,
+      13,
+      95
+    ],
+    "gaussian_blur_px": 3
+  },
+  "context_recipe": "build_context.py",
+  "context_method": "Deterministic original approved hero alpha composite and small contact shadow; native floor unchanged.",
+  "status": "Selection candidate pending root/reviewer decision",
+  "quality_notes": "Clear branching path and offset clearing with burial plot color hints. Residual mottling, granular path edges and several oversized grass tufts remain."
+}

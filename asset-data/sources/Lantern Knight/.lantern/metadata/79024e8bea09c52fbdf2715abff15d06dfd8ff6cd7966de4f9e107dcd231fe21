@@ -1,0 +1,395 @@
+{
+  "clip_id": "Lantern_Hero_hit_R_v01",
+  "family": "hit",
+  "facing": "R",
+  "producer": "fill_hero_core_combat_facings",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+  "equipment_contract": "Sword right/lantern left, no mirroring.",
+  "timing_source": "broader_audit_20261017/hit_4directions/hit_DR/clip.json",
+  "source_timing": [
+    3,
+    2,
+    3,
+    2,
+    2,
+    4,
+    5,
+    9
+  ],
+  "timebase_hz": 60,
+  "loop": false,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "34fbcb7e05ffea1af9cfb0a7f6feacf90b276e5409c908130714b219fd832d38",
+      "native_size_px": [
+        442,
+        456
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "96d167146f2e449f9a462764405fbfabf357d320605ee19a58a633f06fd5f649",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        0,
+        0,
+        442,
+        456
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        61,
+        72
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          238,
+          436
+        ],
+        "neutral_composite_observation_xy": [
+          148,
+          271
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 0,
+      "hold_ticks": 3,
+      "runtime_alpha_bbox": [
+        104,
+        87,
+        423,
+        445
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "1c6aa4184c40c151705b0c92b6139ad55888f87709381021a158f8704b35314a",
+      "native_size_px": [
+        442,
+        456
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "f11b7cf051fa98a615b7bb96bc9110d4d9875697e80c0ffbac3192a0656bc348",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        442,
+        0,
+        884,
+        456
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        55,
+        72
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          245,
+          437
+        ],
+        "neutral_composite_observation_xy": [
+          427,
+          272
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 3,
+      "hold_ticks": 2,
+      "runtime_alpha_bbox": [
+        56,
+        84,
+        417,
+        446
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "a9575767aa14138fda1c94eced9def43c222f84ec5b6304aeafa63d0fda0f8ad",
+      "native_size_px": [
+        443,
+        456
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "1d3ec06a21402fcda7ea20e9b38669b11a161cd87f3388f43e2fcd706339b578",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        884,
+        0,
+        1327,
+        456
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        81,
+        72
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          213,
+          437
+        ],
+        "neutral_composite_observation_xy": [
+          682,
+          272
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 5,
+      "hold_ticks": 3,
+      "runtime_alpha_bbox": [
+        81,
+        89,
+        444,
+        446
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "a337645516881166ddad49bdd30e5c2715d79a092af7203119a19ada7ccc1cf6",
+      "native_size_px": [
+        442,
+        456
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "5a2af1db0f549c6186f05011522488252fff2dd84827382e4b93ca57a65b9807",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        1327,
+        0,
+        1769,
+        456
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        100,
+        72
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          190,
+          437
+        ],
+        "neutral_composite_observation_xy": [
+          943,
+          272
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 8,
+      "hold_ticks": 2,
+      "runtime_alpha_bbox": [
+        101,
+        91,
+        436,
+        446
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "9528970985f18884039767af66811e2f8d8d331e88b4a1c48507a496ff278474",
+      "native_size_px": [
+        442,
+        433
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "9fa7e6179c7e828ad68e5867f8df37c0ee3e7659c7278ff5b6934e50f0b2e202",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        0,
+        456,
+        442,
+        889
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        67,
+        107
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          230,
+          394
+        ],
+        "neutral_composite_observation_xy": [
+          143,
+          529
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 10,
+      "hold_ticks": 2,
+      "runtime_alpha_bbox": [
+        94,
+        107,
+        406,
+        446
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "703ea225ad8d0dc535e687c04a4c99e5490b2a428a92d954673b908d5b53fa8b",
+      "native_size_px": [
+        442,
+        433
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "faec9b2e414a5155afb95b021d3c037f08b972be96a5c95cc2f9b3babb13133b",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        442,
+        456,
+        884,
+        889
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        87,
+        107
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          206,
+          394
+        ],
+        "neutral_composite_observation_xy": [
+          403,
+          529
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 12,
+      "hold_ticks": 4,
+      "runtime_alpha_bbox": [
+        150,
+        107,
+        442,
+        439
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "6070011b00b9fb37f7d624bc2b52085460bc2a7e228eba8067e6fd458abfc66b",
+      "native_size_px": [
+        443,
+        433
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "c2af9402dd41de83dc7546a17516ee5eabcddcf27640fd8f3ced29d0fdf4df84",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        884,
+        456,
+        1327,
+        889
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        90,
+        105
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          203,
+          396
+        ],
+        "neutral_composite_observation_xy": [
+          676,
+          530
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 16,
+      "hold_ticks": 5,
+      "runtime_alpha_bbox": [
+        114,
+        105,
+        445,
+        445
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "f7f3e97e62c8f24ae6c33c32297946df4cb61f5b31fb70be719939f5408384a6",
+      "native_size_px": [
+        442,
+        433
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "30e87e8b2885ae28c9691e4267f74a0224ef5199046b26f8e30e6891a0d82a07",
+      "source_sha256": "29204bd6ed337a288133ace174c536eed4f1f1788129df1d34229a9cf6ddc756",
+      "crop_xyxy": [
+        1327,
+        456,
+        1769,
+        889
+      ],
+      "uniform_scale": 0.82,
+      "translation_xy": [
+        98,
+        105
+      ],
+      "observed_anchors": {
+        "manual_planted_boot_midpoint_xy": [
+          193,
+          396
+        ],
+        "neutral_composite_observation_xy": [
+          945,
+          530
+        ]
+      },
+      "registration_note": "Manual planted boot midpoint whole-cel registration and one clip-wide density; recoil chest/shoulder movement preserved. Rows chosen in actual transparent gap to preserve all crowns/boots. No head-height normalization.",
+      "equipment_state": "Sword anatomical right, lantern left continuously held through recoil/recovery.",
+      "start_tick": 21,
+      "hold_ticks": 9,
+      "runtime_alpha_bbox": [
+        158,
+        105,
+        439,
+        446
+      ]
+    }
+  ],
+  "terminal_hold": false,
+  "transition_policy": "Return to same-direction ready after final cel; exact join unverified.",
+  "native_drawn_cels": 8,
+  "timeline_frame_count": 8,
+  "duration_ticks": 30,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "f62db8096845c1ca02d86797227ce06a0e3480cd1d8620e42c2874ad484665df"
+  }
+}

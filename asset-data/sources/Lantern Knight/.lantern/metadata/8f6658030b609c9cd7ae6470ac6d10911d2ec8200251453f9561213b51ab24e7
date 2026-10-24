@@ -1,0 +1,317 @@
+[
+  {
+    "asset_id": "env_bramble_tangle_02",
+    "pack": "volume_01_nature",
+    "path": "assets/env_bramble_tangle_02.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_bramble_tangle_02.png",
+    "sha256": "009b994fb7626ff0e05268cbcdb44ab6a171b5c062833594e684f3fe29e227ef",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_bramble_tangle_02.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      69,
+      31,
+      1488,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      83,
+      88,
+      1482,
+      889
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.90696,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-7dd95fec-e1f0-4ec0-83e5-ce532580c989.png"
+  },
+  {
+    "asset_id": "env_dead_reeds_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_dead_reeds_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_dead_reeds_01.png",
+    "sha256": "2d4b0b3bfc0fbe7378690e32b37410607736a34ca980b6916bddd65f100f9b70",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_dead_reeds_01.prompt.txt",
+    "size": [
+      1312,
+      1199
+    ],
+    "alpha_bounds_nonzero": [
+      73,
+      21,
+      1262,
+      1199
+    ],
+    "alpha_bounds_ge128": [
+      274,
+      43,
+      1039,
+      1152
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.82764,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_dead_thorn_tree_02",
+    "pack": "volume_01_nature",
+    "path": "assets/env_dead_thorn_tree_02.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_dead_thorn_tree_02.png",
+    "sha256": "fa5f9fbf2247658c5d1991cd90cc6bb5a3712cca7c3039bae26cde114823d33e",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_dead_thorn_tree_02.prompt.txt",
+    "size": [
+      1484,
+      1060
+    ],
+    "alpha_bounds_nonzero": [
+      106,
+      60,
+      1381,
+      1036
+    ],
+    "alpha_bounds_ge128": [
+      329,
+      63,
+      1128,
+      996
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.91812,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_exposed_roots_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_exposed_roots_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_exposed_roots_01.png",
+    "sha256": "3ce10d69f881006025113a88352b851e0ee8cf1bf82fa7f6aecb655542b7154e",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_exposed_roots_01.prompt.txt",
+    "size": [
+      1448,
+      1086
+    ],
+    "alpha_bounds_nonzero": [
+      89,
+      21,
+      1420,
+      1046
+    ],
+    "alpha_bounds_ge128": [
+      104,
+      163,
+      1344,
+      969
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.93662,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_fallen_log_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_fallen_log_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_fallen_log_01.png",
+    "sha256": "9ba022e0779142704ab2e9a4f75492a696d17d582c6031831e4d01d63172d5a1",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_fallen_log_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      60,
+      32,
+      1379,
+      1015
+    ],
+    "alpha_bounds_ge128": [
+      190,
+      98,
+      1376,
+      902
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.96735,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_marsh_grass_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_marsh_grass_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_marsh_grass_01.png",
+    "sha256": "bcf812fc65a3b5ff5ebae28b839e39e2c93906c611c2cef354c6bc54b7b2255d",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_marsh_grass_01.prompt.txt",
+    "size": [
+      1374,
+      1145
+    ],
+    "alpha_bounds_nonzero": [
+      45,
+      19,
+      1318,
+      1127
+    ],
+    "alpha_bounds_ge128": [
+      178,
+      44,
+      1225,
+      1100
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.82684,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_shadow_fern_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_shadow_fern_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_shadow_fern_01.png",
+    "sha256": "59e22ba7da2132c9f3433765b70128419c17c72a52194164d5171ad46a3b1b2b",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_shadow_fern_01.prompt.txt",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      32,
+      1524,
+      1024
+    ],
+    "alpha_bounds_ge128": [
+      123,
+      123,
+      1407,
+      921
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.91347,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_shelf_fungi_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_shelf_fungi_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_shelf_fungi_01.png",
+    "sha256": "daeb447d39e59119f67ddd42015f30473eb768bf45b7cd2bf6332d53d3fc92cb",
+    "mode": "Retained approved original PNG, byte-identical. No edits.",
+    "prompt_path": "provenance/env_shelf_fungi_01.prompt.txt",
+    "size": [
+      1402,
+      1122
+    ],
+    "alpha_bounds_nonzero": [
+      81,
+      21,
+      1293,
+      1050
+    ],
+    "alpha_bounds_ge128": [
+      161,
+      175,
+      1285,
+      982
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "alpha_ge240_fraction": 0.9662,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "retained_original_byte_identical",
+    "generation_source_id": "retained_original_see_original_provenance"
+  },
+  {
+    "asset_id": "env_somber_pine_01",
+    "pack": "volume_01_nature",
+    "path": "assets/env_somber_pine_01.png",
+    "original_path": "lantern_environment_candidates/volume_01_nature/assets/env_somber_pine_01.png",
+    "sha256": "f74b6bc172194ce6254706eb77a19e207cf2990bfc0c275147729556f82ad7f8",
+    "mode": "Fresh built-in imagegen generation. No edits. Native alpha preserved.",
+    "prompt_path": "provenance/env_somber_pine_01.prompt.txt",
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha_bounds_nonzero": [
+      0,
+      19,
+      1004,
+      1536
+    ],
+    "alpha_bounds_ge128": [
+      56,
+      33,
+      974,
+      1496
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_ge240_fraction": 0.90753,
+    "silhouette_touches_frame": false,
+    "camera": "Prompt-constrained elevated orthographic35.2643897/45; not calibrated geometry",
+    "review": "Art direction reviewed; native alpha and light/dark + 180px checks inspected. Retained originals are byte-identical.",
+    "disposition": "fresh_replacement",
+    "generation_source_id": "exec-166c47cb-7a4d-41f3-83d7-99c5972f4c0c.png"
+  }
+]

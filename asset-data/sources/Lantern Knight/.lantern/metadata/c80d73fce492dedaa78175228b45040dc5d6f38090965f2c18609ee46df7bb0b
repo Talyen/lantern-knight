@@ -1,0 +1,18 @@
+{
+  "asset": "selfheal_exit_DR",
+  "fps": 60,
+  "loop": false,
+  "hold_ticks": [
+    10,
+    14,
+    12,
+    14
+  ],
+  "duration_ticks": 50,
+  "frames": [
+    "frames/selfheal_exit_DR_01.png",
+    "frames/selfheal_exit_DR_02.png",
+    "frames/selfheal_exit_DR_03.png",
+    "frames/selfheal_exit_DR_04.png"
+  ]
+}

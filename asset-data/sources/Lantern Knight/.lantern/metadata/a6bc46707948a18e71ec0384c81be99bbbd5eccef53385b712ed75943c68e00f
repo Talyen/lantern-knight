@@ -1,0 +1,44 @@
+LANTERN / MEDIUM-WEIGHT INTERACTION CUE STUDIES
+Original world-space vector effects. These are presentation candidates, not UI icons,
+player mechanics, hitboxes or approved gameplay timings. No engine/game code changed.
+
+Full set: four enemy warning/strike families (cone, line, arc, ring), loot appearance
+and pickup, shrine activation, door seal dissolve and checkpoint return. Eight distinct
+families, nine clips, 270 source PNGs and matching SVGs.
+All clips use 30 genuine source frames at 30 fps. All final frames are transparent.
+Door seal dissolve deliberately starts with a VISIBLE seal; all others start clear. Enemy
+clips contain explicit illustrative anticipation, impact and recovery frame ranges.
+The 60 Hz MP4 holds each source drawing exactly twice, then leaves a clear interval.
+
+CAMERA AND READABILITY
+Right-handed XZ ground, +Y vertical. Orthographic elevation 35.264389682754654°;
+azimuth 45° from +Z toward +X. Source 512 x 448 at 112 px/m, ground pivot (256,286).
+Every effect and every ground brush width is world geometry projected by that camera.
+Warning boundaries trace the intended nominal geometric footprint. The dark outline
+is centered on that boundary and has visual thickness outside it; the stroke is not
+a measured hitbox. Collision, actual attack reach and gameplay synchronization have
+not been implemented or tested. Anticipation uses a quiet footprint plus travelling
+charge edge; impact uses a thicker moving filled strike; recovery breaks and drains.
+The medium-weight outline is typically 0.15–0.16 m across on the ground, with a light
+inner band, avoiding the hairline cues that vanish in wide views. Source-over blending,
+clean silhouettes, no grain, no bloom, few intentional planes and restrained colours.
+
+Review panels are unzoomed CROPS from gameplay pixel density, not resized full screens:
+1440-pixel buffer / 13 m view = 110.769 px/m, scale 0.98901099 of source;
+1080-pixel buffer / 16 m stress view = 67.5 px/m, scale 0.60267857 of source.
+The projected 1.8 m ruler is a calibration aid, not a hero proxy or exported UI element.
+Orthographic distance does not shrink an asset; buffer size and view span do.
+
+ALPHA AND TIMING
+Straight/unassociated PNG alpha, sRGB RGB, linear alpha, transparent RGB zero.
+Normal source-over SRC_ALPHA / ONE_MINUS_SRC_ALPHA. No additive blending or bloom
+needed. If uploads explicitly premultiply once, match ONE / ONE_MINUS_SRC_ALPHA.
+Four-pixel transparent atlas gutters; fixed union crop per clip. Full source canvases,
+per-frame SVG, rational durations, trim offsets and pivots are in manifest.json.
+Disable atlas mipmaps unless alpha-aware extrusion/per-level padding is added.
+
+REBUILD
+Python 3, Pillow, numpy and ffmpeg with libx264. Run python source/build_cues.py. Add --early for the original three-family gate.
+All shapes are original code/SVG artwork, with no copied input images or generated
+image variations. QA checks alpha, unique interior frames, endpoints, atlas mapping,
+texture sizes and clipping margins. Visual phase timing never controls gameplay.

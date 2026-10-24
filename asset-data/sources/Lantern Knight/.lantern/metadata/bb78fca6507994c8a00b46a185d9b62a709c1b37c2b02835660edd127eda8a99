@@ -1,0 +1,193 @@
+{
+  "name": "08-woodsman-log-cabin-bonfire",
+  "revision": 2,
+  "canvas": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    256,
+    484
+  ],
+  "fps_clock": 60,
+  "loop": true,
+  "interpolation": "none",
+  "duration_ticks": 72,
+  "atlas_size": [
+    2112,
+    1584
+  ],
+  "padding_px": 8,
+  "rotation": false,
+  "frames": [
+    {
+      "index": 0,
+      "rect": [
+        8,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.3618797975365645,
+        0.4164466755118761
+      ]
+    },
+    {
+      "index": 1,
+      "rect": [
+        536,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.36747799544091947,
+        0.7835185794168541
+      ]
+    },
+    {
+      "index": 2,
+      "rect": [
+        1064,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.6126802608077697,
+        0.9436586876330508
+      ]
+    },
+    {
+      "index": 3,
+      "rect": [
+        1592,
+        8,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.5550444731580836,
+        0.8441360858621353
+      ]
+    },
+    {
+      "index": 4,
+      "rect": [
+        8,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.5373092221886729,
+        0.783406358537956
+      ]
+    },
+    {
+      "index": 5,
+      "rect": [
+        536,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.6259364984639051,
+        0.788916128020544
+      ]
+    },
+    {
+      "index": 6,
+      "rect": [
+        1064,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.7386715871660976,
+        0.7224824523614869
+      ]
+    },
+    {
+      "index": 7,
+      "rect": [
+        1592,
+        536,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.811263598357457,
+        0.696493036674831
+      ]
+    },
+    {
+      "index": 8,
+      "rect": [
+        8,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.580117630331951,
+        0.6038462347948782
+      ]
+    },
+    {
+      "index": 9,
+      "rect": [
+        536,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.36801848411140436,
+        0.462049032748011
+      ]
+    },
+    {
+      "index": 10,
+      "rect": [
+        1064,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.5705355849876819,
+        0.4618599724606024
+      ]
+    },
+    {
+      "index": 11,
+      "rect": [
+        1592,
+        1064,
+        512,
+        512
+      ],
+      "hold_60hz": 6,
+      "flame_energy_left_right": [
+        0.6734530334869682,
+        0.35658751857747506
+      ]
+    }
+  ],
+  "compositing": "Normal straight-alpha order: unlit, illumination, rear-flames, front-flames. Rear alpha already occluded by selected interior fuel and outer rim; front alpha occluded only by outer rim. Front/rear are nonoverlapping partitions of distinct illustrated cels, never duplicated drawings. effects equals rear over transparent then front. lit still is frame02."
+}

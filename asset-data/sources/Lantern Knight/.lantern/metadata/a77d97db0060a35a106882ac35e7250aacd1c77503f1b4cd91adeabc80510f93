@@ -1,0 +1,39 @@
+{
+  "original": {
+    "file": "original.png",
+    "sha256": "d9fa25ea24f6c69560eac578e946c5224735e8c931518650a527cd2e5f49391d",
+    "exact_recovered_from_drive_source_id": "128xWZ5tt7e0vujRLLRUZ8hUR_pT7jglr"
+  },
+  "approved_DR": {
+    "file": "approved_DR.png",
+    "sha256": "e8edf91a242c9f1f75857ce76286f91d8f43a73a588e4caddbf72c9a063a5ac1",
+    "drive_runtime_id": "1p4Agdwzy2RBkUAm3ZiL5arLptfvg8_A7"
+  },
+  "generation": "Built-in imagegen fresh calls referencing original, exact approved DR, labelled heading guides, corresponding new move as supplemental attack guide. No draft edits, mirrors, upscales. Sunburst2.5 retained as user wording; no specific backend claim.",
+  "sheets": {
+    "DL_attack.png": {
+      "sha256": "72dc9f717791d976baa31ee6351bb0d34364c2040739fbcf4224db7dcbed1d10",
+      "prompt": "DL_attack.prompt.txt"
+    },
+    "UL_attack.png": {
+      "sha256": "af68dbe10c217db50b3903dbf1a228a0131d3a622e9a773479069a7420921ce5",
+      "prompt": "UL_attack.prompt.txt"
+    },
+    "DL_move.png": {
+      "sha256": "1082c34cac1a30752d4779739a772b68ab3338f2845678560d200f0d45e98da4",
+      "prompt": "DL_move.prompt.txt"
+    },
+    "UR_move.png": {
+      "sha256": "ede524c7e4949fc45c997dc3047eaf1f00856964008a345b03e07990f9cc489f",
+      "prompt": "UR_move.prompt.txt"
+    },
+    "UL_move.png": {
+      "sha256": "caa23b53ab8d6120976576fb7ab64efaf6a1d43ae14276655a1c84feafee28ae",
+      "prompt": "UL_move.prompt.txt"
+    },
+    "UR_attack.png": {
+      "sha256": "44daacb38fac9a194baa6fb2f7a691e59884b62f8f8b724b101e1e61ade0cf41",
+      "prompt": "UR_attack.prompt.txt"
+    }
+  }
+}

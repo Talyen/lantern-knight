@@ -1,0 +1,35 @@
+{
+  "name": "Mourning Shear",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "time_ms": 0,
+      "frame_index": 0
+    },
+    {
+      "name": "commit",
+      "time_ms": 120,
+      "frame_index": 6
+    },
+    {
+      "name": "impact",
+      "time_ms": 140,
+      "frame_index": 8,
+      "hit_count": 1
+    },
+    {
+      "name": "clear",
+      "time_ms": 620,
+      "frame_index": 16
+    }
+  ],
+  "target_guide": {
+    "kind": "endpoint_arc",
+    "center_px": [
+      374,
+      263
+    ],
+    "radius_px": 38
+  },
+  "timebase": "milliseconds"
+}

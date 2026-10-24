@@ -1,0 +1,32 @@
+{
+  "status": "All three suitable for user art-direction comparison, with composition caveats",
+  "review_scope": "Full-frame contact sheet and native-pixel hero crops; presentation review only.",
+  "common": {
+    "native_dimensions": [1536, 1024],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "buildings_or_manmade_props_visible": false,
+    "readable_clearings_and_paths": true,
+    "major_style_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false,
+    "composition_note": "These favor large clearings framed by roots and trees. Interior scenery is less evenly distributed than in the Moor and Fungal Hollow samples."
+  },
+  "A": {
+    "direction": "Moss-green root arches and huge warm-brown trunks",
+    "strength": "Strongest ancient-root silhouettes and a quiet, broad moss combat clearing; original hero reads cleanly at 160 pixels.",
+    "caveat": "A tiny distant sky sliver at the top makes this the most scene-like and least uniform viewport composition. Not rejected for unverified technical camera geometry."
+  },
+  "B": {
+    "direction": "Dark olive grove with ivory split trunks",
+    "strength": "Best dark Rootwood identity, closed overhead frame without sky, strong root shapes and a readable central path.",
+    "caveat": "Moderate small/medium dry-earth mottling remains, but it does not compete strongly with the hero at native size."
+  },
+  "C": {
+    "direction": "Warm ochre hollow oak and copper foliage",
+    "strength": "Most memorable single natural landmark: a huge hollow oak opening. Broad golden ground keeps the hero and traversable space readable.",
+    "caveat": "A brighter autumnal mood than A/B; large surrounding roots and foliage frame the clearing rather than dividing it into many internal routes."
+  },
+  "suggested_starting_point": "B for dark Rootwood continuity; C if the hollow-oak landmark or warmer autumn mood is preferred.",
+  "limits": "Tall scenery is baked into these viewport art-direction samples. This review does not establish in-engine occlusion, collision, camera calibration or gameplay clearance. No source repainting, expansion or upscaling was performed."
+}

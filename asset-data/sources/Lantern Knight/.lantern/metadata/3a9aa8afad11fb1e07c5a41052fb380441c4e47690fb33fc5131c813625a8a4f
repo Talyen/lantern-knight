@@ -1,0 +1,7 @@
+Plaster Offering Coffer | Lantern hollow breakable
+
+12 genuinely generated consecutive cels. One committed break: impact crack, damage, shell separation, material collapse and settled rubble. Play once and retain final frame. No visible contents: game handles randomized loot separately.
+
+Canvas 768x640 RGBA; fixed pivot 384,480 from top-left (bottom-left normalized 0.5,0.25). No trim or rotation. Atlas 4 columns x 3 rows. runtime.json is authoritative for variable timing. Intact state = cel1, damaged=cel3, broken=cel12; PNG states exactly match runtime cels. MP4 is a labeled 60Hz review rendering, not source animation FPS. GIF loops for review only.
+
+Source pages generated with built-in imagegen, six native cels per page, approximately 512px source cell pitch. Padding and registration are import preparation, not extra native detail. Jar/carboy page-two layout repair reduced source scale; fixed export scale compensates. Original generated alpha is retained, only sub-8/255 residual background is cleared. No engine changes.

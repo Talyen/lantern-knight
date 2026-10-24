@@ -1,0 +1,48 @@
+{
+  "name": "Ashen Claw | Outward breakup v3",
+  "durations_ms": [
+    20,
+    20,
+    30,
+    90,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    500
+  ],
+  "phases": [
+    "Gather",
+    "Onset",
+    "Strike",
+    "Peak",
+    "Outward decay 1",
+    "Outward decay 2",
+    "Outward decay 3",
+    "Outward decay 4",
+    "Outward decay 5",
+    "Outward decay 6",
+    "Outward decay 7",
+    "Outward decay 8",
+    "Outward decay 9",
+    "Clear"
+  ],
+  "art_frames": 13,
+  "new_tail_frames": 9,
+  "clear_frames": 1,
+  "onset_ms": 70,
+  "peak_hold_ms": 90,
+  "tail_ms": 540,
+  "registration": "First four existing cels use one constant 0.8 scale, then placement at (90, 50) on a 640 px canvas. Nine new tail cels use a uniform 3 by 3 grid of 418 px source cells and identical placement at (111, 111). No per-frame recentering, resizing, translation or fade. Material positions are authored in the generated cels.",
+  "source_anchor": [
+    218,
+    466
+  ],
+  "spritesheet_columns": 5,
+  "source_sheet": "tail_authored_sheet.png"
+}

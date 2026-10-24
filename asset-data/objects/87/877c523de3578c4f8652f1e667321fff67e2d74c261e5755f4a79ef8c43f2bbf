@@ -1,0 +1,389 @@
+{
+  "recipe": "visual-effects-v1",
+  "sourceFiles": [
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/000.svg",
+      "hash": "46e930c8e6c49da447285ed002435752c9cd0bc443332aa15286e0dfe7c023df"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/001.svg",
+      "hash": "7a150193ae7c33f669d97c66c4c97666c814eeb28477cbc00144443bd9e8f790"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/002.svg",
+      "hash": "2f49c9520317410d3292555a1c54745875e80c8eb83cca3f08b8c19b7b99e6da"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/003.svg",
+      "hash": "ce3a07e86691bb99978e442947c5ec7bd9affd1b074e0346c6b428dc9c02b9be"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/004.svg",
+      "hash": "4bd21414055734024081d5b44b9f78779fb63ea7ead0052d2ed514a6fdece550"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/005.svg",
+      "hash": "9409218c9a2f1b5119c8e2a6b3b6acda719aaedbf08be1348a238f26964220ba"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/006.svg",
+      "hash": "b9018a55132a833b7a11a1d9b4db6aae1c645c17f5ff9e3483f2719554849f87"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/007.svg",
+      "hash": "e67a0d61acfbfbc747d2eb090e02f070f84f3c1c20ccc88a3eea6c9a16855082"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/008.svg",
+      "hash": "85ddb877dbd86ef64b5dac4fb333323c9b1b5a4f61837a215855ce9fb6eff57d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/009.svg",
+      "hash": "e5472f28718d2cfbb0fb959c87b767211773792cbed3d13205edfb9571400609"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/010.svg",
+      "hash": "4ebbf19be8f2bb587d25b6d9b56f9409a2e542f702cd5e25e01f7d17cb4a1def"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/011.svg",
+      "hash": "2f6853b0957e62ed120da912bb91852487119a3fa97168a2b184aba42a2a4f38"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/012.svg",
+      "hash": "9b98538b46a7290aabddd7337ca22f4d78aa8025aaefd1474431ee5724caf488"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/013.svg",
+      "hash": "faa57b4e84bc2148a038fb47b02be60ccc33cbb6a78647c19494855f9f5f00f5"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/014.svg",
+      "hash": "2c6252f81f85b2b8a751be2db416ccd6a453d1de0d87f3a6b71e9565a113253a"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/015.svg",
+      "hash": "126b947a92a505b6c17360117cf5358b6aac770db5d0e18a00c78a7c2cd52a5d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/016.svg",
+      "hash": "157defada62212a0b2307be80e17468a83744fc0147882bee558e6e4a4e615be"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/017.svg",
+      "hash": "63b9023903ef30d75a5c48260a1341ab97efc9c677d9b568bde99add2d44803e"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/018.svg",
+      "hash": "f85df77703b49c236cfd75bcfaebdef4500eb3861ae42e6782ff116d345dcba4"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/019.svg",
+      "hash": "bad75802683fc8cdf066cde57166703a79af097510496e1e30bd6f339d2716f3"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/020.svg",
+      "hash": "b86a027b076d8e995ab00c2062b19c6e0d65fb6a9272fe5e9ecec16e6afb3006"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/021.svg",
+      "hash": "51c75b85a2a7999658be95bc56147a7c82f7a2df266d63157a0542d25a83348f"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/022.svg",
+      "hash": "4d80ab66dc42198d9f131747fc0f5a0138e1654437e37c65080b3d734e82a48e"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/quiet_smoke/023.svg",
+      "hash": "e0947376bb840fbe45c052eed94763843edb6b1c8d8609103c5f321bc71a8197"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/000.svg",
+      "hash": "8f32313a9ecf8e150db38207a4ad759a9191c169a412801916ae9dfd2091c6bf"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/001.svg",
+      "hash": "f02187b724bf949de25784da4000ed0779db59892a8f9e59f95a3166c1fffc7f"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/002.svg",
+      "hash": "2d286af3974fee84f153e10ff5955661023d2db82b2de64f7b420550bdbebf86"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/003.svg",
+      "hash": "84d7e3912841d8f8be36849bf95705b1874d4453ed7f6928c424ec51d21a132b"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/004.svg",
+      "hash": "78aada5afacacd5cdc26b52adc227eba7a4a4b54e62c31f7cc9688bd3cff6b6b"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/005.svg",
+      "hash": "acb541145faad582f28d06822880c4ce578362602b1c45330c3fe88a83ff3aab"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/006.svg",
+      "hash": "551886cf9b28acea61ce1e038a4a48b87ba0da96df5b38ac684369071a5cc9cb"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/007.svg",
+      "hash": "09e7e638d9f46cb5ca3548d27e2813e51e50c4045255259409f0290ac966f733"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/008.svg",
+      "hash": "7220a9a83e0c12e2fdca35e526294f357a138a549167941fb74d3b5e88b66032"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/009.svg",
+      "hash": "bcbf3810a13327945687945c10e4d93e1ae51d00d42ff06b82c1d316730e6e23"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/010.svg",
+      "hash": "28d046ec7f1f35a6be622160e75be57e07442dd347893d37bd67453e1045ea34"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/011.svg",
+      "hash": "319cbd33ed0760940305625b96edc81ae528e3e10ff55b4365486a1baee9b7ad"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/012.svg",
+      "hash": "0b4428d3a33cf6b0780851d37e8ecfca616ea9837903df45ce815a9439a6d654"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/013.svg",
+      "hash": "8093014dc4a9efbfaf16e137e7b8d8240f9dacff3469e899c3fdfdebcbfc870c"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/014.svg",
+      "hash": "43042754c7b7d094b55610d01aca5166e0edec6529eb858c2ad705a3edab2148"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/015.svg",
+      "hash": "72a80f984fd180b22f9167ba927f029e42307fb81ee9b153b533a5755f83bece"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/016.svg",
+      "hash": "e6bee6a7e8f32f800a73f8f99c8e619b5bb7251d6634496c7ab213ff1475983b"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/017.svg",
+      "hash": "6894bbd567cf22acb22031be422b7c806fc67b9aaefe457eeff47f48c0b86d97"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/018.svg",
+      "hash": "49f75125dde66d84e9ed6f40f0868d8e981f39e85c4429737fa2a381fc64e2ca"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/019.svg",
+      "hash": "d24d53abfb3eec93d5da3c5253993b8bd4996f5a37149be1299f73fef081f193"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/020.svg",
+      "hash": "843029f44de166c08d880d2d2dd9611cc29b5513128131f1e3b029d84a9c0f0d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/021.svg",
+      "hash": "837d7486178fe7fa773e8af5489cc5030bd03c97388c4a5550d19d62f8fc86f9"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/022.svg",
+      "hash": "86572cc0780f2b4f1557dd6ed186fb1c7c8292f935524e786a592bd11ec20d96"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/rising_motes/023.svg",
+      "hash": "9e1446a8082aeea64fb10d7c7f9f1033289ed9da98fca03d9a45e0f4949b555b"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/000.svg",
+      "hash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/001.svg",
+      "hash": "0b0ae99af1c8079607c6fc4003c536f772cca805c48d56d5fabea6168b0235cd"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/002.svg",
+      "hash": "12ed819e0a7cb089b3cd3d50ff85be063929cb62121a44e7378f615feb675c9e"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/003.svg",
+      "hash": "025a890ce477d5db4744adafe1cced98bf127686444894c3dc7b1410817d2f4d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/004.svg",
+      "hash": "e18ab99b3adc466bf56f29538104873a5905c7d4253987420d3ace91bc34800d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/005.svg",
+      "hash": "c7e94a9a83af5e90253b65855c6d90635e89d0327e14c5f00e082fe0d4a1f296"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/006.svg",
+      "hash": "97ff12d98d044cb335b4eca1884c312d0d87d505adb21d70720286ae84d9c59f"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/007.svg",
+      "hash": "16264e2b1dba56ba779c0e549267a0183bd09b141d8eb0b904ac5265dd62a598"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/008.svg",
+      "hash": "50222a75ad8e4f697748c57b080da68679286a0d94214a6e9dd7594b429419b0"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/009.svg",
+      "hash": "3bf4225cf4f81265b9a686a50b03155b678a92adb2702e283ebe518e1775f7d6"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/010.svg",
+      "hash": "4b05ac72e912ab7d054b0bf362b9a5b162dc898a7b25bf60e9ee440acb48c76d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/011.svg",
+      "hash": "22485e487848e0ce1c731b4088832290386e02426c2abd8ca82db4534ec7d379"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/012.svg",
+      "hash": "995c49336b2ce4400d3040827128ee5ae0081cf3a62af0a987428247c00545d4"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/013.svg",
+      "hash": "71cd52e9c3ae82b725541be520709087f57d8828be0de886903273bcac99c540"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/014.svg",
+      "hash": "6c80f2f170feb556f33a3a692b8c7e8a3f01c938ab27842292262a3d8238292d"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/015.svg",
+      "hash": "ed92b70a1143a2202f60fac8c25d9d7e9f83fd8a7f13273feed6505ab302104e"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/016.svg",
+      "hash": "879f999e129f8c02bb799d8d8670cf3a9b3f134925ad232a80ca06976ca6d33a"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/017.svg",
+      "hash": "4775427f287e79edd12567ed17b47631ab05493fd41f77ab8bb58ed0d5eafdec"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/018.svg",
+      "hash": "902d74f016f38feb48419193c58cbb343ce5de76c6447c0f30f71d8406fd738c"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/019.svg",
+      "hash": "e686a5f0b606693c50954b5157ec5743e31055e0a2c8409a94ddfec2d712c954"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/020.svg",
+      "hash": "5cbfa9c542467fa396dee971533fa90a283e939f6dff363d2fb84f3332359325"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/021.svg",
+      "hash": "9f001052f2002cdf31ac5df47f8c290596c47282cc9c5351a8a5b6360b509abb"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/022.svg",
+      "hash": "59d5e3358b49a6438209b1894402aeb3b536dfcedec6939dde8ad6f7fef6c90c"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/droplet_splash/023.svg",
+      "hash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/000.svg",
+      "hash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/001.svg",
+      "hash": "14c1a4a221b08f058c821f67cb0445c2493f21b6378701200e2eda25c23d9245"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/002.svg",
+      "hash": "556ea8e158537e02e8f992c87eaed9fe7d04c23f822b9064e6fcfcc120e7b8a2"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/003.svg",
+      "hash": "36e3d6396c333416aec6fc095e11549b39f11154733507f284d76d49d7ea825e"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/004.svg",
+      "hash": "15660b27391cd61c3f80f40b7b709c8307d50fee763f687fb67258744b622ec0"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/005.svg",
+      "hash": "de85afd305bbb1d9b2664517d7336a895a3bbb257cff03aa6d56ee5df0fb7663"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/006.svg",
+      "hash": "0c077222f8e5ee9332a0846fe4a9b7489a6db310925bc6fbe366d7baf0e93ba2"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/007.svg",
+      "hash": "2f3fda9e378adfeca32115adb6850cc1b47e3e891b010533794d291bf720c95e"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/008.svg",
+      "hash": "f7f759765ae45377e31d280c3406f9644ef5c1e6ee83dd70d1841b867078499b"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/009.svg",
+      "hash": "4ed5505dbe52d4da870054a0f890d889f4d23b18fd2897bd61815b204992b3db"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/010.svg",
+      "hash": "38a75b503a5d466a42ea2813de82d40cfae2ab1037cef7452fa1adb3f3b0c80c"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/011.svg",
+      "hash": "df1bc1eb8dd04c49e72ea723a51afacd479a534aead3f6b0e21f4004f2b9b80c"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/012.svg",
+      "hash": "4f328b34f4d08170a55e54580f816e46b9f3b2aac1e0d95a631aa4a52871ddb6"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/013.svg",
+      "hash": "2b9cf31eb4fa598cd754b530b43d678dfafe6a630a47091144f621f7d04c95c4"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/014.svg",
+      "hash": "5f38bb0ce321717eddb69ff23f321519dbc0767ee50b1a7f0bf425dbf40a94e2"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/015.svg",
+      "hash": "ea51abcdbf0b6938c186c4ff95660ed8fadcf21ef0fd8d0313488ec9566d8152"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/016.svg",
+      "hash": "17f216bfcf52aaf87faa7675ae4f76c007a061a8f6450f970a0c86e1a7ba4b99"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/017.svg",
+      "hash": "4954fe4723cf1af7df7b86852c6afbc9f73cf826f57fe5204078e3f39ae71bf6"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/018.svg",
+      "hash": "712042144ddf4e908ca0e1ae9480baf880e37b24f15ea7aa39d4979b9ad55230"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/019.svg",
+      "hash": "a1e4a21ec1981264fc603e67eca2af328f035932da9c2fa99344dbe759fe8a25"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/020.svg",
+      "hash": "f7b005c74b61fc1524ab92c39f62179583adc068e9d73add938155357cf8765f"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/021.svg",
+      "hash": "83c05f92bb4be9c4c7ab1842cc8ea5d92cb3d939ff1347f84bed02239be2fd26"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/022.svg",
+      "hash": "74cd686f17360e70b6e6ec37c9ba86d3e1a8b60d70830deeca99db3815c22cf2"
+    },
+    {
+      "file": "ambient_pack_v1/vectors/pond_ripple/023.svg",
+      "hash": "b024d8916aa7a566e9c679df6699d39ca51bdda88927bbce6f625a2f275ae740"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "transparent_borders": true,
+  "handoff_pixel_identical": true,
+  "idle_base_static": true,
+  "minimum_visible_pixels": 1646,
+  "all_frames_rgba": true,
+  "frame_sizes_identical": true,
+  "source_native_pixels": [
+    1536,
+    1024
+  ],
+  "uniform_downsample_scale": 0.32409381663113007,
+  "no_upscale": true,
+  "rest_pixel_hash": "f9df584dc4975d59c91021bc0a7d16bb943d1a56d8db60f905f4bcf2ba79e492",
+  "engine_tested": false
+}

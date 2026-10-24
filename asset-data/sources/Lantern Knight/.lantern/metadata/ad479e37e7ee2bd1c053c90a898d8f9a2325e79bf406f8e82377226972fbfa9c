@@ -1,0 +1,31 @@
+# Defeat-state visual audit
+
+Both clean retry sheets were visually inspected. All twelve drawings pass the bounded identity, anatomy and clean-style review. No further generation was used.
+
+## Monk, each drawing
+1. Broad standing figure, two normal connected gloves on one handle, blank mask and one complete rigid bell.
+2. Knees/robe buckle; ordinary elbow bends, same stacked hands and single bell.
+3. Deep collapsing crouch. Glove shapes stay attached; feet are increasingly hidden by cloth. Bell tilts lower. No extra mask or bell.
+4. Intentional lifecycle jump: figure substance vanishes, gloves and boots disappear into empty sleeves/folds. One loose mask and one grounded bell remain. Empty hood briefly retains fabric shape.
+5. Empty hood and cuffs deflate farther; single mask and bell remain recognizable.
+6. Low terminal empty cloth. Mask and bell rest visibly, without a supported head or body. The final state does not read as a kneeling idle.
+
+Transitions 1→2→3 show weighted sinking;3→4 is a deliberate supernatural collapse;4→5→6 show fabric settling. Raw 3→4 has a sheet-row placement jump. The optional common+88 px lower-row translation reduces that discontinuity without changing shape, scale or acting. It is approximate and preserved separately, not an assertion of exact ground truth.
+
+## Crawler, each drawing
+1. Two adult hands brace, charcoal cocoon and ivory seam intact; face is visible and angry.
+2. Cocoon buckles, elbows bend normally, two hands lose purchase.
+3. Forearms descend and hood/head lower. Two connected arms remain; no lower-body opening appears.
+4. Face disappears into the hood, closed shroud starts to lie flat, arms relax against ground.
+5. Low bundled husk with two connected limp arms; no new leg, stump or exposed anatomy.
+6. Still enclosed husk, hidden face and relaxed connected arms. No return-to-ready silhouette.
+
+Transitions 1→2→3 visibly lose support,3→4 withdraws the face and weight,4→5→6 settle the closed cloth body. Minor native placement drift is retained; no correction is asserted.
+
+## Style, camera, extraction
+The rejected first passes had actual mottling/hatching in opaque fills. Fresh second sheets using the explicit clean references restore smooth fills and broad graphic shadows. Both light and dark true-alpha composites were checked, so hidden source RGB was not mistaken for visible texture.
+All six poses of each enemy hold the same down-right elevated view. Numeric camera angles remain prompt intent, not certified projection. Every whole source figure survives connected-component ownership extraction, including crawler drawing 3's outer-right fingertips. The native outer sheet edges are transparent. No per-drawing silhouette fitting or aesthetic pixel edits were applied.
+Raw and optional registered Monk assets are separate. The registered assets already contain their one shared row offset; their runtime extra offset must remain zero.
+
+## Final visual check
+Both clean sheets passed identity/creature/style review. Monk 3→4 was explicitly confirmed as intentional body loss rather than accidental missing limbs. Crawler 2–6 retained two attached arms and a fully enclosed cocoon. A second visual check also confirmed transparent outer source edges and requested whole-component extraction. Only advisory events are included.

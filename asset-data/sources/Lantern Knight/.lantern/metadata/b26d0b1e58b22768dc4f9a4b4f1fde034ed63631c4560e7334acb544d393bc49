@@ -1,0 +1,15 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "new-generation",
+  "source": "/workspace/scratch/1a83d58417d5/generated_images/exec-d6679081-4ed1-4a05-b6c2-461b57cc1f91.png",
+  "prompt_file": "prompt.txt",
+  "grid": [
+    6,
+    4
+  ],
+  "generated_cels": 24,
+  "contact_cel": 11,
+  "terminal_cel": 24,
+  "created_utc": "2026-10-10",
+  "assembly_policy": "Original generated pixels; crop and fixed grid registration only; final cel replaced with transparent clear frame."
+}

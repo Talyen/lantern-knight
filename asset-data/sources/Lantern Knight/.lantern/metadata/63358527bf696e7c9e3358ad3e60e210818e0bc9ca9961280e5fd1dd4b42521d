@@ -1,0 +1,84 @@
+{
+  "name": "Hovering broken mask",
+  "reference": {
+    "id": "lantern_cave_creature_06_hovering_broken_mask",
+    "sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f"
+  },
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    650
+  ],
+  "estimated_pixels_per_unit": 256,
+  "camera": {
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45,
+    "calibration": "visual approximation, not 3D calibrated"
+  },
+  "facing": "screen lower-right three-quarter",
+  "mirroring": "not validated; use authored facing",
+  "world_position": "engine-owned; all drawing offsets baked; do not reapply",
+  "clips": {
+    "move": {
+      "loop": true,
+      "holds_60hz": [
+        10,
+        9,
+        10,
+        10,
+        9,
+        10
+      ],
+      "frames": [
+        "move_00.png",
+        "move_01.png",
+        "move_02.png",
+        "move_03.png",
+        "move_04.png",
+        "move_05.png"
+      ],
+      "attack_event_frame_zero_based": null,
+      "event_is_visual_reference_only": true,
+      "end": "loop"
+    },
+    "attack": {
+      "loop": false,
+      "holds_60hz": [
+        8,
+        10,
+        12,
+        5,
+        8,
+        14
+      ],
+      "frames": [
+        "attack_00.png",
+        "attack_01.png",
+        "attack_02.png",
+        "attack_03.png",
+        "attack_04.png",
+        "attack_05.png"
+      ],
+      "attack_event_frame_zero_based": 3,
+      "event_is_visual_reference_only": true,
+      "end": "hold final then return movement"
+    }
+  },
+  "png_sha256": {
+    "move_00.png": "d9625c8e99afa9144cc3ef777b754957495ed403798e9b45a0499e10013b7618",
+    "move_01.png": "58107faed3e19fa998d61baaf53ffe57fc96cc7fb5b004539a41e52ab865986e",
+    "move_02.png": "299b28ce84c0182879b3f1c3d336caf1d0ec022381529fe192a833738df59657",
+    "move_03.png": "337db6225d50702e5226f74b3462dd9f432c9d13a38f9e16423558a371c12d8e",
+    "move_04.png": "e8951669587a6257f7be854f67edc30842b9faedc602886952c2a489a4abb9d9",
+    "move_05.png": "30d48d06d70b47b92bf391ff4082354c2f1bb9fef897db9d143e688174e5068c",
+    "attack_00.png": "36cdb8a85180197b6743e9370fcb28d61122f5c2ee295eadc7624e4c353b8c23",
+    "attack_01.png": "3a880886e436db5a9ea7404613ad64a9b573a0b54844125814d0fe9485068382",
+    "attack_02.png": "407050e4a185beb9ce1d9bb0d69c3959d32241c04f339387ade99ebe5d35f05c",
+    "attack_03.png": "55e397fbe4a63107efddbf5c03448c6adfcb9963d82dc4f3f5118dd26e0b7cf9",
+    "attack_04.png": "94fc89fc4027ea36b40f083e3d0b0446e9372af9f27d6230bd4dbfda0bc6398b",
+    "attack_05.png": "8485fc02272b550b79b3552147a84a1b37bf0fe94fcc64fa2821651ff4a3d9c0"
+  }
+}

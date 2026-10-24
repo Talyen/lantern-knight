@@ -1,0 +1,62 @@
+{
+  "rulers": [
+    {
+      "base_world": [
+        1.896747983057644,
+        0.0,
+        1.6414038676291687
+      ],
+      "top_world": [
+        1.896747983057644,
+        1.8,
+        1.6414038676291687
+      ],
+      "height_metres": 1.8,
+      "projected_height_pixels": 122.09764256334608
+    },
+    {
+      "base_world": [
+        9.313729878628308,
+        0.0,
+        0.1213417232031915
+      ],
+      "top_world": [
+        9.313729878628308,
+        1.8,
+        0.1213417232031915
+      ],
+      "height_metres": 1.8,
+      "projected_height_pixels": 122.09764256334608
+    }
+  ],
+  "no_hero_used": true,
+  "nominal_card_dimensions": [
+    {
+      "02_compact_smithy_v1_3": {
+        "width": 6,
+        "height": 6.2,
+        "depth": 4.5
+      }
+    },
+    {
+      "Connected_furnace_work_cluster": {
+        "width": 2.8,
+        "height": 3.8,
+        "depth": 1.7
+      }
+    },
+    {
+      "Smith_workbench_2m": {
+        "length": 2,
+        "height": 0.9,
+        "depth": 0.8
+      }
+    },
+    {
+      "Anvil_0_9m": {
+        "height": 0.9,
+        "width": 0.95
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "name": "junction_1",
+    "junction_source_xy": [
+      640,
+      480
+    ],
+    "check_source_box": [
+      592,
+      432,
+      688,
+      528
+    ],
+    "mean_abs_rgb_difference": 0.01887794777199074,
+    "max_abs_rgb_difference": 6.0,
+    "pct_pixels_over_2": 0.042046440972222224
+  },
+  {
+    "name": "junction_2",
+    "junction_source_xy": [
+      1120,
+      320
+    ],
+    "check_source_box": [
+      1072,
+      272,
+      1168,
+      368
+    ],
+    "mean_abs_rgb_difference": 0.016323513454861112,
+    "max_abs_rgb_difference": 3.0,
+    "pct_pixels_over_2": 0.003390842013888889
+  }
+]

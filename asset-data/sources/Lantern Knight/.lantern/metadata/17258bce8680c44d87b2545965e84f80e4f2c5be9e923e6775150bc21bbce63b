@@ -1,0 +1,109 @@
+{
+  "name": "Votive Gale",
+  "timebase": "milliseconds",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "frame_index": 0,
+      "time_ms": 0
+    },
+    {
+      "name": "commit",
+      "frame_index": 7,
+      "time_ms": 210
+    },
+    {
+      "name": "impact",
+      "frame_index": 8,
+      "time_ms": 240,
+      "damage_count": 1
+    },
+    {
+      "name": "clear",
+      "frame_index": 16,
+      "time_ms": 790
+    }
+  ],
+  "damage": {
+    "event": "impact",
+    "frame_index": 8,
+    "apply_once_per_playback": true,
+    "exclude_formation_and_recovery": true,
+    "center_damaged": false,
+    "note": "Use game collision on the single impact event. Do not derive damage from sprite alpha or apply repeated damage throughout recovery."
+  },
+  "pivot_px": [
+    205,
+    430
+  ],
+  "pivot_normalized": [
+    0.200195,
+    0.559896
+  ],
+  "footprint_guide": {
+    "type": "projected_cone",
+    "origin_px": [
+      205,
+      430
+    ],
+    "forward": "right",
+    "polygon_px": [
+      [
+        205,
+        430
+      ],
+      [
+        612,
+        218
+      ],
+      [
+        718,
+        255
+      ],
+      [
+        744,
+        422
+      ],
+      [
+        724,
+        583
+      ],
+      [
+        613,
+        639
+      ]
+    ],
+    "approximate": true,
+    "world_design_dimensions": {
+      "range_m": 10,
+      "angle_deg": 120
+    },
+    "world_dimensions_status": "Proposed game-design footprint; not engine validated.",
+    "polygon_normalized": [
+      [
+        0.200195,
+        0.559896
+      ],
+      [
+        0.597656,
+        0.283854
+      ],
+      [
+        0.701172,
+        0.332031
+      ],
+      [
+        0.726562,
+        0.549479
+      ],
+      [
+        0.707031,
+        0.759115
+      ],
+      [
+        0.598633,
+        0.832031
+      ]
+    ]
+  }
+}

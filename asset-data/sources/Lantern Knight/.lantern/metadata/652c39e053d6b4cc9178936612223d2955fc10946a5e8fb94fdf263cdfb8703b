@@ -1,0 +1,16 @@
+{
+  "status": "all three suitable for user art-direction comparison",
+  "review_scope": "Small full-frame comparison plus native-pixel hero crops; presentation review only.",
+  "common": {
+    "native_dimensions": [1536, 1024],
+    "original_hero_target_height": 160,
+    "originals_preserved": true,
+    "water_visible": false,
+    "major_realism_clipping_or_scale_issue_visible": false,
+    "engine_camera_validation": false
+  },
+  "A": {"direction": "Warm abandoned market crossroads", "strength": "Broad quiet earth shapes and connected lanes with stalls and ruined shopfronts as landmarks", "caveat": "Small paving clusters and faint earth variation remain; selected native is the producer's second generation, with first attempt retained as provenance"},
+  "B": {"direction": "Ivy-covered well courtyard", "strength": "Distinct sealed-well landmark, connected circulation and pale paving with readable hero contrast", "caveat": "Well and foreground walls form baked obstacles; no water is visible under the closed lid"},
+  "C": {"direction": "Fire-damaged craftsman square", "strength": "Strong charred workshop and forge silhouettes around broad open central space", "caveat": "Gray paving and earth retain the most mottled surface detail in this set; acceptable direction sample rather than a sole rejection reason"},
+  "limits": "Buildings, walls and scenery are baked into the art. This review cannot establish in-engine occlusion, collision, perspective calibration or real gameplay clearance."
+}

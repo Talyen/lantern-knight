@@ -1,0 +1,382 @@
+{
+  "camera_exact": true,
+  "camera_basis": {
+    "right": [
+      0.7071067811865476,
+      0.0,
+      -0.7071067811865475
+    ],
+    "up": [
+      -0.408248290463863,
+      0.816496580927726,
+      -0.4082482904638631
+    ],
+    "toward": [
+      0.5773502691896257,
+      0.5773502691896257,
+      0.5773502691896258
+    ]
+  },
+  "world_units": "metres",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "vertical_span": 13,
+  "virtual_1_8m_ruler_pixels": 122.09764256334611,
+  "source_pixels_unchanged": true,
+  "card_views_exact": false,
+  "no_hero": true,
+  "cards": [
+    {
+      "id": "vegetation_tall_split_pine_01_0",
+      "projected_anchor_px": [
+        690.0,
+        230.00000000000006
+      ],
+      "source_sha256": "4f8bcbc8efc7bb9b03017693b42689575abf0f6ee039dc929926d0a5c1d5b4d1",
+      "screen_box": [
+        422,
+        -495,
+        923,
+        257
+      ]
+    },
+    {
+      "id": "vegetation_windswept_yew_01_1",
+      "projected_anchor_px": [
+        1700.0,
+        180.0
+      ],
+      "source_sha256": "4e3120b24d7e03172ffa323484168fde2d8c37bbb27f9d154c4a59b6c8771607",
+      "screen_box": [
+        1203,
+        -643,
+        2189,
+        258
+      ]
+    },
+    {
+      "id": "vegetation_lightning_split_dead_trunk_01_2",
+      "projected_anchor_px": [
+        1340.0,
+        210.0
+      ],
+      "source_sha256": "b2e4bbee47a55eed9ed3be2fac752198f2a6072202b612dcd63f5790558e6102",
+      "screen_box": [
+        977,
+        -447,
+        1707,
+        220
+      ]
+    },
+    {
+      "id": "vegetation_tall_split_pine_01_3",
+      "projected_anchor_px": [
+        1100.0,
+        195.00000000000006
+      ],
+      "source_sha256": "4f8bcbc8efc7bb9b03017693b42689575abf0f6ee039dc929926d0a5c1d5b4d1",
+      "screen_box": [
+        776,
+        -682,
+        1382,
+        226
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_4",
+      "projected_anchor_px": [
+        855.0,
+        440.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        701,
+        247,
+        1014,
+        455
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_5",
+      "projected_anchor_px": [
+        1370.0,
+        560.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1216,
+        367,
+        1529,
+        575
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_6",
+      "projected_anchor_px": [
+        595.0,
+        350.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        441,
+        157,
+        754,
+        365
+      ]
+    },
+    {
+      "id": "arch_square_pillar_01_7",
+      "projected_anchor_px": [
+        650.0,
+        380.0
+      ],
+      "source_sha256": "45f5b01af3064397a9ae557ffcaf3f460d245d9742b5f0f521ef9d6cb2d2da92",
+      "screen_box": [
+        566,
+        134,
+        734,
+        387
+      ]
+    },
+    {
+      "id": "arch_square_pillar_01_8",
+      "projected_anchor_px": [
+        1735.0,
+        695.0
+      ],
+      "source_sha256": "45f5b01af3064397a9ae557ffcaf3f460d245d9742b5f0f521ef9d6cb2d2da92",
+      "screen_box": [
+        1651,
+        449,
+        1819,
+        702
+      ]
+    },
+    {
+      "id": "Crypt_threshold_focal_arch",
+      "projected_anchor_px": [
+        1090.0,
+        545.0
+      ],
+      "source_sha256": "a3fe658f8f4fcfc3aad58acbf303876a4d40a0427fdff01957adbd8b65da8d0c",
+      "screen_box": [
+        871,
+        160,
+        1309,
+        560
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_24",
+      "projected_anchor_px": [
+        1640.0,
+        655.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        1486,
+        462,
+        1799,
+        670
+      ]
+    },
+    {
+      "id": "arch_stone_tomb_01_10",
+      "projected_anchor_px": [
+        530.0,
+        695.0
+      ],
+      "source_sha256": "056a4b200fda0aecbb70faa99e56da674ad841b758ee80bd93270249abf84348",
+      "screen_box": [
+        412,
+        548,
+        644,
+        702
+      ]
+    },
+    {
+      "id": "crypt_urn_niche_stack_01_11",
+      "projected_anchor_px": [
+        1620.0,
+        860.0
+      ],
+      "source_sha256": "14c90e26b0f9f8532592bbd44f354444e2c91281066b746a93a0c631e484615c",
+      "screen_box": [
+        1481,
+        605,
+        1754,
+        870
+      ]
+    },
+    {
+      "id": "env_masonry_rubble_01_12",
+      "projected_anchor_px": [
+        1490.0,
+        795.0
+      ],
+      "source_sha256": "f0e12d946c80ade772a09e28808632d88e92d6a262ab7197fbec3fea71928791",
+      "screen_box": [
+        1397,
+        681,
+        1582,
+        805
+      ]
+    },
+    {
+      "id": "env_shadow_fern_01_13",
+      "projected_anchor_px": [
+        1430.0,
+        840.0
+      ],
+      "source_sha256": "59e22ba7da2132c9f3433765b70128419c17c72a52194164d5171ad46a3b1b2b",
+      "screen_box": [
+        1338,
+        731,
+        1523,
+        854
+      ]
+    },
+    {
+      "id": "env_leaning_gravestone_01_14",
+      "projected_anchor_px": [
+        380.0,
+        736.0
+      ],
+      "source_sha256": "e0d92388a21459bfa5e0299e516ea1671a91061567ef5c1994227412ccbcf2e2",
+      "screen_box": [
+        324,
+        571,
+        439,
+        743
+      ]
+    },
+    {
+      "id": "Threshold_lantern_0_65m",
+      "projected_anchor_px": [
+        965.0,
+        555.0
+      ],
+      "source_sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+      "screen_box": [
+        877,
+        411,
+        1052,
+        586
+      ]
+    },
+    {
+      "id": "Grave_lantern_0_58m",
+      "projected_anchor_px": [
+        565.0,
+        718.0
+      ],
+      "source_sha256": "70876743e7b805d3e9ffa0a62d5ddc8868ead22e937666e96cb15bcf8cda5893",
+      "screen_box": [
+        477,
+        574,
+        652,
+        749
+      ]
+    },
+    {
+      "id": "arch_wall_corner_01_17",
+      "projected_anchor_px": [
+        1760.0,
+        1040.0
+      ],
+      "source_sha256": "a8d1f24eccf356197d8e51e4f9fbbf45384ea3c70f3ff742eb5d339f78fe4ca1",
+      "screen_box": [
+        1414,
+        610,
+        2104,
+        1070
+      ]
+    },
+    {
+      "id": "arch_gothic_wall_01_18",
+      "projected_anchor_px": [
+        270.0,
+        1030.0
+      ],
+      "source_sha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+      "screen_box": [
+        44,
+        754,
+        491,
+        1052
+      ]
+    },
+    {
+      "id": "arch_square_pillar_01_19",
+      "projected_anchor_px": [
+        455.0,
+        1065.0
+      ],
+      "source_sha256": "45f5b01af3064397a9ae557ffcaf3f460d245d9742b5f0f521ef9d6cb2d2da92",
+      "screen_box": [
+        318,
+        664,
+        593,
+        1076
+      ]
+    },
+    {
+      "id": "vegetation_broad_hollow_oak_01_20",
+      "projected_anchor_px": [
+        -60.0,
+        960.0
+      ],
+      "source_sha256": "b714b718998cf6bb5dda4474d8d378883941f06eac2f07ba34427a3a1976e0a2",
+      "screen_box": [
+        -698,
+        -158,
+        578,
+        1008
+      ]
+    },
+    {
+      "id": "vegetation_lightning_split_dead_trunk_01_21",
+      "projected_anchor_px": [
+        1900.0,
+        1110.0
+      ],
+      "source_sha256": "b2e4bbee47a55eed9ed3be2fac752198f2a6072202b612dcd63f5790558e6102",
+      "screen_box": [
+        1422,
+        244,
+        2384,
+        1123
+      ]
+    },
+    {
+      "id": "vegetation_low_dense_juniper_01_22",
+      "projected_anchor_px": [
+        390.0,
+        1185.0
+      ],
+      "source_sha256": "f47b3bb5398e0fbbfd60f992c541ec57a780c384e567354fef9f275d32cb262c",
+      "screen_box": [
+        23,
+        769,
+        754,
+        1257
+      ]
+    },
+    {
+      "id": "env_shadow_fern_01_23",
+      "projected_anchor_px": [
+        1510.0,
+        1090.0
+      ],
+      "source_sha256": "59e22ba7da2132c9f3433765b70128419c17c72a52194164d5171ad46a3b1b2b",
+      "screen_box": [
+        1299,
+        840,
+        1722,
+        1122
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+LANTERN KNIGHT — SOURCE KIT
+
+Approved original PNG is retained unchanged.
+Selected native-size illustrated cels are provided in a clean registered sheet.
+The model output was 1536 x 1024, with nominal 384 x 512 cells.
+The delivered 2048 x 1152 source sheet adds transparent registration margins; it does not upscale the artwork.
+Only selected cels are included. For frame timing, pivot, atlas slicing and the single loot_release event, see the runtime clip JSON.
+No rewards are drawn. Empty final state remains until the game removes or resets the prop.

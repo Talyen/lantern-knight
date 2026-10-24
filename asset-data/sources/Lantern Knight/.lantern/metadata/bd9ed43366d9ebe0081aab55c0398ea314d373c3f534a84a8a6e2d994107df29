@@ -1,0 +1,28 @@
+{
+  "source": "native.png",
+  "source_sha256": "188fe4abf42c88194da175268b2cbb636441d25a83438f8ae0c2b98910802425",
+  "hero": "../../review/references/ready_world_positive_X_DR_native.png",
+  "hero_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "hero_alpha_crop_threshold": 30,
+  "hero_original_alpha_crop_bbox": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_resized_dimensions": [
+    68,
+    160
+  ],
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "hero_visible_height_target": 160,
+  "hero_foot_anchor": [
+    830,
+    680
+  ],
+  "processing": "Unmodified native scene with original approved hero alpha-cropped, resized with Lanczos and composited with a small grounding shadow. No scene repainting, generation, expansion or upscale.",
+  "scope": "Presentation-only viewport sample. Scenery is baked. Camera geometry, engine scale, collision and occlusion are not validated."
+}

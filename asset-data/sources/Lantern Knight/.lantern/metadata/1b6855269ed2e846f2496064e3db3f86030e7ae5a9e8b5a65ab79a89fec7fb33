@@ -1,0 +1,16 @@
+{
+  "title": "06 Spirits and Constructs",
+  "variants": [
+    {
+      "id": "SP01",
+      "slug": "veil_wisp",
+      "name": "Veil Wisp",
+      "description": "A single floating dark-fantasy spirit, no anatomy or props: a compact upper teardrop hood of cool slate-blue ectoplasm surrounds one charcoal-black oval face hollow with two tiny pale-ivory eye points. The lower body tapers into exactly THREE broad simple clothlike spectral tips, one central long tip and two matching shorter side tips. No arms, hands, legs, feet, mouth, wings, flame, particles, glow haze or detached wisps. A mournful inverted-drop silhouette, smoothly inked and opaque like an animation cel, two large dark-blue shadow patches and one pale slate highlight. Upper hood volume and the front hollow face toward screen down-right. One continuous body only.",
+      "motion_hint": "Hover bob / short dart",
+      "move": "One slow vertical bob and a small synchronized tail sway.",
+      "attack": "Compress the body and dart forward.",
+      "death": "Shrink smoothly toward the eye hollow until gone.",
+      "qa": "One continuous three-tailed spirit, no limbs or loose particles, passes. Thin tail ends need a stable construction curve through motion. Small head tilt and cloth contours are not mathematically mirrored."
+    }
+  ]
+}

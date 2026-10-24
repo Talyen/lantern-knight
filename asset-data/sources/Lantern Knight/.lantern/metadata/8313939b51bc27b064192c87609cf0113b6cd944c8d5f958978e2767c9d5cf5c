@@ -1,0 +1,13 @@
+# Gentle Headsman I — delicate tea ritual
+
+Six distinct native 512 × 512 RGBA cels. Tiny cream/gold cup rises, is smelled gently, then lowers. The kettle stays on its wooden stool throughout. One facing only.
+
+## Import
+Use runtime/animation.json. Atlas is a 3 × 2 grid with no padding; use point or bilinear sampling and disable atlas mipmap bleed or add padding in your engine. The JSON has 60 Hz integer holds and a fixed pixel pivot. Estimated PPU is 225, to be tuned to your world scale. The 180-tick sequence loops every 3 seconds; cel 2 is reused on the return arc. Preview plays three normal-speed loops.
+
+## Rebuild
+Python 3.10+, Pillow, NumPy, SciPy and ffmpeg on PATH. Run `python rebuild.py` from any working directory. This reproduces frames, atlas, JSON and previews from the included native generation, without network or AI calls. No raster is upscaled or synthesized by interpolation. Original art and exact generation prompt are under source/.
+
+The built-in image tool created a fresh six-cel sheet using the original solely as identity reference. No generated draft was generatively edited. “Sunburst 2.5” was requested as a prompt phrase; no model identifier is guaranteed. Camera is art-directed orthographic at a requested 35.264° elevation, not calibrated 3D geometry.
+
+Deterministic integer translation registration and shared static lower-body/screen-right (anatomical left) arm masks stabilize feet, kettle, stool and hand ownership. Native alpha is retained with only values below 8/255 cleared. Minor hand-drawn line/color variation remains in the animated head/screen-left (anatomical right) tea-arm area. These are authored cel holds, not 60 unique drawings each second.

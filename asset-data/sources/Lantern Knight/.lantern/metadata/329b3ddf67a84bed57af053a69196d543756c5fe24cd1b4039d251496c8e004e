@@ -1,0 +1,20 @@
+{
+  "cloister/A/native.png": "d9596d209b5e100c70914b723083859f40d14275c7e606681eb385f0c958dc10",
+  "cloister/A/exact_prompt.txt": "a52da085c325f9f1fd6721d99afaf633994fce798094316f9adbf5beeac4c663",
+  "cloister/A/metadata.json": "fc71678cda462ef7f7192089b1e1fe1bdc15ce5e8d97644ba2f1966e139786f0",
+  "cloister/A/hero_context_metadata.json": "20beb900d635a6961d6a39a8078f89c771a6bb7f73d55107e974e6ccd97fd44c",
+  "cloister/B/native.png": "188fe4abf42c88194da175268b2cbb636441d25a83438f8ae0c2b98910802425",
+  "cloister/B/exact_prompt.txt": "1d7badbcfd7c72d607e23cd5d597fb6dd147e53ac8076b82e1964543a3eadfc1",
+  "cloister/B/metadata.json": "22fe323b9b810c17f412a9e8edc4757b593cb86576dea6cf50b9ddd19617fff5",
+  "cloister/B/hero_context_metadata.json": "bd9ed43366d9ebe0081aab55c0398ea314d373c3f534a84a8a6e2d994107df29",
+  "cloister/C/native.png": "e69f7e990ae25e44e4953f6de10861509cc884c2848df75eb6ec72281a075ea1",
+  "cloister/C/exact_prompt.txt": "ab51ff1d9341ec81dfa3374d4772c2c9e4251af2ef8fb2bc6717a3ba1e412e64",
+  "cloister/C/metadata.json": "ece60cd6fa02f4795b5917ca80edc65266cdb722aca84eba6dc7370094fbae99",
+  "cloister/C/hero_context_metadata.json": "1361f27789cb58013d639020e662bf433dfda5aba8c52f267fef567c19c810c7",
+  "cloister/hero_placements.json": "77b006b1fb3a70d8c6d693b7b17614e1060997de34d7159a8d5714d08a0471d8",
+  "cloister/review_summary.json": "ec129244b2e0e667ae27cb5cfc7cc5154baea266a9a3ce52d177b711a60c0631",
+  "cloister/ABC_hero_comparison.png": "24b53b6c440d92239a1b3c9171682bbfa684cdf8894655f7bfa16fd7f3f99fd5",
+  "review/build_contexts.py": "fcd25e260050784ce9f722462c2ef076dfd4637b0bd7b4285170e59d23f4aa36",
+  "review/package_theme.py": "ff2db93c466803e43d88bca0029c8d53eeaad2540aa43ec885949fb92aa3ad3e",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

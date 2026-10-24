@@ -1,0 +1,79 @@
+{
+  "canvas": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "fonts": "none; original custom path lettering",
+  "artwork": "original editable vector geometry",
+  "videos": {
+    "Lantern_06_LivingEmber_Loading.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "8.000000",
+      "nb_read_frames": "480",
+      "bytes": 560280,
+      "sha256": "35de77072da65e7b861d396d38122fb3e7a85fa06d08b91b6312d09189039d4a"
+    },
+    "Lantern_06_LivingEmber_Title.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "10.000000",
+      "nb_read_frames": "600",
+      "bytes": 519956,
+      "sha256": "81bf744a416cd8dac94ffd349ddfabc2c17858d28d5a8261b51013c1cbb0109c"
+    },
+    "Lantern_06_LivingEmber_Intro.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_read_frames": "120",
+      "bytes": 147479,
+      "sha256": "4c7a0ce36798387d15dc78c84acab8a8557c307ac53d575b96deeddd1ef05e0f"
+    },
+    "Lantern_06_LivingEmber_Hold.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "4.000000",
+      "nb_read_frames": "240",
+      "bytes": 261450,
+      "sha256": "58b84dc83b1ad4f8b098a7070b69913f7d962f962f04c8e2f1fd26f72b10939e"
+    },
+    "Lantern_06_LivingEmber_Complete.mp4": {
+      "codec_name": "h264",
+      "width": 1920,
+      "height": 1080,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "2.000000",
+      "nb_read_frames": "120",
+      "bytes": 173123,
+      "sha256": "9a1d8fafc9253a2ac58ddd5691db913370361b2f0bb698d76da77c4f9c8a0224"
+    }
+  },
+  "source_hold_loop_max_pixel_error": 0,
+  "source_continuity_mean_abs_pixel_change": {
+    "intro_to_hold": 0.052381687242798354,
+    "hold_to_complete": 0.052381687242798354
+  },
+  "title_full_readable_hold_seconds": 3,
+  "loading_has_text_elements": false,
+  "external_images_or_fonts": false
+}

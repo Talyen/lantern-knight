@@ -1,0 +1,51 @@
+[
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_native.png",
+    "name": "forest_gathering_A_v2_variant01_native.png",
+    "size": 2489718,
+    "sha256": "0646e7daa96966fc1367542f6b480a9215bf49e97eaaad8b8daac59d7029a930",
+    "library_artifact_type": "image_gen"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_AI4x_master_6144x4096.png",
+    "name": "forest_gathering_A_v2_variant01_AI4x_master_6144x4096.png",
+    "size": 18251897,
+    "sha256": "029cbe09f5ad3fffdf965cf60427fa00f5db157342653b5b52944f42413bebb3",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_2x_3072x2048.png",
+    "name": "forest_gathering_A_v2_variant01_2x_3072x2048.png",
+    "size": 5532034,
+    "sha256": "63063c78a21582509bf289c172dcd76987a07950a9708715e2dd359aba44800d",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_overview.png",
+    "name": "forest_gathering_A_v2_variant01_overview.png",
+    "size": 1795309,
+    "sha256": "a06d0c080974da21cf8bde56f88b5f221082f907204215282786bc40bccff6b4",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_entry_hero160.png",
+    "name": "forest_gathering_A_v2_variant01_entry_hero160.png",
+    "size": 1336831,
+    "sha256": "49ca8173fc0e2e373816aea5cd37e20561f19d95c3730e4fa215235cd7ad6df4",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_middle_hero160.png",
+    "name": "forest_gathering_A_v2_variant01_middle_hero160.png",
+    "size": 1609563,
+    "sha256": "3e4c4c6cf966af956dc7c224fda13400177896ab2342c54ff456b788fd09dde7",
+    "library_artifact_type": "image"
+  },
+  {
+    "local_path": "/workspace/scratch/1a83d58417d5/overnight_scene_variants_oct09/forest_gathering_A_v2_variant01/forest_gathering_A_v2_variant01_far_hero160.png",
+    "name": "forest_gathering_A_v2_variant01_far_hero160.png",
+    "size": 1436356,
+    "sha256": "03ad5713c388810b8f8b8b0d87cdf96e91e282369185928f455472fa76b771e7",
+    "library_artifact_type": "image"
+  }
+]

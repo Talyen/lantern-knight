@@ -1,0 +1,4070 @@
+{
+  "name": "LanternKnight Item Icons and Thumbnails",
+  "version": "1.0",
+  "item_count": 64,
+  "target_item_count": 64,
+  "scale": {
+    "reference_canvas_px": 512,
+    "pixels_per_reference_cm": 2.0,
+    "minimum_extent_512_px": 16,
+    "thumbnail_canvas_px": 256,
+    "thumbnail_scale": 0.5,
+    "max_inventory_extent_px": 440,
+    "reference_dimensions_are_art_direction_estimates": true,
+    "source_dust_policy": "Native masters remain untouched. Runtime/detail framing uses the alpha>=4 visible bbox; native alpha values inside that crop are preserved. A single native-source resampling is chosen to achieve the exact declared runtime silhouette extent.",
+    "reference_extent_definition": "Longest on-screen axis of the visible item or folded arrangement. Preserve camera foreshortening and native aspect ratio. Not a 3D measurement.",
+    "small_item_policy": "Only objects below 8 reference cm are raised to a 16px longest-axis floor at 512px. Exact boost is listed per item. Do not auto-fit each item to its slot.",
+    "detail_policy": "detail_512 is inspection-only, optically fitted with no native upscaling. Never use it for scale-preserving inventory defaults.",
+    "footprints": "Optional layout hints, not a mandated grid mechanic.",
+    "pivot": "Canvas center, x=0.5, y=0.5"
+  },
+  "formats": {
+    "masters_native": "Trimmed generated source pixels + 4px transparent gutter, no upscaling.",
+    "inventory_scaled_tight": "Trimmed scale-preserving inventory pixels + 4px gutter. Draw at native dimensions or one shared scale, never equal-fit.",
+    "inventory_512": "Default common transparent 512px canvas at shared physical scale.",
+    "thumbnails_256": "Exact 50 percent scale of inventory_512; preserves occupancy.",
+    "detail_512": "Centered inspection-only close-ups, never upscale source art."
+  },
+  "items": [
+    {
+      "id": "quiver",
+      "label": "Arrow Quiver",
+      "category": "weapons",
+      "reference_extent_cm": 75,
+      "suggested_footprint_cells": [
+        1,
+        3
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One worn narrow brown leather quiver holding five simple wood arrows with gray feathers, side three-quarter view, diagonal.",
+      "source_file": "sources/new/quiver.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1164,
+        1222
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        49,
+        16,
+        1213,
+        1238
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        159,
+        1,
+        1163,
+        1207
+      ],
+      "logical_extent_512_px": 150,
+      "rendered_extent_512_px": 150,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        193,
+        181,
+        318,
+        331
+      ],
+      "display_dimensions_512_px": [
+        125,
+        150
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/quiver.png",
+        "inventory_512": "inventory_512/quiver.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/quiver.png",
+        "thumbnails_256": "thumbnails_256/quiver.png",
+        "detail_512": "detail_512/quiver.png"
+      },
+      "sha256_native": "fd85dfd8e958128e8d78277a54042d823864012589b87c9266b1bce3267e9eac",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "bow",
+      "label": "Ashwood Bow",
+      "category": "weapons",
+      "reference_extent_cm": 120,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": "bow",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/bow.png",
+      "native_source_dimensions_px": [
+        448,
+        222
+      ],
+      "native_trimmed_dimensions_px": [
+        448,
+        222
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        448,
+        222
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        448,
+        222
+      ],
+      "logical_extent_512_px": 240,
+      "rendered_extent_512_px": 240,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        136,
+        196,
+        376,
+        315
+      ],
+      "display_dimensions_512_px": [
+        240,
+        119
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/bow.png",
+        "inventory_512": "inventory_512/bow.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/bow.png",
+        "thumbnails_256": "thumbnails_256/bow.png",
+        "detail_512": "detail_512/bow.png"
+      },
+      "sha256_native": "b0a67fd719d8883335d18fc1c2aa3ddb435f3b885d9247d5b6a9d8116251b3bf",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "spear",
+      "label": "Ashwood Spear",
+      "category": "weapons",
+      "reference_extent_cm": 220,
+      "suggested_footprint_cells": [
+        1,
+        4
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A long straight ashwood spear with a broad leaf-shaped dark iron tip and leather binding; diagonal full length from lower-left butt to upper-right spearhead.",
+      "source_file": "sources/new/spear.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1206,
+        1203
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        34,
+        29,
+        1240,
+        1232
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        2,
+        2,
+        1204,
+        1201
+      ],
+      "logical_extent_512_px": 440,
+      "rendered_extent_512_px": 440,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        36,
+        36,
+        476,
+        475
+      ],
+      "display_dimensions_512_px": [
+        440,
+        439
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/spear.png",
+        "inventory_512": "inventory_512/spear.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/spear.png",
+        "thumbnails_256": "thumbnails_256/spear.png",
+        "detail_512": "detail_512/spear.png"
+      },
+      "sha256_native": "de079d6aa90ad705c5aedf5caad169688821f1004b74594f0dc312abdb0a9648",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "greatsword",
+      "label": "Greatsword",
+      "category": "weapons",
+      "reference_extent_cm": 160,
+      "suggested_footprint_cells": [
+        2,
+        4
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One heavy two-handed steel greatsword, long broad straight blade, simple curved crossguard and long brown leather grip; diagonal full-length.",
+      "source_file": "sources/new/greatsword.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1217,
+        1146
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        21,
+        58,
+        1238,
+        1204
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        1,
+        0,
+        1216,
+        1145
+      ],
+      "logical_extent_512_px": 320,
+      "rendered_extent_512_px": 320,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        96,
+        105,
+        416,
+        407
+      ],
+      "display_dimensions_512_px": [
+        320,
+        302
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/greatsword.png",
+        "inventory_512": "inventory_512/greatsword.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/greatsword.png",
+        "thumbnails_256": "thumbnails_256/greatsword.png",
+        "detail_512": "detail_512/greatsword.png"
+      },
+      "sha256_native": "57ed2b3a24a2892f3babe3e55accd7f2c4ffd37d0274cd97cf9f455d168218f8",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "wand",
+      "label": "Hazel Wand",
+      "category": "weapons",
+      "reference_extent_cm": 35,
+      "suggested_footprint_cells": [
+        1,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One slim hand-carved crooked hazel wand, wrapped brown leather at the handle with a little dull pewter cap; no glowing tip or magic.",
+      "source_file": "sources/new/wand.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1160,
+        1113
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        47,
+        85,
+        1207,
+        1198
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        9,
+        59,
+        1159,
+        1083
+      ],
+      "logical_extent_512_px": 70,
+      "rendered_extent_512_px": 70,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        221,
+        225,
+        291,
+        287
+      ],
+      "display_dimensions_512_px": [
+        70,
+        62
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/wand.png",
+        "inventory_512": "inventory_512/wand.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/wand.png",
+        "thumbnails_256": "thumbnails_256/wand.png",
+        "detail_512": "detail_512/wand.png"
+      },
+      "sha256_native": "1fe19f5aba2c06c27f7c9566d715b8d926d75aa007ff41d2ca51c775888f0ba4",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "crossbow",
+      "label": "Hunting Crossbow",
+      "category": "weapons",
+      "reference_extent_cm": 85,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A compact medieval crossbow with weathered walnut stock, dark steel bow, taut bowstring, simple crank-free stirrup; diagonal three-quarter view.",
+      "source_file": "sources/new/crossbow.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1236,
+        1245
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        9,
+        1236,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        41,
+        106,
+        1234,
+        1097
+      ],
+      "logical_extent_512_px": 170,
+      "rendered_extent_512_px": 170,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        171,
+        185,
+        341,
+        326
+      ],
+      "display_dimensions_512_px": [
+        170,
+        141
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/crossbow.png",
+        "inventory_512": "inventory_512/crossbow.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/crossbow.png",
+        "thumbnails_256": "thumbnails_256/crossbow.png",
+        "detail_512": "detail_512/crossbow.png"
+      },
+      "sha256_native": "d9c355ed426cea6189d3e5420250a964b0d0445371d70858d4729af6af1fd2a5",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "axe",
+      "label": "Iron Axe",
+      "category": "weapons",
+      "reference_extent_cm": 75,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": "axe",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/axe.png",
+      "native_source_dimensions_px": [
+        461,
+        112
+      ],
+      "native_trimmed_dimensions_px": [
+        461,
+        112
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        461,
+        112
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        461,
+        112
+      ],
+      "logical_extent_512_px": 150,
+      "rendered_extent_512_px": 150,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        181,
+        238,
+        331,
+        274
+      ],
+      "display_dimensions_512_px": [
+        150,
+        36
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/axe.png",
+        "inventory_512": "inventory_512/axe.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/axe.png",
+        "thumbnails_256": "thumbnails_256/axe.png",
+        "detail_512": "detail_512/axe.png"
+      },
+      "sha256_native": "11ff772afe2da0fa6ec45e60a77422d5cbfa1f3273563731f7d1108b1ec29de7",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "dagger",
+      "label": "Iron Dagger",
+      "category": "weapons",
+      "reference_extent_cm": 35,
+      "suggested_footprint_cells": [
+        1,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A compact double-edged iron dagger with simple crossguard and a dark leather-wrapped grip, held diagonally lower-left blade to upper-right pommel.",
+      "source_file": "sources/new/dagger.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1127,
+        1077
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        65,
+        153,
+        1192,
+        1230
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        72,
+        41,
+        1126,
+        916
+      ],
+      "logical_extent_512_px": 70,
+      "rendered_extent_512_px": 70,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        221,
+        227,
+        291,
+        285
+      ],
+      "display_dimensions_512_px": [
+        70,
+        58
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/dagger.png",
+        "inventory_512": "inventory_512/dagger.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/dagger.png",
+        "thumbnails_256": "thumbnails_256/dagger.png",
+        "detail_512": "detail_512/dagger.png"
+      },
+      "sha256_native": "069bd854677459c676be3a0d43d4612aa3b70df30b86a63b8a5405b0a6886cb0",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "mace",
+      "label": "Iron Mace",
+      "category": "weapons",
+      "reference_extent_cm": 65,
+      "suggested_footprint_cells": [
+        1,
+        3
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A short brutal six-flanged iron mace on a dark wooden handle, worn leather grip, diagonally arranged.",
+      "source_file": "sources/new/mace.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1149,
+        1133
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        72,
+        43,
+        1221,
+        1176
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        25,
+        1148,
+        1133
+      ],
+      "logical_extent_512_px": 130,
+      "rendered_extent_512_px": 130,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        191,
+        193,
+        321,
+        318
+      ],
+      "display_dimensions_512_px": [
+        130,
+        125
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/mace.png",
+        "inventory_512": "inventory_512/mace.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/mace.png",
+        "thumbnails_256": "thumbnails_256/mace.png",
+        "detail_512": "detail_512/mace.png"
+      },
+      "sha256_native": "89d9e54c21802ce24ac3285fe494e0ea3dd3e79e7c0e6217b32a6f9abcdf7e1f",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "sword",
+      "label": "Iron Sword",
+      "category": "weapons",
+      "reference_extent_cm": 110,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": "weapon",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/sword.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        502,
+        317
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        502,
+        317
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        46,
+        479,
+        290
+      ],
+      "logical_extent_512_px": 220,
+      "rendered_extent_512_px": 220,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        146,
+        200,
+        366,
+        312
+      ],
+      "display_dimensions_512_px": [
+        220,
+        112
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/sword.png",
+        "inventory_512": "inventory_512/sword.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/sword.png",
+        "thumbnails_256": "thumbnails_256/sword.png",
+        "detail_512": "detail_512/sword.png"
+      },
+      "sha256_native": "4aa10c984040386a42f32ceac87090184ef741e4fc5bab2ba128d572a6badef1",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "scythe",
+      "label": "Reaping Scythe",
+      "category": "weapons",
+      "reference_extent_cm": 180,
+      "suggested_footprint_cells": [
+        2,
+        4
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One old battle-used agricultural scythe, long curved ashwood shaft and one broad dark iron hooked cutting blade, diagonal full-length.",
+      "source_file": "sources/new/scythe.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1191,
+        1201
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        33,
+        21,
+        1224,
+        1222
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        35,
+        6,
+        1188,
+        1199
+      ],
+      "logical_extent_512_px": 360,
+      "rendered_extent_512_px": 360,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        82,
+        76,
+        430,
+        436
+      ],
+      "display_dimensions_512_px": [
+        348,
+        360
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/scythe.png",
+        "inventory_512": "inventory_512/scythe.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/scythe.png",
+        "thumbnails_256": "thumbnails_256/scythe.png",
+        "detail_512": "detail_512/scythe.png"
+      },
+      "sha256_native": "a40bd1ad6e4a1da96381bc06339cc8df1734e3e61ada781d6074ff7cf893097b",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "throwing_knife",
+      "label": "Throwing Knife",
+      "category": "weapons",
+      "reference_extent_cm": 22,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One small plain balanced iron throwing knife, single pointed blade, dark wrapped grip, no guard, diagonally arranged.",
+      "source_file": "sources/new/throwing_knife.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1179,
+        1050
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        49,
+        132,
+        1228,
+        1182
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        22,
+        3,
+        1178,
+        977
+      ],
+      "logical_extent_512_px": 44,
+      "rendered_extent_512_px": 44,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        234,
+        237,
+        278,
+        274
+      ],
+      "display_dimensions_512_px": [
+        44,
+        37
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/throwing_knife.png",
+        "inventory_512": "inventory_512/throwing_knife.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/throwing_knife.png",
+        "thumbnails_256": "thumbnails_256/throwing_knife.png",
+        "detail_512": "detail_512/throwing_knife.png"
+      },
+      "sha256_native": "de0b2dfd1ae6ccb989c27d714a908ad7ecc6bbb923a821ad8b2538eb27436860",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "warhammer",
+      "label": "War Hammer",
+      "category": "weapons",
+      "reference_extent_cm": 100,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A sturdy long war hammer with rectangular worn iron striking head, pointed rear beak, ashwood haft and leather grip, diagonal.",
+      "source_file": "sources/new/warhammer.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1118,
+        1147
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        112,
+        67,
+        1230,
+        1214
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        2,
+        0,
+        1116,
+        1110
+      ],
+      "logical_extent_512_px": 200,
+      "rendered_extent_512_px": 200,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        156,
+        156,
+        356,
+        355
+      ],
+      "display_dimensions_512_px": [
+        200,
+        199
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/warhammer.png",
+        "inventory_512": "inventory_512/warhammer.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/warhammer.png",
+        "thumbnails_256": "thumbnails_256/warhammer.png",
+        "detail_512": "detail_512/warhammer.png"
+      },
+      "sha256_native": "9425d3aa4b7fb1b1f623184d0942bd4891e624bd19ccb055a9c112fe4040c82e",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "staff",
+      "label": "Wooden Staff",
+      "category": "weapons",
+      "reference_extent_cm": 160,
+      "suggested_footprint_cells": [
+        1,
+        4
+      ],
+      "source_drop_id": "staff",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/staff.png",
+      "native_source_dimensions_px": [
+        469,
+        137
+      ],
+      "native_trimmed_dimensions_px": [
+        469,
+        137
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        469,
+        137
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        469,
+        137
+      ],
+      "logical_extent_512_px": 320,
+      "rendered_extent_512_px": 320,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        96,
+        209,
+        416,
+        302
+      ],
+      "display_dimensions_512_px": [
+        320,
+        93
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/staff.png",
+        "inventory_512": "inventory_512/staff.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/staff.png",
+        "thumbnails_256": "thumbnails_256/staff.png",
+        "detail_512": "detail_512/staff.png"
+      },
+      "sha256_native": "7e7b30c0e04aecdcee1f65f7bafd242a7a553ba58c3edc261f0475251344f0aa",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "chainmail",
+      "label": "Chainmail Shirt",
+      "category": "armor",
+      "reference_extent_cm": 75,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One worn gray steel chainmail short-sleeve shirt with dark cloth trim, empty hanging garment in compact three-quarter front view; simplify fine mail into readable painted ring texture.",
+      "source_file": "sources/new/chainmail.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1173,
+        1165
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        54,
+        23,
+        1227,
+        1188
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        1,
+        58,
+        1172,
+        1163
+      ],
+      "logical_extent_512_px": 150,
+      "rendered_extent_512_px": 150,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        181,
+        185,
+        331,
+        327
+      ],
+      "display_dimensions_512_px": [
+        150,
+        142
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/chainmail.png",
+        "inventory_512": "inventory_512/chainmail.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/chainmail.png",
+        "thumbnails_256": "thumbnails_256/chainmail.png",
+        "detail_512": "detail_512/chainmail.png"
+      },
+      "sha256_native": "7016e9249027c45360b462e7feb5e123053966240d05f92b2873be4b2fc60b9f",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "breastplate",
+      "label": "Iron Breastplate",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": "armor",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/breastplate.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        489,
+        324
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        1,
+        17,
+        490,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        145,
+        2,
+        413,
+        295
+      ],
+      "logical_extent_512_px": 130,
+      "rendered_extent_512_px": 130,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        196,
+        191,
+        315,
+        321
+      ],
+      "display_dimensions_512_px": [
+        119,
+        130
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/breastplate.png",
+        "inventory_512": "inventory_512/breastplate.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/breastplate.png",
+        "thumbnails_256": "thumbnails_256/breastplate.png",
+        "detail_512": "detail_512/breastplate.png"
+      },
+      "sha256_native": "f96f179905a0a4bafc3395c3ac11edb114cc434c7e92d7d0b66f48401eb56bbf",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "gauntlets",
+      "label": "Iron Gauntlets",
+      "category": "armor",
+      "reference_extent_cm": 32,
+      "suggested_footprint_cells": [
+        2,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A paired set of two dark iron articulated armored gauntlets with brown leather cuffs, neatly overlapping slightly, empty armor with no human hands.",
+      "source_file": "sources/new/gauntlets.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1187,
+        1170
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        50,
+        36,
+        1237,
+        1206
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        21,
+        1186,
+        1169
+      ],
+      "logical_extent_512_px": 64,
+      "rendered_extent_512_px": 64,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        224,
+        225,
+        288,
+        287
+      ],
+      "display_dimensions_512_px": [
+        64,
+        62
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/gauntlets.png",
+        "inventory_512": "inventory_512/gauntlets.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/gauntlets.png",
+        "thumbnails_256": "thumbnails_256/gauntlets.png",
+        "detail_512": "detail_512/gauntlets.png"
+      },
+      "sha256_native": "8c74740e422fa9f059ab8ce587b7eadddbf2a770a66677f1b238885e43966d9b",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "greaves",
+      "label": "Iron Greaves",
+      "category": "armor",
+      "reference_extent_cm": 50,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A paired set of dark iron shin armor greaves with simple rivets and brown straps, empty armor with no legs, clean separated paired silhouette.",
+      "source_file": "sources/new/greaves.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1193,
+        1169
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        33,
+        67,
+        1226,
+        1236
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        221,
+        24,
+        1029,
+        1102
+      ],
+      "logical_extent_512_px": 100,
+      "rendered_extent_512_px": 100,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        218,
+        206,
+        293,
+        306
+      ],
+      "display_dimensions_512_px": [
+        75,
+        100
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/greaves.png",
+        "inventory_512": "inventory_512/greaves.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/greaves.png",
+        "thumbnails_256": "thumbnails_256/greaves.png",
+        "detail_512": "detail_512/greaves.png"
+      },
+      "sha256_native": "f5d9065cf41e478dbe84f6fd867732331658c18bc22aededdaf6444685ffd941",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "helmet",
+      "label": "Iron Helmet",
+      "category": "armor",
+      "reference_extent_cm": 32,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": "helmet",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/helmet.png",
+      "native_source_dimensions_px": [
+        259,
+        264
+      ],
+      "native_trimmed_dimensions_px": [
+        259,
+        264
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        259,
+        264
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        259,
+        264
+      ],
+      "logical_extent_512_px": 64,
+      "rendered_extent_512_px": 64,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        224,
+        224,
+        287,
+        288
+      ],
+      "display_dimensions_512_px": [
+        63,
+        64
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/helmet.png",
+        "inventory_512": "inventory_512/helmet.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/helmet.png",
+        "thumbnails_256": "thumbnails_256/helmet.png",
+        "detail_512": "detail_512/helmet.png"
+      },
+      "sha256_native": "e5c02c8685e6f2b993f011120ef5ee1ff1c27b1fbe3194fd276603d9a86bfd58",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "shield",
+      "label": "Kite Shield",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": "shield",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/shield.png",
+      "native_source_dimensions_px": [
+        417,
+        203
+      ],
+      "native_trimmed_dimensions_px": [
+        417,
+        203
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        417,
+        203
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        417,
+        203
+      ],
+      "logical_extent_512_px": 130,
+      "rendered_extent_512_px": 130,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        191,
+        224,
+        321,
+        287
+      ],
+      "display_dimensions_512_px": [
+        130,
+        63
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/shield.png",
+        "inventory_512": "inventory_512/shield.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/shield.png",
+        "thumbnails_256": "thumbnails_256/shield.png",
+        "detail_512": "detail_512/shield.png"
+      },
+      "sha256_native": "b0d2b38e23453da641917d386655917160971fb5e7b4718d770547f19fd91a77",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "boots",
+      "label": "Leather Boots",
+      "category": "armor",
+      "reference_extent_cm": 38,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": "boots",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/boots.png",
+      "native_source_dimensions_px": [
+        329,
+        204
+      ],
+      "native_trimmed_dimensions_px": [
+        329,
+        204
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        329,
+        204
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        329,
+        204
+      ],
+      "logical_extent_512_px": 76,
+      "rendered_extent_512_px": 76,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        218,
+        232,
+        294,
+        279
+      ],
+      "display_dimensions_512_px": [
+        76,
+        47
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/boots.png",
+        "inventory_512": "inventory_512/boots.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/boots.png",
+        "thumbnails_256": "thumbnails_256/boots.png",
+        "detail_512": "detail_512/boots.png"
+      },
+      "sha256_native": "94303d1d9decb90286ba6dd221c2a659161703415ffdbf0985165b3a8e830a72",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "leather_vest",
+      "label": "Leather Vest",
+      "category": "armor",
+      "reference_extent_cm": 65,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One sleeveless weathered dark brown leather armored vest with simple lacing and reinforced shoulders, empty garment, three-quarter front view, no body.",
+      "source_file": "sources/new/leather_vest.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1230,
+        1198
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        39,
+        1230,
+        1237
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        172,
+        27,
+        1142,
+        1139
+      ],
+      "logical_extent_512_px": 130,
+      "rendered_extent_512_px": 130,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        199,
+        191,
+        312,
+        321
+      ],
+      "display_dimensions_512_px": [
+        113,
+        130
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/leather_vest.png",
+        "inventory_512": "inventory_512/leather_vest.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/leather_vest.png",
+        "thumbnails_256": "thumbnails_256/leather_vest.png",
+        "detail_512": "detail_512/leather_vest.png"
+      },
+      "sha256_native": "c936835e8185ea9d5bd90cd0367c895054903cfa72654e0ef021fbd21a04a375",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "hood",
+      "label": "Traveler Hood",
+      "category": "armor",
+      "reference_extent_cm": 35,
+      "suggested_footprint_cells": [
+        1,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One empty charcoal linen traveler hood with short brown shoulder cowl, irregular cloth folds, face opening pure empty dark fabric interior, no face or person.",
+      "source_file": "sources/new/hood.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1214,
+        1114
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        68,
+        1214,
+        1182
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        148,
+        3,
+        1204,
+        1114
+      ],
+      "logical_extent_512_px": 70,
+      "rendered_extent_512_px": 70,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        222,
+        221,
+        289,
+        291
+      ],
+      "display_dimensions_512_px": [
+        67,
+        70
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/hood.png",
+        "inventory_512": "inventory_512/hood.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/hood.png",
+        "thumbnails_256": "thumbnails_256/hood.png",
+        "detail_512": "detail_512/hood.png"
+      },
+      "sha256_native": "c11fff9dc7ddc5f47d87a8ba90cdf7990170365d083cb541a97f393be8a4f769",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "cloak",
+      "label": "Wool Cloak",
+      "category": "armor",
+      "reference_extent_cm": 60,
+      "suggested_footprint_cells": [
+        2,
+        3
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One folded charcoal wool travel cloak with short leather clasp and heavy worn hem, draped compactly to show cloth folds, no person or body.",
+      "source_file": "sources/new/cloak.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1215,
+        1244
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        25,
+        10,
+        1240,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        18,
+        82,
+        1209,
+        1158
+      ],
+      "logical_extent_512_px": 120,
+      "rendered_extent_512_px": 120,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        196,
+        202,
+        316,
+        310
+      ],
+      "display_dimensions_512_px": [
+        120,
+        108
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/cloak.png",
+        "inventory_512": "inventory_512/cloak.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/cloak.png",
+        "thumbnails_256": "thumbnails_256/cloak.png",
+        "detail_512": "detail_512/cloak.png"
+      },
+      "sha256_native": "e8844c223921a47bf51af5423a5773db0294c252d3552f280c79e4bc45f58381",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "talisman",
+      "label": "Bone Talisman",
+      "category": "accessories",
+      "reference_extent_cm": 14,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One primitive talisman made from a small carved ivory bone fang hanging on a short loop of brown cord with one dull iron bead; no glow.",
+      "source_file": "sources/new/talisman.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1083,
+        1131
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        125,
+        73,
+        1208,
+        1204
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        2,
+        1,
+        1041,
+        1108
+      ],
+      "logical_extent_512_px": 28,
+      "rendered_extent_512_px": 28,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        243,
+        242,
+        269,
+        270
+      ],
+      "display_dimensions_512_px": [
+        26,
+        28
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/talisman.png",
+        "inventory_512": "inventory_512/talisman.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/talisman.png",
+        "thumbnails_256": "thumbnails_256/talisman.png",
+        "detail_512": "detail_512/talisman.png"
+      },
+      "sha256_native": "7e5b2040ee3300f87869095743bbf5718bc889f6dc745d5398d6feb786270170",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "amulet",
+      "label": "Bronze Amulet",
+      "category": "accessories",
+      "reference_extent_cm": 18,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "amulet",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/amulet.png",
+      "native_source_dimensions_px": [
+        337,
+        175
+      ],
+      "native_trimmed_dimensions_px": [
+        337,
+        175
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        337,
+        175
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        337,
+        175
+      ],
+      "logical_extent_512_px": 36,
+      "rendered_extent_512_px": 36,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        238,
+        246,
+        274,
+        265
+      ],
+      "display_dimensions_512_px": [
+        36,
+        19
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/amulet.png",
+        "inventory_512": "inventory_512/amulet.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/amulet.png",
+        "thumbnails_256": "thumbnails_256/amulet.png",
+        "detail_512": "detail_512/amulet.png"
+      },
+      "sha256_native": "06ea475d225d5cf6e7df54681328443a8368f6f64e0489c32a2448d73b84bf9e",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "circlet",
+      "label": "Iron Circlet",
+      "category": "accessories",
+      "reference_extent_cm": 20,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One simple worn dark iron circlet with a small hammered bronze center plate, open oval ring shape in three-quarter view; no gemstones or glow.",
+      "source_file": "sources/new/circlet.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1188,
+        1191
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        48,
+        39,
+        1236,
+        1230
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        2,
+        301,
+        1187,
+        893
+      ],
+      "logical_extent_512_px": 40,
+      "rendered_extent_512_px": 40,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        236,
+        246,
+        276,
+        266
+      ],
+      "display_dimensions_512_px": [
+        40,
+        20
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/circlet.png",
+        "inventory_512": "inventory_512/circlet.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/circlet.png",
+        "thumbnails_256": "thumbnails_256/circlet.png",
+        "detail_512": "detail_512/circlet.png"
+      },
+      "sha256_native": "2bcae97577c0a220436daa86d62918574604958e8ce646f3caee799ff70ccbf8",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "belt",
+      "label": "Leather Belt",
+      "category": "accessories",
+      "reference_extent_cm": 45,
+      "suggested_footprint_cells": [
+        2,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One sturdy dark brown leather belt, displayed in a loose horizontal oval loop with a simple square dull iron buckle and short tail; physical width clearly visible.",
+      "source_file": "sources/new/belt.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1246,
+        1187
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        67,
+        1246,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        37,
+        184,
+        1230,
+        919
+      ],
+      "logical_extent_512_px": 90,
+      "rendered_extent_512_px": 90,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        211,
+        228,
+        301,
+        283
+      ],
+      "display_dimensions_512_px": [
+        90,
+        55
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/belt.png",
+        "inventory_512": "inventory_512/belt.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/belt.png",
+        "thumbnails_256": "thumbnails_256/belt.png",
+        "detail_512": "detail_512/belt.png"
+      },
+      "sha256_native": "388a70c62de142b8e18de29cdcf3a7a58b0d654325873fcc5c08f1889aabd230",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "satchel",
+      "label": "Leather Satchel",
+      "category": "accessories",
+      "reference_extent_cm": 40,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One weathered brown leather shoulder satchel with folded flap and simple iron buckle, short visible curled strap, bulging but compact.",
+      "source_file": "sources/new/satchel.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1238,
+        1238
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        16,
+        1238,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        84,
+        114,
+        1236,
+        1091
+      ],
+      "logical_extent_512_px": 80,
+      "rendered_extent_512_px": 80,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        216,
+        222,
+        296,
+        290
+      ],
+      "display_dimensions_512_px": [
+        80,
+        68
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/satchel.png",
+        "inventory_512": "inventory_512/satchel.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/satchel.png",
+        "thumbnails_256": "thumbnails_256/satchel.png",
+        "detail_512": "detail_512/satchel.png"
+      },
+      "sha256_native": "a1ef6dea9d40451d580fff4c055aa755e5db5ae28cdad2f21c43957fece0c074",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "ring",
+      "label": "Red-Stone Ring",
+      "category": "accessories",
+      "reference_extent_cm": 3,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "ring",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/ring.png",
+      "native_source_dimensions_px": [
+        285,
+        185
+      ],
+      "native_trimmed_dimensions_px": [
+        285,
+        185
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        285,
+        185
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        285,
+        185
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.6667,
+      "rendered_bounds_512_px": [
+        248,
+        251,
+        264,
+        261
+      ],
+      "display_dimensions_512_px": [
+        16,
+        10
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/ring.png",
+        "inventory_512": "inventory_512/ring.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/ring.png",
+        "thumbnails_256": "thumbnails_256/ring.png",
+        "detail_512": "detail_512/ring.png"
+      },
+      "sha256_native": "1d1497a17a4b7bc482aab250e6b0c7268206d2095f0d5be0a07d87b63b6f4752",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "antidote",
+      "label": "Antidote Vial",
+      "category": "consumables",
+      "reference_extent_cm": 12,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One tiny cork-stoppered cylindrical glass vial of moss green antidote, one simple wax seal on its neck, no labels.",
+      "source_file": "sources/new/antidote.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1129,
+        1161
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        25,
+        37,
+        1154,
+        1198
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        272,
+        121,
+        1025,
+        1020
+      ],
+      "logical_extent_512_px": 24,
+      "rendered_extent_512_px": 24,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        246,
+        244,
+        266,
+        268
+      ],
+      "display_dimensions_512_px": [
+        20,
+        24
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/antidote.png",
+        "inventory_512": "inventory_512/antidote.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/antidote.png",
+        "thumbnails_256": "thumbnails_256/antidote.png",
+        "detail_512": "detail_512/antidote.png"
+      },
+      "sha256_native": "270515e6f6ad519ff26bb0e70b8e16a165e45cb502bbbc34dca6584fa473188a",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "dried_meat",
+      "label": "Dried Meat",
+      "category": "consumables",
+      "reference_extent_cm": 22,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "A compact ration bundle of three dark reddish-brown dried meat strips tied with rough hemp twine, clearly food jerky.",
+      "source_file": "sources/new/dried_meat.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1119,
+        1203
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        105,
+        51,
+        1224,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        16,
+        68,
+        1110,
+        1072
+      ],
+      "logical_extent_512_px": 44,
+      "rendered_extent_512_px": 44,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        234,
+        236,
+        278,
+        276
+      ],
+      "display_dimensions_512_px": [
+        44,
+        40
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/dried_meat.png",
+        "inventory_512": "inventory_512/dried_meat.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/dried_meat.png",
+        "thumbnails_256": "thumbnails_256/dried_meat.png",
+        "detail_512": "detail_512/dried_meat.png"
+      },
+      "sha256_native": "e1a0df31384e47355152796f2d001074d616fa741037a4a4e70990e31481bc97",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "healing_potion",
+      "label": "Healing Potion",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "healing_potion",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/healing_potion.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        481,
+        313
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        17,
+        0,
+        498,
+        313
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        82,
+        0,
+        335,
+        312
+      ],
+      "logical_extent_512_px": 32,
+      "rendered_extent_512_px": 32,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        243,
+        240,
+        269,
+        272
+      ],
+      "display_dimensions_512_px": [
+        26,
+        32
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/healing_potion.png",
+        "inventory_512": "inventory_512/healing_potion.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/healing_potion.png",
+        "thumbnails_256": "thumbnails_256/healing_potion.png",
+        "detail_512": "detail_512/healing_potion.png"
+      },
+      "sha256_native": "e7bb254c23fbb99e0fa52438ed68984a79ae4057110f5112913aca8b0dd2deac",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "bomb",
+      "label": "Iron Bomb",
+      "category": "consumables",
+      "reference_extent_cm": 16,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One round blackened iron hand bomb with a short unlit hemp fuse in a small brass collar, no sparks, no lit fire.",
+      "source_file": "sources/new/bomb.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1206,
+        1233
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        21,
+        1206,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        196,
+        42,
+        1078,
+        1175
+      ],
+      "logical_extent_512_px": 32,
+      "rendered_extent_512_px": 32,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        243,
+        240,
+        268,
+        272
+      ],
+      "display_dimensions_512_px": [
+        25,
+        32
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/bomb.png",
+        "inventory_512": "inventory_512/bomb.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/bomb.png",
+        "thumbnails_256": "thumbnails_256/bomb.png",
+        "detail_512": "detail_512/bomb.png"
+      },
+      "sha256_native": "ce9d0f0c68be75958165aad8da78deb7a2604566cf39995e48a0135ea5f18821",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "bandages",
+      "label": "Linen Bandages",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One compact roll of worn off-white linen bandage with a short loose strip, subtle cloth weave and grimy edges, no blood.",
+      "source_file": "sources/new/bandages.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1236,
+        1246
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        8,
+        1236,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        168,
+        163,
+        1154,
+        1122
+      ],
+      "logical_extent_512_px": 36,
+      "rendered_extent_512_px": 36,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        238,
+        238,
+        274,
+        273
+      ],
+      "display_dimensions_512_px": [
+        36,
+        35
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/bandages.png",
+        "inventory_512": "inventory_512/bandages.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/bandages.png",
+        "thumbnails_256": "thumbnails_256/bandages.png",
+        "detail_512": "detail_512/bandages.png"
+      },
+      "sha256_native": "7e45c5db1c81ab3185209d67a351d446814c9922ccdbd745d0b830c6763b0c26",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "mana_potion",
+      "label": "Mana Potion",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One squat corked glass potion bottle containing muted deep blue liquid, a simple brown leather neck binding; no labels or magical glow.",
+      "source_file": "sources/new/mana_potion.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1165,
+        1215
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        49,
+        39,
+        1214,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        156,
+        43,
+        1010,
+        1133
+      ],
+      "logical_extent_512_px": 36,
+      "rendered_extent_512_px": 36,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        242,
+        238,
+        270,
+        274
+      ],
+      "display_dimensions_512_px": [
+        28,
+        36
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/mana_potion.png",
+        "inventory_512": "inventory_512/mana_potion.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/mana_potion.png",
+        "thumbnails_256": "thumbnails_256/mana_potion.png",
+        "detail_512": "detail_512/mana_potion.png"
+      },
+      "sha256_native": "8b4391ccbd44924e78c59834382c6b4e413ff262cba3accd5b718aa67f33654c",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "oil_flask",
+      "label": "Oil Flask",
+      "category": "consumables",
+      "reference_extent_cm": 24,
+      "suggested_footprint_cells": [
+        1,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One bulbous dark brown earthenware oil flask with a slim neck, cork stopper, tiny handle and a hemp wrapped shoulder, no label.",
+      "source_file": "sources/new/oil_flask.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1242,
+        1247
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        7,
+        1242,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        308,
+        58,
+        1091,
+        1169
+      ],
+      "logical_extent_512_px": 48,
+      "rendered_extent_512_px": 48,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        239,
+        232,
+        273,
+        280
+      ],
+      "display_dimensions_512_px": [
+        34,
+        48
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/oil_flask.png",
+        "inventory_512": "inventory_512/oil_flask.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/oil_flask.png",
+        "thumbnails_256": "thumbnails_256/oil_flask.png",
+        "detail_512": "detail_512/oil_flask.png"
+      },
+      "sha256_native": "a46cea8b7b393c4be79fdeaba792423233690bd821e971b5beece6b354ab8ffe",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "bread",
+      "label": "Rye Bread",
+      "category": "consumables",
+      "reference_extent_cm": 25,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One small round rustic dark rye bread loaf with a broken wedge revealing a pale brown crumb, thick cracked crust.",
+      "source_file": "sources/new/bread.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1253,
+        1237
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        17,
+        1253,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        52,
+        124,
+        1213,
+        1123
+      ],
+      "logical_extent_512_px": 50,
+      "rendered_extent_512_px": 50,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        231,
+        234,
+        281,
+        277
+      ],
+      "display_dimensions_512_px": [
+        50,
+        43
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/bread.png",
+        "inventory_512": "inventory_512/bread.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/bread.png",
+        "thumbnails_256": "thumbnails_256/bread.png",
+        "detail_512": "detail_512/bread.png"
+      },
+      "sha256_native": "101d52eed9be0c356b7f2d2ae6a46860739458ae19a34f8084316e03bc090312",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "scroll",
+      "label": "Spell Scroll",
+      "category": "consumables",
+      "reference_extent_cm": 30,
+      "suggested_footprint_cells": [
+        1,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One partially rolled aged parchment scroll with two simple dark wooden ends and a muted burgundy sealing ribbon; blank unreadable paper, no glyph glow.",
+      "source_file": "sources/new/scroll.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1225,
+        1171
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        35,
+        1225,
+        1206
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        46,
+        227,
+        1224,
+        962
+      ],
+      "logical_extent_512_px": 60,
+      "rendered_extent_512_px": 60,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        226,
+        237,
+        286,
+        274
+      ],
+      "display_dimensions_512_px": [
+        60,
+        37
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/scroll.png",
+        "inventory_512": "inventory_512/scroll.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/scroll.png",
+        "thumbnails_256": "thumbnails_256/scroll.png",
+        "detail_512": "detail_512/scroll.png"
+      },
+      "sha256_native": "40c3ee2286312f94955d454b473a4b6cd8c04e638e8c20190624d5d4aaa46dab",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "stamina_potion",
+      "label": "Stamina Tonic",
+      "category": "consumables",
+      "reference_extent_cm": 18,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One corked narrow flask of translucent dull amber green tonic, simple old green glass, hemp tied around neck; no labels or glow.",
+      "source_file": "sources/new/stamina_potion.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1191,
+        1215
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        25,
+        29,
+        1216,
+        1244
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        274,
+        76,
+        1001,
+        1125
+      ],
+      "logical_extent_512_px": 36,
+      "rendered_extent_512_px": 36,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        243,
+        238,
+        268,
+        274
+      ],
+      "display_dimensions_512_px": [
+        25,
+        36
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/stamina_potion.png",
+        "inventory_512": "inventory_512/stamina_potion.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/stamina_potion.png",
+        "thumbnails_256": "thumbnails_256/stamina_potion.png",
+        "detail_512": "detail_512/stamina_potion.png"
+      },
+      "sha256_native": "18e5e0f58a51979e6429457d1d48a53c6ae4daf1de1ea9b30bccc58544e869d2",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "gold_coin_pile",
+      "label": "Gold Coin Pile",
+      "category": "currency",
+      "reference_extent_cm": 12,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "gold_coin_pile",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/gold_coin_pile.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        494,
+        325
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        494,
+        325
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        119,
+        123,
+        433,
+        290
+      ],
+      "logical_extent_512_px": 24,
+      "rendered_extent_512_px": 24,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        244,
+        249,
+        268,
+        262
+      ],
+      "display_dimensions_512_px": [
+        24,
+        13
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/gold_coin_pile.png",
+        "inventory_512": "inventory_512/gold_coin_pile.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/gold_coin_pile.png",
+        "thumbnails_256": "thumbnails_256/gold_coin_pile.png",
+        "detail_512": "detail_512/gold_coin_pile.png"
+      },
+      "sha256_native": "f538419c2749e1a6090ce87f730781c9d7182373a487c4c2d4c58684bffa440e",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "bone_stack",
+      "label": "Bone Stack",
+      "category": "materials",
+      "reference_extent_cm": 28,
+      "suggested_footprint_cells": [
+        2,
+        1
+      ],
+      "source_drop_id": "bone_stack",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/bone_stack.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        487,
+        341
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        1,
+        0,
+        488,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        64,
+        79,
+        446,
+        284
+      ],
+      "logical_extent_512_px": 56,
+      "rendered_extent_512_px": 56,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        228,
+        241,
+        284,
+        271
+      ],
+      "display_dimensions_512_px": [
+        56,
+        30
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/bone_stack.png",
+        "inventory_512": "inventory_512/bone_stack.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/bone_stack.png",
+        "thumbnails_256": "thumbnails_256/bone_stack.png",
+        "detail_512": "detail_512/bone_stack.png"
+      },
+      "sha256_native": "72748be1ec3aee5167cda7fb7a590926d31ebcb720b1b17019a37e9b0a3f5c75",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "cloth_bolt",
+      "label": "Cloth Bolt",
+      "category": "materials",
+      "reference_extent_cm": 55,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": "cloth_bolt",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/cloth_bolt.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        457,
+        337
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        31,
+        4,
+        488,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        65,
+        80,
+        450,
+        254
+      ],
+      "logical_extent_512_px": 110,
+      "rendered_extent_512_px": 110,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        201,
+        231,
+        311,
+        281
+      ],
+      "display_dimensions_512_px": [
+        110,
+        50
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/cloth_bolt.png",
+        "inventory_512": "inventory_512/cloth_bolt.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/cloth_bolt.png",
+        "thumbnails_256": "thumbnails_256/cloth_bolt.png",
+        "detail_512": "detail_512/cloth_bolt.png"
+      },
+      "sha256_native": "aeb162f324a7523b54e2d9d0da50cae19290bf0b42056f495555a5e5eb9e6a50",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "coal",
+      "label": "Coal Chunk",
+      "category": "materials",
+      "reference_extent_cm": 16,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One irregular black coal chunk with sharp chipped planes and a subtle dry gray sheen, clearly a lump of coal, no orange fire.",
+      "source_file": "sources/new/coal.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1192,
+        1199
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        21,
+        1192,
+        1220
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        159,
+        191,
+        1120,
+        1041
+      ],
+      "logical_extent_512_px": 32,
+      "rendered_extent_512_px": 32,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        240,
+        242,
+        272,
+        270
+      ],
+      "display_dimensions_512_px": [
+        32,
+        28
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/coal.png",
+        "inventory_512": "inventory_512/coal.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/coal.png",
+        "thumbnails_256": "thumbnails_256/coal.png",
+        "detail_512": "detail_512/coal.png"
+      },
+      "sha256_native": "f923c0a345c3dca894cd94e17b5b5ab8431fc8ad22c46e11237ba6a5f2c9ce6a",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "crystal_shard",
+      "label": "Crystal Shard",
+      "category": "materials",
+      "reference_extent_cm": 15,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One raw jagged milky quartz crystal shard with smoky pale gray translucent edges and fractured point, muted neutral color, no glow.",
+      "source_file": "sources/new/crystal_shard.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1096,
+        1144
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        33,
+        110,
+        1129,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        129,
+        1,
+        1093,
+        1044
+      ],
+      "logical_extent_512_px": 30,
+      "rendered_extent_512_px": 30,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        242,
+        241,
+        270,
+        271
+      ],
+      "display_dimensions_512_px": [
+        28,
+        30
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/crystal_shard.png",
+        "inventory_512": "inventory_512/crystal_shard.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/crystal_shard.png",
+        "thumbnails_256": "thumbnails_256/crystal_shard.png",
+        "detail_512": "detail_512/crystal_shard.png"
+      },
+      "sha256_native": "5c5efe34c78264949592c2ff323224015b714bebedf1c9b43451209d3013dadf",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "herb_bundle",
+      "label": "Healing Herbs",
+      "category": "materials",
+      "reference_extent_cm": 25,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One small tied bundle of dusty sage-green medicinal leaves on short stems bound in rough hemp twine, wilted physical leaves.",
+      "source_file": "sources/new/herb_bundle.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1139,
+        1130
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        55,
+        20,
+        1194,
+        1150
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        23,
+        150,
+        1138,
+        1057
+      ],
+      "logical_extent_512_px": 50,
+      "rendered_extent_512_px": 50,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        231,
+        235,
+        281,
+        276
+      ],
+      "display_dimensions_512_px": [
+        50,
+        41
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/herb_bundle.png",
+        "inventory_512": "inventory_512/herb_bundle.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/herb_bundle.png",
+        "thumbnails_256": "thumbnails_256/herb_bundle.png",
+        "detail_512": "detail_512/herb_bundle.png"
+      },
+      "sha256_native": "36c5f8ca20c25ca3dee109adf4b4f2de61ec99dbfaa9f7b912709614b2253062",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "iron_ingot",
+      "label": "Iron Ingot",
+      "category": "materials",
+      "reference_extent_cm": 25,
+      "suggested_footprint_cells": [
+        2,
+        1
+      ],
+      "source_drop_id": "iron_ingot",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/iron_ingot.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        497,
+        341
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        1,
+        0,
+        498,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        63,
+        68,
+        463,
+        291
+      ],
+      "logical_extent_512_px": 50,
+      "rendered_extent_512_px": 50,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        231,
+        242,
+        281,
+        270
+      ],
+      "display_dimensions_512_px": [
+        50,
+        28
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/iron_ingot.png",
+        "inventory_512": "inventory_512/iron_ingot.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/iron_ingot.png",
+        "thumbnails_256": "thumbnails_256/iron_ingot.png",
+        "detail_512": "detail_512/iron_ingot.png"
+      },
+      "sha256_native": "bd641675603a2e47e6e24c1b29d40ea210328850051dbbc4887098489890bc32",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "iron_ore",
+      "label": "Iron Ore",
+      "category": "materials",
+      "reference_extent_cm": 20,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One jagged rough charcoal-gray iron ore chunk with sparse rusty brown veins and visible mineral facets, irregular solid rock.",
+      "source_file": "sources/new/iron_ore.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1230,
+        1254
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        1230,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        141,
+        127,
+        1171,
+        1138
+      ],
+      "logical_extent_512_px": 40,
+      "rendered_extent_512_px": 40,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        236,
+        236,
+        276,
+        275
+      ],
+      "display_dimensions_512_px": [
+        40,
+        39
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/iron_ore.png",
+        "inventory_512": "inventory_512/iron_ore.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/iron_ore.png",
+        "thumbnails_256": "thumbnails_256/iron_ore.png",
+        "detail_512": "detail_512/iron_ore.png"
+      },
+      "sha256_native": "011d13d2f6a1ef226c83a76508769e5f051a1284aa6ee211f9cf7fa30e78e388",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "rolled_hide",
+      "label": "Rolled Hide",
+      "category": "materials",
+      "reference_extent_cm": 55,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": "rolled_hide",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/rolled_hide.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        495,
+        321
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        1,
+        0,
+        496,
+        321
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        19,
+        84,
+        465,
+        254
+      ],
+      "logical_extent_512_px": 110,
+      "rendered_extent_512_px": 110,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        201,
+        235,
+        311,
+        277
+      ],
+      "display_dimensions_512_px": [
+        110,
+        42
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/rolled_hide.png",
+        "inventory_512": "inventory_512/rolled_hide.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/rolled_hide.png",
+        "thumbnails_256": "thumbnails_256/rolled_hide.png",
+        "detail_512": "detail_512/rolled_hide.png"
+      },
+      "sha256_native": "11b88b69f894073c312c7ff42124784f86ac0824ff2ed638a3ce75e874ebe66f",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "wood_bundle",
+      "label": "Wood Bundle",
+      "category": "materials",
+      "reference_extent_cm": 60,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": "wood_bundle",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/wood_bundle.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        497,
+        341
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        1,
+        0,
+        498,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        64,
+        105,
+        428,
+        284
+      ],
+      "logical_extent_512_px": 120,
+      "rendered_extent_512_px": 120,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        196,
+        226,
+        316,
+        285
+      ],
+      "display_dimensions_512_px": [
+        120,
+        59
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/wood_bundle.png",
+        "inventory_512": "inventory_512/wood_bundle.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/wood_bundle.png",
+        "thumbnails_256": "thumbnails_256/wood_bundle.png",
+        "detail_512": "detail_512/wood_bundle.png"
+      },
+      "sha256_native": "8408915f7cb8d7bd9f2942e072b297bc7dfccea2376e10759c1d4292c4ca6e4f",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "rune_boneetched_hex",
+      "label": "Bone-Etched Hex Rune",
+      "category": "runes",
+      "reference_extent_cm": 10,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "rune_boneetched_hex",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/rune_boneetched_hex.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        501,
+        341
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        7,
+        0,
+        508,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        75,
+        49,
+        391,
+        287
+      ],
+      "logical_extent_512_px": 20,
+      "rendered_extent_512_px": 20,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        246,
+        248,
+        266,
+        263
+      ],
+      "display_dimensions_512_px": [
+        20,
+        15
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/rune_boneetched_hex.png",
+        "inventory_512": "inventory_512/rune_boneetched_hex.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/rune_boneetched_hex.png",
+        "thumbnails_256": "thumbnails_256/rune_boneetched_hex.png",
+        "detail_512": "detail_512/rune_boneetched_hex.png"
+      },
+      "sha256_native": "53fadae20e1eeee72d102270f7480832686b54f10212520ffd38bc4cae94f5d7",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "rune_ironbound_ward",
+      "label": "Ironbound Ward Rune",
+      "category": "runes",
+      "reference_extent_cm": 10,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "rune_ironbound_ward",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/rune_ironbound_ward.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        489,
+        275
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        9,
+        18,
+        498,
+        293
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        72,
+        32,
+        395,
+        273
+      ],
+      "logical_extent_512_px": 20,
+      "rendered_extent_512_px": 20,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        246,
+        248,
+        266,
+        263
+      ],
+      "display_dimensions_512_px": [
+        20,
+        15
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/rune_ironbound_ward.png",
+        "inventory_512": "inventory_512/rune_ironbound_ward.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/rune_ironbound_ward.png",
+        "thumbnails_256": "thumbnails_256/rune_ironbound_ward.png",
+        "detail_512": "detail_512/rune_ironbound_ward.png"
+      },
+      "sha256_native": "9113b781da979405ff801917366c14f1549140ca3594e27b52cd0e7ac1efa359",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "rune_split_ember",
+      "label": "Split Ember Rune",
+      "category": "runes",
+      "reference_extent_cm": 10,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "rune_split_ember",
+      "source_cell": 8,
+      "notes": "",
+      "source_cell_box": [
+        1024,
+        683,
+        1536,
+        1024
+      ],
+      "source_file": "sources/reused/rune_split_ember.png",
+      "native_source_dimensions_px": [
+        1536,
+        1024
+      ],
+      "native_trimmed_dimensions_px": [
+        497,
+        341
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        7,
+        0,
+        504,
+        341
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        108,
+        4,
+        420,
+        292
+      ],
+      "logical_extent_512_px": 20,
+      "rendered_extent_512_px": 20,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        246,
+        247,
+        266,
+        265
+      ],
+      "display_dimensions_512_px": [
+        20,
+        18
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/rune_split_ember.png",
+        "inventory_512": "inventory_512/rune_split_ember.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/rune_split_ember.png",
+        "thumbnails_256": "thumbnails_256/rune_split_ember.png",
+        "detail_512": "detail_512/rune_split_ember.png"
+      },
+      "sha256_native": "12420f66ec8ceeba4b6967dcc1efb2405ee5902521c35ad1f00d7eefe261ab7c",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "amethyst",
+      "label": "Amethyst",
+      "category": "gems",
+      "reference_extent_cm": 4.4,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "amethyst",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/amethyst.png",
+      "native_source_dimensions_px": [
+        151,
+        309
+      ],
+      "native_trimmed_dimensions_px": [
+        151,
+        309
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        151,
+        309
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        151,
+        309
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 1.8182,
+      "rendered_bounds_512_px": [
+        252,
+        248,
+        260,
+        264
+      ],
+      "display_dimensions_512_px": [
+        8,
+        16
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/amethyst.png",
+        "inventory_512": "inventory_512/amethyst.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/amethyst.png",
+        "thumbnails_256": "thumbnails_256/amethyst.png",
+        "detail_512": "detail_512/amethyst.png"
+      },
+      "sha256_native": "de5fafa9679b34628dfc47c16d2cfc09165028f9098f8500ddb1804416bb8312",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "diamond",
+      "label": "Diamond",
+      "category": "gems",
+      "reference_extent_cm": 3.5,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "diamond",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/diamond.png",
+      "native_source_dimensions_px": [
+        320,
+        214
+      ],
+      "native_trimmed_dimensions_px": [
+        320,
+        214
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        320,
+        214
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        320,
+        214
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.2857,
+      "rendered_bounds_512_px": [
+        248,
+        250,
+        264,
+        261
+      ],
+      "display_dimensions_512_px": [
+        16,
+        11
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/diamond.png",
+        "inventory_512": "inventory_512/diamond.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/diamond.png",
+        "thumbnails_256": "thumbnails_256/diamond.png",
+        "detail_512": "detail_512/diamond.png"
+      },
+      "sha256_native": "237b2dcba5411eacad2a94f9e3eb3aca7fe686ac94969aea57f9b24324b510cb",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "emerald",
+      "label": "Emerald",
+      "category": "gems",
+      "reference_extent_cm": 3.8,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "emerald",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/emerald.png",
+      "native_source_dimensions_px": [
+        229,
+        172
+      ],
+      "native_trimmed_dimensions_px": [
+        229,
+        172
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        229,
+        172
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        229,
+        172
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.1053,
+      "rendered_bounds_512_px": [
+        248,
+        250,
+        264,
+        262
+      ],
+      "display_dimensions_512_px": [
+        16,
+        12
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/emerald.png",
+        "inventory_512": "inventory_512/emerald.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/emerald.png",
+        "thumbnails_256": "thumbnails_256/emerald.png",
+        "detail_512": "detail_512/emerald.png"
+      },
+      "sha256_native": "78906c7516fd662c6216e76882341d6069af011fe448adae21ccd68676363db4",
+      "alpha_min": 0,
+      "alpha_max": 253
+    },
+    {
+      "id": "onyx",
+      "label": "Onyx",
+      "category": "gems",
+      "reference_extent_cm": 3.8,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "onyx",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/onyx.png",
+      "native_source_dimensions_px": [
+        348,
+        170
+      ],
+      "native_trimmed_dimensions_px": [
+        348,
+        170
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        348,
+        170
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        348,
+        170
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.1053,
+      "rendered_bounds_512_px": [
+        248,
+        252,
+        264,
+        260
+      ],
+      "display_dimensions_512_px": [
+        16,
+        8
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/onyx.png",
+        "inventory_512": "inventory_512/onyx.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/onyx.png",
+        "thumbnails_256": "thumbnails_256/onyx.png",
+        "detail_512": "detail_512/onyx.png"
+      },
+      "sha256_native": "734bb28f44aa143165648054ff1c7fadcc3c2c9073d8a3ecb66eaa8af904883b",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "ruby",
+      "label": "Ruby",
+      "category": "gems",
+      "reference_extent_cm": 3.2,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "ruby",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/ruby.png",
+      "native_source_dimensions_px": [
+        295,
+        178
+      ],
+      "native_trimmed_dimensions_px": [
+        295,
+        178
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        295,
+        178
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        295,
+        178
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.5,
+      "rendered_bounds_512_px": [
+        248,
+        251,
+        264,
+        261
+      ],
+      "display_dimensions_512_px": [
+        16,
+        10
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/ruby.png",
+        "inventory_512": "inventory_512/ruby.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/ruby.png",
+        "thumbnails_256": "thumbnails_256/ruby.png",
+        "detail_512": "detail_512/ruby.png"
+      },
+      "sha256_native": "319d4a401c465b8bb907cfba344cea377b91a65d0d396a07f03ae9f4cbbe6d1a",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "sapphire",
+      "label": "Sapphire",
+      "category": "gems",
+      "reference_extent_cm": 3.2,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "sapphire",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/sapphire.png",
+      "native_source_dimensions_px": [
+        244,
+        221
+      ],
+      "native_trimmed_dimensions_px": [
+        244,
+        221
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        244,
+        221
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        244,
+        221
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.5,
+      "rendered_bounds_512_px": [
+        248,
+        249,
+        264,
+        263
+      ],
+      "display_dimensions_512_px": [
+        16,
+        14
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/sapphire.png",
+        "inventory_512": "inventory_512/sapphire.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/sapphire.png",
+        "thumbnails_256": "thumbnails_256/sapphire.png",
+        "detail_512": "detail_512/sapphire.png"
+      },
+      "sha256_native": "20480096719f9099cda877f3b10321eec3dad0a61fa2493a9a37a226bdaf117e",
+      "alpha_min": 0,
+      "alpha_max": 254
+    },
+    {
+      "id": "topaz",
+      "label": "Topaz",
+      "category": "gems",
+      "reference_extent_cm": 3.8,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": "topaz",
+      "source_cell": null,
+      "notes": "",
+      "source_file": "sources/reused/topaz.png",
+      "native_source_dimensions_px": [
+        114,
+        282
+      ],
+      "native_trimmed_dimensions_px": [
+        114,
+        282
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        0,
+        114,
+        282
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        0,
+        0,
+        114,
+        282
+      ],
+      "logical_extent_512_px": 16,
+      "rendered_extent_512_px": 16,
+      "legibility_boost": 2.1053,
+      "rendered_bounds_512_px": [
+        253,
+        248,
+        259,
+        264
+      ],
+      "display_dimensions_512_px": [
+        6,
+        16
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/topaz.png",
+        "inventory_512": "inventory_512/topaz.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/topaz.png",
+        "thumbnails_256": "thumbnails_256/topaz.png",
+        "detail_512": "detail_512/topaz.png"
+      },
+      "sha256_native": "bae4da5038c39a798b9ff6f11a7a2734858fc17812da2f7cfa5d26c42e08fab5",
+      "alpha_min": 0,
+      "alpha_max": 253
+    },
+    {
+      "id": "relic",
+      "label": "Broken Sun Relic",
+      "category": "quest",
+      "reference_extent_cm": 20,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One small broken bronze sun-shaped votive relic, circular disc with a missing wedge and blunt rays, worn hammered surface, no gems or glow.",
+      "source_file": "sources/new/relic.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1187,
+        1198
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        23,
+        56,
+        1210,
+        1254
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        66,
+        1,
+        1107,
+        1068
+      ],
+      "logical_extent_512_px": 40,
+      "rendered_extent_512_px": 40,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        236,
+        236,
+        275,
+        276
+      ],
+      "display_dimensions_512_px": [
+        39,
+        40
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/relic.png",
+        "inventory_512": "inventory_512/relic.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/relic.png",
+        "thumbnails_256": "thumbnails_256/relic.png",
+        "detail_512": "detail_512/relic.png"
+      },
+      "sha256_native": "a78570f304beb0c7ed10ee871279cd6bbd39dbab5bb4bf837c17d99e85ae35bc",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "key",
+      "label": "Iron Dungeon Key",
+      "category": "quest",
+      "reference_extent_cm": 18,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One old dark iron dungeon key with a round bow and long stem ending in simple square ward teeth, worn metal, diagonally arranged.",
+      "source_file": "sources/new/key.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1188,
+        1105
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        49,
+        99,
+        1237,
+        1204
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        10,
+        11,
+        1187,
+        1067
+      ],
+      "logical_extent_512_px": 36,
+      "rendered_extent_512_px": 36,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        238,
+        240,
+        274,
+        272
+      ],
+      "display_dimensions_512_px": [
+        36,
+        32
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/key.png",
+        "inventory_512": "inventory_512/key.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/key.png",
+        "thumbnails_256": "thumbnails_256/key.png",
+        "detail_512": "detail_512/key.png"
+      },
+      "sha256_native": "c43af0471a329898a0437cc7c07347e50e23bed15305aef301584a79ef9aa873",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "sealed_letter",
+      "label": "Sealed Letter",
+      "category": "quest",
+      "reference_extent_cm": 22,
+      "suggested_footprint_cells": [
+        1,
+        1
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One folded yellowed parchment letter packet bound by a narrow brown cord and a small dark red wax seal, no writing or legible symbols.",
+      "source_file": "sources/new/sealed_letter.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1228,
+        1197
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        0,
+        37,
+        1228,
+        1234
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        60,
+        178,
+        1204,
+        1033
+      ],
+      "logical_extent_512_px": 44,
+      "rendered_extent_512_px": 44,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        234,
+        239,
+        278,
+        272
+      ],
+      "display_dimensions_512_px": [
+        44,
+        33
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/sealed_letter.png",
+        "inventory_512": "inventory_512/sealed_letter.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/sealed_letter.png",
+        "thumbnails_256": "thumbnails_256/sealed_letter.png",
+        "detail_512": "detail_512/sealed_letter.png"
+      },
+      "sha256_native": "0bffdff9074a7ac8d2ac80231717c5d5b57ab557b972883c9c0f3c537c31e1f8",
+      "alpha_min": 0,
+      "alpha_max": 255
+    },
+    {
+      "id": "book",
+      "label": "Worn Grimoire",
+      "category": "quest",
+      "reference_extent_cm": 32,
+      "suggested_footprint_cells": [
+        2,
+        2
+      ],
+      "source_drop_id": null,
+      "source_cell": null,
+      "notes": "One closed dark brown leather grimoire with worn brass corner guards, simple buckle clasp and uneven cream page edges, no text or symbols.",
+      "source_file": "sources/new/book.png",
+      "native_source_dimensions_px": [
+        1254,
+        1254
+      ],
+      "native_trimmed_dimensions_px": [
+        1131,
+        1201
+      ],
+      "native_alpha_bbox_in_source_or_cel": [
+        67,
+        37,
+        1198,
+        1238
+      ],
+      "runtime_visible_source_bbox_alpha_ge_4": [
+        2,
+        41,
+        1129,
+        1119
+      ],
+      "logical_extent_512_px": 64,
+      "rendered_extent_512_px": 64,
+      "legibility_boost": 1.0,
+      "rendered_bounds_512_px": [
+        224,
+        225,
+        288,
+        286
+      ],
+      "display_dimensions_512_px": [
+        64,
+        61
+      ],
+      "pivot_normalized": [
+        0.5,
+        0.5
+      ],
+      "suggested_footprint_is_optional": true,
+      "paths": {
+        "masters_native": "masters_native/book.png",
+        "inventory_512": "inventory_512/book.png",
+        "inventory_scaled_tight": "inventory_scaled_tight/book.png",
+        "thumbnails_256": "thumbnails_256/book.png",
+        "detail_512": "detail_512/book.png"
+      },
+      "sha256_native": "453361e0d91584a4e63f2dac311dbf7f24cc17344823e91c5f776cdd8424c327",
+      "alpha_min": 0,
+      "alpha_max": 255
+    }
+  ]
+}
