@@ -1,0 +1,78 @@
+{
+  "revision": "v02_import",
+  "status": "Crawler import registration correction; native drawings unchanged; engine review pending",
+  "clips": {
+    "crawler_defeat": {
+      "revision": "2026-10-07_import_v02",
+      "native_canvas_px": [
+        768,
+        768
+      ],
+      "native_pivot_top_left_px": [
+        384,
+        628
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.18229166666666666
+      ],
+      "reference_move_ppu": 256,
+      "pixels_per_unit": 256,
+      "visual_child_local_scale": [
+        1,
+        1,
+        1
+      ],
+      "visual_child_local_offset_units": [
+        -0.4140625,
+        -0.55078125,
+        0
+      ],
+      "equivalent_reference_pixel_scale": 1,
+      "equivalent_offset_reference_px": [
+        -106,
+        141
+      ],
+      "apply_once": "Keep native pivot and PNGs unchanged. Apply this child-local position once to all6 defeat cels. No additional registration, scaling or fitted pivots.",
+      "residual": "Face/torso handoff improved; hands and body posture still differ. Ground/collision/gameplay not validated.",
+      "offset_axes": {
+        "plane": "camera-facing sprite-local plane",
+        "x": "screen right",
+        "y": "screen up",
+        "z": "zero, no depth displacement",
+        "mapping": "Offsets are renderer-local world-size units on the camera-facing sprite plane, NOT world XZ and NOT actor-root translation. If renderer local axes differ, map these X/Y values to its screen-right/screen-up basis before applying to the visual child."
+      },
+      "base_ppu_status": "256 is a proposed reference convention, not authority to change existing actor world size.",
+      "preserve_existing_world_size": "Let B be current approved move/base PPU. Keep move at B. Set clip PPU=B/equivalent_reference_pixel_scale. Set visual child offset=(offset_reference_px.x/B,-offset_reference_px.y/B,0) on declared sprite-local axes. Do not rescale actor root/collider."
+    },
+    "bellbound_defeat": {
+      "pixels_per_unit": 256,
+      "visual_child_local_scale": [
+        1,
+        1,
+        1
+      ],
+      "visual_child_local_offset_units": [
+        0,
+        0,
+        0
+      ],
+      "offset_axes": {
+        "plane": "camera-facing sprite-local plane",
+        "x": "screen right",
+        "y": "screen up",
+        "z": "zero, no depth displacement",
+        "mapping": "Offsets are renderer-local world-size units on the camera-facing sprite plane, NOT world XZ and NOT actor-root translation. If renderer local axes differ, map these X/Y values to its screen-right/screen-up basis before applying to the visual child."
+      },
+      "base_ppu_status": "256 is a proposed reference convention, not authority to change existing actor world size.",
+      "preserve_existing_world_size": "Let B be current approved move/base PPU. Keep move at B. Set clip PPU=B/equivalent_reference_pixel_scale. Set visual child offset=(offset_reference_px.x/B,-offset_reference_px.y/B,0) on declared sprite-local axes. Do not rescale actor root/collider.",
+      "equivalent_reference_pixel_scale": 1,
+      "equivalent_offset_reference_px": [
+        0,
+        0
+      ]
+    }
+  },
+  "root_canvas_convention": "768x768 native cells, pivot top-left(384,628), normalized bottom-left(0.5,0.1822916667). Crawler current move uses768x768 and pivot(448,488) atPPU256. Each clip keeps its native pivot; crawler defeat gets one visual-child offset.",
+  "monk_death": "Keep1.0 scale and original positions. Existing optional_registered variant already bakes+88px lower-row offset; no extra offset may be applied to it. Raw variant remains preserved."
+}

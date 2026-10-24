@@ -1,0 +1,22 @@
+{
+  "tool_mode": "built-in image_gen",
+  "selected_request": {
+    "key": "07_shale_ward",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: stylized-concept. Asset type: production 2D VFX sprite animation sheet for a subdued grounded dark-fantasy game.\nUse the supplied approved static effect as material, rendering, palette, silhouette-family reference. Redraw eight DISTINCT successive authored animation poses, not eight copies, not an icon collection, not a static transform/fade sequence.\nEXACT LAYOUT: one 2048x1024 transparent RGBA canvas containing exactly 4 columns by 2 rows, eight identical 512x512 invisible cells. Time order left-to-right along the top row, then left-to-right along the bottom row. No titles, labels, lines, borders, checkerboard, contact-sheet decorations, terrain background, character, text, shadows outside the effect, or watermark. True transparent empty pixels.\nEvery cell shows the complete effect at the same fixed camera, world scale and anchor. Keep all particles and material within the central 76% of its own cell, at least 12% clear padding on every edge; absolutely no crossing between cells. The peak may fill that inner area but never touch its edges. The later frames intentionally have much less material without zooming them up.\nGrounded physical material with hand-painted / realistically textured surfaces, restrained neutral lighting and low-saturation colors. No neon, magic glow, colored bloom, graphic rings, symbols, or luminous energy. Distinct changes in geometry, material formation, movement, fragmentation and dissipation must make this genuinely animate. One coherent one-shot cycle: anticipation, onset, strike, peak, breakup, decay, residue, nearly clear.\nSUBJECT: Shale Ward. Preserve the reference's thick stratified charcoal-grey shale slabs with dusty tan sediment edges, natural fractured planes, a protective arc wall open toward the viewer. No magical shield, force field, masonry or engravings. Fixed isometric camera looking down around 30 degrees. Fixed elliptical ground footprint centered x=50%, y=68%, no orbiting camera. Frame 1: a low curved arc of fissures and loose chips on the ground. Frame 2: five short broken slabs tip upward out of the same arc, displaced crumbs. Frame 3: the slabs heave higher at different angles, central back slab shoulder height, side plates rise and rotate inward. Frame 4: complete reference-like tall layered crescent barrier with open foreground and heavy slabs, strong defensive silhouette. Frame 5: fissures spread through plates and their upper sections detach and tip outward, still anchored bases. Frame 6: the wall collapses in separate falling chunks, only a couple short stumps left. Frame 7: a low arc of settled rubble and fine descending dust, no tall pieces. Frame 8: a few scattered small shale chips at the original footprint, almost clear. Every change is actual articulated slab movement, breakage and falling material; do not scale the whole wall.",
+    "referenced_image_paths": [
+      "/workspace/scratch/1a83d58417d5/lantern_dark_grounded_expansion/07_shale_ward.png"
+    ],
+    "transparent_background": true
+  },
+  "selected_result": {
+    "key": "07_shale_ward",
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-dde8cf4c-205e-4ec4-bfad-630baf18afca.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-dde8cf4c-205e-4ec4-bfad-630baf18afca.png",
+    "result_keys": [
+      "image_url",
+      "output_hint"
+    ]
+  },
+  "selected_image_sha256": "a284027e13122ef9b5c17cbac91e2ff34d64ee7c00b524dfe94ec9938101a4bb"
+}

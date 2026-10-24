@@ -1,0 +1,369 @@
+actor_id,actor_name,actor_group,state,heading,coverage_status,provenance,pack_ids,engine_validated
+SK01,Ossuary Thrall,new_18,move,DR,saved_this_batch,authored,SK01:baseline:1,false
+SK01,Ossuary Thrall,new_18,move,DL,saved_this_batch,authored,SK01:directional_extension:1,false
+SK01,Ossuary Thrall,new_18,move,UL,saved_this_batch,authored,SK01:directional_extension:1,false
+SK01,Ossuary Thrall,new_18,move,UR,saved_this_batch,authored,SK01:directional_extension:1,false
+SK01,Ossuary Thrall,new_18,attack,DR,saved_this_batch,authored,SK01:baseline:1,false
+SK01,Ossuary Thrall,new_18,attack,DL,saved_this_batch,authored,SK01:directional_extension:1,false
+SK01,Ossuary Thrall,new_18,attack,UL,saved_this_batch,authored,SK01:directional_extension:1,false
+SK01,Ossuary Thrall,new_18,attack,UR,saved_this_batch,authored,SK01:directional_extension:1,false
+SK01,Ossuary Thrall,new_18,hit,DR,saved_this_batch,authored,SK01:DR_reaction_extension:1,false
+SK01,Ossuary Thrall,new_18,hit,DL,missing_not_delivered,,,false
+SK01,Ossuary Thrall,new_18,hit,UL,missing_not_delivered,,,false
+SK01,Ossuary Thrall,new_18,hit,UR,missing_not_delivered,,,false
+SK01,Ossuary Thrall,new_18,defeat,DR,saved_this_batch,authored,SK01:DR_reaction_extension:1,false
+SK01,Ossuary Thrall,new_18,defeat,DL,missing_not_delivered,,,false
+SK01,Ossuary Thrall,new_18,defeat,UL,missing_not_delivered,,,false
+SK01,Ossuary Thrall,new_18,defeat,UR,missing_not_delivered,,,false
+SK02,Sepulcher Warden,new_18,move,DR,saved_this_batch,authored,SK02:baseline:1,false
+SK02,Sepulcher Warden,new_18,move,DL,saved_this_batch,authored,SK02:directional_extension:1,false
+SK02,Sepulcher Warden,new_18,move,UL,saved_this_batch,authored,SK02:directional_extension:1,false
+SK02,Sepulcher Warden,new_18,move,UR,saved_this_batch,authored,SK02:directional_extension:1,false
+SK02,Sepulcher Warden,new_18,attack,DR,saved_this_batch,authored,SK02:baseline:1,false
+SK02,Sepulcher Warden,new_18,attack,DL,saved_this_batch,authored,SK02:directional_extension:1,false
+SK02,Sepulcher Warden,new_18,attack,UL,saved_this_batch,authored,SK02:directional_extension:1,false
+SK02,Sepulcher Warden,new_18,attack,UR,saved_this_batch,authored,SK02:directional_extension:1,false
+SK02,Sepulcher Warden,new_18,hit,DR,saved_this_batch,authored,SK02:DR_reaction_extension:1,false
+SK02,Sepulcher Warden,new_18,hit,DL,missing_not_delivered,,,false
+SK02,Sepulcher Warden,new_18,hit,UL,missing_not_delivered,,,false
+SK02,Sepulcher Warden,new_18,hit,UR,missing_not_delivered,,,false
+SK02,Sepulcher Warden,new_18,defeat,DR,saved_this_batch,authored,SK02:DR_reaction_extension:1,false
+SK02,Sepulcher Warden,new_18,defeat,DL,missing_not_delivered,,,false
+SK02,Sepulcher Warden,new_18,defeat,UL,missing_not_delivered,,,false
+SK02,Sepulcher Warden,new_18,defeat,UR,missing_not_delivered,,,false
+ZB01,Ashen Shambler,new_18,move,DR,saved_this_batch,authored,ZB01:baseline:1,false
+ZB01,Ashen Shambler,new_18,move,DL,saved_this_batch,authored,ZB01:directional_extension:1,false
+ZB01,Ashen Shambler,new_18,move,UL,saved_this_batch,authored,ZB01:directional_extension:1,false
+ZB01,Ashen Shambler,new_18,move,UR,saved_this_batch,authored,ZB01:directional_extension:1,false
+ZB01,Ashen Shambler,new_18,attack,DR,saved_this_batch,authored,ZB01:baseline:1,false
+ZB01,Ashen Shambler,new_18,attack,DL,saved_this_batch,authored,ZB01:directional_extension:1,false
+ZB01,Ashen Shambler,new_18,attack,UL,saved_this_batch,authored,ZB01:directional_extension:1,false
+ZB01,Ashen Shambler,new_18,attack,UR,saved_this_batch,authored,ZB01:directional_extension:1,false
+ZB01,Ashen Shambler,new_18,hit,DR,saved_this_batch,authored,ZB01:DR_reaction_extension:1,false
+ZB01,Ashen Shambler,new_18,hit,DL,missing_not_delivered,,,false
+ZB01,Ashen Shambler,new_18,hit,UL,missing_not_delivered,,,false
+ZB01,Ashen Shambler,new_18,hit,UR,missing_not_delivered,,,false
+ZB01,Ashen Shambler,new_18,defeat,DR,saved_this_batch,authored,ZB01:DR_reaction_extension:1,false
+ZB01,Ashen Shambler,new_18,defeat,DL,missing_not_delivered,,,false
+ZB01,Ashen Shambler,new_18,defeat,UL,missing_not_delivered,,,false
+ZB01,Ashen Shambler,new_18,defeat,UR,missing_not_delivered,,,false
+ZB02,Gravetoll Hauler,new_18,move,DR,saved_this_batch,authored,ZB02:baseline:1,false
+ZB02,Gravetoll Hauler,new_18,move,DL,saved_this_batch,authored,ZB02:directional_extension:1,false
+ZB02,Gravetoll Hauler,new_18,move,UL,saved_this_batch,authored,ZB02:directional_extension:1,false
+ZB02,Gravetoll Hauler,new_18,move,UR,saved_this_batch,authored,ZB02:directional_extension:1,false
+ZB02,Gravetoll Hauler,new_18,attack,DR,saved_this_batch,authored,ZB02:baseline:1,false
+ZB02,Gravetoll Hauler,new_18,attack,DL,saved_this_batch,authored,ZB02:directional_extension:1,false
+ZB02,Gravetoll Hauler,new_18,attack,UL,saved_this_batch,authored,ZB02:directional_extension:1,false
+ZB02,Gravetoll Hauler,new_18,attack,UR,saved_this_batch,authored,ZB02:directional_extension:1,false
+ZB02,Gravetoll Hauler,new_18,hit,DR,saved_this_batch,authored,ZB02:DR_reaction_extension:1,false
+ZB02,Gravetoll Hauler,new_18,hit,DL,missing_not_delivered,,,false
+ZB02,Gravetoll Hauler,new_18,hit,UL,missing_not_delivered,,,false
+ZB02,Gravetoll Hauler,new_18,hit,UR,missing_not_delivered,,,false
+ZB02,Gravetoll Hauler,new_18,defeat,DR,saved_this_batch,authored,ZB02:DR_reaction_extension:1,false
+ZB02,Gravetoll Hauler,new_18,defeat,DL,missing_not_delivered,,,false
+ZB02,Gravetoll Hauler,new_18,defeat,UL,missing_not_delivered,,,false
+ZB02,Gravetoll Hauler,new_18,defeat,UR,missing_not_delivered,,,false
+GB01,Mossfang Scavenger,new_18,move,DR,saved_this_batch,authored,GB01:baseline:1,false
+GB01,Mossfang Scavenger,new_18,move,DL,saved_this_batch,authored,GB01:directional_extension:1,false
+GB01,Mossfang Scavenger,new_18,move,UL,saved_this_batch,authored,GB01:directional_extension:1,false
+GB01,Mossfang Scavenger,new_18,move,UR,saved_this_batch,authored,GB01:directional_extension:1,false
+GB01,Mossfang Scavenger,new_18,attack,DR,saved_this_batch,authored,GB01:baseline:1,false
+GB01,Mossfang Scavenger,new_18,attack,DL,saved_this_batch,authored,GB01:directional_extension:1,false
+GB01,Mossfang Scavenger,new_18,attack,UL,saved_this_batch,authored,GB01:directional_extension:1,false
+GB01,Mossfang Scavenger,new_18,attack,UR,saved_this_batch,authored,GB01:directional_extension:1,false
+GB01,Mossfang Scavenger,new_18,hit,DR,saved_this_batch,authored,GB01:DR_reaction_extension:1,false
+GB01,Mossfang Scavenger,new_18,hit,DL,missing_not_delivered,,,false
+GB01,Mossfang Scavenger,new_18,hit,UL,missing_not_delivered,,,false
+GB01,Mossfang Scavenger,new_18,hit,UR,missing_not_delivered,,,false
+GB01,Mossfang Scavenger,new_18,defeat,DR,saved_this_batch,authored,GB01:DR_reaction_extension:1,false
+GB01,Mossfang Scavenger,new_18,defeat,DL,missing_not_delivered,,,false
+GB01,Mossfang Scavenger,new_18,defeat,UL,missing_not_delivered,,,false
+GB01,Mossfang Scavenger,new_18,defeat,UR,missing_not_delivered,,,false
+SL01,Mosswell Slime,new_18,move,DR,saved_this_batch,authored,SL01:baseline:1,false
+SL01,Mosswell Slime,new_18,move,DL,saved_this_batch,authored,SL01:directional_extension:1,false
+SL01,Mosswell Slime,new_18,move,UL,saved_this_batch,authored,SL01:directional_extension:1,false
+SL01,Mosswell Slime,new_18,move,UR,saved_this_batch,authored,SL01:directional_extension:1,false
+SL01,Mosswell Slime,new_18,attack,DR,saved_this_batch,authored,SL01:baseline:1,false
+SL01,Mosswell Slime,new_18,attack,DL,saved_this_batch,authored,SL01:directional_extension:1,false
+SL01,Mosswell Slime,new_18,attack,UL,saved_this_batch,authored,SL01:directional_extension:1,false
+SL01,Mosswell Slime,new_18,attack,UR,saved_this_batch,authored,SL01:directional_extension:1,false
+SL01,Mosswell Slime,new_18,hit,DR,saved_this_batch,authored,SL01:DR_reaction_extension:1,false
+SL01,Mosswell Slime,new_18,hit,DL,missing_not_delivered,,,false
+SL01,Mosswell Slime,new_18,hit,UL,missing_not_delivered,,,false
+SL01,Mosswell Slime,new_18,hit,UR,missing_not_delivered,,,false
+SL01,Mosswell Slime,new_18,defeat,DR,saved_this_batch,authored,SL01:DR_reaction_extension:1,false
+SL01,Mosswell Slime,new_18,defeat,DL,missing_not_delivered,,,false
+SL01,Mosswell Slime,new_18,defeat,UL,missing_not_delivered,,,false
+SL01,Mosswell Slime,new_18,defeat,UR,missing_not_delivered,,,false
+SP01,Veil Wisp,new_18,move,DR,saved_this_batch,authored,SP01:baseline:1,false
+SP01,Veil Wisp,new_18,move,DL,saved_this_batch,authored,SP01:directional_extension:1,false
+SP01,Veil Wisp,new_18,move,UL,saved_this_batch,authored,SP01:directional_extension:1,false
+SP01,Veil Wisp,new_18,move,UR,saved_this_batch,authored,SP01:directional_extension:1,false
+SP01,Veil Wisp,new_18,attack,DR,saved_this_batch,authored,SP01:baseline:1,false
+SP01,Veil Wisp,new_18,attack,DL,saved_this_batch,authored,SP01:directional_extension:1,false
+SP01,Veil Wisp,new_18,attack,UL,saved_this_batch,authored,SP01:directional_extension:1,false
+SP01,Veil Wisp,new_18,attack,UR,saved_this_batch,authored,SP01:directional_extension:1,false
+SP01,Veil Wisp,new_18,hit,DR,saved_this_batch,authored,SP01:DR_reaction_extension:1,false
+SP01,Veil Wisp,new_18,hit,DL,missing_not_delivered,,,false
+SP01,Veil Wisp,new_18,hit,UL,missing_not_delivered,,,false
+SP01,Veil Wisp,new_18,hit,UR,missing_not_delivered,,,false
+SP01,Veil Wisp,new_18,defeat,DR,saved_this_batch,authored,SP01:DR_reaction_extension:1,false
+SP01,Veil Wisp,new_18,defeat,DL,missing_not_delivered,,,false
+SP01,Veil Wisp,new_18,defeat,UL,missing_not_delivered,,,false
+SP01,Veil Wisp,new_18,defeat,UR,missing_not_delivered,,,false
+BT03,Mourning Moth,new_18,move,DR,saved_this_batch,authored,BT03:baseline:1,false
+BT03,Mourning Moth,new_18,move,DL,saved_this_batch,authored,BT03:directional_extension:1,false
+BT03,Mourning Moth,new_18,move,UL,saved_this_batch,authored,BT03:directional_extension:1,false
+BT03,Mourning Moth,new_18,move,UR,saved_this_batch,deterministic_UL_horizontal_mirror_lighting_flipped,BT03:directional_extension:1,false
+BT03,Mourning Moth,new_18,attack,DR,saved_this_batch,authored,BT03:baseline:1,false
+BT03,Mourning Moth,new_18,attack,DL,saved_this_batch,authored,BT03:directional_extension:1,false
+BT03,Mourning Moth,new_18,attack,UL,saved_this_batch,authored,BT03:directional_extension:1,false
+BT03,Mourning Moth,new_18,attack,UR,saved_this_batch,deterministic_UL_horizontal_mirror_lighting_flipped,BT03:directional_extension:1,false
+BT03,Mourning Moth,new_18,hit,DR,saved_this_batch,authored,BT03:DR_reaction_extension:1,false
+BT03,Mourning Moth,new_18,hit,DL,missing_not_delivered,,,false
+BT03,Mourning Moth,new_18,hit,UL,missing_not_delivered,,,false
+BT03,Mourning Moth,new_18,hit,UR,missing_not_delivered,,,false
+BT03,Mourning Moth,new_18,defeat,DR,saved_this_batch,authored,BT03:DR_reaction_extension:1,false
+BT03,Mourning Moth,new_18,defeat,DL,missing_not_delivered,,,false
+BT03,Mourning Moth,new_18,defeat,UL,missing_not_delivered,,,false
+BT03,Mourning Moth,new_18,defeat,UR,missing_not_delivered,,,false
+FP02,Ironcap Fungus,new_18,move,DR,saved_this_batch,authored,FP02:baseline:1,false
+FP02,Ironcap Fungus,new_18,move,DL,saved_this_batch,authored,FP02:directional_extension:1,false
+FP02,Ironcap Fungus,new_18,move,UL,saved_this_batch,authored,FP02:directional_extension:1,false
+FP02,Ironcap Fungus,new_18,move,UR,saved_this_batch,authored,FP02:directional_extension:1,false
+FP02,Ironcap Fungus,new_18,attack,DR,saved_this_batch,authored,FP02:baseline:1,false
+FP02,Ironcap Fungus,new_18,attack,DL,saved_this_batch,authored,FP02:directional_extension:1,false
+FP02,Ironcap Fungus,new_18,attack,UL,saved_this_batch,authored,FP02:directional_extension:1,false
+FP02,Ironcap Fungus,new_18,attack,UR,saved_this_batch,authored,FP02:directional_extension:1,false
+FP02,Ironcap Fungus,new_18,hit,DR,saved_this_batch,authored,FP02:DR_reaction_extension:1,false
+FP02,Ironcap Fungus,new_18,hit,DL,missing_not_delivered,,,false
+FP02,Ironcap Fungus,new_18,hit,UL,missing_not_delivered,,,false
+FP02,Ironcap Fungus,new_18,hit,UR,missing_not_delivered,,,false
+FP02,Ironcap Fungus,new_18,defeat,DR,saved_this_batch,authored,FP02:DR_reaction_extension:1,false
+FP02,Ironcap Fungus,new_18,defeat,DL,missing_not_delivered,,,false
+FP02,Ironcap Fungus,new_18,defeat,UL,missing_not_delivered,,,false
+FP02,Ironcap Fungus,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,move,DR,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:baseline:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,move,DL,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:directional_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,move,UL,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:directional_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,move,UR,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:directional_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,attack,DR,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:baseline:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,attack,DL,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:directional_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,attack,UL,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:directional_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,attack,UR,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:directional_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,hit,DR,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:DR_reaction_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,hit,DL,missing_not_delivered,,,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,hit,UL,missing_not_delivered,,,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,hit,UR,missing_not_delivered,,,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,defeat,DR,saved_this_batch,authored,lantern_concept_enemy_03_masked_cultist:DR_reaction_extension:1,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_concept_enemy_03_masked_cultist,Masked cultist,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,move,DR,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:baseline:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,move,DL,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:directional_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,move,UL,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:directional_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,move,UR,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:directional_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,attack,DR,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:baseline:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,attack,DL,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:directional_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,attack,UL,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:directional_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,attack,UR,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:directional_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,hit,DR,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:DR_reaction_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,hit,DL,missing_not_delivered,,,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,hit,UL,missing_not_delivered,,,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,hit,UR,missing_not_delivered,,,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,defeat,DR,saved_this_batch,authored,lantern_concept_enemy_08_clockwork_penitent:DR_reaction_extension:1,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_concept_enemy_08_clockwork_penitent,Clockwork penitent,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,move,DR,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:baseline:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,move,DL,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:directional_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,move,UL,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:directional_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,move,UR,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:directional_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,attack,DR,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:baseline:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,attack,DL,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:directional_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,attack,UL,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:directional_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,attack,UR,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:directional_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,hit,DR,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:DR_reaction_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,hit,DL,missing_not_delivered,,,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,hit,UL,missing_not_delivered,,,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,hit,UR,missing_not_delivered,,,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,defeat,DR,saved_this_batch,authored,lantern_creature_concept_03_moth_oracle:DR_reaction_extension:1,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_creature_concept_03_moth_oracle,Moth oracle,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,move,DR,saved_this_batch,authored,lantern_elite_concept_01_bellbearing_pilgrim:baseline:1,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,move,DL,saved_this_batch,authored,lantern_elite_concept_01_bellbearing_pilgrim:directional_extension:1,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,move,UL,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,move,UR,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,attack,DR,saved_this_batch,authored,lantern_elite_concept_01_bellbearing_pilgrim:baseline:1,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,attack,DL,saved_this_batch,authored,lantern_elite_concept_01_bellbearing_pilgrim:directional_extension:1,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,attack,UL,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,attack,UR,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,hit,DR,saved_this_batch,authored,lantern_elite_concept_01_bellbearing_pilgrim:DR_reaction_extension:1,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,hit,DL,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,hit,UL,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,hit,UR,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,defeat,DR,saved_this_batch,authored,lantern_elite_concept_01_bellbearing_pilgrim:DR_reaction_extension:1,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_elite_concept_01_bellbearing_pilgrim,Bell-bearing pilgrim,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,move,DR,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:baseline:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,move,DL,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:directional_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,move,UL,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:directional_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,move,UR,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:directional_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,attack,DR,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:baseline:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,attack,DL,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:directional_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,attack,UL,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:directional_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,attack,UR,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:directional_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,hit,DR,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:DR_reaction_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,hit,DL,missing_not_delivered,,,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,hit,UL,missing_not_delivered,,,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,hit,UR,missing_not_delivered,,,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,defeat,DR,saved_this_batch,authored,lantern_elite_concept_05_candle_procession_wraith:DR_reaction_extension:1,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_elite_concept_05_candle_procession_wraith,Candle-procession wraith,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,move,DR,saved_this_batch,authored,lantern_elite_concept_06_rootbound_stone_saint:baseline:1,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,move,DL,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,move,UL,saved_this_batch,authored,lantern_elite_concept_06_rootbound_stone_saint:directional_extension:1,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,move,UR,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,attack,DR,saved_this_batch,authored,lantern_elite_concept_06_rootbound_stone_saint:baseline:1,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,attack,DL,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,attack,UL,saved_this_batch,authored,lantern_elite_concept_06_rootbound_stone_saint:directional_extension:1,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,attack,UR,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,hit,DR,saved_this_batch,authored,lantern_elite_concept_06_rootbound_stone_saint:DR_reaction_extension:1,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,hit,DL,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,hit,UL,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,hit,UR,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,defeat,DR,saved_this_batch,authored,lantern_elite_concept_06_rootbound_stone_saint:DR_reaction_extension:1,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_elite_concept_06_rootbound_stone_saint,Root-entangled stone saint,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,move,DR,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:baseline:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,move,DL,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:directional_extension:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,move,UL,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:directional_extension:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,move,UR,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:directional_extension:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,attack,DR,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:baseline:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,attack,DL,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,attack,UL,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:directional_extension:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,attack,UR,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,hit,DR,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:DR_reaction_extension:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,hit,DL,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,hit,UL,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,hit,UR,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,defeat,DR,saved_this_batch,authored,lantern_archetype_concept_01_skeletal_archer:DR_reaction_extension:1,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_archetype_concept_01_skeletal_archer,Skeletal archer,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,move,DR,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:baseline:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,move,DL,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,move,UL,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,move,UR,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,attack,DR,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:baseline:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,attack,DL,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,attack,UL,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,attack,UR,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:directional_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,hit,DR,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:DR_reaction_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,hit,DL,missing_not_delivered,,,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,hit,UL,missing_not_delivered,,,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,hit,UR,missing_not_delivered,,,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,defeat,DR,saved_this_batch,authored,lantern_hostile_faction_concept_04_censer_keeper:DR_reaction_extension:1,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_hostile_faction_concept_04_censer_keeper,Censer keeper,new_18,defeat,UR,missing_not_delivered,,,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,move,DR,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:baseline:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,move,DL,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:directional_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,move,UL,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:directional_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,move,UR,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:directional_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,attack,DR,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:baseline:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,attack,DL,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:directional_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,attack,UL,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:directional_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,attack,UR,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:directional_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,hit,DR,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:DR_reaction_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,hit,DL,missing_not_delivered,,,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,hit,UL,missing_not_delivered,,,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,hit,UR,missing_not_delivered,,,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,defeat,DR,saved_this_batch,authored,lantern_cave_creature_06_hovering_broken_mask:DR_reaction_extension:1,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,defeat,DL,missing_not_delivered,,,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,defeat,UL,missing_not_delivered,,,false
+lantern_cave_creature_06_hovering_broken_mask,Hovering broken mask,new_18,defeat,UR,missing_not_delivered,,,false
+CT04,Halo Veil Cantor,existing_enemy,move,DR,existing_baseline_dependency,,,false
+CT04,Halo Veil Cantor,existing_enemy,move,DL,saved_this_batch,authored,CT04:existing_enemy_directional_extension:1,false
+CT04,Halo Veil Cantor,existing_enemy,move,UL,saved_this_batch,authored,CT04:existing_enemy_directional_extension:1,false
+CT04,Halo Veil Cantor,existing_enemy,move,UR,saved_this_batch,authored,CT04:existing_enemy_directional_extension:1,false
+CT04,Halo Veil Cantor,existing_enemy,attack,DR,existing_baseline_dependency,,,false
+CT04,Halo Veil Cantor,existing_enemy,attack,DL,saved_this_batch,authored,CT04:existing_enemy_directional_extension:1,false
+CT04,Halo Veil Cantor,existing_enemy,attack,UL,saved_this_batch,authored,CT04:existing_enemy_directional_extension:1,false
+CT04,Halo Veil Cantor,existing_enemy,attack,UR,saved_this_batch,authored,CT04:existing_enemy_directional_extension:1,false
+CT04,Halo Veil Cantor,existing_enemy,hit,DR,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,hit,DL,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,hit,UL,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,hit,UR,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,defeat,DR,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,defeat,DL,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,defeat,UL,unchanged_not_reaudited,,,false
+CT04,Halo Veil Cantor,existing_enemy,defeat,UR,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,move,DR,existing_baseline_dependency,,,false
+SK03,Candlebone Oracle,existing_enemy,move,DL,saved_this_batch,authored,SK03:existing_enemy_directional_extension:1,false
+SK03,Candlebone Oracle,existing_enemy,move,UL,saved_this_batch,authored,SK03:existing_enemy_directional_extension:1,false
+SK03,Candlebone Oracle,existing_enemy,move,UR,saved_this_batch,authored,SK03:existing_enemy_directional_extension:1,false
+SK03,Candlebone Oracle,existing_enemy,attack,DR,existing_baseline_dependency,,,false
+SK03,Candlebone Oracle,existing_enemy,attack,DL,saved_this_batch,authored,SK03:existing_enemy_directional_extension:1,false
+SK03,Candlebone Oracle,existing_enemy,attack,UL,saved_this_batch,authored,SK03:existing_enemy_directional_extension:1,false
+SK03,Candlebone Oracle,existing_enemy,attack,UR,saved_this_batch,authored,SK03:existing_enemy_directional_extension:1,false
+SK03,Candlebone Oracle,existing_enemy,hit,DR,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,hit,DL,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,hit,UL,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,hit,UR,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,defeat,DR,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,defeat,DL,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,defeat,UL,unchanged_not_reaudited,,,false
+SK03,Candlebone Oracle,existing_enemy,defeat,UR,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,move,DR,existing_baseline_dependency,,,false
+CT01,Waxmask Acolyte,existing_enemy,move,DL,saved_this_batch,authored,CT01:existing_enemy_directional_extension:1,false
+CT01,Waxmask Acolyte,existing_enemy,move,UL,saved_this_batch,authored,CT01:existing_enemy_directional_extension:1,false
+CT01,Waxmask Acolyte,existing_enemy,move,UR,saved_this_batch,authored,CT01:existing_enemy_directional_extension:1,false
+CT01,Waxmask Acolyte,existing_enemy,attack,DR,existing_baseline_dependency,,,false
+CT01,Waxmask Acolyte,existing_enemy,attack,DL,saved_this_batch,authored,CT01:existing_enemy_directional_extension:1,false
+CT01,Waxmask Acolyte,existing_enemy,attack,UL,saved_this_batch,authored,CT01:existing_enemy_directional_extension:1,false
+CT01,Waxmask Acolyte,existing_enemy,attack,UR,saved_this_batch,authored,CT01:existing_enemy_directional_extension:1,false
+CT01,Waxmask Acolyte,existing_enemy,hit,DR,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,hit,DL,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,hit,UL,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,hit,UR,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,defeat,DR,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,defeat,DL,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,defeat,UL,unchanged_not_reaudited,,,false
+CT01,Waxmask Acolyte,existing_enemy,defeat,UR,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,move,DR,existing_baseline_dependency,,,false
+ZB04,Shroud Crawler,existing_enemy,move,DL,saved_this_batch,authored,ZB04:existing_enemy_directional_extension:1,false
+ZB04,Shroud Crawler,existing_enemy,move,UL,saved_this_batch,authored,ZB04:existing_enemy_directional_extension:1,false
+ZB04,Shroud Crawler,existing_enemy,move,UR,saved_this_batch,authored,ZB04:existing_enemy_directional_extension:1,false
+ZB04,Shroud Crawler,existing_enemy,attack,DR,existing_baseline_dependency,,,false
+ZB04,Shroud Crawler,existing_enemy,attack,DL,saved_this_batch,authored,ZB04:existing_enemy_directional_extension:1,false
+ZB04,Shroud Crawler,existing_enemy,attack,UL,saved_this_batch,authored,ZB04:existing_enemy_directional_extension:1,false
+ZB04,Shroud Crawler,existing_enemy,attack,UR,saved_this_batch,authored,ZB04:existing_enemy_directional_extension:1,false
+ZB04,Shroud Crawler,existing_enemy,hit,DR,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,hit,DL,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,hit,UL,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,hit,UR,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,defeat,DR,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,defeat,DL,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,defeat,UL,unchanged_not_reaudited,,,false
+ZB04,Shroud Crawler,existing_enemy,defeat,UR,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,move,DR,existing_baseline_dependency,,,false
+CT02,Bellbound Monk,existing_enemy,move,DL,saved_this_batch,authored,CT02:existing_enemy_directional_extension:1,false
+CT02,Bellbound Monk,existing_enemy,move,UL,saved_this_batch,authored,CT02:existing_enemy_directional_extension:1,false
+CT02,Bellbound Monk,existing_enemy,move,UR,saved_this_batch,authored,CT02:existing_enemy_directional_extension:1,false
+CT02,Bellbound Monk,existing_enemy,attack,DR,existing_baseline_dependency,,,false
+CT02,Bellbound Monk,existing_enemy,attack,DL,saved_this_batch,authored,CT02:existing_enemy_directional_extension:1,false
+CT02,Bellbound Monk,existing_enemy,attack,UL,saved_this_batch,authored,CT02:existing_enemy_directional_extension:1,false
+CT02,Bellbound Monk,existing_enemy,attack,UR,saved_this_batch,authored,CT02:existing_enemy_directional_extension:1,false
+CT02,Bellbound Monk,existing_enemy,hit,DR,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,hit,DL,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,hit,UL,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,hit,UR,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,defeat,DR,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,defeat,DL,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,defeat,UL,unchanged_not_reaudited,,,false
+CT02,Bellbound Monk,existing_enemy,defeat,UR,unchanged_not_reaudited,,,false

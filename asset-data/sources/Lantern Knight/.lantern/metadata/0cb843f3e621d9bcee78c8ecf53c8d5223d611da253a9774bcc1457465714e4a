@@ -1,0 +1,7 @@
+{
+  "atlasMaximumDimensionPx": 1218,
+  "allAtlasBaseRGBA8Bytes": 7162176,
+  "mipmapsIncluded": false,
+  "runtimePerformanceTested": false,
+  "notes": "Raw RGBA8 base-level estimate, not measured GPU memory or compressed PNG size. Do not upload both loose frames and atlases."
+}

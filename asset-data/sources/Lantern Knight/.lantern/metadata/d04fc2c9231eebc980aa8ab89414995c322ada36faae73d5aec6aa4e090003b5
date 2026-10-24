@@ -1,0 +1,266 @@
+[
+  {
+    "old_id": "lantern_resource_concept_01_timber_bundle",
+    "name": "Timber bundle",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/01_timber_bundle.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/01_timber_bundle.png",
+    "disposition": "rebuild",
+    "sha256": "acf7af63c148508a5de7a324d611fc6003f36a4d26006f1f49c3ff6baa215938",
+    "original_sha256": "2964ac2cd0987635defeab682339362c938d080e5cae72644ea19a1d3df6d889",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        57,
+        52,
+        1240,
+        1182
+      ],
+      "visible_bbox_alpha_gt127": [
+        167,
+        280,
+        1133,
+        991
+      ],
+      "transparent_pixel_fraction": 0.7418728966827682,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/01_timber_bundle.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_02_iron_ingot_stack",
+    "name": "Iron ingot stack",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/02_iron_ingot_stack.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/02_iron_ingot_stack.png",
+    "disposition": "rebuild",
+    "sha256": "219aa1f1e93d254a77ff38f53f9967ee05940150bd18d997ef0a7c9d99a327cb",
+    "original_sha256": "19217c2748dd3f7bb98594a715f0af25eee94f770b5e02efcea5c5a23eb18d7f",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        17,
+        51,
+        1186,
+        1212
+      ],
+      "visible_bbox_alpha_gt127": [
+        139,
+        202,
+        1159,
+        1065
+      ],
+      "transparent_pixel_fraction": 0.6318619333602965,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/02_iron_ingot_stack.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_03_cured_leather_roll",
+    "name": "Cured leather roll",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/03_cured_leather_roll.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/03_cured_leather_roll.png",
+    "disposition": "rebuild",
+    "sha256": "f9ab5895063ae81cf912dd1fd3417c93acb63612a85c0efa7bc6d5b766f8af41",
+    "original_sha256": "0d62c4f9a3b438468dfdaba6e8f06c016ad353971cd8c51bb52969fa1f6cae26",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        105,
+        52,
+        1186,
+        1148
+      ],
+      "visible_bbox_alpha_gt127": [
+        135,
+        253,
+        1182,
+        995
+      ],
+      "transparent_pixel_fraction": 0.7050764507324567,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/03_cured_leather_roll.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_04_flax_cloth_fold",
+    "name": "Flax cloth fold",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/04_flax_cloth_fold.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/04_flax_cloth_fold.png",
+    "disposition": "rebuild",
+    "sha256": "0a7f0786c7950d723aba1e09f227bc67f3ca4f508445d74acd487afd6dc730e9",
+    "original_sha256": "4e869a8625db385403d7153c24c2e8b8ab78415fb993122acc8f881f6a040e26",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        207,
+        1176,
+        1150
+      ],
+      "visible_bbox_alpha_gt127": [
+        98,
+        210,
+        1158,
+        1059
+      ],
+      "transparent_pixel_fraction": 0.667441221583755,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 1
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/04_flax_cloth_fold.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_05_hemp_rope_coil",
+    "name": "Hemp rope coil",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/05_hemp_rope_coil.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/05_hemp_rope_coil.png",
+    "disposition": "rebuild",
+    "sha256": "90b3074c0975eb6dfd2531501d39bddd6d6013bef41719dd15103965dddb8b66",
+    "original_sha256": "86afaf416a20792fa60998fabbe271b02d11e0fcd740053822763932270001b6",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        53,
+        1224,
+        1214
+      ],
+      "visible_bbox_alpha_gt127": [
+        124,
+        195,
+        1149,
+        1104
+      ],
+      "transparent_pixel_fraction": 0.6208833487226839,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 18
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/05_hemp_rope_coil.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_06_slate_whetstone",
+    "name": "Slate whetstone",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/06_slate_whetstone.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/06_slate_whetstone.png",
+    "disposition": "rebuild",
+    "sha256": "151b9696fde9c1f8c33face2ceef0385ae8b0c5690434af2305620807b5f6686",
+    "original_sha256": "226c74d1b23ce2eadfdb8fda666268493c5f65fb082dc61b606c856d18bffb6b",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        21,
+        53,
+        1210,
+        1212
+      ],
+      "visible_bbox_alpha_gt127": [
+        91,
+        253,
+        1164,
+        1035
+      ],
+      "transparent_pixel_fraction": 0.735340689697275,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/06_slate_whetstone.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_07_charcoal_pouch",
+    "name": "Charcoal pouch",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/07_charcoal_pouch.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/07_charcoal_pouch.png",
+    "disposition": "rebuild",
+    "sha256": "0e75f0e35d11d725703053694bd1c52e49f50021efea11ca878adaac0915068e",
+    "original_sha256": "a1f73cedca87cd7578e9eefd3f009b7d344cf6e7c5c4162bf4ff571601ba7f0c",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        53,
+        1219,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        175,
+        149,
+        1127,
+        1149
+      ],
+      "transparent_pixel_fraction": 0.6178519010299418,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 20
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/07_charcoal_pouch.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_resource_concept_08_pine_resin_jar",
+    "name": "Pine resin jar",
+    "pack": "Lantern - Resource Pickups 03",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_resources_03/assets/08_pine_resin_jar.png",
+    "image": "lantern_revision_02/equipment/resources_03/assets/08_pine_resin_jar.png",
+    "disposition": "rebuild",
+    "sha256": "afe6150bf0c5a2ebfed755cb44a1219ba22d0bc9ea58121b17f5b77a39d37b8a",
+    "original_sha256": "b2083ba8fb54d30ec7acaa66e84343e300196bee62928dec8beed247e844f7a9",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        97,
+        77,
+        1210,
+        1214
+      ],
+      "visible_bbox_alpha_gt127": [
+        260,
+        215,
+        997,
+        1032
+      ],
+      "transparent_pixel_fraction": 0.7193446680351742,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/resources_03/assets/08_pine_resin_jar.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  }
+]

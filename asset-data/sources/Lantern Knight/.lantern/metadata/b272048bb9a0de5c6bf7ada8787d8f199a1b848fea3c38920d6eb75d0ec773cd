@@ -1,0 +1,330 @@
+{
+  "gravegoods_coffer": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/gravegoods_coffer_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          167,
+          281
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          169,
+          281
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          173,
+          269
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          172,
+          271
+        ]
+      }
+    ]
+  },
+  "groundskeeper_chest": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/groundskeeper_chest_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          542,
+          725
+        ],
+        "translation": [
+          171,
+          335
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          542,
+          0,
+          1084,
+          725
+        ],
+        "translation": [
+          176,
+          314
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1084,
+          0,
+          1627,
+          725
+        ],
+        "translation": [
+          186,
+          303
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1627,
+          0,
+          2169,
+          725
+        ],
+        "translation": [
+          202,
+          284
+        ]
+      }
+    ]
+  },
+  "sealed_votive_urn": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/sealed_votive_urn_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          256,
+          352
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          258,
+          350
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          222,
+          330
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          281,
+          334
+        ]
+      }
+    ]
+  },
+  "burial_cache_crate": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/burial_cache_crate_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          540,
+          728
+        ],
+        "translation": [
+          193,
+          302
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          540,
+          0,
+          1080,
+          728
+        ],
+        "translation": [
+          200,
+          294
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1080,
+          0,
+          1645,
+          728
+        ],
+        "translation": [
+          208,
+          284
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1645,
+          0,
+          2161,
+          728
+        ],
+        "translation": [
+          263,
+          296
+        ]
+      }
+    ]
+  }
+}

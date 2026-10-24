@@ -1,0 +1,82 @@
+{
+  "atlas": "runtime/apothecary/atlas.png",
+  "frames": [
+    "work_00.png",
+    "work_01.png",
+    "work_02.png",
+    "work_03.png",
+    "work_04.png",
+    "work_05.png"
+  ],
+  "atlas_columns": 3,
+  "cell_size": [
+    544,
+    544
+  ],
+  "fixed_pivot_pixels_top_left": [
+    303,
+    523
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5569852941176471,
+    0.03860294117647056
+  ],
+  "estimated_pixels_per_unit": 256,
+  "ppu_note": "Estimated import starting point; choose world scale in engine.",
+  "work_loop": {
+    "sequence": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      4,
+      3,
+      2,
+      1
+    ],
+    "hold_ticks": [
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "loop": true
+  },
+  "registration_offsets_pixels": [
+    [
+      0,
+      0
+    ],
+    [
+      24,
+      0
+    ],
+    [
+      32,
+      0
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      22,
+      7
+    ],
+    [
+      28,
+      6
+    ]
+  ],
+  "deterministic_stabilization": "Canonical base outside working-arm polygon",
+  "native_cel_count": 6,
+  "directions": 1
+}

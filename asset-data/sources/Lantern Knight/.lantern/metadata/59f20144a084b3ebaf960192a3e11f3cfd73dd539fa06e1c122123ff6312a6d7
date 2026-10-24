@@ -1,0 +1,27 @@
+{
+  "scene": "woodland_C",
+  "status": "sample_only_not_production",
+  "raw_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-64c748d8-a21f-48ff-8868-483beacad3ba.png",
+  "native_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/woodland_C/native.png",
+  "native_size": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "native_sha256": "b65a9a1e988c4916b2865b46f93ee4ae2e7af2b24b6abf04045b98e32b394984",
+  "native_processing": "byte-identical copy only; no resize, edit or upscale",
+  "prompt_file": "/workspace/scratch/1a83d58417d5/scene_retry_samples/glades_woodland/woodland_C/exact_prompt.txt",
+  "prompt_sha256": "3791b60f17d92881f35de596c15c3dee5fce017b0aef9e96978c7a6d366d791b",
+  "approved_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "style_prefix_verified_byte_exact": true,
+  "image_generation_tool": "built-in image_gen",
+  "actual_backend_model": "not disclosed by built-in tool",
+  "reference": "canonical hero only; style role",
+  "environment_inputs": [],
+  "qa": {
+    "identity": "Haunted dusk-blue conifers, twisted deadwood, slate outcrops and modest broken boundary walls",
+    "terrain": "Central-right rock ridge, forked connected paths, natural stairs, gate thresholds and unequal clearings",
+    "scale": "Medium-height low walls and adult-scale routes; no furniture or oversized props",
+    "caveat": "Dense terrain may create more occlusion than broad original clearings; useful sample for assessing richer layout. Fine ground marks persist."
+  }
+}

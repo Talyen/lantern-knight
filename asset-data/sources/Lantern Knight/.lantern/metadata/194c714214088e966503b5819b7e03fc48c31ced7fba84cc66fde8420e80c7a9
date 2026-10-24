@@ -1,0 +1,34 @@
+[
+  {
+    "name": "central_floor_junction",
+    "junction_source_xy": [
+      640,
+      480
+    ],
+    "check_source_box": [
+      592,
+      432,
+      688,
+      528
+    ],
+    "mean_abs_rgb_difference": 0.012586805555555556,
+    "max_abs_rgb_difference": 2.0,
+    "pct_pixels_over_2": 0.0
+  },
+  {
+    "name": "bridge_junction",
+    "junction_source_xy": [
+      1120,
+      800
+    ],
+    "check_source_box": [
+      1072,
+      752,
+      1168,
+      848
+    ],
+    "mean_abs_rgb_difference": 0.008655689380787037,
+    "max_abs_rgb_difference": 2.0,
+    "pct_pixels_over_2": 0.0
+  }
+]

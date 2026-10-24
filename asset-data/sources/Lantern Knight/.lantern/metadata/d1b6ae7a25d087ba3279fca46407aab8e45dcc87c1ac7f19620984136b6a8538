@@ -1,0 +1,1078 @@
+{
+  "name": "Dried Rose Petal Fall",
+  "canvas": [
+    1536,
+    1024
+  ],
+  "pivot": [
+    0,
+    0
+  ],
+  "fps": 12,
+  "duration_ms": 8000,
+  "loop": true,
+  "playback": "forward",
+  "alpha": "straight",
+  "blend": "source_over",
+  "frame_count": 96,
+  "frames": [
+    {
+      "index": 0,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 1,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 2,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 3,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 4,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 5,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 6,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 7,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 8,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 9,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 10,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 11,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 12,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 13,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 14,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 15,
+      "atlas": "petals_atlas_00.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 16,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 17,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 18,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 19,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 20,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 21,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 22,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 23,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 24,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 25,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 26,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 27,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 28,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 29,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 30,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 31,
+      "atlas": "petals_atlas_01.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 32,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 33,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 34,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 35,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 36,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 37,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 38,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 39,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 40,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 41,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 42,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 43,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 44,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 45,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 46,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 47,
+      "atlas": "petals_atlas_02.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 48,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 49,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 50,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 51,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 52,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 53,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 54,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 55,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 56,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 57,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 58,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 59,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 60,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 61,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 62,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 63,
+      "atlas": "petals_atlas_03.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 64,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 65,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 66,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 67,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 68,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 69,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 70,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 71,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 72,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 73,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 74,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 75,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 76,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 77,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 78,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 79,
+      "atlas": "petals_atlas_04.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 80,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 81,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        1536,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 82,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        3072,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 83,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        4608,
+        0,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 84,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        0,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 85,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        1536,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 86,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        3072,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 87,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        4608,
+        1024,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 88,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        0,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 89,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        1536,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 90,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        3072,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 91,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        4608,
+        2048,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 92,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        0,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 93,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        1536,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 94,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        3072,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    },
+    {
+      "index": 95,
+      "atlas": "petals_atlas_05.png",
+      "rect": [
+        4608,
+        3072,
+        1536,
+        1024
+      ],
+      "duration_ms": 83.33333333333333
+    }
+  ],
+  "source": "AI-generated sprites with deterministic particle animation; not 96 separately drawn cels",
+  "screen_space": true
+}

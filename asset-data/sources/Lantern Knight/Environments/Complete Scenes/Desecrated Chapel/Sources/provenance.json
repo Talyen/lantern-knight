@@ -1,0 +1,69 @@
+{
+  "tool": "built-in image_gen",
+  "requestedModel": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "routingExposed": false,
+  "nativeResolutionControlExposed": false,
+  "qualityRequest": "highest available quality and maximum supported NATIVE resolution",
+  "files": [
+    {
+      "file": "altar-v1.png",
+      "sha256": "170f41c14869c02a01280e65c93dc8f11dd5d3f97b99313fd9b8ba3714f7a0b4",
+      "bytes": 1614865,
+      "nativeDimensions": [
+        1536,
+        1024
+      ],
+      "generatedFile": "exec-8886293f-c24f-4963-92b4-84a72f50a268.png"
+    },
+    {
+      "file": "window-v1.png",
+      "sha256": "5384927f14f054edff3963600625394e481a8bfc8a1efabddb72d968ab95f64b",
+      "bytes": 1747411,
+      "nativeDimensions": [
+        1024,
+        1536
+      ],
+      "generatedFile": "exec-272c599e-9e63-49f5-a73b-c47fc757cd4b.png"
+    },
+    {
+      "file": "pew-v1.png",
+      "sha256": "a9e93dd0d0675a7121ebc6c450cdc0461fe8e59ef7ae15dd97fb407ee1abf01e",
+      "bytes": 1286398,
+      "nativeDimensions": [
+        1536,
+        1024
+      ],
+      "generatedFile": "exec-5a88320b-a9f8-48ad-aa4e-e796f1e65288.png"
+    },
+    {
+      "file": "broken-pew-v1.png",
+      "sha256": "7bb1d24bc55ecfba588fc121a67d4c9801d5559ed5dba338382b7a8d7e12c952",
+      "bytes": 1363935,
+      "nativeDimensions": [
+        1536,
+        1024
+      ],
+      "generatedFile": "exec-6f536005-717a-41a4-a0f1-a173ad91de0e.png"
+    },
+    {
+      "file": "collapse-v1.png",
+      "sha256": "ceba8308fb1ba12c6463a439494f4a30b8b1309a1fe183ca0558b37ad099a605",
+      "bytes": 1547036,
+      "nativeDimensions": [
+        1536,
+        1024
+      ],
+      "generatedFile": "exec-2877f14c-0544-486b-a5df-d2ba436c9844.png"
+    },
+    {
+      "file": "floor-v1.png",
+      "sha256": "faf69fba9308c73b0c62ad5863754f329e93e0ce7a9b2e11ba9fd2d46faa2663",
+      "bytes": 1248669,
+      "nativeDimensions": [
+        1254,
+        1254
+      ],
+      "generatedFile": "exec-3fb033f9-9976-4c2a-bb0f-74c96f8dfb02.png"
+    }
+  ]
+}

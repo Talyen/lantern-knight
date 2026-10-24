@@ -1,0 +1,64 @@
+{
+  "title": "Highland Watchpost",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "central_approach",
+      "display_box": [
+        1032,
+        782,
+        2568,
+        1806
+      ],
+      "display_foot": [
+        1800,
+        1432
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    },
+    {
+      "name": "tower_forecourt",
+      "display_box": [
+        1794,
+        290,
+        3330,
+        1314
+      ],
+      "display_foot": [
+        2562,
+        940
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    },
+    {
+      "name": "lower_highland_path",
+      "display_box": [
+        1264,
+        1325,
+        2800,
+        2349
+      ],
+      "display_foot": [
+        2032,
+        1975
+      ],
+      "placement_note": "Visually selected clear ground; scale demonstration only, no engine validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "junction_1",
+      "source_xy": [
+        640,
+        480
+      ]
+    },
+    {
+      "name": "junction_2",
+      "source_xy": [
+        1120,
+        320
+      ]
+    }
+  ]
+}

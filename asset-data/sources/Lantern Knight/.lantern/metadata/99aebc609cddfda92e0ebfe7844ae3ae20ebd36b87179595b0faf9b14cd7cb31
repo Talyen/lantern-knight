@@ -1,0 +1,49 @@
+{
+  "status": "Locally corrected TEST candidate; pending root review and gameplay validation",
+  "methods": "Bounded traditional edits only; unchanged alpha, canvas, pivot, PPU, pose and timelines",
+  "cases": [
+    {
+      "case": "Cast_DR_01",
+      "changed_pixels": 449,
+      "source_grid_origin": [
+        0,
+        0
+      ],
+      "alpha_identical": true,
+      "outside_mask_identical": true,
+      "runtime": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Runtime/DR/frames_clean_native/lantern_DR_01.png",
+      "source_sheet": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Sources/DR/source/lantern_DR_native_sheet.png",
+      "atlas": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Runtime/DR/frames_clean_native/lantern_DR_atlas_native.png",
+      "flame_source": "original current lantern_DR_07.png pane interiors only; fixture and actor unchanged"
+    },
+    {
+      "case": "Cast_DR_02",
+      "changed_pixels": 435,
+      "source_grid_origin": [
+        444,
+        0
+      ],
+      "alpha_identical": true,
+      "outside_mask_identical": true,
+      "runtime": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Runtime/DR/frames_clean_native/lantern_DR_02.png",
+      "source_sheet": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Sources/DR/source/lantern_DR_native_sheet.png",
+      "atlas": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Runtime/DR/frames_clean_native/lantern_DR_atlas_native.png",
+      "flame_source": "original current lantern_DR_07.png pane interiors only; fixture and actor unchanged"
+    },
+    {
+      "case": "Cast_DR_08",
+      "changed_pixels": 346,
+      "source_grid_origin": [
+        1332,
+        444
+      ],
+      "alpha_identical": true,
+      "outside_mask_identical": true,
+      "runtime": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Runtime/DR/frames_clean_native/lantern_DR_08.png",
+      "source_sheet": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Sources/DR/source/lantern_DR_native_sheet.png",
+      "atlas": "lantern_animation_qa_20261007/hero_combat/corrected_packages/Lantern_Lantern_4Directions_Runtime/DR/frames_clean_native/lantern_DR_atlas_native.png",
+      "flame_source": "original current lantern_DR_07.png pane interiors only; fixture and actor unchanged"
+    }
+  ],
+  "original_archives_retained": true
+}

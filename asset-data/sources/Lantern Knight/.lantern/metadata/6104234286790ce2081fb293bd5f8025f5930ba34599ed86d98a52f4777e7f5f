@@ -1,0 +1,14 @@
+{
+  "method": "built-in image generation; fresh original-referenced art only; deterministic rigid chain correction in build.py",
+  "canonical_original_sha256": "6665d22253e78bdb1acc1300ee58cfafae6dabb9f11a8bf8199f97b71ad19a05",
+  "prompt_files": [
+    "hit_prompt.txt",
+    "defeat_prompt.txt"
+  ],
+  "requested_style_phrase": "Sunburst 2.5; not underlying model selection claim",
+  "native_sha256": {
+    "hit": "3278b5ab75bf0848efd9fcd342c90a425cbe5478a59d5494d769ebd608a3f777",
+    "defeat": "71b0dcc5a5f1a930cab615f23526855a084cdef7d1f1c89fb4170bba5895cb2b"
+  },
+  "source_archive_library_id": "libfile_e1a0a3dfe34c819197052040678e2ca4"
+}

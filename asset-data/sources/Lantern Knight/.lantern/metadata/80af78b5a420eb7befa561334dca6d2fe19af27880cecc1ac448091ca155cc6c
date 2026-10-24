@@ -1,0 +1,46 @@
+{
+  "schema": "lantern.sprite.reaction.v1",
+  "name": "Pewbreaker",
+  "clip": "heavy_stagger",
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    384,
+    550
+  ],
+  "facing": "Existing authored down-right/front three-quarter, unchanged; do not mirror",
+  "tick_rate": 60,
+  "loop": false,
+  "holds_ticks": [
+    6,
+    4,
+    10,
+    8,
+    10,
+    12
+  ],
+  "total_ticks": 50,
+  "events": {
+    "interruption_tick": 6,
+    "recoil_peak_tick": 10,
+    "recovery_tick": 20,
+    "ready_tick": 38
+  },
+  "frames": [
+    "frames/heavy_stagger_00.png",
+    "frames/heavy_stagger_01.png",
+    "frames/heavy_stagger_02.png",
+    "frames/heavy_stagger_03.png",
+    "frames/heavy_stagger_04.png",
+    "frames/heavy_stagger_05.png"
+  ],
+  "atlas": {
+    "file": "heavy_stagger_atlas.png",
+    "columns": 3,
+    "rows": 2
+  },
+  "root_motion": "None. Actor translation engine-owned. Registration baked into PNG.",
+  "integration": "Return to existing ready state after final hold. Do not spawn attacks/projectiles; visual cancellation cue only."
+}

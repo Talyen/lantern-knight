@@ -1,0 +1,210 @@
+{
+  "name": "Mosswell Slime",
+  "identity_id": "SL01",
+  "original_sha256": "b311cf4f76318ee24e23d1c47f87a3c889cab13de9a2dd641383f7c28a58628c",
+  "canvas": [
+    640,
+    640
+  ],
+  "pivot_pixels_top_left": [
+    320,
+    540
+  ],
+  "estimated_pixels_per_unit": 320,
+  "facing": "southeast / screen lower-right",
+  "camera": {
+    "elevation_intent_degrees": 35.2643897,
+    "azimuth_intent_degrees": 45,
+    "note": "Drawn visual approximation, not calibrated 3D geometry"
+  },
+  "mirroring": "Potentially usable for this unarmed organic silhouette, but not separately authored or approved.",
+  "offsets": "Registration and intentional body shifts are baked in PNG. No runtime sprite offset. World actor translation separate.",
+  "clips": {
+    "move": {
+      "loop": true,
+      "frames": [
+        {
+          "file": "move_00.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            29,
+            132,
+            485,
+            469
+          ],
+          "baked_translation": [
+            92,
+            203
+          ]
+        },
+        {
+          "file": "move_01.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            525,
+            178,
+            1049,
+            463
+          ],
+          "baked_translation": [
+            58,
+            255
+          ]
+        },
+        {
+          "file": "move_02.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            1067,
+            77,
+            1517,
+            457
+          ],
+          "baked_translation": [
+            95,
+            160
+          ]
+        },
+        {
+          "file": "move_03.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            40,
+            555,
+            488,
+            919
+          ],
+          "baked_translation": [
+            96,
+            176
+          ]
+        },
+        {
+          "file": "move_04.png",
+          "hold_ticks_60hz": 7,
+          "source_box": [
+            532,
+            648,
+            1049,
+            916
+          ],
+          "baked_translation": [
+            62,
+            272
+          ]
+        },
+        {
+          "file": "move_05.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            1068,
+            604,
+            1517,
+            939
+          ],
+          "baked_translation": [
+            96,
+            205
+          ]
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "end": "hold last recovery cel until state transition",
+      "visual_event": {
+        "frame_index": 3,
+        "meaning": "Whole-body bash extension apex",
+        "not_gameplay_damage_guarantee": true
+      },
+      "frames": [
+        {
+          "file": "attack_00.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            47,
+            110,
+            489,
+            449
+          ],
+          "baked_translation": [
+            99,
+            201
+          ]
+        },
+        {
+          "file": "attack_01.png",
+          "hold_ticks_60hz": 10,
+          "source_box": [
+            546,
+            196,
+            1003,
+            448
+          ],
+          "baked_translation": [
+            80,
+            288
+          ]
+        },
+        {
+          "file": "attack_02.png",
+          "hold_ticks_60hz": 5,
+          "source_box": [
+            1052,
+            159,
+            1489,
+            455
+          ],
+          "baked_translation": [
+            110,
+            244
+          ]
+        },
+        {
+          "file": "attack_03.png",
+          "hold_ticks_60hz": 6,
+          "source_box": [
+            56,
+            629,
+            536,
+            936
+          ],
+          "baked_translation": [
+            106,
+            233
+          ]
+        },
+        {
+          "file": "attack_04.png",
+          "hold_ticks_60hz": 8,
+          "source_box": [
+            576,
+            590,
+            988,
+            920
+          ],
+          "baked_translation": [
+            122,
+            210
+          ]
+        },
+        {
+          "file": "attack_05.png",
+          "hold_ticks_60hz": 12,
+          "source_box": [
+            1047,
+            588,
+            1490,
+            928
+          ],
+          "baked_translation": [
+            99,
+            200
+          ]
+        }
+      ]
+    }
+  },
+  "idle": "First move cel only, not animated idle",
+  "qa_limits": "All cels visually inspected on light/dark; native timing preview encoded. No engine test or real-time playback claim."
+}

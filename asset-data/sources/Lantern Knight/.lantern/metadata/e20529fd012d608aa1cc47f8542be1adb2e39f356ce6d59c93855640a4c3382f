@@ -1,0 +1,34 @@
+[
+  {
+    "name": "central_root_bark",
+    "junction_source_xy": [
+      640,
+      320
+    ],
+    "check_source_box": [
+      592,
+      272,
+      688,
+      368
+    ],
+    "mean_abs_rgb_difference": 0.020024052372685185,
+    "max_abs_rgb_difference": 3.0,
+    "pct_pixels_over_2": 0.006103515625
+  },
+  {
+    "name": "right_root_boundary",
+    "junction_source_xy": [
+      1280,
+      640
+    ],
+    "check_source_box": [
+      1232,
+      592,
+      1328,
+      688
+    ],
+    "mean_abs_rgb_difference": 0.012326841001157407,
+    "max_abs_rgb_difference": 2.0,
+    "pct_pixels_over_2": 0.0
+  }
+]

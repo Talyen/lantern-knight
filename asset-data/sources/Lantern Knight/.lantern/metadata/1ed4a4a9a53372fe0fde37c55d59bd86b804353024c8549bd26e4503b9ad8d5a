@@ -1,0 +1,148 @@
+{
+  "id": "SK02",
+  "name": "Sepulcher Warden",
+  "family": "01 Skeletons",
+  "collection": "animation_friendly_selection",
+  "canonical_status": "current selected variant",
+  "source_drive_id": "1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9",
+  "source_url": "https://drive.google.com/file/d/1rU_RoE-spqHaWLpZNM_lqG5e_AiH-xZ9/view?usp=drivesdk",
+  "source_archive": "01_skeletons_selection_pack.zip",
+  "source_path": "/workspace/shared/lantern_enemy_approval_oct08/originals/01_skeletons_selection_pack/01_skeletons/assets/SK02_sepulcher_warden.png",
+  "source_sha256": "40f2ffd293036f6a272c5cebe6d37f6fb97294295664aad40683334cc78e194d",
+  "animation_status": "no_animation_found",
+  "animation_evidence": "Current Oct07 handoff lists five completed actors and 25 states; ID is absent. Selection manifest describes static concept and future motion hints.",
+  "visual_review": "Inspected all-48 labeled overview against roster; distinct selected design.",
+  "include_in_enemy_approval": true,
+  "right_crop_extra": {
+    "attack": {
+      "3": 48
+    }
+  },
+  "clear_left_pixels": {
+    "attack": {
+      "4": 48
+    }
+  },
+  "clear_rectangles": {
+    "move": {
+      "3": [
+        [
+          400,
+          0,
+          512,
+          6
+        ]
+      ],
+      "4": [
+        [
+          380,
+          0,
+          512,
+          6
+        ]
+      ]
+    },
+    "attack": {
+      "3": [
+        [
+          0,
+          0,
+          512,
+          16
+        ]
+      ],
+      "4": [
+        [
+          0,
+          0,
+          512,
+          16
+        ]
+      ],
+      "5": [
+        [
+          80,
+          0,
+          180,
+          20
+        ]
+      ]
+    }
+  },
+  "registration_offsets": {
+    "move": {
+      "0": [
+        -48,
+        0
+      ],
+      "1": [
+        -1,
+        0
+      ],
+      "2": [
+        30,
+        0
+      ],
+      "3": [
+        -67,
+        0
+      ],
+      "4": [
+        -12,
+        0
+      ],
+      "5": [
+        45,
+        0
+      ]
+    },
+    "attack": {
+      "0": [
+        -51,
+        -11
+      ],
+      "1": [
+        -14,
+        -11
+      ],
+      "2": [
+        30,
+        -10
+      ],
+      "3": [
+        -51,
+        18
+      ],
+      "4": [
+        -21,
+        13
+      ],
+      "5": [
+        5,
+        -5
+      ]
+    }
+  },
+  "source_order": {
+    "move": [
+      0,
+      1,
+      4,
+      2,
+      5,
+      3
+    ]
+  },
+  "bottom_crop_extra": {
+    "attack": {
+      "0": 24,
+      "1": 24,
+      "2": 24
+    },
+    "move": {
+      "0": 8,
+      "1": 8
+    }
+  },
+  "remove_components_below": 2000
+}

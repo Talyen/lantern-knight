@@ -1,0 +1,2269 @@
+{
+  "id": "lantern_flare_fx",
+  "name": "Lantern flare optional light release",
+  "action_role": "lantern_flare",
+  "layer_role": "optional_vfx_overlay",
+  "artwork_approved": true,
+  "status": "ARTWORK_APPROVED_PACKAGED",
+  "allow_empty_frames": true,
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_px_top_left": [
+    768,
+    892
+  ],
+  "loop": false,
+  "timed_drawing_slots": 25,
+  "unique_generated_effect_drawings": 4,
+  "duration_ticks_60hz": 84,
+  "duration_seconds": 1.4,
+  "frames": [
+    {
+      "frame": 1,
+      "file": "frames/lantern_flare_fx_001.png",
+      "hold_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_tick_60hz": 0,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 1,
+      "source_file": "effects/lantern_flare_fx_01.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 0,
+      "frameHold": 2,
+      "onset_seconds": 0.0,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 2,
+      "file": "frames/lantern_flare_fx_002.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 2,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 2,
+      "source_file": "effects/lantern_flare_fx_02.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 2,
+      "frameHold": 3,
+      "onset_seconds": 0.03333333333333333,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 3,
+      "file": "frames/lantern_flare_fx_003.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 5,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 3,
+      "source_file": "effects/lantern_flare_fx_03.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 5,
+      "frameHold": 3,
+      "onset_seconds": 0.08333333333333333,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 4,
+      "file": "frames/lantern_flare_fx_004.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 8,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 4,
+      "source_file": "effects/lantern_flare_fx_04.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 8,
+      "frameHold": 3,
+      "onset_seconds": 0.13333333333333333,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 5,
+      "file": "frames/lantern_flare_fx_005.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 11,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 5,
+      "source_file": "effects/lantern_flare_fx_05.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 11,
+      "frameHold": 3,
+      "onset_seconds": 0.18333333333333332,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 6,
+      "file": "frames/lantern_flare_fx_006.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 14,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 6,
+      "source_file": "effects/lantern_flare_fx_06.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 14,
+      "frameHold": 3,
+      "onset_seconds": 0.23333333333333334,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 7,
+      "file": "frames/lantern_flare_fx_007.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 17,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 7,
+      "source_file": "effects/lantern_flare_fx_07.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 17,
+      "frameHold": 3,
+      "onset_seconds": 0.2833333333333333,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 8,
+      "file": "frames/lantern_flare_fx_008.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 20,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 8,
+      "source_file": "effects/lantern_flare_fx_08.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 20,
+      "frameHold": 3,
+      "onset_seconds": 0.3333333333333333,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 9,
+      "file": "frames/lantern_flare_fx_009.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 23,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 9,
+      "source_file": "effects/lantern_flare_fx_09.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 23,
+      "frameHold": 3,
+      "onset_seconds": 0.38333333333333336,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 10,
+      "file": "frames/lantern_flare_fx_010.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 26,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 10,
+      "source_file": "effects/lantern_flare_fx_10.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 26,
+      "frameHold": 3,
+      "onset_seconds": 0.43333333333333335,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 11,
+      "file": "frames/lantern_flare_fx_011.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 29,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 1,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        0,
+        0,
+        350,
+        724
+      ],
+      "source_emission_origin": [
+        72,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        1063,
+        260
+      ],
+      "emission_origin_delivery_px": [
+        1097.8,
+        428.083
+      ],
+      "phase": "onset",
+      "png_sha256": "c6fedd95738fe292eb6738e5b67c1cac48a6994cd125e87f3992449671acad09",
+      "index": 11,
+      "source_file": "effects/lantern_flare_fx_11.png",
+      "sha256": "c6fedd95738fe292eb6738e5b67c1cac48a6994cd125e87f3992449671acad09",
+      "rgba_sha256": "82ee8eebcb1e055dbba084d6c1fa099cd81e2f652acf936a7d9b83418f0fcda0",
+      "visible_rgba_sha256": "7f4d6b86e94d302e72bd05ad94fc15dc1e779f468c9a39feacab2b46f26bad8a",
+      "onset_60hz": 29,
+      "frameHold": 3,
+      "onset_seconds": 0.48333333333333334,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1082,
+        "y": 375,
+        "w": 139,
+        "h": 104
+      },
+      "source_trim_rect": {
+        "x": 1082,
+        "y": 375,
+        "w": 139,
+        "h": 104
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -314,
+        517
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 8,
+        "y": 8,
+        "w": 139,
+        "h": 104
+      },
+      "atlasRect": {
+        "x": 8,
+        "y": 8,
+        "w": 139,
+        "h": 104
+      }
+    },
+    {
+      "frame": 12,
+      "file": "frames/lantern_flare_fx_012.png",
+      "hold_60hz": 4,
+      "hold_ticks_60hz": 4,
+      "start_tick_60hz": 32,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 2,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        350,
+        0,
+        885,
+        724
+      ],
+      "source_emission_origin": [
+        420,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        898,
+        247
+      ],
+      "emission_origin_delivery_px": [
+        1099.683,
+        415.093
+      ],
+      "phase": "expansion",
+      "png_sha256": "d8050179509471ff5a005b2e2f73f229c1a2c0d153ee3572e6ed0de3f6ca065a",
+      "index": 12,
+      "source_file": "effects/lantern_flare_fx_12.png",
+      "sha256": "d8050179509471ff5a005b2e2f73f229c1a2c0d153ee3572e6ed0de3f6ca065a",
+      "rgba_sha256": "4abaf4df4a2cd298c72b43aa550fa7641dd832339f2d264b7a0d97ce3bf0637b",
+      "visible_rgba_sha256": "527fc88a513d0ab4a5d49d7e2380b87f9790fbacf27fe60e8a28c9f47bfbf958",
+      "onset_60hz": 32,
+      "frameHold": 4,
+      "onset_seconds": 0.5333333333333333,
+      "hold_seconds": 0.06666666666666667,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1085,
+        "y": 340,
+        "w": 230,
+        "h": 160
+      },
+      "source_trim_rect": {
+        "x": 1085,
+        "y": 340,
+        "w": 230,
+        "h": 160
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -317,
+        552
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 163,
+        "y": 8,
+        "w": 230,
+        "h": 160
+      },
+      "atlasRect": {
+        "x": 163,
+        "y": 8,
+        "w": 230,
+        "h": 160
+      }
+    },
+    {
+      "frame": 13,
+      "file": "frames/lantern_flare_fx_013.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 36,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 2,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        350,
+        0,
+        885,
+        724
+      ],
+      "source_emission_origin": [
+        420,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        922,
+        221
+      ],
+      "emission_origin_delivery_px": [
+        1123.374,
+        389.011
+      ],
+      "phase": "expansion",
+      "png_sha256": "0f0a5c02552b967705953f3e55d615e1b13233f646dbd2c31631b204c6a85f33",
+      "index": 13,
+      "source_file": "effects/lantern_flare_fx_13.png",
+      "sha256": "0f0a5c02552b967705953f3e55d615e1b13233f646dbd2c31631b204c6a85f33",
+      "rgba_sha256": "9e4e8c824a9b46d93a39fae174c6b4c150441fb1a7b048df45f6123ce57398be",
+      "visible_rgba_sha256": "f75fb3a0b4528e12f03ed1775deb4517b1961f84bf07be64eadfc0cf760240ce",
+      "onset_60hz": 36,
+      "frameHold": 3,
+      "onset_seconds": 0.6,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1109,
+        "y": 314,
+        "w": 230,
+        "h": 160
+      },
+      "source_trim_rect": {
+        "x": 1109,
+        "y": 314,
+        "w": 230,
+        "h": 160
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -341,
+        578
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 409,
+        "y": 8,
+        "w": 230,
+        "h": 160
+      },
+      "atlasRect": {
+        "x": 409,
+        "y": 8,
+        "w": 230,
+        "h": 160
+      }
+    },
+    {
+      "frame": 14,
+      "file": "frames/lantern_flare_fx_014.png",
+      "hold_60hz": 7,
+      "hold_ticks_60hz": 7,
+      "start_tick_60hz": 39,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 3,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        885,
+        0,
+        1622,
+        724
+      ],
+      "source_emission_origin": [
+        935,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        687,
+        229
+      ],
+      "emission_origin_delivery_px": [
+        1135.488,
+        397.249
+      ],
+      "phase": "peak",
+      "png_sha256": "7d49dc0195f36bb2b779962c073ccad4ef4025e9605ed4c80515f83d864d9b1a",
+      "index": 14,
+      "source_file": "effects/lantern_flare_fx_14.png",
+      "sha256": "7d49dc0195f36bb2b779962c073ccad4ef4025e9605ed4c80515f83d864d9b1a",
+      "rgba_sha256": "f46b0453b87382d3e070ec5da9a5e40a69188d91e7ec33e42949c104e1dba388",
+      "visible_rgba_sha256": "484ea901bf4cec8f3bbf5aeae8d7657ecbaf073a8180f64c191877ae343da194",
+      "onset_60hz": 39,
+      "frameHold": 7,
+      "onset_seconds": 0.65,
+      "hold_seconds": 0.11666666666666667,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1112,
+        "y": 280,
+        "w": 341,
+        "h": 269
+      },
+      "source_trim_rect": {
+        "x": 1112,
+        "y": 280,
+        "w": 341,
+        "h": 269
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -344,
+        612
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 655,
+        "y": 8,
+        "w": 341,
+        "h": 269
+      },
+      "atlasRect": {
+        "x": 655,
+        "y": 8,
+        "w": 341,
+        "h": 269
+      }
+    },
+    {
+      "frame": 15,
+      "file": "frames/lantern_flare_fx_015.png",
+      "hold_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_tick_60hz": 46,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 3,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        885,
+        0,
+        1622,
+        724
+      ],
+      "source_emission_origin": [
+        935,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        545,
+        257
+      ],
+      "emission_origin_delivery_px": [
+        993.903,
+        425.363
+      ],
+      "phase": "peak",
+      "png_sha256": "4d240a2217397f1998ffc6984db2cb4a1f73a1b6b67b87ff523816d9080c17b4",
+      "index": 15,
+      "source_file": "effects/lantern_flare_fx_15.png",
+      "sha256": "4d240a2217397f1998ffc6984db2cb4a1f73a1b6b67b87ff523816d9080c17b4",
+      "rgba_sha256": "b1e43c9b3d0dc02144d98c962ca26df759a11009c8cc51c94adb2ddeb14938de",
+      "visible_rgba_sha256": "f1e653f0d6ee32cbcec836bd155b61333490b45949e8a22d5c1100be2fd0f433",
+      "onset_60hz": 46,
+      "frameHold": 2,
+      "onset_seconds": 0.7666666666666667,
+      "hold_seconds": 0.03333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 970,
+        "y": 308,
+        "w": 341,
+        "h": 269
+      },
+      "source_trim_rect": {
+        "x": 970,
+        "y": 308,
+        "w": 341,
+        "h": 269
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -202,
+        584
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1012,
+        "y": 8,
+        "w": 341,
+        "h": 269
+      },
+      "atlasRect": {
+        "x": 1012,
+        "y": 8,
+        "w": 341,
+        "h": 269
+      }
+    },
+    {
+      "frame": 16,
+      "file": "frames/lantern_flare_fx_016.png",
+      "hold_60hz": 6,
+      "hold_ticks_60hz": 6,
+      "start_tick_60hz": 48,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 4,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        1622,
+        0,
+        2172,
+        724
+      ],
+      "source_emission_origin": [
+        1650,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        262,
+        291
+      ],
+      "emission_origin_delivery_px": [
+        1053.829,
+        458.888
+      ],
+      "phase": "decay",
+      "png_sha256": "a95dec8fb919df525159d1cca4a584745fc3e67ad643866b46aecee13ae38153",
+      "index": 16,
+      "source_file": "effects/lantern_flare_fx_16.png",
+      "sha256": "a95dec8fb919df525159d1cca4a584745fc3e67ad643866b46aecee13ae38153",
+      "rgba_sha256": "331960fa80a5cab057ed6912eac04f6da8e5ceb7b101c1a0e39976cadd6bed3f",
+      "visible_rgba_sha256": "f3fbcbabc920757b74b1ab2ac96daefa81493bd036c5048b6b2fd6e269daec27",
+      "onset_60hz": 48,
+      "frameHold": 6,
+      "onset_seconds": 0.8,
+      "hold_seconds": 0.1,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1042,
+        "y": 342,
+        "w": 245,
+        "h": 191
+      },
+      "source_trim_rect": {
+        "x": 1042,
+        "y": 342,
+        "w": 245,
+        "h": 191
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -274,
+        550
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1369,
+        "y": 8,
+        "w": 245,
+        "h": 191
+      },
+      "atlasRect": {
+        "x": 1369,
+        "y": 8,
+        "w": 245,
+        "h": 191
+      }
+    },
+    {
+      "frame": 17,
+      "file": "frames/lantern_flare_fx_017.png",
+      "hold_60hz": 5,
+      "hold_ticks_60hz": 5,
+      "start_tick_60hz": 54,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 4,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        1622,
+        0,
+        2172,
+        724
+      ],
+      "source_emission_origin": [
+        1650,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        304,
+        268
+      ],
+      "emission_origin_delivery_px": [
+        1096.0,
+        436.0
+      ],
+      "phase": "decay",
+      "png_sha256": "8fb322c2af365ba5cef526125eb23009344537b853109cb6e5d1b8f9a0ed71b5",
+      "index": 17,
+      "source_file": "effects/lantern_flare_fx_17.png",
+      "sha256": "8fb322c2af365ba5cef526125eb23009344537b853109cb6e5d1b8f9a0ed71b5",
+      "rgba_sha256": "10d38222145eccf7994a7fa504fce9e320ccf7e569cc49a2134a0e7677e5722d",
+      "visible_rgba_sha256": "11c10b07dc8bca0d1422eb77ad2c8e3973e6b8c9a9739477261df62679c23afb",
+      "onset_60hz": 54,
+      "frameHold": 5,
+      "onset_seconds": 0.9,
+      "hold_seconds": 0.08333333333333333,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1084,
+        "y": 319,
+        "w": 245,
+        "h": 191
+      },
+      "source_trim_rect": {
+        "x": 1084,
+        "y": 319,
+        "w": 245,
+        "h": 191
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -316,
+        573
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1630,
+        "y": 8,
+        "w": 245,
+        "h": 191
+      },
+      "atlasRect": {
+        "x": 1630,
+        "y": 8,
+        "w": 245,
+        "h": 191
+      }
+    },
+    {
+      "frame": 18,
+      "file": "frames/lantern_flare_fx_018.png",
+      "hold_60hz": 4,
+      "hold_ticks_60hz": 4,
+      "start_tick_60hz": 59,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 4,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        1622,
+        0,
+        2172,
+        724
+      ],
+      "source_emission_origin": [
+        1650,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        319,
+        290
+      ],
+      "emission_origin_delivery_px": [
+        1111.0,
+        458.0
+      ],
+      "phase": "decay",
+      "png_sha256": "be02c485e77d3f3eb5de86b36a6e672c6cab6b40f937d7d69c22a55d40da314d",
+      "index": 18,
+      "source_file": "effects/lantern_flare_fx_18.png",
+      "sha256": "be02c485e77d3f3eb5de86b36a6e672c6cab6b40f937d7d69c22a55d40da314d",
+      "rgba_sha256": "9cd59caa8386abee4b71c9a13f4da0b3745647ef7a8cb48c7595d1d0adaec56f",
+      "visible_rgba_sha256": "5d342a46f4822a47e6a30ec59eaeb267b00921a1757af4d99e4a8a4d605ea407",
+      "onset_60hz": 59,
+      "frameHold": 4,
+      "onset_seconds": 0.9833333333333333,
+      "hold_seconds": 0.06666666666666667,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 1099,
+        "y": 341,
+        "w": 245,
+        "h": 191
+      },
+      "source_trim_rect": {
+        "x": 1099,
+        "y": 341,
+        "w": 245,
+        "h": 191
+      },
+      "trimmed_root_pivot_px_top_left": [
+        -331,
+        551
+      ],
+      "empty": false,
+      "rotated": false,
+      "atlas_page": 0,
+      "atlas_rect": {
+        "x": 1891,
+        "y": 8,
+        "w": 245,
+        "h": 191
+      },
+      "atlasRect": {
+        "x": 1891,
+        "y": 8,
+        "w": 245,
+        "h": 191
+      }
+    },
+    {
+      "frame": 19,
+      "file": "frames/lantern_flare_fx_019.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 63,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 19,
+      "source_file": "effects/lantern_flare_fx_19.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 63,
+      "frameHold": 3,
+      "onset_seconds": 1.05,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 20,
+      "file": "frames/lantern_flare_fx_020.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 66,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 20,
+      "source_file": "effects/lantern_flare_fx_20.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 66,
+      "frameHold": 3,
+      "onset_seconds": 1.1,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 21,
+      "file": "frames/lantern_flare_fx_021.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 69,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 21,
+      "source_file": "effects/lantern_flare_fx_21.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 69,
+      "frameHold": 3,
+      "onset_seconds": 1.15,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 22,
+      "file": "frames/lantern_flare_fx_022.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 72,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 22,
+      "source_file": "effects/lantern_flare_fx_22.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 72,
+      "frameHold": 3,
+      "onset_seconds": 1.2,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 23,
+      "file": "frames/lantern_flare_fx_023.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 75,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 23,
+      "source_file": "effects/lantern_flare_fx_23.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 75,
+      "frameHold": 3,
+      "onset_seconds": 1.25,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 24,
+      "file": "frames/lantern_flare_fx_024.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 78,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 24,
+      "source_file": "effects/lantern_flare_fx_24.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 78,
+      "frameHold": 3,
+      "onset_seconds": 1.3,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    },
+    {
+      "frame": 25,
+      "file": "frames/lantern_flare_fx_025.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 81,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "index": 25,
+      "source_file": "effects/lantern_flare_fx_25.png",
+      "sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f",
+      "rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "visible_rgba_sha256": "b69dae56a14d1a8314ed40664c4033ea0a550eea2673e04df42a66ac6b9faf2c",
+      "onset_60hz": 81,
+      "frameHold": 3,
+      "onset_seconds": 1.35,
+      "hold_seconds": 0.05,
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "sourceSize": {
+        "w": 1536,
+        "h": 1024
+      },
+      "source_size_px": [
+        1536,
+        1024
+      ],
+      "rootPivot": [
+        768,
+        892
+      ],
+      "root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "pivot_px": [
+        768,
+        892
+      ],
+      "packaging_scale": 1.0,
+      "packaging_translation_px": [
+        0,
+        0
+      ],
+      "sourceTrimRect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "source_trim_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trimmed_root_pivot_px_top_left": [
+        768,
+        892
+      ],
+      "empty": true,
+      "rotated": false,
+      "atlas_page": null,
+      "atlas_rect": null,
+      "atlasRect": null
+    }
+  ],
+  "source_scale_rule": "One0.48 factor for all4 effects. Integer translation to per-drawing lantern glass. Body artwork is unchanged and delivered separately.",
+  "events": [
+    {
+      "name": "release_onset",
+      "frame": 11,
+      "tick_60hz": 29,
+      "kind": "vfx_cue",
+      "frames": [
+        11
+      ],
+      "start_seconds": [
+        0.48333333333333334
+      ]
+    },
+    {
+      "name": "flare_peak",
+      "frame": 14,
+      "tick_60hz": 39,
+      "kind": "vfx_cue",
+      "frames": [
+        14
+      ],
+      "start_seconds": [
+        0.65
+      ]
+    },
+    {
+      "name": "flare_decay",
+      "frame": 16,
+      "tick_60hz": 48,
+      "kind": "vfx_cue",
+      "frames": [
+        16
+      ],
+      "start_seconds": [
+        0.8
+      ]
+    },
+    {
+      "name": "cone_end",
+      "frame": 19,
+      "tick_60hz": 63,
+      "kind": "vfx_cue",
+      "frames": [
+        19
+      ],
+      "start_seconds": [
+        1.05
+      ]
+    }
+  ],
+  "reference_body_height_px": 504,
+  "model_preference": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "actual_backend_verified": false,
+  "camera_note": "Same accepted approximately10-degree down-right illustrated view.35.264-degree elevation/45-degree azimuth/13m are uncalibrated reference targets.",
+  "interpolation": "None for character/effect drawings. Complete drawings held for integer60Hz ticks.",
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 3,
+  "preview_note": "Previews show three action repeats with neutral lead/return/reset pauses. Runtime action duration excludes those presentation pauses.",
+  "known_review_items": [
+    "Illustrated camera and 2D contact/hand landmarks remain uncalibrated; runtime collision and importer behavior are not tested.",
+    "Frame-to-frame illustrated detail variation remains visible at full source size; no synthetic smoothing was used."
+  ],
+  "counting_note": "unique_generated_effect_drawings=4 is the actual illustration count. Exporter unique_drawings/source_unique_drawings count distinct registered input PNG arrays, including the empty layer; translation with the lantern is not a newly drawn effect.",
+  "schema": "lantern.fixed-canvas-animation/1.0",
+  "clip_id": "lantern_flare_fx",
+  "delivery_eligible": true,
+  "root_pivot_px": [
+    768,
+    892
+  ],
+  "root_pivot_px_bottom_left": [
+    768,
+    132
+  ],
+  "root_pivot_normalized_top_left": [
+    0.5,
+    0.87109375
+  ],
+  "root_pivot_normalized_bottom_left": [
+    0.5,
+    0.12890625
+  ],
+  "pixels_per_world_unit": "inherit accepted walk unchanged; numeric runtime value not supplied",
+  "import_note": "1536x1024 is transparent padding around the unchanged-scale actor. Preserve the accepted walk pixels-per-world-unit. Do not fit this canvas to the old quad height. Relative to 512x640, the raw quad canvas is 3x wider and 1.6x taller at identical pixel scale; padding is (+512,+320), root (768,892). Reconstruct trim offsets; never center the crop or scale an individual frame.",
+  "temporal_interpolation": "none; whole drawings held for integer ticks",
+  "frame_blending": false,
+  "frame_count": 25,
+  "unique_drawings": 9,
+  "source_unique_drawings": 9,
+  "holds_60hz": [
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    7,
+    2,
+    6,
+    5,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "onsets_60hz": [
+    0,
+    2,
+    5,
+    8,
+    11,
+    14,
+    17,
+    20,
+    23,
+    26,
+    29,
+    32,
+    36,
+    39,
+    46,
+    48,
+    54,
+    59,
+    63,
+    66,
+    69,
+    72,
+    75,
+    78,
+    81
+  ],
+  "action_duration_ticks_60hz": 84,
+  "action_duration_seconds": 1.4,
+  "cycle_duration_ticks_60hz": null,
+  "cycle_duration_seconds": null,
+  "preview_timed_duration_seconds": 4.199999999999999,
+  "duration_note": "Finite one-pass timing only. Preview repeats and any game-owned indefinite terminal hold are separate.",
+  "full_frames_authoritative": true,
+  "shared_state_rgba_sha256": {},
+  "atlas": {
+    "enabled": true,
+    "pages": [
+      {
+        "index": 0,
+        "file": "atlas/page_00.png",
+        "size_px": [
+          2144,
+          285
+        ],
+        "sha256": "f5e8edf6b80c6ee797df13d0d7e53623e57c80c279af8bf277ad77941bb212bc"
+      }
+    ],
+    "max_page_px": [
+      4096,
+      4096
+    ],
+    "gutter_px": 8,
+    "gutter_each_side_px": 8,
+    "rotation": false,
+    "trim": "exact bbox of every nonzero alpha pixel; zero threshold",
+    "alpha": "straight; transparent gutters; no extrusion or pixel editing",
+    "sampling_note": "Use existing importer sampling; disable mipmaps unless padding-aware mip generation is verified."
+  }
+}

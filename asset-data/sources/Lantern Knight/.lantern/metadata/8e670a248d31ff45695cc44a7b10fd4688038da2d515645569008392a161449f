@@ -1,0 +1,74 @@
+{
+  "README.txt": {
+    "bytes": 5273,
+    "sha256": "2af1878c6847352808323e7aed42c89b0b548400cf17568b3a10cfdc62a24bd3"
+  },
+  "exact_prompt.txt": {
+    "bytes": 5716,
+    "sha256": "fb0ac65eebc2a0141eac2727ebbbd16cf2595aedd0fb496bce88f3de6e9c8523"
+  },
+  "locked_style_verbatim.txt": {
+    "bytes": 2317,
+    "sha256": "22b44f759cf412620538318ee32fc0e7963159453a355a4cf0ce24ecda1df1d3"
+  },
+  "metadata.json": {
+    "bytes": 2099,
+    "sha256": "b26478b9af5bcfdd557548e08fa7be875e9634c41b2f402c3d77080b845a56c7"
+  },
+  "native_floor.png": {
+    "bytes": 3000700,
+    "sha256": "8eede1ce2649caae63b5da14d1c699ecf0a3a17c1e08d69613ee91904b324465"
+  },
+  "reference_roles.txt": {
+    "bytes": 479,
+    "sha256": "1e8dccc30f77537cbf69dee33d219e5534d2d02a45e87c2ca9637fd0badca1c6"
+  },
+  "provenance/ncnn-LICENSE.txt": {
+    "bytes": 6427,
+    "sha256": "7c974bac98848df46be1af5bdaa3c3c9c01f6082a90f55caeb7f60c6208aa255"
+  },
+  "provenance/source_model.json": {
+    "bytes": 485,
+    "sha256": "845f742b7d889b0265a8d30163b4649e0ca48c4c25dd56c3bd92dc496b2d1f62"
+  },
+  "provenance/full_attempt_status.txt": {
+    "bytes": 1608,
+    "sha256": "8a10cf752af17121564a791e6e96a5f4f89dd8f363610a61b8439cddb5719282"
+  },
+  "provenance/Real-ESRGAN-LICENSE.txt": {
+    "bytes": 1519,
+    "sha256": "4a699ec4863d96a91fc265948a0c90033f7e8735d515524dcf3444736406e0c2"
+  },
+  "metrics/tested_run.log": {
+    "bytes": 8435,
+    "sha256": "db325440d96678188c26142d4b8f3021c3b4474875da519d694ed4e1b7b1fcc2"
+  },
+  "metrics/file_manifest.json": {
+    "bytes": 3849,
+    "sha256": "25eeca15f48215be3873dc291d134e11b7571222ad99aab2064a08f9fde0b614"
+  },
+  "metrics/seam_metrics.json": {
+    "bytes": 590,
+    "sha256": "a1a9b04812a928d450d5ac4af123cfdc5293f14e172e0bd7a4d428465f1a1c5c"
+  },
+  "metrics/resume_config.json": {
+    "bytes": 137,
+    "sha256": "f9cccf74995fe23b4b3ce887ac0007e7d0da31fef318bc60ec2d2c0d04b13124"
+  },
+  "metrics/run_metadata.json": {
+    "bytes": 17142,
+    "sha256": "197a839a17e4e31b87b381dc913964c0b9decc98f824a09e781e118207cb5a90"
+  },
+  "inference/run_isolated.py": {
+    "bytes": 3465,
+    "sha256": "96e01f9b984523ede9c4e144faf5685a8c5f62142ccd7f96963bed688c98784f"
+  },
+  "inference/verify_whole.py": {
+    "bytes": 2809,
+    "sha256": "02d66eb855ce904cb57be05fad399233d1210f5cbfbca2444ed15fb3820a96d2"
+  },
+  "inference/run_test.py": {
+    "bytes": 2347,
+    "sha256": "1b4384f7995b6114a54131f1741fad6b339cb2ed19b9453d563e1eaab3307236"
+  }
+}

@@ -1,0 +1,951 @@
+{
+  "title": "Lantern source portability audit \u2014 final after authorized source-only repairs",
+  "generated_utc": "2026-10-06T18:17:39.709338+00:00",
+  "scope": {
+    "archives_extracted": 22,
+    "scripts_static_reviewed": 96,
+    "method": "Original ZIPs read-only; all writes and replay probes in independent extraction. Python probe guard rejects workspace/generated-image reads outside audit tree. Standard installed packages and system fonts permitted. No all-frame rebuild or engine testing.",
+    "python_sample_frames": 77,
+    "exact_sample_frames": 77,
+    "rendered_stills_and_scene_outputs_checked": 76,
+    "original_zip_hashes_unchanged": true
+  },
+  "environment": {
+    "python": "3.12",
+    "Pillow": "12.3.0",
+    "NumPy": "2.3.5",
+    "SciPy": "1.17.0",
+    "Blender": "4.3.2",
+    "ffmpeg": "available",
+    "DejaVu_Sans": "installed Linux font; not bundled"
+  },
+  "issues": [
+    {
+      "id": "PROP_HISTORICAL_BEFORE_IMAGES",
+      "severity": "blocked_documented_secondary_step",
+      "packs": [
+        "Lantern_Containers01_CleanInk",
+        "Lantern_Mechanisms02_CleanInk",
+        "Lantern_Lighting03_CleanInk"
+      ],
+      "entrypoint": "python source/package_proof.py",
+      "status": "resolved_in_source_only_replacement_release",
+      "evidence": {
+        "Containers": "source/package_proof.py:4,18 -> lantern_overnight/01_containers/png/pilgrim_chest_closed.png",
+        "Mechanisms": "source/package_proof.py:4,18 -> lantern_overnight/02_mechanisms/png/gothic_oak_door_closed.png",
+        "Lighting": "source/package_proof.py:4,10 -> lantern_overnight/03_lighting/png/watch_lantern_lit.png"
+      },
+      "fix": "Bundle original comparison images and resolve from pack root, or make before/after sheet optional and label this historical-only. Main art builders do not need these originals.",
+      "baseline_status": "runtime_failure_confirmed",
+      "final_outcome": "Required reference inputs bundled, paths made pack-relative, clean-extraction entrypoints passed; all pre-existing artwork bytes preserved."
+    },
+    {
+      "id": "BEETLE_EXPORT_HISTORICAL_INPUTS",
+      "severity": "nonrecommended_historical_script",
+      "pack": "Lantern_Clockwork_Beetle_Ink_Revision02_r02b",
+      "entrypoint": "python source/export_all.py",
+      "status": "static_confirmed_runtime_reads; not_executed",
+      "evidence": [
+        "source/export_all.py:51 old PNG at lantern_overnight/06_clockwork_beetle/png/clockwork_beetle_yaw_000.png",
+        "source/export_all.py:56 old Blender files at lantern_overnight/06_clockwork_beetle/ and lantern_overnight/07_clockwork_beetle_motion/source/actions/"
+      ],
+      "fix": "Use source/rebuild.py for delivered frame tiers. For a standalone full exporter, point reference handling at technical_reference and bundle/optionally skip historical before-image."
+    },
+    {
+      "id": "BEETLE_SHARED_WISP_DEMO",
+      "severity": "nonrecommended_shared_module_demo",
+      "pack": "Lantern_Clockwork_Beetle_Ink_Revision02_r02b",
+      "entrypoint": "python source/layered_actors.py",
+      "status": "runtime_failure_confirmed",
+      "evidence": "source/layered_actors.py:79 invokes proof_wisp(); source/wisp_front_master.png is not bundled in Beetle pack. Imports used by Beetle work correctly.",
+      "fix": "Treat as import-only shared library; remove or make the Wisp demo explicit/conditional in a future source release."
+    },
+    {
+      "id": "TREE_PLACEMENT_HELPER",
+      "severity": "historical_composition_helper",
+      "pack": "volume_15_tree_forms",
+      "entrypoint": "python placement_proof/build_tree_placement.py",
+      "status": "resolved_in_source_only_replacement_release",
+      "evidence": "line 34 uses root/pack/assets where root already ends volume_15_tree_forms, yielding volume_15_tree_forms/volume_15_tree_forms/assets/vegetation_tall_split_pine_01.png; Gothic assets are also not bundled.",
+      "fix": "Use root/assets for tree inputs and bundle the three Gothic comparison inputs or accept explicit source locations. Primary delivered tree art is unaffected.",
+      "baseline_status": "runtime_failure_confirmed",
+      "final_outcome": "Required reference inputs bundled, paths made pack-relative, clean-extraction entrypoints passed; all pre-existing artwork bytes preserved."
+    },
+    {
+      "id": "SYSTEM_FONT_DEPENDENCY",
+      "severity": "cross_platform_limitation",
+      "status": "static_confirmed_and_available_in_probe_environment",
+      "evidence": "Props build/proof scripts, scenic export, scene diagnostics and hero finishing use fixed /usr/share/fonts/truetype/dejavu/ paths; fonts are not bundled.",
+      "fix": "Document DejaVu Sans requirement or use a configurable font path plus portable fallback in a future source revision. Sample art render functions themselves do not require this font.",
+      "final_outcome": "Resolved for three r02a props packs with configurable/fallback helper; remains for Scenic export, Hero finishing and scene diagnostics."
+    },
+    {
+      "id": "MOTION_DEVELOPMENT_ORCHESTRATORS",
+      "severity": "documented_historical_scope",
+      "packs": [
+        "combat",
+        "environment",
+        "weather",
+        "flare_treatments"
+      ],
+      "entrypoint": "python source/revision/build_pack.py --full",
+      "status": "static_only; intentionally_not_portable_by_readme",
+      "evidence": "REPRODUCTION.txt explicitly directs standalone replay to source/revision/replay_repaired.py. build_pack.py full() expects old sibling packs.",
+      "fix": "Keep replay_repaired.py as the standalone entrypoint; do not present full development orchestration as pack-local."
+    }
+  ],
+  "not_claimed": [
+    "Universal portability of every .py helper",
+    "Complete all-frame/source/video/atlas rebuild for every pack",
+    "Windows/macOS portability without system font changes",
+    "Any game-engine import or runtime certification"
+  ],
+  "final_scope_summary": {
+    "baseline_python_sample_frames_exact": 77,
+    "occult_material_additional_sample_frames_exact": 60,
+    "scene_outputs_rebuilt_exact": 4,
+    "repaired_props_stills_and_proof_images_exact": 78,
+    "tree_composition_proofs_exact": 2,
+    "hero_source_preparation_and_three_blender_proof_renders": "passed; full 24-frame workflow not run",
+    "all_original_zip_hashes_unchanged": true,
+    "all_replacement_archives_crc_ok": true,
+    "all_replacements_below_100_mib": true,
+    "all_preexisting_artwork_members_preserved": 572,
+    "hazards05_independent_state_replay_byte_matches": 18,
+    "hazards05_independent_runtime_frame_byte_matches": 9,
+    "hazards05_bundled_font_and_comparison_inputs_verified": true,
+    "hazards05_frozen_zip_unchanged": true,
+    "workshop04": "Final frozen complete release independently checked; full sequence/movie not rerun",
+    "workshop04_independent_state_replay_byte_matches": 24,
+    "workshop04_independent_proof_replay_byte_matches": 2,
+    "workshop04_independent_runtime_frame_byte_matches": 12,
+    "workshop04_bundled_font_and_comparison_inputs_verified": true,
+    "workshop04_frozen_zip_unchanged": true
+  },
+  "repaired_releases": [
+    {
+      "pack": "Containers",
+      "archive_name": "Lantern_Containers01_CleanInk_r02a_COMPLETE.zip",
+      "bytes": 103669578,
+      "sha256": "ab2ed0b594ecfd7b2a695e062fbf90027734a07e480ffb3cc1c9dac9521d108a",
+      "headroom_to_100_mib": 1188022,
+      "crc_ok": true,
+      "old_archive_sha256_unchanged": true,
+      "old_member_count": 157,
+      "preserved_existing_members": 154,
+      "preserved_existing_artwork_members": 139,
+      "changed_existing_members": [
+        {
+          "member": "Lantern_Containers01_CleanInk/README.txt",
+          "old_sha256": "e8d3656ae4677fed757682c959990691b1d7b4365b32fab724707ee5f45c9161",
+          "new_sha256": "22fd021a7c3c6145feab213d51cd5f46555ca0aebcc762450309a9beccfd47a8"
+        },
+        {
+          "member": "Lantern_Containers01_CleanInk/source/build_containers.py",
+          "old_sha256": "d65ad3bbb668d37e6fabf6a68fb32e641a9fb247518516ffba86125374b9cbca",
+          "new_sha256": "0189be0ed1e536f9354ce682ae7edb2f6617a9f76fd86ad77b6723639bf8f1f1"
+        },
+        {
+          "member": "Lantern_Containers01_CleanInk/source/package_proof.py",
+          "old_sha256": "23a22cc3232ccf541bfd80aaf13fe3c253561595e6b8f48c745ca1d45a01f844",
+          "new_sha256": "1bb91880b7d6386805342072ce8d0d251011f4b0e29a4605823bec1698db4b93"
+        }
+      ],
+      "added_members": [
+        "Lantern_Containers01_CleanInk/SOURCE_PORTABILITY.json",
+        "Lantern_Containers01_CleanInk/source/font_support.py",
+        "Lantern_Containers01_CleanInk/source/historical_before/cooper_barrel_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/iron_lockbox_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/masons_tool_chest_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/pilgrim_chest_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/provision_hopper_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/reliquary_urn_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/shipping_crate_closed.png",
+        "Lantern_Containers01_CleanInk/source/historical_before/shrine_reliquary_closed.png"
+      ],
+      "smoke_commands": [
+        {
+          "command": "python source/build_containers.py --stills-only",
+          "returncode": 0
+        },
+        {
+          "command": "python source/package_proof.py",
+          "returncode": 0
+        }
+      ],
+      "replayed_output_comparison_count": 26,
+      "replayed_outputs_pixel_equal": true,
+      "font_fallback_passed": true
+    },
+    {
+      "pack": "Mechanisms",
+      "archive_name": "Lantern_Mechanisms02_CleanInk_r02a_COMPLETE.zip",
+      "bytes": 102058546,
+      "sha256": "5907e3f590535bead97142948eed3b9053d007be3f4a3fed06083d868027dbe2",
+      "headroom_to_100_mib": 2799054,
+      "crc_ok": true,
+      "old_archive_sha256_unchanged": true,
+      "old_member_count": 183,
+      "preserved_existing_members": 180,
+      "preserved_existing_artwork_members": 165,
+      "changed_existing_members": [
+        {
+          "member": "Lantern_Mechanisms02_CleanInk/README.txt",
+          "old_sha256": "bc455eee61305fd76164fa4afada5e2966e20d3fcae5d5c37148de0227e28d9e",
+          "new_sha256": "b99d3d3d938720a734967c185baac8f20b9b527d2fa1b3ce2327d9486b8e34d3"
+        },
+        {
+          "member": "Lantern_Mechanisms02_CleanInk/source/build_mechanisms.py",
+          "old_sha256": "3b69b6e43bf101ea994cf878a734bb41cca77a202620eae111c2c1949bdf2162",
+          "new_sha256": "50f1093211f5b08b45d7331de23abc75b83364b4658e10baa56674d98a647059"
+        },
+        {
+          "member": "Lantern_Mechanisms02_CleanInk/source/package_proof.py",
+          "old_sha256": "204d4b197513b0ccf406a9557b68f3d788a3318da43d508df22fbe039b55bdf7",
+          "new_sha256": "7cc032fff17bf68d0e600d076e7bc250991ccef7984bd9f14b9e48d56fcba078"
+        }
+      ],
+      "added_members": [
+        "Lantern_Mechanisms02_CleanInk/SOURCE_PORTABILITY.json",
+        "Lantern_Mechanisms02_CleanInk/source/font_support.py",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/brass_stop_valve_idle.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/crypt_sliding_seal_closed.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/gothic_oak_door_closed.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/iron_portcullis_closed.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/oak_rope_winch_idle.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/octagonal_pressure_plate_idle.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/watch_bell_idle.png",
+        "Lantern_Mechanisms02_CleanInk/source/historical_before/yoke_lever_idle.png"
+      ],
+      "smoke_commands": [
+        {
+          "command": "python source/build_mechanisms.py --stills-only",
+          "returncode": 0
+        },
+        {
+          "command": "python source/package_proof.py",
+          "returncode": 0
+        }
+      ],
+      "replayed_output_comparison_count": 26,
+      "replayed_outputs_pixel_equal": true,
+      "font_fallback_passed": true
+    },
+    {
+      "pack": "Lighting",
+      "archive_name": "Lantern_Lighting03_CleanInk_r02a_COMPLETE.zip",
+      "bytes": 51990236,
+      "sha256": "9d493e53615371c9468691104ee65a7f4d0d87aaf873dc7beb7a8d0ffdc52dce",
+      "headroom_to_100_mib": 52867364,
+      "crc_ok": true,
+      "old_archive_sha256_unchanged": true,
+      "old_member_count": 275,
+      "preserved_existing_members": 272,
+      "preserved_existing_artwork_members": 256,
+      "changed_existing_members": [
+        {
+          "member": "Lantern_Lighting03_CleanInk/README.txt",
+          "old_sha256": "cac277872b9781b8f3a82a8d365f85760f1365f4eb3a03bc02bb60785942d483",
+          "new_sha256": "3f4e3dc7769f4ce5e2a91a471811d00fe9f297010afb147a5bf7b1f753557299"
+        },
+        {
+          "member": "Lantern_Lighting03_CleanInk/source/build_lighting.py",
+          "old_sha256": "15f43901f99982c3eff838dda658f2bee6a7685b3f701d427186d1687ad39c82",
+          "new_sha256": "af4486c10cc058025a6441c142d1bd0b63f0eeb60d6a0c1f3858781c66d4d433"
+        },
+        {
+          "member": "Lantern_Lighting03_CleanInk/source/package_proof.py",
+          "old_sha256": "97fb41d53cdc633dddc03311bbb8267e3e5022caaee589fe5c45e7ff0db8d70a",
+          "new_sha256": "1778cd4b59fc5ca0f3aabe7c52941e2e86f7bd2cc0ae1144b667d36ac8622bf7"
+        }
+      ],
+      "added_members": [
+        "Lantern_Lighting03_CleanInk/SOURCE_PORTABILITY.json",
+        "Lantern_Lighting03_CleanInk/source/font_support.py",
+        "Lantern_Lighting03_CleanInk/source/historical_before/alchemist_stove_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/crook_street_lamp_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/hanging_cage_lamp_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/tomb_beacon_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/tripod_brazier_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/votive_candelabrum_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/wall_cresset_lit.png",
+        "Lantern_Lighting03_CleanInk/source/historical_before/watch_lantern_lit.png"
+      ],
+      "smoke_commands": [
+        {
+          "command": "python source/build_lighting.py --stills-only",
+          "returncode": 0
+        },
+        {
+          "command": "python source/package_proof.py",
+          "returncode": 0
+        }
+      ],
+      "replayed_output_comparison_count": 26,
+      "replayed_outputs_pixel_equal": true,
+      "font_fallback_passed": true
+    },
+    {
+      "pack": "Tree Forms",
+      "archive_name": "Lantern_volume_15_tree_forms_CleanInk_v02a.zip",
+      "bytes": 13262057,
+      "sha256": "dd700e45eca2546895e8ca6d986b74cffec9f9de4b88749d9055406d75701c24",
+      "headroom_to_100_mib": 91595543,
+      "crc_ok": true,
+      "old_archive_sha256_unchanged": true,
+      "old_member_count": 23,
+      "preserved_existing_members": 21,
+      "preserved_existing_artwork_members": 12,
+      "changed_existing_members": [
+        {
+          "member": "volume_15_tree_forms/README.txt",
+          "old_sha256": "c19168846888655ed673ee4d5802c652fe9c7b31c52911c0f205c3c70cc10410",
+          "new_sha256": "bbfba1f2456c7149f5ea5dc58f3e41ddec445170d14c901cda331a8b8e408595"
+        },
+        {
+          "member": "volume_15_tree_forms/placement_proof/build_tree_placement.py",
+          "old_sha256": "24c70b41de5d2400049700c855ee3ff70be4d18fb49e68dca00b823b831d0eff",
+          "new_sha256": "74944fa9cc314aa31249b1eec0daf312199cd0d9b282b43cc9e29c56b477de6d"
+        }
+      ],
+      "added_members": [
+        "volume_15_tree_forms/SOURCE_PORTABILITY.json",
+        "volume_15_tree_forms/placement_proof/reference_assets/arch_crypt_door_01.png",
+        "volume_15_tree_forms/placement_proof/reference_assets/arch_gothic_wall_01.png",
+        "volume_15_tree_forms/placement_proof/reference_assets/arch_pointed_arch_01.png"
+      ],
+      "smoke_commands": [
+        {
+          "command": "python placement_proof/build_tree_placement.py",
+          "returncode": 0
+        }
+      ],
+      "replayed_output_comparison_count": 2,
+      "replayed_outputs_pixel_equal": true,
+      "font_fallback_passed": null
+    }
+  ],
+  "hazards_final_check": {
+    "title": "Hazards05 r02a independent bounded source portability check",
+    "generated_utc": "2026-10-06T18:13:56.460613+00:00",
+    "archive_name": "Lantern_Hazards05_CleanInk_r02a_COMPLETE.zip",
+    "bytes": 77785708,
+    "sha256": "17117811504124628cb2b0486400813e075137ce508183b5c6c74f89d5b0fb40",
+    "expected_sha256_matches": true,
+    "archive_crc_ok": true,
+    "original_zip_unchanged": true,
+    "passed": true,
+    "method": "Disposable extracted copy; independent stills-only entrypoint and 3 samples per clip executed from unrelated working directory; Python guard rejected any outside-workspace dependency. Standard Python packages allowed.",
+    "commands": [
+      {
+        "stage": "absolute-path stills-only entrypoint from unrelated working directory",
+        "returncode": 0
+      },
+      {
+        "stage": "bounded clip replay and bundled font load from unrelated working directory",
+        "returncode": 0
+      }
+    ],
+    "state_replays": [
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/bronze_iris_gate_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/bronze_iris_gate_jammed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/bronze_iris_gate_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/ceiling_pendulum_blade_active.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/ceiling_pendulum_blade_idle.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/ceiling_pendulum_blade_jammed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/guided_stone_crusher_jammed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/guided_stone_crusher_lowered.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/guided_stone_crusher_raised.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/hinged_bridge_panel_jammed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/hinged_bridge_panel_lowered.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/hinged_bridge_panel_raised.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/pressure_steam_vent_active.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/pressure_steam_vent_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/pressure_steam_vent_idle.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/retracting_spike_trap_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/retracting_spike_trap_engaged.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/png/retracting_spike_trap_idle.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      }
+    ],
+    "state_count": 18,
+    "clip_samples": [
+      {
+        "id": "retracting_spike_trap",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "retracting_spike_trap",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "retracting_spike_trap",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "bronze_iris_gate",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "bronze_iris_gate",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "bronze_iris_gate",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "ceiling_pendulum_blade",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "ceiling_pendulum_blade",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "ceiling_pendulum_blade",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      }
+    ],
+    "sample_count": 9,
+    "bundled_font_loaded": true,
+    "historical_comparison_inputs": [
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/reference_before/png/bronze_iris_gate_closed.png",
+        "bytes": 213514
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/reference_before/png/ceiling_pendulum_blade_active.png",
+        "bytes": 81417
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/reference_before/png/guided_stone_crusher_raised.png",
+        "bytes": 121379
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/reference_before/png/hinged_bridge_panel_lowered.png",
+        "bytes": 163549
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/reference_before/png/pressure_steam_vent_active.png",
+        "bytes": 101399
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/reference_before/png/retracting_spike_trap_engaged.png",
+        "bytes": 130433
+      }
+    ],
+    "scripts_static_reviewed": [
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/build_hazards.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/context_proofs.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/illustration_engine.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      },
+      {
+        "member": "Lantern_Hazards05_CleanInk/source/package_proof.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      }
+    ],
+    "producer_evidence": {
+      "member": "proof/portable_rebuild_validation.json",
+      "data": {
+        "source_only_copy_rebuilt_from_unrelated_working_directory": true,
+        "required_commands": [
+          "python source/build_hazards.py",
+          "python source/package_proof.py"
+        ],
+        "state_and_runtime_frame_png_count": 90,
+        "pixel_file_hash_mismatches": [],
+        "bundled_before_images": 6,
+        "bundled_font_with_license": true,
+        "external_workspace_art_dependency": false,
+        "context_diagrams_rebuilt": true,
+        "exit_codes": [
+          0,
+          0
+        ]
+      }
+    },
+    "limits": [
+      "Independent audit did not rerun all 72 animation frames",
+      "Independent audit did not rerun package_proof.py movies or context diagrams; paths and six bundled before-images statically verified",
+      "Producer full 90-PNG replay is separate supplied evidence",
+      "No engine or all-platform validation"
+    ]
+  },
+  "workshop_final_check": {
+    "title": "Workshop04 independent bounded source portability check",
+    "generated_utc": "2026-10-06T18:17:24.912088+00:00",
+    "archive_name": "Lantern_Workshop04_Clean_Ink_Complete.zip",
+    "bytes": 95815375,
+    "sha256": "63948253362d1195e267b8ea1f89cfad7821fd130550954230500444bf4f5435",
+    "expected_sha256_matches": true,
+    "archive_crc_ok": true,
+    "original_zip_unchanged": true,
+    "passed": true,
+    "method": "Disposable compact-pack extraction; missing derived layer cache reconstructed by the stills-only entrypoint; independent 3 samples per clip, all executed from unrelated working directory; Python guard rejected any outside-workspace dependency.",
+    "commands": [
+      {
+        "stage": "absolute-path stills and comparison-sheet entrypoint from unrelated working directory",
+        "returncode": 0
+      },
+      {
+        "stage": "bounded four-clip replay and bundled font load from unrelated working directory",
+        "returncode": 0
+      }
+    ],
+    "state_replays": [
+      {
+        "member": "04_containers_workshop/png/bowed_apothecary_cabinet_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/bowed_apothecary_cabinet_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/bowed_apothecary_cabinet_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/burial_coffin_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/burial_coffin_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/burial_coffin_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/canvas_rollcase_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/canvas_rollcase_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/canvas_rollcase_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/curved_spice_drawer_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/curved_spice_drawer_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/curved_spice_drawer_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/reed_hamper_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/reed_hamper_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/reed_hamper_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/spouted_coal_scuttle_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/spouted_coal_scuttle_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/spouted_coal_scuttle_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/tied_grain_sack_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/tied_grain_sack_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/tied_grain_sack_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/weathered_satchel_broken.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/weathered_satchel_closed.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/png/weathered_satchel_open.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      }
+    ],
+    "state_count": 24,
+    "proof_replays": [
+      {
+        "member": "04_containers_workshop/proof/All_Workshop_States.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "member": "04_containers_workshop/proof/before_after_contact_sheet.png",
+        "pixel_equal": true,
+        "png_byte_equal": true
+      }
+    ],
+    "proof_count": 2,
+    "clip_samples": [
+      {
+        "id": "weathered_satchel",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "weathered_satchel",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "weathered_satchel",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "burial_coffin",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "burial_coffin",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "burial_coffin",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "bowed_apothecary_cabinet",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "bowed_apothecary_cabinet",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "bowed_apothecary_cabinet",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "curved_spice_drawer",
+        "frame": 0,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "curved_spice_drawer",
+        "frame": 8,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      },
+      {
+        "id": "curved_spice_drawer",
+        "frame": 23,
+        "pixel_equal": true,
+        "png_byte_equal": true
+      }
+    ],
+    "sample_count": 12,
+    "bundled_font_loaded": true,
+    "historical_comparison_inputs": [
+      {
+        "member": "04_containers_workshop/source/reference_before/bowed_apothecary_cabinet_broken.png",
+        "bytes": 138471
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/bowed_apothecary_cabinet_closed.png",
+        "bytes": 108248
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/bowed_apothecary_cabinet_open.png",
+        "bytes": 142014
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/burial_coffin_broken.png",
+        "bytes": 122314
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/burial_coffin_closed.png",
+        "bytes": 115190
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/burial_coffin_open.png",
+        "bytes": 119992
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/canvas_rollcase_broken.png",
+        "bytes": 99017
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/canvas_rollcase_closed.png",
+        "bytes": 96349
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/canvas_rollcase_open.png",
+        "bytes": 106264
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/curved_spice_drawer_broken.png",
+        "bytes": 89691
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/curved_spice_drawer_closed.png",
+        "bytes": 93764
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/curved_spice_drawer_open.png",
+        "bytes": 103690
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/reed_hamper_broken.png",
+        "bytes": 146336
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/reed_hamper_closed.png",
+        "bytes": 139497
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/reed_hamper_open.png",
+        "bytes": 163491
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/spouted_coal_scuttle_broken.png",
+        "bytes": 74471
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/spouted_coal_scuttle_closed.png",
+        "bytes": 67296
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/spouted_coal_scuttle_open.png",
+        "bytes": 85799
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/tied_grain_sack_broken.png",
+        "bytes": 103445
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/tied_grain_sack_closed.png",
+        "bytes": 99191
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/tied_grain_sack_open.png",
+        "bytes": 100218
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/weathered_satchel_broken.png",
+        "bytes": 91887
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/weathered_satchel_closed.png",
+        "bytes": 83240
+      },
+      {
+        "member": "04_containers_workshop/source/reference_before/weathered_satchel_open.png",
+        "bytes": 84380
+      }
+    ],
+    "scripts_static_reviewed": [
+      {
+        "member": "04_containers_workshop/source/build_delivery.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      },
+      {
+        "member": "04_containers_workshop/source/build_workshop.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      },
+      {
+        "member": "04_containers_workshop/source/illustration_engine.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      },
+      {
+        "member": "04_containers_workshop/source/package_delivery.py",
+        "syntax_passed": true,
+        "workspace_runtime_string_hits": []
+      }
+    ],
+    "producer_evidence": {
+      "member": "proof/portable_rebuild_check.json",
+      "data": {
+        "status": "PASS",
+        "test": "Extracted compact delivery into an isolated directory, without the original pack, siblings or external font paths; ran python source/build_delivery.py.",
+        "stills_compared": 24,
+        "frames_compared": 96,
+        "byte_exact_PNG_matches": 120,
+        "mismatches": [],
+        "full_rebuild_completed": true,
+        "font": "Bundled DejaVu font + redistribution license",
+        "source_inputs": "All present in compact archive; no image generation or external service required.",
+        "optional_mp4": "Rebuilt using ffmpeg when available; PNG/GIF generation does not require it."
+      }
+    },
+    "camera_caveat": "Fixed-view 2.5D illustrated bodies retain baked artistic perspective/shading; moving component landmarks and hinge/rail transforms use world-projected math. This is not exact 3D body geometry or a rotatable model.",
+    "limits": [
+      "Independent audit did not rerun all 96 animation frames or review movies",
+      "Independent package_delivery.py was statically inspected, not executed",
+      "Producer full 120-PNG replay is separate supplied evidence",
+      "No engine or all-platform validation"
+    ]
+  }
+}

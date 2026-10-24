@@ -1,0 +1,13 @@
+{
+  "scene": "Keepers Glade/Home",
+  "master_id": "1zUcDsfyE1-5F4_26JmItaPHfCP0I9v0w",
+  "source_kit_id": "1nanyKYWM_g4rz4BP-s48KX3F7UQzzoLi",
+  "generation": "Built-in imagegen; requested preferred gpt-image-2.5-sunburst in prompt; tool supplies no model selector. Native source resolution preserved.",
+  "revision": "Original selected four source strips; scene-specific cool slate and muted walnut.",
+  "native_authored_cels": 16,
+  "lootable_containers": 2,
+  "breakable_containers": 2,
+  "alpha": "Generated genuine RGBA; no chroma removal",
+  "scene_preview": "Mechanical overlay on unchanged exact approved master",
+  "terminal_states": "Hold indefinitely until explicitly reset"
+}

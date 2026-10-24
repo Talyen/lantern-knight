@@ -1,0 +1,29 @@
+{
+  "transparent_borders": true,
+  "handoff_pixel_identical": true,
+  "idle_base_static": true,
+  "minimum_visible_pixels": 295,
+  "all_frames_rgba": true,
+  "frame_sizes_identical": true,
+  "source_native_pixels": [
+    1374,
+    1145
+  ],
+  "uniform_downsample_scale": 0.09061488673139159,
+  "no_upscale": true,
+  "rest_pixel_hash": "dff7acc65e98eee36116cac904124dcedc9875da82bd5782e3c96c7991e26c61",
+  "engine_tested": false,
+  "pose_visible_areas_px": [
+    300,
+    297,
+    313,
+    309,
+    295,
+    313,
+    319,
+    321,
+    319
+  ],
+  "pose_max_to_min_area_ratio": 1.088135593220339,
+  "all_source_cel_borders_clear": true
+}

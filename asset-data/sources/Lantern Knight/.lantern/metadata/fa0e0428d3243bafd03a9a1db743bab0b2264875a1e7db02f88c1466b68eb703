@@ -1,0 +1,295 @@
+{
+  "checks": [
+    {
+      "action": "activation",
+      "frame": 0,
+      "bbox": [
+        238,
+        213,
+        270,
+        247
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "activation",
+      "frame": 1,
+      "bbox": [
+        235,
+        189,
+        276,
+        257
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "activation",
+      "frame": 2,
+      "bbox": [
+        217,
+        185,
+        296,
+        268
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "activation",
+      "frame": 3,
+      "bbox": [
+        217,
+        170,
+        296,
+        270
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "activation",
+      "frame": 4,
+      "bbox": [
+        233,
+        170,
+        285,
+        275
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "activation",
+      "frame": 5,
+      "bbox": [
+        241,
+        185,
+        283,
+        261
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "active",
+      "frame": 0,
+      "bbox": [
+        223,
+        176,
+        287,
+        277
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "active",
+      "frame": 1,
+      "bbox": [
+        234,
+        175,
+        277,
+        278
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "active",
+      "frame": 2,
+      "bbox": [
+        230,
+        175,
+        287,
+        277
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "active",
+      "frame": 3,
+      "bbox": [
+        239,
+        187,
+        280,
+        270
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "active",
+      "frame": 4,
+      "bbox": [
+        228,
+        177,
+        281,
+        273
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "active",
+      "frame": 5,
+      "bbox": [
+        233,
+        176,
+        275,
+        273
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "departure",
+      "frame": 0,
+      "bbox": [
+        166,
+        280,
+        364,
+        445
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "departure",
+      "frame": 1,
+      "bbox": [
+        150,
+        106,
+        362,
+        461
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "departure",
+      "frame": 2,
+      "bbox": [
+        147,
+        92,
+        369,
+        453
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "departure",
+      "frame": 3,
+      "bbox": [
+        136,
+        38,
+        396,
+        448
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "departure",
+      "frame": 4,
+      "bbox": [
+        158,
+        59,
+        361,
+        437
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "departure",
+      "frame": 5,
+      "bbox": [
+        193,
+        114,
+        326,
+        342
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "arrival",
+      "frame": 0,
+      "bbox": [
+        176,
+        68,
+        374,
+        466
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "arrival",
+      "frame": 1,
+      "bbox": [
+        92,
+        73,
+        424,
+        472
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "arrival",
+      "frame": 2,
+      "bbox": [
+        69,
+        50,
+        438,
+        474
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "arrival",
+      "frame": 3,
+      "bbox": [
+        68,
+        99,
+        473,
+        413
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "arrival",
+      "frame": 4,
+      "bbox": [
+        78,
+        201,
+        463,
+        412
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    },
+    {
+      "action": "arrival",
+      "frame": 5,
+      "bbox": [
+        171,
+        251,
+        354,
+        406
+      ],
+      "transparent_border": true,
+      "zero_rgb_outside_alpha": true
+    }
+  ],
+  "fixture_consistency": "The identical fixture PNG is composited for all 12 fixture frames. No regenerated fixture per frame.",
+  "visual_review": "All 24 source cels and all 24 packed cels reviewed in contact sheets. No actor, floor, clipping, or neighboring painted fragments. Soft effect halos retained as transparent effect pixels.",
+  "projection_caveat": "Requested camera is artist-directed, not analytically certified."
+}

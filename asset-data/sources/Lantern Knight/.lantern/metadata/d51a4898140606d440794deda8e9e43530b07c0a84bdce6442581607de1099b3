@@ -1,0 +1,988 @@
+{
+  "id": "hit_reaction",
+  "name": "Hit reaction",
+  "timed_drawing_slots": 16,
+  "duration_ticks_60hz": 30,
+  "duration_seconds": 0.5,
+  "frames": [
+    {
+      "frame": 1,
+      "phase": "ready seed R0",
+      "support_plan": "both N0 F0",
+      "pose": "Exact R0 for clean preview entry; a game may enter at frame 2 for immediate response.",
+      "start_tick_60hz": 0,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.0,
+      "file": "frames/hit_reaction/hit_reaction_01.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 1,
+        "file": "frames/hit_reaction/hit_reaction_01.png",
+        "shared_state_id": "R0",
+        "source_file": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/shared_states/R0_delivery_1536.png",
+        "scale": "immutable exported R0, no resampling",
+        "translation_px": [
+          0,
+          0
+        ]
+      },
+      "shared_state_id": "R0"
+    },
+    {
+      "frame": 2,
+      "phase": "hit snap",
+      "support_plan": "both N0 F0",
+      "pose": "Head and chest recoil sharply back while the hips stay planted; sword and lantern grips remain closed.",
+      "start_tick_60hz": 1,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.016667,
+      "file": "frames/hit_reaction/hit_reaction_02.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 2,
+        "file": "frames/hit_reaction/hit_reaction_02.png",
+        "source_file": "source/hit02_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h02",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          513,
+          361
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          511,
+          1314
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.773,
+          926.131
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          600,
+          389,
+          899,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          552,
+          388,
+          900,
+          934
+        ],
+        "sha256": "c8e4bc49921bf87a1338804c555d76575df9259d7ec48ed2afc68c58ab4a091e"
+      }
+    },
+    {
+      "frame": 3,
+      "phase": "recoil extension",
+      "support_plan": "far F0 near forefoot N0",
+      "pose": "Spine arcs, near shoulder turns away from the impact, and coat fronts separate with a clear jagged silhouette.",
+      "start_tick_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.033333,
+      "file": "frames/hit_reaction/hit_reaction_03.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 3,
+        "file": "frames/hit_reaction/hit_reaction_03.png",
+        "source_file": "source/hit_master_01_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h1",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          679,
+          3,
+          1239,
+          622
+        ],
+        "uniform_source_scale": 0.86,
+        "integer_translation_px": [
+          556,
+          405
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          884,
+          609
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.3,
+          926.16
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          563,
+          412,
+          1031,
+          931
+        ],
+        "nonzero_alpha_bbox": [
+          561,
+          410,
+          1033,
+          934
+        ],
+        "sha256": "4f5ed4b3a9df3b2eb4a7671fd6ffae8977e44d2f5f9cbdf8ffe800c2e8443e08"
+      }
+    },
+    {
+      "frame": 4,
+      "phase": "recoil accent",
+      "support_plan": "far F0 near forefoot N0",
+      "pose": "Maximum back-lean and compressed far knee; lantern is thrown outward only within the securely held arm arc.",
+      "start_tick_60hz": 4,
+      "hold_ticks_60hz": 3,
+      "start_seconds": 0.066667,
+      "file": "frames/hit_reaction/hit_reaction_04.png",
+      "hold_60hz": 3,
+      "source_registration": {
+        "index": 4,
+        "file": "frames/hit_reaction/hit_reaction_04.png",
+        "source_file": "source/hit04_v02_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "hkey",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          526,
+          366
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          481,
+          1302
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.871,
+          925.97
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          555,
+          411,
+          1007,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          554,
+          410,
+          1009,
+          934
+        ],
+        "sha256": "01b536b521e1b4605722b18ad41308660171ed41e1786f0157de5675854c69da"
+      }
+    },
+    {
+      "frame": 5,
+      "phase": "overshoot",
+      "support_plan": "far F0 near forefoot N0",
+      "pose": "Head begins returning while sword and coat continue their delayed recoil.",
+      "start_tick_60hz": 7,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.116667,
+      "file": "frames/hit_reaction/hit_reaction_05.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 5,
+        "file": "frames/hit_reaction/hit_reaction_05.png",
+        "source_file": "source/hit_master_01_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h1",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          657,
+          624,
+          1246,
+          1238
+        ],
+        "uniform_source_scale": 0.86,
+        "integer_translation_px": [
+          546,
+          409
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          874,
+          1225
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.62,
+          925.86
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          553,
+          416,
+          1046,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          549,
+          413,
+          1048,
+          937
+        ],
+        "sha256": "58c38fa1f509a044423a9da126853245894895b6e2b7629801757bdf04845003"
+      }
+    },
+    {
+      "frame": 6,
+      "phase": "guard fold",
+      "support_plan": "both N0 F0",
+      "pose": "Torso folds forward from the recoil; right sword elbow tucks near the ribs without crossing the blade through the body.",
+      "start_tick_60hz": 9,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.15,
+      "file": "frames/hit_reaction/hit_reaction_06.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 6,
+        "file": "frames/hit_reaction/hit_reaction_06.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          82,
+          29,
+          583,
+          615
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          568,
+          445
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          278,
+          602
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.64,
+          926.32
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          575,
+          452,
+          983,
+          931
+        ],
+        "nonzero_alpha_bbox": [
+          573,
+          449,
+          989,
+          933
+        ],
+        "sha256": "e2f7f6bb0fe13add19e693d789c6c9bd13d52d3d19300bb2ab4c556ec20c95ee"
+      }
+    },
+    {
+      "frame": 7,
+      "phase": "low catch",
+      "support_plan": "both N0 F0",
+      "pose": "Both knees bend into a low catching stance; far lantern is pulled protectively close.",
+      "start_tick_60hz": 11,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.183333,
+      "file": "frames/hit_reaction/hit_reaction_07.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 7,
+        "file": "frames/hit_reaction/hit_reaction_07.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          650,
+          103,
+          1171,
+          608
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          545,
+          513
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          873,
+          595
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.32,
+          926.28
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          551,
+          520,
+          976,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          549,
+          513,
+          983,
+          933
+        ],
+        "sha256": "c128a7e5f976303fe814de945554426824633f847d613335c07a1c3f32eeeeb2"
+      }
+    },
+    {
+      "frame": 8,
+      "phase": "load recovery",
+      "support_plan": "both N0 F0",
+      "pose": "Lowest recovery pose, with a determined forward head and a broad shoulder line.",
+      "start_tick_60hz": 13,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.216667,
+      "file": "frames/hit_reaction/hit_reaction_08.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 8,
+        "file": "frames/hit_reaction/hit_reaction_08.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          36,
+          737,
+          611,
+          1217
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          509,
+          535
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          302,
+          1203
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.44,
+          926.44
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          515,
+          542,
+          985,
+          932
+        ],
+        "nonzero_alpha_bbox": [
+          513,
+          540,
+          992,
+          938
+        ],
+        "sha256": "3b9b66450b61275fac088130bf91d2dbbc2f26fcf433c42aa409d2e2a5c03d29"
+      }
+    },
+    {
+      "frame": 9,
+      "phase": "rise onset",
+      "support_plan": "both N0 F0",
+      "pose": "Push through the boots and raise chest; blade returns outside the near leg.",
+      "start_tick_60hz": 15,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.25,
+      "file": "frames/hit_reaction/hit_reaction_09.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 9,
+        "file": "frames/hit_reaction/hit_reaction_09.png",
+        "source_file": "source/hit_master_02_v02_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h2",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          637,
+          622,
+          1241,
+          1231
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          556,
+          426
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          847,
+          1217
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.4,
+          925.8
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          562,
+          432,
+          1057,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          561,
+          430,
+          1060,
+          933
+        ],
+        "sha256": "28a6f88624b15e591eecd954f712e1563b6a18410034a3f8d7b97cdb8d70b18b"
+      }
+    },
+    {
+      "frame": 10,
+      "phase": "rise",
+      "support_plan": "both N0 F0",
+      "pose": "Shoulders open; lantern swings back toward its ready distance.",
+      "start_tick_60hz": 17,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.283333,
+      "file": "frames/hit_reaction/hit_reaction_10.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 10,
+        "file": "frames/hit_reaction/hit_reaction_10.png",
+        "source_file": "source/hit_master_03_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h3",
+        "source_cell_zero_based": 1,
+        "source_crop_rect_xyxy": [
+          654,
+          11,
+          1153,
+          603
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          564,
+          457
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          862,
+          590
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.48,
+          925.99
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          570,
+          463,
+          962,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          564,
+          462,
+          967,
+          932
+        ],
+        "sha256": "78a5b3730753791e749855ed8cc764d1597b70b244e3edbb304f719f36dee0bb"
+      }
+    },
+    {
+      "frame": 11,
+      "phase": "guard restoration",
+      "support_plan": "both N0 F0",
+      "pose": "Recover the ready torso angle while coat tails still finish their recoil.",
+      "start_tick_60hz": 19,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.316667,
+      "file": "frames/hit_reaction/hit_reaction_11.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 11,
+        "file": "frames/hit_reaction/hit_reaction_11.png",
+        "source_file": "source/hit10_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h10",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          513,
+          355
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          510,
+          1328
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.343,
+          926.153
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          573,
+          377,
+          932,
+          931
+        ],
+        "nonzero_alpha_bbox": [
+          552,
+          376,
+          933,
+          932
+        ],
+        "sha256": "ee7c185f867ce5d7cd6c98e707c4345d9c92cfbd288c562dd7ea280e18a1a2b8"
+      }
+    },
+    {
+      "frame": 12,
+      "phase": "prop recovery",
+      "support_plan": "both N0 F0",
+      "pose": "Right wrist settles the blade; far left elbow lengthens toward rest.",
+      "start_tick_60hz": 21,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.35,
+      "file": "frames/hit_reaction/hit_reaction_12.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 12,
+        "file": "frames/hit_reaction/hit_reaction_12.png",
+        "source_file": "source/hit_master_03_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h3",
+        "source_cell_zero_based": 2,
+        "source_crop_rect_xyxy": [
+          110,
+          601,
+          569,
+          1242
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          592,
+          418
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          284,
+          1228
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.94,
+          925.87
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          599,
+          424,
+          958,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          593,
+          424,
+          960,
+          937
+        ],
+        "sha256": "645e9c28493fcc01159da16eb8c78691b401a7b4933925ada8c5dbab63aab495"
+      }
+    },
+    {
+      "frame": 13,
+      "phase": "body settle",
+      "support_plan": "both N0 F0",
+      "pose": "Head and sternum reach nearly the R0 position.",
+      "start_tick_60hz": 23,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.383333,
+      "file": "frames/hit_reaction/hit_reaction_13.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 13,
+        "file": "frames/hit_reaction/hit_reaction_13.png",
+        "source_file": "source/hit_master_03_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h3",
+        "source_cell_zero_based": 3,
+        "source_crop_rect_xyxy": [
+          705,
+          599,
+          1098,
+          1241
+        ],
+        "uniform_source_scale": 0.81,
+        "integer_translation_px": [
+          575,
+          417
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          899,
+          1227
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.14,
+          925.68
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          581,
+          424,
+          887,
+          930
+        ],
+        "nonzero_alpha_bbox": [
+          578,
+          422,
+          893,
+          933
+        ],
+        "sha256": "541de820659b36f18683057e60094cb976590f510bf99297460038c96482ab7e"
+      }
+    },
+    {
+      "frame": 14,
+      "phase": "cloth settle",
+      "support_plan": "both N0 F0",
+      "pose": "Coat folds settle while keeping patch locations and hem shapes consistent.",
+      "start_tick_60hz": 25,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.416667,
+      "file": "frames/hit_reaction/hit_reaction_14.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 14,
+        "file": "frames/hit_reaction/hit_reaction_14.png",
+        "source_file": "source/hit_master_04_native.png",
+        "source_size_px": [
+          1254,
+          1254
+        ],
+        "source_sheet_id": "h4",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          95,
+          13,
+          499,
+          636
+        ],
+        "uniform_source_scale": 0.84,
+        "integer_translation_px": [
+          554,
+          413
+        ],
+        "native_support_feature": "near right rear boot sole",
+        "native_support_px": [
+          308,
+          624
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.92,
+          926.24
+        ],
+        "source_isolation": "Nearest-main-component ownership partitions separated illustrations; preserves original RGBA for assigned pixels; threshold16 selects ownership seeds, not a new alpha matte. Crop padded8px. Native master retained.",
+        "visible_bbox_alpha16": [
+          560,
+          420,
+          886,
+          929
+        ],
+        "nonzero_alpha_bbox": [
+          558,
+          418,
+          890,
+          931
+        ],
+        "sha256": "05ef44f23f082ca81ccf8749e46a8e556d34a0e579fdec194439380cb0d080e5"
+      }
+    },
+    {
+      "frame": 15,
+      "phase": "ready approach",
+      "support_plan": "both N0 F0",
+      "pose": "Nearly R0, with a tiny remaining lantern return motion.",
+      "start_tick_60hz": 27,
+      "hold_ticks_60hz": 2,
+      "start_seconds": 0.45,
+      "file": "frames/hit_reaction/hit_reaction_15.png",
+      "hold_60hz": 2,
+      "source_registration": {
+        "index": 15,
+        "file": "frames/hit_reaction/hit_reaction_15.png",
+        "source_file": "source/hit15_gather_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h15",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          511,
+          381
+        ],
+        "native_support_feature": "near right rear sole; far-left foot visibly gathering with heel lifted",
+        "native_support_px": [
+          516,
+          1268
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.924,
+          926.347
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          601,
+          419,
+          859,
+          928
+        ],
+        "nonzero_alpha_bbox": [
+          600,
+          408,
+          861,
+          960
+        ],
+        "sha256": "08dfe1cf33ea2a66f7b1ea6d2a0b536cb1ffde78baabaf0d171dc31799222531"
+      }
+    },
+    {
+      "frame": 16,
+      "phase": "ready bridge",
+      "support_plan": "both N0 F0",
+      "pose": "Distinct pre-R0 drawing; no automatic knockback is baked into the sprite root.",
+      "start_tick_60hz": 29,
+      "hold_ticks_60hz": 1,
+      "start_seconds": 0.483333,
+      "file": "frames/hit_reaction/hit_reaction_16.png",
+      "hold_60hz": 1,
+      "source_registration": {
+        "index": 16,
+        "file": "frames/hit_reaction/hit_reaction_16.png",
+        "source_file": "source/hit16_preplant_v01_native.png",
+        "source_size_px": [
+          1122,
+          1402
+        ],
+        "source_sheet_id": "h16",
+        "source_cell_zero_based": 0,
+        "source_crop_rect_xyxy": [
+          0,
+          0,
+          1122,
+          1402
+        ],
+        "uniform_source_scale": 0.4300847457627119,
+        "integer_translation_px": [
+          511,
+          367
+        ],
+        "native_support_feature": "near right rear sole; far-left toe preplants at R0 footprint",
+        "native_support_px": [
+          515,
+          1300
+        ],
+        "registered_support_target_px": [
+          732.494,
+          926.11
+        ],
+        "registered_support_actual_px": [
+          732.494,
+          926.11
+        ],
+        "source_isolation": "none; standalone source",
+        "visible_bbox_alpha16": [
+          602,
+          419,
+          859,
+          927
+        ],
+        "nonzero_alpha_bbox": [
+          601,
+          418,
+          885,
+          954
+        ],
+        "sha256": "06602d5b94c766af136e1c179da89fe67ee3a964922bb2770185f1286cf1a6fb"
+      }
+    }
+  ],
+  "loop": false,
+  "entry": "R0, or frame 2 for immediate reaction",
+  "exit": "Idle R0",
+  "intent": "A sharp, broad full-body recoil followed by a compact catch and determined recovery.",
+  "events": [
+    {
+      "name": "recoil_accent",
+      "frames": [
+        4
+      ],
+      "kind": "visual",
+      "start_seconds": [
+        0.066667
+      ]
+    }
+  ],
+  "contact_rule": "Near-right rear boot is the explicit registration support. Far-left stance opens/repositions in the authored recoil/catch. Do not claim certified two-foot locking or calibrated ground geometry.",
+  "clip_id": "hit_reaction",
+  "status": "FINAL_ART_GATE_PASS_2026-10-07",
+  "artwork_approved": true,
+  "action_role": "hit",
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 1,
+  "unique_complete_drawings": 16,
+  "shared_states": {
+    "R0": {
+      "sha256": "07065faa7725be7efcd3f67a0c7a939142d5e9dc543306930892f1e061edd31d"
+    }
+  },
+  "actual_backend_verified": false,
+  "requested_image_model_text": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "original_alpha_preserved": "Original source masters retained. Source ownership partitions only separate whole figures; no body deformation or new alpha painting. One affine uniform-source normalization and integer whole-drawing translation per output.",
+  "source_manifest": "source/source_inventory.json",
+  "canonical_scale_reference": "Ready height507 visible pixels on immutable R0; retain accepted pixels-per-world-unit. Canvas padding is not actor rescaling.",
+  "camera_note": "Accepted slightly down-right illustrated near-profile view; camera angle/elevation are not calibrated3D measurements.",
+  "gameplay_note": "Visual event suggestions only. No game/engine/repository settings, root-motion control, hitboxes, knockback, damage or invulnerability changed.",
+  "exit_state_file": "frames/hit_reaction_001.png",
+  "exit_state_id": "R0",
+  "exit_state_frame_index": 1,
+  "art_review": {
+    "frames": 16,
+    "unique_pngs": 16,
+    "ticks": 30,
+    "R0_exact": true,
+    "return_correction": "Frames15/16 are fresh R0-derived full drawings with visible left-foot gather and near-R0 preplant; fixed right support.",
+    "art_gate": "PASS strong recoil/catch/recovery, coherent identity and held anatomical props, corrected final return. Intentional body/cloth overshoot retained; no claim of arbitrary-interruption coverage."
+  },
+  "delivery_notes": "16 complete drawings; exactR0 entry and external return;30ticks at60Hz. Final far-left foot gather/preplant is newly illustrated. No arbitrary-interruption or engine-integration certification."
+}

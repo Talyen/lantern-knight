@@ -1,0 +1,145 @@
+{
+  "asset": "rolling_sky_chart",
+  "native_canvas": [
+    560,
+    520
+  ],
+  "runtime_canvas": [
+    280,
+    260
+  ],
+  "ground_contact_native": [
+    330,
+    490
+  ],
+  "ground_contact_runtime": [
+    165,
+    245
+  ],
+  "frame_duration_ms": [
+    170,
+    100,
+    120,
+    140,
+    140,
+    140,
+    130,
+    220
+  ],
+  "ready_frame": 0,
+  "completed_frame": 7,
+  "completion_event_frame": 6,
+  "scene_master": "attachments/445db4c7-0cab-40b4-a6a6-025a722bcb0b/observatory_chart_library_ai4x_master_6144x4096.png",
+  "scene_ground_contact": [
+    2110,
+    1550
+  ],
+  "scene_scale_native": 0.72,
+  "source_extraction": [
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        263,
+        420
+      ],
+      "translation_px": [
+        67,
+        70
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        706,
+        420
+      ],
+      "translation_px": [
+        -376,
+        70
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1150,
+        420
+      ],
+      "translation_px": [
+        -820,
+        70
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1593,
+        420
+      ],
+      "translation_px": [
+        -1263,
+        70
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v02.png",
+      "source_contact_px": [
+        263,
+        865
+      ],
+      "translation_px": [
+        67,
+        -375
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v02.png",
+      "source_contact_px": [
+        706,
+        865
+      ],
+      "translation_px": [
+        -376,
+        -375
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1150,
+        864
+      ],
+      "translation_px": [
+        -820,
+        -374
+      ]
+    },
+    {
+      "source": "rolling_sky_chart/source/authored_sheet_v01.png",
+      "source_contact_px": [
+        1593,
+        863
+      ],
+      "translation_px": [
+        -1263,
+        -373
+      ]
+    }
+  ],
+  "method": "Authored imagegen cels, mechanical alpha extraction and translation registration only; no interpolated or code-drawn artwork. Runtime is 50 percent native.",
+  "suggested_game_function": "Reveal constellation clue or map annotation via game UI",
+  "implementation": "No game implementation performed.",
+  "interaction_contact_native": [
+    470,
+    170
+  ],
+  "interaction_contact_runtime": [
+    235,
+    85
+  ],
+  "reward_spawn_marker": null,
+  "source_native_resolution": [
+    1774,
+    887
+  ],
+  "model_selection": "Preferred model named in prompt; actual model selection not exposed by built-in tool."
+}

@@ -1,0 +1,1 @@
+Import only runtime PNGs. Atlas cells 512x512, 3 columns x 2 rows. Use manifest.json for pivots, PPU, and 60 Hz cel hold durations. Talk-ready reuses work cel5. No source sheets or preview images are in this runtime ZIP. Sources and deterministic rebuild are in the separate Sources ZIP. Read QA.json for scope and limitations.

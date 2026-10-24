@@ -1,0 +1,1200 @@
+{
+  "actor": "Waxmask Acolyte",
+  "identity": "CT01",
+  "reference_sha256": "cca39f1b1224262370d5b751c09384f685447c7c2447c370584fb0bcdc3734ef",
+  "extension_only": true,
+  "baseline_unchanged": true,
+  "tick_rate": 60,
+  "canvas": [
+    768,
+    768
+  ],
+  "camera": {
+    "elevation_target": 35.2643897,
+    "note": "Artist target; not calibrated 3D geometry"
+  },
+  "native_size_policy": "No resize, mirror, tween, rotation or per-cel bounding-box normalization. Native alpha cleaning and manual translation only, no per-cel scaling.",
+  "root_motion": "World actor transform separate; manual per-cel foot-plane translation baked into PNG; no runtime offsets.",
+  "estimated_ppu": {
+    "DR_baseline": 85.59670781893004,
+    "DL": 101,
+    "UL": 99,
+    "UR": 98
+  },
+  "scale_note": "Current unifiedv03 baseline PPU85.5967078 is retained. New native-art density DL101 UL99 UR98 matches standing height without resizing pixels. Engine world size remains tunable.",
+  "clips": {
+    "DL_move": {
+      "facing": "DL",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        10,
+        6,
+        6,
+        10,
+        8,
+        8
+      ],
+      "total_ticks": 48,
+      "frames": [
+        {
+          "file": "DL_move_01.png",
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "source_anchor": [
+            276,
+            496
+          ],
+          "native_offset": [
+            108,
+            104
+          ],
+          "visible_bounds": [
+            278,
+            110,
+            489,
+            609
+          ]
+        },
+        {
+          "file": "DL_move_02.png",
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "source_anchor": [
+            256,
+            496
+          ],
+          "native_offset": [
+            128,
+            104
+          ],
+          "visible_bounds": [
+            259,
+            110,
+            552,
+            608
+          ]
+        },
+        {
+          "file": "DL_move_03.png",
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "source_anchor": [
+            246,
+            496
+          ],
+          "native_offset": [
+            138,
+            104
+          ],
+          "visible_bounds": [
+            287,
+            118,
+            593,
+            603
+          ]
+        },
+        {
+          "file": "DL_move_04.png",
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "source_anchor": [
+            224,
+            490
+          ],
+          "native_offset": [
+            160,
+            110
+          ],
+          "visible_bounds": [
+            304,
+            124,
+            625,
+            602
+          ]
+        },
+        {
+          "file": "DL_move_05.png",
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "source_anchor": [
+            280,
+            490
+          ],
+          "native_offset": [
+            104,
+            110
+          ],
+          "visible_bounds": [
+            279,
+            113,
+            539,
+            610
+          ]
+        },
+        {
+          "file": "DL_move_06.png",
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "source_anchor": [
+            270,
+            490
+          ],
+          "native_offset": [
+            114,
+            110
+          ],
+          "visible_bounds": [
+            274,
+            114,
+            491,
+            610
+          ]
+        }
+      ],
+      "atlas": "DL_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "estimated_ppu": 101,
+      "events": [],
+      "end": "loop"
+    },
+    "DL_attack": {
+      "facing": "DL",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        12,
+        19,
+        5,
+        4,
+        17,
+        15
+      ],
+      "total_ticks": 72,
+      "frames": [
+        {
+          "file": "DL_attack_01.png",
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "source_anchor": [
+            325,
+            492
+          ],
+          "native_offset": [
+            59,
+            108
+          ],
+          "visible_bounds": [
+            284,
+            118,
+            505,
+            615
+          ]
+        },
+        {
+          "file": "DL_attack_02.png",
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "source_anchor": [
+            272,
+            493
+          ],
+          "native_offset": [
+            112,
+            107
+          ],
+          "visible_bounds": [
+            273,
+            117,
+            508,
+            614
+          ]
+        },
+        {
+          "file": "DL_attack_03.png",
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "source_anchor": [
+            272,
+            480
+          ],
+          "native_offset": [
+            112,
+            120
+          ],
+          "visible_bounds": [
+            179,
+            268,
+            496,
+            618
+          ]
+        },
+        {
+          "file": "DL_attack_04.png",
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "source_anchor": [
+            360,
+            481
+          ],
+          "native_offset": [
+            24,
+            119
+          ],
+          "visible_bounds": [
+            173,
+            139,
+            519,
+            606
+          ]
+        },
+        {
+          "file": "DL_attack_05.png",
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "source_anchor": [
+            290,
+            487
+          ],
+          "native_offset": [
+            94,
+            113
+          ],
+          "visible_bounds": [
+            194,
+            117,
+            479,
+            607
+          ]
+        },
+        {
+          "file": "DL_attack_06.png",
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "source_anchor": [
+            275,
+            485
+          ],
+          "native_offset": [
+            109,
+            115
+          ],
+          "visible_bounds": [
+            235,
+            120,
+            458,
+            611
+          ]
+        }
+      ],
+      "atlas": "DL_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "estimated_ppu": 101,
+      "events": [
+        {
+          "name": "ground_seal_contact",
+          "frame_index_zero_based": 2,
+          "tick": 31,
+          "damage_guarantee": false
+        },
+        {
+          "name": "visual_shard_release",
+          "frame_index_zero_based": 3,
+          "tick": 36,
+          "damage_guarantee": false
+        }
+      ],
+      "end": "hold final cel then transition to compatible rest"
+    },
+    "UL_move": {
+      "facing": "UL",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        10,
+        6,
+        6,
+        10,
+        8,
+        8
+      ],
+      "total_ticks": 48,
+      "frames": [
+        {
+          "file": "UL_move_01.png",
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "source_anchor": [
+            280,
+            484
+          ],
+          "native_offset": [
+            104,
+            116
+          ],
+          "visible_bounds": [
+            290,
+            125,
+            499,
+            612
+          ]
+        },
+        {
+          "file": "UL_move_02.png",
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "source_anchor": [
+            270,
+            485
+          ],
+          "native_offset": [
+            114,
+            115
+          ],
+          "visible_bounds": [
+            247,
+            124,
+            541,
+            611
+          ]
+        },
+        {
+          "file": "UL_move_03.png",
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "source_anchor": [
+            260,
+            485
+          ],
+          "native_offset": [
+            124,
+            115
+          ],
+          "visible_bounds": [
+            258,
+            124,
+            555,
+            611
+          ]
+        },
+        {
+          "file": "UL_move_04.png",
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "source_anchor": [
+            240,
+            482
+          ],
+          "native_offset": [
+            144,
+            118
+          ],
+          "visible_bounds": [
+            282,
+            127,
+            596,
+            610
+          ]
+        },
+        {
+          "file": "UL_move_05.png",
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "source_anchor": [
+            288,
+            488
+          ],
+          "native_offset": [
+            96,
+            112
+          ],
+          "visible_bounds": [
+            251,
+            121,
+            499,
+            605
+          ]
+        },
+        {
+          "file": "UL_move_06.png",
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "source_anchor": [
+            275,
+            485
+          ],
+          "native_offset": [
+            109,
+            115
+          ],
+          "visible_bounds": [
+            251,
+            124,
+            473,
+            609
+          ]
+        }
+      ],
+      "atlas": "UL_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "estimated_ppu": 99,
+      "events": [],
+      "end": "loop"
+    },
+    "UL_attack": {
+      "facing": "UL",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        12,
+        19,
+        5,
+        4,
+        17,
+        15
+      ],
+      "total_ticks": 72,
+      "frames": [
+        {
+          "file": "UL_attack_01.png",
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "source_anchor": [
+            300,
+            475
+          ],
+          "native_offset": [
+            84,
+            125
+          ],
+          "visible_bounds": [
+            267,
+            132,
+            473,
+            611
+          ]
+        },
+        {
+          "file": "UL_attack_02.png",
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "source_anchor": [
+            285,
+            475
+          ],
+          "native_offset": [
+            99,
+            125
+          ],
+          "visible_bounds": [
+            229,
+            138,
+            472,
+            611
+          ]
+        },
+        {
+          "file": "UL_attack_03.png",
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "source_anchor": [
+            315,
+            464
+          ],
+          "native_offset": [
+            69,
+            136
+          ],
+          "visible_bounds": [
+            140,
+            292,
+            498,
+            610
+          ]
+        },
+        {
+          "file": "UL_attack_04.png",
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "source_anchor": [
+            328,
+            472
+          ],
+          "native_offset": [
+            56,
+            128
+          ],
+          "visible_bounds": [
+            153,
+            137,
+            514,
+            606
+          ]
+        },
+        {
+          "file": "UL_attack_05.png",
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "source_anchor": [
+            315,
+            485
+          ],
+          "native_offset": [
+            69,
+            115
+          ],
+          "visible_bounds": [
+            214,
+            124,
+            484,
+            598
+          ]
+        },
+        {
+          "file": "UL_attack_06.png",
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "source_anchor": [
+            303,
+            482
+          ],
+          "native_offset": [
+            81,
+            118
+          ],
+          "visible_bounds": [
+            264,
+            127,
+            475,
+            601
+          ]
+        }
+      ],
+      "atlas": "UL_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "estimated_ppu": 99,
+      "events": [
+        {
+          "name": "ground_seal_contact",
+          "frame_index_zero_based": 2,
+          "tick": 31,
+          "damage_guarantee": false
+        },
+        {
+          "name": "visual_shard_release",
+          "frame_index_zero_based": 3,
+          "tick": 36,
+          "damage_guarantee": false
+        }
+      ],
+      "end": "hold final cel then transition to compatible rest"
+    },
+    "UR_move": {
+      "facing": "UR",
+      "action": "move",
+      "loop": true,
+      "holds_60hz": [
+        10,
+        6,
+        6,
+        10,
+        8,
+        8
+      ],
+      "total_ticks": 48,
+      "frames": [
+        {
+          "file": "UR_move_01.png",
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "source_anchor": [
+            300,
+            480
+          ],
+          "native_offset": [
+            84,
+            120
+          ],
+          "visible_bounds": [
+            284,
+            131,
+            466,
+            613
+          ]
+        },
+        {
+          "file": "UR_move_02.png",
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "source_anchor": [
+            285,
+            480
+          ],
+          "native_offset": [
+            99,
+            120
+          ],
+          "visible_bounds": [
+            231,
+            132,
+            472,
+            614
+          ]
+        },
+        {
+          "file": "UR_move_03.png",
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "source_anchor": [
+            300,
+            477
+          ],
+          "native_offset": [
+            84,
+            123
+          ],
+          "visible_bounds": [
+            196,
+            135,
+            465,
+            614
+          ]
+        },
+        {
+          "file": "UR_move_04.png",
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "source_anchor": [
+            310,
+            480
+          ],
+          "native_offset": [
+            74,
+            120
+          ],
+          "visible_bounds": [
+            216,
+            130,
+            487,
+            610
+          ]
+        },
+        {
+          "file": "UR_move_05.png",
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "source_anchor": [
+            308,
+            480
+          ],
+          "native_offset": [
+            76,
+            120
+          ],
+          "visible_bounds": [
+            207,
+            130,
+            466,
+            604
+          ]
+        },
+        {
+          "file": "UR_move_06.png",
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "source_anchor": [
+            310,
+            480
+          ],
+          "native_offset": [
+            74,
+            120
+          ],
+          "visible_bounds": [
+            253,
+            130,
+            441,
+            601
+          ]
+        }
+      ],
+      "atlas": "UR_move_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "estimated_ppu": 98,
+      "events": [],
+      "end": "loop"
+    },
+    "UR_attack": {
+      "facing": "UR",
+      "action": "attack",
+      "loop": false,
+      "holds_60hz": [
+        12,
+        19,
+        5,
+        4,
+        17,
+        15
+      ],
+      "total_ticks": 72,
+      "frames": [
+        {
+          "file": "UR_attack_01.png",
+          "source_cell_origin": [
+            0,
+            0
+          ],
+          "source_anchor": [
+            285,
+            478
+          ],
+          "native_offset": [
+            99,
+            122
+          ],
+          "visible_bounds": [
+            294,
+            142,
+            493,
+            609
+          ]
+        },
+        {
+          "file": "UR_attack_02.png",
+          "source_cell_origin": [
+            512,
+            0
+          ],
+          "source_anchor": [
+            270,
+            473
+          ],
+          "native_offset": [
+            114,
+            127
+          ],
+          "visible_bounds": [
+            255,
+            148,
+            505,
+            608
+          ]
+        },
+        {
+          "file": "UR_attack_03.png",
+          "source_cell_origin": [
+            1024,
+            0
+          ],
+          "source_anchor": [
+            240,
+            463
+          ],
+          "native_offset": [
+            144,
+            137
+          ],
+          "visible_bounds": [
+            223,
+            279,
+            565,
+            614
+          ]
+        },
+        {
+          "file": "UR_attack_04.png",
+          "source_cell_origin": [
+            0,
+            512
+          ],
+          "source_anchor": [
+            290,
+            450
+          ],
+          "native_offset": [
+            94,
+            150
+          ],
+          "visible_bounds": [
+            246,
+            157,
+            606,
+            612
+          ]
+        },
+        {
+          "file": "UR_attack_05.png",
+          "source_cell_origin": [
+            512,
+            512
+          ],
+          "source_anchor": [
+            280,
+            460
+          ],
+          "native_offset": [
+            104,
+            140
+          ],
+          "visible_bounds": [
+            258,
+            147,
+            505,
+            607
+          ]
+        },
+        {
+          "file": "UR_attack_06.png",
+          "source_cell_origin": [
+            1024,
+            512
+          ],
+          "source_anchor": [
+            270,
+            460
+          ],
+          "native_offset": [
+            114,
+            140
+          ],
+          "visible_bounds": [
+            244,
+            147,
+            449,
+            607
+          ]
+        }
+      ],
+      "atlas": "UR_attack_atlas.png",
+      "atlas_rects": [
+        [
+          4,
+          4,
+          768,
+          768
+        ],
+        [
+          780,
+          4,
+          768,
+          768
+        ],
+        [
+          1556,
+          4,
+          768,
+          768
+        ],
+        [
+          4,
+          780,
+          768,
+          768
+        ],
+        [
+          780,
+          780,
+          768,
+          768
+        ],
+        [
+          1556,
+          780,
+          768,
+          768
+        ]
+      ],
+      "gutter_px": 4,
+      "pivot_top_left_px": [
+        384,
+        600
+      ],
+      "estimated_ppu": 98,
+      "events": [
+        {
+          "name": "ground_seal_contact",
+          "frame_index_zero_based": 2,
+          "tick": 31,
+          "damage_guarantee": false
+        },
+        {
+          "name": "visual_shard_release",
+          "frame_index_zero_based": 3,
+          "tick": 36,
+          "damage_guarantee": false
+        }
+      ],
+      "end": "hold final cel then transition to compatible rest"
+    }
+  }
+}

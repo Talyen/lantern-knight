@@ -1,0 +1,34 @@
+[
+  {
+    "name": "workshop_edge",
+    "junction_source_xy": [
+      800,
+      480
+    ],
+    "check_source_box": [
+      752,
+      432,
+      848,
+      528
+    ],
+    "mean_abs_rgb_difference": 0.012473777488425927,
+    "max_abs_rgb_difference": 3.0,
+    "pct_pixels_over_2": 0.0006781684027777778
+  },
+  {
+    "name": "district_road_edge",
+    "junction_source_xy": [
+      1280,
+      640
+    ],
+    "check_source_box": [
+      1232,
+      592,
+      1328,
+      688
+    ],
+    "mean_abs_rgb_difference": 0.017239040798611112,
+    "max_abs_rgb_difference": 3.0,
+    "pct_pixels_over_2": 0.002034505208333333
+  }
+]

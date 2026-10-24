@@ -1,0 +1,1180 @@
+{
+  "schema_version": 1,
+  "status": "EIGHT_DIRECTION_RUN_TEST_DELTA_NOT_ENGINE_VALIDATED",
+  "scope": "Add D/U/L/R run. Preserve existing DR/DL/UL/UR bytes. Idle and combat remain four-direction.",
+  "runtime_art_embedded": false,
+  "camera": {
+    "ground": "XZ",
+    "world_up": "+Y",
+    "azimuth_degrees": 45,
+    "elevation_degrees": 35.264389682754654
+  },
+  "cycle": {
+    "ticks": 40,
+    "hz": 60,
+    "duration_seconds": 0.6666666666666666,
+    "new_source_guide_ticks": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35
+    ],
+    "duplicate_tick40": false
+  },
+  "switch_rule": "Preserve normalized cycle time: q=(elapsed_seconds*60)%40; select last start_tick <= q in selected heading. Never transfer drawing index or reset time on a heading change. DL holds differ.",
+  "import_rule": "Consume padded PNG frames with listed pivot and one clip-wide PPU at unchanged actor scale. OR use source archive atlas contract. Never stack canvas translations, PPU compensation, root motion, or stabilization. No mirroring.",
+  "contact_rule": "Source-guide joint events are proxies, not verified illustrated sole contacts. Do not synthesize observed anchors.",
+  "preview": {
+    "render_hz": 60,
+    "switch_interval_ticks": 47,
+    "switch_sequence": [
+      "U",
+      "UR",
+      "R",
+      "DR",
+      "D",
+      "DL",
+      "L",
+      "UL",
+      "UL",
+      "L",
+      "DL",
+      "D",
+      "DR",
+      "R",
+      "UR",
+      "U"
+    ],
+    "cycle_time_continuous": true,
+    "display_pixels_per_unit": 230,
+    "baseline": "Stored actor root, not universal ground-contact line; ground depth can project soles above/below it.",
+    "per_frame_fitting": false
+  },
+  "limitations": [
+    "PPU and visual roots are approximate, not engine calibration.",
+    "Original DR/UL elevated carry and DL differing arm motion remain; old-to-new arm carry pops are expected.",
+    "Scale, body silhouette, root registration and illustrated phase can pop across directions; no additional handoff retouching or per-frame fit conceals it.",
+    "D is a simplified six-cel retimed cycle; omitted source25/30 drawings mean phase continuity is approximate. U upper-body motion is restrained. All clips are held native drawings, not interpolated animation."
+  ],
+  "guide_sample_verification": [
+    {
+      "heading": "D",
+      "source_tick": 0,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 5,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 10,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 15,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 20,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 25,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 30,
+      "heading_verified": true
+    },
+    {
+      "heading": "D",
+      "source_tick": 35,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 0,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 5,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 10,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 15,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 20,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 25,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 30,
+      "heading_verified": true
+    },
+    {
+      "heading": "U",
+      "source_tick": 35,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 0,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 5,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 10,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 15,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 20,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 25,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 30,
+      "heading_verified": true
+    },
+    {
+      "heading": "L",
+      "source_tick": 35,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 0,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 5,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 10,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 15,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 20,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 25,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 30,
+      "heading_verified": true
+    },
+    {
+      "heading": "R",
+      "source_tick": 35,
+      "heading_verified": true
+    }
+  ],
+  "clips": [
+    {
+      "heading": "U",
+      "world_forward_normalized_xyz": [
+        -0.7071067811865476,
+        0,
+        -0.7071067811865476
+      ],
+      "clip_id": "Lantern_run_U_fresh_native8_test_v01",
+      "manifest_sha256": "71ecc3654d08ac68fb2901d893d63eb32aa007c03bb38b35f72ef46efad4a63a",
+      "canvas_px": [
+        768,
+        768
+      ],
+      "pivot_top_left_px": [
+        384,
+        640
+      ],
+      "pivot_bottom_left_px": [
+        384,
+        128
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.16666666666666663
+      ],
+      "pixels_per_unit_approximate": 240,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "38fdd3b63d1b213bffa14552779dff3836162d734c252dd61d2196b6fe6ec85b"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "9e2b3a3f07a6fe3ceb83c88f09f897386d6f6aecdb85a1d88b057134f6e42cfa"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_02.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "49dd0fa1ca084c30762eb1ec402bbd0a239c43821eedb2a32df4227fb04e9763"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_03.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "73aadf086fe5774e62b9901f4975ab364a53c36d47d684145b717748a2ba9476"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_04.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "20952a623a62269c1c2a3e3d2553e15be797dfe7f25e3803b970d9b95ca8cfac"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_05.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "4c7ae629c52b24acdea127fee01a27e47a20e670f86c7726c960446184a264d6"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_06.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "8244b6cee37d14480596c8700e2dae064f9f2a8152bf504277f0e50b04fd4096"
+        },
+        {
+          "index": 7,
+          "file": "frames/run_07.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "68ed9ac41771e35b17792c80d72f805505fc77e77bf32df05c51d9de8ceee005"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "Lantern_run_U_native8_runtime_test_v01.zip",
+          "sha256": "588eaf1c156d266a0ebcfcbee3c792b1536ba9cb5707f9ac3799eb2919772241",
+          "bytes": 2955095,
+          "kind": "runtime_or_combined",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/1DaqMDyPBJqGlIevtr-mkFGLci4GmUhX8/view?usp=drivesdk"
+        },
+        {
+          "filename": "Lantern_run_U_native8_source_companion_v01.zip",
+          "sha256": "87843f9516c3fac1451e83cebba61331959e5c15a80a16aaa910d67d2d350b70",
+          "bytes": 3191089,
+          "kind": "source_companion",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/17ZOXZEoJa3y9_2umaMXaYfN1l7us5Kop/view?usp=drivesdk"
+        }
+      ],
+      "registration_from_producer": "One fixed manually estimated clip-wide root. Native pixels and alpha preserved exactly, except transparent right/bottom padding; no rescale, mirroring, morphing, frame-fitting, or per-cel alignment. Guide root not falsely substituted for drawn root.",
+      "mirror": false,
+      "producer_limitations": [
+        "Painted camera/pose approximate exact guide; no projection metrology or engine validation.",
+        "Source support/flight labels are joint proxies and are not verified sole contacts.",
+        "Fixed root and density are visual starting estimates; body bob retained with no foot-snapping.",
+        "Tiny native alpha1\u20137 specks can extend to original grid edges; visible alpha8 silhouettes remain within cells.",
+        "Natural slight head counter-rotation remains; no mirrored assets."
+      ],
+      "retimed_playback": false,
+      "producer_retiming": null
+    },
+    {
+      "heading": "UR",
+      "world_forward_normalized_xyz": [
+        0,
+        0,
+        -1
+      ],
+      "clip_id": "rust_run_world_negative_Z_UR_lowcarry8_native_test_v01",
+      "manifest_sha256": "faefc39a1bd989bf5fb2c23c6e85151f487feea963f73f0402c1abea5353f521",
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.12890625
+      ],
+      "pixels_per_unit_approximate": 235,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "cf63a5a47f5695c73812219f3c549d30a10a1032869be68685c5f397a667ce99"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "615b3509b7ea5f479298e6bc7c63b92373a6a740dd4e84c358d60563901e0c82"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_02.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "c36900e2c3a095b079cd48dface0594d67bff685478025eb2dd597f7d8d841d9"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_03.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "930e49d00a25078be058564c608a2af04a04ce8661c90ef6d904f14c1569f1c8"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_04.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "ce48fc701be4a858fa79c448fd5b11a4b2f2ae6269eedb2c2935354d5d544ae2"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_05.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "958fa93fc4a8fd124dde543a7e60cfd559849bca18dbff1e06fca132f605b521"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_06.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "7936629e346a5d7b6358b805ee60b2df9fe4252b3861175756a6929ef5096b3a"
+        },
+        {
+          "index": 7,
+          "file": "frames/run_07.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "bc218d7fe9950fd2e05d5a4552e141d1f914d964455d894998f56b24ba712968"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "rust_run_UR_lowcarry8_native_runtime_test_v01.zip",
+          "sha256": "99edc1911244e6c3698c70ffe424c73fb214f8ddc17db0da529521d0ddbb56e0",
+          "bytes": 3617693,
+          "url": "https://drive.google.com/file/d/1nwp6Rs4hT3HSUNrlcMzeSRo8XkTYe5vk/view?usp=drivesdk",
+          "kind": "original_runtime"
+        },
+        {
+          "filename": "rust_run_UR_lowcarry8_source_companion_v01.zip",
+          "url": "https://drive.google.com/file/d/1xyvAVVSf9PtRxQ4l0swc1xYmzqNYKhDX/view?usp=drivesdk",
+          "sha256": "85f366111d67ae910de6713612894743d025601f033648d1a50c1ddde1029738",
+          "kind": "original_source_companion"
+        }
+      ],
+      "registration_from_producer": "Native 1x equal-grid extraction with one transparent-padding translation [548,512]. No raster resizing, upscaling, mirroring, per-frame fitting or mesh distortion.",
+      "mirror": false,
+      "producer_limitations": [
+        "New low-carry source adaptation; not unaltered mocap. Original body/legs/right arm and root bob retained; left elbow/wrist reauthored with exact-length IK and a small source-torso-yaw-driven carriage swing.",
+        "Only joint positions are supplied; independent axial bone/hand rotations are not recovered.",
+        "Authored fixed root is an approximate starting registration. Pivots are exact for these files but are not validated physical ground contacts.",
+        "Suggested density is one rough cranial-width estimate for the whole clip, about \u00b115%; no engine calibration.",
+        "Guide camera is exact; painted camera/prop measurements are visual approximations, not measured proof.",
+        "Small stitch/scuff remnants after bounded cloth cleanup remain acceptable in this native test.",
+        "Existing high-carry UR attempts remain held; this package is a new separately reviewed clip.",
+        "No observed art anchors are supplied; null values must not be replaced by source-guide joints."
+      ],
+      "retimed_playback": false,
+      "producer_retiming": null
+    },
+    {
+      "heading": "R",
+      "world_forward_normalized_xyz": [
+        0.7071067811865476,
+        0,
+        -0.7071067811865476
+      ],
+      "clip_id": "lantern_run_screen_R_lowcarry8_native_v03",
+      "manifest_sha256": "8acf940d7a00a72a9dd118444ff8c349e8282e96b8d3e97d04e162f9981639e9",
+      "canvas_px": [
+        768,
+        768
+      ],
+      "pivot_top_left_px": [
+        384,
+        640
+      ],
+      "pivot_bottom_left_px": [
+        384,
+        128
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.16666666666666663
+      ],
+      "pixels_per_unit_approximate": 260,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "a6e7e60dc0d8d0d819e9a0642562eb14f8b91ee8ddc869b8f4bbd4d0cffc8ce5"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "8e58375dc3232e76aed58fa00d352c56f7d06a58ab2a69ae3cda121ba5809466"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_02.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "5a0933ce1998fe9ed9158ffb917146912c26a70e472386fa00219c0f77f3b577"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_03.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "99b3774a72085e40e4a117bf0fddee294ac356a008c00483d2b9467ad816d912"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_04.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "10d9b76ee16fffaa3d2c4443cffab59735a75435decbf3c0dd7be9a305f7cce4"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_05.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "830f6659838793415af39b0d421496fc1a6f94f967c4a67d77a88b694e9da980"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_06.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "a16c844cb695335653e90518fd13bde19fc6f0b0cd81b61aa2c75905fd541819"
+        },
+        {
+          "index": 7,
+          "file": "frames/run_07.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "5429c287cb8530669978446fe0be60a66e879e0cf1a05a81f45b90370345143a"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "Lantern_Run_R_Native_Runtime_Test_v03.zip",
+          "sha256": "42114ec04d00fb6035ae1f8a8804b6db462d15d7fccac2a8fd87b3d1075b3652",
+          "bytes": 4147351,
+          "kind": "runtime_or_combined",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/1Q1T-ihNnFXKjBIMNEpDXAG6NR-TNxPBM/view?usp=drivesdk"
+        },
+        {
+          "filename": "Lantern_Run_R_Source_Companion_v03.zip",
+          "sha256": "c0444921db05b0161e62ed3c57e7cc19968ea5268fe55412a05caecb295319fb",
+          "bytes": 1954521,
+          "kind": "source_companion",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/1_rEXoyJCrOOm50SRq9NUJ1LehYaDDmci/view?usp=drivesdk"
+        }
+      ],
+      "registration_from_producer": "Equal nominal grid extraction then measured per-frame integer pelvis registration preserving source-guide vertical bob. All native pixels retained; no resampling, upscaling, mirroring, morphing, or per-frame bounding-box alignment/fitting.",
+      "mirror": false,
+      "producer_limitations": [
+        "Not engine validated.",
+        "Generator output visually follows eight-phase guide; painted physical contact anchors remain unmeasured.",
+        "Far lantern/bracer and left patches mostly occluded; no claim of visible full far-hand proof.",
+        "Small native alpha\u22643 background haze retained unchanged.",
+        "Fixed canvas/pivot; inferred-pelvis integer stabilization preserves source-guide bob, internal lean and all native pixels.",
+        "Source phase labels are guide provenance; side-view overlapping identical boots prevent exact painted-foot ownership proof at every cel."
+      ],
+      "retimed_playback": false,
+      "producer_retiming": null
+    },
+    {
+      "heading": "DR",
+      "world_forward_normalized_xyz": [
+        1,
+        0,
+        0
+      ],
+      "clip_id": "rust_run_mixamo8_gameplay_v01",
+      "manifest_sha256": "e6a1fc0660fcdd0a71f9687a8612d8daecd22673af248536fd2b8ddbf44907a2",
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.12890625
+      ],
+      "pixels_per_unit_approximate": 275,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "ddb9386416d00be7f432b8f6f19a8064aa92c3029c1238e7cc7769a27c02beec"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "8da58784022ce16d75a5c00fbc13f6a9c9da654ae527d5ce020569d55061e14c"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_02.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "ab95d9cbf9b05540d99be0ef3fa0bb0866bceae70a63553c6a8551e938a96371"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_03.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "d29605a64e882dd85852c91801460e1d8ac5561f2619c61d2dd1da43bbe8fc05"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_04.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "e4cc7b1c5886b21f7ff1d06b47b9c2de5115077f1c4b8c6a9106c84c7e91520b"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_05.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "980cab5a08e5164f5a61c0e665db32efedf4c83898281783160b5689eeccb6c4"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_06.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "69c542d02ab276c80cd6b70d541fed579298e4b327f47b483a838ef26508d4e5"
+        },
+        {
+          "index": 7,
+          "file": "frames/run_07.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "b7e8e92f507777e79df31e32935c888cbb9417bc280fa29a2993de8a01f7469d"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "rust_run_mixamo8_runtime_test_v01.zip",
+          "sha256": "6bf03648c31bb9b8b5560a8cdaedefbb34bc2126cb7364282733b7d7bc3100b7",
+          "bytes": 3512228,
+          "url": "https://drive.google.com/file/d/1yrnCMmDb1Rfs4gqqIpi4r4GLepHiQcUN/view",
+          "kind": "original_runtime"
+        }
+      ],
+      "registration_from_producer": "One common native scale1 and translation550,533; no per-frame fitting, resampling, warping or interpolation. Common pivot approximately calibrated from observed whole-sheet landmarks.",
+      "mirror": false,
+      "producer_limitations": [
+        "Eight held cels; no inbetweens generated or artificial blended frames.",
+        "Cell5 has naturally overlapping boots that read less clearly than other poses.",
+        "Left arm is a deliberate elevated torch-derived lantern carry, with less swing than sword arm.",
+        "Far-left patches mostly occluded; no patch forced onto right sleeve or right coat flap.",
+        "Left grip retains dark glove-like source shading.",
+        "Original straight blades have approximately\u00b110percent projected length variance; no destructive correction included.",
+        "Source contacts are joint proxies; illustrated sole/root alignment is approximate and not engine-tested."
+      ],
+      "retimed_playback": false,
+      "producer_retiming": null
+    },
+    {
+      "heading": "D",
+      "world_forward_normalized_xyz": [
+        0.7071067811865476,
+        0,
+        0.7071067811865476
+      ],
+      "clip_id": "lantern_run_D_6cel_balanced_test",
+      "manifest_sha256": "e21adb1240c7de67e4ce71f950b2a2c80a894a2396893171a54b9817ea79fdab",
+      "canvas_px": [
+        768,
+        768
+      ],
+      "pivot_top_left_px": [
+        384,
+        640
+      ],
+      "pivot_bottom_left_px": [
+        384,
+        128
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.16666666666666663
+      ],
+      "pixels_per_unit_approximate": 280,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/D_run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 10,
+          "source_guide_tick": 0,
+          "sha256": "54b9d8c08fb81b7feb1880324a714644be2dc71ab328ab5343abf757618fc7d3"
+        },
+        {
+          "index": 1,
+          "file": "frames/D_run_01.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "3fd661eba3bc7eab7fcfaaab887fcc19b281451f30c5110c82bc71bcb1c5a4a0"
+        },
+        {
+          "index": 2,
+          "file": "frames/D_run_02.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "3ee2729731cec8b4387f0e4bae9eaff6ce5acd1d9e5e752b4860f6f8eb34e7d6"
+        },
+        {
+          "index": 3,
+          "file": "frames/D_run_03.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "61dec6dbe7f75f579bbe9b3530d15e23ed6a6a7a70113c0bb1569240c97768ca"
+        },
+        {
+          "index": 4,
+          "file": "frames/D_run_04.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "8e77fc6389814c014f78b120ab5479d5bc0dfdbe5ee94bd40905498840ff0ce8"
+        },
+        {
+          "index": 5,
+          "file": "frames/D_run_05.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 10,
+          "source_guide_tick": 35,
+          "sha256": "1d6157ee8bb8bc9dfcf685f6325ad270bbe8e2d185290029ad2a98afa1069517"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "Lantern_Run_D_6cel_Runtime_Test.zip",
+          "sha256": "009b3c3b555c7efe4eb1c57b115436ae6ee7b44c38488f8566edd46cb5831180",
+          "bytes": 2104394,
+          "kind": "runtime_or_combined",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/1OzPD46y4KkGLJnJ3DBc6zdj8WP3SDqin/view?usp=drivesdk"
+        },
+        {
+          "filename": "Lantern_Run_D_6cel_Source_Rebuild.zip",
+          "sha256": "a23e13149050b5aea9bd9b5c2f58c92c8b45c460c868c86de2ee01e663420566",
+          "bytes": 4312697,
+          "kind": "source_companion",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/18LqIN4kWm-LnMCblHCAQ5vbIg_qy77KM/view?usp=drivesdk"
+        }
+      ],
+      "registration_from_producer": "Rounded integer source grid crops, common164,272 translation from estimated source root220,368. No per-cel normalization, scaling, interpolation or pose manipulation; original natural bob retained.",
+      "mirror": false,
+      "producer_limitations": [
+        "Right stride has fewer unique articulated poses because source samples25/30 are excluded.",
+        "Six held native drawings; no synthetic inbetweens.",
+        "Visual phase tags approximate; source foot-contact events do not transfer exactly after retiming.",
+        "Left grip has glove-like dark shading versus bare canonical hand.",
+        "Native source faint low-alpha edge speckles preserved; no destructive alpha cleanup.",
+        "Not engine tested or user accepted."
+      ],
+      "retimed_playback": true,
+      "producer_retiming": "Six selected original native cels1,2,3,4,5,8. Playback holds10,5,5,5,5,10 equalize20ticks right-led/20ticks left-led. Original25/30 drawings excluded for shoulder anatomy. Not an exact8sample phase match."
+    },
+    {
+      "heading": "DL",
+      "world_forward_normalized_xyz": [
+        0,
+        0,
+        1
+      ],
+      "clip_id": "rust_run_world_positive_Z_DL_mixamo7_test_v02",
+      "manifest_sha256": "b53631c0a4afc97a157f8ca049aeb797d1e9011814a9a0c953c3720ed23b3a7a",
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.12890625
+      ],
+      "pixels_per_unit_approximate": 320,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "b0d266211bb7d8895f48949028324a7499ed923197749614a16b5d769694fd90"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 7,
+          "source_guide_tick": 5,
+          "sha256": "9bbf7ea862fddcbbef10b4eaccf29f58a594e46415f51e844df45abd1851e0c7"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_02.png",
+          "start_tick": 12,
+          "hold_ticks_60hz": 8,
+          "source_guide_tick": 15,
+          "sha256": "81077cb73f8e075b26a200df2857ccbcbd3af2cf1bd28eb87c5466cca578bc80"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_03.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "872992319230959a9e52831a71b161cb862e5bb4ef4df42720687e50f409544a"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_04.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "9d9624ecb32bac5354da03400e35d6215fae371d5f3e2158818990b500840d8d"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_05.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "11ac312e3413cfcb8afa2817df39c87b9aefa34d56890e01379c3c78fa393ed9"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_06.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "7aeb0be4c40d35831c010a9277cac079e7387b59d93c10dab8ce2ac10db8b599"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "rust_run_DL_mixamo7_runtime_test_v01.zip",
+          "sha256": "2e5a54a5782731cf4813870c2cf0b7ae891d13b0e7320f16bf5aeabfddc8e22d",
+          "bytes": 2324998,
+          "url": "https://drive.google.com/file/d/186zAw8ADWGggZH3MIHZBXT8DrN-E7jpF/view?usp=drivesdk",
+          "kind": "original_runtime"
+        }
+      ],
+      "registration_from_producer": "Native1x pixels, fixed source cell extraction, common transparent padding. No per-frame scale, mirror, pose warps or silhouette fitting. Approximate authored pivot.",
+      "mirror": false,
+      "producer_limitations": [
+        "Larger sourcecel2\u21924 spacing and unequal holds.",
+        "Original clean drawn weapon proportions retained.",
+        "Observed anchors and root/foot calibration approximate; source contacts are joint proxies.",
+        "run05 calf/cuff detail traditionally restored in v02; original frame and mask retained."
+      ],
+      "retimed_playback": true,
+      "producer_retiming": {
+        "omitted_source_cell": 3,
+        "reason": "Wrong opposite leg phase in generated cel; excluded entirely.",
+        "remaining_source_ticks": [
+          0,
+          5,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "holds_ticks": [
+          5,
+          7,
+          8,
+          5,
+          5,
+          5,
+          5
+        ],
+        "note": "Missing5ticks redistributed +2to priorcel,+3to followingcel. Full40tickcycle remains, with larger2\u21924 spacing and unequal holds; no wrongpose/duplicate filler."
+      }
+    },
+    {
+      "heading": "L",
+      "world_forward_normalized_xyz": [
+        -0.7071067811865476,
+        0,
+        0.7071067811865476
+      ],
+      "clip_id": "rust_run_L_lowcarry8_native_v01",
+      "manifest_sha256": "5c7042462dd5427ed5974297cb1dec22a262fb6f47231e948cca21e1726ad2b7",
+      "canvas_px": [
+        768,
+        768
+      ],
+      "pivot_top_left_px": [
+        384,
+        640
+      ],
+      "pivot_bottom_left_px": [
+        384,
+        128
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.16666666666666663
+      ],
+      "pixels_per_unit_approximate": 285,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_L_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "a6b19f210ac69d9229c82f073da6c7dacd7ad49a0aba359d837ca48643510771"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_L_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "9b88297f52f4063b5449bea7566c79ab6616f79c8c8d86e47560d243b0a0daaf"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_L_02.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "45a4b47ab64d0b41e9d57ef55bb04b778350a129a92641796018677cbfa49e20"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_L_03.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "de73b0be9fa55c61e7313ce84b6bda927aa8e984faf33e0345b005f9c0e607df"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_L_04.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "0cb181b351f08523ccbf8f81d57b7f901b9a9fa258ad6b712a6ffd9171764d0a"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_L_05.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "3326bbda6dadc12325a3a7cf3fd063fe07dac5e3166d532725840a8d3ca5ca7f"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_L_06.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "6838b6b9ac10ff0fa1cc72da8b14df08e8636376ef0f646c89333311f111abbb"
+        },
+        {
+          "index": 7,
+          "file": "frames/run_L_07.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "7b156f2efb57524c7eefb6a5c5ba19bb32c10443a620fc82bed311838756c413"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "lantern_run_L_runtime_v01.zip",
+          "sha256": "117b8711c8a59f945b4bd2d141aeca6e2581e7e4999f197b463278307d2ab2c9",
+          "bytes": 3565765,
+          "kind": "runtime_or_combined",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/1IqBlNcv6gOWWgoTyZZZ8P5jjXOPoBx2v/view?usp=drivesdk"
+        },
+        {
+          "filename": "lantern_run_L_source_v01.zip",
+          "sha256": "1786a79141201748aa0f4e4a2b0ef6ba5306533be03bb56615a6fc9490bd2fe1",
+          "bytes": 4253442,
+          "kind": "source_companion",
+          "delivery": "Parent-verified Drive upload receipt; local archive SHA256 recorded.",
+          "url": "https://drive.google.com/file/d/1DDK6llySvu8YPVmaRNW7FCq18F-sRcdt/view?usp=drivesdk"
+        }
+      ],
+      "registration_from_producer": "Equal-grid native extraction. One fixed integer translation for all eight cells; no raster scaling, mirroring, morphing, or per-frame bounding-box fit.",
+      "mirror": false,
+      "producer_limitations": [
+        "Source guide camera and joints are exact but artwork is visually conditioned, not measured retargeting.",
+        "Ground pivot and PPU are approximate until engine comparison.",
+        "Source guide support phases do not independently prove painted sole contacts.",
+        "Source body bob remains as painted with no per-cel repositioning.",
+        "Hidden far wrist/sword attachment in second-half poses is occluded, not independently verifiable.",
+        "Leg attribution is visually plausible with moderate confidence where coat hides hips.",
+        "Source bob is not metrically matched: painted head height is nearly constant per row.",
+        "Eight-cel transition from hidden rear sword arm to forward visible grip is somewhat abrupt; accepted native test, no interpolation or invented inbetweens."
+      ],
+      "retimed_playback": false,
+      "producer_retiming": null
+    },
+    {
+      "heading": "UL",
+      "world_forward_normalized_xyz": [
+        -1,
+        0,
+        0
+      ],
+      "clip_id": "rust_run_world_negative_X_UL_mixamo8_test_v02",
+      "manifest_sha256": "2388d001000e6b595ee3bfbe61ace6d309dbebbd48ac244469d8926a1ec3dc4d",
+      "canvas_px": [
+        1536,
+        1024
+      ],
+      "pivot_top_left_px": [
+        768,
+        892
+      ],
+      "pivot_bottom_left_px": [
+        768,
+        132
+      ],
+      "pivot_normalized_bottom_left": [
+        0.5,
+        0.12890625
+      ],
+      "pixels_per_unit_approximate": 295,
+      "frames": [
+        {
+          "index": 0,
+          "file": "frames/run_00.png",
+          "start_tick": 0,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 0,
+          "sha256": "97ba2787258c32fbdce2037e30d19b7ffb6623d0d0d499fec8924f3fee2fcaca"
+        },
+        {
+          "index": 1,
+          "file": "frames/run_01.png",
+          "start_tick": 5,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 5,
+          "sha256": "3f246147a5dcf46382bf08f114b319b025f0c91bc4b4f42e883d04f71d4640e8"
+        },
+        {
+          "index": 2,
+          "file": "frames/run_02.png",
+          "start_tick": 10,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 10,
+          "sha256": "6dd68353853399a2f071ae633c4906bc240ff600265573d8561e3f97fbe2c061"
+        },
+        {
+          "index": 3,
+          "file": "frames/run_03.png",
+          "start_tick": 15,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 15,
+          "sha256": "63245e162fa604024d4c41c2ba2e69d21500c45bfd1bc2387a58a08cb7437402"
+        },
+        {
+          "index": 4,
+          "file": "frames/run_04.png",
+          "start_tick": 20,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 20,
+          "sha256": "7277d9798a002da6d195e167ee67fd3d145f91513a5bc0ee2bb298c6a71b5955"
+        },
+        {
+          "index": 5,
+          "file": "frames/run_05.png",
+          "start_tick": 25,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 25,
+          "sha256": "1b9c7243caebe9293765bdd31cfbc91822a3d1362d4aa6f41c5211155eca6a8b"
+        },
+        {
+          "index": 6,
+          "file": "frames/run_06.png",
+          "start_tick": 30,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 30,
+          "sha256": "1ff9c0dfcfbaa654911a6fc24e172c37697de8012a3786384f6f12a6c73384d1"
+        },
+        {
+          "index": 7,
+          "file": "frames/run_07.png",
+          "start_tick": 35,
+          "hold_ticks_60hz": 5,
+          "source_guide_tick": 35,
+          "sha256": "ef19fb890c40f0a089a3aabe60b5d839d1b4af2bb600705625f27ef5a22b6f3b"
+        }
+      ],
+      "packages": [
+        {
+          "filename": "rust_run_UL_mixamo8_runtime_test_v01.zip",
+          "sha256": "431cabf4c4fc7bc0a4ff59d58e0f932e20153fc44aaf849da220febba18aac6b",
+          "bytes": 4330605,
+          "url": "https://drive.google.com/file/d/1PMPVBJsAHpNCrTYRXIRGEiXSsmM6bXu3/view?usp=drivesdk",
+          "kind": "original_runtime"
+        }
+      ],
+      "registration_from_producer": "Native1x pixels, fixed equal-cell extraction and one common transparent-padding translation. No per-frame rescale or silhouette centering. Cellroot approximate authored pivot, not exact enginegroundcalibration.",
+      "mirror": false,
+      "producer_limitations": [
+        "Far-right sword arm and weapon are substantially occluded by coat in this rear view; unobservable anchors are null.",
+        "Original clean drawn sword projection retained; no destructive length-normalization edits.",
+        "Foot/root calibration is approximate; source contacts are joint proxies.",
+        "Eight held drawings only; no manufactured inbetweens or duplicate endpoint."
+      ],
+      "retimed_playback": false,
+      "producer_retiming": null
+    }
+  ],
+  "original_runtime_immutability_verified": true
+}

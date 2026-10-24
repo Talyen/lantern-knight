@@ -1,0 +1,60 @@
+{
+  "title": "Woodland C | Full Scenic Map",
+  "views": [
+    {
+      "name": "upper_clearing",
+      "display_box": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "display_foot": [
+        625,
+        750
+      ]
+    },
+    {
+      "name": "central_clearing",
+      "display_box": [
+        1050,
+        625,
+        2586,
+        1649
+      ],
+      "display_foot": [
+        1925,
+        1350
+      ]
+    },
+    {
+      "name": "lower_route",
+      "display_box": [
+        1725,
+        1500,
+        3261,
+        2524
+      ],
+      "display_foot": [
+        2550,
+        1993
+      ]
+    }
+  ],
+  "seams": [
+    {
+      "name": "ruin_and_pines",
+      "source_xy": [
+        640,
+        320
+      ]
+    },
+    {
+      "name": "lower_rock_boundary",
+      "source_xy": [
+        1120,
+        640
+      ]
+    }
+  ]
+}

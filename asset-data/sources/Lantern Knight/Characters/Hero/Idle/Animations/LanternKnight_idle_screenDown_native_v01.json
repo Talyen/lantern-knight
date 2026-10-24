@@ -1,0 +1,296 @@
+{
+  "native_resolution": true,
+  "runtime_canvas_px": [
+    768,
+    768
+  ],
+  "pivot_top_left_px": [
+    384,
+    640
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.16666666666666666
+  ],
+  "camera_elevation_degrees": 35.264389682754654,
+  "camera_azimuth_degrees": 45,
+  "anatomy": "Anatomical right sword, anatomical left lantern. Never mirror.",
+  "pixels_modified": "Only regular-grid source extraction and a single integer translation per whole clip into transparent padding. No per-cel fit, scale, warp, interpolation, pixel painting or AI upscale.",
+  "loop_ticks": 120,
+  "tick_rate_hz": 60,
+  "unique_cels": 6,
+  "hold_ticks_per_cel": 20,
+  "loop_seconds": 2,
+  "limit": "Artwork projection, PPU and ground root are visually estimated and require engine comparison. These are native held-cel animation tests, not engine-certified seamless transitions.",
+  "clip_id": "LanternKnight_idle_screenDown_native_v01",
+  "status": "ART_QA_PASSED_NATIVE_RUNTIME_TEST_NOT_ENGINE_VALIDATED",
+  "heading": "D",
+  "screen_direction": "screenDown",
+  "world_forward_normalized_xyz": [
+    0.7071067811865476,
+    0,
+    0.7071067811865476
+  ],
+  "actor_heading_world_Y_degrees": 45,
+  "pixels_per_unit_approximate": 296.9415,
+  "ppu_method": {
+    "reference": "Approved DR ready body crown-to-sole 564 px at 350 PPU",
+    "clip_median_body_height_px": 478.5,
+    "formula": "clip_median_body_height / (564 / 350)",
+    "confidence": "Approximate visual calibration only"
+  },
+  "source_image_dimensions": [
+    1536,
+    1024
+  ],
+  "source_regular_grid_origin_xy": [
+    0,
+    0
+  ],
+  "source_regular_grid_step_xy": [
+    511,
+    506
+  ],
+  "source_cell_size_px": [
+    512,
+    512
+  ],
+  "clip_wide_integer_translation_xy": [
+    113,
+    185
+  ],
+  "source_root_estimated_xy": [
+    271,
+    455
+  ],
+  "atlas": {
+    "file": "LanternKnight_idle_screenDown_native_v01_atlas.png",
+    "dimensions_px": [
+      2304,
+      1536
+    ],
+    "grid": [
+      3,
+      2
+    ],
+    "transparent": true
+  },
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/idle_D_00.png",
+      "start_tick": 0,
+      "hold_ticks_60hz": 20,
+      "duration_ms_exact": 333.3333333333333,
+      "atlas_rect_top_left_xywh": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "sha256": "7a82b0240e84daf5859c0afd59c9d74eb54061adf08e088c2e468a1959f71117"
+    },
+    {
+      "index": 1,
+      "file": "frames/idle_D_01.png",
+      "start_tick": 20,
+      "hold_ticks_60hz": 20,
+      "duration_ms_exact": 333.3333333333333,
+      "atlas_rect_top_left_xywh": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "sha256": "4b3bc92a18e6fe8db576eed88b51af0213faed08bf75153995ba86620fe097c6"
+    },
+    {
+      "index": 2,
+      "file": "frames/idle_D_02.png",
+      "start_tick": 40,
+      "hold_ticks_60hz": 20,
+      "duration_ms_exact": 333.3333333333333,
+      "atlas_rect_top_left_xywh": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "sha256": "b362e08aceb22f8783b37ed262d09e6767f1b621b7bc628ea24f72a313f7d314"
+    },
+    {
+      "index": 3,
+      "file": "frames/idle_D_03.png",
+      "start_tick": 60,
+      "hold_ticks_60hz": 20,
+      "duration_ms_exact": 333.3333333333333,
+      "atlas_rect_top_left_xywh": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "sha256": "03e5d6f9a04f94b924ce998fc1a6ba11e6b033e2b3b764d714be78b8ecd34a30"
+    },
+    {
+      "index": 4,
+      "file": "frames/idle_D_04.png",
+      "start_tick": 80,
+      "hold_ticks_60hz": 20,
+      "duration_ms_exact": 333.3333333333333,
+      "atlas_rect_top_left_xywh": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "sha256": "a96fc029af8dc1c4f5b231c7f416d3b0e2c4658154732146f7d763eb4bb3628a"
+    },
+    {
+      "index": 5,
+      "file": "frames/idle_D_05.png",
+      "start_tick": 100,
+      "hold_ticks_60hz": 20,
+      "duration_ms_exact": 333.3333333333333,
+      "atlas_rect_top_left_xywh": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "sha256": "36614f62708225f1f2f0ee9c0019cbe4e9b8bf71c1a04634987c0c33a0c8c0b3"
+    }
+  ],
+  "timeline_60hz_frame_indices": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+  ],
+  "duplicate_endpoint": false,
+  "loop": true,
+  "visual_caveats": [
+    "Small hand-redraw line, cloth, flame and prop variation remains.",
+    "Minor native head/foot variation is retained rather than hidden with per-frame fitting.",
+    "Far-side hand attachment can be occluded in the side views.",
+    "Side-view camera elevation is visually approximate; exact projection is not established by prompt text."
+  ],
+  "source_sha256": "511856171f83ed162beac05faea1cc980e6acc6cc92295ce3d9afadbcfa8fbb3",
+  "generation": "Built-in image generation; no CLI fallback. Preferred model named in initial prompts was Sunburst 2.5; actual backend selection was not independently verified."
+}

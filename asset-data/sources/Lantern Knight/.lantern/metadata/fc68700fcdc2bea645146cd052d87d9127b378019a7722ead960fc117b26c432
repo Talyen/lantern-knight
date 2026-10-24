@@ -1,0 +1,234 @@
+{
+  "name": "get_hit",
+  "loop": false,
+  "drawing_count": 6,
+  "canvas_px": [
+    768,
+    640
+  ],
+  "pivot_top_left_px": [
+    320,
+    576
+  ],
+  "pivot_normalized_bottom_left": [
+    0.4166666666666667,
+    0.09999999999999998
+  ],
+  "atlas": "atlases/get_hit_atlas.png",
+  "atlas_size_px": [
+    2304,
+    1280
+  ],
+  "source": "sources/get_hit_source.png",
+  "source_sheet_scale": 0.9516129032258065,
+  "source_sha256": "b3acd1e661305dd54ff8ab7702eaf004a286a5bdf6fee69efab8f196a0c0d011",
+  "fps_timebase": 60,
+  "frames": [
+    {
+      "cel": 1,
+      "file": "frames/get_hit/get_hit_01.png",
+      "hold_ticks_60hz": 3,
+      "start_tick": 0,
+      "phase": "ready",
+      "atlas_rect_xywh": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        46,
+        8,
+        517,
+        512
+      ],
+      "source_ground_anchor_xy": [
+        276,
+        504
+      ],
+      "registered_xy": [
+        101,
+        104
+      ],
+      "alpha_bbox_gt127": [
+        104,
+        107,
+        546,
+        580
+      ],
+      "sha256": "d7531e0ae8522fb02fdc5105c75327cf6c4de8d0b8a15ee58d1ad2139edfa8a1"
+    },
+    {
+      "cel": 2,
+      "file": "frames/get_hit/get_hit_02.png",
+      "hold_ticks_60hz": 4,
+      "start_tick": 3,
+      "phase": "recoil",
+      "atlas_rect_xywh": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        571,
+        23,
+        1030,
+        512
+      ],
+      "source_ground_anchor_xy": [
+        784,
+        505
+      ],
+      "registered_xy": [
+        117,
+        117
+      ],
+      "alpha_bbox_gt127": [
+        121,
+        120,
+        551,
+        579
+      ],
+      "sha256": "af0b1af043f836f48ba8db6658901700ace696352131b60922f9150f7a49744d"
+    },
+    {
+      "cel": 3,
+      "file": "frames/get_hit/get_hit_03.png",
+      "hold_ticks_60hz": 5,
+      "start_tick": 7,
+      "phase": "compression",
+      "atlas_rect_xywh": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1034,
+        80,
+        1534,
+        513
+      ],
+      "source_ground_anchor_xy": [
+        1280,
+        505
+      ],
+      "registered_xy": [
+        86,
+        172
+      ],
+      "alpha_bbox_gt127": [
+        90,
+        176,
+        558,
+        581
+      ],
+      "sha256": "448437b944b80b61a317a9af33682c7242dff3c12167bd102e0328510390e367"
+    },
+    {
+      "cel": 4,
+      "file": "frames/get_hit/get_hit_04.png",
+      "hold_ticks_60hz": 6,
+      "start_tick": 12,
+      "phase": "brace_step",
+      "atlas_rect_xywh": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        39,
+        534,
+        580,
+        1010
+      ],
+      "source_ground_anchor_xy": [
+        295,
+        1003
+      ],
+      "registered_xy": [
+        76,
+        130
+      ],
+      "alpha_bbox_gt127": [
+        80,
+        133,
+        588,
+        580
+      ],
+      "sha256": "4b9eb8b9a5b9cde38a4d526beeba58b06ae48324b10bc0fe639bd2b2c700de4b"
+    },
+    {
+      "cel": 5,
+      "file": "frames/get_hit/get_hit_05.png",
+      "hold_ticks_60hz": 8,
+      "start_tick": 18,
+      "phase": "regain_guard",
+      "atlas_rect_xywh": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        613,
+        529,
+        1024,
+        1013
+      ],
+      "source_ground_anchor_xy": [
+        788,
+        1006
+      ],
+      "registered_xy": [
+        153,
+        122
+      ],
+      "alpha_bbox_gt127": [
+        158,
+        127,
+        540,
+        580
+      ],
+      "sha256": "b6affcb5ef9c54bab10c81b8e7622e2f3cea1a42667519b777b0cccf6a356638"
+    },
+    {
+      "cel": 6,
+      "file": "frames/get_hit/get_hit_06.png",
+      "hold_ticks_60hz": 10,
+      "start_tick": 26,
+      "phase": "ready_return",
+      "atlas_rect_xywh": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "source_bbox_xyxy": [
+        1087,
+        510,
+        1520,
+        1011
+      ],
+      "source_ground_anchor_xy": [
+        1298,
+        1005
+      ],
+      "registered_xy": [
+        119,
+        105
+      ],
+      "alpha_bbox_gt127": [
+        122,
+        107,
+        528,
+        579
+      ],
+      "sha256": "b28a473c2f3fc8b1406c65281e112f1722fcf0fb9103e41d3752c1884f7b86c7"
+    }
+  ],
+  "duration_ticks_60hz": 36,
+  "terminal_hold": false
+}

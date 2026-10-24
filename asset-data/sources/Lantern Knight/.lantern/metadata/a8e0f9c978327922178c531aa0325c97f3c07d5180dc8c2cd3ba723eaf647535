@@ -1,0 +1,72 @@
+{
+  "clips": {
+    "idle": {
+      "frames": 48,
+      "unique_pixel_frames": 26,
+      "maximum_segment_length_error_source_px": 1.8474111129762605e-13,
+      "maximum_planted_contact_error_source_px": 0,
+      "loop_endpoint_max_channel_difference": 0,
+      "oneshot_returns_to_rest": null,
+      "minimum_padding_px": 90
+    },
+    "scuttle_front": {
+      "frames": 24,
+      "unique_pixel_frames": 24,
+      "maximum_segment_length_error_source_px": 1.9895196601282805e-13,
+      "maximum_planted_contact_error_source_px": null,
+      "loop_endpoint_max_channel_difference": 0,
+      "oneshot_returns_to_rest": null,
+      "minimum_padding_px": 82
+    },
+    "mandible_attack": {
+      "frames": 30,
+      "unique_pixel_frames": 29,
+      "maximum_segment_length_error_source_px": 2.1316282072803006e-13,
+      "maximum_planted_contact_error_source_px": 0,
+      "loop_endpoint_max_channel_difference": null,
+      "oneshot_returns_to_rest": true,
+      "minimum_padding_px": 90
+    },
+    "recoil": {
+      "frames": 24,
+      "unique_pixel_frames": 23,
+      "maximum_segment_length_error_source_px": 2.2737367544323206e-13,
+      "maximum_planted_contact_error_source_px": 0,
+      "loop_endpoint_max_channel_difference": null,
+      "oneshot_returns_to_rest": true,
+      "minimum_padding_px": 90
+    },
+    "scuttle_side": {
+      "frames": 24,
+      "unique_pixel_frames": 24,
+      "maximum_segment_length_error_source_px": 1.7053025658242404e-13,
+      "maximum_planted_contact_error_source_px": null,
+      "loop_endpoint_max_channel_difference": 0,
+      "oneshot_returns_to_rest": null,
+      "minimum_padding_px": 58
+    },
+    "scuttle_rear": {
+      "frames": 24,
+      "unique_pixel_frames": 24,
+      "maximum_segment_length_error_source_px": 1.4210854715202004e-13,
+      "maximum_planted_contact_error_source_px": null,
+      "loop_endpoint_max_channel_difference": 0,
+      "oneshot_returns_to_rest": null,
+      "minimum_padding_px": 42
+    }
+  },
+  "all_frames_rgba": true,
+  "canvas": [
+    768,
+    768
+  ],
+  "source_fps": 30,
+  "preview_hz": 60,
+  "preview_is_duplicate_pose_display": true,
+  "ground_anchor_px": [
+    384,
+    520
+  ],
+  "canonical_hero_unchanged": true,
+  "projection_claim": "Illustrated approximations. Ground diagnostics use exact target camera mathematics, inferred from artwork."
+}

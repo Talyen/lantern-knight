@@ -1,0 +1,34 @@
+{
+  "scene": 1,
+  "name": "Abandoned Orchard backpack",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    130,
+    150,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold frame 5 indefinitely",
+  "anchor_native": [
+    320,
+    560
+  ],
+  "native_canvas": [
+    640,
+    640
+  ],
+  "runtime_scale": 0.16666666666666666,
+  "runtime_anchor": [
+    53,
+    93
+  ],
+  "placement_1536": [
+    510,
+    430
+  ],
+  "closed_source": "Exact approved v5, mechanically downsampled only",
+  "notes": "Exact approved stationary body composited unchanged below opening region; imagegen-drawn upper opening cels. No procedural recoloring. Persistent open state. No rewards."
+}

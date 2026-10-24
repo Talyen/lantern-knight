@@ -1,0 +1,10 @@
+{
+  "status": "Independent visual pass; awaiting root release approval",
+  "native_cels": 36,
+  "review": "Every cel inspected at native detail and on light/dark. Coherent original identity, two arms, no legs, actual rear UL/UR views. Far UR arm naturally occluded in low pose; two attached arms visible at pounce. Complete contour and alpha verified.",
+  "alpha": "Connected ownership masks, <=16 removed >=245 made opaque, RGB retained.",
+  "same_world_scale": "DR240 estimated, DL265 UL270 UR270 PPU. Review downscales only.",
+  "rebuild": "Fresh source ZIP extraction and build.py reproduced all42 runtime PNG SHA256 hashes exactly.",
+  "limitations": "No engine integration or real-time playback test. PPU and camera targets visually estimated, not calibrated 3D geometry.",
+  "baseline": "Existing DR bytes untouched. Extension only."
+}

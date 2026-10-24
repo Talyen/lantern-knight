@@ -1,0 +1,4666 @@
+{
+  "category": "weapons",
+  "items": [
+    {
+      "id": "quiver",
+      "label": "Arrow Quiver",
+      "category": "weapons",
+      "reference_extent_cm": 75,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/quiver/quiver__full_native.png",
+          "dimensions": [
+            1172,
+            1230
+          ],
+          "sha256": "ae13390186dd4cb8fbfae569cb2887e41c33bce7bb951b12c5207370d28d13a1"
+        },
+        "inventory512": {
+          "path": "weapons/quiver/quiver__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "10bf8c019b3d2cc01b305aba40d27f1a578a0099e2a50f46aa6614429d95dda8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            193,
+            181,
+            318,
+            331
+          ],
+          "visible_extent": 150
+        },
+        "thumb256": {
+          "path": "weapons/quiver/quiver__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5792fcea7c797aaff797385c916ab1e7514268ee4b497896886147f7f92d630c",
+          "visible_bbox": [
+            94,
+            90,
+            159,
+            168
+          ],
+          "visible_extent": 78
+        },
+        "detail512": {
+          "path": "weapons/quiver/quiver__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f9131a37fb4b4b492737a9035646de5a23e3d50f3703ea5a314cf7b8ae5947df",
+          "visible_bbox": [
+            69,
+            32,
+            442,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/quiver/quiver__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c222b8dc099142d56d3c4aa4ab6c5813bdf166109ea9c8d98fdbf2d821533ebc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            17,
+            8,
+            110,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/quiver/quiver__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "5d8826fc00576603630106101f33686cf992ab95e052db67bb835186b33086b5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            55,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/quiver/quiver__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "f5d4ab3a93565abb833e3f3fa360ba92d0984cee15ae9e40f6a479e1e3f66908",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/quiver/quiver__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f9279bbd9623c8c6e0d3b6c1c7d430598316c66c8bc40d784221e7917e935a8d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            210,
+            336,
+            303,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/quiver/quiver__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f9279bbd9623c8c6e0d3b6c1c7d430598316c66c8bc40d784221e7917e935a8d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            210,
+            336,
+            303,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "bow",
+      "label": "Ashwood Bow",
+      "category": "weapons",
+      "reference_extent_cm": 120,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/bow/bow__full_native.png",
+          "dimensions": [
+            1766,
+            891
+          ],
+          "sha256": "4ac89efd984628e307e9263b5b2da7322ecbb6cdc936c941e6d486458311dc51"
+        },
+        "inventory512": {
+          "path": "weapons/bow/bow__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c67934d0e7e58d50b7ca5a851b0a7ea6d71a391a338f81a0cd3281ae20856522",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            136,
+            196,
+            376,
+            316
+          ],
+          "visible_extent": 240
+        },
+        "thumb256": {
+          "path": "weapons/bow/bow__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "76dfb0a4b61a68c9daf4655931512c0c96f4382a94e7e1cae2c46a95501dc076",
+          "visible_bbox": [
+            68,
+            97,
+            190,
+            160
+          ],
+          "visible_extent": 122
+        },
+        "detail512": {
+          "path": "weapons/bow/bow__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2bfff2c98fc8f9677a9ab2c5a7b33ab60e8c020c9437f4a5dfb2ce7ce63ed85a",
+          "visible_bbox": [
+            32,
+            144,
+            480,
+            368
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/bow/bow__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "61538cabe45216129350409db730de3186d05649e03ee47592f6f04f5a2609a6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            36,
+            120,
+            92
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/bow/bow__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "329d15c30debe88f4a0490ec6f9361e8e102d38c0a9a1d593c83dd13498988f8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            18,
+            60,
+            46
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/bow/bow__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "4c4ed09af047dc21025ca3acf450673614b3fd9f7a1a906655d786a1d3cd9dae",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/bow/bow__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "780bf5814dfb4ed21cc5c6ca034e19717c1397ddb2cc87fa184867bb9410eca7",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            184,
+            374,
+            331,
+            450
+          ],
+          "visible_extent": 147
+        },
+        "ground_scaled_512": {
+          "path": "weapons/bow/bow__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d2412f02be961a3c7d1f9fdb054e82cc9ea0dc06b8ac087f51dbec267e1104cf",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            166,
+            358,
+            346,
+            448
+          ],
+          "visible_extent": 180,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "spear",
+      "label": "Ashwood Spear",
+      "category": "weapons",
+      "reference_extent_cm": 220,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/spear/spear__full_native.png",
+          "dimensions": [
+            1214,
+            1211
+          ],
+          "sha256": "6b8aed1c2e5ae96c773600ed7268846fb211bd99335a264ed616a754178c1ba1"
+        },
+        "inventory512": {
+          "path": "weapons/spear/spear__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "329a20f888c552e6c6fa75903ea852a6352d373598a4bddfda7918f397e4669b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            36,
+            36,
+            476,
+            475
+          ],
+          "visible_extent": 440
+        },
+        "thumb256": {
+          "path": "weapons/spear/spear__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ed20b51d53142fcb5612d36be4059c53edde59a4cccad0844090ec49ea61dbb5",
+          "visible_bbox": [
+            16,
+            18,
+            238,
+            238
+          ],
+          "visible_extent": 222
+        },
+        "detail512": {
+          "path": "weapons/spear/spear__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1ecd6663a4756df7c14710705012e399e5c5b4c31cdf15a6af1d9b1a1bd486c9",
+          "visible_bbox": [
+            32,
+            32,
+            480,
+            479
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/spear/spear__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "6186f8981c29cc4ed0d6131ac25a481af3b2c1480cd6b7ed474f097ff9363f63",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            120,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/spear/spear__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "47c8039d67158a9253532133494868e15722faa8f6ae2e7046d8f3b81d7b3244",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/spear/spear__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b8e1746eefc847d884c3546d9303e369ca209f4df979b6ab113acd06c936fe11",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/spear/spear__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1fc1845208bf2238b048ad3d630ffadc4ec620b72989853b31a77f67b916b6c2",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            91,
+            119,
+            421,
+            448
+          ],
+          "visible_extent": 330,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/spear/spear__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1fc1845208bf2238b048ad3d630ffadc4ec620b72989853b31a77f67b916b6c2",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            91,
+            119,
+            421,
+            448
+          ],
+          "visible_extent": 330,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "greatsword",
+      "label": "Greatsword",
+      "category": "weapons",
+      "reference_extent_cm": 160,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/greatsword/greatsword__full_native.png",
+          "dimensions": [
+            1225,
+            1154
+          ],
+          "sha256": "3ebaff10ccb58b8b25e28bc24b886da3fa5fa237a09edd5d85658f2dad42b429"
+        },
+        "inventory512": {
+          "path": "weapons/greatsword/greatsword__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b90b887b58984eb221cf672794af75caabb5531d32ec23bf50054f5a9c29eee5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            96,
+            105,
+            416,
+            407
+          ],
+          "visible_extent": 320
+        },
+        "thumb256": {
+          "path": "weapons/greatsword/greatsword__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ed32ffeb3174cc9c7431fa21c693e6a6850310e4587e1805ee6f40ba418e1927",
+          "visible_bbox": [
+            48,
+            52,
+            210,
+            204
+          ],
+          "visible_extent": 162
+        },
+        "detail512": {
+          "path": "weapons/greatsword/greatsword__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5943e2cd0c31ad1605edd15db2c6bf4b080ae1a1d5a980374714cc0536132619",
+          "visible_bbox": [
+            32,
+            45,
+            480,
+            467
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/greatsword/greatsword__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "682ee35b6dfe8a9b1650e8a00128db5b810fb1c400f206730b607e58d4fa2cc8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            11,
+            120,
+            117
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/greatsword/greatsword__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "35409c86936342d85348304e238de7677ea7f6459e1d65c1db501183e169635d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            58
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/greatsword/greatsword__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "3ab01979a23d12694c272006fe69394941f4b1500ca25361d4fdbd1a34d81c77",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/greatsword/greatsword__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c2e86c6c914c74c8b3ef2a6497a8d25a3945ac5350ab9fa2a632943c37fd7d4a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            136,
+            222,
+            376,
+            448
+          ],
+          "visible_extent": 240,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/greatsword/greatsword__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c2e86c6c914c74c8b3ef2a6497a8d25a3945ac5350ab9fa2a632943c37fd7d4a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            136,
+            222,
+            376,
+            448
+          ],
+          "visible_extent": 240,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "wand",
+      "label": "Hazel Wand",
+      "category": "weapons",
+      "reference_extent_cm": 35,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/wand/wand__full_native.png",
+          "dimensions": [
+            1168,
+            1121
+          ],
+          "sha256": "f17e4edf51b111d93d3d0dd78908b3a84cceed69b96aa8206f34ede03f761ce9"
+        },
+        "inventory512": {
+          "path": "weapons/wand/wand__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7c777a50e613a2323d8634032a6a435dd0ea0500df6002f6d42e03b04f6168de",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            221,
+            225,
+            291,
+            287
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "weapons/wand/wand__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "6f0111d9b2a6a30dedc73b01a84203f564d1dec28c46ced158d14f454861bd08",
+          "visible_bbox": [
+            110,
+            110,
+            148,
+            144
+          ],
+          "visible_extent": 38
+        },
+        "detail512": {
+          "path": "weapons/wand/wand__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a0fcd69dae72e075dd9efaa8856728ed89fbb66c31bf9108af1879dea14d5cd8",
+          "visible_bbox": [
+            33,
+            56,
+            480,
+            455
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "weapons/wand/wand__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "cd08a4b3e26090b4a47e1cacf009427f53e39c757a219fb27ef41a8f8dc63289",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            114
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/wand/wand__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "f47a640406e63fe44320baddf06b11d8c2af416a43711c0a390159d98044731f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/wand/wand__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "553ffd740ec4518564d59a4d62ee932b64dee8e61beedc6b10d81897ae68425c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/wand/wand__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0cf4df3b33519864e00b834795686c87af47f6d2a1b8de1b945365aad853b5d3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            402,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/wand/wand__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0cf4df3b33519864e00b834795686c87af47f6d2a1b8de1b945365aad853b5d3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            402,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "crossbow",
+      "label": "Hunting Crossbow",
+      "category": "weapons",
+      "reference_extent_cm": 85,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/crossbow/crossbow__full_native.png",
+          "dimensions": [
+            1244,
+            1253
+          ],
+          "sha256": "944bef0a5377043ed350c29225cbf38fd8fcd14d8602dc756c9448d002bd7671"
+        },
+        "inventory512": {
+          "path": "weapons/crossbow/crossbow__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "05ad7bc7c8c9fe639b7a36027bf334a291b18150227bb92349320beb95d43bee",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            171,
+            185,
+            341,
+            326
+          ],
+          "visible_extent": 170
+        },
+        "thumb256": {
+          "path": "weapons/crossbow/crossbow__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "4ae71979f786bbec0f844901e687dfd17f409bc11a456d012b4106346eaa1966",
+          "visible_bbox": [
+            83,
+            90,
+            173,
+            163
+          ],
+          "visible_extent": 90
+        },
+        "detail512": {
+          "path": "weapons/crossbow/crossbow__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fcd513338fe3faee04229e0d5584afd1ce04c62634b665307f34632edb4530c5",
+          "visible_bbox": [
+            32,
+            70,
+            480,
+            442
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/crossbow/crossbow__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "e7085618c8dcbd809bd98a6dec97b155b5786b5b9f49a89f0d64ce20b83b1619",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            17,
+            120,
+            110
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/crossbow/crossbow__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "11afc593b3b120afc228d9295ea86b79cc68dfae8cae3a432700215182134626",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/crossbow/crossbow__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "a48fc0ab8b58a4c7db652698a4470a493042e2dae532792e7cebcbcb55e54ee7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/crossbow/crossbow__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a2c00c1d9de0658a3abc7e9dab3697a3d7a1d2b7a69de302a9edd83642d72628",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            192,
+            342,
+            320,
+            448
+          ],
+          "visible_extent": 128,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/crossbow/crossbow__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a2c00c1d9de0658a3abc7e9dab3697a3d7a1d2b7a69de302a9edd83642d72628",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            192,
+            342,
+            320,
+            448
+          ],
+          "visible_extent": 128,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "axe",
+      "label": "Iron Axe",
+      "category": "weapons",
+      "reference_extent_cm": 75,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/axe/axe__full_native.png",
+          "dimensions": [
+            2170,
+            725
+          ],
+          "sha256": "b6e78f165b37d0762481cb93b2fe5cc93d0cf4abf3a45f3ed93ac72a0183ae31"
+        },
+        "inventory512": {
+          "path": "weapons/axe/axe__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2bcdf1962f88f757469f78f6bdf7d2a03ee31d0c6183d73be15aa34f02b21ba9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            181,
+            238,
+            331,
+            274
+          ],
+          "visible_extent": 150
+        },
+        "thumb256": {
+          "path": "weapons/axe/axe__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5f3839b20a3cd4dae2677e29b5cff822b2d78fe17db9776c5b9c574970a37de5",
+          "visible_bbox": [
+            88,
+            117,
+            168,
+            138
+          ],
+          "visible_extent": 80
+        },
+        "detail512": {
+          "path": "weapons/axe/axe__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "21956055cbf31e08a5917c0dfe1f1422ccf9e9a736742ba20dfc18a54790544d",
+          "visible_bbox": [
+            32,
+            202,
+            480,
+            310
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/axe/axe__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "b3e56e8e3063294f99be2e44f7165015b7c4f34a6c5169c59695ad08fa52d8c3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            50,
+            120,
+            77
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/axe/axe__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "bc814c2e9d5b18174bf7b0a43828250925fc780f55cca63d14a79fd7546a222f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            25,
+            60,
+            38
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/axe/axe__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "8bf9d199f5d74ed74ef5170bdaba4d52b306723c0c63abc991af431564006d9e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            12,
+            30,
+            19
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/axe/axe__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e27bf6435ee9c93f63e239a58dc6adfbd418de229eda797723caef19f44fec54",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            193,
+            416,
+            319,
+            448
+          ],
+          "visible_extent": 126
+        },
+        "ground_scaled_512": {
+          "path": "weapons/axe/axe__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cb3b4f0f49fb0b2e4ba9147725aa830646613b8c3d4e24958c80513671d31644",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            200,
+            421,
+            312,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "dagger",
+      "label": "Iron Dagger",
+      "category": "weapons",
+      "reference_extent_cm": 35,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/dagger/dagger__full_native.png",
+          "dimensions": [
+            1135,
+            1085
+          ],
+          "sha256": "c9174fe4df830cccb415403651300075c500bffaf0198343109a1a849707bd14"
+        },
+        "inventory512": {
+          "path": "weapons/dagger/dagger__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7a5f05594c9ebb3eef7b8f171dd3f51bf7e9f0316b869d1f7f277932ef90c93b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            221,
+            227,
+            291,
+            285
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "weapons/dagger/dagger__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "5638e7a49f3ccd7672bcd2e1a415edea4f10feb5db785b0c832c95e41e37bf08",
+          "visible_bbox": [
+            110,
+            111,
+            148,
+            143
+          ],
+          "visible_extent": 38
+        },
+        "detail512": {
+          "path": "weapons/dagger/dagger__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "46873e4921d43fbe944387b1dcb22b49196f9ec0ed78867ebbce8d3ade63e515",
+          "visible_bbox": [
+            32,
+            70,
+            479,
+            442
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "weapons/dagger/dagger__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "181adc968182a732133d65cf3014d6bbbb7d379afefcedbaa485bf566aa166b1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            17,
+            120,
+            110
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/dagger/dagger__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "c366e924c265ab131ed2482915d138ef3e8892aa9acf360b5021c16ff8c0ee80",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/dagger/dagger__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "1ca737a1d8bff391b6c9c4a1936191731aaa945ca69bc623aa3074517ac15b25",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/dagger/dagger__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bf8b97f31edab1a304ce75d5de80fad67bc96edcb41d55a337029da2a7909681",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            405,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/dagger/dagger__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bf8b97f31edab1a304ce75d5de80fad67bc96edcb41d55a337029da2a7909681",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            405,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "mace",
+      "label": "Iron Mace",
+      "category": "weapons",
+      "reference_extent_cm": 65,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/mace/mace__full_native.png",
+          "dimensions": [
+            1157,
+            1141
+          ],
+          "sha256": "53b6a8c4bb63c5a352d07a2f3865f214c39fec7c88539246088e8bccdb9d9915"
+        },
+        "inventory512": {
+          "path": "weapons/mace/mace__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "39e2feb1ed96b6ed8c3f03b88ca340cf8bd2e3e18f06817d49d1dee8d50a8294",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            191,
+            193,
+            321,
+            318
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "weapons/mace/mace__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "e363f8e18ffcb914c70c14111ff01d262e4c0f3bc52b958c67d8107a43a087fc",
+          "visible_bbox": [
+            93,
+            94,
+            163,
+            160
+          ],
+          "visible_extent": 70
+        },
+        "detail512": {
+          "path": "weapons/mace/mace__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "126c00ad9d7e0a4126bd8ee1c21ce6f79fcccaa6900da074a7fd3e9fe746a18a",
+          "visible_bbox": [
+            32,
+            40,
+            480,
+            472
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/mace/mace__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c3cc2eef596eb78ddefc430065e04522574e7618c0f473b3c6defff8560b94e5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            10,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/mace/mace__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "6787afc2ddf9918b0aed62f657f9ae92831e7fac63a25878f206c88a25bdab42",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            5,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/mace/mace__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "3f0b7aabec968b67331ca4bd51eea7bc6e604c3c3630cdeba60400310cb5c6a5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/mace/mace__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "54deda6817997aa0e19d1af1175c7b5014a998ede1e501e8e87eac59d7a27770",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            207,
+            353,
+            305,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/mace/mace__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "54deda6817997aa0e19d1af1175c7b5014a998ede1e501e8e87eac59d7a27770",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            207,
+            353,
+            305,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "sword",
+      "label": "Iron Sword",
+      "category": "weapons",
+      "reference_extent_cm": 110,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/sword/sword__full_native.png",
+          "dimensions": [
+            1572,
+            1001
+          ],
+          "sha256": "429635ea2f923d1f776a0cc71f6423e813f09ff839b647707c3368577db69fae"
+        },
+        "inventory512": {
+          "path": "weapons/sword/sword__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f3495e902e4e6985a90af8d5a8c7877f9df258b5735edc42f2a2eb4f932c8622",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            146,
+            196,
+            366,
+            316
+          ],
+          "visible_extent": 220
+        },
+        "thumb256": {
+          "path": "weapons/sword/sword__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "894d075f42da9299953d80b6375e2b61ddaf1087b2f735864c5c3717f6b41aeb",
+          "visible_bbox": [
+            73,
+            97,
+            185,
+            160
+          ],
+          "visible_extent": 112
+        },
+        "detail512": {
+          "path": "weapons/sword/sword__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "163da8f021f730fb599c4224a8d4b5179eb088a122c1c9d1a65fc80d74429d12",
+          "visible_bbox": [
+            32,
+            134,
+            480,
+            378
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/sword/sword__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "03c8c128c1a3e1a5df4f03a70333857369c406af8b39fa1f7b4c76c49b24b366",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            33,
+            120,
+            94
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/sword/sword__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "629792b1f94ac5e400fbaf0f9448d154f0dc5b8cb2468df4c4430ae5eb4333bc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            16,
+            60,
+            47
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/sword/sword__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "352e36abaa1b274b76dcfbb9886064a8c47bf069da5910c49a2b32089440f7ee",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            8,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/sword/sword__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "18eb2d5ce0084efbf151b14278dd25efa31bfb46aa9c88940a62f36e86a416f3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            183,
+            371,
+            328,
+            450
+          ],
+          "visible_extent": 145
+        },
+        "ground_scaled_512": {
+          "path": "weapons/sword/sword__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1c6617741e31890b47985cb61b9c3f5d601a967136ab528bf2f4f08defb3ff50",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            174,
+            358,
+            339,
+            448
+          ],
+          "visible_extent": 165,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "scythe",
+      "label": "Reaping Scythe",
+      "category": "weapons",
+      "reference_extent_cm": 180,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/scythe/scythe__full_native.png",
+          "dimensions": [
+            1199,
+            1209
+          ],
+          "sha256": "565dc7b961fed44039fa449317f0b93a631a5d0c19df4fa5f9a34e445f386a03"
+        },
+        "inventory512": {
+          "path": "weapons/scythe/scythe__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5fad38292d78cc26536a0324081bf045d1f1d1905f326136bc5ac6b8d5a108f2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            82,
+            76,
+            430,
+            436
+          ],
+          "visible_extent": 360
+        },
+        "thumb256": {
+          "path": "weapons/scythe/scythe__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "83a92bcf45ee5958fbfd14e2f66939a49f19c09ecfe12019f6f6acc36a755d0d",
+          "visible_bbox": [
+            39,
+            36,
+            217,
+            220
+          ],
+          "visible_extent": 184
+        },
+        "detail512": {
+          "path": "weapons/scythe/scythe__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dca26a128b9e16bdda633a749d2d637c916248564f75de1478f37d431b758ea5",
+          "visible_bbox": [
+            39,
+            32,
+            472,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/scythe/scythe__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "efc11c4eac7e793acdd461a5d85046ee0a4e65686c7d3ad23be593f7007c1e59",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            8,
+            118,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/scythe/scythe__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "16cc5af096873768423eb5ca0b8617fafa9480b3bebe371f93f89b98bf477c4b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/scythe/scythe__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "04cd430834882e0d57db8be21320be07c204eaca48bed706a559c2e5f2a512d2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/scythe/scythe__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7f62a7a1937e0a2eed67530c91c6d3abe2b7c5626a7b2ab1ed0f228b3d48b199",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            126,
+            178,
+            387,
+            448
+          ],
+          "visible_extent": 270,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/scythe/scythe__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7f62a7a1937e0a2eed67530c91c6d3abe2b7c5626a7b2ab1ed0f228b3d48b199",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            126,
+            178,
+            387,
+            448
+          ],
+          "visible_extent": 270,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "throwing_knife",
+      "label": "Throwing Knife",
+      "category": "weapons",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/throwing_knife/throwing_knife__full_native.png",
+          "dimensions": [
+            1187,
+            1058
+          ],
+          "sha256": "fb5a794617c0821c08c6463f3b02353125617e68cdf906170045f11f223738c1"
+        },
+        "inventory512": {
+          "path": "weapons/throwing_knife/throwing_knife__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "70630c637e9939b7d9ec6d7a551c967269060d0970fc8d9c03711e92e7cbf0ee",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            234,
+            237,
+            278,
+            274
+          ],
+          "visible_extent": 44
+        },
+        "thumb256": {
+          "path": "weapons/throwing_knife/throwing_knife__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "9e0224c73e8d58ca3c5e18a6961de7c1dc634e4f69b4eaff0b701db10b0db5f7",
+          "visible_bbox": [
+            116,
+            116,
+            140,
+            138
+          ],
+          "visible_extent": 24
+        },
+        "detail512": {
+          "path": "weapons/throwing_knife/throwing_knife__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "403e9bd9a6195540c57a599736e4471e35ba1b7d3f4f921f914e4bc4bf3aca37",
+          "visible_bbox": [
+            32,
+            67,
+            480,
+            444
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/throwing_knife/throwing_knife__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "a6410ef1c98af6f5f70ee4164dcd77967277d833adf6ab4bc5456f36236af168",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            17,
+            120,
+            111
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/throwing_knife/throwing_knife__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "3f173de7531e0a533b81539ba196619d75a2e0e6c0d58974640dbb0fd16932ae",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/throwing_knife/throwing_knife__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c7f4eb5e332c733c83761ababe8f271fdc9a0c82f43d6518916e99c184013559",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/throwing_knife/throwing_knife__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "db2cd0da4ca0658fac02ded6d7a707cf623693a1aed03c2ec584583f43036285",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            420,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/throwing_knife/throwing_knife__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "db2cd0da4ca0658fac02ded6d7a707cf623693a1aed03c2ec584583f43036285",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            240,
+            420,
+            273,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "warhammer",
+      "label": "War Hammer",
+      "category": "weapons",
+      "reference_extent_cm": 100,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/warhammer/warhammer__full_native.png",
+          "dimensions": [
+            1126,
+            1155
+          ],
+          "sha256": "8a94447542910a725b324c9b3f9887346c2bfbf79be4d6d1d0447b1771d4a876"
+        },
+        "inventory512": {
+          "path": "weapons/warhammer/warhammer__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "31c604e4ee4bff95acd6a80072d37913a4aea56db2fba6a8971e82a9cf3f48f3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            156,
+            156,
+            356,
+            355
+          ],
+          "visible_extent": 200
+        },
+        "thumb256": {
+          "path": "weapons/warhammer/warhammer__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "313dc135badd2f9f08515ce96c14d95e7350f642e296eafbfc090b3ea4f80423",
+          "visible_bbox": [
+            76,
+            78,
+            178,
+            178
+          ],
+          "visible_extent": 102
+        },
+        "detail512": {
+          "path": "weapons/warhammer/warhammer__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "81b202d61dd7ef9381d7bb60610cfa9f30e7b3927e38b3c880c52b1a4d6c6405",
+          "visible_bbox": [
+            32,
+            33,
+            480,
+            479
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/warhammer/warhammer__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "127a9a20bda97a977808b0632167a23438c89735ab179b54d8075c5736487e92",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            120,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/warhammer/warhammer__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "2e23b5f9a42c3635634495b669fe627c75ee83cc26e0a11dd9041e973192dcd0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/warhammer/warhammer__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "fae1d67a79b7d3f1c110b76a4e0efdeb33cff1f08dad2fa326fe95b967018719",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/warhammer/warhammer__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dc456bc246becb7645d60e80db8c01fb8a1ccb397d906c828cd9be0a6a67ee9f",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            181,
+            299,
+            331,
+            448
+          ],
+          "visible_extent": 150,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/warhammer/warhammer__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dc456bc246becb7645d60e80db8c01fb8a1ccb397d906c828cd9be0a6a67ee9f",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            181,
+            299,
+            331,
+            448
+          ],
+          "visible_extent": 150,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "staff",
+      "label": "Wooden Staff",
+      "category": "weapons",
+      "reference_extent_cm": 160,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/staff/staff__full_native.png",
+          "dimensions": [
+            2172,
+            724
+          ],
+          "sha256": "d357e12c334f49b0144df081ae5065ce9dec45afada8d115c09e52ce26ab11e8"
+        },
+        "inventory512": {
+          "path": "weapons/staff/staff__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2fcaab210f71aab4dd9baad25448da6137f12510a79ff301aed7cb0fdf3a26b8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            96,
+            207,
+            416,
+            305
+          ],
+          "visible_extent": 320
+        },
+        "thumb256": {
+          "path": "weapons/staff/staff__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "d3c98616f6b0af654f9872679f033709f156cd10ff13432c87b2c6901f23b84d",
+          "visible_bbox": [
+            46,
+            103,
+            209,
+            153
+          ],
+          "visible_extent": 163
+        },
+        "detail512": {
+          "path": "weapons/staff/staff__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4f209378ac3950919c152f60af478facaef9b8e499c0b8dae93faa9423ecdbf3",
+          "visible_bbox": [
+            32,
+            187,
+            480,
+            324
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/staff/staff__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "43abdbc77e5b3f067fa7d8e853f549aa16a82171bc45a8fe070cefa265289cae",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            47,
+            120,
+            81
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/staff/staff__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "edbeeb9eaa7cac5bdcc8c18d18fc9efb71c50e4131fe7e9c6d5a0b67e66e228e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            23,
+            60,
+            40
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/staff/staff__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "2eccf544368ed2b5fc63a067f9fa57a69708f3a5e0f18740800b3013715b9f3b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            11,
+            30,
+            20
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/staff/staff__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "222ba49e39ab478c330f4dcccc2f66ba66222e1bfa1b2679a0295a9bc35020cb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            180,
+            402,
+            333,
+            449
+          ],
+          "visible_extent": 153
+        },
+        "ground_scaled_512": {
+          "path": "weapons/staff/staff__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "90203986dc157988dc65cc191b0e3e0a31aa853780bb423b07334d26be8e730d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            136,
+            375,
+            376,
+            448
+          ],
+          "visible_extent": 240,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "halberd",
+      "label": "Iron Halberd",
+      "category": "weapons",
+      "reference_extent_cm": 200,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/halberd/halberd__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "1516f59662c8f130ebaaa8e2e23002b0e799cd1f78a19d66a98ff347c6cfa4bc"
+        },
+        "inventory512": {
+          "path": "weapons/halberd/halberd__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "552029ca72aada079362c5356078b95f34caaf376342ec32636e0e1e22a7a92b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            69,
+            56,
+            443,
+            456
+          ],
+          "visible_extent": 400
+        },
+        "thumb256": {
+          "path": "weapons/halberd/halberd__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "8bc997b6d147028ef9374fd72e9b79e72bb873ad0f8d61ae2bd421ca2a2e6465",
+          "visible_bbox": [
+            34,
+            28,
+            222,
+            229
+          ],
+          "visible_extent": 201
+        },
+        "detail512": {
+          "path": "weapons/halberd/halberd__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0c6046c9477402a898f5d4e135d8d5a76938f2cd6b64a60a3acd6449f1315993",
+          "visible_bbox": [
+            46,
+            32,
+            465,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/halberd/halberd__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "0611c1ee10b98456461fc5a94b20e364a10b90bc2ad672260463aa628c970af5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            8,
+            116,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/halberd/halberd__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "616ca39c10e7444a7742626e737a6d94a48ff95cec9fa3a93e123a98f2ab2e1a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/halberd/halberd__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "d424cea21416ac11a169e64a66057276a97e2744d49134126539bd6d2d4cb0de",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/halberd/halberd__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9623acfe22c9c2f9be8c5b395997e7cedf69726f04f8f62a75c95da2c0d39f5c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            116,
+            148,
+            396,
+            448
+          ],
+          "visible_extent": 300,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/halberd/halberd__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9623acfe22c9c2f9be8c5b395997e7cedf69726f04f8f62a75c95da2c0d39f5c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            116,
+            148,
+            396,
+            448
+          ],
+          "visible_extent": 300,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "flail",
+      "label": "Iron Flail",
+      "category": "weapons",
+      "reference_extent_cm": 85,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/flail/flail__full_native.png",
+          "dimensions": [
+            2170,
+            725
+          ],
+          "sha256": "758f504dbfbd8ab5b3fd75fae3f22003781217c150e9501c9019d94c9bc7c8cb"
+        },
+        "inventory512": {
+          "path": "weapons/flail/flail__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c22eeabba0cd02db370125322108b85c5ed5012c35318e418b7c473dc583a8dd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            171,
+            234,
+            341,
+            277
+          ],
+          "visible_extent": 170
+        },
+        "thumb256": {
+          "path": "weapons/flail/flail__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "b4434c6581112cbf916c96dc48d6bb86743f5d7d6cc33948310afe030551f9c0",
+          "visible_bbox": [
+            85,
+            117,
+            171,
+            139
+          ],
+          "visible_extent": 86
+        },
+        "detail512": {
+          "path": "weapons/flail/flail__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "97af428ad0379182396df61c722b008a69055a6cda1ecbd075a431c77162c748",
+          "visible_bbox": [
+            32,
+            200,
+            480,
+            312
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/flail/flail__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "4d1d354e6dfc43fd1fd39175be7cb9d3b5b052ff72d610b2801f5f80bf5040a7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            50,
+            120,
+            78
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/flail/flail__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "7832322165e8db8b3fcb2b418baceb02d26c007ccaf535591f9dce13a9d6a1a7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            25,
+            60,
+            39
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/flail/flail__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b5830251aabeeb2452719cfc7c1ca2d053c7f70f4f88142ecdfe45e643657f25",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            12,
+            30,
+            19
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/flail/flail__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4f3fc0dfd4e211d8e07df130fe45fa94d9fe78873cd236810556f51c0f6520e8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            192,
+            416,
+            320,
+            448
+          ],
+          "visible_extent": 128
+        },
+        "ground_scaled_512": {
+          "path": "weapons/flail/flail__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "353006cc8484d735eebda83e2706fd173a2126ff672cd82c075627a488977899",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            192,
+            416,
+            320,
+            448
+          ],
+          "visible_extent": 128,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "crossbow_bolt_bundle",
+      "label": "crossbow bolt bundle",
+      "category": "ammunition",
+      "reference_extent_cm": 35,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "aba021eced92256ea12eec10df3b59bacc2e155c008146fc8228f6f6140b69d6"
+        },
+        "inventory512": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "51f08c80692abee2739e4881a6973136823045411803e1eff277a9be761396b9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            221,
+            232,
+            291,
+            279
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "047b86d7c67afacd2a047b739ce1d95afce98b49900e7bbaddc2ec1834bcd223",
+          "visible_bbox": [
+            110,
+            116,
+            148,
+            142
+          ],
+          "visible_extent": 38
+        },
+        "detail512": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "39fd61cf3d6538ccb3c5c856993d6630ea014e7e6c3998475b7ddbd333a01d72",
+          "visible_bbox": [
+            32,
+            106,
+            480,
+            406
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d0d7ca86add93efbb3310e8801376454bb6397e2497842fc3d3e369d0636e06a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            26,
+            120,
+            101
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "d77d0c7e611c662a50fdc1675974bece9ba53961cc12d89df7fc2b856ac71c8f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            13,
+            60,
+            50
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "837851ac56a3f04752c7562bcab978319081069e45cb32d4b24fa876d0c55a0c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            25
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5133ab7a4bdc38690d468dbb053096ef954067e39f9b1878a6a735328800c7a8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            413,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "ammunition/crossbow_bolt_bundle/crossbow_bolt_bundle__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5133ab7a4bdc38690d468dbb053096ef954067e39f9b1878a6a735328800c7a8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            413,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_02_shear_glaive",
+      "label": "Shear glaive",
+      "category": "weapons",
+      "reference_extent_cm": 200,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "c0975eb9fb6610d379a0fb318ebc059ec7113cc7d63b1ffb9eee4dae837b40b0"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f384127639349729caf2991f248d10bbf807d0eea674b8455d16e82d385638cc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            94,
+            56,
+            417,
+            456
+          ],
+          "visible_extent": 400
+        },
+        "thumb256": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "a86fbff366c768c45aa5aa70999f659d17a54c217bcdfc5cd3dad2338799941f",
+          "visible_bbox": [
+            45,
+            27,
+            209,
+            230
+          ],
+          "visible_extent": 203
+        },
+        "detail512": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "33e317b672cafc6ae79daea17775ca9263596495c8fce649e313a4b4faaddd12",
+          "visible_bbox": [
+            75,
+            32,
+            437,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9c08ad589619d541a1e15b05f365f2fc0398e38f7cdf6b49362a783f966a1e0a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            18,
+            8,
+            109,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a03adaf65db1c7900e6c6beaefef90f1a3628c2e96100bff094677e350ebf576",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            9,
+            4,
+            54,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7e41d8769a47d3b07df6ad5ab5a03eca6e4e9630a8ec7fc69d7843ce69c1e008",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "986b7712bd0f6e906109293f102cf489c9a1cdb99d60b185f873aeae2234e3fd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            135,
+            148,
+            377,
+            448
+          ],
+          "visible_extent": 300,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_drop_concept_02_shear_glaive/lantern_drop_concept_02_shear_glaive__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "986b7712bd0f6e906109293f102cf489c9a1cdb99d60b185f873aeae2234e3fd",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            135,
+            148,
+            377,
+            448
+          ],
+          "visible_extent": 300,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_03_bearded_handaxe",
+      "label": "Bearded handaxe",
+      "category": "weapons",
+      "reference_extent_cm": 60,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "717da08107947c7959e124e7a79aba921a75af9dc384f7b3a607678b39cf6fe7"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "422c316576f8278698a2ba4ea0caa81563879b6851cf5e54a6bfa156a95a908d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            197,
+            316,
+            314
+          ],
+          "visible_extent": 120
+        },
+        "thumb256": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "bed3aff777a3a7ea2a2ea4f90cab8a00c8ffbce158199e2e60419d881e02974d",
+          "visible_bbox": [
+            98,
+            97,
+            160,
+            157
+          ],
+          "visible_extent": 62
+        },
+        "detail512": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7d29d3bc7fa4273702020869724dc607ecc871e21eb2f764046a6091ea9d7720",
+          "visible_bbox": [
+            32,
+            37,
+            480,
+            474
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "8a13c7ed7f94455d6c6a0aac5147d57c2d5c675aaa0a0c331f2ed36d7c4bc823",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "6265ec7ac657c1d6d766d8e976f997aed74ddda72dd2986f92860b56c1caf025",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ed6175675c3339bcb13621378238df4afaabcdb0fa07afe572f4689789c7f3cb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0c416c9a013594dfd66e236465c376cd9fab3ce4ef0d7bf3e42efbc64c7279e8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            360,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_drop_concept_03_bearded_handaxe/lantern_drop_concept_03_bearded_handaxe__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0c416c9a013594dfd66e236465c376cd9fab3ce4ef0d7bf3e42efbc64c7279e8",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            360,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_drop_concept_04_cagehead_mace",
+      "label": "Cagehead mace",
+      "category": "weapons",
+      "reference_extent_cm": 65,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "8cde6ab6018d8cbc91de15e8f5702562e4c73ced991ae95d4028fb29674bf9bb"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "26bb9dc919e816ee37c2820be266b1cbaaf29d257d846879a23d9530a7aba322",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            191,
+            315,
+            321
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ec514471f7ab6fd3afe1c57aa22b18c323d0d8c36266bcf5553aa00e33c82f57",
+          "visible_bbox": [
+            96,
+            95,
+            158,
+            163
+          ],
+          "visible_extent": 68
+        },
+        "detail512": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "81ef958bdfc1b1845d7062d22ef7a4770ee4c28eeaabaccb52051bb06472d6cc",
+          "visible_bbox": [
+            51,
+            32,
+            460,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "be2442a7ce2c850bac717c1e8f524872c3be37f3d905a355835f15fd6d9b3d2a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            13,
+            8,
+            115,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "dc1f4d96603ed752d79d2f891520e030e42d2e7e479606b66e0ed5e94a208fc1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            57,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "b3044411555a01caeb53378cbaa615e39c911f6e90795f4af6ea8af7b12ab993",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "343e6a6d1e28bad75bd9b171f41953d9b65c66dcd2befc103bf380626b5757f0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            350,
+            301,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_drop_concept_04_cagehead_mace/lantern_drop_concept_04_cagehead_mace__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "343e6a6d1e28bad75bd9b171f41953d9b65c66dcd2befc103bf380626b5757f0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            350,
+            301,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_01_oathsteel_sword",
+      "label": "Oathsteel sword",
+      "category": "weapons",
+      "reference_extent_cm": 110,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "7269d0a273bfd6290b1eb46587923230dffb259e577181bc3ae3cd965c85742f"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5552a0a8009d715adac4138b9071d9b31194ebfa965969bac23b5cef362d3be4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            152,
+            146,
+            359,
+            366
+          ],
+          "visible_extent": 220
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "e8f513ccb820a18f6f26fd85c53e912181b2da63950bd04a40d0ac4256f305c8",
+          "visible_bbox": [
+            75,
+            73,
+            181,
+            183
+          ],
+          "visible_extent": 110
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0e61be56c04a165bc8b8522387e3b6b9baead8841985747bf17e5089b4736526",
+          "visible_bbox": [
+            45,
+            32,
+            467,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "21b85fbb1f26a66a03b4f8a646386e4eb335d3d2e597aaf45eb399434b135b09",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            8,
+            117,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "1cb316bde4642d343f7920970c4ff484612c62888aa4cc722ba38baed844edcf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "385b3572963984f21f68b59cfb4deb1b2b2550969edb6527bc41e276e1bbf118",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cb60c71a5295f41443c7d02d69341b4da3d0865f9bc305326442b925c748aaf6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            179,
+            283,
+            334,
+            448
+          ],
+          "visible_extent": 165,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_01_oathsteel_sword/lantern_concept_item_01_oathsteel_sword__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cb60c71a5295f41443c7d02d69341b4da3d0865f9bc305326442b925c748aaf6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            179,
+            283,
+            334,
+            448
+          ],
+          "visible_extent": 165,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_02_cinder_hook_axe",
+      "label": "Cinder hook axe",
+      "category": "weapons",
+      "reference_extent_cm": 75,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "a1be6f2b228ea4f6ff2e585bf15075029027d6e17341c4af6164c13d5d6d1769"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c7b76e59cb41e95f9c5625842fe78eccfa257978d5932ef79732dbe279fd301f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            187,
+            181,
+            325,
+            331
+          ],
+          "visible_extent": 150
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "aeb5b56fa8337f05325a817666d93d9d17b1a9c5ede13b21fb8c49da6c82f9b2",
+          "visible_bbox": [
+            91,
+            89,
+            163,
+            166
+          ],
+          "visible_extent": 77
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cabf5d6012e7bab3505bfd614677b2f8e4a04f5b0079da5c2d6e5890838f19aa",
+          "visible_bbox": [
+            49,
+            32,
+            462,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d943c2d6c7cc0909d68c43fccb7b111f2cc1a76d7d804f3f59b6f70e680b7cbb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            8,
+            115,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "dbc94812c6f10fd7da62b492ec40dbf599bfc1d5c33ef19bfc622de1df0d0de6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c348d720015283e50c405c3c8102b50fc0ff0102151f96443778303480a50e47",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "78d7459f2049d01264654d6658b2e9eeb1ff36bb180028b0731e3c4e3c6d4fb0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            205,
+            336,
+            308,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_02_cinder_hook_axe/lantern_concept_item_02_cinder_hook_axe__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "78d7459f2049d01264654d6658b2e9eeb1ff36bb180028b0731e3c4e3c6d4fb0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            205,
+            336,
+            308,
+            448
+          ],
+          "visible_extent": 112,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_03_thorn_recurve_bow",
+      "label": "Thorn recurve bow",
+      "category": "weapons",
+      "reference_extent_cm": 120,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "c91f6b5e166553e2deeae8053c89191249bbe61e8be154dcde002d625ab638ea"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "16f0c8efd6c2cd4851d0d646d26189e6ee4752d009e4f3d6478f82ead4ef170e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            143,
+            136,
+            369,
+            376
+          ],
+          "visible_extent": 240
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "8f7edb5f2eb4874fa7b6f0cdc9beee71a117eacd5e5e028cef220ea16270b2e2",
+          "visible_bbox": [
+            70,
+            66,
+            186,
+            190
+          ],
+          "visible_extent": 124
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "19a975f96f876c6f8484171edab9a4023c3c40501efb87c0f420def86c735735",
+          "visible_bbox": [
+            45,
+            32,
+            466,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d3316ac2f1b325727f797ee479c67c327141d8fbb917493d4ddc1ac2b4ee6e75",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            11,
+            8,
+            116,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "b00059514a2f9dfa1ec34b3a5ce37017d431ecc8f048dfaaf5a4a020cf729c4a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "cc52d4e30f7ffd0a88d3bd05cef9b24ac1baf1cfa0be6d2124ced246dfd2e3b5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "69a3870b3dff3145ed646038eb9cb709adc97357baac136dc0466ca09e5d800c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            172,
+            268,
+            341,
+            448
+          ],
+          "visible_extent": 180,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_03_thorn_recurve_bow/lantern_concept_item_03_thorn_recurve_bow__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "69a3870b3dff3145ed646038eb9cb709adc97357baac136dc0466ca09e5d800c",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            172,
+            268,
+            341,
+            448
+          ],
+          "visible_extent": 180,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_04_moon_ring_staff",
+      "label": "Moon-ring staff",
+      "category": "weapons",
+      "reference_extent_cm": 160,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "8d1f554bff74b200c0a19a0d5f63db9453fe71270791850939cecb8e8f5256dd"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c3e6fc28fd7a5cea1548f190dec81c0215429a72251074e3a588b19914374d28",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            153,
+            96,
+            359,
+            416
+          ],
+          "visible_extent": 320
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "887aa50bd7de8dfe603265954bf888d3cb9617492fcf3e4aec6888a5bf99c421",
+          "visible_bbox": [
+            75,
+            46,
+            181,
+            208
+          ],
+          "visible_extent": 162
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f236cfdc77c4a9fd026b85c80520c4f77ac48602a710f8844744f9a8ab1069a2",
+          "visible_bbox": [
+            112,
+            32,
+            400,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9d63c905d77ff1e0679a7807768328f56ce1fb594924fcb2cb0ce194ae82db97",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            28,
+            8,
+            100,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e112f9f8f36559cdac1b261ae0bbb6ac0bbbd8c74164d5a53487f56e038cda53",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            14,
+            4,
+            50,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ab738d2de8e8f5985b7dc4669c642c560983060411751ace24f30383e12cd2bc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            2,
+            25,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2c13308a299bc458e2b75d19d9e4d977421b3a6ab90bad56953857f614882dc6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            179,
+            208,
+            334,
+            448
+          ],
+          "visible_extent": 240,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_04_moon_ring_staff/lantern_concept_item_04_moon_ring_staff__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2c13308a299bc458e2b75d19d9e4d977421b3a6ab90bad56953857f614882dc6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            179,
+            208,
+            334,
+            448
+          ],
+          "visible_extent": 240,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_05_bellhead_mace",
+      "label": "Bellhead mace",
+      "category": "weapons",
+      "reference_extent_cm": 65,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "0ce96c4641afab7b58174fbb07d5411e664c0124ed04280864a879358b662a4b"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "21177b02f4e8840f8be2b46501faa3e8914ae05e73dbaaffcd314a12c272944e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            191,
+            310,
+            321
+          ],
+          "visible_extent": 130
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "32576d50a01c43a8f9ca141715a70aa22dfc0557d92da21f2f7984708a56441f",
+          "visible_bbox": [
+            98,
+            95,
+            156,
+            161
+          ],
+          "visible_extent": 66
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3905a8711d9e48cc96f608bdc7edf9c934782c93c84ae2041a050f2f7427965c",
+          "visible_bbox": [
+            68,
+            32,
+            443,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "045927e52e3924c95639998b0006f336dda1b6627dd30e67e0eeaf9d4d6e2f93",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            17,
+            8,
+            111,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "68e0cd94eb42d10243a99f78b081711bd948f32e2991b24e70c37f72ecc77637",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            55,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "9d3ce6fc32a9a8ad8e6271ff3b0cc44b937e88187636be41b28f238e8aef2e88",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            2,
+            27,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4b38040470c8f6005f992ff2e70844e63fe5b3a1c25d4e70354c7823579c227a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            350,
+            297,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_05_bellhead_mace/lantern_concept_item_05_bellhead_mace__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4b38040470c8f6005f992ff2e70844e63fe5b3a1c25d4e70354c7823579c227a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            350,
+            297,
+            448
+          ],
+          "visible_extent": 98,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_06_ritual_dagger",
+      "label": "Ritual dagger",
+      "category": "weapons",
+      "reference_extent_cm": 35,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "f550238131d864ce0907aa87ebf26d05c042360b3325903342806fa236f806bf"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "37754ba37cecb265956f36e89a5957a63baa96d8e3daae1181815d83d00d96a6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            221,
+            222,
+            291,
+            290
+          ],
+          "visible_extent": 70
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "38a1356fe98aa4b5128c5d7373448f95cb083f37c96ee52c0e367105d2ee6a2a",
+          "visible_bbox": [
+            108,
+            110,
+            148,
+            145
+          ],
+          "visible_extent": 40
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3e404cee9d52e5ba8de42fa48086fd5d04d78bfc1da41e2161bded4c037ec68b",
+          "visible_bbox": [
+            32,
+            37,
+            480,
+            474
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "b75de1a188997341ac5ab36933ae6b062e2d99632a5ee3db658ea4ac8bc91b7f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            118
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "adc84941d2e553fb2ba5c0b38e900ed53724d0bdbe3ff5ad1c90d9c93d4c81f1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "4e8cc3401eff1b913b35f34b906409ec79570f7721769a5367730bef48f5800a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2b896929dc97ed52bc1041378935303f6dd56bd32689bd7828d09f279a87a285",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            397,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_06_ritual_dagger/lantern_concept_item_06_ritual_dagger__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2b896929dc97ed52bc1041378935303f6dd56bd32689bd7828d09f279a87a285",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            230,
+            397,
+            282,
+            448
+          ],
+          "visible_extent": 52,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_concept_item_07_rook_crossbow",
+      "label": "Rook crossbow",
+      "category": "weapons",
+      "reference_extent_cm": 85,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "1945caa5d7978b877ef64ef89dd5e023483d928690b60fb73ccf3e5c2e9f1766"
+        },
+        "inventory512": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "091eeffa5f990a2728c4c03387b4f2ee9a629ca87c71fd122036d227aa157751",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            171,
+            196,
+            341,
+            316
+          ],
+          "visible_extent": 170
+        },
+        "thumb256": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "f63e8412f5d1a11d8d5f24eab77a6e95ca193559b6041d0990925dc56da0eb15",
+          "visible_bbox": [
+            84,
+            97,
+            171,
+            160
+          ],
+          "visible_extent": 87
+        },
+        "detail512": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "78c5a0424a6b487b9f639dc4e6d18d068a8839871fea15db1cd918f787f94683",
+          "visible_bbox": [
+            32,
+            97,
+            480,
+            414
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "323c7aed35136bd766e5f97b1808687caaf2bd3d5e90ddbc175acb9b5cb35ba0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            24,
+            120,
+            103
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "97a66262dc1940883f8109f3838a701fecdd6028dd177059c2f801411cb76fc4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            12,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "9ee685dfbf7d424f13c9f10ffa40e4bbb64fcb86a36311a8a70f5ad49aab57dc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b0cf4e3249932c6fecc1083b432c4fbf334ab70c8bd6f194247ca1b711807948",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            192,
+            357,
+            320,
+            448
+          ],
+          "visible_extent": 128,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "weapons/lantern_concept_item_07_rook_crossbow/lantern_concept_item_07_rook_crossbow__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b0cf4e3249932c6fecc1083b432c4fbf334ab70c8bd6f194247ca1b711807948",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            192,
+            357,
+            320,
+            448
+          ],
+          "visible_extent": 128,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

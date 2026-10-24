@@ -1,0 +1,70 @@
+{
+  "asset": "selected_full_scene_village_C",
+  "title": "Fire-damaged craftsman district",
+  "method": "built-in image_gen; fresh whole-scene generation using selected Village C viewport as style/material reference and original hero as art-style/physical-scale reference",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-79abbb9d-c3d0-497f-afb8-4590f2dcd127.png",
+  "reference_images": [
+    "/workspace/shared/lantern_next_scene_samples_oct09/village/C/native.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_native_pixels": 64,
+  "requested_scene_extent_relative_to_selected_viewport": {
+    "width": 2.5,
+    "height": 2.5
+  },
+  "intended_native_display_scale": 2.5,
+  "intended_hero_height_display_pixels": 160,
+  "requested_future_ai_upscale_factor": 4,
+  "expected_future_ai_dimensions": [
+    6144,
+    4096
+  ],
+  "upscaled": false,
+  "requested_camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "validation": "prompt target only; unvalidated in engine"
+  },
+  "sha256": "1cc6772c6d47048afabdf7600139ab0686db60b2ea9e81e49888db86902bde78",
+  "generation_attempt": 1,
+  "status": "single fresh full-scene candidate; awaiting root approval before AI upscale",
+  "suggested_hero_feet_native_pixels": [
+    [
+      490,
+      510
+    ],
+    [
+      815,
+      690
+    ],
+    [
+      1180,
+      830
+    ]
+  ],
+  "visual_review": {
+    "strengths": [
+      "Wider scene with interconnected squares, lanes and workshop courts",
+      "Scenery appears throughout including central and interior structures",
+      "Selected C charcoal timber, russet fragments, pale masonry and ink contours preserved",
+      "Large central traversal/combat field and multiple secondary courtyards",
+      "No baked human or visible water; no distinct active flames"
+    ],
+    "caveats": [
+      "Ground retains irregular tonal variation and many tiny paving marks",
+      "Upper-left forge interior is warm orange brick and may read as residual glow despite cold-forge prompt",
+      "Some upper platforms and stairs imply height changes that would require explicit production collision/traversal interpretation",
+      "Door/human scale is plausible visually but 64px source character placement awaits reviewer",
+      "Exact orthographic angles and production geometry are not engine-validated",
+      "Tall occluders, ground and scenery are baked together in this illustration"
+    ]
+  }
+}

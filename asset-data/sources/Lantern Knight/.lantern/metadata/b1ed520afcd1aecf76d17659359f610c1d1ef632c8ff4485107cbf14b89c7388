@@ -1,0 +1,17 @@
+Lantern_Flare_Runtime_v1
+
+Flare body:25 complete drawings,84ticks at60Hz (1.40s). The optional FX layer is synchronized to those25slots and uses4generated effect drawings.
+
+EXTRACTION
+Extract this ZIP normally into any folder. It creates its own Lantern_Flare_Runtime_v1 folder. This is a complete ordinary ZIP, not a binary split. You may extract the other action ZIP into the same parent folder; no special merge or extraction order is required.
+
+RUNTIME CONTENTS
+lantern_flare, lantern_flare_fx
+Read each contained timing_and_registration.json. All referenced runtime frame/atlas files are inside that action folder. R0 and the shared recovery poses are included as exact frame pixels; there is no dependency on the other action archive.
+
+The lantern_flare_fx folder is an optional overlay, not a replacement body clip. Both folders share action_role=lantern_flare; distinguish layer_role=optional_vfx_overlay.
+
+IMPORT
+1536x1024 RGBA frames; shared top-left root(768,892). Preserve accepted actor pixels-per-unit. Atlases retain exact full-canvas trim/root reconstruction with8px gutters. Source masters/prompts and previews are delivered separately. No engine integration is included.
+
+The earlier full Lantern_Dash_Flare_Runtime_v1.zip remains an equivalent combined archive. Do not extract both combined and separate archives expecting additional artwork; they contain the same runtime assets.

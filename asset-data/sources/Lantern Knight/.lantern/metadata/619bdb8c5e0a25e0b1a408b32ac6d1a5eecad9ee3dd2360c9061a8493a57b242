@@ -1,0 +1,69 @@
+{
+  "title": "Initiation Chamber A Variant 01 | Basalt Horseshoe Sanctuary",
+  "hero_source": "references/canonical_hero.png",
+  "views": [
+    {
+      "name": "central_ritual_floor",
+      "display_box": [
+        1300,
+        750,
+        2836,
+        1774
+      ],
+      "display_foot": [
+        2165,
+        1418
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "western_gallery_approach",
+      "display_box": [
+        0,
+        300,
+        1536,
+        1324
+      ],
+      "display_foot": [
+        792,
+        855
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    },
+    {
+      "name": "raised_dais_approach",
+      "display_box": [
+        1975,
+        75,
+        3511,
+        1099
+      ],
+      "display_foot": [
+        2788,
+        952
+      ],
+      "placement_note": "Visually selected clear ground. Presentation-only; no collision or navigation validation."
+    }
+  ],
+  "seams": [
+    {
+      "name": "central_ritual_axis",
+      "source_xy": [
+        800,
+        480
+      ]
+    },
+    {
+      "name": "western_gallery_junction",
+      "source_xy": [
+        480,
+        320
+      ]
+    }
+  ],
+  "scene_notes": [
+    "Fresh whole-map variant from text and canonical hero style reference only. No prior scenery generation references.",
+    "Native is original generated PNG, unchanged. Review preview uses conventional Lanczos solely to inspect scale and hero placement.",
+    "Scenery, shadows and height transitions baked. No collision, occlusion layers or engine validation."
+  ]
+}

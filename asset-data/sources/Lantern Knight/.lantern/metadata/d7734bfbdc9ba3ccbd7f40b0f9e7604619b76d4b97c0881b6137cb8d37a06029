@@ -1,0 +1,12 @@
+{
+  "getup_DR_animation.json": "ea73562e6c6e0b3ae3c1983036af63fef7e9bfc9918cea75b5e6adf96e2de6e4",
+  "getup_DR_preview_60fps.mp4": "e0dc0bfb64de3f6d057febb522db2a00a4e97973da4d95d4c98a7a81793a399e",
+  "README.txt": "e452ff93372df38dce2de54efe3d5a5c87f1f575358154286145a62efa5b1e7e",
+  "getup_DR_atlas.png": "c2265851303053d735159f4b9ac3810b0e4567a5898919f4703a85db37fe97ef",
+  "frames/getup_DR_05_push_to_feet.png": "a4c6b59b76b32e6255840d999e91337da40c7fe6523120bc36368dd1c4304d98",
+  "frames/getup_DR_06_ready.png": "22de58bc4ea1fd666652d1e150781d60283b8ce7a873be794c0a8e534e27ea51",
+  "frames/getup_DR_04_half_kneel.png": "5d6a83767bf7d49dce3febd1d17136844b510e9ff175bb05117889f6aae560ab",
+  "frames/getup_DR_01_grounded_start.png": "fe70a78d6cc0d141586c164a5f7ee5b05a48d514d0709f6ea1061c1811422dbd",
+  "frames/getup_DR_03_draw_knee.png": "845eaebe2ab2f2f67c7546ffbe7985a7455714548cca11fda765e25d2a790b7a",
+  "frames/getup_DR_02_elbow_sit.png": "d86aa0b6abb92dbe74df330094a6823c96fd662430d6c960298a8c5640c855eb"
+}

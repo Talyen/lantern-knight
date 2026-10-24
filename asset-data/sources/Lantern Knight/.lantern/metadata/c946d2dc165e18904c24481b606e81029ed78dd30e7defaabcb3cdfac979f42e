@@ -1,0 +1,455 @@
+{
+  "name": "candlebone_rib_lane",
+  "role": "enemy",
+  "grid": [
+    4,
+    6
+  ],
+  "canvas": [
+    512,
+    384
+  ],
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_scale": 1.1483253588516746,
+  "source_padding": [
+    76.0,
+    72.0
+  ],
+  "telegraph_ms": 980,
+  "strike_ms": 40,
+  "impact_start_ms": 1020,
+  "contact_ms": 90,
+  "recovery_ms": 420,
+  "clear_hold_ms": 350,
+  "duration_ms": 1880,
+  "frames": [
+    {
+      "cel": 1,
+      "source_box": [
+        0,
+        0,
+        314,
+        181
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 2,
+      "source_box": [
+        314,
+        0,
+        627,
+        181
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        77,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 3,
+      "source_box": [
+        627,
+        0,
+        940,
+        181
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 4,
+      "source_box": [
+        940,
+        0,
+        1254,
+        181
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        72
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 5,
+      "source_box": [
+        0,
+        181,
+        314,
+        392
+      ],
+      "source_boundary_alpha_pixels": 1,
+      "paste": [
+        76,
+        40
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 6,
+      "source_box": [
+        314,
+        181,
+        627,
+        392
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        77,
+        40
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 7,
+      "source_box": [
+        627,
+        181,
+        940,
+        392
+      ],
+      "source_boundary_alpha_pixels": 6,
+      "paste": [
+        76,
+        40
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 8,
+      "source_box": [
+        940,
+        181,
+        1254,
+        392
+      ],
+      "source_boundary_alpha_pixels": 15,
+      "paste": [
+        75,
+        40
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 9,
+      "source_box": [
+        0,
+        392,
+        314,
+        605
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        42
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 10,
+      "source_box": [
+        314,
+        392,
+        627,
+        605
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        42
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 11,
+      "source_box": [
+        627,
+        392,
+        940,
+        605
+      ],
+      "source_boundary_alpha_pixels": 2,
+      "paste": [
+        76,
+        42
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 12,
+      "source_box": [
+        940,
+        392,
+        1254,
+        605
+      ],
+      "source_boundary_alpha_pixels": 10,
+      "paste": [
+        75,
+        42
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 13,
+      "source_box": [
+        0,
+        605,
+        314,
+        846
+      ],
+      "source_boundary_alpha_pixels": 10,
+      "paste": [
+        76,
+        47
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 14,
+      "source_box": [
+        314,
+        605,
+        627,
+        846
+      ],
+      "source_boundary_alpha_pixels": 10,
+      "paste": [
+        77,
+        47
+      ],
+      "duration_ms": 70,
+      "phase": "telegraph",
+      "damage_event": false
+    },
+    {
+      "cel": 15,
+      "source_box": [
+        627,
+        605,
+        940,
+        846
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        47
+      ],
+      "duration_ms": 40,
+      "phase": "strike",
+      "damage_event": false
+    },
+    {
+      "cel": 16,
+      "source_box": [
+        940,
+        605,
+        1254,
+        846
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        47
+      ],
+      "duration_ms": 90,
+      "phase": "impact",
+      "damage_event": true
+    },
+    {
+      "cel": 17,
+      "source_box": [
+        0,
+        846,
+        314,
+        1043
+      ],
+      "source_boundary_alpha_pixels": 15,
+      "paste": [
+        76,
+        83
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 18,
+      "source_box": [
+        314,
+        846,
+        627,
+        1043
+      ],
+      "source_boundary_alpha_pixels": 12,
+      "paste": [
+        77,
+        83
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 19,
+      "source_box": [
+        627,
+        846,
+        940,
+        1043
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        83
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 20,
+      "source_box": [
+        940,
+        846,
+        1254,
+        1043
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        83
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 21,
+      "source_box": [
+        0,
+        1043,
+        314,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        70
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 22,
+      "source_box": [
+        314,
+        1043,
+        627,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        77,
+        70
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 23,
+      "source_box": [
+        627,
+        1043,
+        940,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        76,
+        70
+      ],
+      "duration_ms": 60,
+      "phase": "recovery",
+      "damage_event": false
+    },
+    {
+      "cel": 24,
+      "source_box": [
+        940,
+        1043,
+        1254,
+        1254
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "paste": [
+        75,
+        70
+      ],
+      "duration_ms": 350,
+      "phase": "clear",
+      "damage_event": false
+    }
+  ],
+  "registration": "Fixed nominal 4x6 source grid; crop offsets compensated, no per-frame recentering.",
+  "assembly": "Only crops, one uniform scale, fixed placement; no synthetic motion, morphing or fade. Final all-zero cel.",
+  "coordinates_note": "Art direction only, not engine collision integration",
+  "preview_cycles": 3,
+  "source_sha256": "50d0a0be78a6abb835c377cacc9b9cd1a2d15f2f5bbf43c246746086dc91651f",
+  "art_direction_guide_normalized_source_cell": {
+    "pivot": [
+      0.18,
+      0.72
+    ],
+    "target": [
+      0.8,
+      0.42
+    ],
+    "footprint": "long thin diagonal lane",
+    "enemy_reference": "Candlebone Oracle, original Drive 1Df_2l6PKRRnegnsIwwlXd2gPd7pvoOBS"
+  }
+}

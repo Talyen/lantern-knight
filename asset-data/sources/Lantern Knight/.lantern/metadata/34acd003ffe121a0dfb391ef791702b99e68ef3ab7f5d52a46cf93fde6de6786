@@ -1,0 +1,2 @@
+New authored DL facing extension to delivered DR baseline. Six drawn movement and attack cels, same640canvas/pivot374,555/estimated240PPU and holds. No mirroring. Anatomical right dagger and left closed book preserved. DR baseline dependency is separate and untouched.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

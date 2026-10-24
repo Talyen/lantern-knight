@@ -1,0 +1,19 @@
+{
+  "scene": "abandoned_orchard",
+  "created_utc": "2026-10-09T17:03:51.748050+00:00",
+  "tool": "image_gen__imagegen",
+  "actual_parameters_file": "actual_parameters.json",
+  "source_tool_output": "/workspace/scratch/1a83d58417d5/generated_images/exec-b450be95-4279-4cec-a9ed-2aa0a9d739bd.png",
+  "saved_native_output": "LANTERN_abandoned_orchard_Concept_1536x1024.png",
+  "output_sha256": "5cb83c862f5633f59687e861b8e4f16db86157436c9275f338b03137f228a347",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "reference_role": "canonical hero only, ink-style and scale reference; no environment input",
+  "reference_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+  "postprocessing": "None, byte-for-byte copy of native output",
+  "prompt_sha256": "40723062b710bae1f112ff3febf4be99f77adbd93a901812c5fdf5663b5a8c2a",
+  "backend_model_quality_seed": "not exposed by tool"
+}

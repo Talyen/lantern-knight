@@ -1,0 +1,31 @@
+{
+  "pivot_pixels": [
+    94,
+    250
+  ],
+  "target_pixels": [
+    270,
+    230
+  ],
+  "intended_footprint_pixels": [
+    [
+      95,
+      228
+    ],
+    [
+      275,
+      219
+    ],
+    [
+      280,
+      244
+    ],
+    [
+      95,
+      260
+    ]
+  ],
+  "footprint_shape": "long narrow lane",
+  "coordinate_space": "384x384 output canvas",
+  "interpretation": "Experimental intended damage/utility footprint; cosmetic debris may extend outside. Verify actual collision in engine. No engine files changed."
+}

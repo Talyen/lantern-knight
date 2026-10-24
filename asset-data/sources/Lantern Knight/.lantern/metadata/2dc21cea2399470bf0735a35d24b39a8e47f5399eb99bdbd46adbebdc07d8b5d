@@ -1,0 +1,22 @@
+{
+  "tool_mode": "built-in image_gen",
+  "selected_request": {
+    "key": "06_cinder_breath",
+    "tool": "built-in image_gen",
+    "prompt": "Use case: stylized-concept. Asset type: production 2D VFX sprite animation sheet for a subdued grounded dark-fantasy game.\nUse the supplied approved static effect as material, rendering, palette, silhouette-family reference. Redraw eight DISTINCT successive authored animation poses, not eight copies, not an icon collection, not a static transform/fade sequence.\nEXACT LAYOUT: one 2048x1024 transparent RGBA canvas containing exactly 4 columns by 2 rows, eight identical 512x512 invisible cells. Time order left-to-right along the top row, then left-to-right along the bottom row. No titles, labels, lines, borders, checkerboard, contact-sheet decorations, terrain background, character, text, shadows outside the effect, or watermark. True transparent empty pixels.\nEvery cell shows the complete effect at the same fixed camera, world scale and anchor. Keep all particles and material within the central 76% of its own cell, at least 12% clear padding on every edge; absolutely no crossing between cells. The peak may fill that inner area but never touch its edges. The later frames intentionally have much less material without zooming them up.\nGrounded physical material with hand-painted / realistically textured surfaces, restrained neutral lighting and low-saturation colors. No neon, magic glow, colored bloom, graphic rings, symbols, or luminous energy. Distinct changes in geometry, material formation, movement, fragmentation and dissipation must make this genuinely animate. One coherent one-shot cycle: anticipation, onset, strike, peak, breakup, decay, residue, nearly clear.\nSUBJECT: Cinder Breath. Preserve the reference's volumetric charcoal smoke, dry ash-grey folded billows, scarce embedded dim burnt-orange embers. A grounded blast of sooty hot air, no open flames. Direction strictly LEFT TO RIGHT, with narrow origin fixed at x=18%, y=57% inside every cell and plume expands toward x=82%, y=57%; same mild isometric camera and size throughout. Frame 1: a small tight coiling puff at the left origin with one ember. Frame 2: a narrow broken smoke jet begins at left and reaches one-third of the cell. Frame 3: jet rolls into lumpy turbulent lobes reaching right of center, ash curls peeling upward and downward. Frame 4: full broad rightward cone matching reference material, narrow left tail and billowy right front, a few dim embers. Frame 5: source cuts off, large smoke body tears into three irregular lobes and curls moving internally toward the right; no intact cone. Frame 6: broken wispy grey swirls and separated soot clumps trail rightward, embers nearly gone. Frame 7: 2-3 threadlike ash trails and tiny falling cinders, mostly transparent. Frame 8: just two minute dark ash flecks near right side, almost entirely transparent. Do not simply shrink, slide or fade an unchanged plume; the smoke topology and curl forms must evolve in each cell.",
+    "referenced_image_paths": [
+      "/workspace/scratch/1a83d58417d5/lantern_dark_grounded_expansion/06_cinder_breath.png"
+    ],
+    "transparent_background": true
+  },
+  "selected_result": {
+    "key": "06_cinder_breath",
+    "output_hint": "Generated images are saved to /workspace/scratch/1a83d58417d5/generated_images as /workspace/scratch/1a83d58417d5/generated_images/exec-1168234c-71f5-45c4-92fc-b2478e1d51d8.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "source_path": "/workspace/scratch/1a83d58417d5/generated_images/exec-1168234c-71f5-45c4-92fc-b2478e1d51d8.png",
+    "result_keys": [
+      "image_url",
+      "output_hint"
+    ]
+  },
+  "selected_image_sha256": "bd003e469aa266a7d33b5ee2fac27527294c8f4f54adf5b531f7fdd2be62d403"
+}

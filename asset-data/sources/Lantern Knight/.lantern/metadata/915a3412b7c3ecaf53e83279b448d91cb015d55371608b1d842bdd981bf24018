@@ -1,0 +1,68 @@
+{
+  "name": "Cathedral Knell",
+  "timebase": "milliseconds",
+  "events": [
+    {
+      "name": "telegraph_start",
+      "frame_index": 0,
+      "time_ms": 0
+    },
+    {
+      "name": "commit",
+      "frame_index": 7,
+      "time_ms": 980
+    },
+    {
+      "name": "impact",
+      "frame_index": 8,
+      "time_ms": 1020,
+      "damage_count": 1
+    },
+    {
+      "name": "clear",
+      "frame_index": 16,
+      "time_ms": 1580
+    }
+  ],
+  "damage": {
+    "event": "impact",
+    "frame_index": 8,
+    "apply_once_per_playback": true,
+    "exclude_formation_and_recovery": true,
+    "center_damaged": true,
+    "note": "Use game collision on the single impact event. Do not derive damage from sprite alpha or apply repeated damage throughout recovery."
+  },
+  "pivot_px": [
+    512,
+    444
+  ],
+  "pivot_normalized": [
+    0.5,
+    0.578125
+  ],
+  "footprint_guide": {
+    "type": "projected_disc",
+    "center_px": [
+      512,
+      444
+    ],
+    "radii_px": [
+      290,
+      145
+    ],
+    "center_damaged": true,
+    "approximate": true,
+    "world_design_dimensions": {
+      "diameter_m": 20
+    },
+    "world_dimensions_status": "Proposed game-design footprint; not engine validated.",
+    "center_normalized": [
+      0.5,
+      0.578125
+    ],
+    "radii_normalized": [
+      0.283203,
+      0.188802
+    ]
+  }
+}

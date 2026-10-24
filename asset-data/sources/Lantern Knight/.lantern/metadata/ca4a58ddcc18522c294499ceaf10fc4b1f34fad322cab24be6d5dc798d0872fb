@@ -1,0 +1,9 @@
+LOW-CARRY LUNGE UL: native action-art test, not exact physical calibration.
+
+8actual source drawings preserved; loop uses7unique drawings and54ticks/0.9s at60Hz. Final hold repeats01Ready; source08preserved separately. 
+
+Native canvas[624, 572], fixed original grid origins and commonpadding[135, 41]. No image scaling, per-framefit, warp, mirroring or repaint. All original foregroundRGBA conserved.
+
+Approximate commonpivot[307, 463]top-left and254.706PPU; one body-only first-Ready density factor relative to corrected sharedready350PPU. Scale uncertainty12%, pivot15px. These values support testing; they do not prove grounded contact. Manually observed foot/hand points and confidence in approximate_integration.json; hidden grips remain null.
+
+Human review found ordinary low lantern arms; far sword chain is partly occluded, not fully traceable. Within-cell foot/body drift and large thrust/recovery spacing remain. Shared-ready endpoint artwork is a reference, not pixel-identical to generated endpoint. No hitboxes/events are asserted.

@@ -1,0 +1,138 @@
+[
+  {
+    "id": "lantern_elite_concept_01_bellbearing_pilgrim",
+    "name": "Bell-bearing pilgrim",
+    "audit_verdict": "keep",
+    "audit_direction": "Distinct burdened pose, giant bell and red cloth; strong silhouette with purposeful costume masses.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_elites_05/assets/01_bellbearing_pilgrim.png",
+    "revised_image": "packs/02_elites_05/assets/01_bellbearing_pilgrim.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_elites_05/assets/01_bellbearing_pilgrim.png",
+    "sha256": "02146b8881a520f3de89fde37f58e81c2822ca96cd7e9296c4831a19b8006d5e",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      280,
+      10,
+      993,
+      1227
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_elite_concept_05_candle_procession_wraith",
+    "name": "Candle-procession wraith",
+    "audit_verdict": "keep",
+    "audit_direction": "Candle crossbar and long pointed purple robes are graphic and memorable; small flame visibility needs runtime test.",
+    "status": "RETAINED ORIGINAL",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_elites_05/assets/05_candle_procession_wraith.png",
+    "revised_image": "packs/02_elites_05/assets/05_candle_procession_wraith.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_elites_05/assets/05_candle_procession_wraith.png",
+    "sha256": "095f70c9f710e1a3126d18704f13484ab210da7c7eac0bf75241ed2461f0f83a",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      262,
+      17,
+      975,
+      1201
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated"
+  },
+  {
+    "id": "lantern_elite_concept_06_rootbound_stone_saint",
+    "name": "Root-entangled stone saint",
+    "audit_verdict": "rebuild",
+    "audit_direction": "Stone saint looks like a flattened statue render with uniform planes and soft root tube; vary contour and deepen key negative spaces.",
+    "status": "REBUILT — fresh ink drawing",
+    "original_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/02_elites_05/assets/06_rootbound_stone_saint.png",
+    "revised_image": "packs/02_elites_05/assets/06_rootbound_stone_saint.png",
+    "source": "/workspace/scratch/1a83d58417d5/lantern_revision_02/characters/source/06_rootbound_stone_saint.png",
+    "sha256": "bce07386e2a424c6b3232e4d4a9efc08272e10e362ca4f81ea53ca17a7e1e98d",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_alpha_bbox_threshold_16": [
+      310,
+      15,
+      998,
+      1239
+    ],
+    "camera": "Concept approximation: 35.2643897 elevation / 45 azimuth, not calibrated geometry",
+    "animation": "single still, not rigged or animation validated",
+    "padded_import": {
+      "id": "lantern_elite_concept_06_rootbound_stone_saint",
+      "native_asset": "packs/02_elites_05/assets/06_rootbound_stone_saint.png",
+      "padded_asset": "import_padded/02_elites_05/06_rootbound_stone_saint.png",
+      "native_canvas": [
+        1254,
+        1254
+      ],
+      "padded_canvas": [
+        1254,
+        1416
+      ],
+      "source_offset_xy": [
+        0,
+        81
+      ],
+      "added_padding_ltrb": [
+        0,
+        81,
+        0,
+        81
+      ],
+      "visible_bounds_alpha_gt_16_native": [
+        310,
+        15,
+        998,
+        1239
+      ],
+      "visible_bounds_alpha_gt_16_padded": [
+        310,
+        96,
+        998,
+        1320
+      ],
+      "provisional_ground_pivot_native_px": [
+        654.0,
+        1239
+      ],
+      "provisional_ground_pivot_padded_px": [
+        654.0,
+        1320
+      ],
+      "ground_pivot_shift_xy": [
+        0,
+        81
+      ],
+      "provisional_ground_pivot_padded_normalized": [
+        0.5215311004784688,
+        0.9322033898305084
+      ],
+      "pivot_caveat": "Bottom-center of visible bounds is a provisional import anchor, not a certified ground/rig pivot; especially review hovering or flying creatures.",
+      "pixel_preservation_verified": true,
+      "operation": "Pure transparent canvas extension; no crop, resampling, recoloring, matte extraction or alpha modification",
+      "sha256": "bb3ddbbbe25fefa0c64ed839daf2d5ea6e6d8a7195db287be7ae261990b80c0c"
+    }
+  }
+]

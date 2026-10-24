@@ -1,0 +1,1187 @@
+[
+  {
+    "id": "retracting_spike_trap_activate",
+    "asset": "retracting_spike_trap",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_hazards.py",
+    "frames": [
+      {
+        "file": "animation/retracting_spike_trap/activate_000.png",
+        "normalized_progress_or_phase": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "d404649e2377b16ed54618e01591989926d21a2c2ffdbad77c65a67ed71b57e2"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_001.png",
+        "normalized_progress_or_phase": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "8a47d7dd4fe0a6c84b73fe4d364ced0b474fc9e34fe2f8d785946230273d4d36"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_002.png",
+        "normalized_progress_or_phase": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "925403ddf467d3595f5ecd12c817b6137e9a56211e27753c6a34a2af262980da"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_003.png",
+        "normalized_progress_or_phase": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "2d4a1a656a2d8e3d7e59f67cbcb1ee4fb173a6053b4128fd76e521a0c5837b00"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_004.png",
+        "normalized_progress_or_phase": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "f5ea5cf8948f2985513830705dbb7f934715d730081b9817d2ad6985d9569be9"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_005.png",
+        "normalized_progress_or_phase": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "03c1d8955a81a1b7202be0b4f04a68cbf48528e2b9801c03a0ad91938a2eb114"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_006.png",
+        "normalized_progress_or_phase": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "8cc58d86d381c8ec89539584118874a8515014f5c3df374b9f5769021ccb87f9"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_007.png",
+        "normalized_progress_or_phase": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "14d3b48a560432c361d69dde4b03256838772624d4b9cab80f032afbee6f1f57"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_008.png",
+        "normalized_progress_or_phase": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "10df9ab46f295b9e84537242d5654371d0eaa019916ec4501bca215c03ce4a93"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_009.png",
+        "normalized_progress_or_phase": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "626f99002fd79b2b013d1e16311faeeab93f83288b46bfafbc1f1ebe2e5662f6"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_010.png",
+        "normalized_progress_or_phase": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "0d44f2d7b9125a75e0cd0b3ea0e4afc6ad9a9dc2ba175618ca9b0307165f1cbb"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_011.png",
+        "normalized_progress_or_phase": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "9e92258af3bf20b3e760aeafb76025a74385ecd32d6b5eaca9585a3d541cc05d"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_012.png",
+        "normalized_progress_or_phase": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "c6cca50298de35447cdca3efcb1275a2282d433dca9f62b0384f1a68ea289c5c"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_013.png",
+        "normalized_progress_or_phase": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          942,
+          1112,
+          1408
+        ],
+        "sha256": "6741bcee350e7d4cfb127784de56bf2c65b4f4e1957fdaefb28e63fc8c0e71cf"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_014.png",
+        "normalized_progress_or_phase": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          933,
+          1112,
+          1408
+        ],
+        "sha256": "c9adca37ec18d4daf2adcc1e658a30a8d9bf85c3a52147cc4ef02a2cf2582d51"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_015.png",
+        "normalized_progress_or_phase": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          922,
+          1112,
+          1408
+        ],
+        "sha256": "6d78786ab7f2f84e1ebf911790b5780532e02b5c08e6568f820fc685b4c16d46"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_016.png",
+        "normalized_progress_or_phase": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          912,
+          1112,
+          1408
+        ],
+        "sha256": "d6a9c2c823f397dcc50bd0d891952edbf238b46780b06f770a12728e2e8b310f"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_017.png",
+        "normalized_progress_or_phase": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          903,
+          1112,
+          1408
+        ],
+        "sha256": "db6c2cd197c49b854b95978a030c9317526294013d5c4d8500b20d1b6b13e26d"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_018.png",
+        "normalized_progress_or_phase": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          894,
+          1112,
+          1408
+        ],
+        "sha256": "53fc0739ada94edb12f9b0d4caf094ff0bb011d17d23a56df177c2ae4b11b525"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_019.png",
+        "normalized_progress_or_phase": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          887,
+          1112,
+          1408
+        ],
+        "sha256": "9da462734ad10ef42e3cdb420b106a9f1bdbeb02407f62913e0edaa25805aaad"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_020.png",
+        "normalized_progress_or_phase": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          881,
+          1112,
+          1408
+        ],
+        "sha256": "19389d9e74fc7977795538fcd274a63ddd68a6ada866a1a02a064a88f6d1e184"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_021.png",
+        "normalized_progress_or_phase": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          876,
+          1112,
+          1408
+        ],
+        "sha256": "d41c9da63288ab31cc75ed86d54e441394e46dcf6fb4bbac613af60aee54a51b"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_022.png",
+        "normalized_progress_or_phase": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          873,
+          1112,
+          1408
+        ],
+        "sha256": "3f21110ddd97a86ade5b4e25767abb00e2d87ed8205652d5595bcde7418d83cb"
+      },
+      {
+        "file": "animation/retracting_spike_trap/activate_023.png",
+        "normalized_progress_or_phase": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          421,
+          872,
+          1112,
+          1408
+        ],
+        "sha256": "5d3793f52bb8554e07c176630751ca72f22d3ad7c4111d2e12820097d530f84b"
+      }
+    ]
+  },
+  {
+    "id": "bronze_iris_gate_activate",
+    "asset": "bronze_iris_gate",
+    "fps": 24,
+    "duration_seconds": 1,
+    "loop": false,
+    "frame_count": 24,
+    "source": "source/build_hazards.py",
+    "frames": [
+      {
+        "file": "animation/bronze_iris_gate/activate_000.png",
+        "normalized_progress_or_phase": 0.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "86d1d09c571ca1fa99bd5d037d019f6e9d9ea8936394e357adeaa827c6ed1d87"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_001.png",
+        "normalized_progress_or_phase": 0.005506698446617901,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "5f73d05b525d531bb9331aa06df55e7160ffd7ce713c0757d4404d42d5bef17f"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_002.png",
+        "normalized_progress_or_phase": 0.021369277554039615,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "45addbee4ac4d9fa3ac05dbbbe6ebe8a99df5dab13f101d23ac0deac47e4a232"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_003.png",
+        "normalized_progress_or_phase": 0.04660146297361716,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "76e1ae17c93832d4e55ef79ee48aba6954add704d45ae14462130728807c4a2d"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_004.png",
+        "normalized_progress_or_phase": 0.08021698035670255,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "626703a8b2989fff510befbf2e2d4aa271af56b5eb27d19fad686469df2b2175"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_005.png",
+        "normalized_progress_or_phase": 0.12122955535464781,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "fc942ea8eaa106231b897ba035ba05796a5ac74fd11b5ff53d5cbf214e62dac3"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_006.png",
+        "normalized_progress_or_phase": 0.16865291361880494,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "649eca12f0358b52ebc44616b4c1f306a6928d99e6f52a2ae674691208db5e0d"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_007.png",
+        "normalized_progress_or_phase": 0.22150078080052604,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "f71dbd26a24176a9e9faa34a69b52f6293d6c204aa0922a654cb23d4825f69e8"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_008.png",
+        "normalized_progress_or_phase": 0.27878688255116296,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "21d73d9961403c2cf4fe92fad40e8a1c4cf2c4d7bc71e553e41b83e4c4a01c6d"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_009.png",
+        "normalized_progress_or_phase": 0.33952494452206794,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "f7d1d23c36041e11c9bd5765bebd3d5852e845c89e39642ef3d67bb16c118e02"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_010.png",
+        "normalized_progress_or_phase": 0.4027286923645928,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "5c5669afd00851ad0509b45717da4df27505c13121e7b01e1cec281579511587"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_011.png",
+        "normalized_progress_or_phase": 0.46741185173008964,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "daa43c3cbd0732b14aacace9572a11c2f55200f0d6afe29caa3248746305903a"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_012.png",
+        "normalized_progress_or_phase": 0.5325881482699104,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "bff623dc4a1fce912f4414724198708395081373a5a6513e6e23989ada55ab13"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_013.png",
+        "normalized_progress_or_phase": 0.5972713076354071,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "6c51a1150976f422384a5470fdb56bba0a5ddf2e404dc6da6343a10375adc552"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_014.png",
+        "normalized_progress_or_phase": 0.6604750554779322,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "86adcceb66dfde7dafe0c99aaaff22dc61f6a88282fd7eb9aae606bd6341daec"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_015.png",
+        "normalized_progress_or_phase": 0.721213117448837,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "b8c194c7701c5f9e989a02c563c7ea1626713d1d7e4f75d63f1c4b76501d7f9f"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_016.png",
+        "normalized_progress_or_phase": 0.778499219199474,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "8af0851f37dec21d8d6807c36cef6bbb1bc85b4f3565eb1ac384a7481cf6ea9d"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_017.png",
+        "normalized_progress_or_phase": 0.8313470863811949,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_018.png",
+        "normalized_progress_or_phase": 0.8787704446453523,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_019.png",
+        "normalized_progress_or_phase": 0.9197830196432973,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_020.png",
+        "normalized_progress_or_phase": 0.9533985370263829,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_021.png",
+        "normalized_progress_or_phase": 0.9786307224459603,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_022.png",
+        "normalized_progress_or_phase": 0.9944933015533821,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      },
+      {
+        "file": "animation/bronze_iris_gate/activate_023.png",
+        "normalized_progress_or_phase": 1.0,
+        "duration_ms": 41.666666666666664,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          405,
+          356,
+          1145,
+          1398
+        ],
+        "sha256": "1fe41ae549ecb162f804aee1f867ed8bbb17a91b91a557210006fc066eb2430c"
+      }
+    ]
+  },
+  {
+    "id": "ceiling_pendulum_blade_swing",
+    "asset": "ceiling_pendulum_blade",
+    "fps": 12,
+    "duration_seconds": 2,
+    "loop": true,
+    "frame_count": 24,
+    "source": "source/build_hazards.py",
+    "frames": [
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_000.png",
+        "normalized_progress_or_phase": 0.0,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          573,
+          285,
+          928,
+          1198
+        ],
+        "sha256": "ca80ca007f063b083af406e4f48aef0e7e2e9adf09bbaf4ac78ae114c5928483"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_001.png",
+        "normalized_progress_or_phase": 0.041666666666666664,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1011,
+          1237
+        ],
+        "sha256": "0d54451092eb13e64ea9bdf7d4aee103445f47812cf08608360eedadaf82ba88"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_002.png",
+        "normalized_progress_or_phase": 0.08333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1085,
+          1260
+        ],
+        "sha256": "4fad25ba9d3df80945ca4086e042a35a7787e1853018c83f3753ca303f057731"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_003.png",
+        "normalized_progress_or_phase": 0.125,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1144,
+          1268
+        ],
+        "sha256": "4d990149d3baabde87ae7f9ea064e478262f2339519c95b77260bd9b7c2cda7d"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_004.png",
+        "normalized_progress_or_phase": 0.16666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1188,
+          1267
+        ],
+        "sha256": "8d080be049268cf4e2bab1cd912226a05b3191587a51ed9f8f9f87492e6514f7"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_005.png",
+        "normalized_progress_or_phase": 0.20833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1213,
+          1265
+        ],
+        "sha256": "40e4bdfc1a4f9ac84d73b5f300a79fbc5c7b34d0480187a25c16beac313c3e97"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_006.png",
+        "normalized_progress_or_phase": 0.25,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1222,
+          1263
+        ],
+        "sha256": "585e46918c6153dda019e91a5964f3dc213c0d54aea60661d7b5507d5d0c2da2"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_007.png",
+        "normalized_progress_or_phase": 0.2916666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1213,
+          1265
+        ],
+        "sha256": "40e4bdfc1a4f9ac84d73b5f300a79fbc5c7b34d0480187a25c16beac313c3e97"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_008.png",
+        "normalized_progress_or_phase": 0.3333333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1188,
+          1267
+        ],
+        "sha256": "8d080be049268cf4e2bab1cd912226a05b3191587a51ed9f8f9f87492e6514f7"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_009.png",
+        "normalized_progress_or_phase": 0.375,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1144,
+          1268
+        ],
+        "sha256": "4d990149d3baabde87ae7f9ea064e478262f2339519c95b77260bd9b7c2cda7d"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_010.png",
+        "normalized_progress_or_phase": 0.4166666666666667,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1085,
+          1260
+        ],
+        "sha256": "4fad25ba9d3df80945ca4086e042a35a7787e1853018c83f3753ca303f057731"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_011.png",
+        "normalized_progress_or_phase": 0.4583333333333333,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          616,
+          285,
+          1011,
+          1237
+        ],
+        "sha256": "0d54451092eb13e64ea9bdf7d4aee103445f47812cf08608360eedadaf82ba88"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_012.png",
+        "normalized_progress_or_phase": 0.5,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          573,
+          285,
+          928,
+          1198
+        ],
+        "sha256": "ca80ca007f063b083af406e4f48aef0e7e2e9adf09bbaf4ac78ae114c5928483"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_013.png",
+        "normalized_progress_or_phase": 0.5416666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          490,
+          285,
+          844,
+          1146
+        ],
+        "sha256": "68fe32ad07d2e08a151c28b9096580b1443b835d48c8909efe59ca000f47d66d"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_014.png",
+        "normalized_progress_or_phase": 0.5833333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          414,
+          285,
+          808,
+          1086
+        ],
+        "sha256": "3275236d3db79b4f9407c0794db4934e03d708246ce6cdaf15213e8a355775ef"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_015.png",
+        "normalized_progress_or_phase": 0.625,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          355,
+          285,
+          808,
+          1026
+        ],
+        "sha256": "15dc74714b897389a60057adce959a7050d232892def012b8b95b5db09bcc330"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_016.png",
+        "normalized_progress_or_phase": 0.6666666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          312,
+          285,
+          808,
+          976
+        ],
+        "sha256": "3874c4061eb40d11e4ba9c0d2501c8128013ac7550fd7cd3a3768b106987b8a4"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_017.png",
+        "normalized_progress_or_phase": 0.7083333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          286,
+          285,
+          808,
+          942
+        ],
+        "sha256": "7871a30ea7884b2bf5df5cf95f3d06871be40e251e56a5e148173b49b7373a68"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_018.png",
+        "normalized_progress_or_phase": 0.75,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          277,
+          285,
+          808,
+          932
+        ],
+        "sha256": "3067a9abbd98a171e8adf370ac40f91996639706acf2f3d0952f1569be31ab78"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_019.png",
+        "normalized_progress_or_phase": 0.7916666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          286,
+          285,
+          808,
+          942
+        ],
+        "sha256": "7871a30ea7884b2bf5df5cf95f3d06871be40e251e56a5e148173b49b7373a68"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_020.png",
+        "normalized_progress_or_phase": 0.8333333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          312,
+          285,
+          808,
+          976
+        ],
+        "sha256": "3874c4061eb40d11e4ba9c0d2501c8128013ac7550fd7cd3a3768b106987b8a4"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_021.png",
+        "normalized_progress_or_phase": 0.875,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          355,
+          285,
+          808,
+          1026
+        ],
+        "sha256": "15dc74714b897389a60057adce959a7050d232892def012b8b95b5db09bcc330"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_022.png",
+        "normalized_progress_or_phase": 0.9166666666666666,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          414,
+          285,
+          808,
+          1086
+        ],
+        "sha256": "3275236d3db79b4f9407c0794db4934e03d708246ce6cdaf15213e8a355775ef"
+      },
+      {
+        "file": "animation/ceiling_pendulum_blade/swing_023.png",
+        "normalized_progress_or_phase": 0.9583333333333334,
+        "duration_ms": 83.33333333333333,
+        "root": [
+          768.0,
+          1220.0
+        ],
+        "bounds": [
+          490,
+          285,
+          844,
+          1146
+        ],
+        "sha256": "68fe32ad07d2e08a151c28b9096580b1443b835d48c8909efe59ca000f47d66d"
+      }
+    ]
+  }
+]

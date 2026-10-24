@@ -1,0 +1,34 @@
+{
+  "recipe": "authored-masonry-face-v1",
+  "source": "references/art/ink-collection-01/volume_02_gothic/assets/arch_gothic_wall_01.png",
+  "sourceSha256": "317a373676798c790329d93df8a6ee23bbd38ee7723bf24f4197c115075310fb",
+  "sourceCorners": [
+    [
+      283,
+      626
+    ],
+    [
+      1408,
+      305
+    ],
+    [
+      1408,
+      618
+    ],
+    [
+      283,
+      939
+    ]
+  ],
+  "outputCanvas": [
+    1024,
+    512
+  ],
+  "worldRepeatMetres": [
+    3.2,
+    1.1
+  ],
+  "minimumSourceDensity": 284.5454545454545,
+  "outputSha256": "b565cad82b9e143862d9315b8abc2fcab0e6edbec63d97ac5d638c1714491689",
+  "operation": "Bilinear deprojection of original wall-face RGB into opaque structural material; source unchanged."
+}

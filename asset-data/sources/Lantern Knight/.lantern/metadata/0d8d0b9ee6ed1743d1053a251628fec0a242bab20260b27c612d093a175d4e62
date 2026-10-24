@@ -1,0 +1,10 @@
+LANTERN DEATH — NATIVE SOURCE COMPANION v02
+
+This source revision changes metadata/mask extent only. All hero artwork bytes are identical to the previous source companion. The UL terminal glass-extinguish mask now records111previously omitted inner-pane-edge RGB changes. The complete mask accounts for all changedRGB pixels; alpha is unchanged.
+
+Unchanged runtime archive: Lantern_Death_4Directions_RuntimeTest.zip
+Runtime SHA256: 840d1feff54e635219ac4091bf0b6e6cb1941c4844400087ea84fa16cbdd281e
+
+Runtime selected drawings: DR6,DL8,UL5,UR6. DR/DL use full collapse. UL/UR use intentional bowed kneel/extinguish variants. All90ticks at60Hz then indefinite final hold.
+
+Original native sheets include held-out attempts and excluded drawings for provenance; consult runtime clip.json before importing. No mirrored or upscaled sprite art. Camera/contact/PPU integration remains approximate; actual real-time playback review is still required.

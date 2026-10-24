@@ -1,0 +1,916 @@
+{
+  "clip_id": "rust_run_mixamo8_gameplay_v01",
+  "status": "PLAYABLE_TEST_WITH_DISCLOSED_LIMITATIONS",
+  "action_role": "run",
+  "loop": true,
+  "unique_drawings": 8,
+  "fps": 60,
+  "duration_ticks": 40,
+  "duration_seconds": 0.6666666666666666,
+  "canvas": [
+    1536,
+    1024
+  ],
+  "root_top_left": [
+    768,
+    892
+  ],
+  "root_bottom_left": [
+    768,
+    132
+  ],
+  "cell_root_authored": [
+    218,
+    359
+  ],
+  "registration": "One common native scale1 and translation550,533; no per-frame fitting, resampling, warping or interpolation. Common pivot approximately calibrated from observed whole-sheet landmarks.",
+  "source_native_sheet_size": [
+    1774,
+    887
+  ],
+  "source_sha256": "42e6cbbd94297fbf4c593c2aa5e143471a300bea7c78c003e78177776d9e54e9",
+  "camera_reference": {
+    "elevation_degrees": 35.264389682754654,
+    "azimuth_degrees": 45,
+    "world_up": "Y",
+    "actor_heading": 0,
+    "actor_forward": "world+X",
+    "screen_direction": "down-right30degrees",
+    "generated_art_projection": "visually reviewed; exact projection belongs to deterministic reference, not numerically certified illustration"
+  },
+  "motion_source": {
+    "name": "Standing Torch Run Forward",
+    "product_id": "b5b82299-62da-49dd-ac55-9fde07ae45d8",
+    "fbx_sha256": "b5ed436d9b982248265eb5dab4286b7a3266b2557f1b8b82c6eb6a7133169dd6",
+    "source_cycle_seconds": 0.6666666666666666,
+    "source_root_travel_m": 2.7551526452298276,
+    "source_mean_speed_m_s": 4.132728967844741,
+    "game_speed_validated": false,
+    "root_removal": "Horizontal hipX/Z removed from all guide joints; vertical bob preserved. Art stays in place.",
+    "pose_adaptation": "No source limb-joint edits; sword pitch/yaw follows source forearm. Lantern hangs gravity-upright from source left wrist.",
+    "source_duplicate_endpoint40_excluded": true
+  },
+  "events": [
+    {
+      "tick": 0,
+      "event": "right support continues across cycle boundary"
+    },
+    {
+      "tick": 6,
+      "event": "source toe proxy right release; flight"
+    },
+    {
+      "tick": 14,
+      "event": "source toe proxy left contact"
+    },
+    {
+      "tick": 25,
+      "event": "source toe proxy left release; flight"
+    },
+    {
+      "tick": 33,
+      "event": "source toe proxy right contact"
+    }
+  ],
+  "sword_contract": {
+    "metal_length_m": 0.78,
+    "source_projected_length_native_px": "approximately199 across all8",
+    "final_art_correction": "None; original straight drawn blades preserved after rejected cleanup. Approximate183\u2013221px projected native length variation remains.",
+    "uncertainty": "Manual native base/tip\u00b13\u20135px; no exact3D claim"
+  },
+  "limitations": [
+    "Eight held cels; no inbetweens generated or artificial blended frames.",
+    "Cell5 has naturally overlapping boots that read less clearly than other poses.",
+    "Left arm is a deliberate elevated torch-derived lantern carry, with less swing than sword arm.",
+    "Far-left patches mostly occluded; no patch forced onto right sleeve or right coat flap.",
+    "Left grip retains dark glove-like source shading.",
+    "Original straight blades have approximately\u00b110percent projected length variance; no destructive correction included.",
+    "Source contacts are joint proxies; illustrated sole/root alignment is approximate and not engine-tested."
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/run_00.png",
+      "sha256": "ddb9386416d00be7f432b8f6f19a8064aa92c3029c1238e7cc7769a27c02beec",
+      "source_tick": 0,
+      "start_tick": 0,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.0,
+      "normalized_stride_position": 0.0,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            764,
+            719
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            704,
+            768
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            890,
+            652
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            713.0,
+            788.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            796.0,
+            957.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            690,
+            888
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            768,
+            803
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        0,
+        0,
+        444,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        8,
+        8,
+        444,
+        444
+      ],
+      "alpha_bbox": [
+        608,
+        566,
+        994,
+        961
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/run_01.png",
+      "sha256": "8da58784022ce16d75a5c00fbc13f6a9c9da654ae527d5ce020569d55061e14c",
+      "source_tick": 5,
+      "start_tick": 5,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.125,
+      "normalized_stride_position": 0.12842793522926793,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            772,
+            714
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            764,
+            747
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            910,
+            650
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            785.0,
+            768.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            906.0,
+            949.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            644,
+            843
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            852,
+            923
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        444,
+        0,
+        887,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        468,
+        8,
+        443,
+        444
+      ],
+      "alpha_bbox": [
+        617,
+        555,
+        955,
+        977
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/run_02.png",
+      "sha256": "ab95d9cbf9b05540d99be0ef3fa0bb0866bceae70a63553c6a8551e938a96371",
+      "source_tick": 10,
+      "start_tick": 10,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.25,
+      "normalized_stride_position": 0.2599292003348923,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            788,
+            706
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            772,
+            746
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            937,
+            639
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            793.0,
+            766.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            917.0,
+            950.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            661,
+            781
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            865,
+            919
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        887,
+        0,
+        1330,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        928,
+        8,
+        443,
+        444
+      ],
+      "alpha_bbox": [
+        559,
+        548,
+        969,
+        954
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/run_03.png",
+      "sha256": "d29605a64e882dd85852c91801460e1d8ac5561f2619c61d2dd1da43bbe8fc05",
+      "source_tick": 15,
+      "start_tick": 15,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.375,
+      "normalized_stride_position": 0.38247968510265695,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            799,
+            719
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            767,
+            755
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            939,
+            650
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            787.0,
+            776.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            885.0,
+            951.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            689,
+            779
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            849,
+            902
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        1330,
+        0,
+        1774,
+        444
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        1388,
+        8,
+        444,
+        444
+      ],
+      "alpha_bbox": [
+        576,
+        565,
+        967,
+        955
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/run_04.png",
+      "sha256": "e4cc7b1c5886b21f7ff1d06b47b9c2de5115077f1c4b8c6a9106c84c7e91520b",
+      "source_tick": 20,
+      "start_tick": 20,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.5,
+      "normalized_stride_position": 0.5040879710801832,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            757,
+            720
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            679,
+            733
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            890,
+            641
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            696.0,
+            757.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            778.0,
+            922.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            696,
+            834
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "left_foot": {
+          "xy": [
+            721,
+            868
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        }
+      },
+      "contact_flags": {
+        "right": false,
+        "left": true
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        0,
+        444,
+        444,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        8,
+        468,
+        444,
+        443
+      ],
+      "alpha_bbox": [
+        581,
+        537,
+        994,
+        952
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/run_05.png",
+      "sha256": "980cab5a08e5164f5a61c0e665db32efedf4c83898281783160b5689eeccb6c4",
+      "source_tick": 25,
+      "start_tick": 25,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.625,
+      "normalized_stride_position": 0.632807746457213,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            763,
+            709
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            688,
+            700
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            927,
+            638
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            700.0,
+            724.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            782.0,
+            906.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            828,
+            907
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            692,
+            813
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        444,
+        444,
+        887,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        468,
+        468,
+        443,
+        443
+      ],
+      "alpha_bbox": [
+        563,
+        533,
+        989,
+        940
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/run_06.png",
+      "sha256": "69c542d02ab276c80cd6b70d541fed579298e4b327f47b483a838ef26508d4e5",
+      "source_tick": 30,
+      "start_tick": 30,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.75,
+      "normalized_stride_position": 0.7651229430719562,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            776,
+            714
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            700,
+            698
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            942,
+            644
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            714.0,
+            720.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            787.0,
+            899.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            855,
+            915
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            678,
+            767
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": false,
+        "left": false
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        887,
+        444,
+        1330,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        928,
+        468,
+        443,
+        443
+      ],
+      "alpha_bbox": [
+        553,
+        550,
+        993,
+        939
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/run_07.png",
+      "sha256": "b7e8e92f507777e79df31e32935c888cbb9417bc280fa29a2993de8a01f7469d",
+      "source_tick": 35,
+      "start_tick": 35,
+      "hold_ticks_60hz": 5,
+      "cycle_phase": 0.875,
+      "normalized_stride_position": 0.8865300339551304,
+      "observed_anchors_canvas": {
+        "pelvis": {
+          "xy": [
+            788,
+            721
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": true
+        },
+        "right_hand": {
+          "xy": [
+            712,
+            722
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_hand": {
+          "xy": [
+            944,
+            632
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_metal_base": {
+          "xy": [
+            727.0,
+            745.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "sword_tip": {
+          "xy": [
+            797.0,
+            917.0
+          ],
+          "confidence": "medium",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "right_foot": {
+          "xy": [
+            830,
+            911
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        },
+        "left_foot": {
+          "xy": [
+            734,
+            757
+          ],
+          "confidence": "low",
+          "observation": "approximate manual image landmark; not a guide coordinate",
+          "occluded": false
+        }
+      },
+      "contact_flags": {
+        "right": true,
+        "left": false
+      },
+      "contact_flag_evidence": "Mixamo toe joint height proxy<=0.02m; not pixel-perfect drawn sole validation.",
+      "source_sheet_rect": [
+        1330,
+        444,
+        1774,
+        887
+      ],
+      "common_native_scale": 1,
+      "common_canvas_translation": [
+        550,
+        533
+      ],
+      "atlas_rect": [
+        1388,
+        468,
+        444,
+        443
+      ],
+      "alpha_bbox": [
+        551,
+        541,
+        968,
+        956
+      ]
+    }
+  ]
+}

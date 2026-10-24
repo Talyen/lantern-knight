@@ -1,0 +1,602 @@
+{
+  "id": "lantern_flare_fx",
+  "name": "Lantern flare optional light release",
+  "action_role": "lantern_flare",
+  "layer_role": "optional_vfx_overlay",
+  "artwork_approved": true,
+  "status": "VISUAL_SEQUENCE_QA_PASSED_READY_FOR_EXPORT",
+  "allow_empty_frames": true,
+  "canvas_px": [
+    1536,
+    1024
+  ],
+  "root_px_top_left": [
+    768,
+    892
+  ],
+  "loop": false,
+  "timed_drawing_slots": 25,
+  "unique_generated_effect_drawings": 4,
+  "duration_ticks_60hz": 84,
+  "duration_seconds": 1.4,
+  "frames": [
+    {
+      "frame": 1,
+      "file": "effects/lantern_flare_fx_01.png",
+      "hold_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_tick_60hz": 0,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 2,
+      "file": "effects/lantern_flare_fx_02.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 2,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 3,
+      "file": "effects/lantern_flare_fx_03.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 5,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 4,
+      "file": "effects/lantern_flare_fx_04.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 8,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 5,
+      "file": "effects/lantern_flare_fx_05.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 11,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 6,
+      "file": "effects/lantern_flare_fx_06.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 14,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 7,
+      "file": "effects/lantern_flare_fx_07.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 17,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 8,
+      "file": "effects/lantern_flare_fx_08.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 20,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 9,
+      "file": "effects/lantern_flare_fx_09.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 23,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 10,
+      "file": "effects/lantern_flare_fx_10.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 26,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 11,
+      "file": "effects/lantern_flare_fx_11.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 29,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 1,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        0,
+        0,
+        350,
+        724
+      ],
+      "source_emission_origin": [
+        72,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        1063,
+        260
+      ],
+      "emission_origin_delivery_px": [
+        1097.8,
+        428.083
+      ],
+      "phase": "onset",
+      "png_sha256": "c6fedd95738fe292eb6738e5b67c1cac48a6994cd125e87f3992449671acad09"
+    },
+    {
+      "frame": 12,
+      "file": "effects/lantern_flare_fx_12.png",
+      "hold_60hz": 4,
+      "hold_ticks_60hz": 4,
+      "start_tick_60hz": 32,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 2,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        350,
+        0,
+        885,
+        724
+      ],
+      "source_emission_origin": [
+        420,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        898,
+        247
+      ],
+      "emission_origin_delivery_px": [
+        1099.683,
+        415.093
+      ],
+      "phase": "expansion",
+      "png_sha256": "d8050179509471ff5a005b2e2f73f229c1a2c0d153ee3572e6ed0de3f6ca065a"
+    },
+    {
+      "frame": 13,
+      "file": "effects/lantern_flare_fx_13.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 36,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 2,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        350,
+        0,
+        885,
+        724
+      ],
+      "source_emission_origin": [
+        420,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        922,
+        221
+      ],
+      "emission_origin_delivery_px": [
+        1123.374,
+        389.011
+      ],
+      "phase": "expansion",
+      "png_sha256": "0f0a5c02552b967705953f3e55d615e1b13233f646dbd2c31631b204c6a85f33"
+    },
+    {
+      "frame": 14,
+      "file": "effects/lantern_flare_fx_14.png",
+      "hold_60hz": 7,
+      "hold_ticks_60hz": 7,
+      "start_tick_60hz": 39,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 3,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        885,
+        0,
+        1622,
+        724
+      ],
+      "source_emission_origin": [
+        935,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        687,
+        229
+      ],
+      "emission_origin_delivery_px": [
+        1135.488,
+        397.249
+      ],
+      "phase": "peak",
+      "png_sha256": "7d49dc0195f36bb2b779962c073ccad4ef4025e9605ed4c80515f83d864d9b1a"
+    },
+    {
+      "frame": 15,
+      "file": "effects/lantern_flare_fx_15.png",
+      "hold_60hz": 2,
+      "hold_ticks_60hz": 2,
+      "start_tick_60hz": 46,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 3,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        885,
+        0,
+        1622,
+        724
+      ],
+      "source_emission_origin": [
+        935,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        545,
+        257
+      ],
+      "emission_origin_delivery_px": [
+        993.903,
+        425.363
+      ],
+      "phase": "peak",
+      "png_sha256": "4d240a2217397f1998ffc6984db2cb4a1f73a1b6b67b87ff523816d9080c17b4"
+    },
+    {
+      "frame": 16,
+      "file": "effects/lantern_flare_fx_16.png",
+      "hold_60hz": 6,
+      "hold_ticks_60hz": 6,
+      "start_tick_60hz": 48,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 4,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        1622,
+        0,
+        2172,
+        724
+      ],
+      "source_emission_origin": [
+        1650,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        262,
+        291
+      ],
+      "emission_origin_delivery_px": [
+        1053.829,
+        458.888
+      ],
+      "phase": "decay",
+      "png_sha256": "a95dec8fb919df525159d1cca4a584745fc3e67ad643866b46aecee13ae38153"
+    },
+    {
+      "frame": 17,
+      "file": "effects/lantern_flare_fx_17.png",
+      "hold_60hz": 5,
+      "hold_ticks_60hz": 5,
+      "start_tick_60hz": 54,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 4,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        1622,
+        0,
+        2172,
+        724
+      ],
+      "source_emission_origin": [
+        1650,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        304,
+        268
+      ],
+      "emission_origin_delivery_px": [
+        1096.0,
+        436.0
+      ],
+      "phase": "decay",
+      "png_sha256": "8fb322c2af365ba5cef526125eb23009344537b853109cb6e5d1b8f9a0ed71b5"
+    },
+    {
+      "frame": 18,
+      "file": "effects/lantern_flare_fx_18.png",
+      "hold_60hz": 4,
+      "hold_ticks_60hz": 4,
+      "start_tick_60hz": 59,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": 4,
+      "source_master": "source/flare_fx_v01_native.png",
+      "source_region": [
+        1622,
+        0,
+        2172,
+        724
+      ],
+      "source_emission_origin": [
+        1650,
+        350
+      ],
+      "source_uniform_scale": 0.48,
+      "integer_translation": [
+        319,
+        290
+      ],
+      "emission_origin_delivery_px": [
+        1111.0,
+        458.0
+      ],
+      "phase": "decay",
+      "png_sha256": "be02c485e77d3f3eb5de86b36a6e672c6cab6b40f937d7d69c22a55d40da314d"
+    },
+    {
+      "frame": 19,
+      "file": "effects/lantern_flare_fx_19.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 63,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 20,
+      "file": "effects/lantern_flare_fx_20.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 66,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 21,
+      "file": "effects/lantern_flare_fx_21.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 69,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 22,
+      "file": "effects/lantern_flare_fx_22.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 72,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 23,
+      "file": "effects/lantern_flare_fx_23.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 75,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 24,
+      "file": "effects/lantern_flare_fx_24.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 78,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    },
+    {
+      "frame": 25,
+      "file": "effects/lantern_flare_fx_25.png",
+      "hold_60hz": 3,
+      "hold_ticks_60hz": 3,
+      "start_tick_60hz": 81,
+      "root_px_top_left": [
+        768,
+        892
+      ],
+      "effect_drawing": null,
+      "phase": "empty",
+      "png_sha256": "64085d665f67f408b0cd67f69bebaa5a814b79eeed296c3d952e62988d7a440f"
+    }
+  ],
+  "source_scale_rule": "One0.48 factor for all4 effects. Integer translation to per-drawing lantern glass. Body artwork is unchanged and delivered separately.",
+  "events": [
+    {
+      "name": "release_onset",
+      "frame": 11,
+      "tick_60hz": 29,
+      "kind": "vfx_cue",
+      "frames": [
+        11
+      ],
+      "start_seconds": [
+        0.48333333333333334
+      ]
+    },
+    {
+      "name": "flare_peak",
+      "frame": 14,
+      "tick_60hz": 39,
+      "kind": "vfx_cue",
+      "frames": [
+        14
+      ],
+      "start_seconds": [
+        0.65
+      ]
+    },
+    {
+      "name": "flare_decay",
+      "frame": 16,
+      "tick_60hz": 48,
+      "kind": "vfx_cue",
+      "frames": [
+        16
+      ],
+      "start_seconds": [
+        0.8
+      ]
+    },
+    {
+      "name": "cone_end",
+      "frame": 19,
+      "tick_60hz": 63,
+      "kind": "vfx_cue",
+      "frames": [
+        19
+      ],
+      "start_seconds": [
+        1.05
+      ]
+    }
+  ],
+  "reference_body_height_px": 504,
+  "model_preference": "Sunburst2.5 (gpt-image-2.5-sunburst)",
+  "actual_backend_verified": false,
+  "camera_note": "Same accepted approximately10-degree down-right illustrated view.35.264-degree elevation/45-degree azimuth/13m are uncalibrated reference targets.",
+  "interpolation": "None for character/effect drawings. Complete drawings held for integer60Hz ticks.",
+  "root_pivot_px_top_left": [
+    768,
+    892
+  ],
+  "presentation_fps": 60,
+  "preview_repeat_count": 3,
+  "preview_note": "Previews show three action repeats with neutral lead/return/reset pauses. Runtime action duration excludes those presentation pauses.",
+  "known_review_items": [
+    "Illustrated camera and 2D contact/hand landmarks remain uncalibrated; runtime collision and importer behavior are not tested.",
+    "Frame-to-frame illustrated detail variation remains visible at full source size; no synthetic smoothing was used."
+  ],
+  "counting_note": "unique_generated_effect_drawings=4 is the actual illustration count. Exporter unique_drawings/source_unique_drawings count distinct registered input PNG arrays, including the empty layer; translation with the lantern is not a newly drawn effect."
+}

@@ -1,0 +1,22 @@
+{
+  "crypt_ossuary": {
+    "original_drive_id": "1_vmmdCHI1TTSkHSSgqvqG_3nabiKic9Y",
+    "original_name": "crypt_wall_ossuary_cabinet_01.png",
+    "generation": "built-in imagegen, fresh six-cel original-reference generation; no edit cascade",
+    "native_file": "source/masters/ossuary_native.png",
+    "generation_source_name": "exec-8fc8de45-6ae5-4834-8c76-ce4000c3a3e4.png",
+    "prompt": "source/ossuary_prompt.txt"
+  },
+  "reed_hamper": {
+    "original_drive_id": "1XgejurnI-grNLXCiz_Goy9Yu5-lwqxAZ",
+    "original_name": "04_containers_workshop/source/masters/reed_hamper.png",
+    "generation": "existing immutable built-in painted component master reused; new deterministic hinge animation",
+    "source": "source/masters/reed_hamper.png",
+    "prompt": "source/reed_hamper_original_prompt.txt"
+  },
+  "sources_sha256": {
+    "source/masters/reed_hamper.png": "474e5e74036516dfe52042ab9f4a88c90342aed90fa05b6120a1ae89c3f24ea6",
+    "source/masters/ossuary_original.png": "7bcbd8d551b34bb47c414a8b9733e6d84454cd644a69c3c0755faa87afea7f12",
+    "source/masters/ossuary_native.png": "f16776a2f7c0058a677cee7ced7393eb9b6fc2da9c694204c5137b1b6545b4c8"
+  }
+}

@@ -1,0 +1,7 @@
+Forge Bellows Bench
+8 distinct authored cels with transparent background.
+Native 512px padded aligned frames and 256px runtime derivatives; named start/end holds. See metadata.json for timing/contact/ground anchors.
+Suggested gameplay: Activate crafting/repair station. ART ONLY: no gameplay feature implemented.
+Finite one-shot; hold start before interaction and final state indefinitely after. MP4 repeats solely as a demonstration with longer start/end holds.
+Scene previews are alpha overlays on unchanged approved scene pixels.
+Built-in imagegen was used; highest native quality/resolution and gpt-image-2.5-sunburst preference requested, model selection was not exposed/verified. Source sheet 1792x896; no synthetic interpolation or whole-sprite deformation. Only extraction, component isolation, translation registration, resizing, and preview encoding were used.

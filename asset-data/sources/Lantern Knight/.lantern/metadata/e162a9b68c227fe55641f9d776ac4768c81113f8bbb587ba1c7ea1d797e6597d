@@ -1,0 +1,62 @@
+# Lantern · The Threshold
+
+A text-free, fixed-camera gothic loading-animation study. Original generated environment artwork is composited with animated mist, airborne dust, breathing amber light, and a localized light-release completion. The camera and doors are stationary; the atmosphere and light evolve throughout the hold.
+
+## Deliverables
+
+- `output/threshold_preview_1920x1080_60fps.mp4`: the complete 8-second preview, H.264, silent, 1920×1080, genuinely sampled at 60 frames per second.
+- `output/threshold_intro_1920x1080_60fps.mp4`: 1.5-second entrance from black.
+- `output/threshold_hold_1920x1080_60fps.mp4`: 4-second seamless, holdable loop.
+- `output/threshold_complete_1920x1080_60fps.mp4`: 2.5-second localized amber release and fade to black.
+- `assets/threshold_plate.png`: original generated background artwork (1672×941), sampled into the 1920×1080 composite.
+- `render_threshold.py`: full deterministic renderer and GLSL shader source.
+- `requirements.txt`: Python dependencies.
+- `ART_PROMPT.txt`: exact original artwork brief and provenance.
+
+The assembled preview MP4 is delivered separately; the source-and-clips ZIP contains the three reusable segments and all rebuild inputs.
+
+## Timing
+
+| Section | Preview frames, inclusive | Time range |
+|---|---:|---:|
+| Intro | 0–89 | 0.000–1.500 s |
+| Hold | 90–329 | 1.500–5.500 s |
+| Complete | 330–479 | 5.500–8.000 s |
+
+The hold contains 240 distinct time samples. It deliberately omits a duplicated end frame. All fog, light and particle state is periodic over exactly four seconds. The intro approaches phase zero; completion starts at phase zero. Play intro once, hold as many whole cycles as needed, then completion. The supplied completion MP4 starts at loop phase zero. For an exact prerecorded join, wait for the next hold boundary, which can add up to four seconds after loading finishes. These video-only transitions are not a claim of arbitrary instantaneous video branching.
+
+For an immediate completion in a future source-based player, preserve the incoming hold phase: drive the shader clock with `incoming_hold_phase + completion_elapsed`, while driving the completion and fade envelopes from `completion_elapsed` separately. This is adaptation guidance; no game-engine player or integration is included or tested.
+
+The completion uses a smooth local amber expansion and ground-light release, then resolves to black. There is no full-screen white flash, text, percentage indicator, logo, audio, or progress-dependent duration claim.
+
+## Rebuild
+
+Requirements: Python 3.10+, ffmpeg, and an OpenGL 3.3 context using Linux EGL. A GPU is optional; a working Mesa/llvmpipe EGL setup can render in software. `moderngl.create_standalone_context(backend='egl')` is the selected backend. Other platforms may require changing that context setup.
+
+```sh
+python -m pip install -r requirements.txt
+python render_threshold.py
+```
+
+This writes all four 1080p60 clips. To produce only the assembled preview:
+
+```sh
+python render_threshold.py --segment preview
+```
+
+For a smaller proof:
+
+```sh
+python render_threshold.py --proof --width 1280 --height 720
+python render_threshold.py --segment preview --width 1280 --height 720
+```
+
+Random seeds, texture noise and the animation are deterministic. The image is not enlarged by a moving camera; motion is computed at each output time sample. The renderer uses a generated environment plate, procedural fog/cloud fields, local light/reflection modulation, and separately animated dust. No frame-rate interpolation is used.
+
+## Art direction and review
+
+The first proof established the composition and carved stone/wood detail. A polish pass strengthened low drifting mist and the localized completion spill while preserving the dark masonry, followed by temporal-loop and encoded-file checks. The approach is 2D composited artwork, not a 3D scene, and no Unity integration or game-runtime performance has been tested or claimed.
+
+## Source and use notes
+
+The environment plate was newly generated with the built-in image-generation tool for this concept. The animation renderer was authored for this deliverable. No third-party mesh or texture pack is included. Package dependencies are listed rather than vendored. The supplied source is intended for further art-direction and adaptation; it is not a game-engine integration.

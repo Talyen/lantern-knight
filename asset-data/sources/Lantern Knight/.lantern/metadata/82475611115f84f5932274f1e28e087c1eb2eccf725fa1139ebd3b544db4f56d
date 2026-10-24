@@ -1,0 +1,144 @@
+{
+  "clip": "respawn_DR",
+  "source_version": "v05",
+  "source_size": [
+    1536,
+    1024
+  ],
+  "source_nominal_cell": [
+    512,
+    496
+  ],
+  "fixed_canvas": [
+    554,
+    671
+  ],
+  "common_padding": [
+    21,
+    80
+  ],
+  "alpha_cleanup": "Retain original pixels within 3 px of full-body source component; discard isolated low-alpha background residue.",
+  "registration": "Fixed 3x2 source-grid extraction at 512px column pitch and 496px row pitch, with identical padding. No per-cel offsets, recentering, mirroring, rescaling or tweening.",
+  "records": [
+    {
+      "cel": 1,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/respawn_DR_v02/frames/respawn_DR_01.png",
+      "source_component_bbox": [
+        64,
+        131,
+        482,
+        493
+      ],
+      "source_grid_origin": [
+        -21,
+        -80
+      ],
+      "alpha_bbox": [
+        83,
+        208,
+        506,
+        575
+      ]
+    },
+    {
+      "cel": 2,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/respawn_DR_v02/frames/respawn_DR_02.png",
+      "source_component_bbox": [
+        575,
+        86,
+        972,
+        493
+      ],
+      "source_grid_origin": [
+        491,
+        -80
+      ],
+      "alpha_bbox": [
+        82,
+        163,
+        484,
+        576
+      ]
+    },
+    {
+      "cel": 3,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/respawn_DR_v02/frames/respawn_DR_03.png",
+      "source_component_bbox": [
+        1122,
+        62,
+        1479,
+        478
+      ],
+      "source_grid_origin": [
+        1003,
+        -80
+      ],
+      "alpha_bbox": [
+        117,
+        140,
+        479,
+        561
+      ]
+    },
+    {
+      "cel": 4,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/respawn_DR_v02/frames/respawn_DR_04.png",
+      "source_component_bbox": [
+        111,
+        547,
+        478,
+        966
+      ],
+      "source_grid_origin": [
+        -21,
+        416
+      ],
+      "alpha_bbox": [
+        130,
+        129,
+        501,
+        553
+      ]
+    },
+    {
+      "cel": 5,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/respawn_DR_v02/frames/respawn_DR_05.png",
+      "source_component_bbox": [
+        635,
+        495,
+        964,
+        973
+      ],
+      "source_grid_origin": [
+        491,
+        416
+      ],
+      "alpha_bbox": [
+        141,
+        77,
+        475,
+        559
+      ]
+    },
+    {
+      "cel": 6,
+      "path": "/workspace/scratch/1a83d58417d5/hero_additional/stagger_respawn/clips/respawn_DR_v02/frames/respawn_DR_06.png",
+      "source_component_bbox": [
+        1156,
+        482,
+        1460,
+        978
+      ],
+      "source_grid_origin": [
+        1003,
+        416
+      ],
+      "alpha_bbox": [
+        150,
+        64,
+        460,
+        564
+      ]
+    }
+  ]
+}

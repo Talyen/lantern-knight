@@ -1,0 +1,28 @@
+{
+  "asset": "exhausted_idle_DR_v02",
+  "fps": 60,
+  "loop": true,
+  "hold_ticks": [
+    18,
+    18,
+    22,
+    18,
+    26,
+    18
+  ],
+  "duration_ticks": 120,
+  "duration_seconds": 2.0,
+  "frames": [
+    "frames/exhausted_idle_DR_v02_00.png",
+    "frames/exhausted_idle_DR_v02_01.png",
+    "frames/exhausted_idle_DR_v02_02.png",
+    "frames/exhausted_idle_DR_v02_03.png",
+    "frames/exhausted_idle_DR_v02_04.png",
+    "frames/exhausted_idle_DR_v02_05.png"
+  ],
+  "state_flow": {
+    "mode": "loop_while_host_requests",
+    "gameplay_effects": [],
+    "exit": "Host transitions to existing ready or other state; no baked restoration action."
+  }
+}

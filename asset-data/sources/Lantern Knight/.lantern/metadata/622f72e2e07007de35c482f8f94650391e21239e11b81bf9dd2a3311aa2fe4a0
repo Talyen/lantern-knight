@@ -1,0 +1,16 @@
+{
+  "title": "02 Goblins",
+  "variants": [
+    {
+      "id": "GB01",
+      "slug": "mossfang_scavenger",
+      "name": "Mossfang Scavenger",
+      "description": "Lean adult goblin with a sharp wedge-shaped head, broad pointed ears and a low stalking stance. Muted moss-olive skin, amber eyes, bald crown, symmetrical tiny lower tusks. A short sleeveless charcoal jerkin, brown waist wrap, matching plain wrist wraps and matching calf wraps. Two unarmed hands with four thick clawed digits each, held low and slightly forward. Two legs with big three-toed bare feet. No pouches, jewelry, piercings or weapon. Sharp narrow triangle silhouette.",
+      "motion_hint": "Sneak-step / paired rake",
+      "move": "Short low sneaking steps with head held still.",
+      "attack": "A fast two-handed forward rake.",
+      "death": "Crumple onto both knees and curl down.",
+      "qa": "Two arms, two legs and four-digit hands pass; pointed ears, balanced wraps and low claw silhouette are readable. Tiny far tusk naturally occluded; no directional marking."
+    }
+  ]
+}

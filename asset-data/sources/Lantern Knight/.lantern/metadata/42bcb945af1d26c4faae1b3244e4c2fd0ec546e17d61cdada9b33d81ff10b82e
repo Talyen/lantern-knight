@@ -1,0 +1,7 @@
+Soot Pressure Burst
+
+Heavy rolling eddies detach, open and drift outward.
+
+Fast release at 110 ms. 12 new tail cels with 50–70 ms changing drawings; active effect 930 ms, followed by 500 ms empty preview pause. Distinct image-generated artwork, not scale/fade-only animation. Fixed spatial mapping for every tail cel preserves outward motion. No per-tail-frame recentering.
+
+PNG frames, APNG, atlas, exact timings, original source art and actual prompts/bindings included. Final APNG frame is fully clear; all output borders are transparent. These are experimental visual assets, not engine-integrated gameplay changes. No Drive uploads.

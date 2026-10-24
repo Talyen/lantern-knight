@@ -1,0 +1,330 @@
+{
+  "oval_hamper": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/oval_hamper_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          199,
+          282
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1086,
+          724
+        ],
+        "translation": [
+          196,
+          279
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        "translation": [
+          211,
+          279
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1629,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          224,
+          279
+        ]
+      }
+    ]
+  },
+  "ochre_chest": {
+    "action": "open",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/ochre_chest_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          550,
+          715
+        ],
+        "translation": [
+          190,
+          317
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          550,
+          0,
+          1099,
+          715
+        ],
+        "translation": [
+          158,
+          313
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1099,
+          0,
+          1649,
+          715
+        ],
+        "translation": [
+          186,
+          300
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1649,
+          0,
+          2199,
+          715
+        ],
+        "translation": [
+          187,
+          299
+        ]
+      }
+    ]
+  },
+  "clay_jar": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/clay_jar_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          540,
+          728
+        ],
+        "translation": [
+          264,
+          338
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          540,
+          0,
+          1051,
+          728
+        ],
+        "translation": [
+          310,
+          339
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1051,
+          0,
+          1573,
+          728
+        ],
+        "translation": [
+          270,
+          336
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1573,
+          0,
+          2161,
+          728
+        ],
+        "translation": [
+          228,
+          322
+        ]
+      }
+    ]
+  },
+  "supply_crate": {
+    "action": "break",
+    "frame_count": 4,
+    "native_cell": [
+      1024,
+      1024
+    ],
+    "runtime_cell": [
+      256,
+      256
+    ],
+    "pivot_native": [
+      512,
+      930
+    ],
+    "pivot_runtime": [
+      128,
+      232.5
+    ],
+    "durations_ms": [
+      100,
+      110,
+      130,
+      0
+    ],
+    "end_behavior": "permanent hold; no automatic reset",
+    "source_sheet": "native/supply_crate_authored_sheet.png",
+    "extraction": [
+      {
+        "frame": 0,
+        "source_crop": [
+          0,
+          0,
+          543,
+          724
+        ],
+        "translation": [
+          246,
+          339
+        ]
+      },
+      {
+        "frame": 1,
+        "source_crop": [
+          543,
+          0,
+          1053,
+          724
+        ],
+        "translation": [
+          272,
+          339
+        ]
+      },
+      {
+        "frame": 2,
+        "source_crop": [
+          1053,
+          0,
+          1631,
+          724
+        ],
+        "translation": [
+          178,
+          315
+        ]
+      },
+      {
+        "frame": 3,
+        "source_crop": [
+          1631,
+          0,
+          2172,
+          724
+        ],
+        "translation": [
+          272,
+          311
+        ]
+      }
+    ]
+  }
+}

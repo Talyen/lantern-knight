@@ -1,0 +1,32 @@
+STONE CRESCENT — telegraphed single-contact formation kit
+
+23 image-generated drawn cels plus one fully transparent terminal cel.
+24 separate 512 × 512 straight-RGBA PNGs; 6 × 4 atlas, 3072 × 2048.
+Source image, original generation prompt(s), and provenance are included unchanged.
+
+ENEMY: formation/windup 840 ms (cels 1–14 at 60 ms), strike 40 ms,
+contact 90 ms, recovery 350 ms (cels 17–23 at 50 ms), clear hold 350 ms.
+Total one-shot duration: 1670 ms. One contact at 880 ms (source index 15 / cel 16).
+
+HERO: formation 120 ms (cels 1, 6, 10, 14 at 30 ms), then the same
+40 ms strike, 90 ms contact, 350 ms recovery, and 350 ms clear hold.
+Total one-shot duration: 950 ms. One contact at 160 ms (source index 15 / cel 16).
+
+The enemy and hero use exactly the same drawn cels. Only timing and formation
+cel selection differ. APNGs play once and end clear. MP4s repeat 3 isolated
+native-speed cycles at 200 fps, preserving all durations on a 5 ms basis.
+MP4 labels show phase, source cel, and the active cel's time interval.
+
+Fixed virtual grid; shared source scale 1.5; shared padding [64.0, 64.0].
+Per-row/individual extraction boundaries only exclude neighboring cels.
+Crop offset compensation preserves nominal registration. No per-frame bbox
+recentering, procedural VFX, generated in-betweens, morphs, or opacity fades.
+Only the terminal cel is deliberately replaced with fully transparent pixels.
+
+See timing_manifest.json for both timelines, exact crops, atlas mapping,
+pivot, target, footprint, and the single damage-event suggestion.
+These coordinates are art-direction guides, not engine collision code.
+See qa.json and action_contact.jpg before importing into an engine.
+
+To reproduce from inside this kit directory, with Pillow, NumPy and ffmpeg:
+python assembly_script.py --config assembly_config.json --root .. --attacks stone_crescent

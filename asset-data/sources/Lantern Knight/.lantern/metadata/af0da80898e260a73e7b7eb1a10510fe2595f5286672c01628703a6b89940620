@@ -1,0 +1,287 @@
+{
+  "schema": "lantern.sprite.v1",
+  "name": "Bell Bearing Pilgrim",
+  "facing": "UL",
+  "canvas": [
+    768,
+    768
+  ],
+  "pivot_pixels_top_left": [
+    424,
+    629
+  ],
+  "estimated_pixels_per_unit": 240,
+  "padding_from_baseline": [
+    64,
+    64
+  ],
+  "registration": "Baked translation only. Do not apply again. World movement external.",
+  "mirroring": "Forbidden; separately generated directional drawings",
+  "camera": "Orthographic visual target, elevation 35.264 degrees; not calibrated 3D",
+  "clips": {
+    "move": {
+      "loop": true,
+      "tick_rate": 60,
+      "holds_ticks": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "frames": [
+        {
+          "file": "move_00.png",
+          "native_bbox": [
+            85,
+            16,
+            475,
+            505
+          ],
+          "baked_translation": [
+            164,
+            131
+          ],
+          "atlas_rect": [
+            0,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "move_01.png",
+          "native_bbox": [
+            582,
+            16,
+            973,
+            501
+          ],
+          "baked_translation": [
+            -348,
+            131
+          ],
+          "atlas_rect": [
+            768,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "move_02.png",
+          "native_bbox": [
+            1101,
+            14,
+            1489,
+            507
+          ],
+          "baked_translation": [
+            -860,
+            131
+          ],
+          "atlas_rect": [
+            1536,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "move_03.png",
+          "native_bbox": [
+            83,
+            528,
+            475,
+            1000
+          ],
+          "baked_translation": [
+            164,
+            -381
+          ],
+          "atlas_rect": [
+            0,
+            768,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "move_04.png",
+          "native_bbox": [
+            585,
+            528,
+            972,
+            1007
+          ],
+          "baked_translation": [
+            -348,
+            -381
+          ],
+          "atlas_rect": [
+            768,
+            768,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "move_05.png",
+          "native_bbox": [
+            1102,
+            527,
+            1492,
+            1016
+          ],
+          "baked_translation": [
+            -860,
+            -381
+          ],
+          "atlas_rect": [
+            1536,
+            768,
+            768,
+            768
+          ]
+        }
+      ],
+      "atlas": "move_atlas.png",
+      "visual_event": null
+    },
+    "primaryattack": {
+      "loop": false,
+      "tick_rate": 60,
+      "holds_ticks": [
+        7,
+        8,
+        10,
+        5,
+        8,
+        10
+      ],
+      "frames": [
+        {
+          "file": "primaryattack_00.png",
+          "native_bbox": [
+            90,
+            28,
+            459,
+            502
+          ],
+          "baked_translation": [
+            161,
+            132
+          ],
+          "atlas_rect": [
+            0,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "primaryattack_01.png",
+          "native_bbox": [
+            594,
+            14,
+            985,
+            498
+          ],
+          "baked_translation": [
+            -352,
+            132
+          ],
+          "atlas_rect": [
+            768,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "primaryattack_02.png",
+          "native_bbox": [
+            1092,
+            83,
+            1470,
+            482
+          ],
+          "baked_translation": [
+            -864,
+            132
+          ],
+          "atlas_rect": [
+            1536,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "primaryattack_03.png",
+          "native_bbox": [
+            67,
+            567,
+            497,
+            995
+          ],
+          "baked_translation": [
+            162,
+            -380
+          ],
+          "atlas_rect": [
+            0,
+            768,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "primaryattack_04.png",
+          "native_bbox": [
+            604,
+            546,
+            1001,
+            997
+          ],
+          "baked_translation": [
+            -352,
+            -380
+          ],
+          "atlas_rect": [
+            768,
+            768,
+            768,
+            768
+          ]
+        },
+        {
+          "file": "primaryattack_05.png",
+          "native_bbox": [
+            1113,
+            536,
+            1485,
+            1011
+          ],
+          "baked_translation": [
+            -864,
+            -380
+          ],
+          "atlas_rect": [
+            1536,
+            768,
+            768,
+            768
+          ]
+        }
+      ],
+      "atlas": "primaryattack_atlas.png",
+      "visual_event": {
+        "frame_index": 3,
+        "count": 1,
+        "meaning": "Bell toll apex; gameplay damage configured separately"
+      }
+    }
+  }
+}

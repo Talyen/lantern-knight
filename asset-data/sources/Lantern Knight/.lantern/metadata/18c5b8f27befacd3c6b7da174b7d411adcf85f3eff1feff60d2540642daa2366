@@ -1,0 +1,413 @@
+{
+  "character": "Briar Midwife",
+  "clip": "strike",
+  "canvas_px": [
+    768,
+    768
+  ],
+  "pivot_px": [
+    350,
+    660
+  ],
+  "pivot_normalized": [
+    0.4557291666666667,
+    0.859375
+  ],
+  "coordinate_system": "top-left, +x right, +y down",
+  "facing": "three-quarter screen-right",
+  "root_motion": "in-place; consumer supplies movement",
+  "loop": false,
+  "duration_ms": 1770,
+  "frames": [
+    {
+      "file": "frames/strike_000.png",
+      "duration_ms": 160,
+      "atlas_rect": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "canonical_ready",
+        "original_source": {
+          "source": "sources/strike_p1.png",
+          "source_cel": 1,
+          "source_bbox": [
+            49,
+            16,
+            499,
+            754
+          ],
+          "source_anchor": [
+            290,
+            754
+          ],
+          "source_to_runtime_scale": 0.8
+        }
+      }
+    },
+    {
+      "file": "frames/strike_001.png",
+      "duration_ms": 170,
+      "atlas_rect": [
+        768,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p1.png",
+        "source_cel": 2,
+        "source_bbox": [
+          504,
+          13,
+          1000,
+          755
+        ],
+        "source_anchor": [
+          793,
+          755
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_002.png",
+      "duration_ms": 170,
+      "atlas_rect": [
+        1536,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p1.png",
+        "source_cel": 3,
+        "source_bbox": [
+          26,
+          770,
+          502,
+          1519
+        ],
+        "source_anchor": [
+          307,
+          1519
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_003.png",
+      "duration_ms": 170,
+      "atlas_rect": [
+        2304,
+        0,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p1.png",
+        "source_cel": 4,
+        "source_bbox": [
+          527,
+          777,
+          992,
+          1520
+        ],
+        "source_anchor": [
+          830,
+          1520
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_004.png",
+      "duration_ms": 170,
+      "atlas_rect": [
+        0,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p2.png",
+        "source_cel": 1,
+        "source_bbox": [
+          54,
+          44,
+          540,
+          759
+        ],
+        "source_anchor": [
+          317,
+          759
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_005.png",
+      "duration_ms": 200,
+      "atlas_rect": [
+        768,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p2.png",
+        "source_cel": 2,
+        "source_bbox": [
+          517,
+          12,
+          980,
+          761
+        ],
+        "source_anchor": [
+          795,
+          761
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_006.png",
+      "duration_ms": 55,
+      "atlas_rect": [
+        1536,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p2.png",
+        "source_cel": 3,
+        "source_bbox": [
+          18,
+          784,
+          715,
+          1485
+        ],
+        "source_anchor": [
+          285,
+          1485
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_007.png",
+      "duration_ms": 65,
+      "atlas_rect": [
+        2304,
+        768,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p2.png",
+        "source_cel": 4,
+        "source_bbox": [
+          523,
+          790,
+          1016,
+          1482
+        ],
+        "source_anchor": [
+          817,
+          1482
+        ],
+        "source_to_runtime_scale": 0.8
+      }
+    },
+    {
+      "file": "frames/strike_008.png",
+      "duration_ms": 110,
+      "atlas_rect": [
+        0,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p3_polished.png",
+        "source_cel": 1,
+        "source_bbox": [
+          38,
+          27,
+          579,
+          715
+        ],
+        "source_anchor": [
+          318,
+          715
+        ],
+        "source_to_runtime_scale": 0.83
+      }
+    },
+    {
+      "file": "frames/strike_009.png",
+      "duration_ms": 120,
+      "atlas_rect": [
+        768,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p3_polished.png",
+        "source_cel": 2,
+        "source_bbox": [
+          572,
+          27,
+          1012,
+          703
+        ],
+        "source_anchor": [
+          810,
+          703
+        ],
+        "source_to_runtime_scale": 0.83
+      }
+    },
+    {
+      "file": "frames/strike_010.png",
+      "duration_ms": 140,
+      "atlas_rect": [
+        1536,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p3_polished.png",
+        "source_cel": 3,
+        "source_bbox": [
+          17,
+          755,
+          561,
+          1492
+        ],
+        "source_anchor": [
+          292,
+          1492
+        ],
+        "source_to_runtime_scale": 0.7842605156037992
+      }
+    },
+    {
+      "file": "frames/strike_011.png",
+      "duration_ms": 140,
+      "atlas_rect": [
+        2304,
+        1536,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "sources/strike_p3_polished.png",
+        "source_cel": 4,
+        "source_bbox": [
+          576,
+          749,
+          1022,
+          1490
+        ],
+        "source_anchor": [
+          805,
+          1490
+        ],
+        "source_to_runtime_scale": 0.7800269905533064
+      }
+    },
+    {
+      "file": "frames/strike_012.png",
+      "duration_ms": 100,
+      "atlas_rect": [
+        0,
+        2304,
+        768,
+        768
+      ],
+      "pivot_px": [
+        350,
+        660
+      ],
+      "provenance": {
+        "source": "canonical_ready"
+      }
+    }
+  ],
+  "atlas": "strike_atlas.png",
+  "source_info": "Built-in imagegen; 4 evolving drawn cels per native 1024x1536 source page; downsample only; no scale/fade-only animation; alpha kept and edge specks removed",
+  "events": [
+    {
+      "time_ms": 1040,
+      "frame_index": 6,
+      "event": "thorn_hand_hit_once",
+      "max_hits_per_target_per_play": 1,
+      "target_local_px": [
+        280,
+        0
+      ],
+      "target_area": {
+        "shape": "ellipse",
+        "radii_px": [
+          95,
+          45
+        ]
+      }
+    }
+  ],
+  "windup_ms": 1040
+}

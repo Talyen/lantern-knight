@@ -1,0 +1,22 @@
+{
+  "number": 7,
+  "scene": "Forest Gathering/Full Scene A / Variant",
+  "location": "Forest Gathering",
+  "master_id": "19cNclbyC1GVRc16fWj9zV4YC94soV7e8",
+  "master_url": "https://drive.google.com/file/d/19cNclbyC1GVRc16fWj9zV4YC94soV7e8/view?usp=drivesdk",
+  "master_filename": "forest_gathering_a_variant_ai4x_master_6144x4096.png",
+  "source_kit_id": "1qhtghMWFcIh1ib4VdXAlTkDAlIU4B2TR",
+  "source_kit_url": "https://drive.google.com/file/d/1qhtghMWFcIh1ib4VdXAlTkDAlIU4B2TR/view?usp=drivesdk",
+  "source_kit_filename": "forest_gathering_a_variant_source_provenance_kit.zip",
+  "lootables": [
+    "woven gathering hamper",
+    "low woodland supply chest"
+  ],
+  "breakables": [
+    "clay gathering pot",
+    "rough slat supply crate"
+  ],
+  "production_status": "QUEUED",
+  "approval_status": "SUPPORTED: exact ID in six retained overnight variants index",
+  "production_gate": "Inspect exact master, actual pixel crops and matched source prompt before generation. Proposed themes adjustable to references; same-family variants separately tracked."
+}

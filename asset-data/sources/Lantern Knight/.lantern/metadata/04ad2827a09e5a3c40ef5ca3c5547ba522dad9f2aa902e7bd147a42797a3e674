@@ -1,0 +1,71 @@
+{
+  "asset": "Selected Rootwood B whole scene",
+  "method": "built-in image_gen; one fresh whole-scene generation using approved Rootwood B and original hero as style references; not a sample edit or upscale",
+  "model_actual": "not exposed by tool",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "opaque": true,
+  "generated_source": "/workspace/scratch/1a83d58417d5/generated_images/exec-fe219859-b34d-4872-996d-5efd3fd06901.png",
+  "reference_images": [
+    "/workspace/shared/lantern_wilderness_samples_oct09/rootwood/B/native.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "intended_hero_height_pixels_native": 64,
+  "proposed_upscale": {
+    "factor": 4,
+    "target_dimensions": [
+      6144,
+      4096
+    ],
+    "executed": false,
+    "hero_equivalent_asset_pixels_after_4x": 256
+  },
+  "planned_display": {
+    "scale_relative_to_native": 2.5,
+    "hero_height_pixels": 160,
+    "display_scale_relative_to_4x_asset": 0.625,
+    "executed": false
+  },
+  "camera_requested": {
+    "projection": "orthographic isometric",
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "geometrically_verified": false
+  },
+  "upscaled": false,
+  "sha256": "6a21abb37ab90ca9508420f0c7ee32f69b2231d70da87e7bc8492dc351d02bec",
+  "status": "one native source candidate ready for independent review and root approval before upscaling",
+  "visual_review": {
+    "strengths": [
+      "Dark olive grove and pale exposed split wood closely retain approved B identity",
+      "Wider connected clearing and routes with interior tree/root islands",
+      "Broad quiet dry-earth space remains unobstructed between tree clusters",
+      "Ancient broadleaf silhouettes, large roots and some broken trunks make a distinct natural scene",
+      "No water, manufactured structures, human, sky, horizon or text"
+    ],
+    "caveats": [
+      "Subtle medium-scale flat tonal earth patches remain, similar to the approved sample",
+      "Exact 2.5-fold linear coverage and camera angles not measured",
+      "64px physical scale is a prompt target awaiting hero-context review",
+      "Dense root and foliage silhouettes still require later occlusion separation for gameplay"
+    ]
+  },
+  "suggested_hero_feet_native": [
+    [
+      767,
+      557
+    ],
+    [
+      400,
+      381
+    ],
+    [
+      1160,
+      811
+    ]
+  ],
+  "generation_attempts": 1
+}

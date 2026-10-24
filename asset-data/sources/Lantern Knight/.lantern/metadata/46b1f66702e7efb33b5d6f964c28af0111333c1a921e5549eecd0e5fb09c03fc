@@ -1,0 +1,1366 @@
+{
+  "version": 2,
+  "scope": "Additive four-heading run import companion: immutable DR8/UL8/DL7 records plus the new separately reviewed UR low-carry8 test. Earlier high-carry UR trials remain excluded. This is not user acceptance or engine validation.",
+  "shared_ready_reference": {
+    "pixels_per_unit": 350,
+    "native_canvas": [
+      632,
+      688
+    ],
+    "pivot_top_left": [
+      301,
+      556
+    ]
+  },
+  "one_representation_rule": "Use either padded PNGframes OR atlas slices. Both contain the same visible pixels. Padded frames already include canvas translation; atlas pivots incorporate that translation. Never apply both offsets.",
+  "one_density_rule": "Use one approximate PPU perclip at the existing actor transform scale. If PPU is used, do not additionally apply a compensating perclip transform scale. Refine only one global density/clip after actual gameplay comparison.",
+  "motion_rule": "Sprites are in place. Apply gameplay world movement once through the controller. Source stride distance is reference metadata, not extra baked root displacement. Runtime guardedwarp/stabilization should consume source anchors once; do not reapply authored padding offsets or stack another visual recentering pass.",
+  "pixel_rule": "No raster resize/upscale is needed. PPU changes world display scale only. All suggested densities leave delivered native image pixels unchanged.",
+  "clips": [
+    {
+      "heading": "DR",
+      "clip_id": "rust_run_mixamo8_gameplay_v01",
+      "manifest_source": "/workspace/scratch/1a83d58417d5/lantern_hero_core_animations_01/run_mixamo_sheet_01/runtime_candidate/manifest.json",
+      "manifest_sha256": "e6a1fc0660fcdd0a71f9687a8612d8daecd22673af248536fd2b8ddbf44907a2",
+      "unique_drawings": 8,
+      "cycle_ticks": 40,
+      "fps": 60,
+      "suggested_pixels_per_unit_APPROXIMATE": 275,
+      "density_confidence": "rough visual starting point, approximately\u00b115%; not measured engine calibration",
+      "density_method": {
+        "reference_ready_ppu": 350,
+        "ruler": "Body-only cranial silhouette width; no sword, lantern, coat-tail or overall pose bounds. Measure alpha>32 across crown+8..37pixel rows, manually exclude shoulder/prop overlaps; use one median perclip.",
+        "same_heading_ready_width_px": 100,
+        "selected_run_widths_px": [
+          80,
+          79,
+          76,
+          75,
+          79
+        ],
+        "selected_source_sheet_cells_1based": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "exclusion_note": "DR6\u20138 andDL6 excluded from cranial-width pool because neighboring shoulder/arm silhouette contaminates the narrow measurement band. DLwrongsourcecel3 excluded entirely. No per-frame scaling follows from these exclusions.",
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest5PPU.",
+        "limitations": "Drawn hair volume, head tilt and stylization make this approximate. The one density is fixed across the fullclip; do not force each bent pose to equal standingheight."
+      },
+      "padded_frame": {
+        "size": [
+          1536,
+          1024
+        ],
+        "pivot_top_left": [
+          768,
+          892
+        ],
+        "pivot_bottom_left": [
+          768,
+          132
+        ],
+        "pivot_normalized_bottom_left": [
+          0.5,
+          0.12890625
+        ]
+      },
+      "atlas": {
+        "size": [
+          1840,
+          920
+        ],
+        "slices": [
+          {
+            "frame_index": 0,
+            "atlas_rect_top_left": [
+              8,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              85
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49099099099099097,
+              0.19144144144144143
+            ],
+            "atlas_absolute_anchor_top_left": [
+              226,
+              367
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 1,
+            "atlas_rect_top_left": [
+              468,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              85
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49209932279909707,
+              0.19144144144144143
+            ],
+            "atlas_absolute_anchor_top_left": [
+              686,
+              367
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 2,
+            "atlas_rect_top_left": [
+              928,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              85
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49209932279909707,
+              0.19144144144144143
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1146,
+              367
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 3,
+            "atlas_rect_top_left": [
+              1388,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              85
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49099099099099097,
+              0.19144144144144143
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1606,
+              367
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 4,
+            "atlas_rect_top_left": [
+              8,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              84
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49099099099099097,
+              0.18961625282167044
+            ],
+            "atlas_absolute_anchor_top_left": [
+              226,
+              827
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 5,
+            "atlas_rect_top_left": [
+              468,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              84
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49209932279909707,
+              0.18961625282167044
+            ],
+            "atlas_absolute_anchor_top_left": [
+              686,
+              827
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 6,
+            "atlas_rect_top_left": [
+              928,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              84
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49209932279909707,
+              0.18961625282167044
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1146,
+              827
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          },
+          {
+            "frame_index": 7,
+            "atlas_rect_top_left": [
+              1388,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              218,
+              359
+            ],
+            "pivot_cell_bottom_left": [
+              218,
+              84
+            ],
+            "pivot_normalized_bottom_left": [
+              0.49099099099099097,
+              0.18961625282167044
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1606,
+              827
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              550,
+              533
+            ]
+          }
+        ]
+      },
+      "anchor_conversion": "Observed padded-canvas landmark minus common_canvas_translation gives atlas-slice local top-left coordinate. For a 2D sprite-local offset only: ((x-rootX)/PPU, -(y-rootY)/PPU). This does not reconstruct3D joints."
+    },
+    {
+      "heading": "UL",
+      "clip_id": "rust_run_world_negative_X_UL_mixamo8_test_v01",
+      "manifest_source": "manifest.json inside rust_run_UL_mixamo8_runtime_test_v01.zip",
+      "manifest_sha256": "2388d001000e6b595ee3bfbe61ace6d309dbebbd48ac244469d8926a1ec3dc4d",
+      "unique_drawings": 8,
+      "cycle_ticks": 40,
+      "fps": 60,
+      "suggested_pixels_per_unit_APPROXIMATE": 295,
+      "density_confidence": "rough visual starting point, approximately\u00b115%; not measured engine calibration",
+      "density_method": {
+        "reference_ready_ppu": 350,
+        "ruler": "Body-only cranial silhouette width; no sword, lantern, coat-tail or overall pose bounds. Measure alpha>32 across crown+8..37pixel rows, manually exclude shoulder/prop overlaps; use one median perclip.",
+        "same_heading_ready_width_px": 93,
+        "selected_run_widths_px": [
+          79,
+          79,
+          78,
+          77,
+          76,
+          76,
+          78,
+          79
+        ],
+        "selected_source_sheet_cells_1based": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "exclusion_note": "DR6\u20138 andDL6 excluded from cranial-width pool because neighboring shoulder/arm silhouette contaminates the narrow measurement band. DLwrongsourcecel3 excluded entirely. No per-frame scaling follows from these exclusions.",
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest5PPU.",
+        "limitations": "Drawn hair volume, head tilt and stylization make this approximate. The one density is fixed across the fullclip; do not force each bent pose to equal standingheight."
+      },
+      "padded_frame": {
+        "size": [
+          1536,
+          1024
+        ],
+        "pivot_top_left": [
+          768,
+          892
+        ],
+        "pivot_bottom_left": [
+          768,
+          132
+        ],
+        "pivot_normalized_bottom_left": [
+          0.5,
+          0.12890625
+        ]
+      },
+      "atlas": {
+        "size": [
+          1840,
+          920
+        ],
+        "slices": [
+          {
+            "frame_index": 0,
+            "atlas_rect_top_left": [
+              8,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              253,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 1,
+            "atlas_rect_top_left": [
+              468,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              713,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 2,
+            "atlas_rect_top_left": [
+              928,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1173,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 3,
+            "atlas_rect_top_left": [
+              1388,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1633,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 4,
+            "atlas_rect_top_left": [
+              8,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              253,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 5,
+            "atlas_rect_top_left": [
+              468,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              713,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 6,
+            "atlas_rect_top_left": [
+              928,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1173,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 7,
+            "atlas_rect_top_left": [
+              1388,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1633,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          }
+        ]
+      },
+      "anchor_conversion": "Observed padded-canvas landmark minus common_canvas_translation gives atlas-slice local top-left coordinate. For a 2D sprite-local offset only: ((x-rootX)/PPU, -(y-rootY)/PPU). This does not reconstruct3D joints.",
+      "qa_revision": "v02 local pixel repair; import geometry and timings unchanged"
+    },
+    {
+      "heading": "DL",
+      "clip_id": "rust_run_world_positive_Z_DL_mixamo7_test_v01",
+      "manifest_source": "manifest.json inside rust_run_DL_mixamo7_runtime_test_v01.zip",
+      "manifest_sha256": "b53631c0a4afc97a157f8ca049aeb797d1e9011814a9a0c953c3720ed23b3a7a",
+      "unique_drawings": 7,
+      "cycle_ticks": 40,
+      "fps": 60,
+      "suggested_pixels_per_unit_APPROXIMATE": 320,
+      "density_confidence": "rough visual starting point, approximately\u00b115%; not measured engine calibration",
+      "density_method": {
+        "reference_ready_ppu": 350,
+        "ruler": "Body-only cranial silhouette width; no sword, lantern, coat-tail or overall pose bounds. Measure alpha>32 across crown+8..37pixel rows, manually exclude shoulder/prop overlaps; use one median perclip.",
+        "same_heading_ready_width_px": 95,
+        "selected_run_widths_px": [
+          86,
+          86,
+          87,
+          87,
+          87,
+          87
+        ],
+        "selected_source_sheet_cells_1based": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          8
+        ],
+        "exclusion_note": "DR6\u20138 andDL6 excluded from cranial-width pool because neighboring shoulder/arm silhouette contaminates the narrow measurement band. DLwrongsourcecel3 excluded entirely. No per-frame scaling follows from these exclusions.",
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest5PPU.",
+        "limitations": "Drawn hair volume, head tilt and stylization make this approximate. The one density is fixed across the fullclip; do not force each bent pose to equal standingheight."
+      },
+      "padded_frame": {
+        "size": [
+          1536,
+          1024
+        ],
+        "pivot_top_left": [
+          768,
+          892
+        ],
+        "pivot_bottom_left": [
+          768,
+          132
+        ],
+        "pivot_normalized_bottom_left": [
+          0.5,
+          0.12890625
+        ]
+      },
+      "atlas": {
+        "size": [
+          1840,
+          920
+        ],
+        "slices": [
+          {
+            "frame_index": 0,
+            "atlas_rect_top_left": [
+              8,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              253,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 1,
+            "atlas_rect_top_left": [
+              468,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              713,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 2,
+            "atlas_rect_top_left": [
+              928,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              54
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.12162162162162163
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1173,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 3,
+            "atlas_rect_top_left": [
+              1388,
+              8,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              469,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1633,
+              398
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 4,
+            "atlas_rect_top_left": [
+              8,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              253,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 5,
+            "atlas_rect_top_left": [
+              468,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5530474040632054,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              713,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          },
+          {
+            "frame_index": 6,
+            "atlas_rect_top_left": [
+              928,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              245,
+              390
+            ],
+            "pivot_cell_bottom_left": [
+              245,
+              53
+            ],
+            "pivot_normalized_bottom_left": [
+              0.5518018018018018,
+              0.11963882618510158
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1173,
+              858
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              523,
+              502
+            ]
+          }
+        ]
+      },
+      "anchor_conversion": "Observed padded-canvas landmark minus common_canvas_translation gives atlas-slice local top-left coordinate. For a 2D sprite-local offset only: ((x-rootX)/PPU, -(y-rootY)/PPU). This does not reconstruct3D joints.",
+      "qa_revision": "v02 local pixel repair; import geometry and timings unchanged"
+    },
+    {
+      "clip_id": "rust_run_world_negative_Z_UR_lowcarry8_native_test_v01",
+      "manifest_sha256": "faefc39a1bd989bf5fb2c23c6e85151f487feea963f73f0402c1abea5353f521",
+      "suggested_pixels_per_unit_APPROXIMATE": 235,
+      "density_confidence": "Rough visual starting point, approximately \u00b115%; not measured engine calibration.",
+      "density_method": {
+        "ruler": "Body-only cranial alpha>32 row-span maximum within crown+8 through crown+37 native pixel rows; no sword, lantern or coat-tail silhouette. One median across all eight run cels.",
+        "reference_ready_ppu": 350,
+        "same_heading_ready_width_px": 94,
+        "selected_run_widths_px": [
+          63,
+          63,
+          65,
+          63,
+          63,
+          65,
+          65,
+          63
+        ],
+        "selected_source_cells_1based": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "rounding": "350 \u00d7 median(run widths) / ready width, rounded to nearest 5 PPU.",
+        "limitations": "Hair volume, tilt and stylization make this approximate; no per-frame scaling follows from these measurements."
+      },
+      "padded_frame": {
+        "size": [
+          1536,
+          1024
+        ],
+        "pivot_top_left": [
+          768,
+          892
+        ],
+        "pivot_bottom_left": [
+          768,
+          132
+        ],
+        "pivot_normalized_bottom_left": [
+          0.5,
+          0.12890625
+        ]
+      },
+      "atlas": {
+        "size": [
+          1840,
+          920
+        ],
+        "slices": [
+          {
+            "frame_index": 0,
+            "atlas_rect_top_left": [
+              8,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              64
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4954954954954955,
+              0.14414414414414414
+            ],
+            "atlas_absolute_anchor_top_left": [
+              228,
+              388
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 1,
+            "atlas_rect_top_left": [
+              468,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              64
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4966139954853273,
+              0.14414414414414414
+            ],
+            "atlas_absolute_anchor_top_left": [
+              688,
+              388
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 2,
+            "atlas_rect_top_left": [
+              928,
+              8,
+              443,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              468,
+              443,
+              444
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              64
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4966139954853273,
+              0.14414414414414414
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1148,
+              388
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 3,
+            "atlas_rect_top_left": [
+              1388,
+              8,
+              444,
+              444
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              468,
+              444,
+              444
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              64
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4954954954954955,
+              0.14414414414414414
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1608,
+              388
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 4,
+            "atlas_rect_top_left": [
+              8,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              8,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              63
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4954954954954955,
+              0.14221218961625282
+            ],
+            "atlas_absolute_anchor_top_left": [
+              228,
+              848
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 5,
+            "atlas_rect_top_left": [
+              468,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              468,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              63
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4966139954853273,
+              0.14221218961625282
+            ],
+            "atlas_absolute_anchor_top_left": [
+              688,
+              848
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 6,
+            "atlas_rect_top_left": [
+              928,
+              468,
+              443,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              928,
+              9,
+              443,
+              443
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              63
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4966139954853273,
+              0.14221218961625282
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1148,
+              848
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          },
+          {
+            "frame_index": 7,
+            "atlas_rect_top_left": [
+              1388,
+              468,
+              444,
+              443
+            ],
+            "atlas_rect_bottom_left": [
+              1388,
+              9,
+              444,
+              443
+            ],
+            "pivot_cell_top_left": [
+              220,
+              380
+            ],
+            "pivot_cell_bottom_left": [
+              220,
+              63
+            ],
+            "pivot_normalized_bottom_left": [
+              0.4954954954954955,
+              0.14221218961625282
+            ],
+            "atlas_absolute_anchor_top_left": [
+              1608,
+              848
+            ],
+            "padded_canvas_translation_ALREADY_BAKED": [
+              548,
+              512
+            ]
+          }
+        ]
+      },
+      "root_confidence": "Exact storage/pivot arithmetic; approximate visual ground registration only. Refine one clip-wide pivot after game comparison if needed.",
+      "anchor_conversion": "Padded-canvas position minus [548,512] gives slice-local top-left position. A sprite-local 2D offset is ((x-rootX)/PPU,-(y-rootY)/PPU), not a recovered 3D joint.",
+      "heading": "UR",
+      "manifest_source": "run_UR_lowcarry_trial_01/delivery/rust_run_UR_lowcarry8_native_runtime_test_v01.zip!/manifest.json",
+      "unique_drawings": 8,
+      "cycle_ticks": 40,
+      "fps": 60,
+      "observed_art_anchors": null
+    }
+  ],
+  "previous_companion_sha256": "3319f855fddef6f1cce7bae2fb3b43057f5dee975e7b8abeab65c72839772b2f",
+  "new_UR_producer_companion": "import_companion_UR_lowcarry.json",
+  "null_anchor_rule": "UR observed art anchors are null. Do not replace null anchors with construction-guide joints, assume planted feet or enable anchor-driven correction from unsupported points."
+}

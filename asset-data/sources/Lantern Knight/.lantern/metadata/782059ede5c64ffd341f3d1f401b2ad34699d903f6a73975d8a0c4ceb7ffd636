@@ -1,0 +1,478 @@
+{
+  "schema": "lantern.illustrated_cutout_candidates/1",
+  "pack_id": "mine_01",
+  "title": "Lantern Mine & Worksite - Illustrated Cutout Candidates",
+  "asset_count": 8,
+  "asset_status": "illustrated_static_cutout_candidate",
+  "camera": {
+    "requested_projection": "orthographic",
+    "requested_elevation_degrees": 35.264,
+    "requested_azimuth_degrees": 45,
+    "achieved_view": "approximate_illustrated_three_quarter",
+    "mathematically_calibrated": false,
+    "runtime_validated": false
+  },
+  "coordinate_system": {
+    "image_origin": "top_left",
+    "normalized_coordinates": "x / image_width, y / image_height",
+    "alpha_bounds": "[left, top, right_exclusive, bottom_exclusive] pixels",
+    "pivot": "manually reviewed visual estimate of ground anchor; not runtime registration",
+    "footprint": "manually reviewed visual estimate in normalized image coordinates; not world collision"
+  },
+  "provenance": {
+    "method": "fresh built-in imagegen generation per asset; no image-edit cascade",
+    "style_reference": "user-selected original C / RUST used as a rendering-style reference only; hero not regenerated",
+    "asset_pixels": "unaltered generated RGBA PNGs",
+    "copyright": "Original generated candidates; no external asset or franchise content intentionally reproduced"
+  },
+  "limitations": [
+    "No canonical 3D or editable layered source is included.",
+    "Camera angles, common scale, source density and world units have not been calibrated.",
+    "No animation, collision, depth masks, separate shadow layer, mip-safe atlas padding or engine import has been validated.",
+    "Generated alpha is predominantly near-opaque 252-254 in interiors, not exactly 255; preserve and test blending or alpha-test policy.",
+    "Worksite structures and equipment are static images without engineering, traversal, cart gauge, rail connections, moving mechanisms or separable tool layers. The supplied rails are a simple curved section, not a junction.",
+    "RGB in transparent pixels may contain color bleed; inspect actual compositing rather than alpha-ignoring previews."
+  ],
+  "assets": [
+    {
+      "id": "mine_empty_ore_cart_01",
+      "name": "Empty iron ore cart",
+      "file": "assets/mine_empty_ore_cart_01.png",
+      "prompt_file": "provenance/mine_empty_ore_cart_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1319323,
+      "sha256": "75dd44fe69d81d5cb8d90d8d25401ed2ffd0150e1b567d76e398b60c8084b367",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        105,
+        42,
+        1522,
+        998
+      ],
+      "alpha_at_least_16_bounds_px": [
+        269,
+        45,
+        1324,
+        940
+      ],
+      "fully_transparent_pixel_fraction": 0.62694,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.53,
+        0.81
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.23,
+          0.72
+        ],
+        [
+          0.52,
+          0.54
+        ],
+        [
+          0.83,
+          0.71
+        ],
+        [
+          0.54,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Static cart only, no rolling or matched gauge with supplied rails, no cargo or working coupler.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_timber_support_arch_01",
+      "name": "Timber mine support",
+      "file": "assets/mine_timber_support_arch_01.png",
+      "prompt_file": "provenance/mine_timber_support_arch_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 562089,
+      "sha256": "64b1a5ecc97f337f3ac10b1f5d383da3d9734ba10b4e5c24153be6c7b92e77c5",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        34,
+        1282,
+        1163
+      ],
+      "alpha_at_least_16_bounds_px": [
+        187,
+        37,
+        1168,
+        1161
+      ],
+      "fully_transparent_pixel_fraction": 0.700293,
+      "fully_opaque_pixel_fraction": 0.000485,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.83
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.16,
+          0.9
+        ],
+        [
+          0.75,
+          0.63
+        ],
+        [
+          0.89,
+          0.73
+        ],
+        [
+          0.27,
+          0.97
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Open support frame; overall visual envelope is not filled collision, and no tunnel wall or roof is supplied.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_curved_rail_section_01",
+      "name": "Simple curved rail section",
+      "file": "assets/mine_curved_rail_section_01.png",
+      "prompt_file": "provenance/mine_curved_rail_section_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1164938,
+      "sha256": "d436303ea2c928ebdf12551da4d08406976397f8d0692d029b9b28ff1cc0f057",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        35,
+        1462,
+        1024
+      ],
+      "alpha_at_least_16_bounds_px": [
+        275,
+        153,
+        1324,
+        877
+      ],
+      "fully_transparent_pixel_fraction": 0.80719,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 51,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.58
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.18,
+          0.72
+        ],
+        [
+          0.66,
+          0.18
+        ],
+        [
+          0.88,
+          0.36
+        ],
+        [
+          0.41,
+          0.86
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Two continuous curved rails. A failed junction attempt was excluded; this is not a turnout, snapping module or gauge-calibrated track.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_ore_seam_rock_01",
+      "name": "Copper-seam rock",
+      "file": "assets/mine_ore_seam_rock_01.png",
+      "prompt_file": "provenance/mine_ore_seam_rock_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1145550,
+      "sha256": "ef552da7aa9f66ac6d1dd055c58c2e830535c2a7a50300d986a10e7c16cb9a20",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        32,
+        1436,
+        984
+      ],
+      "alpha_at_least_16_bounds_px": [
+        304,
+        120,
+        1268,
+        922
+      ],
+      "fully_transparent_pixel_fraction": 0.668378,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.2,
+          0.65
+        ],
+        [
+          0.47,
+          0.45
+        ],
+        [
+          0.84,
+          0.68
+        ],
+        [
+          0.58,
+          0.9
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "New ore-bearing form within the broader rock family; painted stylized seam, no geological accuracy or mining behavior.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_wooden_wheelbarrow_01",
+      "name": "Empty wooden wheelbarrow",
+      "file": "assets/mine_wooden_wheelbarrow_01.png",
+      "prompt_file": "provenance/mine_wooden_wheelbarrow_01.prompt.txt",
+      "dimensions_px": [
+        1536,
+        1024
+      ],
+      "file_bytes": 1288950,
+      "sha256": "3bae2642e09706a118a287ecf8924ec7585becfe0e3f3c2309ff327ab0c3c453",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        65,
+        37,
+        1500,
+        992
+      ],
+      "alpha_at_least_16_bounds_px": [
+        253,
+        58,
+        1413,
+        953
+      ],
+      "fully_transparent_pixel_fraction": 0.720115,
+      "fully_opaque_pixel_fraction": 0.0,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.49,
+        0.8
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.16,
+          0.76
+        ],
+        [
+          0.47,
+          0.56
+        ],
+        [
+          0.75,
+          0.72
+        ],
+        [
+          0.3,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 152,
+      "qa_notes": "Parked single-wheel barrow, no movement/lifting state or calibrated physics; handles overhang the support footprint.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_tool_rack_01",
+      "name": "Three-tool rack",
+      "file": "assets/mine_tool_rack_01.png",
+      "prompt_file": "provenance/mine_tool_rack_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 609864,
+      "sha256": "197da13f8a213d19527d3e4bd3b85a1b5b284ea7395ccba739a61b7f32b415a0",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        81,
+        21,
+        1258,
+        1169
+      ],
+      "alpha_at_least_16_bounds_px": [
+        208,
+        119,
+        1166,
+        1097
+      ],
+      "fully_transparent_pixel_fraction": 0.748722,
+      "fully_opaque_pixel_fraction": 0.000549,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.51,
+        0.81
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.15,
+          0.69
+        ],
+        [
+          0.32,
+          0.57
+        ],
+        [
+          0.87,
+          0.83
+        ],
+        [
+          0.71,
+          0.94
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Pick, shovel and hammer are painted into one rack cutout, not separate tool pickups or animation layers.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_scaffold_bay_02",
+      "name": "Simple scaffold bay",
+      "file": "assets/mine_scaffold_bay_02.png",
+      "prompt_file": "provenance/mine_scaffold_bay_02.prompt.txt",
+      "dimensions_px": [
+        1451,
+        1084
+      ],
+      "file_bytes": 517727,
+      "sha256": "a87abc734b45d86e36640a951fba2f64377b9277323a9b3a21539da2ce23cd28",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        57,
+        17,
+        1332,
+        995
+      ],
+      "alpha_at_least_16_bounds_px": [
+        339,
+        52,
+        1125,
+        976
+      ],
+      "fully_transparent_pixel_fraction": 0.800544,
+      "fully_opaque_pixel_fraction": 0.000772,
+      "boundary_nonzero_alpha_pixel_count": 0,
+      "maximum_boundary_alpha": 0,
+      "pivot_normalized": [
+        0.52,
+        0.74
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.23,
+          0.67
+        ],
+        [
+          0.48,
+          0.43
+        ],
+        [
+          0.78,
+          0.7
+        ],
+        [
+          0.53,
+          0.91
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 160,
+      "qa_notes": "Platform, handrail, posts and knee supports are one static card; no climbable surface, collision or load engineering.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    },
+    {
+      "id": "mine_hoist_frame_01",
+      "name": "Hanging-hook hoist frame",
+      "file": "assets/mine_hoist_frame_01.png",
+      "prompt_file": "provenance/mine_hoist_frame_01.prompt.txt",
+      "dimensions_px": [
+        1312,
+        1199
+      ],
+      "file_bytes": 691934,
+      "sha256": "25064535cdcd6e929ca26f433a961ad47a6700958be90529e4421617eb660083",
+      "mode": "RGBA",
+      "alpha_bounds_px": [
+        0,
+        20,
+        1258,
+        1165
+      ],
+      "alpha_at_least_16_bounds_px": [
+        153,
+        52,
+        1163,
+        1160
+      ],
+      "fully_transparent_pixel_fraction": 0.71314,
+      "fully_opaque_pixel_fraction": 0.000568,
+      "boundary_nonzero_alpha_pixel_count": 17,
+      "maximum_boundary_alpha": 1,
+      "pivot_normalized": [
+        0.51,
+        0.8
+      ],
+      "footprint_polygon_normalized": [
+        [
+          0.11,
+          0.7
+        ],
+        [
+          0.38,
+          0.56
+        ],
+        [
+          0.89,
+          0.81
+        ],
+        [
+          0.61,
+          0.96
+        ]
+      ],
+      "metadata_status": "illustrative_manual_estimates",
+      "gameplay_preview_canvas_height_px": 200,
+      "qa_notes": "Hook, block, chain and frame are one static visual assembly; no pulley simulation, moving chain or load behavior.",
+      "view_accuracy": "approximate; not a camera-validated bake"
+    }
+  ]
+}

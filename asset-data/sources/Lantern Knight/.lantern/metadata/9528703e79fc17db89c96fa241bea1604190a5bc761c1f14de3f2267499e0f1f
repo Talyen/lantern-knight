@@ -1,0 +1,9 @@
+{
+  "tool": "built-in image_gen",
+  "model": "not exposed; no model claim",
+  "original_sha256": "00eade5a81c357c5b6c0dba793b1b2e35b08978f45e3498f96024f4a12c73ed5",
+  "generation_sha256": "76f793564db14a268c72d719604ab0966f15d41290a6ca239b7b1002c5c951ed",
+  "rebuild": "Python 3, Pillow, NumPy, SciPy; ffmpeg for MP4. Run python rebuild.py.",
+  "generation_reference": "source/original.png only",
+  "processing": "component masks, integer translations, canonical stationary-region compositing for raven; no upscale, no generative editing of draft"
+}

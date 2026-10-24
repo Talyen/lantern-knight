@@ -1,0 +1,44 @@
+{
+  "name": "meadow",
+  "selected_attempt": "fresh_retry_2",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "native_mode": "RGB",
+  "generation": "built-in image_gen; new artwork using visual references",
+  "upscaled": false,
+  "requested_model": "gpt-image-2.5 sunburst / gpt-image-2.5-sunburst",
+  "actual_model_verified": false,
+  "camera_requested": {
+    "elevation_degrees": 35.264,
+    "azimuth_degrees": 45,
+    "engine_projection_validated": false
+  },
+  "selected_prompt": "meadow_retry_prompt_exact.txt",
+  "references": [
+    "/workspace/shared/lantern_floor_reference_v04/candidate1_native_hero_composite.png",
+    "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png"
+  ],
+  "hero_context": {
+    "source": "/workspace/shared/lantern_floor_tests_oct08/references/ready_world_positive_X_DR_native.png",
+    "source_sha256": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4",
+    "alpha_threshold_for_crop": 30,
+    "crop_bbox": [
+      214,
+      41,
+      463,
+      629
+    ],
+    "sprite_dimensions": [
+      68,
+      160
+    ],
+    "visible_height_px": 160,
+    "center_x": 870,
+    "bottom_y": 495,
+    "contact_shadow": "small non-generative ellipse, Gaussian blur 3px",
+    "hero_regenerated": false
+  },
+  "notes": "Selection sample, not approved production art. Better-scaled and quieter than initial attempt, but residual mottling and some larger turf/pavers remain."
+}

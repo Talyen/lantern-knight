@@ -1,0 +1,30 @@
+LANTERN / CT01 WAXMASK ACOLYTE / CREATIVE ANIMATION EXPERIMENTS
+
+WHAT IS HERE
+- Glide: 6 drawings, magical trailing wax-robe motion, 48 ticks / 0.8 seconds.
+- Ritual attack: 8 drawings, dagger-to-seal bow, ivory wax eruption and recovery, 72 ticks / 1.2 seconds.
+- 14 transparent PNG frames, two PNG atlases, native-size 60 Hz MP4 previews, APNG hold previews, charcoal and ivory contact boards, exact prompts and untouched native generations.
+
+These are expressive animation experiments for motion selection. They are NOT production-calibrated or engine-tested sprites. Camera target is orthographic elevation 35.2643897 degrees, azimuth 45 degrees, actor world +X / screen-down-right. The generated upper-body view remains more portrait-like than the camera guide; exact projection and stable anatomical root registration are not certified. Production camera cleanup is deferred rather than hidden by per-frame fitting. Source proportions also differ slightly between the two fresh sheets.
+
+IMPORT
+Every runtime frame is 768 x 704 pixels, with a shared authoring pivot at pixel (416,584) from top-left. Normalized top-left pivot = (0.541666667,0.829545455); Unity-style bottom-left pivot = (0.541666667,0.170454545). The pivot is a documented authoring anchor, not a measured skeletal/ground registration. No pixels were resized, warped, recolored or mirrored. Native source cells were copied at integer pixel positions and padded onto one common canvas. Only alpha cleanup was performed: alpha <=16 to0, alpha >=250 to255, intermediate edge coverage retained. Character RGB stays unchanged.
+
+Glide source was 1536 x 1024, sampled on a fixed 512 x512 grid, with constant placement offset (96,96).
+Attack source was 1774 x887. A uniform444 x444 grid starting at (0,-6) separates its two rows through the clear gutter; the far two columns of padding and top six pixels are transparent. Constant placement offset is (240,148). No per-cel bbox fitting or separate alignment. All14 crop edges are clear after alpha cleanup.
+
+TIMING / ROOT
+MP4 previews are authoritative60 Hz, 768x704, no interpolation, four loops of held drawings.
+Glide hold ticks: 10,8,6,6,8,10. Supply travel in the engine; the robe tail is secondary motion, not a displacement track.
+Attack hold ticks: 12,12,7,5,3,8,10,15. Seal contact begins tick31; sharp release begins tick36 and lasts3 ticks. Recovery begins tick47. Preview repeats for review; runtime should play attack once then transition to the next state.
+APNG is an auxiliary transparent preview using millisecond-rounded hold durations; use the manifest tick schedule for exact timing.
+Effects are baked into the ritual frames; no independent effect pivot, collider, projectile simulation or damage area is claimed. Ivory eruption points upward/right from a forward ground seal and is a spell shape, not a second held weapon.
+
+VISUAL QA
+Every cel inspected on full ordered boards, light/dark backgrounds and native hand/face detail crops. One dagger remains in the same paired grip, with two arms and two hands, throughout. Hood/mask/ivory cuffs/oxblood and charcoal design remain recognizable. Robe deformation is intentional; no detached ghost bodies or unowned weapons. Attack cels3-4 deliberately bow and foreshorten the hood, face, arms and torso. Cel3 has a small lighter neckline detail that is absent in ready cels; minor design drift remains. Glide06-to01 and attack08-to01 have small pose/position changes visible at loop seams. See notes/qa.json and manifest.json.
+
+GENERATION / PROVENANCE
+Built-in image_gen only. Three fresh native generations total: initial glide, one fresh glide retry, and ritual attack. Every generation used only the original character reference plus the deterministic camera guide, never a generated animation sheet as a reference. No generative editing cascade. The glide retry is selected; original glide is preserved for source comparison. Both chosen sheets retain native resolution, even where the generator returned dimensions different from the prompt.
+All prompts include the user-requested wording Sunburst 2.5. The built-in tool does not expose or verify actual backend model selection; no model-selection claim is made.
+
+No repository edits, external artists, computer-local work, uploads or sharing were performed in this asset task.

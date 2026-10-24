@@ -1,0 +1,91 @@
+{
+  "scene": "keepers_glade_home",
+  "native_dimensions": [
+    1536,
+    1024
+  ],
+  "AI4x_dimensions": [
+    6144,
+    4096
+  ],
+  "AI2x_dimensions": [
+    3072,
+    2048
+  ],
+  "display_dimensions": [
+    3840,
+    2560
+  ],
+  "AI_model": "official Real-ESRGAN x4plus-anime6B NCNN CPU",
+  "method": "4x AI inference with contextual computation tiles; 2x and display derived by Lanczos reduction from AI4x. No native image is described as AI master resolution.",
+  "hero_visible_height": 160,
+  "hero_native_equivalent_height": 64,
+  "hero_bbox": [
+    214,
+    41,
+    463,
+    629
+  ],
+  "hero_native_anchors": [
+    [
+      395,
+      405
+    ],
+    [
+      985,
+      495
+    ],
+    [
+      820,
+      755
+    ]
+  ],
+  "hero_context_method": "Unchanged canonical hero resampled to160px, alpha composite and small shadow, native-size1536x1024 crop from intended3840x2560 display.",
+  "exact_style_sha256": "59b1ff9814670bf8f7747d132ef48dc8b5c3b946ea668966fe4ce94da5bbbbf4",
+  "exact_style_present_in_actual_prompt": true,
+  "reference_images": [
+    "/workspace/scratch/1a83d58417d5/corrected_locked_style_fullmaps_oct09/final_v2/references/canonical_hero.png"
+  ],
+  "native_sha256": "cbff8812a142971422ce12397e7bd58e75b3bbf701741edfb5524a6846fa1be0",
+  "AI4x_sha256": "f40db7e3461906fb3e8ef125dc7e50a3187193f26f1e590848dc8c2edd17a5a5",
+  "seam_metrics": [
+    {
+      "name": "junction_1",
+      "junction_source_xy": [
+        480,
+        320
+      ],
+      "check_source_box": [
+        432,
+        272,
+        528,
+        368
+      ],
+      "mean_abs_rgb_difference": 0.020781340422453703,
+      "max_abs_rgb_difference": 2.0,
+      "pct_pixels_over_2": 0.0
+    },
+    {
+      "name": "junction_2",
+      "junction_source_xy": [
+        960,
+        640
+      ],
+      "check_source_box": [
+        912,
+        592,
+        1008,
+        688
+      ],
+      "mean_abs_rgb_difference": 0.01689543547453704,
+      "max_abs_rgb_difference": 3.0,
+      "pct_pixels_over_2": 0.002034505208333333
+    }
+  ],
+  "visual_QA": "Three 160px hero-context crops visually inspected after AI at intended 3840x2560 display size. Open-ground placements, coherent routes, no implausible furniture, no obvious AI geometry distortion. Ordinary structural texture persists.",
+  "caveats": [
+    "Ordinary structural texture and selected foliage detail persist; not perfectly flat.",
+    "No engine, collision, navigation or occlusion implementation/validation.",
+    "Requested image-model wording preserved; generator does not expose a model selector."
+  ]
+}

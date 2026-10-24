@@ -1,0 +1,428 @@
+{
+  "parts": [
+    {
+      "id": "astrolabe_base",
+      "source": "layers/astrolabe_base.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        6,
+        6,
+        601,
+        590
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        300.5,
+        295.0
+      ]
+    },
+    {
+      "id": "astrolabe_middle",
+      "source": "layers/astrolabe_middle.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        619,
+        6,
+        684,
+        498
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        342.0,
+        249.0
+      ]
+    },
+    {
+      "id": "astrolabe_outer",
+      "source": "layers/astrolabe_outer.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        1315,
+        6,
+        561,
+        694
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        280.5,
+        347.0
+      ]
+    },
+    {
+      "id": "astrolabe_shaft",
+      "source": "layers/astrolabe_shaft.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        1888,
+        6,
+        125,
+        694
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        62.5,
+        347.0
+      ]
+    },
+    {
+      "id": "bell_v03_body",
+      "source": "layers/bell_v03_body.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        6,
+        712,
+        700,
+        800
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        350.0,
+        400.0
+      ],
+      "pivot_px": [
+        325,
+        30
+      ],
+      "pivot_role": "registered top bearing anchor in unscaled cropped master"
+    },
+    {
+      "id": "bell_v03_clapper",
+      "source": "layers/bell_v03_clapper.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        718,
+        712,
+        196,
+        462
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        98.0,
+        231.0
+      ]
+    },
+    {
+      "id": "bell_v03_wall_corbel",
+      "source": "layers/bell_v03_wall_corbel.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        926,
+        712,
+        775,
+        860
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        387.5,
+        430.0
+      ]
+    },
+    {
+      "id": "bubble_chamber_bubble",
+      "source": "layers/bubble_chamber_bubble.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        1713,
+        712,
+        314,
+        309
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        157.0,
+        154.5
+      ]
+    },
+    {
+      "id": "bubble_chamber_lid",
+      "source": "layers/bubble_chamber_lid.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        6,
+        1584,
+        517,
+        390
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        258.5,
+        195.0
+      ]
+    },
+    {
+      "id": "bubble_chamber_meniscus",
+      "source": "layers/bubble_chamber_meniscus.png",
+      "atlas": "part_atlases/00.png",
+      "rect": [
+        535,
+        1584,
+        579,
+        208
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        289.5,
+        104.0
+      ]
+    },
+    {
+      "id": "bubble_chamber_vessel",
+      "source": "layers/bubble_chamber_vessel.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        6,
+        6,
+        545,
+        910
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        272.5,
+        455.0
+      ]
+    },
+    {
+      "id": "exposed_gear_pair_back",
+      "source": "layers/exposed_gear_pair_back.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        563,
+        6,
+        639,
+        660
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        319.5,
+        330.0
+      ]
+    },
+    {
+      "id": "exposed_gear_pair_cap",
+      "source": "layers/exposed_gear_pair_cap.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        1214,
+        6,
+        240,
+        246
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        120.0,
+        123.0
+      ]
+    },
+    {
+      "id": "exposed_gear_pair_large",
+      "source": "layers/exposed_gear_pair_large.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        6,
+        928,
+        673,
+        669
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        336.5,
+        334.5
+      ]
+    },
+    {
+      "id": "exposed_gear_pair_small",
+      "source": "layers/exposed_gear_pair_small.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        691,
+        928,
+        505,
+        503
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        252.5,
+        251.5
+      ]
+    },
+    {
+      "id": "pulley_chain_sway_block",
+      "source": "layers/pulley_chain_sway_block.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        1208,
+        928,
+        385,
+        730
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        192.5,
+        365.0
+      ],
+      "pivot_px": [
+        183,
+        19
+      ],
+      "pivot_role": "top moving clevis anchor"
+    },
+    {
+      "id": "pulley_chain_sway_link_edge",
+      "source": "layers/pulley_chain_sway_link_edge.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        1605,
+        928,
+        87,
+        364
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        43.5,
+        182.0
+      ]
+    },
+    {
+      "id": "pulley_chain_sway_link_front",
+      "source": "layers/pulley_chain_sway_link_front.png",
+      "atlas": "part_atlases/01.png",
+      "rect": [
+        1704,
+        928,
+        197,
+        357
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        98.5,
+        178.5
+      ]
+    },
+    {
+      "id": "pulley_chain_sway_mount",
+      "source": "layers/pulley_chain_sway_mount.png",
+      "atlas": "part_atlases/02.png",
+      "rect": [
+        6,
+        6,
+        737,
+        743
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        368.5,
+        371.5
+      ]
+    },
+    {
+      "id": "pulley_chain_sway_wheel",
+      "source": "layers/pulley_chain_sway_wheel.png",
+      "atlas": "part_atlases/02.png",
+      "rect": [
+        755,
+        6,
+        298,
+        395
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        149.0,
+        197.5
+      ],
+      "pivot_px": [
+        79,
+        204
+      ],
+      "pivot_role": "visible axle centre in grooved wheel master"
+    },
+    {
+      "id": "waterwheel_paddle",
+      "source": "layers/waterwheel_paddle.png",
+      "atlas": "part_atlases/02.png",
+      "rect": [
+        1065,
+        6,
+        236,
+        602
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        118.0,
+        301.0
+      ]
+    },
+    {
+      "id": "waterwheel_rim",
+      "source": "layers/waterwheel_rim.png",
+      "atlas": "part_atlases/02.png",
+      "rect": [
+        6,
+        761,
+        812,
+        801
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        406.0,
+        400.5
+      ]
+    },
+    {
+      "id": "waterwheel_spoke",
+      "source": "layers/waterwheel_spoke.png",
+      "atlas": "part_atlases/02.png",
+      "rect": [
+        830,
+        761,
+        153,
+        752
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        76.5,
+        376.0
+      ],
+      "used_source_region": [
+        0,
+        0,
+        153,
+        642
+      ],
+      "pivot_px": [
+        76.5,
+        642
+      ],
+      "note": "Repeated spoke artwork excludes its individual collar; a single fixed illustrated axle cap supplies the common hub."
+    },
+    {
+      "id": "waterwheel_support",
+      "source": "layers/waterwheel_support.png",
+      "atlas": "part_atlases/02.png",
+      "rect": [
+        995,
+        761,
+        580,
+        680
+      ],
+      "full_original_alpha_preserved": true,
+      "default_centre_pivot_px": [
+        290.0,
+        340.0
+      ]
+    }
+  ],
+  "pages": [
+    "00.png",
+    "01.png",
+    "02.png"
+  ],
+  "atlas_padding": {
+    "total": 6,
+    "extrusion": 2,
+    "clear_gutter": 4
+  },
+  "assembly_registration": "source/build_scenic_illustrated.py holds exact affine planes, image-space anchors and shared world pivots. Default centre pivots are descriptive; use explicitly registered assembly pivots for animation.",
+  "alpha": "straight",
+  "mipmaps": "disable or generate per sprite",
+  "source_originals": "masters/; part isolation is a component mask/crop preserving source RGBA values"
+}

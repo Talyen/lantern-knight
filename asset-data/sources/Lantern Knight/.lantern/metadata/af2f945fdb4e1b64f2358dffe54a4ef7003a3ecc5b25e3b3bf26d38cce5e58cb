@@ -1,0 +1,72 @@
+{
+  "scene_number": 5,
+  "scene": "Dry Quarry",
+  "prop": "a tied canvas sack",
+  "frame_count": 6,
+  "frame_ms": [
+    100,
+    120,
+    140,
+    160,
+    200,
+    200
+  ],
+  "loop": false,
+  "on_complete": "hold final frame indefinitely",
+  "native_canvas": [
+    640,
+    640
+  ],
+  "native_anchor": [
+    320,
+    560
+  ],
+  "runtime_scale": 0.16161616161616163,
+  "runtime_anchor": [
+    52,
+    91
+  ],
+  "placement_on_1536_scene": [
+    865,
+    760
+  ],
+  "source_boxes": [
+    [
+      136,
+      97,
+      433,
+      447
+    ],
+    [
+      113,
+      101,
+      411,
+      448
+    ],
+    [
+      93,
+      114,
+      393,
+      449
+    ],
+    [
+      138,
+      92,
+      444,
+      446
+    ],
+    [
+      107,
+      89,
+      423,
+      447
+    ],
+    [
+      106,
+      117,
+      421,
+      448
+    ]
+  ],
+  "source_master_url": "https://drive.google.com/file/d/1tuNwcO-XR25eNL8ROSGfCCYJIa-RbbKo/view?usp=drivesdk"
+}

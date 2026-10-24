@@ -1,0 +1,80 @@
+{
+  "source_sha256": "9234801702870bbfe07fd7bcd59b62fa55983a3dc566e73bcecb5f2096e2197e",
+  "operation": "Narrow external blade-sliver alpha removal only; all RGB bytes unchanged, alpha outside masks identical.",
+  "polygons_sheet_xy": [
+    [
+      [
+        323,
+        658
+      ],
+      [
+        361,
+        681
+      ],
+      [
+        361,
+        690
+      ],
+      [
+        315,
+        668
+      ],
+      [
+        319,
+        664
+      ]
+    ],
+    [
+      [
+        780,
+        644
+      ],
+      [
+        835,
+        676
+      ],
+      [
+        835,
+        689
+      ],
+      [
+        786,
+        659
+      ],
+      [
+        786,
+        655
+      ],
+      [
+        781,
+        651
+      ]
+    ],
+    [
+      [
+        1668,
+        627
+      ],
+      [
+        1713,
+        646
+      ],
+      [
+        1714,
+        654
+      ],
+      [
+        1664,
+        639
+      ],
+      [
+        1662,
+        637
+      ]
+    ]
+  ],
+  "alpha_changed_pixels": 1288,
+  "rgb_changes": 0,
+  "outside_mask_changes": 0,
+  "hidden_chain_limit": "Far wrist and sword fully occluded, so hidden attachment is not independently verified."
+}

@@ -1,0 +1,102 @@
+{
+  "effect": "09_searching_sweep",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "source_native_sheet_px": [
+    1254,
+    1254
+  ],
+  "source_native_cel_px": [
+    313.5,
+    313.5
+  ],
+  "genuine_source_cels": 16,
+  "export_frames": 16,
+  "playback": "forward_one_shot_hold_last",
+  "loop": false,
+  "frame_duration_ms": 100,
+  "duration_ms": 1600,
+  "pivot_px": [
+    256,
+    410
+  ],
+  "alpha": "straight RGBA",
+  "atlas": {
+    "file": "atlas.png",
+    "columns": 4,
+    "rows": 4,
+    "cell_px": [
+      512,
+      512
+    ]
+  },
+  "frames": [
+    {
+      "file": "frames/000.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/001.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/002.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/003.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/004.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/005.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/006.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/007.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/008.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/009.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/010.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/011.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/012.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/013.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/014.png",
+      "duration_ms": 100
+    },
+    {
+      "file": "frames/015.png",
+      "duration_ms": 100
+    }
+  ],
+  "notes": "Source cels are native generated artwork, preserved separately. 512px export is a padded canvas, not a claim of 512px native cel detail. Forward-only playback; no reversed smoke, falling leaves, embers or guiding-wisp motion."
+}

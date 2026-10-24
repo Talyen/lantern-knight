@@ -1,0 +1,151 @@
+{
+  "schema": "lantern-knight.sprite-clip.v1",
+  "enemy_id": "G6",
+  "enemy_name": "Ribcage Harpist",
+  "clip": "idle",
+  "canvas_px": [
+    1024,
+    1024
+  ],
+  "pivot_top_left_px": [
+    512,
+    912
+  ],
+  "pivot_unity_normalized": [
+    0.5,
+    0.109375
+  ],
+  "facing": "left",
+  "body_height_reference_px": 800,
+  "scale_per_source_pixel": 1.2678288431061806,
+  "atlas": "Ribcage_Harpist_idle_atlas.png",
+  "atlas_grid": [
+    4,
+    1
+  ],
+  "frame_count": 4,
+  "duration_ms": 800,
+  "loop": true,
+  "hold_last": false,
+  "interpolation": "stepped unique drawn cels; no crossfade",
+  "root_motion": "none",
+  "events": [],
+  "frames": [
+    {
+      "index": 0,
+      "file": "idle_000.png",
+      "duration_ms": 180,
+      "start_ms": 0,
+      "phase": "rest",
+      "source_bbox_px": [
+        149,
+        8,
+        519,
+        642
+      ],
+      "source_anchor_px": [
+        318.0,
+        642
+      ],
+      "bounds_px": [
+        297,
+        109,
+        767,
+        912
+      ],
+      "atlas_rect_px": [
+        0,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 1,
+      "file": "idle_001.png",
+      "duration_ms": 200,
+      "start_ms": 180,
+      "phase": "inhale",
+      "source_bbox_px": [
+        761,
+        10,
+        1119,
+        640
+      ],
+      "source_anchor_px": [
+        919.0,
+        640
+      ],
+      "bounds_px": [
+        311,
+        113,
+        766,
+        912
+      ],
+      "atlas_rect_px": [
+        1024,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 2,
+      "file": "idle_002.png",
+      "duration_ms": 220,
+      "start_ms": 380,
+      "phase": "settle",
+      "source_bbox_px": [
+        142,
+        650,
+        522,
+        1271
+      ],
+      "source_anchor_px": [
+        321.0,
+        1271
+      ],
+      "bounds_px": [
+        285,
+        124,
+        766,
+        912
+      ],
+      "atlas_rect_px": [
+        2048,
+        0,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 3,
+      "file": "idle_003.png",
+      "duration_ms": 200,
+      "start_ms": 600,
+      "phase": "return",
+      "source_bbox_px": [
+        773,
+        647,
+        1142,
+        1273
+      ],
+      "source_anchor_px": [
+        940.0,
+        1273
+      ],
+      "bounds_px": [
+        301,
+        118,
+        769,
+        912
+      ],
+      "atlas_rect_px": [
+        3072,
+        0,
+        1024,
+        1024
+      ]
+    }
+  ]
+}

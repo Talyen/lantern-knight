@@ -1,0 +1,1 @@
+Six-cel idle loop. Merge clips.idle into existing actor animation metadata; preserve other clips. Registration baked into PNG frames. No engine test performed.

@@ -1,0 +1,12 @@
+{
+  "source": {
+    "file": "bellbound_monk_source.zip",
+    "drive_url": "https://drive.google.com/file/d/1I8fElFYFgUzN8JhAoKDeJJ6y4jnYC4db/view",
+    "sha256": "33b8760e2b30dd6af7a43dbbeca5a68878bd7d176dbd222e14c9158159e694e3"
+  },
+  "runtime": {
+    "file": "bellbound_monk_runtime.zip",
+    "drive_url": "https://drive.google.com/file/d/1UvilQ768g0-uqPJTm3FYBVC1nRGbekAc/view",
+    "sha256": "27013d2dc2a0e72a1a98195e92448f124aa4bcaddd75de8037206d4e28108ab3"
+  }
+}

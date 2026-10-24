@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "model_claim": "Sunburst 2.5 was prompt phrase, not verified backend model selection",
+  "canonical_original_sha256": "d30bbab55a01a11e0a35d884f7036023daee19bfb8dcb2e12173c27e66cc0a3f",
+  "native_sha256": {
+    "move_native.png": "5f775fa334d0e5fca1c21840059bbd57a2068c959ece387c9390608a1a36ce6c",
+    "attack_native.png": "2452191c6c31cd1e958d125011c1eb6e3fd89d45a58af4abeadf0870ce324115"
+  },
+  "deterministic_processing": "Alpha-connected-component selection, fringe threshold, integer registration, transparent padding; no upscaling, no generative edit of draft."
+}

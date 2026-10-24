@@ -1,0 +1,175 @@
+{
+  "name": "Censer keeper",
+  "identity_id": "lantern_hostile_faction_concept_04_censer_keeper",
+  "reference_sha256": "6665d22253e78bdb1acc1300ee58cfafae6dabb9f11a8bf8199f97b71ad19a05",
+  "baseline_dependency": "censer_keeper_runtime.zip, frozen DR move/attack baseline",
+  "approved_DR_rest_sha256": "27d2b3cbfe751c1f72f277adc79f549c3f9f30f5c26e2d72d1defefb8050e5bd",
+  "canvas": [
+    832,
+    832
+  ],
+  "pivot_pixels": [
+    426,
+    740
+  ],
+  "pivot_convention": "top-left origin; x right and y down",
+  "estimated_pixels_per_unit": 280,
+  "camera": {
+    "target_elevation_degrees": 35.2643897,
+    "target_azimuth_degrees": 45,
+    "calibration": "drawn target; not calibrated 3D"
+  },
+  "facing": "DR lower right only",
+  "mirroring": "not permitted for asymmetric equipment",
+  "root_motion": "in place; actor world transform separate; registration baked into PNG, no runtime offsets",
+  "clips": {
+    "hit": {
+      "cels": [
+        "hit_00.png",
+        "hit_01.png",
+        "hit_02.png",
+        "hit_03.png",
+        "hit_04.png",
+        "hit_05.png"
+      ],
+      "holds_60hz": [
+        3,
+        6,
+        5,
+        5,
+        5,
+        10
+      ],
+      "loop": false,
+      "one_shot": true,
+      "drawn_cel_count": 5,
+      "rest_reuse_cel": 5,
+      "atlas": "hit_atlas.png",
+      "atlas_gutter_pixels": 4,
+      "atlas_rects_pixels": [
+        {
+          "cel_index": 0,
+          "x": 4,
+          "y": 4,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 1,
+          "x": 844,
+          "y": 4,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 2,
+          "x": 1684,
+          "y": 4,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 3,
+          "x": 4,
+          "y": 844,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 4,
+          "x": 844,
+          "y": 844,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 5,
+          "x": 1684,
+          "y": 844,
+          "width": 832,
+          "height": 832
+        }
+      ],
+      "end_behavior": "hold baseline rest until engine transitions",
+      "visual_event": {
+        "cel_index": 5,
+        "name": "hit_recovery_complete",
+        "meaning": "visual reference only; engine owns health and cleanup"
+      }
+    },
+    "defeat": {
+      "cels": [
+        "defeat_00.png",
+        "defeat_01.png",
+        "defeat_02.png",
+        "defeat_03.png",
+        "defeat_04.png",
+        "defeat_05.png"
+      ],
+      "holds_60hz": [
+        6,
+        7,
+        8,
+        8,
+        10,
+        30
+      ],
+      "loop": false,
+      "one_shot": true,
+      "drawn_cel_count": 6,
+      "rest_reuse_cel": null,
+      "atlas": "defeat_atlas.png",
+      "atlas_gutter_pixels": 4,
+      "atlas_rects_pixels": [
+        {
+          "cel_index": 0,
+          "x": 4,
+          "y": 4,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 1,
+          "x": 844,
+          "y": 4,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 2,
+          "x": 1684,
+          "y": 4,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 3,
+          "x": 4,
+          "y": 844,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 4,
+          "x": 844,
+          "y": 844,
+          "width": 832,
+          "height": 832
+        },
+        {
+          "cel_index": 5,
+          "x": 1684,
+          "y": 844,
+          "width": 832,
+          "height": 832
+        }
+      ],
+      "end_behavior": "hold final defeated body indefinitely until explicit cleanup",
+      "visual_event": {
+        "cel_index": 5,
+        "name": "defeat_complete",
+        "meaning": "visual reference only; engine owns health and cleanup"
+      }
+    }
+  }
+}

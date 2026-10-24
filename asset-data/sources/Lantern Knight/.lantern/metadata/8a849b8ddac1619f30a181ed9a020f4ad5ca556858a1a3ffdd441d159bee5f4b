@@ -1,0 +1,122 @@
+[
+  {
+    "pack": "occult",
+    "id": "cold_shard_burst",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "cursed_chain_strike",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "ink_shadow_burst",
+    "atlas_frames": 36,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "lightning_fork",
+    "atlas_frames": 30,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "pale_ghost_flame",
+    "atlas_frames": 48,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "poison_mist_puff",
+    "atlas_frames": 48,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "ritual_circle_activation",
+    "atlas_frames": 48,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "soul_leech_ribbon",
+    "atlas_frames": 48,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "spectral_bolt_flight",
+    "atlas_frames": 36,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "spectral_bolt_impact",
+    "atlas_frames": 30,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "spectral_bolt_launch",
+    "atlas_frames": 30,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "summoning_vortex",
+    "atlas_frames": 60,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "thorn_eruption",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "occult",
+    "id": "ward_break",
+    "atlas_frames": 36,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "materials",
+    "id": "cloth_tear_scraps",
+    "atlas_frames": 48,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "materials",
+    "id": "glass_chips",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "materials",
+    "id": "metal_dent_sparks",
+    "atlas_frames": 36,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "materials",
+    "id": "pottery_shards",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "materials",
+    "id": "stone_crumble",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  },
+  {
+    "pack": "materials",
+    "id": "wood_splinter_burst",
+    "atlas_frames": 42,
+    "all_atlas_cells_match_original_rgba": true
+  }
+]

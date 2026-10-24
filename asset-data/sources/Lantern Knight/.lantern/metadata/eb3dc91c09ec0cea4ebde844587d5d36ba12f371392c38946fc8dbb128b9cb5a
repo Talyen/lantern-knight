@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "nominalEnvelope": {
+    "radiusMetres": 2.1,
+    "halfAngleDegrees": 28,
+    "localEmitter": [
+      0,
+      0.86,
+      0.05
+    ]
+  },
+  "camera": "Exact world-space yaw before orthographic35.264389682754654 elevation/45 azimuth; no rendered-sprite rotation.",
+  "authority": "Illustrative visual envelope only; no gameplay area, damage or actor socket authority.",
+  "records": [
+    {
+      "id": "layered_flame_tongues__d000",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.000000000000004,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d045",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 28.00000000000001,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d090",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.000000000000004,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d135",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 28.00000000000001,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d180",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.000000000000004,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d225",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 28.000000000000007,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d270",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.000000000000004,
+      "passed": true
+    },
+    {
+      "id": "layered_flame_tongues__d315",
+      "checkedProjectedVertices": 20292,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.00000000000001,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d000",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.0,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d045",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.000000000000007,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d090",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.0,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d135",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.000000000000007,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d180",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.0,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d225",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.0,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d270",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.0,
+      "passed": true
+    },
+    {
+      "id": "fractured_amber_panes__d315",
+      "checkedProjectedVertices": 1088,
+      "maxRadiusMetres": 2.1,
+      "maxHalfAngleDegrees": 28.0,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d000",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.653779264214048,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d045",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.65377926421405,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d090",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.653779264214048,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d135",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.65377926421405,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d180",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.653779264214048,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d225",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.100000000000001,
+      "maxHalfAngleDegrees": 22.653779264214048,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d270",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.653779264214048,
+      "passed": true
+    },
+    {
+      "id": "curling_ember_ribbons__d315",
+      "checkedProjectedVertices": 10632,
+      "maxRadiusMetres": 2.1000000000000005,
+      "maxHalfAngleDegrees": 22.65377926421405,
+      "passed": true
+    }
+  ]
+}

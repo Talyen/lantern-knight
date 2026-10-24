@@ -1,0 +1,44 @@
+[
+  {
+    "scene": "observatory_B",
+    "native_sha256": "6d8a8433b11b7cbf3b9109cd28623a3d8704cb5bedc17ff4cb8a0dd9b9d675df",
+    "upscaled": false,
+    "style_reference": "canonical_hero.png",
+    "environment_reference_used": false
+  },
+  {
+    "scene": "observatory_C",
+    "native_sha256": "9213cb7127a69b058a3469f0c2d5c9c57c682597ef96498e801f6d57406e0cbf",
+    "upscaled": false,
+    "style_reference": "canonical_hero.png",
+    "environment_reference_used": false
+  },
+  {
+    "scene": "chapel_C",
+    "native_sha256": "a5ac9b21744b4f8fb28f2c93dc337791dd070e33ccb97b97250576b596a48cd7",
+    "upscaled": false,
+    "style_reference": "canonical_hero.png",
+    "environment_reference_used": false
+  },
+  {
+    "scene": "cloister_B",
+    "native_sha256": "e9ab9edcd2217ebafc902b6c7565a3c8f5ae651c4419745419318cd00aec404c",
+    "upscaled": false,
+    "style_reference": "canonical_hero.png",
+    "environment_reference_used": false
+  },
+  {
+    "scene": "crypt",
+    "native_sha256": "df14522721cf0e625d4faeedd5a11cdbcb221a6ce2cb22fe3fddb9cc177f514f",
+    "upscaled": false,
+    "style_reference": "canonical_hero.png",
+    "environment_reference_used": false
+  },
+  {
+    "scene": "keepers_glade_A",
+    "native_sha256": "e0c91dacc80093dcddf2e255121f1ab6907053b62fa825e6451c0272e24055e2",
+    "upscaled": false,
+    "style_reference": "canonical_hero.png",
+    "environment_reference_used": false
+  }
+]

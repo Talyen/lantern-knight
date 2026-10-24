@@ -1,0 +1,512 @@
+{
+  "title": "OIL WHIP",
+  "experimental_feedback_test": true,
+  "canvas": [
+    512,
+    512
+  ],
+  "atlas_grid": [
+    4,
+    4
+  ],
+  "frame_count": 16,
+  "unique_drawn_cels": 15,
+  "fully_clear_terminal_cels": 1,
+  "cycle_ms": 1070,
+  "formation_ms": 200,
+  "load_ms": 80,
+  "strike_ms": 50,
+  "single_contact_ms": 90,
+  "recovery_ms": 310,
+  "clear_pause_ms": 340,
+  "loop": false,
+  "preview_cycles": 3,
+  "source_scale": 1.2,
+  "source_padding": [
+    56,
+    56
+  ],
+  "registration": "Fixed virtual 313.5px source grid; no per-frame silhouette recentering.",
+  "pivot_pixels": [
+    181,
+    368
+  ],
+  "target_pixels": [
+    328,
+    337
+  ],
+  "intended_attack_footprint_pixels": [
+    [
+      168,
+      355
+    ],
+    [
+      328,
+      315
+    ],
+    [
+      356,
+      346
+    ],
+    [
+      172,
+      381
+    ]
+  ],
+  "target_note": "Art-direction placement guide, not engine collision implementation. One target lane/endpoint. Debris is cosmetic recovery.",
+  "damage_events": [
+    {
+      "frame": 7,
+      "time_ms": 330,
+      "target_pixels": [
+        328,
+        337
+      ]
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/00.png",
+      "phase": "SPARSE",
+      "duration_ms": 50,
+      "source_crop": [
+        0,
+        0,
+        340,
+        350
+      ],
+      "source_grid_origin": [
+        0.0,
+        0.0
+      ],
+      "paste_xy": [
+        56,
+        56
+      ],
+      "alpha_bbox": [
+        189,
+        269,
+        380,
+        410
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 1,
+      "file": "frames/01.png",
+      "phase": "GATHER",
+      "duration_ms": 50,
+      "source_crop": [
+        340,
+        0,
+        650,
+        350
+      ],
+      "source_grid_origin": [
+        313.5,
+        0.0
+      ],
+      "paste_xy": [
+        88,
+        56
+      ],
+      "alpha_bbox": [
+        153,
+        267,
+        361,
+        420
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 2,
+      "file": "frames/02.png",
+      "phase": "FORM",
+      "duration_ms": 50,
+      "source_crop": [
+        650,
+        0,
+        970,
+        350
+      ],
+      "source_grid_origin": [
+        627.0,
+        0.0
+      ],
+      "paste_xy": [
+        84,
+        56
+      ],
+      "alpha_bbox": [
+        125,
+        276,
+        346,
+        424
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 3,
+      "file": "frames/03.png",
+      "phase": "TELEGRAPH",
+      "duration_ms": 50,
+      "source_crop": [
+        970,
+        0,
+        1254,
+        350
+      ],
+      "source_grid_origin": [
+        940.5,
+        0.0
+      ],
+      "paste_xy": [
+        91,
+        56
+      ],
+      "alpha_bbox": [
+        145,
+        242,
+        371,
+        421
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 4,
+      "file": "frames/04.png",
+      "phase": "LOAD",
+      "duration_ms": 80,
+      "source_crop": [
+        0,
+        350,
+        360,
+        680
+      ],
+      "source_grid_origin": [
+        0.0,
+        313.5
+      ],
+      "paste_xy": [
+        56,
+        100
+      ],
+      "alpha_bbox": [
+        190,
+        265,
+        398,
+        409
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 5,
+      "file": "frames/05.png",
+      "phase": "COMMIT",
+      "duration_ms": 25,
+      "source_crop": [
+        360,
+        350,
+        670,
+        680
+      ],
+      "source_grid_origin": [
+        313.5,
+        313.5
+      ],
+      "paste_xy": [
+        112,
+        100
+      ],
+      "alpha_bbox": [
+        173,
+        269,
+        436,
+        410
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 6,
+      "file": "frames/06.png",
+      "phase": "STRIKE",
+      "duration_ms": 25,
+      "source_crop": [
+        670,
+        350,
+        980,
+        680
+      ],
+      "source_grid_origin": [
+        627.0,
+        313.5
+      ],
+      "paste_xy": [
+        108,
+        100
+      ],
+      "alpha_bbox": [
+        141,
+        298,
+        455,
+        398
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 7,
+      "file": "frames/07.png",
+      "phase": "CONTACT",
+      "duration_ms": 90,
+      "source_crop": [
+        980,
+        350,
+        1254,
+        680
+      ],
+      "source_grid_origin": [
+        940.5,
+        313.5
+      ],
+      "paste_xy": [
+        103,
+        100
+      ],
+      "alpha_bbox": [
+        125,
+        228,
+        379,
+        444
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": true
+    },
+    {
+      "index": 8,
+      "file": "frames/08.png",
+      "phase": "RECOIL",
+      "duration_ms": 40,
+      "source_crop": [
+        0,
+        680,
+        370,
+        960
+      ],
+      "source_grid_origin": [
+        0.0,
+        627.0
+      ],
+      "paste_xy": [
+        56,
+        120
+      ],
+      "alpha_bbox": [
+        154,
+        210,
+        469,
+        390
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 9,
+      "file": "frames/09.png",
+      "phase": "BREAKUP",
+      "duration_ms": 50,
+      "source_crop": [
+        370,
+        680,
+        650,
+        960
+      ],
+      "source_grid_origin": [
+        313.5,
+        627.0
+      ],
+      "paste_xy": [
+        124,
+        120
+      ],
+      "alpha_bbox": [
+        158,
+        230,
+        406,
+        375
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 10,
+      "file": "frames/10.png",
+      "phase": "SCATTER",
+      "duration_ms": 50,
+      "source_crop": [
+        650,
+        680,
+        965,
+        960
+      ],
+      "source_grid_origin": [
+        627.0,
+        627.0
+      ],
+      "paste_xy": [
+        84,
+        120
+      ],
+      "alpha_bbox": [
+        131,
+        234,
+        422,
+        375
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 11,
+      "file": "frames/11.png",
+      "phase": "DISSIPATE",
+      "duration_ms": 50,
+      "source_crop": [
+        965,
+        680,
+        1254,
+        960
+      ],
+      "source_grid_origin": [
+        940.5,
+        627.0
+      ],
+      "paste_xy": [
+        85,
+        120
+      ],
+      "alpha_bbox": [
+        159,
+        224,
+        388,
+        379
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 12,
+      "file": "frames/12.png",
+      "phase": "REMNANTS",
+      "duration_ms": 50,
+      "source_crop": [
+        0,
+        960,
+        340,
+        1254
+      ],
+      "source_grid_origin": [
+        0.0,
+        940.5
+      ],
+      "paste_xy": [
+        56,
+        79
+      ],
+      "alpha_bbox": [
+        171,
+        212,
+        384,
+        328
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 13,
+      "file": "frames/13.png",
+      "phase": "LAST FLECKS",
+      "duration_ms": 40,
+      "source_crop": [
+        340,
+        960,
+        650,
+        1254
+      ],
+      "source_grid_origin": [
+        313.5,
+        940.5
+      ],
+      "paste_xy": [
+        88,
+        79
+      ],
+      "alpha_bbox": [
+        185,
+        232,
+        347,
+        309
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 14,
+      "file": "frames/14.png",
+      "phase": "CLEARING",
+      "duration_ms": 30,
+      "source_crop": [
+        650,
+        960,
+        970,
+        1254
+      ],
+      "source_grid_origin": [
+        627.0,
+        940.5
+      ],
+      "paste_xy": [
+        84,
+        79
+      ],
+      "alpha_bbox": [
+        240,
+        260,
+        254,
+        274
+      ],
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    },
+    {
+      "index": 15,
+      "file": "frames/15.png",
+      "phase": "CLEAR",
+      "duration_ms": 340,
+      "source_crop": [
+        970,
+        960,
+        1254,
+        1254
+      ],
+      "source_grid_origin": [
+        940.5,
+        940.5
+      ],
+      "paste_xy": [
+        91,
+        79
+      ],
+      "alpha_bbox": null,
+      "source_boundary_alpha_pixels": 0,
+      "damage_event": false
+    }
+  ]
+}

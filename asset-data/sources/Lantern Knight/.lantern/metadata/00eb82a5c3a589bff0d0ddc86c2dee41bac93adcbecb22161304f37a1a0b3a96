@@ -1,0 +1,34 @@
+[
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_dry_mineral_basin_01.png",
+    "new": "volume_07_cave/assets/cave_dry_mineral_basin_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_fossil_rib_arc_01.png",
+    "new": "volume_07_cave/assets/cave_fossil_rib_arc_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_fungal_fans_01.png",
+    "new": "volume_07_cave/assets/cave_fungal_fans_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_hanging_roots_02.png",
+    "new": "volume_07_cave/assets/cave_hanging_roots_02.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_hollow_tube_colony_01.png",
+    "new": "volume_07_cave/assets/cave_hollow_tube_colony_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_limestone_stalagmite_01.png",
+    "new": "volume_07_cave/assets/cave_limestone_stalagmite_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_silk_cocoon_nest_01.png",
+    "new": "volume_07_cave/assets/cave_silk_cocoon_nest_01.png"
+  },
+  {
+    "old": "lantern_environment_candidates/volume_07_cave/assets/cave_smoky_crystal_01.png",
+    "new": "volume_07_cave/assets/cave_smoky_crystal_01.png"
+  }
+]

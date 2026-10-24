@@ -1,0 +1,12 @@
+LANTERN / Wall_Dressing / REVISION02
+
+Eight wall-face images rebuilt in clean cel-shaded ink.
+Raw FRONT-FACING illustrations: apply to vertical wall plane. Do not pre-project or billboard.
+4m square source canvas;1024x1024 RGBA straight alpha;sRGB.
+Bottom-centre canvas anchor remains(512,1024). Refer manifest for exact per-asset paint bounds.
+These are illustrated wall faces: black recesses are painted colour, not apertures, depth, collision or emission.
+
+Contents: png/faces runtime packaged images;source/masters untouched generated originals;source/prompts;proofs;manifest;hashes.
+Original artwork preserved outside this package. This pack supersedes all8 images in06_wall_dressing v1.
+No grain overlays or image edit cascades. Style reference was the approved clean-ink gothic door.
+No engine integration, mipmap bleeding test, colour-management certification or live lighting test has been performed.

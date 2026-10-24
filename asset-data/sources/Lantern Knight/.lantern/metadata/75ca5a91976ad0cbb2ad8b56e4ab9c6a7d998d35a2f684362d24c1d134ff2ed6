@@ -1,0 +1,3 @@
+Lantern screen-UP run, native test
+8 drawings x5 ticks =40ticks at60Hz. Use frames/run_00..07 in order. Canvas768x768, fixed pivot top-left(384,640), Unity normalized bottom-left(0.5,0.1666667), approximate240PPU for whole clip. Do not separately scale/fix each cel. Native pixel extraction only; no upscale/morph/mirror. In-place controller motion once. Phase flags describe guide joints, not proven drawn contact. Fixed art pivot/density are manual estimates, no engine validation.
+Source is a fresh built-in imagegen4x2 sheet referencing canonical hero+exactUguide+existingURstyle. No model identity claim. See manifest for limitations and source companion for rebuild/provenance.

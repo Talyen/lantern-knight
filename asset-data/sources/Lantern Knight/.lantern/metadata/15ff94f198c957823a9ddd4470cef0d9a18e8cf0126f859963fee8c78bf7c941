@@ -1,0 +1,23 @@
+{
+  "woodland/A/exact_prompt.txt": "334a259505faed877007e54dbecb163ceac755c217d164fd4d8d5e2bf6bb7766",
+  "woodland/A/hero160_context.png": "e506cf46424b89217fff5ded4ec6486fce1cc7f43f49827dea8f1e5fce0ab934",
+  "woodland/A/hero_context_metadata.json": "a57fd9e7a6ccb05865627b5943df2ca3d8cc3c158613ad46a422c4e45a38b69d",
+  "woodland/A/metadata.json": "46ca2730f606e4cbc9b4c96045c05f2d5090fcd2dfe3224d911f8baa9cde2965",
+  "woodland/A/native.png": "ed10acfbf9597cb3d63b04fb347184ef50009b4d33da7122580452781f0e7d69",
+  "woodland/ABC_hero_comparison.png": "d54f66c489e3d338ee0bd7ab940b4451794bfcc9f5ab8b0426e216e2e6a03e2b",
+  "woodland/B/exact_prompt.txt": "3485c46683b561ad0a012a335e3a29f70b477b9ab4ff86f79536db0d43e0e328",
+  "woodland/B/hero160_context.png": "5fd6345981413b67831c55ccba4821700899db9525be88c33b9d93fa0a70fdb9",
+  "woodland/B/hero_context_metadata.json": "f6fae13d70ed7ffb9dece97039c17b4fe3fb3a1da6744c1c009f0d7578da55da",
+  "woodland/B/metadata.json": "a0ef848fdc74bd38770fba87b8fe818b7e8b5c32d91514b2e230badf3da16644",
+  "woodland/B/native.png": "21393dfefca57b5b59736ba234037461193eefe8d7df74570bd20a5bf7b00291",
+  "woodland/C/exact_prompt.txt": "9d8f011014a596dd11b5dc5f102e5de5fd17cdc6c6de028c0cc1c6e1c39fc566",
+  "woodland/C/hero160_context.png": "02c9015c8e42bb9b8ba488550d04d4ea1ae7432d2d63a9ce3f7a942c3bbb52ca",
+  "woodland/C/hero_context_metadata.json": "f4efc6f8ca63e569d93ad3a8a2c861a3ef3de81a8b8016eb0b025f1c259c2a86",
+  "woodland/C/metadata.json": "c8b61ad836dacb42ef27fa9110d21a1a43a43aa891514bfeecfbc5eb53357def",
+  "woodland/C/native.png": "220ca06d5bd00f7ab31d300f568953f64711c2e927343da778720716f2a2ab05",
+  "woodland/hero_placements.json": "e960c302bd359a793bcb100b3327498c3ff86e35337db08415ee7e710455d841",
+  "woodland/review_summary.json": "929ead864da162b2c5b64c3f5769abdbb204ea319778562ddc7e217404f0ddf4",
+  "review/build_contexts.py": "53cd87cb3919934beaa65512ad1eabf8657da68a1270d3eee32f69137838f45d",
+  "review/package_theme.py": "93bdb6ed0d5d7f0917f05414bf8317836ed609e59d4b1930ef0c9e74bfe7a31d",
+  "review/references/ready_world_positive_X_DR_native.png": "8d7712ca63d979830fd929c2b83cbd5f19e2087e87a4e0be919f89f44c9872a4"
+}

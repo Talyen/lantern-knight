@@ -1,0 +1,2 @@
+Movement: creeping shuffle cycle in place, with leading foot held forward. Attack: low outward right-hand dagger slash; left-hand closed book remains hugged to torso. Six distinct drawn cels per clip. Registration and alpha correction baked; no skeleton rig.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

@@ -1,0 +1,2 @@
+Authored DL front-left. Near anatomicalLEFT arm UPPERgrip, farRIGHT arm LOWERgrip. FrontRIGHT creamshoulderbadge occluded, not mirrored onto nearleft shoulder. Same832canvas/pivot426,740,260estimatedPPU vsDR280 preservesworldheight natively. DR untouched.
+Native hand-drawn generated cels, no upscaling or per-frame bounding-box normalization. Fixed square canvas and pivot. Target angle is an art-direction target, not calibrated geometry. Engine tests and real-time playback not performed. Attack event only visual reference. One facing; do not mirror.

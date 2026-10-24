@@ -1,0 +1,9 @@
+{
+  "generation": "Built-in imagegen, two fresh sheets, one generation per character, no iterative generative edits. Tool does not certify backend model.",
+  "references": {
+    "monk": "https://drive.google.com/file/d/1UvilQ768g0-uqPJTm3FYBVC1nRGbekAc/view",
+    "crawler": "https://drive.google.com/file/d/1XWQQ60hUm5HWovxBTbAaU_6Rp055bKYd/view",
+    "canonical_favorites": "https://drive.google.com/file/d/1IVOGsJvSSfDYIPMfGWM9lfWlvoSSxs9V/view"
+  },
+  "inventory": "Monk current ZIP contains locomotion and cast only. Crawler current ZIP contains cocoon_scoot and predatory_pounce only. No hit/stagger in either."
+}

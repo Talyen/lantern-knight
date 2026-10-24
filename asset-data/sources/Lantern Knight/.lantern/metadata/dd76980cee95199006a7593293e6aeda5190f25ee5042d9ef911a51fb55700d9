@@ -1,0 +1,232 @@
+{
+  "clip": "get_hit",
+  "frame_count": 12,
+  "canvas": [
+    768,
+    640
+  ],
+  "pivot_px": [
+    384,
+    550
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5,
+    0.140625
+  ],
+  "loop": false,
+  "durations_ms": [
+    50,
+    50,
+    50,
+    60,
+    60,
+    60,
+    60,
+    60,
+    60,
+    70,
+    70,
+    100
+  ],
+  "total_ms": 750,
+  "atlas": "atlases/get_hit_atlas.png",
+  "atlas_grid": [
+    4,
+    3
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/get_hit/get_hit_00.png",
+      "rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    },
+    {
+      "index": 1,
+      "file": "frames/get_hit/get_hit_01.png",
+      "rect": [
+        768,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        14,
+        152,
+        616,
+        550
+      ]
+    },
+    {
+      "index": 2,
+      "file": "frames/get_hit/get_hit_02.png",
+      "rect": [
+        1536,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        14,
+        148,
+        650,
+        550
+      ]
+    },
+    {
+      "index": 3,
+      "file": "frames/get_hit/get_hit_03.png",
+      "rect": [
+        2304,
+        0,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        14,
+        172,
+        623,
+        550
+      ]
+    },
+    {
+      "index": 4,
+      "file": "frames/get_hit/get_hit_04.png",
+      "rect": [
+        0,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        26,
+        187,
+        604,
+        550
+      ]
+    },
+    {
+      "index": 5,
+      "file": "frames/get_hit/get_hit_05.png",
+      "rect": [
+        768,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        42,
+        205,
+        605,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "file": "frames/get_hit/get_hit_06.png",
+      "rect": [
+        1536,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        25,
+        199,
+        603,
+        550
+      ]
+    },
+    {
+      "index": 7,
+      "file": "frames/get_hit/get_hit_07.png",
+      "rect": [
+        2304,
+        640,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        59,
+        204,
+        599,
+        550
+      ]
+    },
+    {
+      "index": 8,
+      "file": "frames/get_hit/get_hit_08.png",
+      "rect": [
+        0,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        44,
+        191,
+        599,
+        550
+      ]
+    },
+    {
+      "index": 9,
+      "file": "frames/get_hit/get_hit_09.png",
+      "rect": [
+        768,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        45,
+        195,
+        600,
+        550
+      ]
+    },
+    {
+      "index": 10,
+      "file": "frames/get_hit/get_hit_10.png",
+      "rect": [
+        1536,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        42,
+        189,
+        603,
+        550
+      ]
+    },
+    {
+      "index": 11,
+      "file": "frames/get_hit/get_hit_11.png",
+      "rect": [
+        2304,
+        1280,
+        768,
+        640
+      ],
+      "alpha_bbox": [
+        84,
+        236,
+        607,
+        550
+      ]
+    }
+  ],
+  "events": []
+}

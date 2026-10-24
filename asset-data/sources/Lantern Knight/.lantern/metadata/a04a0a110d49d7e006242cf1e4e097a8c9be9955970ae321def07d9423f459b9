@@ -1,0 +1,4493 @@
+{
+  "category": "materials",
+  "items": [
+    {
+      "id": "bone_stack",
+      "label": "Bone Stack",
+      "category": "materials",
+      "reference_extent_cm": 28,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/bone_stack/bone_stack__full_native.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "27d61913923461ca265b3792f95fa965e12a43aedd3aab3b09c3a876c1a8f9ee"
+        },
+        "inventory512": {
+          "path": "materials/bone_stack/bone_stack__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "920eafe82444dd0e5c32a088a83b108f20aa5b13030608d105d62b928ba76243",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            228,
+            241,
+            284,
+            270
+          ],
+          "visible_extent": 56
+        },
+        "thumb256": {
+          "path": "materials/bone_stack/bone_stack__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "330d0d9596e3253e91466de470e9b1833323a3d7234b7ef76c89596625e77e69",
+          "visible_bbox": [
+            113,
+            118,
+            143,
+            136
+          ],
+          "visible_extent": 30
+        },
+        "detail512": {
+          "path": "materials/bone_stack/bone_stack__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fcefed73c32e117f4b08b1d36cfe498ee8e1c0226ada5a12406743a2a2cf1866",
+          "visible_bbox": [
+            32,
+            140,
+            480,
+            372
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/bone_stack/bone_stack__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "edc92cd7d09a78d4f1b27c627d7e9b81fd8c52afb9f12578de796567111694b5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            35,
+            120,
+            93
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/bone_stack/bone_stack__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "17ae857b2a4a9775deb8c920a1f287098033736bff73e0aed605e4853cc92d63",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            17,
+            60,
+            46
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/bone_stack/bone_stack__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "93a2048ee3b6fa17f4ae48da324d3657b1abaf2d2430b63bb1aff370f6c5ebbd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/bone_stack/bone_stack__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d16173f643c269f2a6f75d9bec86df724838ddab7b11fad578e62d06626d9b3d",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            205,
+            395,
+            307,
+            450
+          ],
+          "visible_extent": 102
+        },
+        "ground_scaled_512": {
+          "path": "materials/bone_stack/bone_stack__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e842c5c921651b061dd3ed7ee3285f9ab0753b4d03eb73bf04662e2fee158205",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            235,
+            426,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "cloth_bolt",
+      "label": "Cloth Bolt",
+      "category": "materials",
+      "reference_extent_cm": 55,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/cloth_bolt/cloth_bolt__full_native.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "48b621911d35613301c0bad40c0be3684e60f62cf1514cb71f8b005d45a9cd21"
+        },
+        "inventory512": {
+          "path": "materials/cloth_bolt/cloth_bolt__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "40ac8ebce7343390aaa07aed07d9980783037d06f3b5ea0be2c824aa5768b110",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            232,
+            311,
+            280
+          ],
+          "visible_extent": 110
+        },
+        "thumb256": {
+          "path": "materials/cloth_bolt/cloth_bolt__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "b0e5a31dc2ba35683b1730564deb81141bd011853f0067082c353606a9605d17",
+          "visible_bbox": [
+            98,
+            114,
+            156,
+            142
+          ],
+          "visible_extent": 58
+        },
+        "detail512": {
+          "path": "materials/cloth_bolt/cloth_bolt__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e458818f18adfeed6aa94a2df43d12ad93080ac278125a028beef60f3ee0c92e",
+          "visible_bbox": [
+            32,
+            158,
+            480,
+            353
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/cloth_bolt/cloth_bolt__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "37f6a5ad6a0ee2f46f19ad4ef3010a849ea73588fb7a3257227964bbe4da18ab",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            39,
+            120,
+            88
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/cloth_bolt/cloth_bolt__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "18524646cce17ea5076df952950c1bf2c2a4413643f30bead2afa74b4475afb6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            20,
+            60,
+            44
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/cloth_bolt/cloth_bolt__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "ac9e4b0e4c15cd34b8148fce8a52deeb38f7defbdeb108d8524a23e28772636d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            10,
+            30,
+            22
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/cloth_bolt/cloth_bolt__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "821a9cf79cf3e94f1a16d439b90f66e9a149df81ef55db73bacb91da278eee52",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            206,
+            402,
+            305,
+            449
+          ],
+          "visible_extent": 99
+        },
+        "ground_scaled_512": {
+          "path": "materials/cloth_bolt/cloth_bolt__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9246779779bcfade545cc6b8bc94032551357b8d6ba42f7b08f4fda5c0f22f85",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            412,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "coal",
+      "label": "Coal Chunk",
+      "category": "materials",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/coal/coal__full_native.png",
+          "dimensions": [
+            1200,
+            1207
+          ],
+          "sha256": "a85dc4a1a1026571787e88eae890771fb503fc7a80d13d6af202c22e0a39ce05"
+        },
+        "inventory512": {
+          "path": "materials/coal/coal__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "00fb77f97ad5afc7dd3f99be8d271f8f4031c673ded74d30f27a32724b583b71",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            240,
+            242,
+            272,
+            270
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "materials/coal/coal__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "db3e76c1901cf1c5c6e981df47dc3623e998d84dca1993ccbcc3d3bd53de0ec5",
+          "visible_bbox": [
+            119,
+            119,
+            137,
+            136
+          ],
+          "visible_extent": 18
+        },
+        "detail512": {
+          "path": "materials/coal/coal__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e09623a86e794da152498f2836649b64c1ab7b2c91b353eea0281102c98d9f07",
+          "visible_bbox": [
+            32,
+            58,
+            479,
+            454
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "materials/coal/coal__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "e148d1d541eda52e0751db78e917bd747298cd932980224b13c3aa6969543da7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            14,
+            120,
+            113
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/coal/coal__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "3c973189ba3801f60dc4cfae635aee62fea46a51d02d8a8789c5199d2353565d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            7,
+            60,
+            57
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/coal/coal__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "43e3e242dbd6c98834a65a9e2ffbf9e190d339be3e0c0b9151f2374042e6a628",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/coal/coal__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a465cf0ae45d9153cd776649dc17617ee9e6b9ac652f42f3dbc7de69f8371dde",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            427,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/coal/coal__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a465cf0ae45d9153cd776649dc17617ee9e6b9ac652f42f3dbc7de69f8371dde",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            427,
+            268,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "crystal_shard",
+      "label": "Crystal Shard",
+      "category": "materials",
+      "reference_extent_cm": 15,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/crystal_shard/crystal_shard__full_native.png",
+          "dimensions": [
+            1104,
+            1152
+          ],
+          "sha256": "e27c010c25407b5076323fefb43b508b98662dbcdc99e574481c107ccf759193"
+        },
+        "inventory512": {
+          "path": "materials/crystal_shard/crystal_shard__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c7f31a8ec0599ba00b0fd767adfbe7f27ce4d3667101d8b3edf25f87321d9c59",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            242,
+            241,
+            270,
+            271
+          ],
+          "visible_extent": 30
+        },
+        "thumb256": {
+          "path": "materials/crystal_shard/crystal_shard__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ba50b87ca69e916f078a7ee15e29aa3b556610c2f2d0d0d0da3b343b2067b451",
+          "visible_bbox": [
+            120,
+            118,
+            136,
+            136
+          ],
+          "visible_extent": 18
+        },
+        "detail512": {
+          "path": "materials/crystal_shard/crystal_shard__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cb67a6ef121c9ea7d68fe088afa5e203efbfd73dd95a4778432a01b89d8b48fa",
+          "visible_bbox": [
+            49,
+            32,
+            463,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/crystal_shard/crystal_shard__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "89a2b15b4edefc1f89e24f3cb9f5b05a54db4e13e5c6f4fe8339156146576973",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            8,
+            116,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/crystal_shard/crystal_shard__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "62e321729bec05516ed61294f2f88fa479459d6b7e3b76086dc8fba48adf3746",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/crystal_shard/crystal_shard__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "14932264850793d407d5f309016737aaf6f3dcd3591913db89a05b7430133ee9",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/crystal_shard/crystal_shard__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0d4689ee7bc0ea32fe83f3f09a25b7a158a90f77c7c7eff67baadb388831c767",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            426,
+            266,
+            448
+          ],
+          "visible_extent": 22,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/crystal_shard/crystal_shard__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0d4689ee7bc0ea32fe83f3f09a25b7a158a90f77c7c7eff67baadb388831c767",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            426,
+            266,
+            448
+          ],
+          "visible_extent": 22,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "herb_bundle",
+      "label": "Healing Herbs",
+      "category": "materials",
+      "reference_extent_cm": 25,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/herb_bundle/herb_bundle__full_native.png",
+          "dimensions": [
+            1147,
+            1138
+          ],
+          "sha256": "8181667775cd84f01aeeacd903718e9e49a219fc3554a0a3df69015add229f91"
+        },
+        "inventory512": {
+          "path": "materials/herb_bundle/herb_bundle__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "16a6ef207d98b7543ea7590944e08578733112af3ad9b7d519c78def9cfd12ad",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            231,
+            235,
+            281,
+            276
+          ],
+          "visible_extent": 50
+        },
+        "thumb256": {
+          "path": "materials/herb_bundle/herb_bundle__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "bd18f3afbd3dded389d4b5e355b4cdfe18498a08c183e8d6d77ff104abff4daf",
+          "visible_bbox": [
+            113,
+            115,
+            141,
+            138
+          ],
+          "visible_extent": 28
+        },
+        "detail512": {
+          "path": "materials/herb_bundle/herb_bundle__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b79dbe43b43322d5d018b0f1b06c4a2cde3184775455f3d3a82dd31afd8e1fde",
+          "visible_bbox": [
+            32,
+            74,
+            480,
+            438
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/herb_bundle/herb_bundle__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "7d80e9a3eb8c11d2b1d9c7275c0766d4c16e7280ea991932696605bbdd3db478",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            18,
+            120,
+            109
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/herb_bundle/herb_bundle__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "33c3b83c58f4493f830dd5d6987aeb61fa59fb493bc0600a38ef93e7db58374e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/herb_bundle/herb_bundle__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "21911f96c0f48523d44a64b26b25b0852f46d9d13b6b5c78833b7828e2342ed5",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/herb_bundle/herb_bundle__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cc4b52f66d1e658d7b6ea3f6bd7c2389b86d3a934abec476b10513e0f0d36c44",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            417,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/herb_bundle/herb_bundle__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cc4b52f66d1e658d7b6ea3f6bd7c2389b86d3a934abec476b10513e0f0d36c44",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            417,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "iron_ingot",
+      "label": "Iron Ingot",
+      "category": "materials",
+      "reference_extent_cm": 25,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/iron_ingot/iron_ingot__full_native.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "934445ec705f0fc890476db0da50505de2ef96907c25b90803148a298402ab77"
+        },
+        "inventory512": {
+          "path": "materials/iron_ingot/iron_ingot__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "83445043f16efa2bbb3caa1cf11c96629ecb488dcf8a30b6d297ddd9741fe259",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            231,
+            242,
+            281,
+            270
+          ],
+          "visible_extent": 50
+        },
+        "thumb256": {
+          "path": "materials/iron_ingot/iron_ingot__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "593a6d7dcf2a2feaddbf3f1037397ded7400b6ca294d8da3ef885c16aa61216b",
+          "visible_bbox": [
+            113,
+            119,
+            141,
+            136
+          ],
+          "visible_extent": 28
+        },
+        "detail512": {
+          "path": "materials/iron_ingot/iron_ingot__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "7a0338cff7677d153d0c110e253e22046567ed5bf65cdd51fdffcf3c126c68c8",
+          "visible_bbox": [
+            32,
+            132,
+            480,
+            380
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/iron_ingot/iron_ingot__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "e069e539a3ff0c0d190f45979106cc6d92e99685cfecb7966e8dbb2e01fa3972",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            33,
+            120,
+            95
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/iron_ingot/iron_ingot__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "787561803349d977825c306c70521496c32432efcfb30d8870037552b6a884e0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            16,
+            60,
+            47
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/iron_ingot/iron_ingot__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "0a8d1892e4f9742b0a3723d4ea1106e77fb269220733386433872a700590550c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            8,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/iron_ingot/iron_ingot__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "32d1e35612311f1de1291f571d923c98b47d627adbe0ab3644d5cad72af0074e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            204,
+            390,
+            307,
+            449
+          ],
+          "visible_extent": 103
+        },
+        "ground_scaled_512": {
+          "path": "materials/iron_ingot/iron_ingot__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8fc59cad375da7e078354759ec45b76e4c51d8745ed1cc5ea28abbcd64e5b12b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            427,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "iron_ore",
+      "label": "Iron Ore",
+      "category": "materials",
+      "reference_extent_cm": 20,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/iron_ore/iron_ore__full_native.png",
+          "dimensions": [
+            1238,
+            1262
+          ],
+          "sha256": "0d7e3f464334704bd8c2ae2ffccf5acb900289160c1f9ebde1ef28f93d29c4c5"
+        },
+        "inventory512": {
+          "path": "materials/iron_ore/iron_ore__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "560a5ec7ecc5d7df84cc5c05ed73895f57c64cf3c2f243255b0a0875b785dad3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            236,
+            236,
+            276,
+            275
+          ],
+          "visible_extent": 40
+        },
+        "thumb256": {
+          "path": "materials/iron_ore/iron_ore__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "16398cfe424229667972c7b16cb3ca3d69191d098044db1b29bcd17fcfde8fed",
+          "visible_bbox": [
+            117,
+            117,
+            140,
+            140
+          ],
+          "visible_extent": 23
+        },
+        "detail512": {
+          "path": "materials/iron_ore/iron_ore__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9bf817002f28a3c389e1a95e5a7b9d5e624436ff98f9f1bca05ad91cf8b0e31b",
+          "visible_bbox": [
+            32,
+            36,
+            480,
+            476
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/iron_ore/iron_ore__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9b3a59c4dc389eb02db9d9e6bc470eed2d789d96b11fcec6af5329757ae45988",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            9,
+            120,
+            119
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/iron_ore/iron_ore__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "bc00650994ea621dfed1babeb7a971e387cd27c007f29724b389e7ce3081cd61",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            59
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/iron_ore/iron_ore__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "c6db9fcf09e67d186813e2e730e3763d9145eb92f9466c5e91a4ef3b6b7a221d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            29
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/iron_ore/iron_ore__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c2c5a0a126f55eafb71e1b9d661fc8b3efd70e6512092e04b1b8519dfe96d880",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            419,
+            271,
+            448
+          ],
+          "visible_extent": 30,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/iron_ore/iron_ore__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c2c5a0a126f55eafb71e1b9d661fc8b3efd70e6512092e04b1b8519dfe96d880",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            419,
+            271,
+            448
+          ],
+          "visible_extent": 30,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "rolled_hide",
+      "label": "Rolled Hide",
+      "category": "materials",
+      "reference_extent_cm": 55,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/rolled_hide/rolled_hide__full_native.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "23cef2f0123928dd134080cc6dea3360b0eb94cce35715f64f027f6b7fb68c84"
+        },
+        "inventory512": {
+          "path": "materials/rolled_hide/rolled_hide__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "1acc28a00afc74cdf289c41499fecc0913335527581042fce71ad75180a80fa3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            235,
+            311,
+            276
+          ],
+          "visible_extent": 110
+        },
+        "thumb256": {
+          "path": "materials/rolled_hide/rolled_hide__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "116cb01a1df806fac1ec010ef62964035973fd3c0d0e0bc0f7952e19da11b2d7",
+          "visible_bbox": [
+            98,
+            115,
+            158,
+            140
+          ],
+          "visible_extent": 60
+        },
+        "detail512": {
+          "path": "materials/rolled_hide/rolled_hide__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "91fc2708161af0a8ae4917ebf5c0e56961f78b85326285720ae5f7f1174f6b9e",
+          "visible_bbox": [
+            32,
+            172,
+            480,
+            339
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/rolled_hide/rolled_hide__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "23a9dba0f8351bbc8cbd7ebd5faa10fc4cffe4c4e5c7ab6609a0dd03014d574b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            43,
+            120,
+            85
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/rolled_hide/rolled_hide__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "ff6219bca99e376d90e669dd6f88db1b96136e2d4179bcd04578ce736337111f",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            21,
+            60,
+            42
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/rolled_hide/rolled_hide__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "92dfe145ab1c2eae57c649b6b498b376da50db6151caffec2be608b8cef5d53c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            11,
+            30,
+            21
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/rolled_hide/rolled_hide__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8333565fc5948ec9aae80116cc4a6b051867fea194b93cc9a5e2aaed2e053307",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            197,
+            403,
+            314,
+            450
+          ],
+          "visible_extent": 117
+        },
+        "ground_scaled_512": {
+          "path": "materials/rolled_hide/rolled_hide__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c2933f5581f6e69a0a53c57ff75d71fb5f526f18b63b90ad185a304dc0a09a2e",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            417,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "wood_bundle",
+      "label": "Wood Bundle",
+      "category": "materials",
+      "reference_extent_cm": 60,
+      "ground_status": "mapped_source_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/wood_bundle/wood_bundle__full_native.png",
+          "dimensions": [
+            1774,
+            887
+          ],
+          "sha256": "3f5b0b9e1a9d56150deffc750f09e0be9905415760a44d7ea48ce7ef1d55bb81"
+        },
+        "inventory512": {
+          "path": "materials/wood_bundle/wood_bundle__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "774e2374c1a1353cfa1f034e98d9af90fdb6c7a9f5d389f6512e8f92edf33659",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            228,
+            316,
+            283
+          ],
+          "visible_extent": 120
+        },
+        "thumb256": {
+          "path": "materials/wood_bundle/wood_bundle__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "553479274067cfc7250826b5a2a785da89a43ae5ae62dacdc7bd7163e75782a6",
+          "visible_bbox": [
+            96,
+            112,
+            159,
+            144
+          ],
+          "visible_extent": 63
+        },
+        "detail512": {
+          "path": "materials/wood_bundle/wood_bundle__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "560302d4fe001318060ba27f55e2bb64796f34b44cece66cef4082a707b4a81c",
+          "visible_bbox": [
+            32,
+            153,
+            480,
+            359
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/wood_bundle/wood_bundle__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "b85c2dacb01a129eccd3fec23752456cb95725805929b8ffbfd93adfa6df5b93",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            38,
+            120,
+            90
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/wood_bundle/wood_bundle__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "440a1cd54f98bca41a11d9c5e61901c0f5d0c3b633876a643c52aabe3a3ed878",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            19,
+            60,
+            45
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/wood_bundle/wood_bundle__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "cd451f4bcddc3cda33f2734d75abdb60d5d3a498c7d7f2fe724cc75b593e7bfb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            9,
+            30,
+            22
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/wood_bundle/wood_bundle__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9727aa0959f0ba8ea859c25f1e848564bcfb52d3ecd03bcf8ae2d0d53a65a798",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            201,
+            396,
+            309,
+            448
+          ],
+          "visible_extent": 108
+        },
+        "ground_scaled_512": {
+          "path": "materials/wood_bundle/wood_bundle__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c67af310d981d0c71ce0c5c9bb68d76cff59d864290436c66e0e4645ec91082b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            407,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "grave_mushroom",
+      "label": "Gravecap Mushroom",
+      "category": "materials",
+      "reference_extent_cm": 14,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/grave_mushroom/grave_mushroom__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "216704be375e188daafdeaf365432c25410fb1e9f3ae03b32eea9309a1ba1533"
+        },
+        "inventory512": {
+          "path": "materials/grave_mushroom/grave_mushroom__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "54989ac3c4368457d5f6fe0259cc672f7881134ba4d5295068c2d10ed5a533de",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            242,
+            245,
+            270,
+            266
+          ],
+          "visible_extent": 28
+        },
+        "thumb256": {
+          "path": "materials/grave_mushroom/grave_mushroom__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "db5250a1ee57e267f5f5563bd6741294bb282525b1181057509cc366b464814d",
+          "visible_bbox": [
+            120,
+            120,
+            136,
+            134
+          ],
+          "visible_extent": 16
+        },
+        "detail512": {
+          "path": "materials/grave_mushroom/grave_mushroom__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "67d6377c84b18893f523b1aa1d04c9567bc09f67fe42641759640ae50dfd928e",
+          "visible_bbox": [
+            33,
+            92,
+            480,
+            420
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "materials/grave_mushroom/grave_mushroom__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "1020d20b9aaca50908d0ef6b84f4aad54a4bc00185d2e2074ef65cedf2d63d1b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            23,
+            120,
+            105
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/grave_mushroom/grave_mushroom__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "8e7e2eb623e119522fa530133b31582d863b86f46de3ccdec6d4c411907fbab6",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/grave_mushroom/grave_mushroom__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7e1ba19b34dfc0e6b11b34d33521fcea5725fff964f1880dd6d02999e13749af",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/grave_mushroom/grave_mushroom__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3b73a0b94f364671d24d4862a3763f2294ba511af1f7eec28122cac67e3fda79",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            433,
+            267,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/grave_mushroom/grave_mushroom__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3b73a0b94f364671d24d4862a3763f2294ba511af1f7eec28122cac67e3fda79",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            433,
+            267,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "silver_ingot",
+      "label": "silver ingot",
+      "category": "materials",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/silver_ingot/silver_ingot__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "f5bafb232b85ee41651a2a4e44eb967584a7498bf3f9eb7e1b32cc3a21111302"
+        },
+        "inventory512": {
+          "path": "materials/silver_ingot/silver_ingot__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ef5b5581638511aa296564dd210284ef1945a1253685b8e4a8724daa35886edd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            244,
+            274,
+            267
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "materials/silver_ingot/silver_ingot__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ac62aaf6c7b4532d6f2091ddcf4d44c4135d5a89fecfeb855adaf8f8f8afce7c",
+          "visible_bbox": [
+            118,
+            121,
+            138,
+            136
+          ],
+          "visible_extent": 20
+        },
+        "detail512": {
+          "path": "materials/silver_ingot/silver_ingot__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "99997bb425160999af7ca7bda1db5cc5adcff7f4848ace93639c2630a55d2a8b",
+          "visible_bbox": [
+            32,
+            112,
+            480,
+            400
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/silver_ingot/silver_ingot__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "146e5ce9fc48a71ebe3efb3f8840309f8bb868c53cb8607717a08c59956065ea",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            28,
+            120,
+            100
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/silver_ingot/silver_ingot__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "63d4782021b39aecc24c08a64f8ed8925d4727eed84368899062af8ae698d6ab",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            14,
+            60,
+            50
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/silver_ingot/silver_ingot__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "9d83fdf84fc46551a0065a946c7226dd5daa6552f424b0526d58e69e6271993d",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            25
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/silver_ingot/silver_ingot__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3e2f21d524d8913f92d5a0d14ad82b2716c89fd82116d0f4260e0f32bd03e4f0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            431,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/silver_ingot/silver_ingot__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3e2f21d524d8913f92d5a0d14ad82b2716c89fd82116d0f4260e0f32bd03e4f0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            431,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "copper_ingot",
+      "label": "copper ingot",
+      "category": "materials",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/copper_ingot/copper_ingot__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "c54c97f581d03955943ac4f521757c12372658f7ce02ad01bc6b5dd8dea96cb4"
+        },
+        "inventory512": {
+          "path": "materials/copper_ingot/copper_ingot__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c88a84e9aa7c992b506ff67cbc1351881176a9a5275e43d8020f121b165ab1dc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            238,
+            246,
+            274,
+            265
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "materials/copper_ingot/copper_ingot__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "a95a206824df30b384c356d1e6719774d0587ce99ae34c62c049ab925a466351",
+          "visible_bbox": [
+            117,
+            121,
+            138,
+            135
+          ],
+          "visible_extent": 21
+        },
+        "detail512": {
+          "path": "materials/copper_ingot/copper_ingot__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "34a5c4005e660d12d65f231a721c1793a677ea78d4f704c93d7ec40a0ed1d42b",
+          "visible_bbox": [
+            32,
+            139,
+            480,
+            373
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/copper_ingot/copper_ingot__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "37620b1f086dedf2738a9a276c55f437c965e153bc3ea38366a77fbec32dc035",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            35,
+            120,
+            93
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/copper_ingot/copper_ingot__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "faea9278f3680eeeebd9452ebef66037273fcf6c1bd811fe052646477bfea7e8",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            17,
+            60,
+            46
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/copper_ingot/copper_ingot__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "776885afa9e9e11f52f507d472f78b08c35288b06983597c631a7144ee3a00ed",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            8,
+            30,
+            23
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/copper_ingot/copper_ingot__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8dd916c8e972196b7deca2c71964afc9ecdcdea83f774bfc91bbcbc1a26551cb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            434,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/copper_ingot/copper_ingot__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8dd916c8e972196b7deca2c71964afc9ecdcdea83f774bfc91bbcbc1a26551cb",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            243,
+            434,
+            270,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "leather_strips",
+      "label": "leather strips",
+      "category": "materials",
+      "reference_extent_cm": 25,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/leather_strips/leather_strips__full_native.png",
+          "dimensions": [
+            1312,
+            1199
+          ],
+          "sha256": "c31f799c72988680fb574022bcaafde21faefd4684ca2fdfa5ff4fd2e4211e1e"
+        },
+        "inventory512": {
+          "path": "materials/leather_strips/leather_strips__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e61af72f7b4946c16f7cf74520a3c42e50a16b3183763b5ee84150126ccc3b95",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            231,
+            235,
+            281,
+            276
+          ],
+          "visible_extent": 50
+        },
+        "thumb256": {
+          "path": "materials/leather_strips/leather_strips__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "9b6d9776d280ca3b1b63c790521e6961972c798850359a396c44440695c2adfb",
+          "visible_bbox": [
+            115,
+            115,
+            143,
+            139
+          ],
+          "visible_extent": 28
+        },
+        "detail512": {
+          "path": "materials/leather_strips/leather_strips__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c1b76bd85f77b81fef2256dadecd2d3acc028ac5aff332c3e90b1db71fdb90a5",
+          "visible_bbox": [
+            32,
+            70,
+            480,
+            441
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/leather_strips/leather_strips__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "a2757bf2118c72aefc52d78ae4691e99e698352e12457be756a39c69bbd8898c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            17,
+            120,
+            110
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/leather_strips/leather_strips__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "77569dbe21c461025c5bf3d48264087f05769e66f45826a6972a3652a49e499e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/leather_strips/leather_strips__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "eec476ceaf643d7233f6c47ce448678cac2f8fb9fceeb792d8765c8df2c37337",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/leather_strips/leather_strips__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dc5c4bb9f4aeaaeafd67811d1b6c82c10f1260bc3b667bf865166c5e57cbb80a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            417,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/leather_strips/leather_strips__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "dc5c4bb9f4aeaaeafd67811d1b6c82c10f1260bc3b667bf865166c5e57cbb80a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            237,
+            417,
+            275,
+            448
+          ],
+          "visible_extent": 38,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "thread_spool",
+      "label": "thread spool",
+      "category": "materials",
+      "reference_extent_cm": 10,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/thread_spool/thread_spool__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "bc689762dbdd694842b61ccb8b3db34994655e337c66be31b73e5fc25353d70e"
+        },
+        "inventory512": {
+          "path": "materials/thread_spool/thread_spool__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "bea7d443af6aa6bf84eb01be5377a04d5474c3690ebb98bf37da07fc2ebb734e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            246,
+            246,
+            265,
+            266
+          ],
+          "visible_extent": 20
+        },
+        "thumb256": {
+          "path": "materials/thread_spool/thread_spool__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "9e49d206ae0ca7331e9a55c48f340cd493c6c5c6ab8f8b2f1d6fc21fc4833f40",
+          "visible_bbox": [
+            122,
+            122,
+            133,
+            134
+          ],
+          "visible_extent": 12
+        },
+        "detail512": {
+          "path": "materials/thread_spool/thread_spool__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "a27fcfc212ff1336bfa055af30d472b57fe31c55f7e154295f4db7d0853ea02a",
+          "visible_bbox": [
+            40,
+            33,
+            472,
+            480
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "materials/thread_spool/thread_spool__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "bfbc71954fade52e3894ce0703de4204c1865c4e14956a7990cbf01bc60411b4",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            8,
+            118,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/thread_spool/thread_spool__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "f57543c22df8c0db66741b95edafd6e7aed99d3cdd6b11f16460c2f96ac831a1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            59,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/thread_spool/thread_spool__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "fed022fc02ea1a3c3ae5915808e9f5fb3f117ba8f42a5d21bf84280bccc22f26",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/thread_spool/thread_spool__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "cd3f88c4835f4a11b10e4e93eef3ed94f6f62c4a83ea69e795c2868e8482b22a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            432,
+            264,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/thread_spool/thread_spool__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "333dab324812c8d6d56a7295a098130e607a7a9e69a24edba135b988ed825bb0",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            433,
+            263,
+            448
+          ],
+          "visible_extent": 15,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "ectoplasm_vial",
+      "label": "ectoplasm vial",
+      "category": "materials",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__full_native.png",
+          "dimensions": [
+            1302,
+            1208
+          ],
+          "sha256": "2a70140b9f72208b5f62d09dfb1ed9d673688fd9dcc1af416a4e1dae17e9fa0b"
+        },
+        "inventory512": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d4fb3c65837424fdd5f45956e4f97c945624c407ec5cd1093fa6de93805e2c8b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            245,
+            244,
+            266,
+            268
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "731c4157cf6367f457d2aac119c12b34a5f642a1cfb813cd903bc436f6b133d1",
+          "visible_bbox": [
+            120,
+            121,
+            134,
+            135
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "fcbe5de1dba003474bce878f578b7bc2638e7d947dc7dcfa7e42c4461a908132",
+          "visible_bbox": [
+            59,
+            33,
+            451,
+            480
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "5b4ee42108a74be1032193458f496b3e429cc65a63612ee2d7de6f033f9075ce",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            15,
+            8,
+            113,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "f009272e1c9562003b058b7f4af9c2cba2b9a34a0a4f9a75101d41b921850d60",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            4,
+            56,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "f2f0e177247631092355fa8cc1da3d1eebbcd5b8bc85e8ec63a3b807473aadcf",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            28,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0f4a5a56f54bdf0b523c9af3b59c5edb6630b50a157390f8e4426baba6721cf6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            430,
+            264,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/ectoplasm_vial/ectoplasm_vial__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0f4a5a56f54bdf0b523c9af3b59c5edb6630b50a157390f8e4426baba6721cf6",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            248,
+            430,
+            264,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "beast_fang",
+      "label": "beast fang",
+      "category": "materials",
+      "reference_extent_cm": 14,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/beast_fang/beast_fang__full_native.png",
+          "dimensions": [
+            1374,
+            1145
+          ],
+          "sha256": "59c555d542e306054c69f1411efb2a0aa28095523304ef2bfaa93ff400f8c867"
+        },
+        "inventory512": {
+          "path": "materials/beast_fang/beast_fang__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "2d34328876f8126563c18964c7ce7da54e634aee0bcd0effa2911a4120205794",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            242,
+            244,
+            270,
+            268
+          ],
+          "visible_extent": 28
+        },
+        "thumb256": {
+          "path": "materials/beast_fang/beast_fang__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "b3fa7cd3c7ad4915aa43fdb05e9e5798592ffd32f57f0b9440e18991eb7e8526",
+          "visible_bbox": [
+            120,
+            121,
+            136,
+            136
+          ],
+          "visible_extent": 16
+        },
+        "detail512": {
+          "path": "materials/beast_fang/beast_fang__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0bca12bdc1084cccf02764eaf4974033e9dbc3e2ac53c9723de9c1e62ee32cea",
+          "visible_bbox": [
+            32,
+            65,
+            480,
+            446
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/beast_fang/beast_fang__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "1a5aa487da62d476196784164ace41157f6f420af58beda9ceaecdabd6ab9cfd",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            111
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/beast_fang/beast_fang__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "d28bf5804a6556323e3a3042a3e3d1b54a33bddaf81c6dd18ccb6ed83e36cd94",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            56
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/beast_fang/beast_fang__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "794ced16129119ba69c33b3019967f2c5b427a71bc60e9153ef229b2d45272d1",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/beast_fang/beast_fang__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3245782a7fb7558dd2d4639c4b318ab9deb2869ef74a074909f7d0676bf500af",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            430,
+            267,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/beast_fang/beast_fang__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "3245782a7fb7558dd2d4639c4b318ab9deb2869ef74a074909f7d0676bf500af",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            246,
+            430,
+            267,
+            448
+          ],
+          "visible_extent": 21,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "raven_feather",
+      "label": "raven feather",
+      "category": "materials",
+      "reference_extent_cm": 28,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/raven_feather/raven_feather__full_native.png",
+          "dimensions": [
+            1323,
+            1189
+          ],
+          "sha256": "4ad43ea7d1a676b6da15c715b24790035df24ca91fd19339906d4cda468d66a0"
+        },
+        "inventory512": {
+          "path": "materials/raven_feather/raven_feather__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "4e6bbc81143c1d6f03e53793460f8a7dc7a2135c74c6d3754b4c70f3e7aad229",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            228,
+            228,
+            284,
+            284
+          ],
+          "visible_extent": 56
+        },
+        "thumb256": {
+          "path": "materials/raven_feather/raven_feather__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "8457c2b8775b490bc1607ed3da5d61a27c6d4ab46d48110cdf710b23f11c8ac2",
+          "visible_bbox": [
+            113,
+            112,
+            144,
+            143
+          ],
+          "visible_extent": 31
+        },
+        "detail512": {
+          "path": "materials/raven_feather/raven_feather__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "635612d8e1dc0bfbde4aab5eb31c8b4fd3c188f930270b97ab7cc2227f25e7f4",
+          "visible_bbox": [
+            33,
+            32,
+            478,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/raven_feather/raven_feather__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c136d32a8c0ea985b8923cdf3b2c2fc18fdfd3d1b848bd43cca1bf2191621c69",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            8,
+            119,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/raven_feather/raven_feather__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "94241fd67b1bed589929bb58d9664a7b4edb63f65d7c646cb7cfb85723aaa997",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            4,
+            60,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/raven_feather/raven_feather__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "2616a7d9847af563c9e825e036d4e93d15cc7f344ea496dc22f85340c36cd102",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/raven_feather/raven_feather__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "811c8d76015a62cac0e256bef3aa0958f4bd0c338f2691da2ec6363c9feb7f06",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            235,
+            406,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/raven_feather/raven_feather__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "811c8d76015a62cac0e256bef3aa0958f4bd0c338f2691da2ec6363c9feb7f06",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            235,
+            406,
+            277,
+            448
+          ],
+          "visible_extent": 42,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "empty_glass_vial",
+      "label": "empty glass vial",
+      "category": "materials",
+      "reference_extent_cm": 10,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__full_native.png",
+          "dimensions": [
+            1267,
+            1241
+          ],
+          "sha256": "8d123b41654da53ff22cdc18f3f67a511a0655541e0cecc887d4d310a0a22d7d"
+        },
+        "inventory512": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "ee1cace51c364b0e688776a4b437a7780d60ac6bb47dd7e435a3dfe5dc0dccff",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            247,
+            246,
+            265,
+            266
+          ],
+          "visible_extent": 20
+        },
+        "thumb256": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "70efcca4c70e5acccd6c24ab6df9a49c40cec486e77327b6e1985f9897eb98cc",
+          "visible_bbox": [
+            121,
+            122,
+            135,
+            134
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b030cda254d80aec0c0f8758723588948db7eaa9004bc812976f9190651b6c2b",
+          "visible_bbox": [
+            58,
+            32,
+            454,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "983891038e5f1a47493f5d8d83c8eb4df4b91ab0729b0b7f36a21f24a4160527",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            14,
+            8,
+            113,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "57bee9562454089de3580b534a64d1244bea869bda07267bb853977a5c0721bc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            4,
+            56,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "51f2bf130afef2fe9c8eab7ba213b45b18710456bc54d8f0ecc23845f12c8284",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            28,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9371c77715d3940947f1459fabe75701d148abab70f5d698b00d3f8311551e0a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            249,
+            432,
+            263,
+            448
+          ],
+          "visible_extent": 16,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/empty_glass_vial/empty_glass_vial__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "365cb8cf7c657fb88f92324907aeaf1e8f54263d6a1da40844ccb370e7c0068a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            250,
+            433,
+            263,
+            448
+          ],
+          "visible_extent": 15,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_wick",
+      "label": "lantern wick",
+      "category": "materials",
+      "reference_extent_cm": 12,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_wick/lantern_wick__full_native.png",
+          "dimensions": [
+            1536,
+            1024
+          ],
+          "sha256": "047513926ccc608a2c75b623b4a148bec87b3e5e92a33f9494201d1984e01951"
+        },
+        "inventory512": {
+          "path": "materials/lantern_wick/lantern_wick__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f84a949894aba4ce12155257e4e29563beb6546232ad739955afd8fdb2b401fb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            244,
+            249,
+            268,
+            263
+          ],
+          "visible_extent": 24
+        },
+        "thumb256": {
+          "path": "materials/lantern_wick/lantern_wick__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "ba8954eec3b99c9ee9065d48fdf4e00cdb73ad85730573b41a98f0732123bbf9",
+          "visible_bbox": [
+            121,
+            122,
+            135,
+            133
+          ],
+          "visible_extent": 14
+        },
+        "detail512": {
+          "path": "materials/lantern_wick/lantern_wick__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "5ff575e23a3d7043d1af9c3452363766f6ea873205f0153d3dba15185d70e2de",
+          "visible_bbox": [
+            32,
+            123,
+            480,
+            388
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/lantern_wick/lantern_wick__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9044a15bd5ae7b5d1215139c582f176a55834b864229547b40e583413457da3e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            31,
+            120,
+            97
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_wick/lantern_wick__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "e61d77c3980d275ccabf6af03b5a8fa5c87b6585566857dfb1cfe0bde621508e",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            15,
+            60,
+            48
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_wick/lantern_wick__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "3c1892048ff1a21e74d2db9d274de37daa0568244e7324bd5bbe79d08165e377",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_wick/lantern_wick__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e2bd6bca3f68665e5f028a89412da5dc2d328a6efc79b55e9b8cca8f75305ef4",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            437,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_wick/lantern_wick__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "e2bd6bca3f68665e5f028a89412da5dc2d328a6efc79b55e9b8cca8f75305ef4",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            247,
+            437,
+            265,
+            448
+          ],
+          "visible_extent": 18,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_utility_prop_05_salt_pouch",
+      "label": "Salt pouch",
+      "category": "materials",
+      "reference_extent_cm": 16,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "769d44f56cadf9c0aea2ac7099faab6ce2223250e8d3589e3114594a9cb5e4ca"
+        },
+        "inventory512": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b7f4b418d58e3df837689ed1baefbeddb11fdef40586c8946466797fda16621b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            241,
+            240,
+            270,
+            272
+          ],
+          "visible_extent": 32
+        },
+        "thumb256": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "eada43024887ace0a1df888cf681e0b2bdcf37a4b01140104b44f4a725fe71b6",
+          "visible_bbox": [
+            118,
+            119,
+            137,
+            138
+          ],
+          "visible_extent": 19
+        },
+        "detail512": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f73661100fdc3793702d63bd92c3f3a4e934b91f65fc9ecd8410821c5e0a61a7",
+          "visible_bbox": [
+            50,
+            32,
+            461,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "f6d42735957c21e7a65ef12067c0381af40364e93083374bcfcbd8bc7757ba43",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            12,
+            8,
+            115,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "b47c94dbb84a697a5d2701191885a1e1c12f7019047a6014990a9150d11ba9fc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            57,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "01fe840ae85d9d69133e0992651e28bc15ae9c59aa1de9917e322ec1c2a17502",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0f3ae42d3498eb6bca2f0b0fc4c4d2c5aac9f6093ef91023116556dccd5614b9",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            245,
+            424,
+            267,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_utility_prop_05_salt_pouch/lantern_utility_prop_05_salt_pouch__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "0f3ae42d3498eb6bca2f0b0fc4c4d2c5aac9f6093ef91023116556dccd5614b9",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            245,
+            424,
+            267,
+            448
+          ],
+          "visible_extent": 24,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_01_timber_bundle",
+      "label": "Timber bundle",
+      "category": "materials",
+      "reference_extent_cm": 60,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "acf7af63c148508a5de7a324d611fc6003f36a4d26006f1f49c3ff6baa215938"
+        },
+        "inventory512": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d3f6744a9c38694a07049c5a21311874bcec9afeb71bdd9a7d9231de242d6c41",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            196,
+            211,
+            316,
+            300
+          ],
+          "visible_extent": 120
+        },
+        "thumb256": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "909feea1316607254b8f64cf73142acc18c04bf40f2196bffb87afb398cab6fa",
+          "visible_bbox": [
+            97,
+            105,
+            158,
+            151
+          ],
+          "visible_extent": 61
+        },
+        "detail512": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "121792394fffbae85d777a1c305beab86ba2fe5b7a7fc6825bc61d3655905c30",
+          "visible_bbox": [
+            32,
+            90,
+            480,
+            420
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "82e7c797880b5340ca498ef392af129a3f8f873c414145fca72a3c526d2b54cc",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            22,
+            120,
+            105
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "a3a3aaebef79878de72f2dcbf1b90bbd3768881209a07dab28a03ed0b80689bb",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            11,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "2373a4bdca56489698aad57e39fbcdb435ea9ed3189c466832f768323067c98a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "90b5813c319afa1a66456e484641cb6d8452c8ae479492a13d691d2ef936cdc3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            381,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_resource_concept_01_timber_bundle/lantern_resource_concept_01_timber_bundle__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "90b5813c319afa1a66456e484641cb6d8452c8ae479492a13d691d2ef936cdc3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            211,
+            381,
+            301,
+            448
+          ],
+          "visible_extent": 90,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_02_iron_ingot_stack",
+      "label": "Iron ingot stack",
+      "category": "materials",
+      "reference_extent_cm": 30,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "219aa1f1e93d254a77ff38f53f9967ee05940150bd18d997ef0a7c9d99a327cb"
+        },
+        "inventory512": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "f0835d6a91408693f172794020a88f9bf6ef186d057f12c3b5a5b822780888da",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            226,
+            230,
+            286,
+            281
+          ],
+          "visible_extent": 60
+        },
+        "thumb256": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "2556f3219266b004419302900743ac0133ccf9aa4d88c3630ab7397985bf61b6",
+          "visible_bbox": [
+            111,
+            114,
+            145,
+            143
+          ],
+          "visible_extent": 34
+        },
+        "detail512": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "8c138e5f941da8d171ee2604266f3579dbe5c1752e2e3487ed87a4f88afd034a",
+          "visible_bbox": [
+            32,
+            67,
+            479,
+            445
+          ],
+          "visible_extent": 447
+        },
+        "ui128": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "710684e07eb593319c3833ee68f83bc3a439004aee2af956a8624a5a597af8e2",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            16,
+            120,
+            111
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "be8d54e605185fa2194eb4721d2fcb4958b2f0f2eee59d77293cee2c3c838252",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            8,
+            60,
+            55
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "02384b28eeb3eb09ae15847f3ac0fd549e15de08eb2e82e498b57b25373aeea0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "24ae3e54f4a2719ba888d72bdf8b87b4d42855531509e743d2edbc01f7d4154b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            410,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_resource_concept_02_iron_ingot_stack/lantern_resource_concept_02_iron_ingot_stack__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "24ae3e54f4a2719ba888d72bdf8b87b4d42855531509e743d2edbc01f7d4154b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            234,
+            410,
+            279,
+            448
+          ],
+          "visible_extent": 45,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_03_cured_leather_roll",
+      "label": "Cured leather roll",
+      "category": "materials",
+      "reference_extent_cm": 55,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "f9ab5895063ae81cf912dd1fd3417c93acb63612a85c0efa7bc6d5b766f8af41"
+        },
+        "inventory512": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "466e795aa04bf367ae85c2dc100aa4c90198eb0aadec6552d7862fc553dd93af",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            217,
+            311,
+            295
+          ],
+          "visible_extent": 110
+        },
+        "thumb256": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "71b664020f28641af64f8eeee2acc21b4aef7f9c5228e77ea90c209373b0b8f4",
+          "visible_bbox": [
+            98,
+            107,
+            156,
+            150
+          ],
+          "visible_extent": 58
+        },
+        "detail512": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d0a7d77be99c8c4ed35af841b1bd60153627dbd89b64a678e4223f90b7aa85b5",
+          "visible_bbox": [
+            33,
+            98,
+            479,
+            415
+          ],
+          "visible_extent": 446
+        },
+        "ui128": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "f579be4309de6e313e799c0bbdd3fbb0df5134a012b8a68afea5e7776a06e02a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            24,
+            120,
+            103
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "809460044623251ee407eaf82ffa8b6d842915bd41c59212e5cc2b0b451c68c7",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            12,
+            60,
+            52
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "535ef58aa7a8d330d2b63f880368efc83db778f83bf9071c42016eb85ca84b98",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c1ad153ad11efe7a0b055c1cb642e278686adf14e38e44442284e1940decbfa3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            390,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_resource_concept_03_cured_leather_roll/lantern_resource_concept_03_cured_leather_roll__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "c1ad153ad11efe7a0b055c1cb642e278686adf14e38e44442284e1940decbfa3",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            390,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_04_flax_cloth_fold",
+      "label": "Flax cloth fold",
+      "category": "materials",
+      "reference_extent_cm": 55,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "0a7f0786c7950d723aba1e09f227bc67f3ca4f508445d74acd487afd6dc730e9"
+        },
+        "inventory512": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "df2461ee2eb6d4b306959b6571f252a971264668c85d85b4dda7fe8846fa48ec",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            201,
+            212,
+            311,
+            300
+          ],
+          "visible_extent": 110
+        },
+        "thumb256": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "d161959f937546ee58cbcb70e92c16cde79492121fbfa34e82c44bab19668799",
+          "visible_bbox": [
+            99,
+            105,
+            156,
+            151
+          ],
+          "visible_extent": 57
+        },
+        "detail512": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9157e5a366eb1b11fbf96ac3bc7c5adf3cdfb58c23484caf333fba878ff158bf",
+          "visible_bbox": [
+            33,
+            77,
+            479,
+            435
+          ],
+          "visible_extent": 446
+        },
+        "ui128": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "9be19ed7c7c4ce9ee176a4f17f65b179f026ea557fa6e04df4acf7b5aeebbfb0",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            8,
+            19,
+            120,
+            108
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "56800be1d917dfdf6686158bfce401c45be971776b467ba473a7613d616e6865",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            4,
+            9,
+            60,
+            54
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "0e737bb077dc4060f63dfe161f036bd8fdb40f0b59cd8596e3000609aa56f48c",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            5,
+            30,
+            27
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6dab8a7be9cf7045dfafeccab30bb52590c1ca549001abf3b895e90854a69cc1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            383,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_resource_concept_04_flax_cloth_fold/lantern_resource_concept_04_flax_cloth_fold__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6dab8a7be9cf7045dfafeccab30bb52590c1ca549001abf3b895e90854a69cc1",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            215,
+            383,
+            297,
+            448
+          ],
+          "visible_extent": 82,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_07_charcoal_pouch",
+      "label": "Charcoal pouch",
+      "category": "materials",
+      "reference_extent_cm": 22,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "0e75f0e35d11d725703053694bd1c52e49f50021efea11ca878adaac0915068e"
+        },
+        "inventory512": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "48805eb689a29ca89407c2e71b4b1099f97f50a4bd79c8b65b1954ec60c384d3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            235,
+            234,
+            277,
+            278
+          ],
+          "visible_extent": 44
+        },
+        "thumb256": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "f9024c5a7fa6984d77bdc16561b17f51dc9a233c16b249a2de144e56b5854726",
+          "visible_bbox": [
+            117,
+            116,
+            139,
+            141
+          ],
+          "visible_extent": 25
+        },
+        "detail512": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "6a93d9f8dbd2d74d8afdc8d2aa1d7a24bd78c8220a118d48081fc4ae50b9a24c",
+          "visible_bbox": [
+            42,
+            32,
+            468,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "d7b815df0a41cba05ad931981eefa6e6d1c0d42ef9bcdf19153da3c300a381f3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            10,
+            8,
+            117,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "0cfe1ab308450a26eaf3da0c0e7580986a38f6315cfd2dba8aae5f61a672b6b3",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            5,
+            4,
+            58,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "7ac2d0b5b888ed5259d248ee14300091001a091bf4ce6dd9e780701c1b633a6b",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "01bd695054fc785dd3b83e4e0f16f8623ede60f9ab11bc7760cffba03484508a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            415,
+            272,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_resource_concept_07_charcoal_pouch/lantern_resource_concept_07_charcoal_pouch__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "01bd695054fc785dd3b83e4e0f16f8623ede60f9ab11bc7760cffba03484508a",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            241,
+            415,
+            272,
+            448
+          ],
+          "visible_extent": 33,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    },
+    {
+      "id": "lantern_resource_concept_08_pine_resin_jar",
+      "label": "Pine resin jar",
+      "category": "materials",
+      "reference_extent_cm": 18,
+      "ground_status": "static_pickup_visual_review_pending",
+      "exports": {
+        "full_native": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__full_native.png",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "sha256": "afe6150bf0c5a2ebfed755cb44a1219ba22d0bc9ea58121b17f5b77a39d37b8a"
+        },
+        "inventory512": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__inventory512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "9f862f647778778e91c34274899a075dd216489736a8d1df8510362dff235bda",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            240,
+            238,
+            272,
+            274
+          ],
+          "visible_extent": 36
+        },
+        "thumb256": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__thumb256.png",
+          "dimensions": [
+            256,
+            256
+          ],
+          "sha256": "7b3c3be388e71f835597d78cb108f483d0425ca120693381fd6e0bcc8d34f4f4",
+          "visible_bbox": [
+            120,
+            117,
+            137,
+            138
+          ],
+          "visible_extent": 21
+        },
+        "detail512": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__detail512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "b0ac40430591a6238c1801b1804d0a35299536da25882e5c8280735abd38441b",
+          "visible_bbox": [
+            54,
+            32,
+            458,
+            480
+          ],
+          "visible_extent": 448
+        },
+        "ui128": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__ui128.png",
+          "dimensions": [
+            128,
+            128
+          ],
+          "sha256": "c3a03157511ec8c4ff48d8460a486c6d1bd6b24f1195f327a48b3d3c3cdcedae",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            13,
+            8,
+            114,
+            120
+          ],
+          "visible_extent": 112
+        },
+        "ui64": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__ui64.png",
+          "dimensions": [
+            64,
+            64
+          ],
+          "sha256": "35bafbb54d897738dafbcc581a6e172b18921f2ed3fe87ae84e90b3333b6ee7a",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            7,
+            4,
+            57,
+            60
+          ],
+          "visible_extent": 56
+        },
+        "ui32": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__ui32.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "sha256": "029208d04b9b514feb04f2ddd3ffd10865342e737df1493f43d0a0ecbd19b935",
+          "pivot_normalized": [
+            0.5,
+            0.5
+          ],
+          "visible_bbox": [
+            3,
+            2,
+            28,
+            30
+          ],
+          "visible_extent": 28
+        },
+        "ground_static_512": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__ground_static_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d00ae52390a0f0565b951d99b66f9a16d1505491a25e3fca69b17a5b9e96370b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            421,
+            268,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "1.5 px/reference cm;16px floor,440px cap; separate from historic drop frame scale",
+          "ground_representation": "static_pickup_icon"
+        },
+        "ground_scaled_512": {
+          "path": "materials/lantern_resource_concept_08_pine_resin_jar/lantern_resource_concept_08_pine_resin_jar__ground_scaled_512.png",
+          "dimensions": [
+            512,
+            512
+          ],
+          "sha256": "d00ae52390a0f0565b951d99b66f9a16d1505491a25e3fca69b17a5b9e96370b",
+          "pivot_px": [
+            256,
+            448
+          ],
+          "pivot_normalized": [
+            0.5,
+            0.875
+          ],
+          "visible_bbox": [
+            244,
+            421,
+            268,
+            448
+          ],
+          "visible_extent": 27,
+          "scale_policy": "common1.5px/reference cm;12px floor;440px cap",
+          "ground_representation": "normalized_static_pickup_icon"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,361 @@
+{
+  "clip_id": "Lantern_Hero_channel_hold_D_v01",
+  "family": "channel_hold",
+  "facing": "D",
+  "producer": "animate_use_channel_directions",
+  "artwork_origin": "built_in_imagegen",
+  "registration_reviewer": "prepare_interaction_asset_pipeline",
+  "registration_evidence": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+  "equipment_contract": "Sword right, lantern left continuously gripped. Pulse only at authorized success cel for use; channel loop no completion pulse.",
+  "timing_source": "Current reference source manifest / producer verified native DR contract.",
+  "source_timing": [
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "timebase_hz": 60,
+  "loop": true,
+  "pixels_per_unit_approximate": 175,
+  "schema_version": 1,
+  "status": "visually_reviewed_runtime_test",
+  "publishable": true,
+  "engine_validated": false,
+  "canvas_px": [
+    512,
+    512
+  ],
+  "pivot_top_left_px": [
+    256,
+    430
+  ],
+  "mirror": false,
+  "root_motion": "None authored; no controller changes",
+  "native_pixel_policy": "Exact RGBA crop pixels; original source files retained separately in production provenance.",
+  "runtime_pixel_policy": "Recorded uniform resampling and integer whole-cel translations only; no pose/head-height normalization, warps, alpha synthesis or painted edits.",
+  "frames": [
+    {
+      "index": 0,
+      "native_file": "source/native/00.png",
+      "native_sha256": "4b02d77f8b42d1c1ef920646e5c27338f5c68e87c34446a96f2f727757f73e19",
+      "native_size_px": [
+        627,
+        610
+      ],
+      "runtime_file": "runtime/frames/00.png",
+      "runtime_sha256": "e3eb01cc08c72cb9150268041fe0084fe5c44d715ef1445846d414c4e04919bd",
+      "source_sha256": "49977785aa43d2f49b65e8effd63256314018f3fcf9cc7247fc8759ea90d8740",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        610
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        50,
+        87
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          343,
+          572
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 0,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        71,
+        87,
+        426,
+        453
+      ]
+    },
+    {
+      "index": 1,
+      "native_file": "source/native/01.png",
+      "native_sha256": "90d4719a7646f8d1452c6d15ed27cc39720db1e0b42aba47c706c9928e821819",
+      "native_size_px": [
+        627,
+        610
+      ],
+      "runtime_file": "runtime/frames/01.png",
+      "runtime_sha256": "535a9e058c89b7b8acdbf682fafcbd68c5bad945fe6e3303c4cc3f8529a9e1c4",
+      "source_sha256": "49977785aa43d2f49b65e8effd63256314018f3fcf9cc7247fc8759ea90d8740",
+      "crop_xyxy": [
+        627,
+        0,
+        1254,
+        610
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        58,
+        88
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          330,
+          570
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 15,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        60,
+        88,
+        433,
+        449
+      ]
+    },
+    {
+      "index": 2,
+      "native_file": "source/native/02.png",
+      "native_sha256": "fe2e8120ead8492c38e5d7e52af004eb65a49dc61d116002a3e2bb1c06e38418",
+      "native_size_px": [
+        627,
+        644
+      ],
+      "runtime_file": "runtime/frames/02.png",
+      "runtime_sha256": "0b8fd7bc737da2f17e0f1d039276dd3a6ed365a63b8b5966f34056073520cadb",
+      "source_sha256": "49977785aa43d2f49b65e8effd63256314018f3fcf9cc7247fc8759ea90d8740",
+      "crop_xyxy": [
+        0,
+        610,
+        627,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        48,
+        78
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          346,
+          587
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 30,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        48,
+        78,
+        424,
+        464
+      ]
+    },
+    {
+      "index": 3,
+      "native_file": "source/native/03.png",
+      "native_sha256": "9635ba6326b963f1ad8fd5a771de2eb96a4098338a7811b51561b3574dc8af07",
+      "native_size_px": [
+        627,
+        644
+      ],
+      "runtime_file": "runtime/frames/03.png",
+      "runtime_sha256": "4209ff440b3cab40fd44ef45a3b5259cdec36a18ff313d8f86fcc5c2a33d1eb0",
+      "source_sha256": "49977785aa43d2f49b65e8effd63256314018f3fcf9cc7247fc8759ea90d8740",
+      "crop_xyxy": [
+        627,
+        610,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        58,
+        78
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          330,
+          586
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 45,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        59,
+        78,
+        423,
+        464
+      ]
+    },
+    {
+      "index": 4,
+      "native_file": "source/native/04.png",
+      "native_sha256": "297150b91d39dde8c13c0cc7bda7724ab12d31ca550af07341224bd688416244",
+      "native_size_px": [
+        627,
+        610
+      ],
+      "runtime_file": "runtime/frames/04.png",
+      "runtime_sha256": "eda06dacc79859ed069393f06f9ffabaaa43780294230f3ccd3147f5ee6def06",
+      "source_sha256": "e0b60302b31096ad165649e9e4aace52098b5c25229a9ff16c79670afc6ee0ee",
+      "crop_xyxy": [
+        0,
+        0,
+        627,
+        610
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        32,
+        88
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          374,
+          570
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 60,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        32,
+        88,
+        408,
+        450
+      ]
+    },
+    {
+      "index": 5,
+      "native_file": "source/native/05.png",
+      "native_sha256": "42d62c2e604705f9e9d20269eec9b4cbea1b7a7e5748029b76bd5b81c63b59f3",
+      "native_size_px": [
+        627,
+        610
+      ],
+      "runtime_file": "runtime/frames/05.png",
+      "runtime_sha256": "d4071432a51fb24ff0a8dd8029189b108a35a8d33a63d281c58069bc4ce36d78",
+      "source_sha256": "e0b60302b31096ad165649e9e4aace52098b5c25229a9ff16c79670afc6ee0ee",
+      "crop_xyxy": [
+        627,
+        0,
+        1254,
+        610
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        71,
+        88
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          308,
+          570
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 75,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        80,
+        89,
+        439,
+        442
+      ]
+    },
+    {
+      "index": 6,
+      "native_file": "source/native/06.png",
+      "native_sha256": "828bc7264e13679d2fb46c1891cef800ade3ad926f7785dcb5ecfafcc7649733",
+      "native_size_px": [
+        627,
+        644
+      ],
+      "runtime_file": "runtime/frames/06.png",
+      "runtime_sha256": "9b7224fa9a96ec8b1e6d93cc44ce81f79dbe8bb13598cd9019bbc5a410803c73",
+      "source_sha256": "e0b60302b31096ad165649e9e4aace52098b5c25229a9ff16c79670afc6ee0ee",
+      "crop_xyxy": [
+        0,
+        610,
+        627,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        31,
+        80
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          375,
+          584
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 90,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        86,
+        81,
+        403,
+        453
+      ]
+    },
+    {
+      "index": 7,
+      "native_file": "source/native/07.png",
+      "native_sha256": "7337517b65c364e44cfb2dbbd3361ee8d30e6c6e0ce76214fd45029f05ba34c3",
+      "native_size_px": [
+        627,
+        644
+      ],
+      "runtime_file": "runtime/frames/07.png",
+      "runtime_sha256": "8dcbef276d2a842351137ab2ed3303737f072e05a9d4623db27ae2874b086348",
+      "source_sha256": "e0b60302b31096ad165649e9e4aace52098b5c25229a9ff16c79670afc6ee0ee",
+      "crop_xyxy": [
+        627,
+        610,
+        1254,
+        1254
+      ],
+      "uniform_scale": 0.6,
+      "translation_xy": [
+        71,
+        78
+      ],
+      "observed_anchors": {
+        "planted_boot_midpoint_xy": [
+          309,
+          586
+        ]
+      },
+      "registration_note": "One clip-wide scale 0.6; manual midpoint of both planted boot soles anchors root. No pose or head-height normalization. Exact row crop split610 preserves lower-cell crowns. Intentional lantern/torso action remains.",
+      "equipment_state": "Sword anatomical right; lantern continuously gripped anatomical left.",
+      "start_tick": 105,
+      "hold_ticks": 15,
+      "runtime_alpha_bbox": [
+        74,
+        83,
+        428,
+        441
+      ]
+    }
+  ],
+  "native_drawn_cels": 8,
+  "timeline_frame_count": 8,
+  "duration_ticks": 120,
+  "qa": {
+    "reviewer": "audit_hero_interaction_directions",
+    "production_manifest_sha256": "d0f51b811f148a457c9fcccdb198d72962d5ff33bc1c92bcdc74702036f6eae8"
+  }
+}

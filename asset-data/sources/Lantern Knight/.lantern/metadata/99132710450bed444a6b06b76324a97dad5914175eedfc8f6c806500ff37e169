@@ -1,0 +1,37 @@
+{
+  "idle": {
+    "maximum_components_ge_4_pixels": 1,
+    "frames_with_secondary_components_ge_4_pixels": [],
+    "largest_secondary_area_px": 0
+  },
+  "mandible_attack": {
+    "maximum_components_ge_4_pixels": 1,
+    "frames_with_secondary_components_ge_4_pixels": [],
+    "largest_secondary_area_px": 2
+  },
+  "recoil": {
+    "maximum_components_ge_4_pixels": 1,
+    "frames_with_secondary_components_ge_4_pixels": [],
+    "largest_secondary_area_px": 2
+  },
+  "scuttle_front": {
+    "maximum_components_ge_4_pixels": 1,
+    "frames_with_secondary_components_ge_4_pixels": [],
+    "largest_secondary_area_px": 2
+  },
+  "scuttle_rear": {
+    "maximum_components_ge_4_pixels": 1,
+    "frames_with_secondary_components_ge_4_pixels": [],
+    "largest_secondary_area_px": 1
+  },
+  "scuttle_side": {
+    "maximum_components_ge_4_pixels": 2,
+    "frames_with_secondary_components_ge_4_pixels": [
+      12,
+      13,
+      14,
+      15
+    ],
+    "largest_secondary_area_px": 92
+  }
+}

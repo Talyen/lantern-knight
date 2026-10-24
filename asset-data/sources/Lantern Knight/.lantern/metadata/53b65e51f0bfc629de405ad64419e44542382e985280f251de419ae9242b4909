@@ -1,0 +1,266 @@
+[
+  {
+    "old_id": "lantern_alch_prop_01_retort_flask_stand",
+    "name": "Retort flask and stand",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/01_retort_flask_stand.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/01_retort_flask_stand.png",
+    "disposition": "rebuild",
+    "sha256": "17a9b28050c2e187bdf651441566df5a0496eb5c6a04b2405a250f8c4591a074",
+    "original_sha256": "0d81e058b541a976ecaca5689014afd809568b595d4cfcb7b643f552cd0252d1",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        19,
+        86,
+        1210,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        149,
+        89,
+        1181,
+        1135
+      ],
+      "transparent_pixel_fraction": 0.7979212930106911,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 21
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/01_retort_flask_stand.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_02_three_vial_rack",
+    "name": "Three-vial rack",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/02_three_vial_rack.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/02_three_vial_rack.png",
+    "disposition": "rebuild",
+    "sha256": "6248ff39a7e7cf22f654221657a5e1e962546147358ccebd3c42a289c7b29054",
+    "original_sha256": "bff1dc4c7a31096d403269ba5915e8a25d9457451e5eb793151679332a7d1732",
+    "width": 1374,
+    "height": 1145,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        51,
+        1342,
+        1119
+      ],
+      "visible_bbox_alpha_gt127": [
+        189,
+        117,
+        1215,
+        1046
+      ],
+      "transparent_pixel_fraction": 0.5829535414402217,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 1
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/02_three_vial_rack.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_03_copper_alembic",
+    "name": "Copper alembic",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/03_copper_alembic.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/03_copper_alembic.png",
+    "disposition": "rebuild",
+    "sha256": "ec40117f22e81422b6dfd46a920a73ca0f3f6ac5eb9864349e5134fb11bc53d5",
+    "original_sha256": "2dce61e34880d738c8cd7a5c75d82e4231a2dede635c2b2486121192d1420597",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        105,
+        57,
+        1190,
+        1222
+      ],
+      "visible_bbox_alpha_gt127": [
+        196,
+        75,
+        1111,
+        1169
+      ],
+      "transparent_pixel_fraction": 0.7447638052649385,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/03_copper_alembic.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_04_ceramic_reagent_jar",
+    "name": "Ceramic reagent jar",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/04_ceramic_reagent_jar.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/04_ceramic_reagent_jar.png",
+    "disposition": "rebuild",
+    "sha256": "edb023b3c68c5ce46b53bf0763641a89509ec36f7b4ad750488e8ee209f44463",
+    "original_sha256": "b3fe1090afb1c6c8157a6ab5ed321db8a2ac52793ada083b59aab428f176ff05",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        25,
+        1210,
+        1220
+      ],
+      "visible_bbox_alpha_gt127": [
+        206,
+        167,
+        1098,
+        1086
+      ],
+      "transparent_pixel_fraction": 0.6193100737925719,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 3
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/04_ceramic_reagent_jar.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_05_pigment_grinding_slab",
+    "name": "Pigment grinding slab",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/05_pigment_grinding_slab.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/05_pigment_grinding_slab.png",
+    "disposition": "rebuild",
+    "sha256": "9998807a90c2083a128942c448de0be6e3a2e1d38a72eea92778ec3ee319ecff",
+    "original_sha256": "7842f57315a8109da4daac7ff084ef946dd88f2eb5e702d23fde2e13d8fb8f65",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        78,
+        52,
+        1210,
+        1205
+      ],
+      "visible_bbox_alpha_gt127": [
+        81,
+        304,
+        1182,
+        1006
+      ],
+      "transparent_pixel_fraction": 0.6858314955141951,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/05_pigment_grinding_slab.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_06_hinged_magnifying_lens",
+    "name": "Hinged magnifying lens",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/06_hinged_magnifying_lens.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/06_hinged_magnifying_lens.png",
+    "disposition": "rebuild",
+    "sha256": "61a5e32674137bf341b799522092a246664b72b8ced3cb481041b99a3fe5c138",
+    "original_sha256": "c4d5b80c2149961a471ba5c481ccc6fbe8cf9591f6bdf4add29c53a6a856468e",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        19,
+        32,
+        1226,
+        1230
+      ],
+      "visible_bbox_alpha_gt127": [
+        231,
+        50,
+        1122,
+        1216
+      ],
+      "transparent_pixel_fraction": 0.6510464758387196,
+      "edge_max_alpha": 0,
+      "edge_nonzero_pixels": 0
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/06_hinged_magnifying_lens.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_07_balance_weights_box",
+    "name": "Balance weights box",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/07_balance_weights_box.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/07_balance_weights_box.png",
+    "disposition": "rebuild",
+    "sha256": "7294606b55e4f0b4e7543b22181c071326fe1269ffad727fc125f13e925fe7d2",
+    "original_sha256": "0819be38c0eb192e77b72311c532260f3915206536bcc1b053bd62c0e26ff66a",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        55,
+        1179,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        111,
+        67,
+        1176,
+        1206
+      ],
+      "transparent_pixel_fraction": 0.5439416832642721,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 21
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/07_balance_weights_box.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  },
+  {
+    "old_id": "lantern_alch_prop_08_closed_specimen_case",
+    "name": "Closed specimen case",
+    "pack": "Lantern - Alchemy Tabletop Props 07",
+    "old_image": "/workspace/scratch/1a83d58417d5/lantern_overnight/03_alchemy_tabletop_07/assets/08_closed_specimen_case.png",
+    "image": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/08_closed_specimen_case.png",
+    "disposition": "rebuild",
+    "sha256": "0e9a728eb5d7871d9d3a206c9811925adc1013a88b27f17aa9da3f4238b14332",
+    "original_sha256": "ce7bc35e75bb39ffda8d9bbb4f463dee41769ad6e8c71d09b6d286c08a078c6d",
+    "width": 1254,
+    "height": 1254,
+    "alpha": {
+      "mode": "native RGBA, no alpha cleanup applied",
+      "nonzero_bbox": [
+        0,
+        53,
+        1198,
+        1254
+      ],
+      "visible_bbox_alpha_gt127": [
+        90,
+        233,
+        1172,
+        1073
+      ],
+      "transparent_pixel_fraction": 0.5764030381884827,
+      "edge_max_alpha": 1,
+      "edge_nonzero_pixels": 55
+    },
+    "camera": "generated approximation of 35.2643897 degree elevation and 45 degree azimuth; not calibrated",
+    "exact_prompt_sidecar": "lantern_revision_02/equipment/alchemy_tabletop_07/assets/08_closed_specimen_case.json",
+    "generation_method": "fresh built-in image_gen with canonical image as style reference only"
+  }
+]

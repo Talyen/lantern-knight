@@ -1,0 +1,11 @@
+LANTERN — COMPACT HIT / DEATH NATIVE TEST SET
+
+57complete unique selected drawings across8directional clips. Hit8each acrossDR/DL/UL/UR,30ticks each at60Hz. DeathDR6/DL8/UL5/UR6,90ticks each; last drawing holds indefinitely, never loops toready.
+
+Deathfrontviews use full backward collapse. Backviews intentionally use bowed kneel/lantern-extinguish for a game-owned reset/fade. These are distinct death variants, not exact rotations of one collapse.
+
+Allsourcepixels are native. No enlargement, mirror, body warping or motion interpolation. Small bounded traditional corrections: right-coat patches inURkneel, finalglass extinguish inULkneel. Native sources/prompts retained separately.
+
+Use eachclip.json for integer60Hzh holds, frames, fixed commonpivot and one approximate PPU per clip. World+X=DR,+Z=DL,−X=UL,−Z=UR. Construction camera is exact; generated projection and contact are approximate. Do not claim seamless shared-ready joins or calibrated blade/floor collision.
+
+Human-first still and ordered extraction review completed. MP4technical timing checked, but real-time temporal playback has not been visually certified in this environment. Use test imports and review actual engine playback before production.

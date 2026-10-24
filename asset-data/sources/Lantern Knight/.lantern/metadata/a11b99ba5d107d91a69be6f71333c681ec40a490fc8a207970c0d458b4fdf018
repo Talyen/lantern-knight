@@ -1,0 +1,202 @@
+{
+  "asset": "Lantern shipping crate full smash",
+  "version": "1.0",
+  "canvas_px": [
+    512,
+    512
+  ],
+  "native_sheet_px": [
+    1254,
+    1254
+  ],
+  "frame_count": 8,
+  "clock_hz": 60,
+  "root_px_top_left": [
+    256,
+    392
+  ],
+  "unity_pivot_normalized_bottom_left": [
+    0.5,
+    0.234375
+  ],
+  "pixels_per_unit": 228.59375,
+  "source_ppu": 440,
+  "source_static_scale": 0.51953125,
+  "camera": {
+    "projection": "orthographic",
+    "elevation_degrees": 35.2643897,
+    "azimuth_degrees": 45
+  },
+  "loop": false,
+  "terminal_state": {
+    "frame": 7,
+    "hold": "indefinite",
+    "persistent_sprite": "crate_debris_persistent.png"
+  },
+  "playback_notes": "Hold frame 7 indefinitely until gameplay explicitly removes debris. Preview holds final frame for 90 ticks only; that preview duration is not a runtime expiry. Do not independently center or auto-trim frames. Point or bilinear filtering; no frame interpolation. No frame was upscaled.",
+  "root_notes": "Hand registered using remaining corner posts and floor footprint; screen-space ground root remains identical for every frame. Artwork is illustrative, not a calibrated 3D projection.",
+  "generation": "One built-in image generation call from original assembled identity reference. Actual selected backend not exposed; Sunburst 2.5 was a requested workflow label, not a verified model. Native sheet is 1254x1254; requested 2048 was not returned.",
+  "compositing": "Frame 0 uses downsampled original assembled artwork. Frames 1\u20137 retain native generated pixel scale with integer translation only. Alpha below 16 and isolated sub-four-pixel specks cleared; whole connected shapes assigned to cells to prevent gutter clipping. Raw generated sheet preserved.",
+  "frames": [
+    {
+      "index": 0,
+      "name": "intact",
+      "file": "frames/crate_break_00_intact.png",
+      "atlas_rect_px": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        111,
+        145,
+        401,
+        472
+      ],
+      "hold_ticks_60hz": 8,
+      "terminal": false,
+      "sha256": "83ecfc6c942af6b3015927879296a0b704a128a484826c006284d788b7fae125"
+    },
+    {
+      "index": 1,
+      "name": "structural_crack",
+      "file": "frames/crate_break_01_structural_crack.png",
+      "atlas_rect_px": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        112,
+        137,
+        399,
+        472
+      ],
+      "hold_ticks_60hz": 3,
+      "terminal": false,
+      "sha256": "02a47c573258f290f8e3c8974ac2ffe1dfb1bcbf06a8a1e59a4598397febcdfa"
+    },
+    {
+      "index": 2,
+      "name": "faceboards_break",
+      "file": "frames/crate_break_02_faceboards_break.png",
+      "atlas_rect_px": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        103,
+        67,
+        412,
+        471
+      ],
+      "hold_ticks_60hz": 3,
+      "terminal": false,
+      "sha256": "4c2f580ea1e8bbc852629fdcfdf33758eaf432ef91e9ac6b3493a04c8b5f264b"
+    },
+    {
+      "index": 3,
+      "name": "outward_apex",
+      "file": "frames/crate_break_03_outward_apex.png",
+      "atlas_rect_px": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        102,
+        13,
+        401,
+        476
+      ],
+      "hold_ticks_60hz": 4,
+      "terminal": false,
+      "sha256": "1a7e284b146cffc078d2766d791f94145c510e7ad462b09491a4bbc679d32021"
+    },
+    {
+      "index": 4,
+      "name": "falling_planks",
+      "file": "frames/crate_break_04_falling_planks.png",
+      "atlas_rect_px": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        105,
+        81,
+        399,
+        469
+      ],
+      "hold_ticks_60hz": 5,
+      "terminal": false,
+      "sha256": "6483f04804b6bc689db85a45cf6a91d961727fc798672c1f7ecd84fd9b69b124"
+    },
+    {
+      "index": 5,
+      "name": "ground_bounce",
+      "file": "frames/crate_break_05_ground_bounce.png",
+      "atlas_rect_px": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        100,
+        149,
+        395,
+        465
+      ],
+      "hold_ticks_60hz": 4,
+      "terminal": false,
+      "sha256": "e213dbbadc1eb5edd7657ac694287f920fa0ca7737f97d4dcadb788f45bbdd5d"
+    },
+    {
+      "index": 6,
+      "name": "settling",
+      "file": "frames/crate_break_06_settling.png",
+      "atlas_rect_px": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        99,
+        232,
+        411,
+        464
+      ],
+      "hold_ticks_60hz": 6,
+      "terminal": false,
+      "sha256": "e734a3bb3b45abdc09f9e90e33fd54259e16f40e13597cadaf953cb498a73741"
+    },
+    {
+      "index": 7,
+      "name": "stable_debris",
+      "file": "frames/crate_break_07_stable_debris.png",
+      "atlas_rect_px": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "alpha_bounds_px": [
+        100,
+        292,
+        400,
+        456
+      ],
+      "hold_ticks_60hz": null,
+      "terminal": true,
+      "sha256": "b3ec6fc120471b6c22fd12e3c4db74598708ed4b374c29c1a4878aa8b0b090f8"
+    }
+  ]
+}

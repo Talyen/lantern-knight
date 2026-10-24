@@ -1,0 +1,262 @@
+{
+  "asset": "Lantern Knight",
+  "clip": "getup_DR",
+  "version": "v01",
+  "direction": "DR",
+  "world_heading": "+X",
+  "mirrored": false,
+  "handedness": {
+    "anatomical_right": "sword",
+    "anatomical_left": "lantern"
+  },
+  "timebase_hz": 60,
+  "cell_px": [
+    896,
+    704
+  ],
+  "pivot_px_top_left": [
+    506,
+    518
+  ],
+  "pivot_normalized_bottom_left": [
+    0.5647321428571429,
+    0.2642045454545454
+  ],
+  "pixels_per_unit": 299.113475,
+  "ppu_method": "Approximate clip-wide body-height comparison to approved DR ready at 350 PPU; source native pixels retained.",
+  "duration_ticks": 42,
+  "duration_seconds": 0.7,
+  "loop": false,
+  "final_pose_hold": false,
+  "exit_condition": "Clip completion",
+  "next_clip": "ready_DR",
+  "root_motion": "In-place visual registration only. Gameplay displacement is external.",
+  "events": [
+    {
+      "tick": 0,
+      "seconds": 0.0,
+      "name": "getup_begin"
+    },
+    {
+      "tick": 19,
+      "seconds": 0.31666666666666665,
+      "name": "knee_plant"
+    },
+    {
+      "tick": 26,
+      "seconds": 0.43333333333333335,
+      "name": "feet_plant"
+    },
+    {
+      "tick": 42,
+      "seconds": 0.7,
+      "name": "ready"
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "cel": 1,
+      "label": "grounded_start",
+      "source_component_bbox": [
+        51,
+        127,
+        577,
+        474
+      ],
+      "source_registration_anchor": [
+        537,
+        443
+      ],
+      "integer_translation_xy": [
+        -17,
+        118
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/getup_DR_01_grounded_start.png",
+      "duration_ticks": 6,
+      "start_tick": 0,
+      "end_tick": 6,
+      "sha256": "fe70a78d6cc0d141586c164a5f7ee5b05a48d514d0709f6ea1061c1811422dbd",
+      "atlas_rect": [
+        0,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 1,
+      "cel": 2,
+      "label": "elbow_sit",
+      "source_component_bbox": [
+        605,
+        71,
+        1080,
+        472
+      ],
+      "source_registration_anchor": [
+        1032,
+        412
+      ],
+      "integer_translation_xy": [
+        -512,
+        149
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/getup_DR_02_elbow_sit.png",
+      "duration_ticks": 6,
+      "start_tick": 6,
+      "end_tick": 12,
+      "sha256": "d86aa0b6abb92dbe74df330094a6823c96fd662430d6c960298a8c5640c855eb",
+      "atlas_rect": [
+        896,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 2,
+      "cel": 3,
+      "label": "draw_knee",
+      "source_component_bbox": [
+        1129,
+        75,
+        1568,
+        462
+      ],
+      "source_registration_anchor": [
+        1420,
+        434
+      ],
+      "integer_translation_xy": [
+        -900,
+        127
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/getup_DR_03_draw_knee.png",
+      "duration_ticks": 7,
+      "start_tick": 12,
+      "end_tick": 19,
+      "sha256": "845eaebe2ab2f2f67c7546ffbe7985a7455714548cca11fda765e25d2a790b7a",
+      "atlas_rect": [
+        1792,
+        0,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 3,
+      "cel": 4,
+      "label": "half_kneel",
+      "source_component_bbox": [
+        127,
+        530,
+        549,
+        928
+      ],
+      "source_registration_anchor": [
+        451,
+        898
+      ],
+      "integer_translation_xy": [
+        69,
+        -337
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/getup_DR_04_half_kneel.png",
+      "duration_ticks": 7,
+      "start_tick": 19,
+      "end_tick": 26,
+      "sha256": "5d6a83767bf7d49dce3febd1d17136844b510e9ff175bb05117889f6aae560ab",
+      "atlas_rect": [
+        0,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 4,
+      "cel": 5,
+      "label": "push_to_feet",
+      "source_component_bbox": [
+        663,
+        494,
+        1049,
+        939
+      ],
+      "source_registration_anchor": [
+        765,
+        922
+      ],
+      "integer_translation_xy": [
+        -245,
+        -361
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/getup_DR_05_push_to_feet.png",
+      "duration_ticks": 7,
+      "start_tick": 26,
+      "end_tick": 33,
+      "sha256": "a4c6b59b76b32e6255840d999e91337da40c7fe6523120bc36368dd1c4304d98",
+      "atlas_rect": [
+        896,
+        704,
+        896,
+        704
+      ]
+    },
+    {
+      "index": 5,
+      "cel": 6,
+      "label": "ready",
+      "source_component_bbox": [
+        1223,
+        453,
+        1502,
+        953
+      ],
+      "source_registration_anchor": [
+        1305,
+        938
+      ],
+      "integer_translation_xy": [
+        -785,
+        -377
+      ],
+      "art_operation": "Native-pixel crop and transparent padding only; no scaling, mirroring, rotation, deformation or pixel interpolation.",
+      "file": "frames/getup_DR_06_ready.png",
+      "duration_ticks": 9,
+      "start_tick": 33,
+      "end_tick": 42,
+      "sha256": "22de58bc4ea1fd666652d1e150781d60283b8ce7a873be794c0a8e534e27ea51",
+      "atlas_rect": [
+        1792,
+        704,
+        896,
+        704
+      ]
+    }
+  ],
+  "atlas_file": "getup_DR_atlas.png",
+  "atlas_grid": [
+    3,
+    2
+  ],
+  "authoring": "Built-in image generation reference edit; distinct hand-drawn pose cels, native extraction.",
+  "notes": "Separate 42-tick nonfatal getup: grounded, sit, kneel, push up, return to lowcarry ready. Invulnerability is a gameplay decision, not encoded as an assumed grant.",
+  "integration_status": "ART_QA_PASSED_ENGINE_UNTESTED",
+  "limitations": [
+    "World-size and root registration are approximate hand-authored values, not calibrated 3D measurements.",
+    "Cross-clip grounded/getup and ready transitions need in-engine review; not claimed pixel-seamless.",
+    "Timing and hit events are integration defaults, not combat-balance certification."
+  ],
+  "registration": {
+    "method": "Integer cel translation using explicitly recorded near-boot/ground landmarks; no individual cel scaling.",
+    "standing_reference_height_px": 564,
+    "reference_ppu": 350
+  }
+}

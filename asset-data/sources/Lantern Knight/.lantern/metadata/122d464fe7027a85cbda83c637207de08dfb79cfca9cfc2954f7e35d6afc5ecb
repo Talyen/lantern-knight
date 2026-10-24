@@ -1,0 +1,178 @@
+{
+  "collection": "Lantern Town NPC Concepts 01",
+  "created": "2026-10-07",
+  "generation": "Twelve separate original still concepts generated with built-in image_gen; native PNG bytes preserved. Exact generation prompts included.",
+  "camera": "Prompts request orthographic elevation 35.264 degrees and azimuth 45 degrees; illustration angles are approximate, not measured renders.",
+  "selection_sheets": "Assembled previews with labels; PNG artwork is native-resolution source.",
+  "status": "Selection concepts only. No animations included. Camera, alpha edge and occluded parts may need production refinement after selection.",
+  "concepts": [
+    {
+      "id": "A",
+      "name": "Bell Mender",
+      "file": "art/A_bell_mender.png",
+      "prompt": "prompts/A_bell_mender.txt",
+      "bytes": 1080581,
+      "sha256": "6bfb39fdb313993bef74640966b2f7e78d02c911596fbdb6be7f934880bb3924",
+      "dimensions": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Tap one bell and listen; return hammer to rest."
+    },
+    {
+      "id": "B",
+      "name": "Moth Keeper",
+      "file": "art/B_moth_keeper.png",
+      "prompt": "prompts/B_moth_keeper.txt",
+      "bytes": 1685072,
+      "sha256": "5ee16a547254056f4e502a551b812e3857d96cde25db86fbe97150d63088d1ca",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "One moth flutters above the open hand; cage stays steady."
+    },
+    {
+      "id": "C",
+      "name": "Thread Seer",
+      "file": "art/C_thread_seer.png",
+      "prompt": "prompts/C_thread_seer.txt",
+      "bytes": 1795199,
+      "sha256": "0eb30125abe3f65a72c8e2113fde0a3dae6088eee138059820d373c8a7230727",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Pull one short length of thread through the shadow cloth."
+    },
+    {
+      "id": "D",
+      "name": "Ash Gardener",
+      "file": "art/D_ash_gardener.png",
+      "prompt": "prompts/D_ash_gardener.txt",
+      "bytes": 2082930,
+      "sha256": "2f3cfd8930742d03c8876028aafd293819a6abf5e46d2f0fcef71252699a9852",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Small pruning motion, then inspect the rosemary."
+    },
+    {
+      "id": "E",
+      "name": "Coin Listener",
+      "file": "art/E_coin_listener.png",
+      "prompt": "prompts/E_coin_listener.txt",
+      "bytes": 1895082,
+      "sha256": "8b8069cc9ffbc5c6218c992a57466c2c52428aff9a92353baeb4eb344650f6b2",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Roll a coin; scale tips and settles."
+    },
+    {
+      "id": "F",
+      "name": "Brass Apothecary",
+      "file": "art/F_brass_apothecary.png",
+      "prompt": "prompts/F_brass_apothecary.txt",
+      "bytes": 1126517,
+      "sha256": "73ad261e25edd91dde3f095e195e0990b29723286ac45a199d531a969d79e727",
+      "dimensions": [
+        1145,
+        1374
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Short pestle turn with a little dry herb dust."
+    },
+    {
+      "id": "G",
+      "name": "Map Burner",
+      "file": "art/G_map_burner.png",
+      "prompt": "prompts/G_map_burner.txt",
+      "bytes": 1540669,
+      "sha256": "c24e7c0c0afb7c0cc2c4c06dd262634cc270645fe70d06447bd40a071c4f94a6",
+      "dimensions": [
+        1222,
+        1287
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Tiny stylus stroke and pinpoint ember pulse."
+    },
+    {
+      "id": "H",
+      "name": "Deepwell Diver",
+      "file": "art/H_deepwell_diver.png",
+      "prompt": "prompts/H_deepwell_diver.txt",
+      "bytes": 1516791,
+      "sha256": "55ea0aa77e4186a83415969f363c4e5c5e357b9747bcf694055f4bd0e61e4c77",
+      "dimensions": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Quarter crank turn and a small gauge flick."
+    },
+    {
+      "id": "I",
+      "name": "The Gentle Headsman",
+      "file": "art/I_gentle_headsman.png",
+      "prompt": "prompts/I_gentle_headsman.txt",
+      "bytes": 2177643,
+      "sha256": "459ba7fb8c1391bca9405f8265fd8c77bca167866221d583142131ee81a91476",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Slow kettle pour and soft steam."
+    },
+    {
+      "id": "J",
+      "name": "Rag-and-Bone Porter",
+      "file": "art/J_rag_and_bone_porter.png",
+      "prompt": "prompts/J_rag_and_bone_porter.txt",
+      "bytes": 1644685,
+      "sha256": "52e5e1a200424fe34adc880288755cc8024dabc7bc1bd68010017eacb3759d7f",
+      "dimensions": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Sort one trinket and subtle ear twitch."
+    },
+    {
+      "id": "K",
+      "name": "Porcelain Mourner",
+      "file": "art/K_porcelain_mourner.png",
+      "prompt": "prompts/K_porcelain_mourner.txt",
+      "bytes": 1971507,
+      "sha256": "50a99f1f673173a2cf3aaa9f534ecfb3759a1322cfa2c41169645a963f89a4fe",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Short thread pull and a slight head tilt."
+    },
+    {
+      "id": "L",
+      "name": "Coffin Clerk",
+      "file": "art/L_coffin_clerk.png",
+      "prompt": "prompts/L_coffin_clerk.txt",
+      "bytes": 1707989,
+      "sha256": "c85321f9c9b7d5950f7ebcb87635a592c980d8961d864b1c17cb3362d0dd7fd9",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "future_loop_idea": "Open ledger, stamp a page and make a slight hinge bow."
+    }
+  ]
+}

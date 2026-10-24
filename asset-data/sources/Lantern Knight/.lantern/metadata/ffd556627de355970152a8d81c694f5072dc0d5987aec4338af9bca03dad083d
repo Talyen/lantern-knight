@@ -1,0 +1,70 @@
+{
+  "source_fps": 30,
+  "part_source": "layers/",
+  "assembly_source": "source/build_scenic_illustrated.py",
+  "motions": {
+    "exposed_gear_pair": {
+      "kind": "continuous meshed pair",
+      "duration_seconds": 8,
+      "large_angle_degrees": "90 * seconds",
+      "small_angle_degrees": "-135 * seconds",
+      "completed_turns_per_loop": [
+        2,
+        -3
+      ],
+      "tooth_ratio": "12:8 nominal decorative cast outline; rotation ratio exact -3:2",
+      "angular_speed_change": "6x prior 15/-22.5 deg per second; compact complete painted-orientation cycle",
+      "camera_class": "exact_projected_flat_part_planes; painted thickness is illustrative"
+    },
+    "waterwheel": {
+      "kind": "continuous fixed +X axle",
+      "duration_seconds": 8,
+      "angle_degrees": "45 * seconds",
+      "completed_turns_per_loop": 1,
+      "paddles": 8,
+      "paddle_thickness_metres": 0.04,
+      "paddle_edges": "source-textured thin silhouette extrusion; original illustrated faces retained",
+      "angular_speed_change": "2x prior 22.5 deg per second; full painted-orientation cycle",
+      "camera_class": "exact_projected_flat_part_planes; illustrated rim/spoke/paddle planes with fixed front and rear supports"
+    },
+    "astrolabe": {
+      "kind": "linked gimbal rings",
+      "duration_seconds": 4,
+      "middle_Y_degrees": "90 * seconds",
+      "inner_carried_X_degrees": "-90 * seconds",
+      "angular_speed_change": "unchanged; extended cycle to preserve painted-source orientation",
+      "camera_class": "exact_projected_ring_planes plus approximate illustrated elevated-view pedestal"
+    },
+    "pulley_chain_sway": {
+      "kind": "pendular fixture; wheel does not operate",
+      "duration_seconds": 2,
+      "swing_degrees": "4 * sin(2*pi*seconds/2)",
+      "anchor_px_at_1024": [
+        419.64,
+        445.88
+      ],
+      "camera_class": "approximate_illustrated_elevated_view; rigid 2D whole-assembly swing",
+      "fixed": "timber wall mount; moving block, wheel and closed chain share one hinge"
+    },
+    "tower_bell": {
+      "kind": "pendular bell",
+      "duration_seconds": 2,
+      "swing_degrees": "5.5 * sin(2*pi*seconds/2)",
+      "anchor_px_at_1024": [
+        488,
+        403
+      ],
+      "camera_class": "approximate_illustrated_elevated_view; rigid 2D bell-layer sway",
+      "fixed": "stone corbel and bearing cover; clapper hidden behind body from elevated rest viewpoint",
+      "clapper_relative_swing_degrees": "8 * sin(2*pi*seconds/2 - 0.5)"
+    },
+    "bubble_chamber": {
+      "kind": "contained three-bubble rise",
+      "duration_seconds": 2,
+      "bubble_phase": "(seconds/2 + index/3) modulo 1",
+      "camera_class": "approximate_illustrated_elevated_view; static physical fixture",
+      "fixed": "vessel, cap, steady liquid level; only bubbles move"
+    }
+  },
+  "runtime_note": "The part-sprite rig is the compact editable source. Full 30fps baked loops are optional authoring/runtime convenience; no Unity integration is claimed. Speeds may be configured while retaining ratios and shared pivots."
+}

@@ -1,0 +1,402 @@
+{
+  "name": "Lantern sweep \u2022 nine-drawing native test",
+  "version": 2,
+  "status": "Compact pose selection reviewed; bounded settle revision. Native movement test with minor registration and costume differences remaining.",
+  "unique_drawings": 9,
+  "timeline_cels": 11,
+  "duration_ms": 1170,
+  "playback": "One-shot ready-to-ready; hold final ready. No tweening. Not presented as a seamless motion loop.",
+  "canvas_pixels": [
+    1280,
+    1000
+  ],
+  "pivot_from_top_left_pixels": [
+    635,
+    800
+  ],
+  "pivot_normalized_from_bottom_left": [
+    0.49609375,
+    0.19999999999999996
+  ],
+  "pixels_per_meter": 350,
+  "actor_heading_world_Y_degrees": 0,
+  "camera_contract": "contracts/shared_camera_contract.json",
+  "prop_contract": "contracts/shared_prop_contract.json",
+  "drawings": [
+    {
+      "id": 0,
+      "name": "ready",
+      "runtime_png": "runtime/frames/00_ready.png",
+      "native_png": "native/00_ready.png",
+      "native_resolution": [
+        1199,
+        1312
+      ],
+      "native_sha256": "529b541b2f20d820ee81a6826afb3d6cd83ae6b6612790c50df1f9c3171d117d",
+      "original_sha256": "529b541b2f20d820ee81a6826afb3d6cd83ae6b6612790c50df1f9c3171d117d",
+      "uniform_registration": {
+        "uniform_scale": 0.4820843970445167,
+        "translation": [
+          356.0497245608168,
+          292.1020310498553
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": null,
+      "atlas_rectangle_top_left": [
+        0,
+        0,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        0,
+        2000,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 1,
+      "name": "load_settle",
+      "runtime_png": "runtime/frames/01_load_settle.png",
+      "native_png": "native/01_load_settle.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "f70044b2e1b94db7b7ab07a6b1057905184e9d29fa454d5f08a706d7415992a5",
+      "original_sha256": "9892e5fb02efa874fd22b6d92a5d4e67a60249e7a6ad8f3f24dd0daacc8c4b37",
+      "uniform_registration": {
+        "uniform_scale": 0.5575584254202379,
+        "translation": [
+          223.8348004328127,
+          283.04243842371386
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": {
+        "method": "Traditional bounded cloth fill removing a lower patch placed on the wrong coat panel. Geometry and alpha unchanged.",
+        "original": "native/originals/01_load_settle.png",
+        "mask": "native/cleanup_masks/01_load_settle.png"
+      },
+      "atlas_rectangle_top_left": [
+        1280,
+        0,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        1280,
+        2000,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 2,
+      "name": "turn_chamber",
+      "runtime_png": "runtime/frames/02_turn_chamber.png",
+      "native_png": "native/02_turn_chamber.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "1398a4adb506653076dc2f96519efa57c1eba8c5b0db21f457b8f657b21ab883",
+      "original_sha256": "1398a4adb506653076dc2f96519efa57c1eba8c5b0db21f457b8f657b21ab883",
+      "uniform_registration": {
+        "uniform_scale": 0.616128205245556,
+        "translation": [
+          169.64706951570338,
+          238.81349715915195
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": null,
+      "atlas_rectangle_top_left": [
+        2560,
+        0,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        2560,
+        2000,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 3,
+      "name": "windup",
+      "runtime_png": "runtime/frames/03_windup.png",
+      "native_png": "native/03_windup.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "71e74069a5b8d6a1c115894c8a981966aa2737f55ff8934e9c37f51da8857be4",
+      "original_sha256": "71e74069a5b8d6a1c115894c8a981966aa2737f55ff8934e9c37f51da8857be4",
+      "uniform_registration": {
+        "uniform_scale": 0.7458266459456258,
+        "translation": [
+          98.82074757509031,
+          138.16649698745675
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": null,
+      "atlas_rectangle_top_left": [
+        0,
+        1000,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        0,
+        1000,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 4,
+      "name": "release",
+      "runtime_png": "runtime/frames/04_release.png",
+      "native_png": "native/04_release.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "dd500236b6993b373c41c551947895c3bf47b8f250387a0794cd69baf85df9aa",
+      "original_sha256": "dd500236b6993b373c41c551947895c3bf47b8f250387a0794cd69baf85df9aa",
+      "uniform_registration": {
+        "uniform_scale": 0.6135204656815373,
+        "translation": [
+          233.0919550414343,
+          262.9119723929707
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": null,
+      "atlas_rectangle_top_left": [
+        1280,
+        1000,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        1280,
+        1000,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 5,
+      "name": "crossing_cut",
+      "runtime_png": "runtime/frames/05_crossing_cut.png",
+      "native_png": "native/05_crossing_cut.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "55421c4ffd228f25a9efeb9cbd425fe9f0d9a9cb1e1ecde0a182a4bd954abb80",
+      "original_sha256": "55421c4ffd228f25a9efeb9cbd425fe9f0d9a9cb1e1ecde0a182a4bd954abb80",
+      "uniform_registration": {
+        "uniform_scale": 0.6282227801414388,
+        "translation": [
+          217.77593872315015,
+          278.2099770780293
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": null,
+      "atlas_rectangle_top_left": [
+        2560,
+        1000,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        2560,
+        1000,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 6,
+      "name": "cut_exit",
+      "runtime_png": "runtime/frames/06_cut_exit.png",
+      "native_png": "native/06_cut_exit.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "51cf6e709110ef97362244f0e3df047767779a61dad9eea61b5770b25518a03f",
+      "original_sha256": "af3a9cba30859352c367209f525812afbd873639f5314baee6d3d750ecf2b6d8",
+      "uniform_registration": {
+        "uniform_scale": 0.5234481133696924,
+        "translation": [
+          286.72723691996265,
+          338.22664100299914
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": {
+        "method": "Traditional bounded cloth fill removing a lower patch placed on the wrong coat panel. Geometry and alpha unchanged.",
+        "original": "native/originals/06_cut_exit.png",
+        "mask": "native/cleanup_masks/06_cut_exit.png"
+      },
+      "atlas_rectangle_top_left": [
+        0,
+        2000,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        0,
+        0,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 7,
+      "name": "followthrough",
+      "runtime_png": "runtime/frames/07_followthrough.png",
+      "native_png": "native/07_followthrough.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "ce555649bb57069a9aef3b5e8354c6d25eb2846d0d4b9ac4889cd1c9d3323b1a",
+      "original_sha256": "ce555649bb57069a9aef3b5e8354c6d25eb2846d0d4b9ac4889cd1c9d3323b1a",
+      "uniform_registration": {
+        "uniform_scale": 0.5154606913303518,
+        "translation": [
+          205.17521472533485,
+          360.9704529921829
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": null,
+      "atlas_rectangle_top_left": [
+        1280,
+        2000,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        1280,
+        0,
+        1280,
+        1000
+      ]
+    },
+    {
+      "id": 8,
+      "name": "recover",
+      "runtime_png": "runtime/frames/08_recover.png",
+      "native_png": "native/08_recover.png",
+      "native_resolution": [
+        1411,
+        1114
+      ],
+      "native_sha256": "891dc653f001f60925a154053f3ca390b8d7e72d8172c71b75583894a71e1ab6",
+      "original_sha256": "77c17d689b569383f93d87039b11bedca6f04a8dcc0afb58b1816dbabb1b1b8b",
+      "uniform_registration": {
+        "uniform_scale": 0.5152456790838086,
+        "translation": [
+          243.07533042149436,
+          332.3539427808587
+        ],
+        "method": "Whole-source uniform scale and translation only; no rotations, mirroring, or anatomy warps"
+      },
+      "cleanup": {
+        "method": "Traditional bounded cloth fill removing a lower patch placed on the wrong coat panel. Geometry and alpha unchanged.",
+        "original": "native/originals/08_recover.png",
+        "mask": "native/cleanup_masks/08_recover.png"
+      },
+      "atlas_rectangle_top_left": [
+        2560,
+        2000,
+        1280,
+        1000
+      ],
+      "atlas_rectangle_bottom_left": [
+        2560,
+        0,
+        1280,
+        1000
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "drawing": 0,
+      "duration_ms": 100,
+      "beat": "Ready"
+    },
+    {
+      "drawing": 1,
+      "duration_ms": 80,
+      "beat": "Load"
+    },
+    {
+      "drawing": 2,
+      "duration_ms": 110,
+      "beat": "Turn / chamber"
+    },
+    {
+      "drawing": 3,
+      "duration_ms": 130,
+      "beat": "Wind-up"
+    },
+    {
+      "drawing": 4,
+      "duration_ms": 55,
+      "beat": "Release"
+    },
+    {
+      "drawing": 5,
+      "duration_ms": 45,
+      "beat": "Crossing cut"
+    },
+    {
+      "drawing": 6,
+      "duration_ms": 65,
+      "beat": "Cut exit"
+    },
+    {
+      "drawing": 7,
+      "duration_ms": 115,
+      "beat": "Follow-through"
+    },
+    {
+      "drawing": 8,
+      "duration_ms": 110,
+      "beat": "Recover"
+    },
+    {
+      "drawing": 1,
+      "duration_ms": 100,
+      "beat": "Settle step"
+    },
+    {
+      "drawing": 0,
+      "duration_ms": 260,
+      "beat": "Ready return"
+    }
+  ],
+  "review_notes": [
+    "Human-first review found no reversed shoulder/elbow/wrist/knee in selected poses. Doubtful former chest-high carry pose was omitted.",
+    "Final settling step reuses the existing load drawing to reduce the torso/head jump into shared ready, without adding a drawing.",
+    "Some foot placement and body-mass differences remain between independently drawn cels. This is a native animation test, not a promise of perfect foot locking.",
+    "Small costume/line variations remain. Three wrong-panel patches were removed only within saved masks.",
+    "Projection follows the locked guide contract; native illustration adherence was visually assessed and is not mathematical camera certification.",
+    "No mirrored hero art, rotations, or anatomical deformation were used.",
+    "Standalone player logic tested with stubs. Browser visual playback was unavailable in the environment; MP4 decode validated."
+  ]
+}

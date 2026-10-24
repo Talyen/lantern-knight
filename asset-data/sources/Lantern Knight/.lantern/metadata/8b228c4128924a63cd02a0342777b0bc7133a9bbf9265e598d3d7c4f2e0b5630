@@ -1,0 +1,40 @@
+{
+  "monk": {
+    "native_source_size": [
+      1536,
+      1024
+    ],
+    "six_unique_hashes": true,
+    "all_cels_within_canvas": true,
+    "fixed_pivot": [
+      320,
+      500
+    ],
+    "rgb_unchanged": true,
+    "encoded_frames": 276,
+    "ffprobe": {
+      "r_frame_rate": "60/1",
+      "nb_read_frames": "276"
+    },
+    "engine_validation": false
+  },
+  "crawler": {
+    "native_source_size": [
+      1536,
+      1024
+    ],
+    "six_unique_hashes": true,
+    "all_cels_within_canvas": true,
+    "fixed_pivot": [
+      448,
+      488
+    ],
+    "rgb_unchanged": true,
+    "encoded_frames": 276,
+    "ffprobe": {
+      "r_frame_rate": "60/1",
+      "nb_read_frames": "276"
+    },
+    "engine_validation": false
+  }
+}

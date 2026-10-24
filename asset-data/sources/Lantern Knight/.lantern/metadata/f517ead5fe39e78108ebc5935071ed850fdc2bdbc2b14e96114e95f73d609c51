@@ -1,0 +1,8 @@
+LANTERN CLEAN INK MOTION POLISH R02
+Complete pack; retained members explicitly marked in manifest and byte-identical.
+Source 30fps; previews are 60Hz by repeating each drawing twice. This is not a runtime FPS claim.
+Repaired clips preserve IDs and root pivot (256,286); timing changes are in SUPERSESSION.json. Re-import frames and timing from new manifest; do not use old atlas rectangles.
+Frame-level atlas field is authoritative for repaired multi-page safe atlases; retained clips use clip-level atlas. All atlases <=2048px, straight alpha, normal source-over, sRGB color/linear alpha. Disable mipmaps or extrude per frame for mipmapped usage; transparent gutters alone are not mip-safe.
+Camera: vector world geometry uses exact 35.264389682754654 elevation /45 azimuth projection at112px per metre. Smoke contour lobes face camera. Banner is a generated illustrated front master on a fixed-top 2D mesh, not 3D camera calibrated. Leaves/papers/reeds are authored projected geometry. Headings are source-space yaw, never rotated rendered sprites.
+All dimensions and phase events are illustrative. No collision or damage authority. Keep functional telegraphs separate. Lantern local emitter remains (0,.86,.05), nominal2.1m radius,28deg half-angle; no actor socket calibration.
+No engine integration or runtime performance acceptance. Review sheets are at half source size; source PNGs are512x448. Banner master is included.
