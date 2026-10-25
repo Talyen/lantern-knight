@@ -6,6 +6,16 @@ The repository owns prepared artwork used by saved scenes and Game content, requ
 
 Documents and the former Asset Library are independent archives. Moving, editing or deleting files there cannot change this project. Preserve canonical hero references, Clean INK prompts, original resolutions, timing and provenance. [Source recovery](source-recovery.md) is confined to owned sources.
 
+## Code-only working copies
+
+A clean working copy can omit source masters while retaining the pinned prepared objects and inventories:
+
+```sh
+git sparse-checkout set --no-cone '/*' '!/asset-data/sources/'
+```
+
+Use this only when `asset-data/sources/` has no unique files, changes or active authoring work. Sparse settings belong to this checkout; other worktrees can retain their sources. Development, builds and packaging continue using repository-owned prepared bytes without Drive or network access. Missing skipped masters are intentional. Before imports, preparation, source recovery or source inspection, run `git sparse-checkout disable` to restore the full authoring checkout from Git. Check disk headroom before restoring masters. Never force removal over changes or substitute a required mounted Drive path. Sparse checkout reduces working-copy residency; it does not shrink Git history or its object store.
+
 ## Choose a workflow
 
 | Task | Action |
