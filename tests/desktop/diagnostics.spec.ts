@@ -18,7 +18,10 @@ test('native diagnostics export records renderer failure and drains before resta
     const profile = path.join(root, 'profile'),
       output = path.join(root, 'export.json');
     const application = await _electron.launch({
-      args: [path.join(root, 'main.cjs')],
+      args: [
+        path.join(root, 'main.cjs'),
+        ...(process.platform === 'darwin' ? ['-ApplePersistenceIgnoreState', 'YES'] : []),
+      ],
       cwd: root,
       env: {
         ...process.env,

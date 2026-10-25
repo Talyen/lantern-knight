@@ -29,7 +29,12 @@ test('window close and application quit finish an admitted atomic save', async (
       const profile = path.join(root, method),
         file = path.join(profile, 'prototype-saves/settings.json'),
         application = await _electron.launch({
-          args: [path.join(root, 'main.cjs')],
+          args: [
+            path.join(root, 'main.cjs'),
+            // Raw Electron fixtures share AppKit's bundle identity. Ignore its
+            // crash-restoration prompt per launch, preserving the user's state.
+            ...(process.platform === 'darwin' ? ['-ApplePersistenceIgnoreState', 'YES'] : []),
+          ],
           cwd: root,
           env: {
             ...process.env,
