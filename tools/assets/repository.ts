@@ -8,6 +8,7 @@ import { projectRoot } from './paths';
 import { safeRelative } from './files';
 import { shaFile } from './sources';
 import type { AssetScope } from './bundles';
+import { leaseRepositoryAssembly } from './repository-cache';
 
 export type RepositoryPin = Extract<AssetLock, { schemaVersion: 5 }>;
 const inventoryName = (hash: string) => `asset-data/inventories/${hash}.json.gz`;
@@ -31,13 +32,7 @@ async function regular(file: string, base: string) {
 
 // Immutable bytes belong to Git. This checkout-local assembly is disposable and
 // can always be reconstructed without Documents, GitHub or the shared cache.
-export async function openRepositoryWorkspace(
-  pin: RepositoryPin,
-  scope: AssetScope = 'authoring',
-  demand = true,
-  root = projectRoot,
-) {
-  root = path.resolve(root);
+export async function readRepositoryInventory(pin: RepositoryPin, root = projectRoot) {
   const file = path.join(root, inventoryName(pin.inventorySha256));
   await regular(file, root);
   const compressed = await fs.readFile(file);
@@ -52,7 +47,18 @@ export async function openRepositoryWorkspace(
     safeRelative(name);
     if (!/^(public|metadata)\//.test(name)) throw new Error('Invalid repository asset path');
   }
+  return inventory;
+}
+export async function openRepositoryWorkspace(
+  pin: RepositoryPin,
+  scope: AssetScope = 'authoring',
+  demand = true,
+  root = projectRoot,
+) {
+  root = path.resolve(root);
+  const inventory = await readRepositoryInventory(pin, root);
   const directory = path.join(root, '.cache/repository-assets', pin.sha256);
+  const lease = await leaseRepositoryAssembly(root, pin.sha256, pin.bytes);
   const pending = new Map<string, Promise<boolean>>();
   let released = false;
   const ensure = (name: string) => {
@@ -107,6 +113,7 @@ export async function openRepositoryWorkspace(
     async release() {
       released = true;
       await Promise.allSettled([...pending.values()]);
+      await lease.release();
     },
   };
   try {
@@ -132,6 +139,7 @@ export async function saveRepositoryAssets(
   inventory: PackInventory,
   preparation: RepositoryPin['preparation'],
   root = projectRoot,
+  reuse?: { inventory: PackInventory; expectedPin: string },
 ) {
   root = path.resolve(root);
   PackSchema.parse(inventory);
@@ -140,6 +148,8 @@ export async function saveRepositoryAssets(
     if (error.code === 'ENOENT') return undefined;
     throw error;
   });
+  if (reuse && (!originalPin || JSON.parse(originalPin).sha256 !== reuse.expectedPin))
+    throw new Error('Asset pin changed before derivative acceptance');
   const hashes = new Set<string>();
   let count = 0;
   for (const [name, info] of Object.entries(inventory.files)) {
@@ -148,8 +158,9 @@ export async function saveRepositoryAssets(
     if (hashes.has(info.sha256)) continue;
     hashes.add(info.sha256);
     const target = objectFile(root, info.sha256);
-    const input = path.join(source, name);
-    await regular(input, source);
+    const reused = reuse?.inventory.files[name]?.sha256 === info.sha256;
+    const input = reused ? objectFile(root, info.sha256) : path.join(source, name);
+    await regular(input, reused ? root : source);
     if ((await fs.stat(input)).size !== info.bytes || (await shaFile(input)) !== info.sha256)
       throw new Error('Prepared asset changed before acceptance: ' + name);
     await fs.mkdir(path.dirname(target), { recursive: true });

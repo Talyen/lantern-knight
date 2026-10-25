@@ -9,6 +9,7 @@ import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import { openWorkspace, workspaceEnvironment } from './assets/workspace';
 import { verifyBuildIdentity } from './build-identity';
+import { materializeBuiltAssets } from './built-asset-reader';
 
 // Current Game compatibility and source-preservation proofs consume the same
 // artifact as player/native checks. Legacy artwork sweeps remain test:assets.
@@ -18,6 +19,7 @@ const builtAssetSuites = [
   'oracle-art',
   'library-import',
   'source-recovery',
+  'game-effects',
 ].map((name) => `tests/assets/${name}.test.ts`);
 async function builtAssetWorkspace() {
   const artifact = await verifyBuildIdentity({ target: 'web' });
@@ -43,6 +45,7 @@ async function builtAssetWorkspace() {
     recursive: true,
     mode: constants.COPYFILE_FICLONE,
   });
+  await materializeBuiltAssets(path.join(root, 'public'));
   await fs.mkdir(path.join(root, 'metadata/ink'), { recursive: true });
   await fs.copyFile(
     path.join(pin.metadataDirectory, 'ink/hero-receipt.json'),

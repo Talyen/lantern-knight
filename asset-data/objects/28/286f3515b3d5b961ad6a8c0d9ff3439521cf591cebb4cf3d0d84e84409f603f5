@@ -1,0 +1,4499 @@
+{
+  "schemaVersion": 2,
+  "contractId": "lantern-camera-v2",
+  "bakeVersion": 2,
+  "hash": "42544b83a1f248b26140bbbdc4a565ac9861f074cba9ab82eb8ee60fd2746ec9",
+  "toolVersion": "atlas-v2.2-sharp-0.35.5",
+  "asset": {
+    "id": "library-dash_wake",
+    "type": "effect",
+    "schemaVersion": 2,
+    "contentVersion": "ink-01",
+    "viewMode": "fixed-authored",
+    "projection": "projected-world",
+    "allowEmptyFrames": true,
+    "limitations": [
+      "Supplied asset; registration follows its metadata where available."
+    ],
+    "label": "dash_wake",
+    "category": "effect",
+    "mirroring": true,
+    "placement": "upright",
+    "layer": "world",
+    "atlasSize": 1024,
+    "bundle": "room",
+    "status": "proxy",
+    "provenance": {
+      "creator": "Lantern artwork authors",
+      "license": "Owner-supplied project artwork; source licenses and provenance remain in the Asset Library.",
+      "source": "Asset Library / Lantern Knight"
+    },
+    "contractId": "lantern-camera-v2",
+    "bakeVersion": 2,
+    "canvas": [
+      512,
+      448
+    ],
+    "density": 112,
+    "anchor": [
+      256,
+      286
+    ],
+    "padding": 4,
+    "colorSpace": "srgb",
+    "alpha": "straight",
+    "recipe": "library-native-v2",
+    "designReference": "collection-study",
+    "renderStyle": "clean-ink",
+    "renderCategory": "translucent",
+    "shadow": {
+      "radius": 0.34,
+      "opacity": 0.32
+    },
+    "collisionFootprint": "none",
+    "occlusion": "camera-card-v1",
+    "fallbacks": {},
+    "dependencies": [],
+    "requiredClips": [],
+    "clips": {
+      "dash_wake__d000": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-cd9c390bbbbef1e2f9f82cec",
+            "frame-26539307266f42c20727d7c3",
+            "frame-16a5f14591ba8d1d48a9242c",
+            "frame-03bf01f83da041f824c4b232",
+            "frame-36d4b8df9a7b97979b743266",
+            "frame-c62ced15d31cf42f36405ed6",
+            "frame-e4ad5189a1633251e3387bdc",
+            "frame-553c418038bbecfcfa946698",
+            "frame-3c4c3805886dcaebed409ef7",
+            "frame-f8eeac41cbd08a22b673064a",
+            "frame-3a284a21e5676acec518d521",
+            "frame-80d13c754aee446476b4680a",
+            "frame-4dd72703633f877c1ba18d9c",
+            "frame-48bd948e454df5725ed00bc8",
+            "frame-cdc3c3f9cf264f112b4bce11",
+            "frame-9ca916d34da97ab137449121",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d045": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-8d2715520e0199405ddaea4d",
+            "frame-0e55b8c316baf5e54c2b62ff",
+            "frame-f11d5a5f1ae31157e0d6afdf",
+            "frame-473dda25847ade9318b649f5",
+            "frame-6792cf008128e9db43357992",
+            "frame-b89816d5d6368ecdadf322da",
+            "frame-18ac4680b8b06809cb700f1c",
+            "frame-5bce13a973a330e08ae656be",
+            "frame-66168900b62464bf36260b79",
+            "frame-58c99aca967354972d96796f",
+            "frame-1bb84e6730f987197608e138",
+            "frame-5fd3c106ec9f84160f8a2514",
+            "frame-9c416edb697078242bc2d25b",
+            "frame-48ef20bd7669cac077be5279",
+            "frame-09ebccc4e960b7d1d7ce9570",
+            "frame-f883794019f481768b6ecda9",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d090": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-e0b0a1a1457bc6a5976945c6",
+            "frame-1d8f0317b490acd6befb07db",
+            "frame-bafbf15c06cf348865f9f9f2",
+            "frame-f0b1d1768d96f96c6ca2cbda",
+            "frame-54973f6796cde431cb14c1f4",
+            "frame-6250cc0da3fdd8821d2c33ef",
+            "frame-3b1b29aa5fe2b504f27d0a52",
+            "frame-8465b2e5c46e480cb11a04e2",
+            "frame-ab0b52352a016ab766efe0ae",
+            "frame-36e873222a0c5d89a4d96907",
+            "frame-bd05824387a8a392b437bf65",
+            "frame-2a6e06545e418c5c4af73d01",
+            "frame-1044ac653f3fa2b40aed1d27",
+            "frame-71bf36b307690335192eb094",
+            "frame-951f640f9806f10b6410e0c2",
+            "frame-314ea8d4b479b0e68aee31e2",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d135": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-2e4c7af01a7ff4cdb4e80246",
+            "frame-38ad37467e7be4b6dc35c7ac",
+            "frame-c20cdeb469fa75aa3faac63b",
+            "frame-9a3e1ef3069a3a02692a3f2e",
+            "frame-2d5fe79cce9183fdd939dc38",
+            "frame-07433fc7fa476fe3c50f9060",
+            "frame-e5a4a39d0c8239374f1fceff",
+            "frame-93d84a0649c3e611ae41d719",
+            "frame-203f32a2dab84abf4151ca9e",
+            "frame-727e69ee24cba78ec02f2450",
+            "frame-32941aaf8ac28d1ce61463a0",
+            "frame-69ae562f191a9419ceb19fd2",
+            "frame-f642a081ed75f976f762f900",
+            "frame-d6ca1faf707e3592a63dcb63",
+            "frame-bcaf5baab9253ac97d7efe88",
+            "frame-7bd546aa541a3a47da3b5792",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d180": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-c4c3cbf95d256433fc9e3e05",
+            "frame-fa8a7191ee085c4a6cb9d104",
+            "frame-0ba2a107091ccba5192c5d31",
+            "frame-4b15d6edda11a1e19228a978",
+            "frame-20ff8c62037ab4ae63aa5096",
+            "frame-e4f387766a3f6e4ef57de1e8",
+            "frame-6a314c7d59a97b0c935030f6",
+            "frame-77fa7eae8eec3ac7fad9a16d",
+            "frame-82adbc22cf520a663c49bf37",
+            "frame-55d486f85cb8b9fd6dd4a78d",
+            "frame-36e228ba0e995e554b69ea3b",
+            "frame-0fee5068a167b36693ca5bb2",
+            "frame-d2516bfa5f2d569f7587a8cb",
+            "frame-ef2191d466708cf09e47531f",
+            "frame-62fcdfa1c168c39305778c4f",
+            "frame-ca92cea5c303146b4d11b829",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d225": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-bd3cc5b03232315e39ca6210",
+            "frame-c42d4b97811c875946209bc5",
+            "frame-00fbc117fa90557e9a2eaa10",
+            "frame-46e485f385d04868eceeb1fd",
+            "frame-e4c1a27c7cde5bc02228de3a",
+            "frame-e8685ffe636ab526784b9c1b",
+            "frame-77d02bfcc7bab0aa92035d09",
+            "frame-e7a0c3d740cf2c3dfcfda796",
+            "frame-55e94677dabf14db2b3f2a28",
+            "frame-200b4a5ee4ddd5702b272362",
+            "frame-dc017db4944c02e913c6f9e0",
+            "frame-7a690adf71010fa2dcbb0004",
+            "frame-19ed2401bc87496ec683074e",
+            "frame-b99447dc1ed65c2e25683517",
+            "frame-026bb64b106da550dd006cc5",
+            "frame-111716e8f508c6abb4362068",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d270": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-1a62354a24ba7f0e640f9785",
+            "frame-13ef0f157985ba9e9d68bace",
+            "frame-8ada021ab01cab114c28127c",
+            "frame-9ae1ca438349258edd252871",
+            "frame-c4a848e92e21df21007f4bd4",
+            "frame-07c03b6eacaa0080b32b0c13",
+            "frame-fe2a3b93f1bf41953d3508e0",
+            "frame-3cff7fc5ecd765cd0b460f7a",
+            "frame-0aade37eda2661daf2e40a9a",
+            "frame-42a5cfe07e08b4548a068201",
+            "frame-931b7386b12d29649bca9a7b",
+            "frame-e71a0ef0ef56b2d00e2f8ae8",
+            "frame-77a751ab0c35887b7665f096",
+            "frame-55589f3fa036ae9d0e839370",
+            "frame-4d52c128daf0daf0de4b28f2",
+            "frame-bb600d3a855211579489df20",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "dash_wake__d315": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-2340306a38a34e4a92011b17",
+            "frame-fb89263a4bade6e335dd51fa",
+            "frame-8884ecbb72e7f79648610633",
+            "frame-2b059b07ea2ad46a9c1109f7",
+            "frame-75eec527677c09da81a46291",
+            "frame-10e62a2c31b4e95f49688ddb",
+            "frame-a844fbfb8ef59423b9c79550",
+            "frame-8c3e5866b62667eee4bf9caf",
+            "frame-cc84049ba9ffd6b859868fe0",
+            "frame-11e8a5a3e5f0eace46f9de41",
+            "frame-f63860beecb8a72e0afa3ccb",
+            "frame-06df2715e2c9a9fc12d7802e",
+            "frame-4d8abb785fc11abd81393ec7",
+            "frame-0f60563c1bb568f1ef2ef658",
+            "frame-028a907481a5d479dcd23f70",
+            "frame-0dfd719189bcd096d85a18d3",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      }
+    }
+  },
+  "frames": [
+    {
+      "id": "frame-c27a9d723fb08fd79fc0c08b",
+      "source": "game-effects/library-dash_wake/frame-c27a9d723fb08fd79fc0c08b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        4,
+        2,
+        2
+      ],
+      "trim": [
+        0,
+        0,
+        2,
+        2
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-cd9c390bbbbef1e2f9f82cec",
+      "source": "game-effects/library-dash_wake/frame-cd9c390bbbbef1e2f9f82cec.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        14,
+        4,
+        70,
+        42
+      ],
+      "trim": [
+        238,
+        260,
+        70,
+        42
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-26539307266f42c20727d7c3",
+      "source": "game-effects/library-dash_wake/frame-26539307266f42c20727d7c3.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        92,
+        4,
+        84,
+        44
+      ],
+      "trim": [
+        240,
+        253,
+        84,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-16a5f14591ba8d1d48a9242c",
+      "source": "game-effects/library-dash_wake/frame-16a5f14591ba8d1d48a9242c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        184,
+        4,
+        105,
+        56
+      ],
+      "trim": [
+        241,
+        241,
+        105,
+        56
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-03bf01f83da041f824c4b232",
+      "source": "game-effects/library-dash_wake/frame-03bf01f83da041f824c4b232.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        297,
+        4,
+        128,
+        70
+      ],
+      "trim": [
+        241,
+        227,
+        128,
+        70
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-36d4b8df9a7b97979b743266",
+      "source": "game-effects/library-dash_wake/frame-36d4b8df9a7b97979b743266.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        433,
+        4,
+        143,
+        81
+      ],
+      "trim": [
+        241,
+        216,
+        143,
+        81
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-c62ced15d31cf42f36405ed6",
+      "source": "game-effects/library-dash_wake/frame-c62ced15d31cf42f36405ed6.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        584,
+        4,
+        147,
+        85
+      ],
+      "trim": [
+        241,
+        212,
+        147,
+        85
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e4ad5189a1633251e3387bdc",
+      "source": "game-effects/library-dash_wake/frame-e4ad5189a1633251e3387bdc.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        739,
+        4,
+        145,
+        86
+      ],
+      "trim": [
+        241,
+        211,
+        145,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-553c418038bbecfcfa946698",
+      "source": "game-effects/library-dash_wake/frame-553c418038bbecfcfa946698.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        98,
+        143,
+        87
+      ],
+      "trim": [
+        241,
+        210,
+        143,
+        87
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3c4c3805886dcaebed409ef7",
+      "source": "game-effects/library-dash_wake/frame-3c4c3805886dcaebed409ef7.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        155,
+        98,
+        138,
+        85
+      ],
+      "trim": [
+        245,
+        208,
+        138,
+        85
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f8eeac41cbd08a22b673064a",
+      "source": "game-effects/library-dash_wake/frame-f8eeac41cbd08a22b673064a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        301,
+        98,
+        130,
+        82
+      ],
+      "trim": [
+        254,
+        206,
+        130,
+        82
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3a284a21e5676acec518d521",
+      "source": "game-effects/library-dash_wake/frame-3a284a21e5676acec518d521.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        439,
+        98,
+        118,
+        78
+      ],
+      "trim": [
+        267,
+        204,
+        118,
+        78
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-80d13c754aee446476b4680a",
+      "source": "game-effects/library-dash_wake/frame-80d13c754aee446476b4680a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        565,
+        98,
+        105,
+        70
+      ],
+      "trim": [
+        282,
+        202,
+        105,
+        70
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-4dd72703633f877c1ba18d9c",
+      "source": "game-effects/library-dash_wake/frame-4dd72703633f877c1ba18d9c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        678,
+        98,
+        93,
+        64
+      ],
+      "trim": [
+        297,
+        200,
+        93,
+        64
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-48bd948e454df5725ed00bc8",
+      "source": "game-effects/library-dash_wake/frame-48bd948e454df5725ed00bc8.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        779,
+        98,
+        82,
+        58
+      ],
+      "trim": [
+        312,
+        198,
+        82,
+        58
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-cdc3c3f9cf264f112b4bce11",
+      "source": "game-effects/library-dash_wake/frame-cdc3c3f9cf264f112b4bce11.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        869,
+        98,
+        73,
+        52
+      ],
+      "trim": [
+        324,
+        197,
+        73,
+        52
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-9ca916d34da97ab137449121",
+      "source": "game-effects/library-dash_wake/frame-9ca916d34da97ab137449121.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        950,
+        98,
+        69,
+        44
+      ],
+      "trim": [
+        330,
+        198,
+        69,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8d2715520e0199405ddaea4d",
+      "source": "game-effects/library-dash_wake/frame-8d2715520e0199405ddaea4d.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        193,
+        92,
+        18
+      ],
+      "trim": [
+        220,
+        266,
+        92,
+        18
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0e55b8c316baf5e54c2b62ff",
+      "source": "game-effects/library-dash_wake/frame-0e55b8c316baf5e54c2b62ff.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        104,
+        193,
+        86,
+        34
+      ],
+      "trim": [
+        222,
+        250,
+        86,
+        34
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f11d5a5f1ae31157e0d6afdf",
+      "source": "game-effects/library-dash_wake/frame-f11d5a5f1ae31157e0d6afdf.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        198,
+        193,
+        80,
+        55
+      ],
+      "trim": [
+        224,
+        229,
+        80,
+        55
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-473dda25847ade9318b649f5",
+      "source": "game-effects/library-dash_wake/frame-473dda25847ade9318b649f5.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        286,
+        193,
+        74,
+        75
+      ],
+      "trim": [
+        225,
+        209,
+        74,
+        75
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-6792cf008128e9db43357992",
+      "source": "game-effects/library-dash_wake/frame-6792cf008128e9db43357992.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        368,
+        193,
+        68,
+        91
+      ],
+      "trim": [
+        225,
+        193,
+        68,
+        91
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-b89816d5d6368ecdadf322da",
+      "source": "game-effects/library-dash_wake/frame-b89816d5d6368ecdadf322da.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        444,
+        193,
+        65,
+        97
+      ],
+      "trim": [
+        225,
+        187,
+        65,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-18ac4680b8b06809cb700f1c",
+      "source": "game-effects/library-dash_wake/frame-18ac4680b8b06809cb700f1c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        517,
+        193,
+        66,
+        97
+      ],
+      "trim": [
+        224,
+        187,
+        66,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5bce13a973a330e08ae656be",
+      "source": "game-effects/library-dash_wake/frame-5bce13a973a330e08ae656be.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        591,
+        193,
+        67,
+        97
+      ],
+      "trim": [
+        223,
+        187,
+        67,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-66168900b62464bf36260b79",
+      "source": "game-effects/library-dash_wake/frame-66168900b62464bf36260b79.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        666,
+        193,
+        68,
+        92
+      ],
+      "trim": [
+        222,
+        187,
+        68,
+        92
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-58c99aca967354972d96796f",
+      "source": "game-effects/library-dash_wake/frame-58c99aca967354972d96796f.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        742,
+        193,
+        70,
+        86
+      ],
+      "trim": [
+        220,
+        187,
+        70,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-1bb84e6730f987197608e138",
+      "source": "game-effects/library-dash_wake/frame-1bb84e6730f987197608e138.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        820,
+        193,
+        73,
+        74
+      ],
+      "trim": [
+        217,
+        187,
+        73,
+        74
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5fd3c106ec9f84160f8a2514",
+      "source": "game-effects/library-dash_wake/frame-5fd3c106ec9f84160f8a2514.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        901,
+        193,
+        76,
+        63
+      ],
+      "trim": [
+        214,
+        187,
+        76,
+        63
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-9c416edb697078242bc2d25b",
+      "source": "game-effects/library-dash_wake/frame-9c416edb697078242bc2d25b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        298,
+        78,
+        51
+      ],
+      "trim": [
+        212,
+        187,
+        78,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-48ef20bd7669cac077be5279",
+      "source": "game-effects/library-dash_wake/frame-48ef20bd7669cac077be5279.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        90,
+        298,
+        82,
+        39
+      ],
+      "trim": [
+        209,
+        187,
+        82,
+        39
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-09ebccc4e960b7d1d7ce9570",
+      "source": "game-effects/library-dash_wake/frame-09ebccc4e960b7d1d7ce9570.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        180,
+        298,
+        88,
+        29
+      ],
+      "trim": [
+        208,
+        187,
+        88,
+        29
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f883794019f481768b6ecda9",
+      "source": "game-effects/library-dash_wake/frame-f883794019f481768b6ecda9.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        276,
+        298,
+        92,
+        20
+      ],
+      "trim": [
+        208,
+        188,
+        92,
+        20
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e0b0a1a1457bc6a5976945c6",
+      "source": "game-effects/library-dash_wake/frame-e0b0a1a1457bc6a5976945c6.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        376,
+        298,
+        67,
+        44
+      ],
+      "trim": [
+        219,
+        251,
+        67,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-1d8f0317b490acd6befb07db",
+      "source": "game-effects/library-dash_wake/frame-1d8f0317b490acd6befb07db.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        451,
+        298,
+        71,
+        52
+      ],
+      "trim": [
+        207,
+        242,
+        71,
+        52
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-bafbf15c06cf348865f9f9f2",
+      "source": "game-effects/library-dash_wake/frame-bafbf15c06cf348865f9f9f2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        530,
+        298,
+        93,
+        65
+      ],
+      "trim": [
+        185,
+        229,
+        93,
+        65
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f0b1d1768d96f96c6ca2cbda",
+      "source": "game-effects/library-dash_wake/frame-f0b1d1768d96f96c6ca2cbda.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        631,
+        298,
+        117,
+        76
+      ],
+      "trim": [
+        161,
+        217,
+        117,
+        76
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-54973f6796cde431cb14c1f4",
+      "source": "game-effects/library-dash_wake/frame-54973f6796cde431cb14c1f4.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        756,
+        298,
+        135,
+        86
+      ],
+      "trim": [
+        143,
+        207,
+        135,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-6250cc0da3fdd8821d2c33ef",
+      "source": "game-effects/library-dash_wake/frame-6250cc0da3fdd8821d2c33ef.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        392,
+        143,
+        88
+      ],
+      "trim": [
+        135,
+        205,
+        143,
+        88
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3b1b29aa5fe2b504f27d0a52",
+      "source": "game-effects/library-dash_wake/frame-3b1b29aa5fe2b504f27d0a52.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        155,
+        392,
+        144,
+        85
+      ],
+      "trim": [
+        134,
+        208,
+        144,
+        85
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8465b2e5c46e480cb11a04e2",
+      "source": "game-effects/library-dash_wake/frame-8465b2e5c46e480cb11a04e2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        307,
+        392,
+        146,
+        85
+      ],
+      "trim": [
+        132,
+        208,
+        146,
+        85
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-ab0b52352a016ab766efe0ae",
+      "source": "game-effects/library-dash_wake/frame-ab0b52352a016ab766efe0ae.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        461,
+        392,
+        145,
+        83
+      ],
+      "trim": [
+        129,
+        208,
+        145,
+        83
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-36e873222a0c5d89a4d96907",
+      "source": "game-effects/library-dash_wake/frame-36e873222a0c5d89a4d96907.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        614,
+        392,
+        138,
+        78
+      ],
+      "trim": [
+        125,
+        208,
+        138,
+        78
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-bd05824387a8a392b437bf65",
+      "source": "game-effects/library-dash_wake/frame-bd05824387a8a392b437bf65.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        760,
+        392,
+        130,
+        71
+      ],
+      "trim": [
+        122,
+        207,
+        130,
+        71
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2a6e06545e418c5c4af73d01",
+      "source": "game-effects/library-dash_wake/frame-2a6e06545e418c5c4af73d01.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        898,
+        392,
+        119,
+        64
+      ],
+      "trim": [
+        118,
+        206,
+        119,
+        64
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-1044ac653f3fa2b40aed1d27",
+      "source": "game-effects/library-dash_wake/frame-1044ac653f3fa2b40aed1d27.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        488,
+        105,
+        57
+      ],
+      "trim": [
+        115,
+        204,
+        105,
+        57
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-71bf36b307690335192eb094",
+      "source": "game-effects/library-dash_wake/frame-71bf36b307690335192eb094.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        117,
+        488,
+        95,
+        51
+      ],
+      "trim": [
+        112,
+        202,
+        95,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-951f640f9806f10b6410e0c2",
+      "source": "game-effects/library-dash_wake/frame-951f640f9806f10b6410e0c2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        220,
+        488,
+        83,
+        45
+      ],
+      "trim": [
+        111,
+        200,
+        83,
+        45
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-314ea8d4b479b0e68aee31e2",
+      "source": "game-effects/library-dash_wake/frame-314ea8d4b479b0e68aee31e2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        311,
+        488,
+        75,
+        44
+      ],
+      "trim": [
+        111,
+        198,
+        75,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2e4c7af01a7ff4cdb4e80246",
+      "source": "game-effects/library-dash_wake/frame-2e4c7af01a7ff4cdb4e80246.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        394,
+        488,
+        25,
+        56
+      ],
+      "trim": [
+        230,
+        249,
+        25,
+        56
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-38ad37467e7be4b6dc35c7ac",
+      "source": "game-effects/library-dash_wake/frame-38ad37467e7be4b6dc35c7ac.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        427,
+        488,
+        53,
+        53
+      ],
+      "trim": [
+        202,
+        251,
+        53,
+        53
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-c20cdeb469fa75aa3faac63b",
+      "source": "game-effects/library-dash_wake/frame-c20cdeb469fa75aa3faac63b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        488,
+        488,
+        89,
+        49
+      ],
+      "trim": [
+        165,
+        254,
+        89,
+        49
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-9a3e1ef3069a3a02692a3f2e",
+      "source": "game-effects/library-dash_wake/frame-9a3e1ef3069a3a02692a3f2e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        585,
+        488,
+        126,
+        46
+      ],
+      "trim": [
+        128,
+        257,
+        126,
+        46
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2d5fe79cce9183fdd939dc38",
+      "source": "game-effects/library-dash_wake/frame-2d5fe79cce9183fdd939dc38.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        719,
+        488,
+        152,
+        42
+      ],
+      "trim": [
+        102,
+        260,
+        152,
+        42
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-07433fc7fa476fe3c50f9060",
+      "source": "game-effects/library-dash_wake/frame-07433fc7fa476fe3c50f9060.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        553,
+        164,
+        41
+      ],
+      "trim": [
+        90,
+        262,
+        164,
+        41
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e5a4a39d0c8239374f1fceff",
+      "source": "game-effects/library-dash_wake/frame-e5a4a39d0c8239374f1fceff.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        176,
+        553,
+        164,
+        41
+      ],
+      "trim": [
+        90,
+        262,
+        164,
+        41
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-93d84a0649c3e611ae41d719",
+      "source": "game-effects/library-dash_wake/frame-93d84a0649c3e611ae41d719.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        348,
+        553,
+        165,
+        41
+      ],
+      "trim": [
+        90,
+        262,
+        165,
+        41
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-203f32a2dab84abf4151ca9e",
+      "source": "game-effects/library-dash_wake/frame-203f32a2dab84abf4151ca9e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        521,
+        553,
+        159,
+        42
+      ],
+      "trim": [
+        90,
+        262,
+        159,
+        42
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-727e69ee24cba78ec02f2450",
+      "source": "game-effects/library-dash_wake/frame-727e69ee24cba78ec02f2450.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        688,
+        553,
+        146,
+        43
+      ],
+      "trim": [
+        90,
+        262,
+        146,
+        43
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-32941aaf8ac28d1ce61463a0",
+      "source": "game-effects/library-dash_wake/frame-32941aaf8ac28d1ce61463a0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        842,
+        553,
+        128,
+        45
+      ],
+      "trim": [
+        90,
+        262,
+        128,
+        45
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-69ae562f191a9419ceb19fd2",
+      "source": "game-effects/library-dash_wake/frame-69ae562f191a9419ceb19fd2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        606,
+        107,
+        47
+      ],
+      "trim": [
+        90,
+        262,
+        107,
+        47
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f642a081ed75f976f762f900",
+      "source": "game-effects/library-dash_wake/frame-f642a081ed75f976f762f900.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        119,
+        606,
+        85,
+        48
+      ],
+      "trim": [
+        90,
+        262,
+        85,
+        48
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-d6ca1faf707e3592a63dcb63",
+      "source": "game-effects/library-dash_wake/frame-d6ca1faf707e3592a63dcb63.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        212,
+        606,
+        64,
+        51
+      ],
+      "trim": [
+        90,
+        261,
+        64,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-bcaf5baab9253ac97d7efe88",
+      "source": "game-effects/library-dash_wake/frame-bcaf5baab9253ac97d7efe88.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        284,
+        606,
+        47,
+        53
+      ],
+      "trim": [
+        90,
+        259,
+        47,
+        53
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-7bd546aa541a3a47da3b5792",
+      "source": "game-effects/library-dash_wake/frame-7bd546aa541a3a47da3b5792.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        339,
+        606,
+        32,
+        56
+      ],
+      "trim": [
+        92,
+        256,
+        32,
+        56
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-c4c3cbf95d256433fc9e3e05",
+      "source": "game-effects/library-dash_wake/frame-c4c3cbf95d256433fc9e3e05.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        379,
+        606,
+        70,
+        42
+      ],
+      "trim": [
+        204,
+        264,
+        70,
+        42
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-fa8a7191ee085c4a6cb9d104",
+      "source": "game-effects/library-dash_wake/frame-fa8a7191ee085c4a6cb9d104.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        457,
+        606,
+        82,
+        44
+      ],
+      "trim": [
+        190,
+        269,
+        82,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0ba2a107091ccba5192c5d31",
+      "source": "game-effects/library-dash_wake/frame-0ba2a107091ccba5192c5d31.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        547,
+        606,
+        106,
+        56
+      ],
+      "trim": [
+        166,
+        269,
+        106,
+        56
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-4b15d6edda11a1e19228a978",
+      "source": "game-effects/library-dash_wake/frame-4b15d6edda11a1e19228a978.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        661,
+        606,
+        128,
+        70
+      ],
+      "trim": [
+        144,
+        269,
+        128,
+        70
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-20ff8c62037ab4ae63aa5096",
+      "source": "game-effects/library-dash_wake/frame-20ff8c62037ab4ae63aa5096.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        797,
+        606,
+        144,
+        81
+      ],
+      "trim": [
+        128,
+        269,
+        144,
+        81
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e4f387766a3f6e4ef57de1e8",
+      "source": "game-effects/library-dash_wake/frame-e4f387766a3f6e4ef57de1e8.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        695,
+        148,
+        85
+      ],
+      "trim": [
+        124,
+        269,
+        148,
+        85
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-6a314c7d59a97b0c935030f6",
+      "source": "game-effects/library-dash_wake/frame-6a314c7d59a97b0c935030f6.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        160,
+        695,
+        145,
+        86
+      ],
+      "trim": [
+        127,
+        269,
+        145,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-77fa7eae8eec3ac7fad9a16d",
+      "source": "game-effects/library-dash_wake/frame-77fa7eae8eec3ac7fad9a16d.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        313,
+        695,
+        143,
+        87
+      ],
+      "trim": [
+        128,
+        269,
+        143,
+        87
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-82adbc22cf520a663c49bf37",
+      "source": "game-effects/library-dash_wake/frame-82adbc22cf520a663c49bf37.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        464,
+        695,
+        138,
+        87
+      ],
+      "trim": [
+        129,
+        271,
+        138,
+        87
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-55d486f85cb8b9fd6dd4a78d",
+      "source": "game-effects/library-dash_wake/frame-55d486f85cb8b9fd6dd4a78d.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        610,
+        695,
+        129,
+        82
+      ],
+      "trim": [
+        129,
+        278,
+        129,
+        82
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-36e228ba0e995e554b69ea3b",
+      "source": "game-effects/library-dash_wake/frame-36e228ba0e995e554b69ea3b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        747,
+        695,
+        118,
+        78
+      ],
+      "trim": [
+        127,
+        284,
+        118,
+        78
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0fee5068a167b36693ca5bb2",
+      "source": "game-effects/library-dash_wake/frame-0fee5068a167b36693ca5bb2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        873,
+        695,
+        105,
+        71
+      ],
+      "trim": [
+        125,
+        293,
+        105,
+        71
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-d2516bfa5f2d569f7587a8cb",
+      "source": "game-effects/library-dash_wake/frame-d2516bfa5f2d569f7587a8cb.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        790,
+        93,
+        64
+      ],
+      "trim": [
+        122,
+        302,
+        93,
+        64
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-ef2191d466708cf09e47531f",
+      "source": "game-effects/library-dash_wake/frame-ef2191d466708cf09e47531f.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        105,
+        790,
+        82,
+        58
+      ],
+      "trim": [
+        119,
+        310,
+        82,
+        58
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-62fcdfa1c168c39305778c4f",
+      "source": "game-effects/library-dash_wake/frame-62fcdfa1c168c39305778c4f.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        195,
+        790,
+        73,
+        51
+      ],
+      "trim": [
+        115,
+        317,
+        73,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-ca92cea5c303146b4d11b829",
+      "source": "game-effects/library-dash_wake/frame-ca92cea5c303146b4d11b829.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        276,
+        790,
+        69,
+        44
+      ],
+      "trim": [
+        113,
+        324,
+        69,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-bd3cc5b03232315e39ca6210",
+      "source": "game-effects/library-dash_wake/frame-bd3cc5b03232315e39ca6210.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        353,
+        790,
+        92,
+        18
+      ],
+      "trim": [
+        200,
+        282,
+        92,
+        18
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-c42d4b97811c875946209bc5",
+      "source": "game-effects/library-dash_wake/frame-c42d4b97811c875946209bc5.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        453,
+        790,
+        86,
+        34
+      ],
+      "trim": [
+        204,
+        282,
+        86,
+        34
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-00fbc117fa90557e9a2eaa10",
+      "source": "game-effects/library-dash_wake/frame-00fbc117fa90557e9a2eaa10.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        547,
+        790,
+        80,
+        55
+      ],
+      "trim": [
+        209,
+        282,
+        80,
+        55
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-46e485f385d04868eceeb1fd",
+      "source": "game-effects/library-dash_wake/frame-46e485f385d04868eceeb1fd.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        635,
+        790,
+        74,
+        75
+      ],
+      "trim": [
+        214,
+        282,
+        74,
+        75
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e4c1a27c7cde5bc02228de3a",
+      "source": "game-effects/library-dash_wake/frame-e4c1a27c7cde5bc02228de3a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        717,
+        790,
+        68,
+        91
+      ],
+      "trim": [
+        219,
+        282,
+        68,
+        91
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e8685ffe636ab526784b9c1b",
+      "source": "game-effects/library-dash_wake/frame-e8685ffe636ab526784b9c1b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        793,
+        790,
+        65,
+        97
+      ],
+      "trim": [
+        222,
+        282,
+        65,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-77d02bfcc7bab0aa92035d09",
+      "source": "game-effects/library-dash_wake/frame-77d02bfcc7bab0aa92035d09.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        866,
+        790,
+        66,
+        97
+      ],
+      "trim": [
+        222,
+        282,
+        66,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e7a0c3d740cf2c3dfcfda796",
+      "source": "game-effects/library-dash_wake/frame-e7a0c3d740cf2c3dfcfda796.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        940,
+        790,
+        67,
+        97
+      ],
+      "trim": [
+        222,
+        282,
+        67,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-55e94677dabf14db2b3f2a28",
+      "source": "game-effects/library-dash_wake/frame-55e94677dabf14db2b3f2a28.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        895,
+        68,
+        92
+      ],
+      "trim": [
+        222,
+        287,
+        68,
+        92
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-200b4a5ee4ddd5702b272362",
+      "source": "game-effects/library-dash_wake/frame-200b4a5ee4ddd5702b272362.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        80,
+        895,
+        70,
+        86
+      ],
+      "trim": [
+        222,
+        293,
+        70,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-dc017db4944c02e913c6f9e0",
+      "source": "game-effects/library-dash_wake/frame-dc017db4944c02e913c6f9e0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        158,
+        895,
+        73,
+        74
+      ],
+      "trim": [
+        222,
+        305,
+        73,
+        74
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-7a690adf71010fa2dcbb0004",
+      "source": "game-effects/library-dash_wake/frame-7a690adf71010fa2dcbb0004.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        239,
+        895,
+        76,
+        63
+      ],
+      "trim": [
+        222,
+        316,
+        76,
+        63
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-19ed2401bc87496ec683074e",
+      "source": "game-effects/library-dash_wake/frame-19ed2401bc87496ec683074e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        323,
+        895,
+        79,
+        51
+      ],
+      "trim": [
+        222,
+        328,
+        79,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-b99447dc1ed65c2e25683517",
+      "source": "game-effects/library-dash_wake/frame-b99447dc1ed65c2e25683517.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        410,
+        895,
+        82,
+        39
+      ],
+      "trim": [
+        221,
+        340,
+        82,
+        39
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-026bb64b106da550dd006cc5",
+      "source": "game-effects/library-dash_wake/frame-026bb64b106da550dd006cc5.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        500,
+        895,
+        87,
+        29
+      ],
+      "trim": [
+        217,
+        350,
+        87,
+        29
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-111716e8f508c6abb4362068",
+      "source": "game-effects/library-dash_wake/frame-111716e8f508c6abb4362068.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        595,
+        895,
+        92,
+        20
+      ],
+      "trim": [
+        212,
+        358,
+        92,
+        20
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-1a62354a24ba7f0e640f9785",
+      "source": "game-effects/library-dash_wake/frame-1a62354a24ba7f0e640f9785.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        695,
+        895,
+        68,
+        43
+      ],
+      "trim": [
+        226,
+        271,
+        68,
+        43
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-13ef0f157985ba9e9d68bace",
+      "source": "game-effects/library-dash_wake/frame-13ef0f157985ba9e9d68bace.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        771,
+        895,
+        71,
+        51
+      ],
+      "trim": [
+        234,
+        272,
+        71,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8ada021ab01cab114c28127c",
+      "source": "game-effects/library-dash_wake/frame-8ada021ab01cab114c28127c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        850,
+        895,
+        93,
+        65
+      ],
+      "trim": [
+        234,
+        272,
+        93,
+        65
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-9ae1ca438349258edd252871",
+      "source": "game-effects/library-dash_wake/frame-9ae1ca438349258edd252871.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        4,
+        117,
+        76
+      ],
+      "trim": [
+        234,
+        273,
+        117,
+        76
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-c4a848e92e21df21007f4bd4",
+      "source": "game-effects/library-dash_wake/frame-c4a848e92e21df21007f4bd4.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        129,
+        4,
+        136,
+        87
+      ],
+      "trim": [
+        234,
+        272,
+        136,
+        87
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-07c03b6eacaa0080b32b0c13",
+      "source": "game-effects/library-dash_wake/frame-07c03b6eacaa0080b32b0c13.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        273,
+        4,
+        143,
+        88
+      ],
+      "trim": [
+        234,
+        273,
+        143,
+        88
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-fe2a3b93f1bf41953d3508e0",
+      "source": "game-effects/library-dash_wake/frame-fe2a3b93f1bf41953d3508e0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        424,
+        4,
+        144,
+        86
+      ],
+      "trim": [
+        234,
+        273,
+        144,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3cff7fc5ecd765cd0b460f7a",
+      "source": "game-effects/library-dash_wake/frame-3cff7fc5ecd765cd0b460f7a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        576,
+        4,
+        146,
+        85
+      ],
+      "trim": [
+        235,
+        273,
+        146,
+        85
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0aade37eda2661daf2e40a9a",
+      "source": "game-effects/library-dash_wake/frame-0aade37eda2661daf2e40a9a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        730,
+        4,
+        145,
+        83
+      ],
+      "trim": [
+        239,
+        275,
+        145,
+        83
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-42a5cfe07e08b4548a068201",
+      "source": "game-effects/library-dash_wake/frame-42a5cfe07e08b4548a068201.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        100,
+        139,
+        78
+      ],
+      "trim": [
+        248,
+        280,
+        139,
+        78
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-931b7386b12d29649bca9a7b",
+      "source": "game-effects/library-dash_wake/frame-931b7386b12d29649bca9a7b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        151,
+        100,
+        129,
+        72
+      ],
+      "trim": [
+        262,
+        287,
+        129,
+        72
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e71a0ef0ef56b2d00e2f8ae8",
+      "source": "game-effects/library-dash_wake/frame-e71a0ef0ef56b2d00e2f8ae8.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        288,
+        100,
+        117,
+        64
+      ],
+      "trim": [
+        277,
+        296,
+        117,
+        64
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-77a751ab0c35887b7665f096",
+      "source": "game-effects/library-dash_wake/frame-77a751ab0c35887b7665f096.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        413,
+        100,
+        107,
+        57
+      ],
+      "trim": [
+        291,
+        305,
+        107,
+        57
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-55589f3fa036ae9d0e839370",
+      "source": "game-effects/library-dash_wake/frame-55589f3fa036ae9d0e839370.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        528,
+        100,
+        93,
+        51
+      ],
+      "trim": [
+        307,
+        313,
+        93,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-4d52c128daf0daf0de4b28f2",
+      "source": "game-effects/library-dash_wake/frame-4d52c128daf0daf0de4b28f2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        629,
+        100,
+        84,
+        46
+      ],
+      "trim": [
+        318,
+        320,
+        84,
+        46
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-bb600d3a855211579489df20",
+      "source": "game-effects/library-dash_wake/frame-bb600d3a855211579489df20.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        721,
+        100,
+        74,
+        44
+      ],
+      "trim": [
+        328,
+        324,
+        74,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2340306a38a34e4a92011b17",
+      "source": "game-effects/library-dash_wake/frame-2340306a38a34e4a92011b17.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        803,
+        100,
+        25,
+        56
+      ],
+      "trim": [
+        257,
+        261,
+        25,
+        56
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-fb89263a4bade6e335dd51fa",
+      "source": "game-effects/library-dash_wake/frame-fb89263a4bade6e335dd51fa.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        836,
+        100,
+        53,
+        53
+      ],
+      "trim": [
+        258,
+        262,
+        53,
+        53
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8884ecbb72e7f79648610633",
+      "source": "game-effects/library-dash_wake/frame-8884ecbb72e7f79648610633.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        897,
+        100,
+        89,
+        49
+      ],
+      "trim": [
+        258,
+        263,
+        89,
+        49
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2b059b07ea2ad46a9c1109f7",
+      "source": "game-effects/library-dash_wake/frame-2b059b07ea2ad46a9c1109f7.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        186,
+        125,
+        46
+      ],
+      "trim": [
+        259,
+        263,
+        125,
+        46
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-75eec527677c09da81a46291",
+      "source": "game-effects/library-dash_wake/frame-75eec527677c09da81a46291.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        137,
+        186,
+        153,
+        43
+      ],
+      "trim": [
+        259,
+        263,
+        153,
+        43
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-10e62a2c31b4e95f49688ddb",
+      "source": "game-effects/library-dash_wake/frame-10e62a2c31b4e95f49688ddb.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        298,
+        186,
+        165,
+        41
+      ],
+      "trim": [
+        257,
+        263,
+        165,
+        41
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-a844fbfb8ef59423b9c79550",
+      "source": "game-effects/library-dash_wake/frame-a844fbfb8ef59423b9c79550.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        471,
+        186,
+        165,
+        41
+      ],
+      "trim": [
+        257,
+        263,
+        165,
+        41
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8c3e5866b62667eee4bf9caf",
+      "source": "game-effects/library-dash_wake/frame-8c3e5866b62667eee4bf9caf.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        644,
+        186,
+        164,
+        42
+      ],
+      "trim": [
+        257,
+        262,
+        164,
+        42
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-cc84049ba9ffd6b859868fe0",
+      "source": "game-effects/library-dash_wake/frame-cc84049ba9ffd6b859868fe0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        816,
+        186,
+        159,
+        42
+      ],
+      "trim": [
+        263,
+        262,
+        159,
+        42
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-11e8a5a3e5f0eace46f9de41",
+      "source": "game-effects/library-dash_wake/frame-11e8a5a3e5f0eace46f9de41.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        240,
+        146,
+        44
+      ],
+      "trim": [
+        276,
+        260,
+        146,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f63860beecb8a72e0afa3ccb",
+      "source": "game-effects/library-dash_wake/frame-f63860beecb8a72e0afa3ccb.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        158,
+        240,
+        128,
+        45
+      ],
+      "trim": [
+        294,
+        259,
+        128,
+        45
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-06df2715e2c9a9fc12d7802e",
+      "source": "game-effects/library-dash_wake/frame-06df2715e2c9a9fc12d7802e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        294,
+        240,
+        107,
+        47
+      ],
+      "trim": [
+        315,
+        257,
+        107,
+        47
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-4d8abb785fc11abd81393ec7",
+      "source": "game-effects/library-dash_wake/frame-4d8abb785fc11abd81393ec7.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        409,
+        240,
+        85,
+        48
+      ],
+      "trim": [
+        337,
+        256,
+        85,
+        48
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0f60563c1bb568f1ef2ef658",
+      "source": "game-effects/library-dash_wake/frame-0f60563c1bb568f1ef2ef658.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        502,
+        240,
+        64,
+        51
+      ],
+      "trim": [
+        358,
+        254,
+        64,
+        51
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-028a907481a5d479dcd23f70",
+      "source": "game-effects/library-dash_wake/frame-028a907481a5d479dcd23f70.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        574,
+        240,
+        47,
+        53
+      ],
+      "trim": [
+        375,
+        254,
+        47,
+        53
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0dfd719189bcd096d85a18d3",
+      "source": "game-effects/library-dash_wake/frame-0dfd719189bcd096d85a18d3.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        629,
+        240,
+        32,
+        56
+      ],
+      "trim": [
+        388,
+        254,
+        32,
+        56
+      ],
+      "rotated": false
+    }
+  ],
+  "pages": [
+    {
+      "id": "atlas-0",
+      "path": "42544b83a1f248b2/atlas-0.png",
+      "hash": "83967cf80a7c853a4e04dd6cad62e8abaef8623db1969ca450ef5c6b776906cf",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 451808,
+      "rgbaBytes": 4194304,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    },
+    {
+      "id": "atlas-1",
+      "path": "42544b83a1f248b2/atlas-1.png",
+      "hash": "4bf0dcbd28e3e8413a80d8de5e10a9f5baa67381e1713dc27f930a870c7c79c7",
+      "width": 1024,
+      "height": 320,
+      "bytes": 139130,
+      "rgbaBytes": 1310720,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    }
+  ],
+  "bundles": {
+    "boot": {
+      "required": [],
+      "optional": [],
+      "dependencies": []
+    },
+    "hero": {
+      "required": [
+        "atlas-0",
+        "atlas-1"
+      ],
+      "optional": [],
+      "dependencies": [
+        "boot"
+      ]
+    },
+    "room": {
+      "required": [
+        "atlas-0",
+        "atlas-1"
+      ],
+      "optional": [],
+      "dependencies": [
+        "hero"
+      ]
+    }
+  }
+}

@@ -10,6 +10,8 @@ After reporting completion to the user, stop. Finished chats leave the coordinat
 
 Assign distinct preview ports: integration uses 5174, worktrees can use 5175/5176. Set `LANTERN_PREVIEW_PORT` before development/browser commands. A probe verifies checkout and asset identity before reusing a server. Stop only previews the task started.
 
+Code-only worktrees default to omitting `asset-data/sources/` while retaining repository-owned prepared objects. The Codex setup script applies this scope without changing a primary checkout, existing sparse settings or unique source files. `npm run worktree:setup -- --authoring` restores masters when source work is needed. See [code-only working copies](assets.md#code-only-working-copies).
+
 ## Handoff and commits
 
 The user authorizes task-scoped branch/worktree creation, commits and local integration into `main` after review and required verification. Each chat owns its task through completion. Commit only reviewed task-owned changes on the task branch. Preserve inherited edits and other owners' staged work. After successful local integration, the user authorizes deleting and unregistering only this chat's completed worktree, including local-only files and build outputs, as described below. Asset publication follows the task-scoped exception in [Assets](assets.md#preparation-and-publication). Pushes, PRs, publication other than task-scoped asset packs, other destructive cleanup and unrelated changes require separate authorization; explicit task restrictions take precedence.

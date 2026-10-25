@@ -16,9 +16,11 @@ import { prepare as operation12 } from './prepare/prepare-masonry';
 import { prepare as operation14 } from './prepare/prepare-tended-art';
 import { prepare as operation15 } from './prepare/prepare-visual-effects';
 import type { PreparationContext } from './context';
+import { prepare as gameEffects } from './prepare/prepare-game-effects';
 export const preparationOperations: Readonly<
   Record<string, (context: PreparationContext, check: boolean) => Promise<void>>
 > = {
+  'assets/prepare/prepare-game-effects.ts': gameEffects,
   'assets/prepare/prepare-audio.ts': prepareAudio,
   'assets/prepare/prepare-image-delivery.ts': imageDelivery,
   'assets/prepare/prepare-churchyard-kit.ts': operation0,

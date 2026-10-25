@@ -9,12 +9,18 @@ import { alphaBounds } from './assets/pixels';
 const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
 export const hash = (v: Buffer | string) => createHash('sha256').update(v).digest('hex');
 // Dilate RGB into transparent pixels, then extrude the trim edge. Straight alpha stays unchanged.
-export function paddedPixels(raw: Buffer, w: number, h: number, pad = 4) {
+export function paddedPixels(
+  raw: Buffer,
+  w: number,
+  h: number,
+  pad = 4,
+  preserveTransparentRgb = false,
+) {
   const dilated = Buffer.from(raw);
   for (let y = 0; y < h; y++)
     for (let x = 0; x < w; x++) {
       const dst = (y * w + x) * 4;
-      if (raw[dst + 3]) continue;
+      if (preserveTransparentRgb || raw[dst + 3]) continue;
       let found = false;
       for (let radius = 1; radius <= 3 && !found; radius++)
         for (let dy = -radius; dy <= radius && !found; dy++)
@@ -60,7 +66,46 @@ export async function compile(
   const frames = [] as ManifestDraft['frames'],
     size = source.asset.atlasSize ?? contract.atlasSize,
     pad = source.asset.type === 'material' ? 0 : 4;
-  const pages: { raw: Buffer; id: string }[] = [];
+  const pages: {
+    raw?: Buffer;
+    encoded?: Buffer;
+    width?: number;
+    height?: number;
+    id: string;
+  }[] = [];
+  let encoder: Promise<void> | undefined;
+  let encodingFailure: unknown;
+  const cropPages = source.frames.every((f) => f.origin === 'imported-study');
+  const finishPage = async () => {
+    const page = pages.at(-1);
+    if (!page?.raw) return;
+    const used = frames.filter((f) => f.page === page.id);
+    const round = (n: number) => Math.min(size, Math.ceil(n / 64) * 64);
+    page.width = cropPages
+      ? round(Math.max(...used.map((f) => f.rect[0] + f.rect[2] + pad)))
+      : size;
+    page.height = cropPages
+      ? round(Math.max(...used.map((f) => f.rect[1] + f.rect[3] + pad)))
+      : size;
+    // Overlap one completed page with the next drawing/packing pass. At most
+    // two pages own raw pixels, rather than retaining the entire atlas set.
+    const previous = encoder;
+    const pixels = page.raw;
+    page.raw = undefined;
+    encoder = sharp(pixels, { raw: { width: size, height: size, channels: 4 } })
+      .extract({ left: 0, top: 0, width: page.width, height: page.height })
+      .png({ compressionLevel: 9 })
+      .toBuffer()
+      .then((bytes) => {
+        page.encoded = bytes;
+      })
+      .catch((error: unknown) => {
+        encodingFailure ??= error;
+      });
+    await previous;
+    if (size * size * 4 * 2 > 64 * 1024 ** 2) await encoder;
+    if (encodingFailure) throw encodingFailure;
+  };
   let x = 0,
     y = 0,
     row = 0,
@@ -69,93 +114,88 @@ export async function compile(
     .update(input)
     .update(TOOL_VERSION)
     .update(JSON.stringify(contract));
-  for (const f of source.frames) {
-    const registration = f.registration ?? source.asset;
-    const file = await readSource(f.path, inputRoot);
-    digest.update(file);
-    const metadata = await sharp(file).metadata();
-    if (metadata.format !== 'png' || metadata.depth !== 'uchar' || metadata.space !== 'srgb')
-      throw new Error(`${f.path}: 8-bit sRGB PNG required`);
-    const { data, info } = await sharp(file)
-      .ensureAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-    if (info.width !== registration.canvas[0] || info.height !== registration.canvas[1])
-      throw new Error(`${f.path}: dimensions ${info.width}x${info.height} differ from canvas`);
-    const bounds = alphaBounds(data, info.width, info.height);
-    if (!bounds && !source.asset.allowEmptyFrames) throw new Error(`${f.path}: empty frame`);
-    let { minX, minY, maxX, maxY } = bounds ?? { minX: 0, minY: 0, maxX: 0, maxY: 0 };
-    // One transparent source pixel around the silhouette preserves soft-edge filtering.
-    minX = Math.max(0, minX - 1);
-    minY = Math.max(0, minY - 1);
-    maxX = Math.min(info.width - 1, maxX + 1);
-    maxY = Math.min(info.height - 1, maxY + 1);
-    const w = maxX - minX + 1,
-      h = maxY - minY + 1;
-    if (w + pad * 2 > size || h + pad * 2 > size)
-      throw new Error(`${f.path}: frame exceeds atlas page`);
-    const trimmed = await sharp(data, { raw: info })
-      .extract({ left: minX, top: minY, width: w, height: h })
-      .raw()
-      .toBuffer();
-    const padded = pad ? paddedPixels(trimmed, w, h, pad) : { data: trimmed, width: w, height: h };
-    if (x + padded.width > size) {
-      x = 0;
-      y += row;
-      row = 0;
+  try {
+    for (const f of source.frames) {
+      const registration = f.registration ?? source.asset;
+      const file = await readSource(f.path, inputRoot);
+      digest.update(file);
+      const metadata = await sharp(file).metadata();
+      if (metadata.format !== 'png' || metadata.depth !== 'uchar' || metadata.space !== 'srgb')
+        throw new Error(`${f.path}: 8-bit sRGB PNG required`);
+      const { data, info } = await sharp(file)
+        .ensureAlpha()
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+      if (info.width !== registration.canvas[0] || info.height !== registration.canvas[1])
+        throw new Error(`${f.path}: dimensions ${info.width}x${info.height} differ from canvas`);
+      const bounds = alphaBounds(data, info.width, info.height);
+      if (!bounds && !source.asset.allowEmptyFrames) throw new Error(`${f.path}: empty frame`);
+      let { minX, minY, maxX, maxY } = bounds ?? { minX: 0, minY: 0, maxX: 0, maxY: 0 };
+      // One transparent source pixel around the silhouette preserves soft-edge filtering.
+      minX = Math.max(0, minX - 1);
+      minY = Math.max(0, minY - 1);
+      maxX = Math.min(info.width - 1, maxX + 1);
+      maxY = Math.min(info.height - 1, maxY + 1);
+      const w = maxX - minX + 1,
+        h = maxY - minY + 1;
+      if (w + pad * 2 > size || h + pad * 2 > size)
+        throw new Error(`${f.path}: frame exceeds atlas page`);
+      const trimmed = await sharp(data, { raw: info })
+        .extract({ left: minX, top: minY, width: w, height: h })
+        .raw()
+        .toBuffer();
+      const padded = pad
+        ? paddedPixels(trimmed, w, h, pad, source.preserveTransparentRgb)
+        : { data: trimmed, width: w, height: h };
+      if (x + padded.width > size) {
+        x = 0;
+        y += row;
+        row = 0;
+      }
+      if (index < 0 || y + padded.height > size) {
+        await finishPage();
+        index++;
+        pages.push({ id: `atlas-${index}`, raw: Buffer.alloc(size * size * 4) });
+        x = 0;
+        y = 0;
+        row = 0;
+      }
+      const target = pages[index]!.raw!;
+      for (let yy = 0; yy < padded.height; yy++)
+        padded.data.copy(
+          target,
+          ((y + yy) * size + x) * 4,
+          yy * padded.width * 4,
+          (yy + 1) * padded.width * 4,
+        );
+      frames.push({
+        id: f.id,
+        source: f.path,
+        origin: f.origin,
+        attachments: f.attachments,
+        ...(f.visualOffsetPx ? { visualOffsetPx: f.visualOffsetPx } : {}),
+        ...(f.registration ? { registration: f.registration } : {}),
+        page: pages[index]!.id,
+        rect: [x + pad, y + pad, w, h],
+        trim: [minX, minY, w, h],
+        rotated: false,
+      });
+      x += padded.width;
+      row = Math.max(row, padded.height);
     }
-    if (index < 0 || y + padded.height > size) {
-      index++;
-      pages.push({ id: `atlas-${index}`, raw: Buffer.alloc(size * size * 4) });
-      x = 0;
-      y = 0;
-      row = 0;
-    }
-    const target = pages[index]!.raw;
-    for (let yy = 0; yy < padded.height; yy++)
-      padded.data.copy(
-        target,
-        ((y + yy) * size + x) * 4,
-        yy * padded.width * 4,
-        (yy + 1) * padded.width * 4,
-      );
-    frames.push({
-      id: f.id,
-      source: f.path,
-      origin: f.origin,
-      attachments: f.attachments,
-      ...(f.visualOffsetPx ? { visualOffsetPx: f.visualOffsetPx } : {}),
-      ...(f.registration ? { registration: f.registration } : {}),
-      page: pages[index]!.id,
-      rect: [x + pad, y + pad, w, h],
-      trim: [minX, minY, w, h],
-      rotated: false,
-    });
-    x += padded.width;
-    row = Math.max(row, padded.height);
+    await finishPage();
+    await encoder;
+    if (encodingFailure) throw encodingFailure;
+  } finally {
+    // Failed source reads cannot leave a native encoder running after its owner.
+    await encoder;
   }
   const contentHash = digest.digest('hex'),
     folder = contentHash.slice(0, 16);
   // Remove unused atlas area, never source pixels or the extrusion/gutters.
   // Registration stays in the original canvas; UVs use each published page size.
-  const dimensions = pages.map((p) => {
-    if (!source.frames.every((f) => f.origin === 'imported-study'))
-      return { width: size, height: size };
-    const used = frames.filter((f) => f.page === p.id),
-      round = (n: number) => Math.min(size, Math.ceil(n / 64) * 64);
-    return {
-      width: round(Math.max(...used.map((f) => f.rect[0] + f.rect[2] + pad))),
-      height: round(Math.max(...used.map((f) => f.rect[1] + f.rect[3] + pad))),
-    };
-  });
-  const encoded = await Promise.all(
-    pages.map((p, i) =>
-      sharp(p.raw, { raw: { width: size, height: size, channels: 4 } })
-        .extract({ left: 0, top: 0, ...dimensions[i]! })
-        .png({ compressionLevel: 9 })
-        .toBuffer(),
-    ),
-  );
+  const dimensions = pages.map((p) => ({ width: p.width!, height: p.height! }));
+  const encoded = pages.map((p) => p.encoded!);
   const manifest: ManifestDraft = {
     schemaVersion: 2,
     contractId: contract.id,

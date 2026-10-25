@@ -88,8 +88,17 @@ export async function selectedFiles(
   for (const [id, file] of Object.entries(catalog)) {
     const m = parseManifest(JSON.parse((await read(file)).toString()));
     if (m.asset.id !== id) throw new Error('Manifest identity differs: ' + id);
+    // Game's strict CSP selects lossless images. Keep authoring variants intact,
+    // and publish only encodings that this Game artifact can actually request.
+    if (profile === 'game') {
+      for (const page of m.pages) {
+        if (page.delivery) page.delivery = page.delivery.filter((v) => v.encoding === 'png');
+        delete page.preview;
+      }
+      generated[file] = JSON.stringify(m) + '\n';
+    }
     manifests.set(id, m);
-    files.add(file);
+    if (profile !== 'game') files.add(file);
     await prefetch(
       m.pages.flatMap((page) => [
         ...(dev ||
@@ -206,6 +215,8 @@ export async function selectedFiles(
     generated['registration.json'] = projection.registration;
     const delivery = await runtimeBundles(groups, read);
     binary = delivery.binary;
+    for (const bundle of delivery.bundles)
+      for (const file of Object.keys(bundle.files)) files.delete(file);
     generated['build-mode.json'] = JSON.stringify({
       ...projection.policy,
       assetBundles: delivery.bundles,

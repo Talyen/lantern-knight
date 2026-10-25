@@ -111,6 +111,54 @@ test('missing or corrupt owned bytes fail locally and unsafe inventories cannot 
   }
 });
 
+test('derivative acceptance reuses authenticated objects and rejects stale pins', async () => {
+  const f = await fixture();
+  try {
+    await fs.rm(f.source, { recursive: true });
+    const name = 'public/derivative.json';
+    const bytes = Buffer.from('new derivative');
+    await fs.mkdir(path.join(f.source, 'public'), { recursive: true });
+    await fs.writeFile(path.join(f.source, name), bytes);
+    const inventory = {
+      ...f.inventory,
+      files: { ...f.inventory.files, [name]: { bytes: bytes.length, sha256: hash(bytes) } },
+    };
+    const preparation = { ...f.preparation, payloadSha256: payloadDigest(inventory) };
+    const reuse = { inventory: f.inventory, expectedPin: f.pin.sha256 };
+    const pin = await saveRepositoryAssets(f.source, inventory, preparation, f.root, reuse);
+    if (pin.schemaVersion !== 5) throw new Error('Expected repository pin');
+    assert.notEqual(pin.sha256, f.pin.sha256);
+    const workspace = await openRepositoryWorkspace(pin, 'authoring', false, f.root);
+    try {
+      for (const [file, info] of Object.entries(inventory.files))
+        assert.equal(hash(await fs.readFile(path.join(workspace.root, file))), info.sha256);
+    } finally {
+      await workspace.release();
+    }
+    const before = await fs.readFile(path.join(f.root, 'assets/lock.json'));
+    await assert.rejects(
+      saveRepositoryAssets(f.source, inventory, preparation, f.root, reuse),
+      /changed before derivative acceptance/,
+    );
+    assert.deepEqual(await fs.readFile(path.join(f.root, 'assets/lock.json')), before);
+    const info = f.inventory.files['public/pages/unused.png']!;
+    await fs.writeFile(
+      path.join(f.root, 'asset-data/objects', info.sha256.slice(0, 2), info.sha256),
+      'corrupt',
+    );
+    await assert.rejects(
+      saveRepositoryAssets(f.source, inventory, preparation, f.root, {
+        inventory,
+        expectedPin: pin.sha256,
+      }),
+      /changed before acceptance/,
+    );
+    assert.deepEqual(await fs.readFile(path.join(f.root, 'assets/lock.json')), before);
+  } finally {
+    await f.close();
+  }
+});
+
 test('imports own independent originals and metadata; collisions fail before adding any files', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-import-'));
   try {

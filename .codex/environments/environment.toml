@@ -2,4 +2,4 @@ version = 1
 name = "Lantern Knight"
 
 [setup]
-script = "npm ci"
+script = "node tools/setup-worktree.ts && npm ci"

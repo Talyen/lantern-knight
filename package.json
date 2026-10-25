@@ -10,6 +10,7 @@
     "node": ">=24.22.1 <25"
   },
   "scripts": {
+    "worktree:setup": "node tools/setup-worktree.ts",
     "dev": "tsx tools/dev.ts",
     "dev:preview": "tsx tools/dev.ts --preview",
     "desktop:dev": "tsx tools/desktop-dev.ts",

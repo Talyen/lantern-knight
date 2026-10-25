@@ -9,6 +9,7 @@ import { selectedFiles, copySelectedFiles } from '../../tools/select-runtime-ass
 import { gameAssetCatalog } from '../../src/content/game-content';
 import { loadingVideoPath } from '../../src/content/loading-media';
 import { manifestFixture } from '../fixtures/manifest';
+import { builtAssetReader, materializeBuiltAssets } from '../../tools/built-asset-reader';
 
 test('runtime selection builds from delivery-only payloads and validates shipped images', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-runtime-selection-'),
@@ -75,6 +76,12 @@ test('runtime selection builds from delivery-only payloads and validates shipped
         mipmaps: false,
       },
     ];
+    // This encoding is intentionally absent: strict Game cannot request it.
+    page.delivery.push({
+      ...page.delivery[0]!,
+      path: delivery.replace(/\.png$/, '.ktx2'),
+      encoding: 'ktx2-uastc',
+    });
     await write(file, JSON.stringify(manifest));
     await write(delivery, image);
   }
@@ -162,12 +169,35 @@ test('runtime selection builds from delivery-only payloads and validates shipped
   await write(audioPath, 'corrupt audio');
   await assert.rejects(selectedFiles(source, 'game'), /Prepared audio differs/);
   await write(audioPath, audioBytes);
-  assert.ok(inventory.files.some((file) => file.endsWith('/delivery.png')));
+  assert.ok(!inventory.files.some((file) => file.endsWith('/delivery.png')));
   assert.ok(!inventory.files.some((file) => file.endsWith('/atlas.png')));
   await copySelectedFiles(source, path.join(root, 'output'), inventory);
   const first = Object.values(gameAssetCatalog)[0]!,
     delivery = path.posix.join(path.posix.dirname(first), 'delivery.png');
-  assert.deepEqual(await fs.readFile(path.join(root, 'output', delivery)), image);
+  const output = path.join(root, 'output');
+  await assert.rejects(fs.access(path.join(output, delivery)), /ENOENT/);
+  const reader = await builtAssetReader(output);
+  try {
+    assert.deepEqual(await reader.read(delivery), image);
+  } finally {
+    reader.dispose();
+  }
+  const emitted = await readJson(path.join(output, first));
+  assert.deepEqual(
+    emitted.pages[0].delivery.map((v: { encoding: string }) => v.encoding),
+    ['png'],
+  );
+  assert.equal((await readJson(path.join(source, first))).pages[0].delivery.length, 2);
+  await materializeBuiltAssets(output);
+  assert.deepEqual(await fs.readFile(path.join(output, delivery)), image);
+  const bundle = Object.keys(inventory.binary!)[0]!;
+  await fs.writeFile(path.join(output, bundle), 'corrupt');
+  const corrupt = await builtAssetReader(output);
+  try {
+    await assert.rejects(corrupt.read(delivery), /hash or size differs/);
+  } finally {
+    corrupt.dispose();
+  }
   await write(delivery, 'corrupt');
   await assert.rejects(selectedFiles(source, 'game'), /Prepared delivery image differs/);
   await write(delivery, image);

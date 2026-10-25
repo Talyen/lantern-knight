@@ -106,4 +106,13 @@ test('atlas rollover preserves asymmetric pixels and supplies alpha for RGB artw
       .toBuffer();
     assert.deepEqual(pixels, drawings[i], frame.id);
   }
+  const accepted = await fs.readFile(path.join(root, 'public/generated/manifest.json'));
+  const missing = structuredClone(input);
+  missing.frames.push({ ...missing.frames[0]!, id: 'missing', path: 'missing.png' });
+  await writeJson(path.join(root, 'source.json'), missing);
+  await assert.rejects(
+    context.compile('source.json', 'public/generated', false, root),
+    /missing file/,
+  );
+  assert.deepEqual(await fs.readFile(path.join(root, 'public/generated/manifest.json')), accepted);
 });

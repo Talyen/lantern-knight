@@ -18,7 +18,13 @@ const native = new Set([
   'scene',
   'quality',
 ]);
-if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
+if (scenario === 'effect-packing') {
+  await runProcess(
+    process.execPath,
+    ['--import', 'tsx', 'tools/diagnostics/effect-packing.ts', ...flags],
+    { cwd: projectRoot, timeoutMs: 120000 },
+  );
+} else if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
   await runProcess(
     process.execPath,
     [

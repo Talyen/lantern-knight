@@ -65,6 +65,8 @@ export function preparationSelection(ids: readonly string[] = []) {
   // dependency list orders a cold/full preparation, not a scoped refresh.
   if (selected.has('assets/prepare/prepare-hero.ts'))
     graph.include('assets/prepare/prepare-animation-flow.py', selected);
+  if (selected.has('assets/prepare/prepare-library.ts'))
+    selected.add('assets/prepare/prepare-game-effects.ts');
   if (
     [...selected].some(
       (file) => !file.endsWith('prepare-loading-media.ts') && !file.endsWith('prepare-audio.ts'),

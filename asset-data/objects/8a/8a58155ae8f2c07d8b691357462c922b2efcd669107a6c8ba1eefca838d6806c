@@ -1,0 +1,2915 @@
+{
+  "schemaVersion": 2,
+  "contractId": "lantern-camera-v2",
+  "bakeVersion": 2,
+  "hash": "3525ebf0c90a3c0edf4db8b22286db3940af06e37f54f5a5f2104db1bde05030",
+  "toolVersion": "atlas-v2.2-sharp-0.35.5",
+  "asset": {
+    "id": "library-sword_arc_02",
+    "type": "effect",
+    "schemaVersion": 2,
+    "contentVersion": "ink-01",
+    "viewMode": "fixed-authored",
+    "projection": "projected-world",
+    "allowEmptyFrames": true,
+    "limitations": [
+      "Supplied asset; registration follows its metadata where available."
+    ],
+    "label": "sword_arc_02",
+    "category": "effect",
+    "mirroring": true,
+    "placement": "upright",
+    "layer": "world",
+    "atlasSize": 1024,
+    "bundle": "room",
+    "status": "proxy",
+    "provenance": {
+      "creator": "Lantern artwork authors",
+      "license": "Owner-supplied project artwork; source licenses and provenance remain in the Asset Library.",
+      "source": "Asset Library / Lantern Knight"
+    },
+    "contractId": "lantern-camera-v2",
+    "bakeVersion": 2,
+    "canvas": [
+      512,
+      448
+    ],
+    "density": 112,
+    "anchor": [
+      256,
+      286
+    ],
+    "padding": 4,
+    "colorSpace": "srgb",
+    "alpha": "straight",
+    "recipe": "library-native-v2",
+    "designReference": "collection-study",
+    "renderStyle": "clean-ink",
+    "renderCategory": "translucent",
+    "shadow": {
+      "radius": 0.34,
+      "opacity": 0.32
+    },
+    "collisionFootprint": "none",
+    "occlusion": "camera-card-v1",
+    "fallbacks": {},
+    "dependencies": [],
+    "requiredClips": [],
+    "clips": {
+      "sword_arc_02__d000": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-b9619e84747c7b758c332c60",
+            "frame-7644fd743f5d1f228cf26265",
+            "frame-246e4a8734d24518dca2bb78",
+            "frame-928680fd3dc9a5047b63b3af",
+            "frame-d59ef296bebda6f8d5a10d9a",
+            "frame-0474e8029011507177c2cb4d",
+            "frame-05e27a3fb5efa6e5eb6653d8",
+            "frame-a698e9af5337789ddf54be2f",
+            "frame-b73eec8b47e66bd8aa6213ba",
+            "frame-641b331aaa7a95d1209e5986",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d045": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-56495fdd56c25e571cc56f2f",
+            "frame-839f1af93dda5993430826b0",
+            "frame-0a1da36d353866f3a4c6b200",
+            "frame-67058a4b388f31c85a28e2b1",
+            "frame-40bc2f73729c17aa0d5668ca",
+            "frame-98076da115401c27f45d7dd2",
+            "frame-acfaec589cbfa2ce16d5632b",
+            "frame-f878cf9f77a3ae396db3c024",
+            "frame-3e4e237e0478ab2b40483c55",
+            "frame-e5f52529837668151648a84d",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d090": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-15a122177f583ba81970c894",
+            "frame-cd5e0c27a636d1f975ac9289",
+            "frame-f175e11528203b36bf5036b9",
+            "frame-81cb96f25aa0f7656da5d1d9",
+            "frame-5d2bc861724609bd5261f010",
+            "frame-a52f5a5dab60aa420f5d30b0",
+            "frame-5ffa07c8b056555c59877801",
+            "frame-4c0565f275e0b7d9cd30244e",
+            "frame-aa8261cfa5c6a6fbaf9cc345",
+            "frame-95e41515b95f90411f61348d",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d135": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-003e279f877b5fedf09faea6",
+            "frame-a884222808e8b6460533b7bc",
+            "frame-81ebc40959a3d1427d60fed0",
+            "frame-ad78f0f1ee42014083505598",
+            "frame-2b198f3f91998437dcc0ae54",
+            "frame-3f78517ba93fb3668b7a5550",
+            "frame-5b919792e3b0697550b9d8bd",
+            "frame-b958bea1d7eddef5ea9c4296",
+            "frame-bd876a98623a29c3b50fa31a",
+            "frame-d331ea0441b8e132f7bf7041",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d180": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-7dc4b4d01821687390579d38",
+            "frame-d3a90f1f1df4fb0222c6e252",
+            "frame-0afec76c4d076768a105c61a",
+            "frame-8a82883b2b5408cc33e94334",
+            "frame-6a6cf560cfd2110a9add8c4c",
+            "frame-f3b069a3e4067b0988b74c78",
+            "frame-10840463f7cbb45f37b35224",
+            "frame-35a99ecba819e3f2ccb54db0",
+            "frame-56a6a19b3ed3db555c378c84",
+            "frame-8a38f90a0f444d1e64f75e13",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d225": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-3ccb77c41f2959cf1fe6edc7",
+            "frame-c114e807a6873ff80f055819",
+            "frame-751064e2d794785a3c9b4c74",
+            "frame-6c6e12cb8681d3ac8e7344c5",
+            "frame-3abc9c8807bdc9d5b1ae0b68",
+            "frame-e799baa8a34e4c1fd842b44b",
+            "frame-ccfa70b850f490022885176c",
+            "frame-f918f0cf60dd4aac8e9077aa",
+            "frame-ec0c71b8f4610c5d33253302",
+            "frame-465160c1b07840095d7da71a",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d270": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-2631ed88f89648edfbe03b5c",
+            "frame-e716961ecad71ec86bb823d9",
+            "frame-fc519333cfd13861b164f4e6",
+            "frame-3df67422869bacdc13209845",
+            "frame-5281f6609a260c90e830dddd",
+            "frame-aa6649a0d915646b668811ea",
+            "frame-808c74641aa52cf6442e730e",
+            "frame-5285111c0506120f38d81440",
+            "frame-50863495318aaa591a15b9da",
+            "frame-f722bec66191f090a977049e",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      },
+      "sword_arc_02__d315": {
+        "d45": {
+          "frames": [
+            "frame-c27a9d723fb08fd79fc0c08b",
+            "frame-f8adc5b8c4f496d1db8b6aca",
+            "frame-fc3a1915ea4467932d17565c",
+            "frame-b98abd7f6ff930e2780d732b",
+            "frame-203b4e5e0e97f97c2af929ca",
+            "frame-78b8b40ffdf6d001f600932a",
+            "frame-8499d5851fb7057b59547458",
+            "frame-666ed38fd960a63dd3ff6011",
+            "frame-f1b0b2a66b8c55b839807bb5",
+            "frame-a5c66e2b338ebe79c3e85ad6",
+            "frame-7e5e93ff7fb9e77a76aa7429",
+            "frame-c27a9d723fb08fd79fc0c08b"
+          ],
+          "durationsMs": [
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336,
+            33.333333333333336
+          ],
+          "loop": false,
+          "notifies": [],
+          "endBehavior": "hide",
+          "markers": []
+        }
+      }
+    }
+  },
+  "frames": [
+    {
+      "id": "frame-c27a9d723fb08fd79fc0c08b",
+      "source": "game-effects/library-sword_arc_02/frame-c27a9d723fb08fd79fc0c08b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        4,
+        2,
+        2
+      ],
+      "trim": [
+        0,
+        0,
+        2,
+        2
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-b9619e84747c7b758c332c60",
+      "source": "game-effects/library-sword_arc_02/frame-b9619e84747c7b758c332c60.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        14,
+        4,
+        73,
+        92
+      ],
+      "trim": [
+        335,
+        162,
+        73,
+        92
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-7644fd743f5d1f228cf26265",
+      "source": "game-effects/library-sword_arc_02/frame-7644fd743f5d1f228cf26265.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        95,
+        4,
+        116,
+        96
+      ],
+      "trim": [
+        288,
+        171,
+        116,
+        96
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-246e4a8734d24518dca2bb78",
+      "source": "game-effects/library-sword_arc_02/frame-246e4a8734d24518dca2bb78.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        219,
+        4,
+        168,
+        75
+      ],
+      "trim": [
+        214,
+        196,
+        168,
+        75
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-928680fd3dc9a5047b63b3af",
+      "source": "game-effects/library-sword_arc_02/frame-928680fd3dc9a5047b63b3af.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        395,
+        4,
+        194,
+        44
+      ],
+      "trim": [
+        145,
+        225,
+        194,
+        44
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-d59ef296bebda6f8d5a10d9a",
+      "source": "game-effects/library-sword_arc_02/frame-d59ef296bebda6f8d5a10d9a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        597,
+        4,
+        176,
+        82
+      ],
+      "trim": [
+        113,
+        188,
+        176,
+        82
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0474e8029011507177c2cb4d",
+      "source": "game-effects/library-sword_arc_02/frame-0474e8029011507177c2cb4d.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        781,
+        4,
+        134,
+        111
+      ],
+      "trim": [
+        103,
+        149,
+        134,
+        111
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-05e27a3fb5efa6e5eb6653d8",
+      "source": "game-effects/library-sword_arc_02/frame-05e27a3fb5efa6e5eb6653d8.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        123,
+        99,
+        115
+      ],
+      "trim": [
+        102,
+        128,
+        99,
+        115
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-a698e9af5337789ddf54be2f",
+      "source": "game-effects/library-sword_arc_02/frame-a698e9af5337789ddf54be2f.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        111,
+        123,
+        84,
+        113
+      ],
+      "trim": [
+        102,
+        123,
+        84,
+        113
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-b73eec8b47e66bd8aa6213ba",
+      "source": "game-effects/library-sword_arc_02/frame-b73eec8b47e66bd8aa6213ba.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        203,
+        123,
+        71,
+        104
+      ],
+      "trim": [
+        103,
+        123,
+        71,
+        104
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-641b331aaa7a95d1209e5986",
+      "source": "game-effects/library-sword_arc_02/frame-641b331aaa7a95d1209e5986.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        282,
+        123,
+        56,
+        81
+      ],
+      "trim": [
+        113,
+        124,
+        56,
+        81
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-56495fdd56c25e571cc56f2f",
+      "source": "game-effects/library-sword_arc_02/frame-56495fdd56c25e571cc56f2f.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        346,
+        123,
+        113,
+        80
+      ],
+      "trim": [
+        288,
+        122,
+        113,
+        80
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-839f1af93dda5993430826b0",
+      "source": "game-effects/library-sword_arc_02/frame-839f1af93dda5993430826b0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        467,
+        123,
+        107,
+        100
+      ],
+      "trim": [
+        303,
+        131,
+        107,
+        100
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0a1da36d353866f3a4c6b200",
+      "source": "game-effects/library-sword_arc_02/frame-0a1da36d353866f3a4c6b200.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        582,
+        123,
+        92,
+        108
+      ],
+      "trim": [
+        318,
+        152,
+        92,
+        108
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-67058a4b388f31c85a28e2b1",
+      "source": "game-effects/library-sword_arc_02/frame-67058a4b388f31c85a28e2b1.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        682,
+        123,
+        159,
+        88
+      ],
+      "trim": [
+        236,
+        183,
+        159,
+        88
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-40bc2f73729c17aa0d5668ca",
+      "source": "game-effects/library-sword_arc_02/frame-40bc2f73729c17aa0d5668ca.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        246,
+        195,
+        53
+      ],
+      "trim": [
+        161,
+        216,
+        195,
+        53
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-98076da115401c27f45d7dd2",
+      "source": "game-effects/library-sword_arc_02/frame-98076da115401c27f45d7dd2.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        207,
+        246,
+        192,
+        62
+      ],
+      "trim": [
+        123,
+        209,
+        192,
+        62
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-acfaec589cbfa2ce16d5632b",
+      "source": "game-effects/library-sword_arc_02/frame-acfaec589cbfa2ce16d5632b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        407,
+        246,
+        165,
+        86
+      ],
+      "trim": [
+        113,
+        184,
+        165,
+        86
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f878cf9f77a3ae396db3c024",
+      "source": "game-effects/library-sword_arc_02/frame-f878cf9f77a3ae396db3c024.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        580,
+        246,
+        147,
+        88
+      ],
+      "trim": [
+        112,
+        178,
+        147,
+        88
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3e4e237e0478ab2b40483c55",
+      "source": "game-effects/library-sword_arc_02/frame-3e4e237e0478ab2b40483c55.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        735,
+        246,
+        126,
+        82
+      ],
+      "trim": [
+        112,
+        178,
+        126,
+        82
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e5f52529837668151648a84d",
+      "source": "game-effects/library-sword_arc_02/frame-e5f52529837668151648a84d.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        869,
+        246,
+        90,
+        63
+      ],
+      "trim": [
+        112,
+        180,
+        90,
+        63
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-15a122177f583ba81970c894",
+      "source": "game-effects/library-sword_arc_02/frame-15a122177f583ba81970c894.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        342,
+        160,
+        56
+      ],
+      "trim": [
+        209,
+        88,
+        160,
+        56
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-cd5e0c27a636d1f975ac9289",
+      "source": "game-effects/library-sword_arc_02/frame-cd5e0c27a636d1f975ac9289.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        172,
+        342,
+        167,
+        79
+      ],
+      "trim": [
+        226,
+        93,
+        167,
+        79
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f175e11528203b36bf5036b9",
+      "source": "game-effects/library-sword_arc_02/frame-f175e11528203b36bf5036b9.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        347,
+        342,
+        137,
+        103
+      ],
+      "trim": [
+        269,
+        111,
+        137,
+        103
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-81cb96f25aa0f7656da5d1d9",
+      "source": "game-effects/library-sword_arc_02/frame-81cb96f25aa0f7656da5d1d9.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        492,
+        342,
+        92,
+        112
+      ],
+      "trim": [
+        318,
+        141,
+        92,
+        112
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5d2bc861724609bd5261f010",
+      "source": "game-effects/library-sword_arc_02/frame-5d2bc861724609bd5261f010.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        592,
+        342,
+        145,
+        100
+      ],
+      "trim": [
+        260,
+        170,
+        145,
+        100
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-a52f5a5dab60aa420f5d30b0",
+      "source": "game-effects/library-sword_arc_02/frame-a52f5a5dab60aa420f5d30b0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        745,
+        342,
+        184,
+        71
+      ],
+      "trim": [
+        193,
+        200,
+        184,
+        71
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5ffa07c8b056555c59877801",
+      "source": "game-effects/library-sword_arc_02/frame-5ffa07c8b056555c59877801.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        462,
+        188,
+        48
+      ],
+      "trim": [
+        156,
+        221,
+        188,
+        48
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-4c0565f275e0b7d9cd30244e",
+      "source": "game-effects/library-sword_arc_02/frame-4c0565f275e0b7d9cd30244e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        200,
+        462,
+        183,
+        39
+      ],
+      "trim": [
+        149,
+        230,
+        183,
+        39
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-aa8261cfa5c6a6fbaf9cc345",
+      "source": "game-effects/library-sword_arc_02/frame-aa8261cfa5c6a6fbaf9cc345.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        391,
+        462,
+        166,
+        36
+      ],
+      "trim": [
+        149,
+        235,
+        166,
+        36
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-95e41515b95f90411f61348d",
+      "source": "game-effects/library-sword_arc_02/frame-95e41515b95f90411f61348d.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        565,
+        462,
+        128,
+        34
+      ],
+      "trim": [
+        151,
+        235,
+        128,
+        34
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-003e279f877b5fedf09faea6",
+      "source": "game-effects/library-sword_arc_02/frame-003e279f877b5fedf09faea6.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        701,
+        462,
+        134,
+        79
+      ],
+      "trim": [
+        144,
+        95,
+        134,
+        79
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-a884222808e8b6460533b7bc",
+      "source": "game-effects/library-sword_arc_02/frame-a884222808e8b6460533b7bc.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        843,
+        462,
+        169,
+        78
+      ],
+      "trim": [
+        159,
+        87,
+        169,
+        78
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-81ebc40959a3d1427d60fed0",
+      "source": "game-effects/library-sword_arc_02/frame-81ebc40959a3d1427d60fed0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        549,
+        189,
+        67
+      ],
+      "trim": [
+        191,
+        87,
+        189,
+        67
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-ad78f0f1ee42014083505598",
+      "source": "game-effects/library-sword_arc_02/frame-ad78f0f1ee42014083505598.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        201,
+        549,
+        156,
+        102
+      ],
+      "trim": [
+        245,
+        99,
+        156,
+        102
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2b198f3f91998437dcc0ae54",
+      "source": "game-effects/library-sword_arc_02/frame-2b198f3f91998437dcc0ae54.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        365,
+        549,
+        108,
+        115
+      ],
+      "trim": [
+        302,
+        129,
+        108,
+        115
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3f78517ba93fb3668b7a5550",
+      "source": "game-effects/library-sword_arc_02/frame-3f78517ba93fb3668b7a5550.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        481,
+        549,
+        112,
+        110
+      ],
+      "trim": [
+        297,
+        156,
+        112,
+        110
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5b919792e3b0697550b9d8bd",
+      "source": "game-effects/library-sword_arc_02/frame-5b919792e3b0697550b9d8bd.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        601,
+        549,
+        147,
+        93
+      ],
+      "trim": [
+        253,
+        178,
+        147,
+        93
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-b958bea1d7eddef5ea9c4296",
+      "source": "game-effects/library-sword_arc_02/frame-b958bea1d7eddef5ea9c4296.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        756,
+        549,
+        146,
+        82
+      ],
+      "trim": [
+        243,
+        189,
+        146,
+        82
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-bd876a98623a29c3b50fa31a",
+      "source": "game-effects/library-sword_arc_02/frame-bd876a98623a29c3b50fa31a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        672,
+        136,
+        71
+      ],
+      "trim": [
+        243,
+        200,
+        136,
+        71
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-d331ea0441b8e132f7bf7041",
+      "source": "game-effects/library-sword_arc_02/frame-d331ea0441b8e132f7bf7041.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        148,
+        672,
+        100,
+        49
+      ],
+      "trim": [
+        245,
+        221,
+        100,
+        49
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-7dc4b4d01821687390579d38",
+      "source": "game-effects/library-sword_arc_02/frame-7dc4b4d01821687390579d38.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        256,
+        672,
+        73,
+        98
+      ],
+      "trim": [
+        104,
+        120,
+        73,
+        98
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-d3a90f1f1df4fb0222c6e252",
+      "source": "game-effects/library-sword_arc_02/frame-d3a90f1f1df4fb0222c6e252.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        337,
+        672,
+        116,
+        103
+      ],
+      "trim": [
+        108,
+        106,
+        116,
+        103
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-0afec76c4d076768a105c61a",
+      "source": "game-effects/library-sword_arc_02/frame-0afec76c4d076768a105c61a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        461,
+        672,
+        168,
+        94
+      ],
+      "trim": [
+        130,
+        92,
+        168,
+        94
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8a82883b2b5408cc33e94334",
+      "source": "game-effects/library-sword_arc_02/frame-8a82883b2b5408cc33e94334.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        637,
+        672,
+        195,
+        71
+      ],
+      "trim": [
+        173,
+        85,
+        195,
+        71
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-6a6cf560cfd2110a9add8c4c",
+      "source": "game-effects/library-sword_arc_02/frame-6a6cf560cfd2110a9add8c4c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        840,
+        672,
+        176,
+        94
+      ],
+      "trim": [
+        223,
+        93,
+        176,
+        94
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f3b069a3e4067b0988b74c78",
+      "source": "game-effects/library-sword_arc_02/frame-f3b069a3e4067b0988b74c78.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        783,
+        134,
+        112
+      ],
+      "trim": [
+        275,
+        114,
+        134,
+        112
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-10840463f7cbb45f37b35224",
+      "source": "game-effects/library-sword_arc_02/frame-10840463f7cbb45f37b35224.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        146,
+        783,
+        99,
+        111
+      ],
+      "trim": [
+        312,
+        136,
+        99,
+        111
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-35a99ecba819e3f2ccb54db0",
+      "source": "game-effects/library-sword_arc_02/frame-35a99ecba819e3f2ccb54db0.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        253,
+        783,
+        84,
+        105
+      ],
+      "trim": [
+        326,
+        146,
+        84,
+        105
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-56a6a19b3ed3db555c378c84",
+      "source": "game-effects/library-sword_arc_02/frame-56a6a19b3ed3db555c378c84.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        345,
+        783,
+        70,
+        97
+      ],
+      "trim": [
+        339,
+        154,
+        70,
+        97
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8a38f90a0f444d1e64f75e13",
+      "source": "game-effects/library-sword_arc_02/frame-8a38f90a0f444d1e64f75e13.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        423,
+        783,
+        57,
+        72
+      ],
+      "trim": [
+        343,
+        177,
+        57,
+        72
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3ccb77c41f2959cf1fe6edc7",
+      "source": "game-effects/library-sword_arc_02/frame-3ccb77c41f2959cf1fe6edc7.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        488,
+        783,
+        112,
+        81
+      ],
+      "trim": [
+        112,
+        173,
+        112,
+        81
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-c114e807a6873ff80f055819",
+      "source": "game-effects/library-sword_arc_02/frame-c114e807a6873ff80f055819.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        608,
+        783,
+        107,
+        102
+      ],
+      "trim": [
+        102,
+        144,
+        107,
+        102
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-751064e2d794785a3c9b4c74",
+      "source": "game-effects/library-sword_arc_02/frame-751064e2d794785a3c9b4c74.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        723,
+        783,
+        92,
+        117
+      ],
+      "trim": [
+        103,
+        113,
+        92,
+        117
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-6c6e12cb8681d3ac8e7344c5",
+      "source": "game-effects/library-sword_arc_02/frame-6c6e12cb8681d3ac8e7344c5.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        823,
+        783,
+        159,
+        104
+      ],
+      "trim": [
+        117,
+        96,
+        159,
+        104
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3abc9c8807bdc9d5b1ae0b68",
+      "source": "game-effects/library-sword_arc_02/frame-3abc9c8807bdc9d5b1ae0b68.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        908,
+        195,
+        81
+      ],
+      "trim": [
+        156,
+        86,
+        195,
+        81
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e799baa8a34e4c1fd842b44b",
+      "source": "game-effects/library-sword_arc_02/frame-e799baa8a34e4c1fd842b44b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        207,
+        908,
+        192,
+        78
+      ],
+      "trim": [
+        198,
+        88,
+        192,
+        78
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-ccfa70b850f490022885176c",
+      "source": "game-effects/library-sword_arc_02/frame-ccfa70b850f490022885176c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        407,
+        908,
+        164,
+        95
+      ],
+      "trim": [
+        236,
+        96,
+        164,
+        95
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f918f0cf60dd4aac8e9077aa",
+      "source": "game-effects/library-sword_arc_02/frame-f918f0cf60dd4aac8e9077aa.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        579,
+        908,
+        147,
+        94
+      ],
+      "trim": [
+        253,
+        103,
+        147,
+        94
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-ec0c71b8f4610c5d33253302",
+      "source": "game-effects/library-sword_arc_02/frame-ec0c71b8f4610c5d33253302.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        734,
+        908,
+        126,
+        84
+      ],
+      "trim": [
+        274,
+        113,
+        126,
+        84
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-465160c1b07840095d7da71a",
+      "source": "game-effects/library-sword_arc_02/frame-465160c1b07840095d7da71a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        868,
+        908,
+        89,
+        60
+      ],
+      "trim": [
+        311,
+        135,
+        89,
+        60
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-2631ed88f89648edfbe03b5c",
+      "source": "game-effects/library-sword_arc_02/frame-2631ed88f89648edfbe03b5c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        4,
+        158,
+        39
+      ],
+      "trim": [
+        144,
+        231,
+        158,
+        39
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-e716961ecad71ec86bb823d9",
+      "source": "game-effects/library-sword_arc_02/frame-e716961ecad71ec86bb823d9.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        170,
+        4,
+        166,
+        66
+      ],
+      "trim": [
+        120,
+        204,
+        166,
+        66
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-fc519333cfd13861b164f4e6",
+      "source": "game-effects/library-sword_arc_02/frame-fc519333cfd13861b164f4e6.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        344,
+        4,
+        139,
+        102
+      ],
+      "trim": [
+        106,
+        161,
+        139,
+        102
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-3df67422869bacdc13209845",
+      "source": "game-effects/library-sword_arc_02/frame-3df67422869bacdc13209845.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        491,
+        4,
+        92,
+        119
+      ],
+      "trim": [
+        102,
+        121,
+        92,
+        119
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5281f6609a260c90e830dddd",
+      "source": "game-effects/library-sword_arc_02/frame-5281f6609a260c90e830dddd.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        591,
+        4,
+        145,
+        110
+      ],
+      "trim": [
+        107,
+        102,
+        145,
+        110
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-aa6649a0d915646b668811ea",
+      "source": "game-effects/library-sword_arc_02/frame-aa6649a0d915646b668811ea.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        744,
+        4,
+        185,
+        92
+      ],
+      "trim": [
+        135,
+        89,
+        185,
+        92
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-808c74641aa52cf6442e730e",
+      "source": "game-effects/library-sword_arc_02/frame-808c74641aa52cf6442e730e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        131,
+        188,
+        75
+      ],
+      "trim": [
+        168,
+        85,
+        188,
+        75
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-5285111c0506120f38d81440",
+      "source": "game-effects/library-sword_arc_02/frame-5285111c0506120f38d81440.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        200,
+        131,
+        183,
+        67
+      ],
+      "trim": [
+        180,
+        85,
+        183,
+        67
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-50863495318aaa591a15b9da",
+      "source": "game-effects/library-sword_arc_02/frame-50863495318aaa591a15b9da.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        391,
+        131,
+        166,
+        59
+      ],
+      "trim": [
+        197,
+        86,
+        166,
+        59
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f722bec66191f090a977049e",
+      "source": "game-effects/library-sword_arc_02/frame-f722bec66191f090a977049e.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        565,
+        131,
+        130,
+        47
+      ],
+      "trim": [
+        233,
+        93,
+        130,
+        47
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f8adc5b8c4f496d1db8b6aca",
+      "source": "game-effects/library-sword_arc_02/frame-f8adc5b8c4f496d1db8b6aca.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        703,
+        131,
+        132,
+        63
+      ],
+      "trim": [
+        235,
+        208,
+        132,
+        63
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-fc3a1915ea4467932d17565c",
+      "source": "game-effects/library-sword_arc_02/frame-fc3a1915ea4467932d17565c.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        843,
+        131,
+        169,
+        54
+      ],
+      "trim": [
+        184,
+        217,
+        169,
+        54
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-b98abd7f6ff930e2780d732b",
+      "source": "game-effects/library-sword_arc_02/frame-b98abd7f6ff930e2780d732b.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        214,
+        188,
+        50
+      ],
+      "trim": [
+        132,
+        221,
+        188,
+        50
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-203b4e5e0e97f97c2af929ca",
+      "source": "game-effects/library-sword_arc_02/frame-203b4e5e0e97f97c2af929ca.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        200,
+        214,
+        156,
+        95
+      ],
+      "trim": [
+        112,
+        174,
+        156,
+        95
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-78b8b40ffdf6d001f600932a",
+      "source": "game-effects/library-sword_arc_02/frame-78b8b40ffdf6d001f600932a.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        364,
+        214,
+        110,
+        116
+      ],
+      "trim": [
+        102,
+        131,
+        110,
+        116
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-8499d5851fb7057b59547458",
+      "source": "game-effects/library-sword_arc_02/frame-8499d5851fb7057b59547458.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        482,
+        214,
+        112,
+        118
+      ],
+      "trim": [
+        103,
+        108,
+        112,
+        118
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-666ed38fd960a63dd3ff6011",
+      "source": "game-effects/library-sword_arc_02/frame-666ed38fd960a63dd3ff6011.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        602,
+        214,
+        147,
+        104
+      ],
+      "trim": [
+        112,
+        101,
+        147,
+        104
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-f1b0b2a66b8c55b839807bb5",
+      "source": "game-effects/library-sword_arc_02/frame-f1b0b2a66b8c55b839807bb5.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        757,
+        214,
+        146,
+        94
+      ],
+      "trim": [
+        123,
+        98,
+        146,
+        94
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-a5c66e2b338ebe79c3e85ad6",
+      "source": "game-effects/library-sword_arc_02/frame-a5c66e2b338ebe79c3e85ad6.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        340,
+        136,
+        83
+      ],
+      "trim": [
+        133,
+        98,
+        136,
+        83
+      ],
+      "rotated": false
+    },
+    {
+      "id": "frame-7e5e93ff7fb9e77a76aa7429",
+      "source": "game-effects/library-sword_arc_02/frame-7e5e93ff7fb9e77a76aa7429.png",
+      "origin": "imported-study",
+      "attachments": {},
+      "registration": {
+        "canvas": [
+          512,
+          448
+        ],
+        "density": 112,
+        "anchor": [
+          256,
+          286
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        148,
+        340,
+        101,
+        65
+      ],
+      "trim": [
+        167,
+        95,
+        101,
+        65
+      ],
+      "rotated": false
+    }
+  ],
+  "pages": [
+    {
+      "id": "atlas-0",
+      "path": "3525ebf0c90a3c0e/atlas-0.png",
+      "hash": "60c193088c8af1e02aceb0275235b5a9f0f5d4cab18b354cf5bd240fed6e1a58",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 390229,
+      "rgbaBytes": 4194304,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    },
+    {
+      "id": "atlas-1",
+      "path": "3525ebf0c90a3c0e/atlas-1.png",
+      "hash": "bf92d8789bf57c938b3e86b603d734a5abe3aa6c40d69c0e12e3b477db451a7e",
+      "width": 1024,
+      "height": 448,
+      "bytes": 134038,
+      "rgbaBytes": 1835008,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    }
+  ],
+  "bundles": {
+    "boot": {
+      "required": [],
+      "optional": [],
+      "dependencies": []
+    },
+    "hero": {
+      "required": [
+        "atlas-0",
+        "atlas-1"
+      ],
+      "optional": [],
+      "dependencies": [
+        "boot"
+      ]
+    },
+    "room": {
+      "required": [
+        "atlas-0",
+        "atlas-1"
+      ],
+      "optional": [],
+      "dependencies": [
+        "hero"
+      ]
+    }
+  }
+}

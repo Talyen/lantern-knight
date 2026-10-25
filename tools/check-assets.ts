@@ -20,12 +20,13 @@ import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';
 import { selectDelivery } from '../src/assets/texture-delivery';
+import { builtAssetReader } from './built-asset-reader';
 export async function checkAssets(
   workspace: Pick<AssetWorkspace, 'publicDirectory'>,
   catalog: Readonly<Record<string, string>> = assetCatalog,
+  readPublic = (file: string) =>
+    fs.readFile(path.join(workspace.publicDirectory, safeRelative(file))),
 ) {
-  const readPublic = (file: string) =>
-    fs.readFile(path.join(workspace.publicDirectory, safeRelative(file)));
   validateLoadingVideo(await readPublic(loadingVideoPath));
   const audio = await readPreparedAudio(readPublic);
   for (const sample of audio.samples) {
@@ -95,7 +96,10 @@ export async function checkAssets(
 }
 export async function checkBuiltAssets() {
   await verifyBuildIdentity({ target: 'web' });
-  await checkAssets({ publicDirectory: path.join(projectRoot, 'dist') }, gameAssetCatalog);
+  const root = path.join(projectRoot, 'dist');
+  const reader = await builtAssetReader(root);
+  await using cleanup = onAsyncExit(async () => reader.dispose());
+  await checkAssets({ publicDirectory: root }, gameAssetCatalog, reader.read);
 }
 runCli(import.meta.url, async (args) => {
   if (args.some((arg) => arg !== '--built')) throw new Error('Use assets:check [--built]');

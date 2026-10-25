@@ -22,6 +22,8 @@ import { checkAssets, checkBuiltAssets } from '../check-assets';
 import { acquireCommandLane } from '../command-lane';
 import { discoverLibrary } from './discovery';
 import { publishIndividualFiles } from './file-publication';
+import { cleanRepositoryAssemblies } from './repository-cache';
+import { prepareGameEffectsSnapshot } from './game-effects-snapshot';
 
 export function parseAssetArgs(input: string[]) {
   const [command, ...args] = input;
@@ -34,8 +36,10 @@ export function parseAssetArgs(input: string[]) {
       proof: { type: 'boolean' },
       gpu: { type: 'boolean' },
       built: { type: 'boolean' },
+      'dry-run': { type: 'boolean' },
     },
   });
+  if (values['dry-run'] && command !== 'clean') throw new Error('--dry-run is for assets:clean');
   if (command === 'prepare') {
     if (values.local) throw new Error('--local is for asset inspection/checks, not preparation');
     if (values.ids && values.proof) throw new Error('Use --ids or --proof, not both');
@@ -73,6 +77,15 @@ async function main() {
     await using _cleanup3 = onAsyncExit(() => lane.release());
     const cache = new AssetCache();
     await cache.initialize();
+    if (
+      command === 'prepare' &&
+      values.ids &&
+      positionals.length === 1 &&
+      positionals[0] === 'game-effects'
+    ) {
+      await prepareGameEffectsSnapshot(cache);
+      return;
+    }
     const started = performance.now();
     const retainedFile = path.join(projectRoot, 'assets/retained.json');
     const retained = (await readJson(retainedFile)) as { assets: string[] };
@@ -123,7 +136,7 @@ async function main() {
       `Asset ${command} completed in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
     );
   } else if (command === 'clean') {
-    if (args.length) throw new Error('Use assets:clean without options');
+    if (args.some((arg) => arg !== '--dry-run')) throw new Error('Use assets:clean [--dry-run]');
     const cache = new AssetCache();
     await cache.initialize();
     const pin = await readLock();
@@ -138,8 +151,15 @@ async function main() {
         ? Object.values(pin.bundles).map((part) => 'pack-' + part.sha256)
         : []),
     ]);
+    const dryRun = values['dry-run'] === true;
+    const repository = await cleanRepositoryAssemblies(projectRoot, {
+      keep: new Set([pin.sha256]),
+      all: true,
+      dryRun,
+    });
+    const bytes = repository.removed.reduce((sum, entry) => sum + entry.bytes, 0);
     console.log(
-      `Removed ${await cache.clean(keep)} unused local cache entries. Published releases and original sources are retained.`,
+      `${dryRun ? 'Would remove' : 'Removed'} ${await cache.clean(keep, dryRun)} shared cache entries and ${repository.removed.length} repository assemblies (${(bytes / 1024 ** 2).toFixed(1)} MiB logical).`,
     );
   } else if (command === 'inspect' || command === 'check') {
     if (

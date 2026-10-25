@@ -109,6 +109,7 @@ const sourceFrame = z.strictObject({
 });
 const SourceSchema = z.strictObject({
   schemaVersion: z.literal(2),
+  preserveTransparentRgb: z.boolean().optional(),
   asset: metadata,
   frames: z.array(sourceFrame).min(1),
 });

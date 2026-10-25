@@ -3,6 +3,27 @@ import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import fixture from '../fixtures/image-delivery.json';
 
+test('packed Game effects match native frame rendering at subpixel placements and player scales', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  await page.route('**/packing-proof.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<canvas></canvas>' }),
+  );
+  await page.goto('/packing-proof.html');
+  const result = await page.evaluate(async () => {
+    const modulePath = '/tests/fixtures/game-effect-packing.ts';
+    return (await import(modulePath)).gameEffectPackingProof();
+  });
+  expect(result.visibleFrames).toBeGreaterThan(400);
+  expect(result.comparisons).toBe(420);
+  // Texture coordinates change during lossless packing. Keep the software
+  // rasterizer's lower filter precision separate from native visual acceptance.
+  const software = /swiftshader|llvmpipe|software/i.test(result.renderer);
+  expect(result.maxDifference, JSON.stringify(result)).toBeLessThanOrEqual(software ? 20 : 2);
+  expect(result.rmsDifference).toBeLessThan(software ? 0.15 : 0.1);
+});
+
 test('GPU image delivery preserves full composition and orientation against the lossless source', async ({
   page,
 }) => {

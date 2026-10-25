@@ -491,13 +491,15 @@ export class AssetCache {
       throw new Error('Invalid cache reservation');
     await this.locked(() => this.makeRoom(name, bytes));
   }
-  async clean(keep: ReadonlySet<string> = new Set()) {
+  async clean(keep: ReadonlySet<string> = new Set(), dryRun = false) {
     return this.locked(async () => {
       let removed = 0;
       for (const e of await this.entries())
         if (!e.used && !keep.has(e.name)) {
-          await fs.rm(e.root, { recursive: true, force: true });
-          await fs.rm(this.inventoryFile(e.name), { force: true });
+          if (!dryRun) {
+            await fs.rm(e.root, { recursive: true, force: true });
+            await fs.rm(this.inventoryFile(e.name), { force: true });
+          }
           removed++;
         }
       return removed;

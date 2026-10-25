@@ -68,7 +68,7 @@ export function selectDelivery(
   return { ...v, url: '/' + v.path, sourceHash: page.hash };
 }
 export class TextureDelivery {
-  private readonly decodes = new DecodeQueue();
+  private readonly decodes = new DecodeQueue(6, 'Image loader disposed', 128 * 1024 ** 2);
   private loader = new KTX2Loader().setTranscoderPath('/decoders/').setWorkerLimit(1);
   private abort = new AbortController();
   private pending = new Set<(error: Error) => void>();
@@ -116,7 +116,13 @@ export class TextureDelivery {
   }
   decode(page: ImageRequest, signal?: AbortSignal): Promise<Texture> {
     const lifetime = AbortSignal.any([this.abort.signal, ...(signal ? [signal] : [])]);
-    return this.decodes.run(() => this.decodePage(page, lifetime), lifetime);
+    return this.decodes.run(
+      () => this.decodePage(page, lifetime),
+      lifetime,
+      // Encoded bytes plus decoded pixels and staging headroom. This controls
+      // transient admission, not steady texture residency or a process RAM cap.
+      (page.bytes ?? 0) + page.width * page.height * 8,
+    );
   }
   private async decodePage(page: ImageRequest, signal: AbortSignal): Promise<Texture> {
     if (this.closed) throw new Error('Image loader disposed');

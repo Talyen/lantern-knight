@@ -21,6 +21,13 @@ async function startupBenchmark(flags: string[]) {
   const baseline = flags.includes('--baseline-executable')
     ? path.resolve(option('--baseline-executable', '', flags))
     : undefined;
+  const baselineAssets = flags.includes('--baseline-asset-sha256')
+    ? option('--baseline-asset-sha256', '', flags)
+    : undefined;
+  assert.ok(
+    !baselineAssets || (baseline && /^[a-f0-9]{64}$/.test(baselineAssets)),
+    'A baseline asset identity requires an explicit baseline executable',
+  );
   const conditions = baseline ? (['baseline', 'candidate'] as const) : (['candidate'] as const);
   const records: Record<string, unknown>[] = [];
   const scenarios = ['fresh', ...content.definitions.areas.map((a) => a.id)];
@@ -68,7 +75,9 @@ async function startupBenchmark(flags: string[]) {
           if (condition === 'candidate') await requireCurrentDesktopInputs(loaded);
           assert.equal(
             loaded.assets.sha256,
-            process.env.LANTERN_ASSET_SHA256,
+            condition === 'baseline' && baselineAssets
+              ? baselineAssets
+              : process.env.LANTERN_ASSET_SHA256,
             'Startup package uses a different asset pin',
           );
           await run.app.evaluate(({ BrowserWindow, app }) => {
@@ -102,6 +111,9 @@ async function startupBenchmark(flags: string[]) {
               dpr: devicePixelRatio,
             };
           });
+          const readyMemory = await run.app.evaluate(({ app }) =>
+            app.getAppMetrics().map(({ pid, type, memory }) => ({ pid, type, ...memory })),
+          );
           assert.doesNotMatch(
             observation.gpu,
             /swiftshader|llvmpipe|software|unavailable/i,
@@ -203,6 +215,12 @@ async function startupBenchmark(flags: string[]) {
             checkpoint: digest(expected),
             launchToReadyMs: run.readyMs,
             ...observation,
+            memoryKiB: {
+              ready: readyMemory,
+              afterActions: await run.app.evaluate(({ app }) =>
+                app.getAppMetrics().map(({ pid, type, memory }) => ({ pid, type, ...memory })),
+              ),
+            },
             focusInterruptions,
             firstActions: frameSummary(frames),
           };
@@ -243,7 +261,7 @@ async function startupBenchmark(flags: string[]) {
       digest({
         environment: r.environment,
         checkpoint: r.checkpoint,
-        assets: (r.build as { assets: string }).assets,
+        assets: baselineAssets ? undefined : (r.build as { assets: string }).assets,
       });
     assert.equal(new Set(group.map(signature)).size, 1, 'Startup comparison conditions differ');
     for (const condition of conditions) {
@@ -276,6 +294,12 @@ async function startupBenchmark(flags: string[]) {
       'Stage durations overlap and must not be summed.',
       'First-action frame callbacks are not GPU presentation timing.',
       'Runs with focusInterruptions do not qualify foreground gameplay pacing.',
+      'Process working sets and high-water marks are KiB observations, not portable GPU allocation measurements; summing shared pages can double-count memory.',
+      ...(baselineAssets
+        ? [
+            'Different prepared asset pins were explicitly admitted; source-pixel and native rendered parity require separate verification.',
+          ]
+        : []),
     ],
     records,
   });

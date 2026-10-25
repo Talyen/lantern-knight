@@ -28,6 +28,7 @@ export class NormalLibrary {
           this.decodes.run(
             () => verifiedBitmap('/lighting/' + entry.file, entry, this.request, signal),
             signal,
+            entry.width * entry.height * 8,
           ),
         (texture) => {
           texture.flipY = false;
@@ -61,7 +62,7 @@ export class NormalLibrary {
     }, 0);
   }
   private readonly lifetime = new AbortController();
-  private readonly decodes = new DecodeQueue(8);
+  private readonly decodes = new DecodeQueue(8, 'lighting companions disposed', 16 * 1024 ** 2);
   private inventory?: Promise<void>;
   private pending = Promise.resolve();
   load(assets: Iterable<string>, signal?: AbortSignal) {

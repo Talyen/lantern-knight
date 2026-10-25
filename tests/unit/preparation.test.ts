@@ -188,10 +188,11 @@ test('preparation rejects changed written bytes before caching a producer', asyn
 test('scoped refresh uses the base for unrelated producers and includes affected companions', () => {
   const files = preparationSelection(['library-sk01']).map((step) => step.file);
   assert.ok(files.includes('assets/prepare/prepare-library.ts'));
+  assert.ok(files.includes('assets/prepare/prepare-game-effects.ts'));
   assert.ok(files.includes('assets/prepare/prepare-graveyard-coverage.ts'));
   assert.ok(files.includes('assets/prepare/prepare-lighting.ts'));
   assert.ok(files.includes('assets/prepare/prepare-image-delivery.ts'));
-  assert.equal(files.length, 4);
+  assert.equal(files.length, 5);
   assert.deepEqual(
     preparationSelection(['loading']).map((step) => step.file),
     ['assets/prepare/prepare-loading-media.ts', 'assets/prepare/prepare-image-delivery.ts'],

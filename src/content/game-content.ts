@@ -13,7 +13,12 @@ import { resolveScene } from './world-art';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-visuals';
-import { ribLaneEffect, combatEffectAssets } from './combat-feedback';
+import {
+  ribLaneEffect,
+  combatEffectAssets,
+  packedCombatEffects,
+  packedCombatManifest,
+} from './combat-feedback';
 import { visualEffectsAssets } from './visual-effects-assets';
 import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
@@ -168,7 +173,7 @@ export const gameAssetCatalog: Readonly<Record<string, string>> = Object.fromEnt
     ]),
   ].map((id) => {
     const file =
-      assetCatalog[id] ??
+      (packedCombatEffects.includes(id) ? packedCombatManifest(id) : assetCatalog[id]) ??
       (/^library-[a-z0-9_-]+$/.test(id) ? `generated/library/${id}/manifest.json` : undefined);
     if (!file) throw new Error('Game requires an undeclared runtime asset: ' + id);
     return [id, file];

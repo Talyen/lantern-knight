@@ -4,39 +4,25 @@
     {
       "file": "assets/prepare/prepare-masonry.ts",
       "freshness": true,
-      "ids": [
-        "masonry"
-      ],
-      "inputs": [
-        "assets/sources.json"
-      ],
+      "ids": ["masonry"],
+      "inputs": ["assets/sources.json"],
       "dependsOn": []
     },
     {
       "file": "assets/prepare/prepare-ink.ts",
       "freshness": true,
-      "ids": [
-        "ink-scenery",
-        "ink-moss",
-        "ink-cues",
-        "ink-crypt",
-        "ink-chapel-*"
-      ],
+      "ids": ["ink-scenery", "ink-moss", "ink-cues", "ink-crypt", "ink-chapel-*"],
       "inputs": [
         "authoring/chapel-art.json",
         "assets/sources.json",
         "src/content/scenery-registration.ts"
       ],
-      "dependsOn": [
-        "assets/prepare/prepare-masonry.ts"
-      ]
+      "dependsOn": ["assets/prepare/prepare-masonry.ts"]
     },
     {
       "file": "assets/prepare/prepare-hero.ts",
       "freshness": true,
-      "ids": [
-        "ink-hero-current"
-      ],
+      "ids": ["ink-hero-current"],
       "inputs": [
         "authoring/hero-actions.json",
         "authoring/hero-scale.json",
@@ -49,72 +35,40 @@
         "authoring/hero-cursor.json",
         "src/content/hero-locomotion.ts"
       ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts"
-      ]
+      "dependsOn": ["assets/prepare/prepare-ink.ts"]
     },
     {
       "file": "assets/prepare/prepare-graveyard-art.ts",
       "freshness": true,
-      "ids": [
-        "ink-graveyard-*"
-      ],
-      "inputs": [
-        "src/content/graveyard-registration.ts",
-        "assets/sources.json"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts"
-      ]
+      "ids": ["ink-graveyard-*"],
+      "inputs": ["src/content/graveyard-registration.ts", "assets/sources.json"],
+      "dependsOn": ["assets/prepare/prepare-ink.ts"]
     },
     {
       "file": "assets/prepare/prepare-graveyard-ground.ts",
       "freshness": true,
-      "ids": [
-        "ink-graveyard-materials",
-        "ink-graveyard-overlays"
-      ],
-      "inputs": [
-        "authoring/ground-overlays.json",
-        "assets/sources.json"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts"
-      ]
+      "ids": ["ink-graveyard-materials", "ink-graveyard-overlays"],
+      "inputs": ["authoring/ground-overlays.json", "assets/sources.json"],
+      "dependsOn": ["assets/prepare/prepare-ink.ts"]
     },
     {
       "file": "assets/prepare/prepare-churchyard-kit.ts",
       "freshness": true,
-      "ids": [
-        "ink-blackwood-*"
-      ],
-      "inputs": [
-        "assets/sources.json"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts"
-      ]
+      "ids": ["ink-blackwood-*"],
+      "inputs": ["assets/sources.json"],
+      "dependsOn": ["assets/prepare/prepare-ink.ts"]
     },
     {
       "file": "assets/prepare/prepare-tended-art.ts",
       "freshness": true,
-      "ids": [
-        "ink-tended-*"
-      ],
-      "inputs": [
-        "authoring/graveyard-art.json",
-        "assets/sources.json"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts"
-      ]
+      "ids": ["ink-tended-*"],
+      "inputs": ["authoring/graveyard-art.json", "assets/sources.json"],
+      "dependsOn": ["assets/prepare/prepare-ink.ts"]
     },
     {
       "file": "assets/prepare/prepare-library.ts",
       "freshness": false,
-      "ids": [
-        "library-*"
-      ],
+      "ids": ["library-*"],
       "inputs": [
         "assets/library-packs.json",
         "tools/assets/library_import.py",
@@ -148,51 +102,37 @@
       "dependsOn": []
     },
     {
+      "file": "assets/prepare/prepare-game-effects.ts",
+      "freshness": true,
+      "ids": ["game-effects"],
+      "inputs": ["src/content/combat-feedback.ts", "tools/compiler.ts"],
+      "dependsOn": ["assets/prepare/prepare-library.ts"]
+    },
+    {
       "file": "assets/prepare/prepare-visual-effects.ts",
       "freshness": true,
-      "ids": [
-        "fx-*"
-      ],
-      "inputs": [
-        "src/content/visual-effects-assets.ts",
-        "assets/sources.json"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts"
-      ]
+      "ids": ["fx-*"],
+      "inputs": ["src/content/visual-effects-assets.ts", "assets/sources.json"],
+      "dependsOn": ["assets/prepare/prepare-ink.ts"]
     },
     {
       "file": "assets/prepare/prepare-effects-playground.ts",
       "freshness": true,
-      "ids": [
-        "dev-effects"
-      ],
-      "inputs": [
-        "src/content/effects-playground-assets.ts",
-        "assets/sources.json"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-visual-effects.ts"
-      ]
+      "ids": ["dev-effects"],
+      "inputs": ["src/content/effects-playground-assets.ts", "assets/sources.json"],
+      "dependsOn": ["assets/prepare/prepare-visual-effects.ts"]
     },
     {
       "file": "assets/prepare/prepare-flat-stage.ts",
       "freshness": true,
-      "ids": [
-        "ink-stage-*"
-      ],
-      "inputs": [
-        "authoring/flat-stage-art.json",
-        "assets/sources.json"
-      ],
+      "ids": ["ink-stage-*"],
+      "inputs": ["authoring/flat-stage-art.json", "assets/sources.json"],
       "dependsOn": []
     },
     {
       "file": "assets/prepare/prepare-graveyard-coverage.ts",
       "freshness": false,
-      "ids": [
-        "coverage"
-      ],
+      "ids": ["coverage"],
       "inputs": [
         "src/content/asset-catalog.ts",
         "src/content/scenery-registration.ts",
@@ -213,9 +153,7 @@
     {
       "file": "assets/prepare/prepare-lighting.ts",
       "freshness": false,
-      "ids": [
-        "lighting"
-      ],
+      "ids": ["lighting"],
       "inputs": [
         "src/content/asset-catalog.ts",
         "src/assets/normal-pixels.ts",
@@ -241,26 +179,19 @@
     {
       "file": "assets/prepare/prepare-animation-flow.py",
       "freshness": false,
-      "ids": [
-        "animation"
-      ],
+      "ids": ["animation"],
       "inputs": [
         "authoring/hero-actions.json",
         "authoring/hero-motion.json",
         "tools/assets/hero.py",
         "assets/sources.json"
       ],
-      "dependsOn": [
-        "assets/prepare/prepare-hero.ts"
-      ]
+      "dependsOn": ["assets/prepare/prepare-hero.ts"]
     },
     {
       "file": "assets/prepare/prepare-loading-media.ts",
       "freshness": true,
-      "ids": [
-        "loading",
-        "last-ferry"
-      ],
+      "ids": ["loading", "last-ferry"],
       "inputs": [
         "assets/loading-sources.json",
         "src/content/loading-media.ts",
@@ -271,13 +202,8 @@
     {
       "file": "assets/prepare/prepare-image-delivery.ts",
       "freshness": false,
-      "ids": [
-        "delivery"
-      ],
-      "inputs": [
-        "tools/assets/image-delivery.ts",
-        "tools/assets/authoring-catalog.ts"
-      ],
+      "ids": ["delivery"],
+      "inputs": ["tools/assets/image-delivery.ts", "tools/assets/authoring-catalog.ts"],
       "dependsOn": [
         "assets/prepare/prepare-masonry.ts",
         "assets/prepare/prepare-ink.ts",
@@ -299,15 +225,8 @@
     {
       "file": "assets/prepare/prepare-audio.ts",
       "freshness": true,
-      "ids": [
-        "audio",
-        "audio-*"
-      ],
-      "inputs": [
-        "assets/audio-sources.json",
-        "tools/assets/audio.ts",
-        "src/assets/audio.ts"
-      ],
+      "ids": ["audio", "audio-*"],
+      "inputs": ["assets/audio-sources.json", "tools/assets/audio.ts", "src/assets/audio.ts"],
       "dependsOn": []
     }
   ],
@@ -326,14 +245,8 @@
     "tools/assets/prepare.ts"
   ],
   "dependencies": {
-    "devDependencies": [
-      "sharp",
-      "tar"
-    ],
-    "dependencies": [
-      "three",
-      "zod"
-    ]
+    "devDependencies": ["sharp", "tar"],
+    "dependencies": ["three", "zod"]
   },
   "sharedInputs": [
     "src/assets/camera-calibration.ts",

@@ -4,11 +4,11 @@
 
 Choose the command for the evidence needed:
 
-| Command              | Coverage                                                                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Command              | Coverage                                                                                                                                                                               |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `npm run check`      | Change-aware local verification: documentation for prose-only changes; typechecking, linting, formatting and fast pure suites for source changes. Includes documentation when changed. |
-| `npm run docs:check` | Explicit documentation-only check: links, anchors, script names, file references and guide reachability. |
-| `npm run check:ci`   | Full source gates and all pure suites; documentation only when the CI comparison contains only known prose paths. |
+| `npm run docs:check` | Explicit documentation-only check: links, anchors, script names, file references and guide reachability.                                                                               |
+| `npm run check:ci`   | Full source gates and all pure suites; documentation only when the CI comparison contains only known prose paths.                                                                      |
 
 Finish stabilized edits with `npm run check`. For implementation tasks, [task integration](task-coordination.md#handoff-and-commits) owns that final run under the lock; do not repeat it immediately beforehand. Every selected phase runs fresh and failures stop the command. Changed Markdown is checked automatically, so no second `docs:check` invocation is needed.
 
@@ -16,11 +16,11 @@ Local selection compares the working tree, index and untracked files against the
 
 These commands report phase timings and do not acquire artwork or run browser/native checks. `check:ci` can run locally without establishing a hosted CI result. Complete appropriate additional coverage for changed behavior, using an existing focused command or one of these targets:
 
-| Command | Operation |
-| --- | --- |
-| `npm run verify:game` | Build Game using pinned artwork and run built-Game browser checks. `-- --local` selects unpublished local artwork. |
-| `npm run verify:authoring` | Run the development scene, editor and effects browser tier; prefer local artwork, or the pin when none exists. CI uses the pin. |
-| `npm run verify:desktop` | Build an unsigned native Game package and run desktop checks. Supports `-- --local` and `-- --platform mac` or `-- --platform win`. |
+| Command                    | Operation                                                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run verify:game`      | Build Game using pinned artwork and run built-Game browser checks. `-- --local` selects unpublished local artwork.                  |
+| `npm run verify:authoring` | Run the development scene, editor and effects browser tier; prefer local artwork, or the pin when none exists. CI uses the pin.     |
+| `npm run verify:desktop`   | Build an unsigned native Game package and run desktop checks. Supports `-- --local` and `-- --platform mac` or `-- --platform win`. |
 
 Each target supports `-- --list` to discover tests without building, taking the GPU lane or acquiring artwork. Targets preserve the existing build, package and test commands for focused diagnosis and interactive work. Browser checks require installed Playwright Chromium; desktop execution requires the matching host platform. Use `LANTERN_PREVIEW_PORT` for a task's browser port. Target commands do not establish visual or audible acceptance.
 
@@ -55,17 +55,17 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 
 `npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`:
 
-| Selector                             | Coverage                                                                                                                                                                                                               |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selector                             | Coverage                                                                                                                                                                                                                                                                                      |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `game` (or `game-loot` for labels)   | Input, pause/focus, checkpoints, orchard rewards, branching Orchard/Clearing/Forge travel and reward persistence, distant loot-label routing, and chapel entry, reward retention, retry and matching forge return with both kit upgrades. Pure progression suites cover upgrade permutations. |
-| `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                                                                                                                   |
-| `editor`                             | Authoring, history, reload, ground interaction, contact shadows and protected save requests.                                                                                                                         |
-| `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                                                                                                             |
-| `audio`                              | Prepared-sample decoding, localized ambience and Dev Preview audition controls; Game settings share `game-motion-blur`.                                                                                                                            |
-| `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                                                                                                                  |
-| `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`.                                                                                            |
-| `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.                                                                                                      |
-| `orchard-design`, `orchard-polish`   | Opt-in [opening composition and effect captures](developer-tools.md#opening-comparison-captures), with external output directories.                                                                                    |
+| `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                                                                                                                                                                                          |
+| `editor`                             | Authoring, history, reload, ground interaction, contact shadows and protected save requests.                                                                                                                                                                                                  |
+| `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                                                                                                                                                                                    |
+| `audio`                              | Prepared-sample decoding, localized ambience and Dev Preview audition controls; Game settings share `game-motion-blur`.                                                                                                                                                                       |
+| `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                                                                                                                                                                                         |
+| `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`.                                                                                                                                                                   |
+| `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.                                                                                                                                                                             |
+| `orchard-design`, `orchard-polish`   | Opt-in [opening composition and effect captures](developer-tools.md#opening-comparison-captures), with external output directories.                                                                                                                                                           |
 
 Without a selector, Playwright selects all browser suites; capture/review suites skip unless their opt-in environment variables are set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
 
@@ -143,10 +143,10 @@ The `benchmark` command routes several kinds of diagnostic. [Recorded session re
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
-| Scenarios after `npm run benchmark --`                                          | Required package                      |
-| ------------------------------------------------------------------------------- | ------------------------------------- |
+| Scenarios after `npm run benchmark --`                                          | Required package                                    |
+| ------------------------------------------------------------------------------- | --------------------------------------------------- |
 | `startup`, `walking`, `pacing`, `journey`, `game`, `preferences`                | Game: `npm run package -- --unsigned --inspectable` |
-| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev`       |
+| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev`                     |
 
 Game native diagnostics require `LANTERN_EXECUTABLE` to select the separate inspectable executable under `release-inspectable/`; see [diagnostic builds](release.md#package-hardening-and-diagnostic-builds). Release desktop tests continue to use the hardened Game package.
 
@@ -161,6 +161,10 @@ Initial goals are three seconds for warm preview updates and ten seconds for ord
 Compare cold acquisition/startup separately from warm iteration, checks, builds and packaging. Use repeated equivalent samples; record hardware, assets, settings, sample duration, foreground/background policy and rendering quality. Count transferred bytes and repeated launches as well as elapsed time. Preserve needed baselines outside Git.
 
 `npm run benchmark -- sandbox --benchmark --output /external/renderer-baseline` retains renderer measurements in that directory’s `benchmark.json`; `npm run benchmark -- compare <baseline.json> <candidate.json>` compares retained external records. Benchmarks require a package matching current desktop build inputs and the selected asset pin; records keep source and build identities separately. Harness-only edits do not require recompilation. Renderer calculation changes require native output and exact pixel parity. Fewer submissions alone do not prove better visible pacing.
+
+`npm run benchmark -- effect-packing --output /external/effect-proof` compares every prepared dodge-wake and sword-arc drawing with its native counterpart at two player scales and a subpixel placement. It requires an observed hardware GPU and retains native before/after images, maximum channel error and RMS error. Pair this with the `game-effects` asset suite's exact visible-pixel, alpha, registration and timeline reconstruction check. Packed texture coordinates can change filtering roundoff; the reviewed native bound is two channel levels out of 255 with RMS below 0.1. These asset checks do not establish bit-identical rendered pixels or reference Windows acceptance. Renderer calculation changes retain the exact pixel-parity requirement above.
+
+Startup records include per-process working sets and high-water marks in KiB at readiness and after first actions. Shared pages can be counted in several processes; these values are not a portable GPU allocation total. When intentionally comparing prepared derivatives with a retained baseline, supply `--baseline-executable` and its explicit `--baseline-asset-sha256`. Other comparisons still require matching asset identities. All other environment and checkpoint checks remain active, and independent source/visual verification is required for the changed artwork delivery.
 
 ## Quick walking measurements
 

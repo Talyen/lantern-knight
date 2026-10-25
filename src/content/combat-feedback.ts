@@ -177,3 +177,11 @@ export const combatEffectCatalog = Object.fromEntries(
 );
 // Actor spells are acquired by their rooms, separately from the shared combat kit.
 export const combatEffectAssets = Object.values(combatFeedback).map(({ asset }) => asset);
+
+// Native authoring manifests remain authoritative; Game consumes prepared,
+// lossless packed copies of these frequently resident effect drawings.
+export const packedCombatEffects: readonly string[] = [
+  combatFeedback.dodge.asset,
+  combatFeedback.sweepEdge.asset,
+];
+export const packedCombatManifest = (id: string) => `generated/game-effects/${id}/manifest.json`;

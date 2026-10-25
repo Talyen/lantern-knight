@@ -16,17 +16,19 @@ git sparse-checkout set --no-cone '/*' '!/asset-data/sources/'
 
 Use this only when `asset-data/sources/` has no unique files, changes or active authoring work. Sparse settings belong to this checkout; other worktrees can retain their sources. Development, builds and packaging continue using repository-owned prepared bytes without Drive or network access. Missing skipped masters are intentional. Before imports, preparation, source recovery or source inspection, run `git sparse-checkout disable` to restore the full authoring checkout from Git. Check disk headroom before restoring masters. Never force removal over changes or substitute a required mounted Drive path. Sparse checkout reduces working-copy residency; it does not shrink Git history or its object store.
 
+Codex worktree setup runs `npm run worktree:setup` before dependency installation. It defaults new isolated code worktrees to the sparse scope above, preserves existing sparse choices, and retains masters when source edits or unique files are present, including ignored files. Primary checkouts keep their current scope. Use `npm run worktree:setup -- --authoring`, or `LANTERN_AUTHORING_WORKTREE=1` during setup, for an isolated authoring checkout; restoration checks available disk space first.
+
 ## Choose a workflow
 
-| Task | Action |
-| --- | --- |
-| Develop with accepted artwork | `npm run dev`; asset bytes come from this checkout. |
-| Move existing artwork or edit scene geometry | Use the [scene editor](developer-tools.md#scene-editor). |
-| Add source artwork | `npm run assets:import -- --into "Lantern Knight/New Kit" /absolute/path/to/kit` |
-| Add audio inputs | `npm run assets:import -- --into "Sounds/New Pack" /absolute/path/to/sounds`, then author the audio recipe. |
-| Refresh known artwork | `npm run assets:prepare -- --ids <asset-id>...` |
-| Reconcile the complete owned source tree | `npm run assets:prepare` |
-| Build or package | `npm run build` or `npm run package`; both use the repository snapshot. |
+| Task                                         | Action                                                                                                      |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Develop with accepted artwork                | `npm run dev`; asset bytes come from this checkout.                                                         |
+| Move existing artwork or edit scene geometry | Use the [scene editor](developer-tools.md#scene-editor).                                                    |
+| Add source artwork                           | `npm run assets:import -- --into "Lantern Knight/New Kit" /absolute/path/to/kit`                            |
+| Add audio inputs                             | `npm run assets:import -- --into "Sounds/New Pack" /absolute/path/to/sounds`, then author the audio recipe. |
+| Refresh known artwork                        | `npm run assets:prepare -- --ids <asset-id>...`                                                             |
+| Reconcile the complete owned source tree     | `npm run assets:prepare`                                                                                    |
+| Build or package                             | `npm run build` or `npm run package`; both use the repository snapshot.                                     |
 
 Imports copy bytes, reject links and conflicting destination files, and preserve the supplied tree. Identical existing files are accepted without rewriting them. Use a new destination for revisions, then update the relevant recipe explicitly. Imports do not prepare artwork or update the accepted catalog. Use `assets:prepare -- --ids <asset-id>` to explicitly retain a newly imported library asset; `assets/retained.json` records these choices. Saved scene references and required Game/authoring assets are included automatically. No command watches, scans or automatically incorporates the Documents library.
 
@@ -45,6 +47,10 @@ Development, builds, packaging and CI consume the version 5 pin in `assets/lock.
 ### Game and build selection
 
 Game builds copy the files referenced by resolved Game content. All saved scenes remain supported, including scenes not currently registered in Game. The editor offers the retained catalog; unused external artwork is absent until explicitly imported. Referencing an existing catalog asset needs no import or publication.
+
+Game's strict security policy selects lossless PNG images. Its emitted manifests omit unused KTX2 variants and previews while retaining native and smaller compatible PNG variants. Small images and lighting companions ship in authenticated runtime bundles, without duplicate loose copies. Build validation reads those same verified byte ranges; mutating asset tests expand them only in disposable fixture copies.
+
+The shared dodge wake and sword arc have separate prepared Game manifests under `generated/game-effects/`. Native authoring pages remain intact. The Game copies retain frame IDs, canvas registration, timings, markers and transparent terminal holds, with lossless trimmed atlas pages. Refresh only these derivatives with `npm run assets:prepare -- --ids game-effects` after restoring the owned masters. This bounded path checks each native page against the accepted pin and rechecks every selected original drawing against its source receipt. It retains the other producers' accepted bytes and records the parent snapshot and derivative inputs; it does not claim a full source reconciliation. Full library preparation refreshes the same derivatives through the shared preparation operation. Ordinary builds consume the accepted pin without encoding images.
 
 ### On-demand authoring
 
@@ -87,6 +93,8 @@ The review recipe preserves calibration for 23 timed enemy kits; only retained k
 Repository originals and prepared objects are durable source content. `LANTERN_CACHE_ROOT` and `LANTERN_CACHE_BUDGET_GIB` affect disposable preparation work only. `ASSET_LIBRARY_ROOT`, `LANTERN_SOUND_LIBRARY` and `LANTERN_SOURCE_SEARCH_ROOTS` do not select project inputs. `assets:clean` removes unused shared-cache data, preserving owned sources, repository objects and active readers.
 
 `npm run assets:inspect -- <asset-id>` reads bounded metadata from the accepted repository snapshot without image payloads. `--local` selects an existing checkout-local preparation. `assets:check` validates the complete accepted workspace. CI uses `assets:check -- --built` and `test:assets -- --built` for the selected Game artifact and import/recovery fixtures. Explicit full-artwork checks remain available.
+
+Repository assemblies have separate checkout-local retention: `LANTERN_REPOSITORY_CACHE_BUDGET_GIB` defaults to 4 GiB logical, with a seven-day idle limit. Opening an assembly installs a lease before copying and reserves its possible residency when pruning older managed identities. Current pins, live readers, unknown owners and unmarked older assemblies remain protected; active data can exceed this soft budget. Admission and deletion share an OS-owned lock. Filesystem clones can make physical allocation smaller than the logical estimate. `npm run assets:clean -- --dry-run` previews unused shared entries and obsolete managed repository assemblies; `npm run assets:clean` removes those candidates. Releases, evidence, sources and Git objects are outside this cleanup.
 
 ## Library authoring coverage
 
@@ -148,7 +156,7 @@ The cursor locomotion selection index supplies 64 facing/travel pairs: eight exi
 
 | Supplied clips                                      | Game binding               | Reason or limit                                                                                                              |
 | --------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| 64 locomotion pairs                                 | Travel-facing movement     | Game selects the eight forward runs; other pairs remain available for previews.                                                 |
+| 64 locomotion pairs                                 | Travel-facing movement     | Game selects the eight forward runs; other pairs remain available for previews.                                              |
 | U/D/L/R idle additions                              | Matching stationary facing | Complete the existing diagonal idles to eight views.                                                                         |
 | Existing sweep, lunge, dodge, flare, hit and death  | Existing actions           | Preserve direction coverage, damage windows, movement and invulnerability timing.                                            |
 | Finisher                                            | Animation browser          | Distinct attack with no existing finisher mechanic; one DR view.                                                             |

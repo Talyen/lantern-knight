@@ -11,6 +11,7 @@ import { parseRegistration } from '../../src/assets/registration';
 import { readAuthoringCatalog } from './authoring-catalog';
 
 import { loadingVideoPath } from '../../src/content/loading-media';
+import { packedCombatEffects, packedCombatManifest } from '../../src/content/combat-feedback';
 
 export async function stagePayload(
   sourcePublic: string,
@@ -33,10 +34,13 @@ export async function stagePayload(
   );
   files.add(audioManifestPath);
   for (const sample of audio.samples) files.add(sample.path);
-  for (const file of Object.values({
-    ...(await readAuthoringCatalog(sourcePublic)),
-    ...playgroundCatalog,
-  })) {
+  for (const file of [
+    ...Object.values({
+      ...(await readAuthoringCatalog(sourcePublic)),
+      ...playgroundCatalog,
+    }),
+    ...packedCombatEffects.map(packedCombatManifest),
+  ]) {
     files.add(file);
     const m = parseManifest(await readJson(path.join(sourcePublic, file)));
     for (const page of m.pages) {
@@ -112,6 +116,7 @@ export async function stagePayload(
     'effects-playground/receipt.json',
     'visual-effects/receipt.json',
     'library/receipt.json',
+    'game-effects/receipt.json',
     'audio/receipt.json',
   ]) {
     const target = path.join(destination, 'metadata', name);
